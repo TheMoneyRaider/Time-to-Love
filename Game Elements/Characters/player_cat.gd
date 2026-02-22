@@ -192,9 +192,43 @@ func request_attack(t_weapon : Weapon) -> float:
 	t_weapon.request_attacks(attack_direction,global_position,self,weapon_node.flip)
 	return t_weapon.cooldown
 
-func take_damage(damage_amount : int, _dmg_owner : Node,_direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 20,creates_indicators : bool = true):
-	if(i_frames <= 0):
+func _check_bulwark(damage_amount : float, _dmg_owner : Node, send_damage: bool):
+	var remnants_purple : Array[Remnant]
+	var remnants_orange : Array[Remnant]
+	remnants_purple = LayerManager.player_1_remnants
+	remnants_orange = LayerManager.player_2_remnants
+	var purple_bulwark_rank = 0
+	var orange_bulwark_rank = 0
+	for rem in remnants_purple:
+		if rem.remnant_name == "Remnant of the Bulwark":
+			purple_bulwark_rank = rem.rank
+	for rem in remnants_orange:
+		if rem.remnant_name == "Remnant of the Bulwark":
+			orange_bulwark_rank = rem.rank
+	if(is_purple):
+		if(purple_bulwark_rank != 0):
+			damage_amount = damage_amount * (1 - purple_bulwark_rank * .1)
+		if(orange_bulwark_rank != 0):
+			if(send_damage):
+				if(is_multiplayer):
+					other_player.take_damage(damage_amount, _dmg_owner, Vector2(0,-1), null, 0,true, false)
+				else:
+					take_damage(damage_amount * (1 - orange_bulwark_rank * .1), _dmg_owner, Vector2(0,-1), null, 0,true, false)
+	else:
+		if(orange_bulwark_rank != 0):
+			damage_amount = damage_amount * (1 - orange_bulwark_rank * .1)
+		if(purple_bulwark_rank != 0):
+			if(send_damage):
+				if(is_multiplayer):
+					other_player.take_damage(damage_amount, _dmg_owner, Vector2(0,-1), null, 0,true, false)
+				else:
+					take_damage(damage_amount * (1 - purple_bulwark_rank * .1), _dmg_owner, Vector2(0,-1), null, 0,true, false)
+	return damage_amount
+
+func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 20,creates_indicators : bool = true, bulwark : bool = true):
+	if(bulwark == false || i_frames <= 0):
 		i_frames = attack_i_frames
+		damage_amount = _check_bulwark(damage_amount, _dmg_owner, bulwark)
 		if check_drones():
 			LayerManager._damage_indicator(0, _dmg_owner,_direction, attack_body,self,Color(0.0, 0.666, 0.85, 1.0))
 			return
@@ -230,7 +264,7 @@ func take_damage(damage_amount : int, _dmg_owner : Node,_direction = Vector2(0,-
 				var instance = revive.instantiate()
 				instance.global_position = position
 				instance.c_owner = self
-				LayerManager.room_instance.add_child(instance)
+				LayerManager.room_instance.call_deferred("add_child",instance)
 				emit_signal("attack_requested",revive, position, Vector2.ZERO, 0)
 		_cleric_chance()
 		_barb_damage()
