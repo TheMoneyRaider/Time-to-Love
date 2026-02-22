@@ -5,7 +5,7 @@ const room_data = preload("res://Game Elements/Rooms/room_data.gd")
 @onready var room_d = room_data.new()
 @onready var sci_fi_layer : Array[Room] = room_d.sci_fi_rooms
 @onready var sci_fi_layer_shops : Array[Room] = room_d.sci_fi_shops
-@onready var medieval_lyaer : Array[Room] = room_d.medieval_rooms
+@onready var medieval_layer : Array[Room] = room_d.medieval_rooms
 @onready var bosses : Array[Room] = room_d.boss_rooms
 @onready var testing_room : Room = room_d.testing_room
 @onready var reward_num : Array = [1.0,1.0,1.0,1.0,1.0,1.0]
@@ -120,10 +120,7 @@ func _ready() -> void:
 	rem.rank = 4
 	player_1_remnants.append(rem.duplicate(true))
 	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/giant.tres")
-	rem.rank = 4
-	player_2_remnants.append(rem.duplicate(true))
-	"""
+
 	rem = load("res://Game Elements/Remnants/emp.tres")
 	rem.rank = 4
 	player_1_remnants.append(rem.duplicate(true))
@@ -172,7 +169,6 @@ func _ready() -> void:
 	#rem.rank = 4
 	#player_1_remnants.append(rem.duplicate(true))
 	#player_2_remnants.append(rem.duplicate(true))
-	"""
 	
 	player1.display_combo()
 	
@@ -313,7 +309,7 @@ func create_new_rooms() -> void:
 	# Start async generation thread
 	thread_running = true
 	room_gen_thread = Thread.new()
-	room_gen_thread.start(_thread_generate_rooms.bind(sci_fi_layer, room_instance_data)) #TODO change this to be based on layer ish
+	room_gen_thread.start(_thread_generate_rooms.bind(medieval_layer, room_instance_data)) #TODO change this to be based on layer ish
 
 func update_ai_array(generated_room : Node2D, generated_room_data : Room) -> void:
 	#Rooms cleared
@@ -563,6 +559,10 @@ func preload_rooms() -> void:
 			var packed = ResourceLoader.load(room_data_item.scene_location, "PackedScene")
 			cached_scenes[room_data_item.scene_location] = packed
 	for room_data_item in sci_fi_layer_shops:
+		if not cached_scenes.has(room_data_item.scene_location):
+			var packed = ResourceLoader.load(room_data_item.scene_location, "PackedScene")
+			cached_scenes[room_data_item.scene_location] = packed
+	for room_data_item in medieval_layer:
 		if not cached_scenes.has(room_data_item.scene_location):
 			var packed = ResourceLoader.load(room_data_item.scene_location, "PackedScene")
 			cached_scenes[room_data_item.scene_location] = packed

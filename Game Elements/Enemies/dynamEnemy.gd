@@ -215,7 +215,7 @@ func take_damage(damage : int, dmg_owner : Node, direction = Vector2(0,-1), atta
 				board.set_var("kill_damage", damage)
 				board.set_var("kill_direction", direction)
 			return
-		if dmg_owner.is_in_group("player"):
+		if dmg_owner != null && dmg_owner.is_in_group("player"):
 			dmg_owner.kill_enemy(self)
 	emit_signal("enemy_took_damage",damage,current_health,self,direction)
 

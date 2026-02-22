@@ -117,7 +117,7 @@ func meets_requirements(remnant : Remnant,names : Array[String]):
 	return true
 
 func _place_purple_selectable(slot : Node ,remnant : Resource):
-	var rem_names = []
+	var rem_names : Array[String] = []
 	for r in player1_remnants:
 		rem_names.append(r.remnant_name)
 	if remnant.remnant_name not in rem_names and meets_requirements(remnant,rem_names):
@@ -127,7 +127,7 @@ func _place_purple_selectable(slot : Node ,remnant : Resource):
 		add_child(particle)
 
 func _place_orange_selectable(slot : Node ,remnant : Resource):
-	var rem_names = []
+	var rem_names : Array[String]= []
 	for r in player2_remnants:
 		rem_names.append(r.remnant_name)
 	if remnant.remnant_name not in rem_names and meets_requirements(remnant,rem_names):

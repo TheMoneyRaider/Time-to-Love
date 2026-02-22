@@ -43,8 +43,8 @@ func get_random_remnants(num: int = 4, player1_remnants: Array = [], player2_rem
 	var pool_for_p2: Array = []
 
 	#Arrays of remnant names
-	var p1_names: Array = []
-	var p2_names: Array = []
+	var p1_names: Array[String] = []
+	var p2_names: Array[String] = []
 	for r in player1_remnants:
 		p1_names.append(r.remnant_name)
 	for r in player2_remnants:

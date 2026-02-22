@@ -10,6 +10,6 @@ remnant_name = "Remnant of the Hydromancer"
 description = "Next attack gains a $X effect after touching a liquid"
 icon = ExtResource("2_538ff")
 art = ExtResource("1_7o63u")
-variable_names = Array[String](["$X", "$Y"])
+variable_names = Array[String](["$X"])
 variable_1_values = ["Miniscule", "Small", "Moderate", "Large", "Giant"]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"
