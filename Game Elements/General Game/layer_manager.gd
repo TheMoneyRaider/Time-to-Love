@@ -120,6 +120,9 @@ func _ready() -> void:
 	rem.rank = 4
 	player_1_remnants.append(rem.duplicate(true))
 	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/giant.tres")
+	rem.rank = 4
+	player_2_remnants.append(rem.duplicate(true))
 	"""
 	rem = load("res://Game Elements/Remnants/emp.tres")
 	rem.rank = 4
@@ -1271,19 +1274,34 @@ func _move_to_pathway_room(pathway_id: String) -> void:
 	if shido1!=0.0:
 		for rem in player_1_remnants:
 			if randf() < shido1 and rem.rank <= 4:
+				rem.rank +=1
 				if(rem.remnant_name == "Remnant of the Mancermancer"):
 					player1.mancermancer_values[0] = rem.rank
-				rem.rank +=1
+				if(rem.remnant_name == "Remnant of the Giant"):
+					if(!is_multiplayer):
+						if(player1.is_purple):
+							player1.change_health(5, 5)
+					else:
+						player1.change_health(5, 5)
+					player1.weapons[1].damage = player1.weapons[1].damage + (rem.rank % 2)
 				player1_ranked_up.append(rem.remnant_name)
 	if shido2!=0.0:
 		for rem in player_2_remnants:
 			if randf() < shido2 and rem.rank <= 4:
+				rem.rank +=1
 				if(rem.remnant_name == "Remnant of the Mancermancer"):
 					if(is_multiplayer):
 						player2.mancermancer_values[1] = rem.rank
 					else:
 						player1.mancermancer_values[1] = rem.rank
-				rem.rank +=1
+				if(rem.remnant_name == "Remnant of the Giant"):
+					if(is_multiplayer):
+						player2.change_health(5, 5)
+						player2.weapons[0].damage = player2.weapons[0].damage + (rem.rank % 2)
+					else:
+						if(player1.is_purple == false):
+							player1.change_health(5, 5)
+						player1.weapons[0].damage = player1.weapons[0].damage + (rem.rank % 2)
 				player2_ranked_up.append(rem.remnant_name)
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants,player1_ranked_up,player2_ranked_up)
 		
@@ -1496,6 +1514,25 @@ func _on_remnant_chosen(remnant1 : Resource, remnant2 : Resource):
 			player2.mancermancer_values[1] = remnant2.rank
 		else:
 			player1.mancermancer_values[1] = remnant2.rank
+	if(remnant1.remnant_name == "Remnant of the Giant"):
+		if(!is_multiplayer):
+			if(player1.is_purple):
+				player1.scale = player1.scale * 1.5
+				player1.change_health(remnant1.variable_1_values[remnant1.rank - 1], remnant1.variable_1_values[remnant1.rank - 1])
+		else:
+			player1.scale = player1.scale * 1.5
+			player1.change_health(remnant1.variable_1_values[remnant1.rank - 1], remnant1.variable_1_values[remnant1.rank - 1])
+		player1.weapons[1].damage = player1.weapons[1].damage + remnant1.variable_2_values[remnant1.rank - 1]
+	elif(remnant2.remnant_name == "Remnant of the Giant"):
+		if(is_multiplayer):
+			player2.scale = player2.scale * 1.5
+			player2.change_health(remnant2.variable_1_values[remnant2.rank - 1], remnant2.variable_1_values[remnant2.rank - 1])
+			player2.weapons[0].damage = player2.weapons[0].damage + remnant2.variable_2_values[remnant2.rank - 1]
+		else:
+			if(player1.is_purple == false):
+				player1.scale = player1.scale * 1.5
+				player1.change_health(remnant2.variable_1_values[remnant2.rank - 1], remnant2.variable_1_values[remnant2.rank - 1])
+			player1.weapons[0].damage = player1.weapons[0].damage + remnant2.variable_2_values[remnant2.rank - 1]
 	remnant_offer_popup.queue_free()
 	player1.get_node("Crosshair").visible = true
 	if is_multiplayer:
@@ -1521,6 +1558,21 @@ func _on_remnant_upgraded(remnant1 : Resource, remnant2 : Resource):
 			player2.mancermancer_values[1] = remnant2.rank
 		else:
 			player1.mancermancer_values[1] = remnant2.rank
+	if(remnant1.remnant_name == "Remnant of the Giant"):
+		if(!is_multiplayer):
+			if(player1.is_purple):
+				player1.change_health(5, 5)
+		else:
+			player1.change_health(5, 5)
+		player1.weapons[1].damage = player1.weapons[1].damage + (remnant1.rank % 2)
+	elif(remnant2.remnant_name == "Remnant of the Giant"):
+		if(is_multiplayer):
+			player2.change_health(5, 5)
+			player2.weapons[0].damage = player2.weapons[0].damage + (remnant2.rank % 2)
+		else:
+			if(player1.is_purple == false):
+				player1.change_health(5, 5)
+			player1.weapons[0].damage = player1.weapons[0].damage + (remnant2.rank % 2)
 	remnant_upgrade_popup.queue_free()
 	player1.get_node("Crosshair").visible = true
 	if is_multiplayer:

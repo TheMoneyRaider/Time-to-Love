@@ -253,6 +253,7 @@ func swap_color():
 	emit_signal("swapped_color", self)
 	if(is_purple):
 		is_purple = false
+		_check_giant()
 		sprite.texture = orange_texture
 		crosshair_sprite.texture = orange_crosshair
 		set_weapon_sprite(weapons[0],weapon_node)
@@ -260,11 +261,46 @@ func swap_color():
 		weapons[1].special_time_elapsed = 0.0
 	else:
 		is_purple = true
+		_check_giant()
 		sprite.texture = purple_texture
 		crosshair_sprite.texture = purple_crosshair
 		set_weapon_sprite(weapons[1],weapon_node)
 		tether_line.default_color = Color("Purple")
 		weapons[0].special_time_elapsed = 0.0
+
+func _check_giant():
+	var remnants_purple : Array[Remnant]
+	var remnants_orange : Array[Remnant]
+	remnants_purple = LayerManager.player_1_remnants
+	remnants_orange = LayerManager.player_2_remnants
+	var purple_giant_rank = 0
+	var orange_giant_rank = 0
+	var giant = load("res://Game Elements/Remnants/giant.tres")
+	for rem in remnants_purple:
+		if rem.remnant_name == giant.remnant_name:
+			purple_giant_rank = rem.rank
+	for rem in remnants_orange:
+		if rem.remnant_name == giant.remnant_name:
+			orange_giant_rank = rem.rank		
+	if is_purple:
+		if(purple_giant_rank != 0 && orange_giant_rank != 0):
+			change_health(purple_giant_rank * 5 - orange_giant_rank * 5, purple_giant_rank * 5 - orange_giant_rank * 5)
+		elif(orange_giant_rank != 0):
+			scale = scale / 1.5
+			change_health(-orange_giant_rank * 5, - orange_giant_rank * 5)
+		elif(purple_giant_rank != 0):
+			scale = scale * 1.5
+			change_health(purple_giant_rank * 5, purple_giant_rank * 5)
+	else:
+		if(purple_giant_rank != 0 && orange_giant_rank != 0):
+			change_health(orange_giant_rank * 5 - purple_giant_rank * 5, orange_giant_rank * 5 - purple_giant_rank * 5)
+		elif(purple_giant_rank != 0):
+			scale = scale / 1.5
+			change_health(-purple_giant_rank * 5, - purple_giant_rank * 5)
+		elif(orange_giant_rank != 0):
+			scale = scale * 1.5
+			change_health(orange_giant_rank * 5, orange_giant_rank * 5)
+	
 
 func tether(delta : float):
 	if Input.is_action_just_pressed("swap_" + input_device):
