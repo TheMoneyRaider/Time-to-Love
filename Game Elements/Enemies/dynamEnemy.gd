@@ -158,7 +158,7 @@ func take_damage(damage : int, dmg_owner : Node, direction = Vector2(0,-1), atta
 	if(i_frames <= 0) and enemy_type=="binary_bot":
 		i_frames = 20
 		$Core.damage_glyphs()
-	if current_health >= 0 and display_damage and attack_body.attack_type != "emp":
+	if current_health >= 0 and display_damage and attack_body != null and attack_body.attack_type != "emp":
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(damage, dmg_owner,direction, attack_body,self)
 	if dmg_owner != null and dmg_owner.is_in_group("player"):
 		if attack_body and !attack_body.combod:
@@ -181,7 +181,7 @@ func take_damage(damage : int, dmg_owner : Node, direction = Vector2(0,-1), atta
 	emit_signal("enemy_took_damage",damage,current_health,self,direction)
 
 func check_agro(dmg_owner : Node):
-	if dmg_owner.is_in_group("player"):
+	if dmg_owner != null && dmg_owner.is_in_group("player"):
 		if get_node_or_null("BTPlayer") == null:
 			return
 		var board = get_node("BTPlayer").blackboard

@@ -113,7 +113,7 @@ func _ready() -> void:
 	player_1_remnants.append(rem7.duplicate(true))
 	var rem8 = load("res://Game Elements/Remnants/forcefield.tres")
 	rem8.rank = 4
-	player_2_remnants.append(rem8.duplicate(true))
+	player_1_remnants.append(rem.duplicate(true))
 	player1.display_combo()
 	
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
