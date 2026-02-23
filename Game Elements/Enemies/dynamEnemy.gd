@@ -251,6 +251,7 @@ func _check_on_hit_remnants(dmg_owner: Node, attack_body: Node):
 		var pyromancer = load("res://Game Elements/Remnants/pyromancer.tres")
 		var winter = load("res://Game Elements/Remnants/winters_embrace.tres")
 		var hydromancer = load("res://Game Elements/Remnants/hydromancer.tres")
+		var longshot = load("res://Game Elements/Remnants/longshot.tres")
 		var effect : Effect
 		exploded = 0
 		for rem in remnants:
@@ -265,6 +266,9 @@ func _check_on_hit_remnants(dmg_owner: Node, attack_body: Node):
 					exploded = rem.variable_2_values[rem.rank-1] + mancer_value
 				hydromancer.remnant_name:
 					apply_hydromancer(rem, attack_body, mancer_value)
+				longshot.remnant_name:
+					if(attack_body.speed != 0):
+						attack_body.damage = attack_body.damage * (1 + rem.variable_1_values[rem.rank - 1] / 100.0)
 				_:
 					pass
 
