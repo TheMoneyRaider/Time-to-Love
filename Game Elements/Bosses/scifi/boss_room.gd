@@ -78,7 +78,7 @@ func explode_segment(child: Node2D):
 	var max_radius = 128.0
 	var strength = clamp(1.0 - (distance / max_radius), 0.2, 1.0)
 
-	var force = offset.normalized() * strength * 200.0
+	var force = (offset+Vector2.UP).normalized() * strength * 200.0
 
 	child.activate(force, Vector2(-.05, .05))
 
@@ -98,6 +98,7 @@ func scifi_phase2_to_3():
 	s_material.set_shader_parameter("laser_impact_time", -2)
 	#Disable animation system
 	boss.get_node("AnimationTree").active = false
+	boss.get_node("AnimationPlayer").active = false
 	boss.get_node("BTPlayer").active = false
 	#Explode boss
 	for child in boss.get_node("Segments").get_children():
@@ -109,12 +110,8 @@ func scifi_phase2_to_3():
 
 	for child in boss.get_node("Segments/Rims").get_children():
 		explode_segment(child)
-	await get_tree().create_timer(7, false).timeout
-	
-	
-	#
-	
-	
+	await get_tree().create_timer(3, false).timeout
+
 	if phase_changing:
 		return
 	boss.hitable = false
@@ -139,24 +136,20 @@ func scifi_phase2_to_3():
 	$Ground_Cyber.visible = true
 	$ColorRect.visible = true
 	$Filling_Cyber.visible = true
-	await get_tree().create_timer(3, false).timeout
-	var tween2 = create_tween()
 	#Disable boss part physics
 	for child in boss.get_node("Segments").get_children():
 		if child.name != "GunParts" and child.name != "Rims":
-			child.deactivate()
+			child.start_rewind(3.0)
 	for child in boss.get_node("Segments/GunParts").get_children():
-			child.deactivate()
+			child.start_rewind(3.0)
 	for child in boss.get_node("Segments/Rims").get_children():
-			child.deactivate()
-			
-	#Animate towards idle
-	
-	#####
-	
-	
+			child.start_rewind(3.0)
+
+	await get_tree().create_timer(5, false).timeout
+	var tween2 = create_tween()
 	
 	boss.get_node("AnimationTree").active = true
+	boss.get_node("AnimationPlayer").active = true
 	boss.get_node("BTPlayer").active = true
 	boss.get_node("BTPlayer").blackboard.set_var("phase", phase)
 	
@@ -391,7 +384,8 @@ func scifi_laser_attack(num_lasers):
 				await get_tree().process_frame
 	if inst and is_instance_valid(inst):
 		inst.queue_free()
-	animation_change("idle")
+	if basic_laser_legal():
+		animation_change("idle")
 	
 	
 func basic_laser_legal():
