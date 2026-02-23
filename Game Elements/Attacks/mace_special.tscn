@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://dlq8kom7df0r7"]
+
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_6rmqb"]
+[ext_resource type="Texture2D" uid="uid://b82s5w06vviyr" path="res://art/weapons/mace/shatter.png" id="2_6rmqb"]
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_6rmqb"]
+points = PackedVector2Array(-42, -58, 42, -58, 10, 6, -14, 6)
+
+[node name="Shatter" type="Area2D" groups=["attack"]]
+z_index = 19
+y_sort_enabled = true
+collision_layer = 8
+collision_mask = 47
+script = ExtResource("1_6rmqb")
+speed = 0.0
+damage = 6.0
+lifespan = 0.5
+hit_force = 300.0
+knockback_force = 300.0
+start_lag = 0.05
+pierce = -2.0
+wall_collision = false
+attack_type = "shatter"
+deflects = true
+repeat_hits = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 26)
+shape = SubResource("ConvexPolygonShape2D_6rmqb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_6rmqb")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

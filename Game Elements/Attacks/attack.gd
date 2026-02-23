@@ -213,6 +213,10 @@ func _process(delta):
 		return
 	if attack_type == "death mark":
 		c_owner.die(true,true)
+	if attack_type == "shatter":
+		var tween = create_tween()
+		tween.tween_property(self, "modulate:a", 0.0, 1.0)
+		await tween.finished
 	for node in special_nodes:
 		node.queue_free()
 	queue_free()
