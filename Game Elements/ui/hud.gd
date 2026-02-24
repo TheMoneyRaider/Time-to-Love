@@ -1,6 +1,11 @@
 extends CanvasLayer
 
 var is_multiplayer : bool = true
+var debug_mode : bool = false
+var menu_indicator : bool = false
+var display_paths : bool = false
+var toggle_invulnerability : bool = false 
+var mouse_clamping : bool = false
 @onready var health_bar_1 = $RootControl/Left_Bottom_Corner/HealthBar
 @onready var health_bar_2 = $RootControl/Right_Bottom_Corner/HealthBar
 @onready var TimeFabric = $RootControl/TimeFabric
@@ -30,6 +35,11 @@ func _ready():
 	combo2.visible = false
 	LeftCooldownBar.get_node("CooldownBar").material =LeftCooldownBar.get_node("CooldownBar").material.duplicate(true)
 	RightCooldownBar.get_node("CooldownBar").material =RightCooldownBar.get_node("CooldownBar").material.duplicate(true)
+
+func _ready():
+	load_settings()
+	display_debug_setting_header()
+	
 
 func set_timefabric_amount(timefabric_collected : int):
 	$RootControl/TimeFabric/HBoxContainer/Label.text = str(timefabric_collected)
@@ -352,6 +362,78 @@ func _on_max_health_changed(max_health : int, current_health : int,player_node :
 	else:
 		health_bar_2.set_max_health(max_health)
 		health_bar_2.set_current_health(current_health)
+		
+func load_settings():
+	if Globals.config_safe:
+		debug_mode = Globals.config.get_value("debug", "enabled", false)
+		
+func display_debug_setting_header():
+	$RootControl/DebugMenu/GridContainer.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
+	if debug_mode == true: 
+		$RootControl/DebugMenu/GridContainer.visible = true
+		$RootControl/DebugMenu/GridContainer/MenuIndicator.text = "debug menu: H"
+		
+func _input(event):
+	if debug_mode:
+		if event.is_action_pressed("display_debug_settings"):
+			menu_indicator = !menu_indicator
+		
+		if event.is_action_pressed("display_paths"):
+			display_paths = !display_paths
+			if menu_indicator:  
+				update_display_paths()
+			
+		if event.is_action_pressed("toggle_invulnerability"):
+			toggle_invulnerability = !toggle_invulnerability
+			if menu_indicator:  
+				update_invulnerability()
+			
+		if event.is_action_pressed("mouse_clamp"):
+			mouse_clamping = !mouse_clamping
+			if menu_indicator:  
+				update_clamping()
+				
+		update_menu_indicator()
+	return
+
+# all of these have to be signals. settings menu items don't make sense because individual components 
+# update settings at different periods, mostly on load, 
+
+func update_menu_indicator() -> void:
+	var paths_string = "  paths: | P | "
+	var invul_string = "  invuln: | I | "
+	var clamp_string = "  clamp: | C | "
+	
+	if menu_indicator:
+		$RootControl/DebugMenu/GridContainer/Paths.text = paths_string
+		update_display_paths()
+		$RootControl/DebugMenu/GridContainer/Invulnerability.text = invul_string
+		update_invulnerability()
+		$RootControl/DebugMenu/GridContainer/Clamping.text = clamp_string
+		update_clamping()
+	else:
+		$RootControl/DebugMenu/GridContainer/Paths.text = ""
+		$RootControl/DebugMenu/GridContainer/Invulnerability.text = ""
+		$RootControl/DebugMenu/GridContainer/Clamping.text = ""
+	return
+
+func update_display_paths() -> void:
+	if display_paths:
+		$RootControl/DebugMenu/GridContainer/Paths.text += "ON"
+	else:
+		$RootControl/DebugMenu/GridContainer/Paths.text += "OFF"
+
+func update_invulnerability():
+	if toggle_invulnerability:
+		$RootControl/DebugMenu/GridContainer/Invulnerability.text += "ON"
+	else:
+		$RootControl/DebugMenu/GridContainer/Invulnerability.text += "OFF"
+
+func update_clamping():
+	if mouse_clamping:
+		$RootControl/DebugMenu/GridContainer/Clamping.text += "ON"
+	else:
+		$RootControl/DebugMenu/GridContainer/Clamping.text += "OFF"
 
 func _on_special_reset(is_purple : bool):
 	if is_purple:

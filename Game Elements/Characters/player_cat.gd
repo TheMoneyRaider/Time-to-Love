@@ -43,7 +43,8 @@ var tether_width_curve
 var is_multiplayer = false
 var input_device = "-1"
 var input_direction : Vector2 = Vector2.ZERO
-var last_input_direction : Vector2 = Vector2.ZERO
+var invulnerable : bool = false
+var debug_menu : bool = false
 
 var effects : Array[Effect] = []
 var last_liquid : Globals.Liquid = Globals.Liquid.Buffer
@@ -77,6 +78,7 @@ func _ready():
 	_initialize_state_machine()
 	update_animation_parameters(starting_direction)
 	add_to_group("player")
+	load_settings()
 	set_weapon_sprite(weapons[is_purple as int],weapon_node)
 	if is_multiplayer:
 		tether_gradient = tether_line.gradient
@@ -108,6 +110,11 @@ func show_forcefield(interp_time : float):
 func update_input_device(in_dev : String):
 	input_device = in_dev
 	crosshair.player_input_device = input_device
+
+func load_settings():
+	var config = ConfigFile.new()
+	if config.load("user://settings.cfg") == OK:
+		debug_menu = config.get_value("debug", "enabled", false)
 
 func _initialize_state_machine():
 	#Define State transitions
@@ -145,8 +152,6 @@ func _physics_process(delta):
 		Input.get_action_strength("down_" + input_device) - Input.get_action_strength("up_" + input_device)
 	)
 	input_direction = input_direction.normalized()
-	if input_direction != Vector2.ZERO:
-		last_input_direction = input_direction
 	
 	update_animation_parameters(input_direction)	
 	
@@ -160,6 +165,10 @@ func _physics_process(delta):
 	#move and slide function
 	if(self.process_mode != PROCESS_MODE_DISABLED and disabled_countdown <= 0):
 		move_and_slide()
+	
+	
+	if debug_menu and Input.is_action_just_pressed("toggle_invulnerability"):
+		invulnerable = !invulnerable
 	
 	if Input.is_action_just_pressed("attack_" + input_device):
 		if Input.is_action_pressed("special_" + input_device) and weapons[is_purple as int].current_special_hits >= weapons[is_purple as int].special_hits:
@@ -192,7 +201,7 @@ func request_attack(t_weapon : Weapon) -> float:
 	return t_weapon.cooldown
 
 func take_damage(damage_amount : int, _dmg_owner : Node,_direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 20,creates_indicators : bool = true):
-	if(i_frames <= 0):
+	if(i_frames <= 0) and not invulnerable:
 		i_frames = attack_i_frames
 		if check_drones():
 			LayerManager._damage_indicator(0, _dmg_owner,_direction, attack_body,self,Color(0.0, 0.666, 0.85, 1.0))
@@ -549,7 +558,7 @@ func change_health(add_to_current : int, add_to_max : int = 0):
 	emit_signal("max_health_changed",max_health,current_health,self)
 
 func red_flash() -> void:
-	if(i_frames > 0):
+	if(i_frames > 0) and not invulnerable:
 		sprite.self_modulate = Color(1.0, 0.378, 0.31, 1.0)
 	else:
 		sprite.self_modulate = Color(1.0, 1.0, 1.0)

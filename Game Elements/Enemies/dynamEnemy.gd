@@ -22,6 +22,8 @@ var damage_direction = Vector2(0,-1)
 var sprint_timer : float = 0.0
 var sprint_cool : float = 0.0
 var damage_taken = 0
+var display_pathways = false
+var debug_menu = false
 var debug_mode = false
 var look_direction : Vector2 = Vector2(0,1)
 @export var weapon_cooldowns : Array[float] = []
@@ -41,6 +43,10 @@ signal attack_requested(new_attack : PackedScene, t_position : Vector2, t_direct
 
 signal enemy_took_damage(damage : int,current_health : int,c_node : Node, direction : Vector2)
 
+
+func _input(event):
+	if debug_menu and event.is_action_pressed("display_paths"):
+		display_pathways = !display_pathways
 
 func handle_attack(target_position: Vector2):
 	var attack_direction = (target_position - global_position).normalized()
@@ -145,6 +151,9 @@ func _process(delta):
 		if effect.cooldown == 0:
 			effects.remove_at(idx)
 		idx +=1
+		
+	#Trap stuff
+	check_traps(delta)
 	check_liquids(delta)
 	
 	if debug_mode:
@@ -381,6 +390,9 @@ func _draw():
 	if !debug_mode:
 		return
 	# Get path from blackboard if behavior tree exists
+	if not display_pathways:
+		return
+	
 	if not has_node("BTPlayer"):
 		return
 	
