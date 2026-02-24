@@ -1,10 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://8noggnfr4y4v"]
+[gd_scene load_steps=3 format=3 uid="uid://8noggnfr4y4v"]
 
-[ext_resource type="Texture2D" uid="uid://dlcpw4tgvjjuo" path="res://art/ring_texture.png" id="1_umnlk"]
+[ext_resource type="Texture2D" uid="uid://4xgu67qtrdah" path="res://art/black_square.png" id="1_7m6xn"]
+[ext_resource type="Texture2D" uid="uid://cxqlrcr4x3v2p" path="res://art/white_square.png" id="2_82u7w"]
 
 [node name="Root" type="Node2D"]
+z_index = 19
+y_sort_enabled = true
 
 [node name="TestScene" type="Sprite2D" parent="."]
-position = Vector2(-8, -8)
+y_sort_enabled = true
+position = Vector2(8, 8)
 scale = Vector2(0.031, 0.031)
-texture = ExtResource("1_umnlk")
+texture = ExtResource("1_7m6xn")
+
+[node name="TestScene2" type="Sprite2D" parent="."]
+y_sort_enabled = true
+position = Vector2(8, 8)
+scale = Vector2(0.031, 0.031)
+texture = ExtResource("2_82u7w")

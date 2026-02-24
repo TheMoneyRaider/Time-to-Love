@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Effect" load_steps=2 format=3 uid="uid://bmupqvjl2h3pd"]
+
+[ext_resource type="Script" uid="uid://bdvafciec46e" path="res://Game Elements/Effects/Effect.gd" id="1_as0b5"]
+
+[resource]
+script = ExtResource("1_as0b5")
+type = "speed"
+metadata/_custom_type_script = "uid://bdvafciec46e"

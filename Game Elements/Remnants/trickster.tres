@@ -11,5 +11,5 @@ description = "Reroll a room reward for $X Time Fabric."
 icon = ExtResource("2_xhiqs")
 art = ExtResource("1_igbyo")
 variable_names = Array[String](["$X"])
-variable_1_values = [600, 500, 400, 300, 200]
+variable_1_values = [250, 200, 150, 100, 50]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

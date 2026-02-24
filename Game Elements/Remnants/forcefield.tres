@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://clvgpm4sxj4nh"]
+
+[ext_resource type="Texture2D" uid="uid://ba3bl5grusdrw" path="res://art/remnants/forcefield.png" id="1_8y2ue"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="1_xrkjq"]
+[ext_resource type="Texture2D" uid="uid://dteop8cofyami" path="res://art/remnants/forcefield_icon.png" id="2_p6bor"]
+
+[resource]
+script = ExtResource("1_xrkjq")
+remnant_name = "Remnant of Personal Forcefield"
+description = "For $X seconds after you change characters or activate the tether, you deal $Y points of contact damage to enemies."
+icon = ExtResource("2_p6bor")
+art = ExtResource("1_8y2ue")
+tags = Array[String](["sci-fi"])
+variable_names = Array[String](["$X", "$Y"])
+variable_1_values = [0.5, 1.0, 1.5, 2.0, 2.5]
+variable_2_values = [1, 2, 3, 4, 5]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

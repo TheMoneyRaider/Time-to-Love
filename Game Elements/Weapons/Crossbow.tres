@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3 uid="uid://brh6x80orkddd"]
+
+[ext_resource type="Texture2D" uid="uid://kdaw8in4wo0" path="res://art/weapons/crossbow/crossbow_bright.png" id="1_ej2g0"]
+[ext_resource type="Script" uid="uid://dv58kn64xuqjd" path="res://Game Elements/Weapons/Weapon.gd" id="2_h21iu"]
+
+[resource]
+script = ExtResource("2_h21iu")
+type = "Crossbow"
+cooldown_icon = ExtResource("1_ej2g0")
+weapon_sprite = ExtResource("1_ej2g0")
+random_spread = false
+attack_type = "bolt"
+attack_scene = "res://Game Elements/Attacks/bolt.tscn"

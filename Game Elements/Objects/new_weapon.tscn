@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://dyqkjcho73h2u"]
+
+[ext_resource type="Script" uid="uid://ckyj44hgpi6oe" path="res://Game Elements/Objects/new_weapon.gd" id="1_l1nho"]
+[ext_resource type="Shader" uid="uid://b6t7bv08io6o3" path="res://Game Elements/Objects/pathway.gdshader" id="2_avgrg"]
+[ext_resource type="Texture2D" uid="uid://oxtr1mmj4hr5" path="res://art/weapons/mace/Mace.png" id="3_p100u"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8365d"]
+radius = 36.138622
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oeecv"]
+shader = ExtResource("2_avgrg")
+shader_parameter/upper_left = true
+shader_parameter/split = false
+shader_parameter/x_y_ratio = 1.0
+shader_parameter/band_width = 0.05
+
+[node name="NewWeapon" type="Area2D" groups=["reward"]]
+collision_mask = 3
+script = ExtResource("1_l1nho")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_8365d")
+
+[node name="Image" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_oeecv")
+scale = Vector2(0.92, 1)
+texture = ExtResource("3_p100u")
+
+[node name="Prompt1" type="Node2D" parent="."]
+z_index = 1000
+scale = Vector2(1.5, 1.5)
+
+[node name="Text" type="RichTextLabel" parent="Prompt1"]
+offset_left = -26.0
+offset_top = -28.666666
+offset_right = 1274.0
+offset_bottom = 3582.3333
+scale = Vector2(0.04, 0.04)
+theme_override_font_sizes/normal_font_size = 192
+bbcode_enabled = true
+text = "Get Weapon:
+[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_e_outline[/font]"
+scroll_active = false
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Prompt1"]
+offset_left = -30.666668
+offset_top = -27.999998
+offset_right = 119.33333
+offset_bottom = 122.0
+scale = Vector2(0.06, 0.06)

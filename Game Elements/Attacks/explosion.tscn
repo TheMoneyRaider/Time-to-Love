@@ -1,0 +1,97 @@
+[gd_scene load_steps=13 format=3 uid="uid://cx1kkdk7lorkl"]
+
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_447pn"]
+[ext_resource type="Texture2D" uid="uid://dwoc85dtn3joy" path="res://art/explosion.png" id="2_447pn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oynju"]
+radius = 23.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tr1cn"]
+atlas = ExtResource("2_447pn")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7g3k6"]
+atlas = ExtResource("2_447pn")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4wyqk"]
+atlas = ExtResource("2_447pn")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n4wnj"]
+atlas = ExtResource("2_447pn")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aktd0"]
+atlas = ExtResource("2_447pn")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aw4ag"]
+atlas = ExtResource("2_447pn")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jba3v"]
+atlas = ExtResource("2_447pn")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kvmkw"]
+atlas = ExtResource("2_447pn")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q2heo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tr1cn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7g3k6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4wyqk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n4wnj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aktd0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aw4ag")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jba3v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kvmkw")
+}],
+"loop": false,
+"name": &"new_animation",
+"speed": 8.0
+}]
+
+[node name="Explosion" type="Area2D" groups=["attack"]]
+z_index = 19
+y_sort_enabled = true
+collision_layer = 8
+collision_mask = 15
+script = ExtResource("1_447pn")
+speed = 0.0
+damage = 3.0
+hit_force = 50.0
+start_lag = 0.05
+pierce = -2.0
+wall_collision = false
+attack_type = "explosion"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_oynju")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -11)
+sprite_frames = SubResource("SpriteFrames_q2heo")
+animation = &"new_animation"
+autoplay = "new_animation"
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

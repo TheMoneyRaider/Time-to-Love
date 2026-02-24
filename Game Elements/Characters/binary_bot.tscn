@@ -1,0 +1,68 @@
+[gd_scene load_steps=11 format=3 uid="uid://dwflq7w2bs542"]
+
+[ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_gkk4m"]
+[ext_resource type="Script" uid="uid://dtxn0il4h244y" path="res://Game Elements/Characters/binary_bot.gd" id="1_twmrc"]
+[ext_resource type="BehaviorTree" uid="uid://do5k61nakb7mo" path="res://ai/trees/binary_bot.tres" id="2_3sqj5"]
+[ext_resource type="FontFile" uid="uid://d366m5nnnpg1f" path="res://fonts/Orbitron-Bold.ttf" id="4_1ovct"]
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="5_ijs7j"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_6wupc"]
+var/attack_status/name = &"attack_status"
+var/attack_status/type = 4
+var/attack_status/value = " DONE"
+var/attack_status/hint = 2
+var/attack_status/hint_string = "STARTING,RUNNING,FINISHING,DONE"
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ijs7j"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_gkk4m"]
+noise = SubResource("FastNoiseLite_ijs7j")
+seamless = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_twmrc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1ovct"]
+
+[node name="binary_bot" type="CharacterBody2D" groups=["enemy"]]
+z_index = 20
+y_sort_enabled = true
+collision_layer = 32
+script = ExtResource("1_gkk4m")
+max_health = 20
+hit_range = 20
+agro_distance = 200.0
+enemy_type = "binary_bot"
+min_timefabric = 40
+max_timefabric = 200
+move_speed = 100.0
+
+[node name="BTPlayer" type="BTPlayer" parent="."]
+behavior_tree = ExtResource("2_3sqj5")
+blackboard_plan = SubResource("BlackboardPlan_6wupc")
+
+[node name="Core" type="Node2D" parent="."]
+script = ExtResource("1_twmrc")
+mono_font = ExtResource("4_1ovct")
+damage_noise = SubResource("NoiseTexture2D_gkk4m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_twmrc")
+
+[node name="Attack" type="Area2D" parent="." groups=["attack"]]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("5_ijs7j")
+speed = 0.0
+damage = 3.0
+lifespan = 1000000000.0
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "binary_melee"
+deflectable = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
+shape = SubResource("CircleShape2D_1ovct")
+
+[connection signal="area_entered" from="Attack" to="Attack" method="_on_area_entered"]
+[connection signal="body_entered" from="Attack" to="Attack" method="_on_body_entered"]

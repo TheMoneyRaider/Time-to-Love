@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://dc615m8r6verx" path="res://art/remnants/remnant_orb_feet.png" id="1_jd1oi"]
 [ext_resource type="Script" uid="uid://bn7wc23ktk2ry" path="res://Game Elements/Objects/orb.gd" id="1_wu7qe"]
 [ext_resource type="Texture2D" uid="uid://bp337bkoxod8h" path="res://art/timefabric_orb.png" id="3_2ieqf"]
-[ext_resource type="Shader" uid="uid://bcbula2hj7vua" path="res://Game Elements/Remnants/remnant_orb.gdshader" id="4_vru07"]
+[ext_resource type="Shader" uid="uid://bcbula2hj7vua" path="res://Game Elements/Objects/remnant_orb.gdshader" id="4_vru07"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p07o2"]
 radius = 36.138622
@@ -14,9 +14,14 @@ shader_parameter/time_scale = 0.4
 shader_parameter/distortion_amount = 0.3
 shader_parameter/color_shift = 2.0
 shader_parameter/color_shift_time_scale = 1.5
+shader_parameter/upper_left = true
+shader_parameter/split = false
+shader_parameter/band_width = 0.05
 shader_parameter/shift_wave_enabled = 1
 
-[node name="TimeFabricOrb" type="Area2D"]
+[node name="TimeFabricOrb" type="Area2D" groups=["reward"]]
+z_index = 20
+y_sort_enabled = true
 collision_mask = 3
 script = ExtResource("1_wu7qe")
 
@@ -35,14 +40,20 @@ z_index = 1000
 scale = Vector2(1.5, 1.5)
 
 [node name="Text" type="RichTextLabel" parent="Prompt1"]
-offset_left = -14.666667
-offset_top = -23.333334
-offset_right = 718.6666
-offset_bottom = 151.66667
+offset_left = -26.0
+offset_top = -28.666666
+offset_right = 1274.0
+offset_bottom = 3582.3333
 scale = Vector2(0.04, 0.04)
-theme_override_font_sizes/normal_font_size = 128
+theme_override_font_sizes/normal_font_size = 192
 bbcode_enabled = true
-text = ": Enter"
-fit_content = true
+text = " 500 to buy: [font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_e_outline[/font]"
 scroll_active = false
 horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Prompt1"]
+offset_left = -30.666668
+offset_top = -27.999998
+offset_right = 119.33333
+offset_bottom = 122.0
+scale = Vector2(0.06, 0.06)

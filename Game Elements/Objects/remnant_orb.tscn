@@ -1,0 +1,142 @@
+[gd_scene load_steps=18 format=3 uid="uid://cjglbqk1q16fs"]
+
+[ext_resource type="Texture2D" uid="uid://dc615m8r6verx" path="res://art/remnants/remnant_orb_feet.png" id="1_cb1ol"]
+[ext_resource type="Texture2D" uid="uid://cmy65xxww7lkp" path="res://art/remnants/remnant_orb.png" id="1_d3rxk"]
+[ext_resource type="Script" uid="uid://bn7wc23ktk2ry" path="res://Game Elements/Objects/orb.gd" id="1_v3beo"]
+[ext_resource type="Texture2D" uid="uid://jauot8cjpgbk" path="res://art/white_dot.png" id="2_itn33"]
+[ext_resource type="Shader" uid="uid://bcbula2hj7vua" path="res://Game Elements/Objects/remnant_orb.gdshader" id="2_wxssq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p07o2"]
+radius = 36.138622
+
+[sub_resource type="Gradient" id="Gradient_abap8"]
+offsets = PackedFloat32Array(0.2647059, 0.5392157, 1)
+colors = PackedColorArray(0.88733417, 0.64631766, 0.35203508, 1, 0.7655881, 0.4938748, 0, 0.81960785, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_j0vux"]
+gradient = SubResource("Gradient_abap8")
+
+[sub_resource type="Curve" id="Curve_lkbv1"]
+_data = [Vector2(0.0043478236, 0), 0.0, 12.662923, 0, 0, Vector2(0.26521742, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ev4o6"]
+curve = SubResource("Curve_lkbv1")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hr7wv"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 0.0
+emission_ring_radius = 100.0
+emission_ring_inner_radius = 80.0
+emission_ring_cone_angle = 90.0
+spread = 180.0
+radial_velocity_min = -100.00002
+radial_velocity_max = -100.00002
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -20.000002
+radial_accel_max = -20.000002
+tangential_accel_min = -100.0
+tangential_accel_max = -100.0
+scale_min = 0.099999994
+scale_max = 0.29999998
+scale_curve = SubResource("CurveTexture_ev4o6")
+color_ramp = SubResource("GradientTexture1D_j0vux")
+
+[sub_resource type="Gradient" id="Gradient_cp2xf"]
+offsets = PackedFloat32Array(0.2647059, 0.5392157, 1)
+colors = PackedColorArray(0.9324598, 0.23745352, 0.99999994, 1, 0.7997534, 0.22606564, 1, 0.81960785, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_35ope"]
+gradient = SubResource("Gradient_cp2xf")
+
+[sub_resource type="Curve" id="Curve_tpat8"]
+_data = [Vector2(0.0043478236, 0), 0.0, 12.662923, 0, 0, Vector2(0.26521742, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_sa16a"]
+curve = SubResource("Curve_tpat8")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ir1pg"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 0.0
+emission_ring_radius = 80.0
+emission_ring_inner_radius = 100.0
+emission_ring_cone_angle = 90.0
+spread = 180.0
+radial_velocity_min = -200.00002
+radial_velocity_max = -200.00002
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -20.000002
+radial_accel_max = -20.000002
+tangential_accel_min = 99.99999
+tangential_accel_max = 99.99999
+scale_min = 0.099999994
+scale_max = 0.29999998
+scale_curve = SubResource("CurveTexture_sa16a")
+color_ramp = SubResource("GradientTexture1D_35ope")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_itn33"]
+shader = ExtResource("2_wxssq")
+shader_parameter/time_scale = 0.1
+shader_parameter/distortion_amount = 3.0
+shader_parameter/color_shift = 3.0
+shader_parameter/color_shift_time_scale = 1.0
+shader_parameter/upper_left = true
+shader_parameter/split = false
+shader_parameter/band_width = 0.05
+shader_parameter/shift_wave_enabled = 1
+
+[node name="RemnantOrb" type="Area2D" groups=["reward"]]
+z_index = 20
+y_sort_enabled = true
+collision_mask = 3
+script = ExtResource("1_v3beo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_p07o2")
+
+[node name="Feet" type="Sprite2D" parent="."]
+texture = ExtResource("1_cb1ol")
+
+[node name="Remnant_Reward" type="GPUParticles2D" parent="."]
+amount = 10
+texture = ExtResource("2_itn33")
+lifetime = 1.5
+process_material = SubResource("ParticleProcessMaterial_hr7wv")
+
+[node name="Remnant_Reward2" type="GPUParticles2D" parent="."]
+amount = 10
+texture = ExtResource("2_itn33")
+lifetime = 1.5
+process_material = SubResource("ParticleProcessMaterial_ir1pg")
+
+[node name="Image" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_itn33")
+texture = ExtResource("1_d3rxk")
+
+[node name="Prompt1" type="Node2D" parent="."]
+z_index = 1000
+scale = Vector2(1.5, 1.5)
+
+[node name="Text" type="RichTextLabel" parent="Prompt1"]
+offset_left = -26.0
+offset_top = -28.666666
+offset_right = 1274.0
+offset_bottom = 3582.3333
+scale = Vector2(0.04, 0.04)
+theme_override_font_sizes/normal_font_size = 192
+bbcode_enabled = true
+text = " 500 to buy: [font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_e_outline[/font]"
+scroll_active = false
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Prompt1"]
+offset_left = -30.666668
+offset_top = -27.999998
+offset_right = 119.33333
+offset_bottom = 122.0
+scale = Vector2(0.06, 0.06)

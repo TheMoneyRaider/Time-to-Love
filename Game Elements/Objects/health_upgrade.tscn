@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=3 uid="uid://d4fleuqg1dgd"]
+
+[ext_resource type="Script" uid="uid://bn7wc23ktk2ry" path="res://Game Elements/Objects/orb.gd" id="1_ljafv"]
+[ext_resource type="Shader" uid="uid://b6t7bv08io6o3" path="res://Game Elements/Objects/pathway.gdshader" id="2_rjsj1"]
+[ext_resource type="Texture2D" uid="uid://yq4o7vgkkwsr" path="res://art/health_up.png" id="3_u8hwb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8365d"]
+radius = 36.138622
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oeecv"]
+shader = ExtResource("2_rjsj1")
+shader_parameter/upper_left = true
+shader_parameter/split = false
+shader_parameter/x_y_ratio = 1.0
+shader_parameter/band_width = 0.05
+
+[node name="HealthUpgrade" type="Area2D" groups=["reward"]]
+z_index = 20
+y_sort_enabled = true
+collision_mask = 3
+script = ExtResource("1_ljafv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_8365d")
+
+[node name="Image" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_oeecv")
+position = Vector2(-1, 0)
+scale = Vector2(0.92, 1)
+texture = ExtResource("3_u8hwb")
+
+[node name="Prompt1" type="Node2D" parent="."]
+z_index = 1000
+scale = Vector2(1.5, 1.5)
+
+[node name="Text" type="RichTextLabel" parent="Prompt1"]
+z_index = 25
+y_sort_enabled = true
+offset_left = -26.0
+offset_top = -28.666666
+offset_right = 1274.0
+offset_bottom = 3582.3333
+scale = Vector2(0.04, 0.04)
+theme_override_font_sizes/normal_font_size = 192
+bbcode_enabled = true
+text = " 500 to buy: [font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_e_outline[/font]"
+scroll_active = false
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Prompt1"]
+z_index = 25
+y_sort_enabled = true
+offset_left = -30.666668
+offset_top = -27.999998
+offset_right = 119.33333
+offset_bottom = 122.0
+scale = Vector2(0.06, 0.06)

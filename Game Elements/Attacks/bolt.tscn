@@ -1,13 +1,22 @@
 [gd_scene load_steps=4 format=3 uid="uid://xvgc7jxjo4ip"]
 
-[ext_resource type="Script" uid="uid://cyq73hc1kn6vi" path="res://Game Elements/Attacks/bolt.gd" id="1_wvak2"]
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_hjuet"]
 [ext_resource type="Texture2D" uid="uid://cws3x8eprmqf1" path="res://art/bolt.png" id="2_wvak2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e1io4"]
 size = Vector2(10, 20)
 
-[node name="Bolt" type="Area2D"]
-script = ExtResource("1_wvak2")
+[node name="Bolt" type="Area2D" groups=["attack"]]
+z_index = 20
+y_sort_enabled = true
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("1_hjuet")
+speed = 300.0
+damage = 4.0
+pierce = 1.0
+attack_type = "bolt"
+deflectable = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_e1io4")
@@ -17,4 +26,5 @@ position = Vector2(0, 4.7683716e-07)
 scale = Vector2(1, 1.25)
 texture = ExtResource("2_wvak2")
 
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

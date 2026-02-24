@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bsewyao7ciray"]
+
+[ext_resource type="Script" uid="uid://f40i3jskavpg" path="res://Game Elements/ui/healthbar_piece.gd" id="1_3kxa5"]
+
+[node name="HealthbarPiece" type="Node2D"]
+script = ExtResource("1_3kxa5")
+
+[node name="Line2D" type="Line2D" parent="."]

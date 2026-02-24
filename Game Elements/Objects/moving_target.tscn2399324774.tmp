@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://nnb0fsf5jvvd"]
+
+[ext_resource type="Script" uid="uid://b5rk25lsvl4jb" path="res://Game Elements/Objects/moving_target.gd" id="1_xivx2"]
+[ext_resource type="Texture2D" uid="uid://4xgu67qtrdah" path="res://art/black_square.png" id="2_ml7jn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ml7jn"]
+radius = 48.0
+
+[node name="Root" type="Node2D"]
+
+[node name="MovingTarget" type="Node2D" parent="."]
+position = Vector2(1000, 500)
+script = ExtResource("1_xivx2")
+
+[node name="Sprite2D" type="Sprite2D" parent="MovingTarget"]
+scale = Vector2(0.03, 0.03)
+texture = ExtResource("2_ml7jn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1000, 500)
+shape = SubResource("CircleShape2D_ml7jn")

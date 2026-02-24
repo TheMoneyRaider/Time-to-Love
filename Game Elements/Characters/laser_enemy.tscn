@@ -1,0 +1,127 @@
+[gd_scene load_steps=14 format=3 uid="uid://d1iraxjiyuv2c"]
+
+[ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_8r1te"]
+[ext_resource type="BehaviorTree" uid="uid://dlq43y0e0i6on" path="res://ai/trees/laser.tres" id="2_6wupc"]
+[ext_resource type="Texture2D" uid="uid://d0ylh7xfvci7q" path="res://art/characters/laser/wall_laser.png" id="3_8r1te"]
+[ext_resource type="Script" uid="uid://bg5lcpq1r3aa3" path="res://Game Elements/Characters/laser_segment.gd" id="3_m6xb1"]
+[ext_resource type="Script" uid="uid://g72k7lhd0tbx" path="res://Game Elements/Characters/laser_beam.gd" id="4_h87mk"]
+[ext_resource type="Shader" uid="uid://corxu8ees2ktr" path="res://Game Elements/Attacks/laser_shader.gdshader" id="5_dqm1i"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6wupc"]
+radius = 8.0
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_6wupc"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8r1te"]
+radius = 8.0
+height = 26.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m6xb1"]
+shader = ExtResource("5_dqm1i")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/outline_size = 1.0
+shader_parameter/alpha_threshold = 0.0
+shader_parameter/outline_samples = 4
+shader_parameter/shade_color = Color(1, 1, 1, 0.5)
+
+[sub_resource type="Curve" id="Curve_h87mk"]
+_limits = [0.0, 1.5, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 7.601952, 0, 0, Vector2(0.037459284, 0.095181525), 0.0, 0.0, 0, 0, Vector2(0.25244302, 0.095181525), 0.0, 0.0, 0, 0, Vector2(0.50488603, 0.5050566), 2.0774114, 2.0774114, 0, 0, Vector2(0.7865169, 1.1460773), -4.9788933, -4.9788933, 0, 0, Vector2(0.9967896, 1.0080276), 0.0, 0.0, 0, 0]
+point_count = 6
+metadata/_snap_count = 100
+
+[sub_resource type="Gradient" id="Gradient_dqm1i"]
+colors = PackedColorArray(1, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_s7vvk"]
+gradient = SubResource("Gradient_dqm1i")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.491453)
+fill_to = Vector2(0.5, 0)
+
+[node name="laser_enemy" type="CharacterBody2D" groups=["enemy"]]
+z_index = 20
+y_sort_enabled = true
+collision_layer = 16
+collision_mask = 17
+script = ExtResource("1_8r1te")
+display_damage = false
+agro_distance = 500.0
+enemy_type = "laser_e"
+displays = Array[NodePath]([NodePath("Segment1/Sprite2D"), NodePath("Segment2/Sprite2D")])
+min_timefabric = 20
+max_timefabric = 40
+move_speed = 150.0
+weapon_cooldowns = Array[float]([0.0])
+hitable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_6wupc")
+
+[node name="BTPlayer" type="BTPlayer" parent="."]
+behavior_tree = ExtResource("2_6wupc")
+blackboard_plan = SubResource("BlackboardPlan_6wupc")
+
+[node name="Segment1" type="Area2D" parent="." groups=["enemy"]]
+modulate = Color(1, 1, 1, 0)
+z_index = 29
+z_as_relative = false
+y_sort_enabled = true
+position = Vector2(68736, 25147)
+collision_layer = 4
+collision_mask = 15
+script = ExtResource("3_m6xb1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Segment1"]
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_8r1te")
+
+[node name="Sprite2D" type="Sprite2D" parent="Segment1"]
+position = Vector2(7.9999995, 0)
+texture = ExtResource("3_8r1te")
+
+[node name="Segment2" type="Area2D" parent="." groups=["enemy"]]
+modulate = Color(1, 1, 1, 0)
+z_index = 29
+z_as_relative = false
+y_sort_enabled = true
+position = Vector2(55543, 28719)
+collision_layer = 4
+collision_mask = 15
+script = ExtResource("3_m6xb1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Segment2"]
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_8r1te")
+
+[node name="Sprite2D" type="Sprite2D" parent="Segment2"]
+position = Vector2(7.9999995, 0)
+texture = ExtResource("3_8r1te")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_m6xb1")
+offset_left = -1024.0
+offset_top = -1024.0
+offset_right = 1024.0
+offset_bottom = 1024.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(2048, 2048)
+render_target_update_mode = 4
+
+[node name="LaserBeam" type="Line2D" parent="SubViewportContainer/SubViewport"]
+y_sort_enabled = true
+points = PackedVector2Array(246, 256, 3035, 796)
+default_color = Color(1, 0, 0, 1)
+script = ExtResource("4_h87mk")
+power_curve = SubResource("Curve_h87mk")
+
+[node name="Light" type="PointLight2D" parent="."]
+visible = false
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_s7vvk")

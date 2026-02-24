@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://64doserwe5pm"]
+
+[ext_resource type="Texture2D" uid="uid://b3igg11pyeim7" path="res://art/remnants/pryo_mancer.png" id="1_3pdxi"]
+[ext_resource type="Texture2D" uid="uid://dou4wja323lxh" path="res://art/remnants/pyromancer_orb.png" id="2_rvhv7"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_pgsoo"]
+
+[resource]
+script = ExtResource("3_pgsoo")
+remnant_name = "Remnant of the Pyromancer"
+description = "Enemies create a $X explosion on death, dealing $Y damage"
+icon = ExtResource("2_rvhv7")
+art = ExtResource("1_3pdxi")
+variable_names = Array[String](["$X", "$Y"])
+variable_1_values = ["Small", "Medium", "Large", "Giant", "Gargantuan"]
+variable_2_values = [2, 3, 4, 5, 6]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

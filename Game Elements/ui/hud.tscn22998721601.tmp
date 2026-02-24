@@ -1,0 +1,242 @@
+[gd_scene load_steps=14 format=3 uid="uid://0hahdiffjt61"]
+
+[ext_resource type="Script" uid="uid://ttvprfi61vn4" path="res://Game Elements/ui/hud.gd" id="1_6fbih"]
+[ext_resource type="Script" uid="uid://cdv7ke8wr65tg" path="res://Game Elements/ui/health_bar.gd" id="1_e0onf"]
+[ext_resource type="Script" uid="uid://bs428146shl5s" path="res://Game Elements/ui/time_fabric_animation.gd" id="2_bjfho"]
+[ext_resource type="Texture2D" uid="uid://bxmiq87nvpvj8" path="res://art/notification.png" id="2_gp50j"]
+[ext_resource type="Texture2D" uid="uid://ch4g2j4jycixb" path="res://art/time_fabric.png" id="3_6fbih"]
+[ext_resource type="Script" uid="uid://d36yo1gmy8tkb" path="res://Game Elements/ui/cooldown_bar_1.gd" id="5_kgqo6"]
+[ext_resource type="Texture2D" uid="uid://dykkxim3f5y3g" path="res://art/mace_bright.png" id="6_65670"]
+[ext_resource type="Texture2D" uid="uid://kdaw8in4wo0" path="res://art/crossbow_bright.png" id="9_gp50j"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_t1xeu"]
+font_size = 35
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bjfho"]
+bg_color = Color(0.38210395, 0.030576311, 0.5883771, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6fbih"]
+bg_color = Color(0.6858206, 0.29710156, 0.98195356, 1)
+
+[sub_resource type="Theme" id="Theme_6fbih"]
+resource_local_to_scene = true
+Label/colors/font_color = Color(0.69411767, 0.32156864, 0.9843137, 1)
+Label/font_sizes/font_size = 40
+ProgressBar/styles/background = SubResource("StyleBoxFlat_bjfho")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_6fbih")
+
+[sub_resource type="Theme" id="Theme_t1xeu"]
+resource_local_to_scene = true
+Label/colors/font_color = Color(0.69411767, 0.32156864, 0.9843137, 1)
+Label/font_sizes/font_size = 40
+ProgressBar/styles/background = SubResource("StyleBoxFlat_bjfho")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_6fbih")
+
+[node name="Hud" type="CanvasLayer"]
+scale = Vector2(0.5, 0.5)
+transform = Transform2D(0.5, 0, 0, 0.5, 0, 0)
+script = ExtResource("1_6fbih")
+
+[node name="RootControl" type="Control" parent="."]
+process_mode = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RemnantIcons" type="Control" parent="RootControl"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="LeftRemnants" type="GridContainer" parent="RootControl/RemnantIcons"]
+layout_mode = 1
+anchors_preset = -1
+anchor_bottom = 1.0
+columns = 16
+
+[node name="RightRemnants" type="GridContainer" parent="RootControl/RemnantIcons"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+columns = 16
+
+[node name="TimeFabric" type="Control" parent="RootControl"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -58.0
+offset_right = 58.0
+offset_bottom = 100.0
+grow_horizontal = 2
+script = ExtResource("2_bjfho")
+spritesheet = ExtResource("3_6fbih")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RootControl/TimeFabric"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 8
+
+[node name="TextureRect" type="TextureRect" parent="RootControl/TimeFabric/HBoxContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("3_6fbih")
+
+[node name="Label" type="Label" parent="RootControl/TimeFabric/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Num:"
+label_settings = SubResource("LabelSettings_t1xeu")
+
+[node name="HealthBar1" type="HBoxContainer" parent="RootControl"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -37.0
+offset_right = 259.0
+grow_vertical = 0
+theme = SubResource("Theme_6fbih")
+script = ExtResource("1_e0onf")
+is_purple = true
+
+[node name="ProgressBar" type="ProgressBar" parent="RootControl/HealthBar1"]
+custom_minimum_size = Vector2(175, 37)
+layout_mode = 2
+max_value = 10.0
+value = 10.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="RootControl/HealthBar1"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "5/10 HP"
+
+[node name="HealthBar2" type="HBoxContainer" parent="RootControl"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -259.0
+offset_top = -37.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = SubResource("Theme_t1xeu")
+script = ExtResource("1_e0onf")
+
+[node name="Label" type="Label" parent="RootControl/HealthBar2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "5/10 HP"
+horizontal_alignment = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="RootControl/HealthBar2"]
+custom_minimum_size = Vector2(175, 37)
+layout_mode = 2
+max_value = 10.0
+value = 10.0
+show_percentage = false
+
+[node name="MaceCooldownBar" type="Control" parent="RootControl"]
+layout_mode = 1
+anchor_bottom = 0.477
+offset_left = 2.0
+offset_top = 878.0
+offset_right = 120.0
+offset_bottom = 470.0
+script = ExtResource("5_kgqo6")
+
+[node name="CooldownBar" type="TextureProgressBar" parent="RootControl/MaceCooldownBar"]
+layout_mode = 1
+offset_top = 24.0
+offset_right = 23.0
+offset_bottom = 38.0
+scale = Vector2(4, 4)
+max_value = 0.5
+step = 0.005
+texture_under = ExtResource("6_65670")
+texture_progress = ExtResource("6_65670")
+tint_under = Color(0.15127593, 0.15127611, 0.15127605, 1)
+tint_over = Color(0.44313726, 0.44313726, 0.44313726, 0)
+tint_progress = Color(0.627451, 0.1254902, 0.9411765, 1)
+
+[node name="CrossCooldownBar" type="Control" parent="RootControl"]
+layout_mode = 1
+anchor_bottom = 0.477
+offset_left = 1838.0
+offset_top = 902.0
+offset_right = 1956.0
+offset_bottom = 494.0
+script = ExtResource("5_kgqo6")
+
+[node name="CooldownBar" type="TextureProgressBar" parent="RootControl/CrossCooldownBar"]
+layout_mode = 1
+offset_right = 23.0
+offset_bottom = 14.0
+scale = Vector2(4, 4)
+max_value = 0.5
+step = 0.005
+texture_under = ExtResource("9_gp50j")
+texture_over = ExtResource("9_gp50j")
+texture_progress = ExtResource("9_gp50j")
+tint_under = Color(0.15294118, 0.15294118, 0.15294118, 1)
+tint_over = Color(0.44313726, 0.44313726, 0.44313726, 0)
+tint_progress = Color(1, 0.64705884, 0, 1)
+
+[node name="Notification" type="VBoxContainer" parent="RootControl"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_right = 250.0
+offset_bottom = 1372.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="Spacer" type="Control" parent="RootControl/Notification"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Noti" type="Control" parent="RootControl/Notification"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Background Texture" type="TextureRect" parent="RootControl/Notification/Noti"]
+layout_mode = 0
+offset_right = 500.0
+offset_bottom = 200.0
+mouse_filter = 2
+texture = ExtResource("2_gp50j")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="RootControl/Notification/Noti"]
+layout_mode = 0
+offset_top = 68.0
+offset_right = 484.0
+offset_bottom = 228.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "Wave 1 / 10"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1

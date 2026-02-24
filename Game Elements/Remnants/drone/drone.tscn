@@ -1,0 +1,70 @@
+[gd_scene load_steps=8 format=3 uid="uid://coa285s2rorsl"]
+
+[ext_resource type="Shader" uid="uid://jwdy7amsrtqm" path="res://Game Elements/Characters/spawn_transition.gdshader" id="1_0di0x"]
+[ext_resource type="Texture2D" uid="uid://dupo32n4no108" path="res://art/Drone-sheet1.png" id="1_442o3"]
+[ext_resource type="Script" uid="uid://chtpnr5lw8sgs" path="res://Game Elements/Remnants/drone/drone.gd" id="2_hg236"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0di0x"]
+shader = ExtResource("1_0di0x")
+shader_parameter/progress = 1.0
+shader_parameter/noise_density = 32.0
+shader_parameter/beam_size = 0.14800000633148
+shader_parameter/color = Color(0, 1, 1, 1)
+shader_parameter/hframes = 5
+shader_parameter/vframes = 1
+shader_parameter/frame = 0
+shader_parameter/quantized = false
+shader_parameter/wipe = false
+
+[sub_resource type="Animation" id="Animation_hg236"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_442o3"]
+resource_name = "fly"
+length = 0.375
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.075, 0.15, 0.22500001, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0di0x"]
+_data = {
+&"RESET": SubResource("Animation_hg236"),
+&"fly": SubResource("Animation_442o3")
+}
+
+[node name="Drone" type="Sprite2D" groups=["drones"]]
+z_index = 33
+z_as_relative = false
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_0di0x")
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_442o3")
+hframes = 5
+script = ExtResource("2_hg236")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_0di0x")
+}

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3 uid="uid://of6k7kdpb8ou"]
+
+[ext_resource type="Texture2D" uid="uid://dykkxim3f5y3g" path="res://art/weapons/mace/mace_bright.png" id="1_u1snn"]
+[ext_resource type="Script" uid="uid://dv58kn64xuqjd" path="res://Game Elements/Weapons/Weapon.gd" id="2_tyhiy"]
+
+[resource]
+script = ExtResource("2_tyhiy")
+type = "RobotMelee"
+num_attacks = 3
+attack_spread = 15.0
+split_attacks = true
+attack_type = "robot melee"
+attack_scene = "res://Game Elements/Attacks/robot_melee.tscn"
+spawn_distance = 5.0

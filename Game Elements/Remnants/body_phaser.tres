@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://c6368cf2pctty"]
+
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="1_8d1y7"]
+[ext_resource type="Texture2D" uid="uid://cugmqaigmqf14" path="res://art/remnants/body_phaser.png" id="1_50k2a"]
+[ext_resource type="Texture2D" uid="uid://bmc2vw3d0emo6" path="res://art/remnants/body_phaser_icon.png" id="2_tgu0y"]
+
+[resource]
+script = ExtResource("1_8d1y7")
+remnant_name = "Remnant of Body Phaser"
+description = "Whenever you take damage, it’s scaled to your speed. Speed scaling is $X%(i.e Damage is $X% lower if you’re moving at twice your normal speed and $X% higher when not moving at all)"
+icon = ExtResource("2_tgu0y")
+art = ExtResource("1_50k2a")
+tags = Array[String](["sci-fi"])
+variable_names = Array[String](["$X"])
+variable_1_values = [10, 20, 35, 50, 75]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

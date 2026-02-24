@@ -1,0 +1,98 @@
+[gd_scene load_steps=10 format=3 uid="uid://dbiv6m1mc5bxs"]
+
+[ext_resource type="Script" uid="uid://bn7wc23ktk2ry" path="res://Game Elements/Objects/orb.gd" id="1_nftfu"]
+[ext_resource type="Shader" uid="uid://b6t7bv08io6o3" path="res://Game Elements/Objects/pathway.gdshader" id="1_pmuwy"]
+[ext_resource type="Texture2D" uid="uid://cn4erdwajwp7q" path="res://art/hearts2.png" id="3_nftfu"]
+[ext_resource type="Script" uid="uid://c1c8xv65rdn6y" path="res://Game Elements/Objects/health.gd" id="4_wql4o"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8365d"]
+radius = 36.138622
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oeecv"]
+shader = ExtResource("1_pmuwy")
+shader_parameter/upper_left = true
+shader_parameter/split = false
+shader_parameter/x_y_ratio = 5.2780000000000005
+shader_parameter/band_width = 0.05
+
+[sub_resource type="Animation" id="Animation_wql4o"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Image:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_nftfu"]
+resource_name = "idle"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Image:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pmuwy"]
+_data = {
+&"RESET": SubResource("Animation_wql4o"),
+&"idle": SubResource("Animation_nftfu")
+}
+
+[node name="Health" type="Area2D"]
+z_index = 20
+y_sort_enabled = true
+collision_mask = 3
+script = ExtResource("1_nftfu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_8365d")
+
+[node name="Image" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_oeecv")
+texture = ExtResource("3_nftfu")
+hframes = 5
+script = ExtResource("4_wql4o")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Image" groups=["reward"]]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_pmuwy")
+}
+
+[node name="Prompt1" type="Node2D" parent="."]
+z_index = 1000
+scale = Vector2(1.5, 1.5)
+
+[node name="Text" type="RichTextLabel" parent="Prompt1"]
+offset_left = -26.0
+offset_top = -28.666666
+offset_right = 1274.0
+offset_bottom = 3582.3333
+scale = Vector2(0.04, 0.04)
+theme_override_font_sizes/normal_font_size = 192
+bbcode_enabled = true
+text = " 500 to buy: [font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_e_outline[/font]"
+scroll_active = false
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Prompt1"]
+offset_left = -30.666668
+offset_top = -27.999998
+offset_right = 119.33333
+offset_bottom = 122.0
+scale = Vector2(0.06, 0.06)

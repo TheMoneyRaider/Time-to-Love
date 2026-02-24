@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Effect" load_steps=2 format=3 uid="uid://bbiw2gnu4phyx"]
+
+[ext_resource type="Script" uid="uid://bdvafciec46e" path="res://Game Elements/Effects/Effect.gd" id="1_5ndh4"]
+
+[resource]
+script = ExtResource("1_5ndh4")
+type = "forcefield"
+metadata/_custom_type_script = "uid://bdvafciec46e"

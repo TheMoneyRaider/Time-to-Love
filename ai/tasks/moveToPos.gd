@@ -19,40 +19,41 @@ func _tick(_delta: float) -> Status:
 
 	var p_index = blackboard.get_var(player_idx)
 	var players = agent.get_tree().get_nodes_in_group("player")
-	var current_player_pos: Vector2 = players[p_index].global_position if players else Vector2.ZERO
-
+	var current_player_pos: Vector2 = players[p_index].global_position if players != null and p_index != null else Vector2.ZERO
 	if blackboard.get_var("path_recalculated", false):	
 		waypoint_index = skip_waypoints_behind(path, 0)
 		blackboard.set_var("waypoint_index", waypoint_index)
 		blackboard.set_var("path_recalculated", false)
 			
-	if current_player_pos != Vector2.ZERO and path_target_pos != Vector2.ZERO:
+	if current_player_pos != Vector2.ZERO and path_target_pos != Vector2.ZERO and blackboard.get_var("state")=="agro":
 		var player_moved_distance = path_target_pos.distance_to(current_player_pos)
 		
 		if player_moved_distance > recalc_distance_threshold:
-			#print("Player moved", player_moved_distance)
 			return FAILURE
 	
 	if path.is_empty():
 		
 		print("FAILED")
+		agent.sprint(false)
 		return FAILURE
 	
 	if waypoint_index >= path.size():
 
 		print("FAILED")
+		agent.sprint(false)
 		return FAILURE # failure forces tree to recalculate
-		
+	if agent.sprint_cool == 0.0 and agent.can_sprint:
+		agent.sprint(true)
 	var target_pos: Vector2 = path[waypoint_index]
 	var current_pos: Vector2 = agent.global_position
-	
-	if current_pos.distance_to(target_pos) <= 32.0:  
+	var distance = 32.0 if blackboard.get_var("state")=="agro" else 16.0
+	if current_pos.distance_to(target_pos) <= distance: 
 		waypoint_index += 1
 		blackboard.set_var("waypoint_index", waypoint_index)
 	
 		#last waypoint reached
 		if waypoint_index >= path.size():
-
+			agent.sprint(false)
 			return SUCCESS
 		return RUNNING
 	

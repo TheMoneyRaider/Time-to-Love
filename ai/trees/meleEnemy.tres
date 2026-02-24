@@ -1,10 +1,8 @@
-[gd_resource type="BehaviorTree" load_steps=48 format=3 uid="uid://dcnh0ja2aticr"]
+[gd_resource type="BehaviorTree" load_steps=34 format=3 uid="uid://dcnh0ja2aticr"]
 
 [ext_resource type="Script" uid="uid://danrund51c7i6" path="res://ai/tasks/chooseRandomPos.gd" id="1_3c6mk"]
 [ext_resource type="Script" uid="uid://dr4vkyorjqaqn" path="res://ai/tasks/getPlayerPos.gd" id="1_ecge8"]
 [ext_resource type="Script" uid="uid://dko7uh5a2dm00" path="res://ai/tasks/moveToPos.gd" id="1_hnqba"]
-[ext_resource type="Script" uid="uid://br65r6s5nmymb" path="res://ai/tasks/handleDeath.gd" id="2_1kwu6"]
-[ext_resource type="Script" uid="uid://dkrmjd0p1oufy" path="res://ai/tasks/checkDeagro.gd" id="2_llk5e"]
 [ext_resource type="Script" uid="uid://yu3fkdlxtfbv" path="res://ai/tasks/calcPath.gd" id="2_tqs8k"]
 [ext_resource type="Script" uid="uid://clsympdov604o" path="res://ai/tasks/checkAgro.gd" id="4_tqs8k"]
 [ext_resource type="Script" uid="uid://rvfhx3hd7gln" path="res://ai/tasks/attacks.gd" id="5_xsft4"]
@@ -15,42 +13,40 @@ var/state/type = 4
 var/state/value = ""
 var/state/hint = 0
 var/state/hint_string = ""
+var/agro_dist/name = &"agro_dist"
+var/agro_dist/type = 3
+var/agro_dist/value = 0.0
+var/agro_dist/hint = 0
+var/agro_dist/hint_string = ""
+var/deagro_dist/name = &"deagro_dist"
+var/deagro_dist/type = 3
+var/deagro_dist/value = 0.0
+var/deagro_dist/hint = 0
+var/deagro_dist/hint_string = ""
+var/hit_range/name = &"hit_range"
+var/hit_range/type = 3
+var/hit_range/value = 0.0
+var/hit_range/hint = 0
+var/hit_range/hint_string = ""
+var/target_pos/name = &"target_pos"
+var/target_pos/type = 5
+var/target_pos/value = Vector2(0, 0)
+var/target_pos/hint = 0
+var/target_pos/hint_string = ""
+var/player_idx/name = &"player_idx"
+var/player_idx/type = 2
+var/player_idx/value = 0
+var/player_idx/hint = 0
+var/player_idx/hint_string = ""
 
 [sub_resource type="BTAction" id="BTAction_tqs8k"]
 script = ExtResource("1_ecge8")
 
-[sub_resource type="BBVariant" id="BBVariant_xsft4"]
-type = 4
-saved_value = "dead"
-resource_name = "dead"
+[sub_resource type="BTAction" id="BTAction_3ccgm"]
+script = ExtResource("4_tqs8k")
 
-[sub_resource type="BTCheckVar" id="BTCheckVar_1kwu6"]
-variable = &"state"
-value = SubResource("BBVariant_xsft4")
-
-[sub_resource type="BBNode" id="BBNode_3jwwk"]
-saved_value = NodePath("AnimationPlayer")
-resource_name = "AnimationPlayer"
-
-[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_dlyii"]
-animation_player = SubResource("BBNode_3jwwk")
-animation_name = &"death"
-
-[sub_resource type="BBNode" id="BBNode_dlyii"]
-saved_value = NodePath("AnimationPlayer")
-resource_name = "AnimationPlayer"
-
-[sub_resource type="BTAwaitAnimation" id="BTAwaitAnimation_1t8r3"]
-animation_player = SubResource("BBNode_dlyii")
-animation_name = &"death"
-max_time = 1.5
-
-[sub_resource type="BTAction" id="BTAction_dlyii"]
-script = ExtResource("2_1kwu6")
-
-[sub_resource type="BTSequence" id="BTSequence_3ccgm"]
-custom_name = "Die"
-children = [SubResource("BTCheckVar_1kwu6"), SubResource("BTPlayAnimation_dlyii"), SubResource("BTAwaitAnimation_1t8r3"), SubResource("BTAction_dlyii")]
+[sub_resource type="BTSequence" id="BTSequence_4evon"]
+children = [SubResource("BTAction_tqs8k"), SubResource("BTAction_3ccgm")]
 
 [sub_resource type="BBVariant" id="BBVariant_3c6mk"]
 type = 4
@@ -76,9 +72,6 @@ resource_name = "AnimationPlayer"
 [sub_resource type="BTPlayAnimation" id="BTPlayAnimation_1kwu6"]
 animation_player = SubResource("BBNode_xsft4")
 animation_name = &"run"
-
-[sub_resource type="BTAction" id="BTAction_6xbjc"]
-script = ExtResource("2_llk5e")
 
 [sub_resource type="BTAction" id="BTAction_xsft4"]
 script = ExtResource("2_tqs8k")
@@ -111,31 +104,7 @@ children = [SubResource("BTAction_4evon")]
 
 [sub_resource type="BTSequence" id="BTSequence_ecge8"]
 custom_name = "Attack"
-children = [SubResource("BTCheckVar_nufqr"), SubResource("BTStopAnimation_3jwwk"), SubResource("BTPlayAnimation_1kwu6"), SubResource("BTAction_6xbjc"), SubResource("BTAction_xsft4"), SubResource("BTAction_1kwu6"), SubResource("BTStopAnimation_3ccgm"), SubResource("BTPlayAnimation_4evon"), SubResource("BTDelay_1kwu6")]
-
-[sub_resource type="BBNode" id="BBNode_3ccgm"]
-saved_value = NodePath("AnimationPlayer")
-resource_name = "AnimationPlayer"
-
-[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_6xbjc"]
-animation_player = SubResource("BBNode_3ccgm")
-animation_name = &"idle"
-
-[sub_resource type="BTAction" id="BTAction_3ccgm"]
-script = ExtResource("4_tqs8k")
-
-[sub_resource type="BBVariant" id="BBVariant_tqs8k"]
-type = 4
-saved_value = "agro"
-resource_name = "agro"
-
-[sub_resource type="BTSetVar" id="BTSetVar_llk5e"]
-variable = &"state"
-value = SubResource("BBVariant_tqs8k")
-
-[sub_resource type="BTSequence" id="BTSequence_tqs8k"]
-custom_name = "Set Agro"
-children = [SubResource("BTPlayAnimation_6xbjc"), SubResource("BTAction_3ccgm"), SubResource("BTSetVar_llk5e")]
+children = [SubResource("BTCheckVar_nufqr"), SubResource("BTStopAnimation_3jwwk"), SubResource("BTPlayAnimation_1kwu6"), SubResource("BTAction_xsft4"), SubResource("BTAction_1kwu6"), SubResource("BTStopAnimation_3ccgm"), SubResource("BTPlayAnimation_4evon"), SubResource("BTDelay_1kwu6")]
 
 [sub_resource type="BTFail" id="BTFail_xsft4"]
 
@@ -157,9 +126,12 @@ script = ExtResource("1_hnqba")
 custom_name = "Patrol"
 children = [SubResource("BTFail_xsft4"), SubResource("BTRandomWait_3c6mk"), SubResource("BTAction_nufqr"), SubResource("BTAction_3jwwk"), SubResource("BTAction_hnqba")]
 
-[sub_resource type="BTSelector" id="BTSelector_m8x3l"]
-children = [SubResource("BTAction_tqs8k"), SubResource("BTSequence_3ccgm"), SubResource("BTSequence_ecge8"), SubResource("BTSequence_tqs8k"), SubResource("BTSequence_3c6mk")]
+[sub_resource type="BTSelector" id="BTSelector_1kwu6"]
+children = [SubResource("BTSequence_ecge8"), SubResource("BTSequence_3c6mk")]
+
+[sub_resource type="BTSequence" id="BTSequence_6xbjc"]
+children = [SubResource("BTSequence_4evon"), SubResource("BTSelector_1kwu6")]
 
 [resource]
 blackboard_plan = SubResource("BlackboardPlan_ua8f2")
-root_task = SubResource("BTSelector_m8x3l")
+root_task = SubResource("BTSequence_6xbjc")

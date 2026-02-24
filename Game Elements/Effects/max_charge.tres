@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Effect" load_steps=2 format=3 uid="uid://cmqdwb57uilfn"]
+
+[ext_resource type="Script" uid="uid://bdvafciec46e" path="res://Game Elements/Effects/Effect.gd" id="1_dbmgb"]
+
+[resource]
+script = ExtResource("1_dbmgb")
+cooldown = null
+type = "charged"
+metadata/_custom_type_script = "uid://bdvafciec46e"

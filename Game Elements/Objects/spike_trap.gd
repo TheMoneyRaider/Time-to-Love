@@ -17,7 +17,7 @@ func activate():
 	active = true
 	for body in tracked_bodies:
 		if _crafter_chance(body):
-			body.take_damage(3, null)
+			body.take_damage(3, null, Vector2(0,-1), self)
 	while !tracked_bodies.is_empty():
 		await get_tree().process_frame
 	anim.play("deactivate")
@@ -33,14 +33,14 @@ func _on_body_entered(body):
 			return
 	elif body.has_method("take_damage"):
 		if _crafter_chance(body):
-			body.take_damage(3, null)
+			body.take_damage(3, null,Vector2(0,-1),self)
 
 func _on_body_exited(body):
 	if body in tracked_bodies:
 		tracked_bodies.erase(body)
 		
 func _crafter_chance(node_to_damage : Node) -> bool:
-	if !"is_purple" in node_to_damage:
+	if !node_to_damage.is_in_group("player"):
 		return true
 	randomize()
 	var remnants : Array[Remnant]
@@ -52,7 +52,7 @@ func _crafter_chance(node_to_damage : Node) -> bool:
 	for rem in remnants:
 		if rem.remnant_name == crafter.remnant_name:
 			if rem.variable_1_values[rem.rank-1] > randf()*100:
-				var particle =  load("res://Game Elements/Effects/crafter_particles.tscn").instantiate()
+				var particle =  load("res://Game Elements/Particles/crafter_particles.tscn").instantiate()
 				particle.position = self.position
 				get_parent().add_child(particle)
 				return false

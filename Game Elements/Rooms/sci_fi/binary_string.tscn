@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://cc7f86vo0dvig"]
+
+[ext_resource type="Script" uid="uid://bnje3dust3owj" path="res://Game Elements/Rooms/sci_fi/binary_string.gd" id="1_d8wy5"]
+[ext_resource type="FontFile" uid="uid://cm88dg4pu6blm" path="res://fonts/Orbitron-Regular.ttf" id="2_vk7vj"]
+
+[node name="BinaryString" type="Node2D"]
+script = ExtResource("1_d8wy5")
+mono_font = ExtResource("2_vk7vj")

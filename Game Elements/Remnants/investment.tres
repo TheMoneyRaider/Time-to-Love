@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://1cxandviakvn"]
+
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="1_2aym4"]
+[ext_resource type="Texture2D" uid="uid://dr4d8fmfthmbv" path="res://art/remnants/investment.png" id="1_7vt4b"]
+[ext_resource type="Texture2D" uid="uid://4fgxm3fxa651" path="res://art/remnants/investment_icon.png" id="2_tbyxe"]
+
+[resource]
+script = ExtResource("1_2aym4")
+remnant_name = "Remnant of Investment Portfolio"
+description = "You will gain $X% of the timefabric you have when you enter a new combat node. When you take damage, lose $Y% of your timefabric."
+icon = ExtResource("2_tbyxe")
+art = ExtResource("1_7vt4b")
+tags = Array[String](["sci-fi"])
+variable_names = Array[String](["$X", "$Y"])
+variable_1_values = [2, 4, 6, 8, 10]
+variable_2_values = [0.5, 1.0, 1.5, 2.0, 2.5]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

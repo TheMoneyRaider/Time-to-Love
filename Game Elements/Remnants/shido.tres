@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://cbqqk0b8ps168"]
+
+[ext_resource type="Texture2D" uid="uid://xr62svympx7d" path="res://art/remnants/shido.png" id="1_o554u"]
+[ext_resource type="Texture2D" uid="uid://8d40nyur0hjo" path="res://art/remnants/shido_icon.png" id="2_c4gvm"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_0kudq"]
+
+[resource]
+script = ExtResource("3_0kudq")
+remnant_name = "Remnant of Shido"
+description = "Each Remnant has a $X% chance to increase in rank upon changing timelines."
+icon = ExtResource("2_c4gvm")
+art = ExtResource("1_o554u")
+tags = Array[String](["sci-fi"])
+variable_names = Array[String](["$X"])
+variable_1_values = [3, 6, 9, 12, 15]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

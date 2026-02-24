@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Effect" load_steps=2 format=3 uid="uid://u7jn4id80jfc"]
+
+[ext_resource type="Script" uid="uid://bdvafciec46e" path="res://Game Elements/Effects/Effect.gd" id="1_3rash"]
+
+[resource]
+script = ExtResource("1_3rash")
+cooldown = null
+type = "tether"
+metadata/_custom_type_script = "uid://bdvafciec46e"

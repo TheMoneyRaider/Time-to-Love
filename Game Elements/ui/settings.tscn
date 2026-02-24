@@ -1,89 +1,251 @@
-[gd_scene load_steps=4 format=3 uid="uid://bfmw81k3isc75"]
+[gd_scene load_steps=13 format=3 uid="uid://bfmw81k3isc75"]
 
 [ext_resource type="Script" uid="uid://jhehuw17cbi0" path="res://Game Elements/ui/settings.gd" id="1_4geyq"]
-[ext_resource type="StyleBox" uid="uid://dobyvfqwbwfh0" path="res://Game Elements/ui/7-1_button.tres" id="2_xrwt4"]
-[ext_resource type="StyleBox" uid="uid://gpahke45chv" path="res://Game Elements/ui/7-3_button.tres" id="3_27vsl"]
+[ext_resource type="Script" uid="uid://b2etf1e6x6kyr" path="res://Game Elements/ui/settings_slider.gd" id="2_r7s23"]
+[ext_resource type="StyleBox" uid="uid://dobyvfqwbwfh0" path="res://Game Elements/ui/resources/7-1_button.tres" id="2_xrwt4"]
+[ext_resource type="StyleBox" uid="uid://gpahke45chv" path="res://Game Elements/ui/resources/7-3_button.tres" id="3_27vsl"]
+[ext_resource type="StyleBox" uid="uid://duatvi4nhndpj" path="res://Game Elements/ui/resources/4-1_button.tres" id="4_0nguj"]
+[ext_resource type="StyleBox" uid="uid://bl5m86jryhcbv" path="res://Game Elements/ui/resources/4-3_button.tres" id="5_r7s23"]
+[ext_resource type="StyleBox" uid="uid://7c2wqv48pg7x" path="res://Game Elements/ui/resources/7-2_button.tres" id="6_wbsn3"]
+[ext_resource type="Texture2D" uid="uid://rawhoxpikpyp" path="res://art/title_assets/grainy_background_visual.png" id="7_5x5iw"]
+[ext_resource type="Shader" uid="uid://df6is5vss0kty" path="res://Game Elements/ui/resources/timelines.gdshader" id="8_3n0va"]
+[ext_resource type="StyleBox" uid="uid://4eubuwqyfxh3" path="res://Game Elements/ui/resources/4-2_button.tres" id="8_xt5ys"]
+[ext_resource type="Texture2D" uid="uid://eifbgnatdh4i" path="res://art/particles/gradiant_dot3.png" id="9_xt5ys"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3n0va"]
+shader = ExtResource("8_3n0va")
+shader_parameter/time = 0.0
+shader_parameter/tendril_count = 30
+shader_parameter/tendril_thickness = 20.0
+shader_parameter/tendril_waviness = 18.206000627285
+shader_parameter/tendril_speed = 1.5
+shader_parameter/view_offset = Vector2(0, 0)
+shader_parameter/range_start = 1.50000007125
+shader_parameter/range_end = 2.50000011875
 
 [node name="Settings" type="Node2D"]
+z_index = 1000
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1920.0
+offset_bottom = 1000.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_4geyq")
 
+[node name="Background" type="TextureRect" parent="Control"]
+z_index = -2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1920.0
+offset_top = -1000.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_5x5iw")
+expand_mode = 1
+
 [node name="MarginContainer" type="MarginContainer" parent="Control"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer"]
 layout_mode = 2
 
 [node name="Volume" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 0
 
 [node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/Volume"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "Volume"
 
 [node name="Volume" type="HSlider" parent="Control/MarginContainer/VBoxContainer/Volume"]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 size_flags_horizontal = 8
+focus_neighbor_bottom = NodePath("../../Mouse/MouseSensitivity")
+step = 0.5
 value = 100.0
+script = ExtResource("2_r7s23")
 
 [node name="VolVal" type="Label" parent="Control/MarginContainer/VBoxContainer/Volume"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 
 [node name="Mouse" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 0
 
 [node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/Mouse"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "Mouse Sensitivity"
 
 [node name="MouseSensitivity" type="HSlider" parent="Control/MarginContainer/VBoxContainer/Mouse"]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
+focus_neighbor_top = NodePath("../../Volume/Volume")
+focus_neighbor_bottom = NodePath("../../Debug/DebugMode")
 min_value = 0.1
 max_value = 2.0
-step = 0.1
+step = 0.01
 value = 1.0
+script = ExtResource("2_r7s23")
 
 [node name="SensLabel" type="Label" parent="Control/MarginContainer/VBoxContainer/Mouse"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="Fragmenting" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/Fragmenting"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Menu Fragmentation"
+
+[node name="FragMode" type="CheckButton" parent="Control/MarginContainer/VBoxContainer/Fragmenting"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../../Mouse/MouseSensitivity")
+focus_neighbor_bottom = NodePath("../../Debug/DebugMode")
+
+[node name="FragLabel" type="Label" parent="Control/MarginContainer/VBoxContainer/Fragmenting"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
 
 [node name="Debug" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 0
 
 [node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/Debug"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "Debug Mode"
 
 [node name="DebugMode" type="CheckButton" parent="Control/MarginContainer/VBoxContainer/Debug"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../../Fragmenting/FragMode")
+focus_neighbor_bottom = NodePath("../../Player1/Choice")
 
 [node name="DebugLabel" type="Label" parent="Control/MarginContainer/VBoxContainer/Debug"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 
-[node name="Back" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+[node name="Player1" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
+
+[node name="Text" type="Label" parent="Control/MarginContainer/VBoxContainer/Player1"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Player 1 "
+
+[node name="Choice" type="OptionButton" parent="Control/MarginContainer/VBoxContainer/Player1"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../../Debug/DebugMode")
+focus_neighbor_bottom = NodePath("../../Player2/Choice")
+allow_reselect = true
+
+[node name="Player2" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Text" type="Label" parent="Control/MarginContainer/VBoxContainer/Player2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Player 2 "
+
+[node name="Choice" type="OptionButton" parent="Control/MarginContainer/VBoxContainer/Player2"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../../Player1/Choice")
+focus_neighbor_bottom = NodePath("../../EnterExit/Back")
+allow_reselect = true
+
+[node name="EnterExit" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 20
+
+[node name="Back" type="Button" parent="Control/MarginContainer/VBoxContainer/EnterExit"]
+custom_minimum_size = Vector2(150, 60)
+layout_mode = 2
+size_flags_horizontal = 0
+focus_neighbor_top = NodePath("../../Player2/Choice")
+focus_neighbor_right = NodePath("../Apply")
+theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = ExtResource("2_xrwt4")
 theme_override_styles/pressed = ExtResource("3_27vsl")
-theme_override_styles/hover = ExtResource("2_xrwt4")
+theme_override_styles/hover = ExtResource("6_wbsn3")
 theme_override_styles/hover_pressed = ExtResource("3_27vsl")
-text = "Back to Main Menu"
+text = "Return"
+
+[node name="Apply" type="Button" parent="Control/MarginContainer/VBoxContainer/EnterExit"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+focus_neighbor_left = NodePath("../Back")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = ExtResource("4_0nguj")
+theme_override_styles/pressed = ExtResource("5_r7s23")
+theme_override_styles/hover = ExtResource("8_xt5ys")
+theme_override_styles/hover_pressed = ExtResource("5_r7s23")
+text = "Apply"
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+z_index = -1
+material = SubResource("ShaderMaterial_3n0va")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Light_texture" type="TextureRect" parent="Control"]
+modulate = Color(0.52135843, 0.0013825077, 0.6983415, 1)
+z_index = -1
+layout_mode = 0
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+texture = ExtResource("9_xt5ys")
+
+[node name="Light_texture2" type="TextureRect" parent="Control"]
+modulate = Color(0.52135843, 0.0013825077, 0.6983415, 1)
+z_index = -1
+layout_mode = 0
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+texture = ExtResource("9_xt5ys")
 
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Volume/Volume" to="Control" method="_on_volume_value_changed"]
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Mouse/MouseSensitivity" to="Control" method="_on_mouse_sensitivity_value_changed"]
+[connection signal="toggled" from="Control/MarginContainer/VBoxContainer/Fragmenting/FragMode" to="Control" method="_on_frag_mode_toggled"]
 [connection signal="toggled" from="Control/MarginContainer/VBoxContainer/Debug/DebugMode" to="Control" method="_on_debug_mode_toggled"]
-[connection signal="pressed" from="Control/MarginContainer/VBoxContainer/Back" to="Control" method="_on_back_pressed"]
+[connection signal="item_selected" from="Control/MarginContainer/VBoxContainer/Player1/Choice" to="Control" method="_on_p1_selected"]
+[connection signal="item_selected" from="Control/MarginContainer/VBoxContainer/Player2/Choice" to="Control" method="_on_p2_selected"]
+[connection signal="pressed" from="Control/MarginContainer/VBoxContainer/EnterExit/Back" to="Control" method="_on_back_pressed"]
+[connection signal="pressed" from="Control/MarginContainer/VBoxContainer/EnterExit/Apply" to="Control" method="_on_apply_settings"]

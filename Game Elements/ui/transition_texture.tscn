@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cpebjv7vkmmx0"]
 
 [ext_resource type="Script" uid="uid://l4u348f8ugsu" path="res://Game Elements/ui/transition_texture.gd" id="1_pdd8l"]
-[ext_resource type="Shader" uid="uid://bxy3s0x1oqsce" path="res://Game Elements/ui/replay.gdshader" id="2_nuln8"]
+[ext_resource type="Shader" uid="uid://bxy3s0x1oqsce" path="res://Game Elements/ui/resources/replay.gdshader" id="2_nuln8"]
 [ext_resource type="Texture2D" uid="uid://cxqlrcr4x3v2p" path="res://art/white_square.png" id="2_xosle"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0cund"]
@@ -9,19 +9,13 @@ shader = ExtResource("2_nuln8")
 shader_parameter/time = 0.0
 shader_parameter/intensity = 0.0
 
-[node name="TransitionTexture" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="TransitionTexture" type="CanvasLayer"]
+layer = 3
 script = ExtResource("1_pdd8l")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 z_index = 1000
 material = SubResource("ShaderMaterial_0cund")
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -31,7 +25,6 @@ grow_vertical = 2
 [node name="TextureRect2" type="TextureRect" parent="."]
 modulate = Color(1, 1, 1, 0)
 z_index = 1000
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

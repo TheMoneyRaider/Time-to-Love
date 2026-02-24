@@ -4,11 +4,13 @@
 [ext_resource type="Script" uid="uid://b27dumqjc6pgl" path="res://Game Elements/General Game/crosshair.gd" id="1_audnv"]
 
 [node name="Crosshair" type="Node2D"]
-z_index = 5
+z_index = 40
+y_sort_enabled = true
 texture_filter = 1
 script = ExtResource("1_audnv")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
 scale = Vector2(1.1, 1.1)
 texture = ExtResource("1_2y53i")
 offset = Vector2(0.5, -0.5)

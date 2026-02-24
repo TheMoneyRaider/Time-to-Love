@@ -1,13 +1,15 @@
-[gd_scene load_steps=22 format=3 uid="uid://bgysbj2623d8d"]
+[gd_scene load_steps=28 format=3 uid="uid://bgysbj2623d8d"]
 
 [ext_resource type="Script" uid="uid://dpumkeekpn38k" path="res://Game Elements/Characters/player_cat.gd" id="1_u0lhy"]
 [ext_resource type="Texture2D" uid="uid://bse7gaxbkiksd" path="res://art/Sprout Lands - Sprites - Basic pack/Characters/Basic Purple Spritesheet-export.png" id="2_qmbn4"]
-[ext_resource type="PackedScene" uid="uid://cqusktdp3muk6" path="res://Game Elements/Attacks/attack.tscn" id="3_up8sf"]
+[ext_resource type="PackedScene" uid="uid://wymaxwjxh1tp" path="res://Game Elements/Weapons/Weapon_sprite.tscn" id="4_etjf5"]
 [ext_resource type="Script" uid="uid://dcpvhpj3f8luc" path="res://Game Elements/States/idle.gd" id="5_gr630"]
 [ext_resource type="PackedScene" uid="uid://dhidnnukydkmw" path="res://Game Elements/General Game/crosshair.tscn" id="5_q2fti"]
 [ext_resource type="Script" uid="uid://dwkcar82gxuft" path="res://Game Elements/States/move.gd" id="6_ylelj"]
 [ext_resource type="Script" uid="uid://btup6tc7rnbka" path="res://Game Elements/States/attack.gd" id="7_4qt1i"]
 [ext_resource type="Script" uid="uid://cb8pnerh8ctk3" path="res://Game Elements/States/swap.gd" id="8_5huac"]
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="9_0lmd5"]
+[ext_resource type="Texture2D" uid="uid://df0xx4vere0ln" path="res://art/attacks/forcefield/Shield Round Hex Distorted Loop 128x128 Blue.png" id="9_q6sfk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k8dsg"]
 size = Vector2(10, 15)
@@ -184,14 +186,57 @@ point_count = 3
 resource_name = "TetherGradient"
 colors = PackedColorArray(0.627, 0.125, 0.941, 1, 1, 0.647, 0, 1)
 
-[node name="PlayerCat" type="CharacterBody2D" node_paths=PackedStringArray("state_machine")]
-z_index = 1
+[sub_resource type="Animation" id="Animation_nxfgs"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Forcefield/Forcefield:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_0lmd5"]
+resource_name = "fritz"
+length = 1.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Forcefield/Forcefield:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_e5m2x"]
+_data = {
+&"RESET": SubResource("Animation_nxfgs"),
+&"fritz": SubResource("Animation_0lmd5")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_q6sfk"]
+radius = 12.0415945
+
+[node name="PlayerCat" type="CharacterBody2D" node_paths=PackedStringArray("state_machine") groups=["depth_entities", "player"]]
+z_index = 20
 y_sort_enabled = true
 collision_layer = 2
+collision_mask = 13
 script = ExtResource("1_u0lhy")
 state_machine = NodePath("LimboHSM")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
 texture = ExtResource("2_qmbn4")
 hframes = 4
 vframes = 4
@@ -205,9 +250,10 @@ libraries = {
 &"": SubResource("AnimationLibrary_428uj")
 }
 
-[node name="Attack" parent="." instance=ExtResource("3_up8sf")]
-
 [node name="Crosshair" parent="." instance=ExtResource("5_q2fti")]
+position = Vector2(33, -18)
+
+[node name="WeaponSprite" parent="." instance=ExtResource("4_etjf5")]
 
 [node name="LimboHSM" type="LimboHSM" parent="."]
 
@@ -229,7 +275,7 @@ script = ExtResource("8_5huac")
 [node name="Line2D" type="Line2D" parent="."]
 visible = false
 top_level = true
-z_index = 3
+y_sort_enabled = true
 points = PackedVector2Array(0, 0, 0, 0, 0, 0)
 width = 5.0
 width_curve = SubResource("Curve_etjf5")
@@ -237,3 +283,36 @@ default_color = Color(0.627451, 0.1254902, 0.9411765, 1)
 gradient = SubResource("Gradient_ylelj")
 begin_cap_mode = 2
 end_cap_mode = 2
+
+[node name="Forcefield" type="Area2D" parent="." node_paths=PackedStringArray("c_owner")]
+collision_layer = 8
+collision_mask = 37
+script = ExtResource("9_0lmd5")
+speed = 0.0
+lifespan = 9.223372e+18
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "forcefield"
+i_frames = 10
+c_owner = NodePath("..")
+repeat_hits = true
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="Forcefield"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_e5m2x")
+}
+
+[node name="Forcefield" type="Sprite2D" parent="Forcefield"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("9_q6sfk")
+hframes = 4
+vframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Forcefield"]
+shape = SubResource("CircleShape2D_q6sfk")
+
+[connection signal="area_entered" from="Forcefield" to="Forcefield" method="_on_area_entered"]
+[connection signal="body_entered" from="Forcefield" to="Forcefield" method="_on_body_entered"]
+[connection signal="body_exited" from="Forcefield" to="Forcefield" method="_on_body_exited"]

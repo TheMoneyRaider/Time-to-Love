@@ -1,0 +1,97 @@
+[gd_resource type="BehaviorTree" load_steps=21 format=3 uid="uid://dlq43y0e0i6on"]
+
+[ext_resource type="Script" uid="uid://dr4vkyorjqaqn" path="res://ai/tasks/getPlayerPos.gd" id="1_0junk"]
+[ext_resource type="Script" uid="uid://yu3fkdlxtfbv" path="res://ai/tasks/calcPath.gd" id="4_7l6ws"]
+[ext_resource type="Script" uid="uid://dko7uh5a2dm00" path="res://ai/tasks/moveToPos.gd" id="5_m5myp"]
+[ext_resource type="Script" uid="uid://bp6ip53ex8i1a" path="res://ai/tasks/laser_attack.gd" id="6_40xi1"]
+[ext_resource type="Script" uid="uid://c7b86gm25q0p3" path="res://ai/tasks/player_in_range.gd" id="6_mrfvi"]
+[ext_resource type="Script" uid="uid://clsympdov604o" path="res://ai/tasks/checkAgro.gd" id="7_i4dwu"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_ak6g3"]
+var/state/name = &"state"
+var/state/type = 4
+var/state/value = ""
+var/state/hint = 0
+var/state/hint_string = ""
+var/agro_dist/name = &"agro_dist"
+var/agro_dist/type = 3
+var/agro_dist/value = 0.0
+var/agro_dist/hint = 0
+var/agro_dist/hint_string = ""
+var/deagro_dist/name = &"deagro_dist"
+var/deagro_dist/type = 3
+var/deagro_dist/value = 0.0
+var/deagro_dist/hint = 0
+var/deagro_dist/hint_string = ""
+var/hit_range/name = &"hit_range"
+var/hit_range/type = 3
+var/hit_range/value = 0.0
+var/hit_range/hint = 0
+var/hit_range/hint_string = ""
+var/target_pos/name = &"target_pos"
+var/target_pos/type = 5
+var/target_pos/value = Vector2(0, 0)
+var/target_pos/hint = 0
+var/target_pos/hint_string = ""
+var/kill_laser/name = &"kill_laser"
+var/kill_laser/type = 1
+var/kill_laser/value = false
+var/kill_laser/hint = 0
+var/kill_laser/hint_string = ""
+var/player_idx/name = &"player_idx"
+var/player_idx/type = 2
+var/player_idx/value = 0
+var/player_idx/hint = 0
+var/player_idx/hint_string = ""
+
+[sub_resource type="BTAction" id="BTAction_lr4pt"]
+script = ExtResource("1_0junk")
+
+[sub_resource type="BTAction" id="BTAction_uikho"]
+script = ExtResource("7_i4dwu")
+
+[sub_resource type="BTSequence" id="BTSequence_mrfvi"]
+custom_name = "Constants"
+children = [SubResource("BTAction_lr4pt"), SubResource("BTAction_uikho")]
+
+[sub_resource type="BTAction" id="BTAction_40xi1"]
+script = ExtResource("6_mrfvi")
+hit_range = 64
+
+[sub_resource type="BTAction" id="BTAction_w61q3"]
+script = ExtResource("6_40xi1")
+
+[sub_resource type="BTSequence" id="BTSequence_40xi1"]
+custom_name = "Attack if in Range"
+children = [SubResource("BTAction_40xi1"), SubResource("BTAction_w61q3")]
+
+[sub_resource type="BBVariant" id="BBVariant_kel6m"]
+type = 4
+saved_value = "agro"
+resource_name = "agro"
+
+[sub_resource type="BTCheckVar" id="BTCheckVar_efa7g"]
+variable = &"state"
+value = SubResource("BBVariant_kel6m")
+
+[sub_resource type="BTAction" id="BTAction_gskub"]
+script = ExtResource("4_7l6ws")
+
+[sub_resource type="BTAction" id="BTAction_vygrw"]
+script = ExtResource("5_m5myp")
+
+[sub_resource type="BTSequence" id="BTSequence_ymovh"]
+custom_name = "Follow"
+children = [SubResource("BTCheckVar_efa7g"), SubResource("BTAction_gskub"), SubResource("BTAction_vygrw")]
+
+[sub_resource type="BTSelector" id="BTSelector_mrfvi"]
+custom_name = "Behavior"
+children = [SubResource("BTSequence_40xi1"), SubResource("BTSequence_ymovh")]
+
+[sub_resource type="BTSequence" id="BTSequence_7l6ws"]
+custom_name = "Constant and Behavior"
+children = [SubResource("BTSequence_mrfvi"), SubResource("BTSelector_mrfvi")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_ak6g3")
+root_task = SubResource("BTSequence_7l6ws")

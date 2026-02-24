@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://j5xlw7bjqw3s"]
+
+[ext_resource type="Script" uid="uid://eqxci0s7qbjn" path="res://Game Elements/Objects/damage_indicator.gd" id="1_7ovmb"]
+
+[node name="DamageIndicator" type="Node2D"]
+z_index = 32
+y_sort_enabled = true
+script = ExtResource("1_7ovmb")
+
+[node name="Label" type="Label" parent="."]
+y_sort_enabled = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.5
+offset_top = -109.5
+offset_right = 45.5
+offset_bottom = 109.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.28235295, 1, 1)
+theme_override_font_sizes/font_size = 128
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1

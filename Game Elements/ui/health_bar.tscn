@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://bsol6opkpit8y"]
+
+[ext_resource type="Script" uid="uid://cdv7ke8wr65tg" path="res://Game Elements/ui/health_bar.gd" id="1_y6ef7"]
+[ext_resource type="PackedScene" uid="uid://bsewyao7ciray" path="res://Game Elements/ui/healthbar_piece.tscn" id="2_123nf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bjfho"]
+bg_color = Color(0.38210395, 0.030576311, 0.5883771, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6fbih"]
+bg_color = Color(0.6858206, 0.29710156, 0.98195356, 1)
+
+[sub_resource type="Theme" id="Theme_6fbih"]
+resource_local_to_scene = true
+Label/colors/font_color = Color(0.69411767, 0.32156864, 0.9843137, 1)
+Label/font_sizes/font_size = 40
+ProgressBar/styles/background = SubResource("StyleBoxFlat_bjfho")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_6fbih")
+
+[node name="HealthBar" type="HBoxContainer"]
+theme = SubResource("Theme_6fbih")
+script = ExtResource("1_y6ef7")
+is_purple = true
+health_chunk_scene = ExtResource("2_123nf")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(175, 37)
+layout_mode = 2
+max_value = 10.0
+value = 10.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "5/10 HP"
+
+[node name="Background" type="Line2D" parent="."]
+points = PackedVector2Array(0, 19, 175, 19)
+width = 38.0
+
+[node name="Foreground" type="Line2D" parent="."]
+points = PackedVector2Array(0, 19, 175, 19)
+width = 38.0
+
+[node name="Pieces" type="Node2D" parent="."]

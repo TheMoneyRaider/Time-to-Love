@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://bgsxo65ycjkiq"]
+
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="1_j86dx"]
+[ext_resource type="Texture2D" uid="uid://cgexk8g2i2p80" path="res://art/remnants/intelligence.png" id="1_ll1sj"]
+[ext_resource type="Texture2D" uid="uid://c03h7elgniyfc" path="res://art/remnants/intelligence_icon.png" id="2_tavq4"]
+
+[resource]
+script = ExtResource("1_j86dx")
+remnant_name = "Remnant of Intelligence"
+description = "Your ranged attacks will be $X guided towards enemies"
+icon = ExtResource("2_tavq4")
+art = ExtResource("1_ll1sj")
+tags = Array[String](["sci-fi"])
+variable_names = Array[String](["$X"])
+variable_1_values = ["barely", "slightly", "significantly", "majorly", "massively"]
+variable_2_values = [2.0, 3.0, 4.0, 6.0, 8.0]
+variable_3_values = [30, 45, 60, 75, 90]
+variable_4_values = [1.0, 2.0, 3.0, 4.0, 5.0]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

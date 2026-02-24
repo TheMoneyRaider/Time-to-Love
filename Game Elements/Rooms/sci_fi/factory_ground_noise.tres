@@ -1,0 +1,23 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://dbtu31h02s2bg"]
+
+[ext_resource type="Shader" uid="uid://ckbk1w1sfj1lp" path="res://Game Elements/Rooms/ground.gdshader" id="1_yxv2l"]
+
+[sub_resource type="Gradient" id="Gradient_yxv2l"]
+offsets = PackedFloat32Array(0.24583334, 0.30833334, 0.45208332, 0.57708335, 0.64375, 0.7604167)
+colors = PackedColorArray(0.6200678, 0.6329153, 0.63290715, 0.07450981, 0, 0, 0, 0, 0.07450981, 0.078431375, 0.07058824, 0.105882354, 0.5568628, 0.5568628, 0.5568628, 0, 0.05882353, 0.05882353, 0.05882353, 0.1764706, 0.7490196, 0.7490196, 0.7490196, 0.05490196)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_vuvng"]
+noise_type = 2
+domain_warp_enabled = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_im4hj"]
+noise = SubResource("FastNoiseLite_vuvng")
+color_ramp = SubResource("Gradient_yxv2l")
+seamless = true
+
+[resource]
+shader = ExtResource("1_yxv2l")
+shader_parameter/noise = SubResource("NoiseTexture2D_im4hj")
+shader_parameter/displayDecal = false
+shader_parameter/is_tile_clamped = true
+shader_parameter/noise_offset = Vector2(0, 0)

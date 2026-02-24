@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://ra2jfpulx4tr"]
+
+[ext_resource type="Shader" uid="uid://cbh0ojblk437f" path="res://Game Elements/Objects/after_image.gdshader" id="1_8tjqg"]
+[ext_resource type="Script" uid="uid://cln4mtmv0p7o3" path="res://Game Elements/Objects/after_image.gd" id="1_giux0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v6a1e"]
+shader = ExtResource("1_8tjqg")
+shader_parameter/shader_mono = true
+
+[node name="AfterImage" type="Sprite2D"]
+z_index = 20
+z_as_relative = false
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_v6a1e")
+script = ExtResource("1_giux0")

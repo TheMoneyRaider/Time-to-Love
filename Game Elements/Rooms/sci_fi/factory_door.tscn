@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://b4kys60pdrkmg"]
+
+[ext_resource type="Script" uid="uid://bc5jbqa86c6qu" path="res://Game Elements/Rooms/sci_fi/factory_door.gd" id="1_8u5p7"]
+[ext_resource type="TileSet" uid="uid://cdo6cx4dxml7u" path="res://Game Elements/tilesets/sci_fi3.tres" id="1_mbjp7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8u5p7"]
+radius = 32.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8u5p7"]
+size = Vector2(16, 16)
+
+[node name="FactoryDoor" type="Node2D"]
+script = ExtResource("1_8u5p7")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+position = Vector2(-8, -8)
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 3, 0, 4, 0, 4, 0, 0, 0)
+tile_set = ExtResource("1_mbjp7")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_8u5p7")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 63
+collision_mask = 63
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_8u5p7")

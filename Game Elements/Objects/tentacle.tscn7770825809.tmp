@@ -1,0 +1,60 @@
+[gd_scene load_steps=8 format=3 uid="uid://cryh3p532bi7"]
+
+[ext_resource type="Script" uid="uid://cfsvr6mnch8nr" path="res://Game Elements/Objects/tentacle.gd" id="1_djn6u"]
+[ext_resource type="Shader" uid="uid://enovcy4sllbo" path="res://Game Elements/Objects/outline.gdshader" id="2_e712x"]
+[ext_resource type="Shader" uid="uid://5p6gpotop3c4" path="res://Game Elements/Objects/canvas_group_two_tone.gdshader" id="3_viu4x"]
+
+[sub_resource type="Curve" id="Curve_djn6u"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.9821429, 0.18630326), -1.3402072, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_djn6u"]
+shader = ExtResource("2_e712x")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/outline_size = 1.0
+shader_parameter/alpha_threshold = 0.77999998256544
+shader_parameter/outline_samples = 4
+shader_parameter/shade_color = Color(1, 1, 1, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rt1qa"]
+shader = ExtResource("3_viu4x")
+shader_parameter/light_color = Color(0.5750566, 0.9793623, 0.9999998, 1)
+shader_parameter/dark_color = Color(2.695322e-06, 0.8834594, 0.89557076, 1)
+shader_parameter/shade_ratio = 0.3
+
+[sub_resource type="Curve" id="Curve_qdj6u"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.14545453), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Tentacle" type="Node2D" node_paths=PackedStringArray("base_node") groups=["tentacle"]]
+script = ExtResource("1_djn6u")
+base_node = NodePath("SubViewportContainer/SubViewport/TwoToneCanvasGroup/Line2D")
+width_curve = SubResource("Curve_djn6u")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(258, 255)
+zoom = Vector2(5, 5)
+editor_draw_screen = false
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_djn6u")
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="TwoToneCanvasGroup" type="CanvasGroup" parent="SubViewportContainer/SubViewport"]
+material = SubResource("ShaderMaterial_rt1qa")
+
+[node name="Line2D" type="Line2D" parent="SubViewportContainer/SubViewport/TwoToneCanvasGroup"]
+position = Vector2(256, 256)
+points = PackedVector2Array(17, 3, 73, 72)
+width = 24.0
+width_curve = SubResource("Curve_qdj6u")
+texture_mode = 1
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2

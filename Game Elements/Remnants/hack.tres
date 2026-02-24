@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://3yuf5jqur5lu"]
+
+[ext_resource type="Texture2D" uid="uid://b06o56mkc2was" path="res://art/remnants/hack.png" id="1_hirxq"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="1_qs1v7"]
+[ext_resource type="Texture2D" uid="uid://bpwxxyxwcf5nw" path="res://art/remnants/hack_icon.png" id="2_fsm7q"]
+
+[resource]
+script = ExtResource("1_qs1v7")
+remnant_name = "Remnant of Computer Hack"
+description = "Enemy attacks have a $X% chance to hit other enemies"
+icon = ExtResource("2_fsm7q")
+art = ExtResource("1_hirxq")
+tags = Array[String](["sci-fi"])
+variable_names = Array[String](["$X"])
+variable_1_values = [2, 4, 8, 12, 16]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

@@ -12,6 +12,7 @@ func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	player_input_device = player.input_device
 	load_settings()
+	Globals.config_changed.connect(load_settings)
 	
 func _input(event):
 	if event.is_action_pressed("mouse_clamp") and debug_mode:
@@ -22,12 +23,9 @@ func _input(event):
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
 func load_settings():
-	var config = ConfigFile.new()
-	var err = config.load("user://settings.cfg")
-	
-	if err == OK:
-		mouse_sensitivity = config.get_value("controls", "mouse_sensitivity", 1.0)
-		debug_mode = config.get_value("debug", 'enabled', false)
+	if Globals.config_safe:
+		mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
+		debug_mode = Globals.config.get_value("debug", 'enabled', false)
 	else: 
 		mouse_sensitivity = 1.0
 		debug_mode = false

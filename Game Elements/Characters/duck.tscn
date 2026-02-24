@@ -1,8 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://o7jaiybdcito"]
+[gd_scene load_steps=11 format=3 uid="uid://o7jaiybdcito"]
 
-[ext_resource type="Script" uid="uid://j4pka0mxn3jw" path="res://Game Elements/Enemies/duck.gd" id="1_ijcte"]
+[ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_eryy6"]
 [ext_resource type="Texture2D" uid="uid://cbrmayl2xixju" path="res://art/mallard_spritesheet.png" id="2_y2jgs"]
-[ext_resource type="BehaviorTree" uid="uid://ddhuxux0ulrs6" path="res://ai/trees/duck.tres" id="3_y2jgs"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hq7sw"]
 radius = 5.0
@@ -120,10 +119,14 @@ _data = {
 &"walk": SubResource("Animation_j6r7x")
 }
 
-[sub_resource type="BlackboardPlan" id="BlackboardPlan_hq7sw"]
-
 [node name="Duck" type="CharacterBody2D"]
-script = ExtResource("1_ijcte")
+z_index = 20
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_eryy6")
+max_health = 10000000
+enemy_type = "hit_me"
+move_speed = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -5)
@@ -140,7 +143,3 @@ root_node = NodePath("../Sprite2D")
 libraries = {
 &"": SubResource("AnimationLibrary_acsji")
 }
-
-[node name="BTPlayer" type="BTPlayer" parent="."]
-behavior_tree = ExtResource("3_y2jgs")
-blackboard_plan = SubResource("BlackboardPlan_hq7sw")

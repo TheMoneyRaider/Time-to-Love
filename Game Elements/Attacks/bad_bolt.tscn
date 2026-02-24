@@ -1,14 +1,20 @@
 [gd_scene load_steps=4 format=3 uid="uid://cxwb6g0n3m1ev"]
 
-[ext_resource type="Script" uid="uid://6gkluo7xki0q" path="res://Game Elements/Attacks/bad_bolt.gd" id="1_udbpy"]
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_lvfr5"]
 [ext_resource type="Texture2D" uid="uid://b47hm8728p5o2" path="res://art/slash_attack_no_animation.png" id="2_lvfr5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e1io4"]
-size = Vector2(10, 20)
+size = Vector2(15, 8)
 
-[node name="Bolt" type="Area2D"]
-collision_mask = 3
-script = ExtResource("1_udbpy")
+[node name="Bolt" type="Area2D" groups=["attack"]]
+z_index = 20
+y_sort_enabled = true
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("1_lvfr5")
+speed = 90.0
+attack_type = "bad bolt"
+deflectable = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_e1io4")
@@ -18,4 +24,5 @@ position = Vector2(0, 4.7683716e-07)
 scale = Vector2(1, 1.25)
 texture = ExtResource("2_lvfr5")
 
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

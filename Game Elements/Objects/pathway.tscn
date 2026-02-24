@@ -1,10 +1,10 @@
-[gd_scene load_steps=24 format=3 uid="uid://ccwiql3bybf2p"]
+[gd_scene load_steps=25 format=3 uid="uid://ccwiql3bybf2p"]
 
 [ext_resource type="Script" uid="uid://ddvtpbrhc2iw1" path="res://Game Elements/Objects/pathway.gd" id="1_0mqoo"]
 [ext_resource type="Texture2D" uid="uid://4kec172p2w3c" path="res://art/closed_room_reward.png" id="2_okald"]
 [ext_resource type="Texture2D" uid="uid://jauot8cjpgbk" path="res://art/white_dot.png" id="6_rjdqg"]
 [ext_resource type="Shader" uid="uid://c7aprdgds5kpc" path="res://Game Elements/Shaders/chromatic_abberation.gdshader" id="6_x3etk"]
-[ext_resource type="Texture2D" uid="uid://dsg1hqhbidk6m" path="res://art/gradiant_dot.png" id="8_hgkmx"]
+[ext_resource type="Texture2D" uid="uid://dsg1hqhbidk6m" path="res://art/particles/gradiant_dot.png" id="8_hgkmx"]
 
 [sub_resource type="Gradient" id="Gradient_x3etk"]
 offsets = PackedFloat32Array(0.2647059, 0.5392157, 1)
@@ -75,8 +75,8 @@ scale_max = 2.0
 scale_curve = SubResource("CurveTexture_ccisr")
 color_ramp = SubResource("GradientTexture1D_5ec6i")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wj84b"]
-size = Vector2(50, 50)
+[sub_resource type="CircleShape2D" id="CircleShape2D_okald"]
+radius = 32.0
 
 [sub_resource type="Gradient" id="Gradient_rjdqg"]
 offsets = PackedFloat32Array(0.2647059, 0.5392157, 1)
@@ -120,7 +120,11 @@ shader_parameter/mask_intensity = 1.0
 [sub_resource type="ViewportTexture" id="ViewportTexture_dp20r"]
 viewport_path = NodePath("MaskViewport")
 
-[node name="Root" type="Node2D"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_okald"]
+
+[node name="Root" type="Node2D" groups=["pathway"]]
+z_index = 39
+y_sort_enabled = true
 script = ExtResource("1_0mqoo")
 
 [node name="MaskViewport" type="SubViewport" parent="."]
@@ -147,7 +151,7 @@ process_material = SubResource("ParticleProcessMaterial_1vvwv")
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("RectangleShape2D_wj84b")
+shape = SubResource("CircleShape2D_okald")
 
 [node name="RiftWisps_OrangeOld" type="GPUParticles2D" parent="."]
 visible = false
@@ -161,18 +165,6 @@ process_material = SubResource("ParticleProcessMaterial_ccisr")
 visible = false
 material = SubResource("ShaderMaterial_hgkmx")
 texture = SubResource("ViewportTexture_dp20r")
-
-[node name="PathwayIcon" type="TextureRect" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -15.5
-offset_top = -15.5
-offset_right = 15.5
-offset_bottom = 15.5
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_okald")
 
 [node name="Prompt2" type="Node2D" parent="."]
 z_index = 1000
@@ -197,6 +189,7 @@ offset_top = -34.0
 offset_right = 168.33333
 offset_bottom = 116.0
 scale = Vector2(0.06, 0.06)
+metadata/_edit_use_anchors_ = true
 
 [node name="Prompt1" type="Node2D" parent="."]
 z_index = 1000
@@ -214,3 +207,14 @@ text = ": Enter"
 fit_content = true
 scroll_active = false
 horizontal_alignment = 1
+
+[node name="Icons" type="Node2D" parent="."]
+
+[node name="PathwayIcon1" type="Sprite2D" parent="Icons"]
+z_index = -1
+texture = ExtResource("2_okald")
+
+[node name="PathwayIcon2" type="Sprite2D" parent="Icons"]
+z_index = -1
+material = SubResource("ShaderMaterial_okald")
+texture = ExtResource("2_okald")

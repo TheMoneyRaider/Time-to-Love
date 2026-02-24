@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://c5m7fy6gv8wqw"]
+
+[ext_resource type="Texture2D" uid="uid://8pudribloklo" path="res://art/remnants/adrenal_injector.png" id="1_h2ab8"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="1_i60a5"]
+[ext_resource type="Texture2D" uid="uid://cda0mi3ooc6k2" path="res://art/remnants/adrenal_icon.png" id="2_1g1ni"]
+
+[resource]
+script = ExtResource("1_i60a5")
+remnant_name = "Remnant of Adrenal Injector"
+description = "Whenever you defeat an enemy, your movement speed increases by $X% for $Y seconds."
+icon = ExtResource("2_1g1ni")
+art = ExtResource("1_h2ab8")
+tags = Array[String](["sci-fi"])
+required_remnants = Array[ExtResource("1_i60a5")]([null])
+variable_names = Array[String](["$X", "$Y"])
+variable_1_values = [4, 8, 12, 16, 20]
+variable_2_values = [0.5, 1.0, 1.5, 2.0, 2.5]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

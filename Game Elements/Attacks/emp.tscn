@@ -1,0 +1,101 @@
+[gd_scene load_steps=7 format=3 uid="uid://cypyrxanbenoa"]
+
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_hxfca"]
+[ext_resource type="Texture2D" uid="uid://bq7mdnm63itf5" path="res://art/attacks/emp.png" id="2_hxfca"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0b5ol"]
+radius = 21.0
+
+[sub_resource type="Animation" id="Animation_2bkad"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:shape:radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [21.0]
+}
+
+[sub_resource type="Animation" id="Animation_rj53r"]
+resource_name = "explode"
+length = 0.75
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.074999996, 0.14999999, 0.22500001, 0.29999998, 0.375, 0.45000002, 0.525, 0.6, 0.675),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:shape:radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0051914407, 0.081371054, 0.16106197, 0.23654361, 0.31164795, 0.38955995, 0.46269625, 0.5350431, 0.60919726, 0.68335146),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [10.0, 53.14, 67.92, 75.51, 68.33, 64.74000000000001, 62.14, 43.77, 16.220000000000002, 0.01]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_svp3b"]
+_data = {
+&"RESET": SubResource("Animation_2bkad"),
+&"explode": SubResource("Animation_rj53r")
+}
+
+[node name="Emp" type="Area2D"]
+z_index = 20
+y_sort_enabled = true
+collision_layer = 8
+collision_mask = 36
+script = ExtResource("1_hxfca")
+speed = 0.0
+damage = 0.0
+lifespan = 0.7
+knockback_force = 0.0
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "emp"
+creates_indicators = false
+animation = "explode"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_0b5ol")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("2_hxfca")
+hframes = 10
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_svp3b")
+}
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

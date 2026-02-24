@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://b0586jtiulsl0"]
+
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="1_2kwc0"]
+[ext_resource type="Texture2D" uid="uid://f40rib2ny5b6" path="res://art/remnants/ninja.png" id="1_81ul4"]
+[ext_resource type="Texture2D" uid="uid://bcmwjpqhrp5l7" path="res://art/remnants/ninja_icon.png" id="2_stv83"]
+
+[resource]
+script = ExtResource("1_2kwc0")
+remnant_name = "Remnant of the Ninja"
+description = "Each successful hit you make increases your damage by $X% up to $Y%. This boost reduces if you don’t make another hit within $Z seconds."
+icon = ExtResource("2_stv83")
+art = ExtResource("1_81ul4")
+tags = Array[String](["sci-fi"])
+variable_names = Array[String](["$X", "$Y", "$Z"])
+variable_1_values = [5, 10, 15, 20, 25]
+variable_2_values = [60, 100, 140, 220, 300]
+variable_3_values = [1, 1.5, 2, 2.5, 3]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

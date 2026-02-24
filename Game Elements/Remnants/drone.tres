@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://b75dkb04247ed"]
+
+[ext_resource type="Texture2D" uid="uid://tnl0n54kl5t3" path="res://art/remnants/drones.png" id="1_7c6hm"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="1_lftu4"]
+[ext_resource type="Texture2D" uid="uid://dghy5gdcg16x0" path="res://art/remnants/drone_icon.png" id="2_bmfae"]
+
+[resource]
+script = ExtResource("1_lftu4")
+remnant_name = "Remnant of Drone Swarm"
+description = "When you kill an enemy, you gain a drone that can block one enemy attack. Your drones will last $X seconds, and you can have up to $Y of them"
+icon = ExtResource("2_bmfae")
+art = ExtResource("1_7c6hm")
+tags = Array[String](["sci-fi"])
+variable_names = Array[String](["$X", "$Y"])
+variable_1_values = [3, 6, 10, 16, 24]
+variable_2_values = [1, 2, 3, 4, 5]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

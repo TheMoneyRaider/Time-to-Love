@@ -1,14 +1,22 @@
 [gd_scene load_steps=4 format=3 uid="uid://b0xynwlx5sgfh"]
 
-[ext_resource type="Script" uid="uid://hkw4267x8wjg" path="res://Game Elements/Attacks/death_mark.gd" id="1_dicqg"]
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_wkxxy"]
 [ext_resource type="Texture2D" uid="uid://ctnpkkr0sjs72" path="res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_purple.png" id="2_wkxxy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e1io4"]
 
-[node name="Death_mark" type="Area2D"]
+[node name="Death_mark" type="Area2D" groups=["attack"]]
+z_index = 10
+y_sort_enabled = true
 collision_mask = 2
 input_pickable = false
-script = ExtResource("1_dicqg")
+script = ExtResource("1_wkxxy")
+speed = 0.0
+damage = 0.0
+lifespan = 10.0
+pierce = -1.0
+wall_collision = false
+attack_type = "death mark"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_e1io4")

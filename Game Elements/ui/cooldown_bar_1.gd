@@ -18,6 +18,11 @@ func set_current_cooldown(cooldown_value : float) -> void:
 	current_cooldown = cooldown_value
 	cooldown_bar.value = max_cooldown - current_cooldown
 
+func set_cooldown_icon(cooldown_icon : Resource):
+	cooldown_bar.texture_under = cooldown_icon
+	cooldown_bar.texture_over = cooldown_icon
+	cooldown_bar.texture_progress = cooldown_icon
+
 func cover_cooldown():
 	if(is_covered):
 		cooldown_bar.tint_over = Color(0.443, 0.443, 0.443, 0.0)

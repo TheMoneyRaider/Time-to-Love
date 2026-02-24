@@ -1,0 +1,152 @@
+[gd_scene load_steps=11 format=3 uid="uid://c7jn6wdb1cywy"]
+
+[ext_resource type="Script" uid="uid://00rnhke2atmb" path="res://Game Elements/Rooms/room_script.gd" id="1_6ajk3"]
+[ext_resource type="Texture2D" uid="uid://dqbv1wbpkmdh1" path="res://art/characters/vision/shop_tentacles_mask.png" id="3_11wsk"]
+[ext_resource type="Script" uid="uid://b7sxco4u77p4o" path="res://Game Elements/Rooms/vision_npc.gd" id="3_anms3"]
+[ext_resource type="Texture2D" uid="uid://nuu5sdshqun3" path="res://art/characters/vision/shop_cracks.png" id="4_7pyre"]
+[ext_resource type="Shader" uid="uid://6ptcob6b1l7e" path="res://Game Elements/Rooms/tentacle_mask.gdshader" id="4_lfc25"]
+[ext_resource type="Texture2D" uid="uid://b8xv6nl2ivrdf" path="res://art/characters/vision/vision_character.png" id="5_anms3"]
+[ext_resource type="PackedScene" uid="uid://cryh3p532bi7" path="res://Game Elements/Objects/tentacle.tscn" id="6_voql5"]
+[ext_resource type="PackedScene" uid="uid://nnb0fsf5jvvd" path="res://Game Elements/Objects/moving_target.tscn" id="7_anms3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_anms3"]
+shader = ExtResource("4_lfc25")
+shader_parameter/hole_mask = ExtResource("3_11wsk")
+shader_parameter/hole_center = Vector2(1, 32)
+shader_parameter/enable = false
+shader_parameter/emerge_height = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lfc25"]
+radius = 25.0
+
+[node name="Shop" type="Node2D"]
+script = ExtResource("1_6ajk3")
+
+[node name="VisionNPC" type="Area2D" parent="."]
+position = Vector2(1, 0)
+script = ExtResource("3_anms3")
+
+[node name="Cracks" type="Sprite2D" parent="VisionNPC"]
+position = Vector2(0, 32)
+texture = ExtResource("4_7pyre")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="VisionNPC"]
+material = SubResource("ShaderMaterial_anms3")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -246.0
+offset_top = -244.0
+offset_right = 266.0
+offset_bottom = 268.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="SubViewport" type="SubViewport" parent="VisionNPC/SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="Tentacle1" parent="VisionNPC/SubViewportContainer/SubViewport" node_paths=PackedStringArray("target") instance=ExtResource("6_voql5")]
+position = Vector2(196, 289)
+target = NodePath("../../../Targets/MovingTarget1")
+num__segments = 26
+max_length = 96.0
+light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
+dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
+
+[node name="Tentacle2" parent="VisionNPC/SubViewportContainer/SubViewport" node_paths=PackedStringArray("target") instance=ExtResource("6_voql5")]
+position = Vector2(210, 298)
+target = NodePath("../../../Targets/MovingTarget2")
+num__segments = 26
+max_length = 96.0
+light_color = Color(0.8063605, 0.49320686, 1, 1)
+dark_color = Color(0.74219275, 0.22175905, 0.99999565, 1)
+
+[node name="Tentacle3" parent="VisionNPC/SubViewportContainer/SubViewport" node_paths=PackedStringArray("target") instance=ExtResource("6_voql5")]
+position = Vector2(227, 312)
+target = NodePath("../../../Targets/MovingTarget3")
+num__segments = 26
+max_length = 96.0
+light_color = Color(1, 0.36862746, 0.3764706, 1)
+dark_color = Color(0.9415628, 0, 0.19590142, 1)
+
+[node name="Tentacle4" parent="VisionNPC/SubViewportContainer/SubViewport" node_paths=PackedStringArray("target") instance=ExtResource("6_voql5")]
+position = Vector2(242, 308)
+target = NodePath("../../../Targets/MovingTarget4")
+num__segments = 26
+max_length = 96.0
+light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
+dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
+
+[node name="Tentacle5" parent="VisionNPC/SubViewportContainer/SubViewport" node_paths=PackedStringArray("target") instance=ExtResource("6_voql5")]
+position = Vector2(261, 312)
+target = NodePath("../../../Targets/MovingTarget5")
+num__segments = 26
+max_length = 96.0
+light_color = Color(0.8063605, 0.49320686, 1, 1)
+dark_color = Color(0.74219275, 0.22175905, 0.99999565, 1)
+
+[node name="Tentacle6" parent="VisionNPC/SubViewportContainer/SubViewport" node_paths=PackedStringArray("target") instance=ExtResource("6_voql5")]
+position = Vector2(280, 310)
+target = NodePath("../../../Targets/MovingTarget6")
+num__segments = 26
+max_length = 96.0
+light_color = Color(1, 0.36862746, 0.3764706, 1)
+dark_color = Color(0.9415628, 0, 0.19590142, 1)
+
+[node name="Tentacle7" parent="VisionNPC/SubViewportContainer/SubViewport" node_paths=PackedStringArray("target") instance=ExtResource("6_voql5")]
+position = Vector2(296, 301)
+target = NodePath("../../../Targets/MovingTarget7")
+num__segments = 26
+max_length = 96.0
+light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
+dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
+
+[node name="Targets" type="Node2D" parent="VisionNPC"]
+
+[node name="MovingTarget1" parent="VisionNPC/Targets" instance=ExtResource("7_anms3")]
+position = Vector2(-63, -34)
+range = 12.0
+speed = 12.0
+
+[node name="MovingTarget2" parent="VisionNPC/Targets" instance=ExtResource("7_anms3")]
+position = Vector2(-44, -55)
+range = 12.0
+speed = 12.0
+
+[node name="MovingTarget3" parent="VisionNPC/Targets" instance=ExtResource("7_anms3")]
+position = Vector2(-22, -74)
+range = 12.0
+speed = 12.0
+
+[node name="MovingTarget4" parent="VisionNPC/Targets" instance=ExtResource("7_anms3")]
+position = Vector2(0, -81)
+range = 12.0
+speed = 12.0
+
+[node name="MovingTarget5" parent="VisionNPC/Targets" instance=ExtResource("7_anms3")]
+position = Vector2(22, -72)
+range = 12.0
+speed = 12.0
+
+[node name="MovingTarget6" parent="VisionNPC/Targets" instance=ExtResource("7_anms3")]
+position = Vector2(44, -55)
+range = 12.0
+speed = 12.0
+
+[node name="MovingTarget7" parent="VisionNPC/Targets" instance=ExtResource("7_anms3")]
+position = Vector2(65, -31)
+range = 12.0
+speed = 12.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VisionNPC"]
+shape = SubResource("CircleShape2D_lfc25")
+
+[node name="Art" type="Sprite2D" parent="VisionNPC"]
+position = Vector2(2, -2)
+texture = ExtResource("5_anms3")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(5, 5)
