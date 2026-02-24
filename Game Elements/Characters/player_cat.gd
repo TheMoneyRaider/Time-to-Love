@@ -35,6 +35,9 @@ var move_speed: float
 var other_player
 var disabled = false
 
+var in_combat = 0
+var time_since_last_hit = 0
+
 var tether_momentum = Vector2.ZERO
 var is_tethered = false
 var tether_gradient
@@ -174,7 +177,10 @@ func _physics_process(delta):
 		emit_signal("special",self)
 	elif Input.is_action_just_released("special_" + input_device):
 		effects += weapons[is_purple as int].use_special(delta, true, (crosshair.position).normalized(), global_position,self)
-		
+	
+	in_combat -= delta
+	if(in_combat > 0):
+		time_since_last_hit += delta
 	adjust_cooldowns(delta)
 	red_flash()
 	if disabled_countdown >= 1:
@@ -226,6 +232,7 @@ func _check_bulwark(damage_amount : float, _dmg_owner : Node, send_damage: bool)
 	return damage_amount
 
 func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 20,creates_indicators : bool = true, bulwark : bool = true):
+	in_combat = 3
 	if(bulwark == false || i_frames <= 0):
 		i_frames = attack_i_frames
 		damage_amount = _check_bulwark(damage_amount, _dmg_owner, bulwark)
@@ -278,9 +285,8 @@ func set_weapon_sprite(weapon : Weapon, f_weapon_node : Node):
 	if weapon.has_animation:
 		f_weapon_node.get_node("AnimationPlayer").play(weapon.sprite_animation)
 	else:
-		f_weapon_node.get_node("AnimationPlayer").play("RESET")
-	
-
+		f_weapon_node.get_node("AnimationPlayer").play("RESET")	
+		
 
 func swap_color():
 	check_forcefield()
@@ -593,6 +599,7 @@ func damage_boost() -> float:
 	var hunter = load("res://Game Elements/Remnants/hunter.tres")
 	var kinetic = load("res://Game Elements/Remnants/kinetic_battery.tres")
 	var ninja = load("res://Game Elements/Remnants/ninja.tres")
+	var assassin = load("res://Game Elements/Remnants/assassin.tres")
 	for rem in remnants:
 		if rem.remnant_name == hunter.remnant_name:
 			var min_dist = 100000
@@ -611,6 +618,8 @@ func damage_boost() -> float:
 				boost *= LayerManager.hud.player1_combo
 			else:
 				boost *= LayerManager.hud.player2_combo
+		if rem.remnant_name == assassin.remnant_name:
+			boost *= (1 + min(time_since_last_hit * rem.variable_1_values[rem.rank-1],rem.variable_2_values[rem.rank-1]) / 100.0)
 	return boost
 
 func change_health(add_to_current : int, add_to_max : int = 0):

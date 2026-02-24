@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://capk22km7pbnf"]
+
+[ext_resource type="Texture2D" uid="uid://dj3qtdaeklu1a" path="res://art/remnants/assassin.png" id="1_6nfao"]
+[ext_resource type="Texture2D" uid="uid://dvkx2uwhvx2e0" path="res://art/remnants/assassin_orb.png" id="2_bw1qb"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_37k0w"]
+
+[resource]
+script = ExtResource("3_37k0w")
+remnant_name = "Remnant of the Assassin"
+description = "Gain $X% damage for every second you don't get  hit in combat. Maximum $Y% increase."
+icon = ExtResource("2_bw1qb")
+art = ExtResource("1_6nfao")
+variable_names = Array[String](["$X", "$Y"])
+variable_1_values = [1, 2, 3, 4, 5]
+variable_2_values = [50, 100, 150, 200, 250]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

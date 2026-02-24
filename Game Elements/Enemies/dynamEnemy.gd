@@ -181,6 +181,8 @@ func take_damage(damage : int, dmg_owner : Node, direction = Vector2(0,-1), atta
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(damage, dmg_owner,direction, attack_body,self)
 	if dmg_owner != null:
 		last_hitter = dmg_owner
+		if dmg_owner.is_in_group("player"):
+			dmg_owner.in_combat = 3
 	_check_on_hit_remnants(dmg_owner, attack_body)
 	
 	if dmg_owner != null and dmg_owner.is_in_group("player"):
