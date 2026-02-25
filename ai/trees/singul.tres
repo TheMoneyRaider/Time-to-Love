@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=80 format=3 uid="uid://b7lkxmyacbk8i"]
+[gd_resource type="BehaviorTree" load_steps=82 format=3 uid="uid://b7lkxmyacbk8i"]
 
 [ext_resource type="Script" uid="uid://dr4vkyorjqaqn" path="res://ai/tasks/getPlayerPos.gd" id="1_3ncdb"]
 [ext_resource type="Script" uid="uid://dgy3vj6nno8qj" path="res://ai/tasks/signul_phase1_spawn.gd" id="2_g4v1g"]
@@ -130,17 +130,25 @@ hit_range = 128
 script = ExtResource("4_halj7")
 num_lasers = 1
 
-[sub_resource type="BTAlwaysSucceed" id="BTAlwaysSucceed_halj7"]
+[sub_resource type="BBVariant" id="BBVariant_igv7k"]
+type = 4
+saved_value = "idle"
+resource_name = "idle"
 
-[sub_resource type="BTDelay" id="BTDelay_halj7"]
-seconds = 15.0
-children = [SubResource("BTAlwaysSucceed_halj7")]
+[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_21cce"]
+property = &"animation"
+check_type = 5
+value = SubResource("BBVariant_igv7k")
+
+[sub_resource type="BTRepeatUntilFailure" id="BTRepeatUntilFailure_gwtri"]
+children = [SubResource("BTCheckAgentProperty_21cce")]
 
 [sub_resource type="BTSequence" id="BTSequence_bhc8s"]
 custom_name = "Attack if in Range"
-children = [SubResource("BTAction_igv7k"), SubResource("BTAction_21cce"), SubResource("BTAction_jjyxl"), SubResource("BTDelay_halj7")]
+children = [SubResource("BTAction_igv7k"), SubResource("BTAction_21cce"), SubResource("BTAction_jjyxl"), SubResource("BTRepeatUntilFailure_gwtri")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_halj7"]
+custom_name = "LaserAttack"
 children = [SubResource("BTSequence_bhc8s")]
 
 [sub_resource type="BTAction" id="BTAction_xh1cj"]
@@ -168,6 +176,7 @@ custom_name = "RobotMeleeAttack"
 children = [SubResource("BTAction_xh1cj"), SubResource("BTAction_14tjq"), SubResource("BTAction_6u0pp"), SubResource("BTDelay_r2p06")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_6ypd5"]
+custom_name = "MeleeAttack"
 children = [SubResource("BTSequence_6ypd5")]
 
 [sub_resource type="BTAction" id="BTAction_qh4k4"]
@@ -197,6 +206,8 @@ resource_name = "2"
 property = &"phase"
 value = SubResource("BBVariant_bhc8s")
 
+[sub_resource type="BTAlwaysFail" id="BTAlwaysFail_jjyxl"]
+
 [sub_resource type="BTAction" id="BTAction_gwtri"]
 script = ExtResource("3_halj7")
 min_time = 8.0
@@ -206,16 +217,11 @@ max_time = 16.0
 script = ExtResource("8_qh4k4")
 
 [sub_resource type="BTSequence" id="BTSequence_53541"]
-children = [SubResource("BTAction_gwtri"), SubResource("BTAction_ykgfq")]
+children = [SubResource("BTAlwaysFail_jjyxl"), SubResource("BTAction_gwtri"), SubResource("BTAction_ykgfq")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_xh1cj"]
 custom_name = "Spawn Binary Bots"
 children = [SubResource("BTSequence_53541")]
-
-[sub_resource type="BTAction" id="BTAction_6ypd5"]
-script = ExtResource("3_halj7")
-min_time = 9.0
-max_time = 18.0
 
 [sub_resource type="BTAction" id="BTAction_p0wll"]
 custom_name = "InnerRange"
@@ -226,24 +232,27 @@ hit_range = 128
 script = ExtResource("4_halj7")
 num_lasers = 10
 
-[sub_resource type="BTAlwaysSucceed" id="BTAlwaysSucceed_26h7x"]
+[sub_resource type="BBVariant" id="BBVariant_gwtri"]
+type = 4
+saved_value = "idle"
+resource_name = "idle"
 
-[sub_resource type="BTDelay" id="BTDelay_ctenn"]
-seconds = 15.0
-children = [SubResource("BTAlwaysSucceed_26h7x")]
+[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_bhc8s"]
+property = &"animation"
+check_type = 5
+value = SubResource("BBVariant_gwtri")
+
+[sub_resource type="BTRepeatUntilFailure" id="BTRepeatUntilFailure_jnv2x"]
+children = [SubResource("BTCheckAgentProperty_bhc8s")]
 
 [sub_resource type="BTSequence" id="BTSequence_7ub6e"]
 custom_name = "Attack if in Range"
-children = [SubResource("BTAction_6ypd5"), SubResource("BTAction_p0wll"), SubResource("BTAction_xhkwo"), SubResource("BTDelay_ctenn")]
+children = [SubResource("BTAction_p0wll"), SubResource("BTAction_xhkwo"), SubResource("BTRepeatUntilFailure_jnv2x")]
 
-[sub_resource type="BTCooldown" id="BTCooldown_qmnkv"]
+[sub_resource type="BTProbability" id="BTProbability_jjyxl"]
+run_chance = 1.0
 custom_name = "Ultra Laser"
 children = [SubResource("BTSequence_7ub6e")]
-
-[sub_resource type="BTAction" id="BTAction_qm4ax"]
-script = ExtResource("3_halj7")
-min_time = 6.0
-max_time = 10.0
 
 [sub_resource type="BTAction" id="BTAction_o27n4"]
 custom_name = "InnerRange"
@@ -262,13 +271,14 @@ children = [SubResource("BTAction_nd6h3")]
 
 [sub_resource type="BTSequence" id="BTSequence_7isj3"]
 custom_name = "RobotMeleeAttack"
-children = [SubResource("BTAction_qm4ax"), SubResource("BTAction_o27n4"), SubResource("BTAction_x2e5o"), SubResource("BTDelay_377jo")]
+children = [SubResource("BTAction_o27n4"), SubResource("BTAction_x2e5o"), SubResource("BTDelay_377jo")]
 
-[sub_resource type="BTCooldown" id="BTCooldown_8rwqh"]
+[sub_resource type="BTProbability" id="BTProbability_igv7k"]
+run_chance = 0.25
 custom_name = "Melee Attack"
 children = [SubResource("BTSequence_7isj3")]
 
-[sub_resource type="BTFail" id="BTFail_jjyxl"]
+[sub_resource type="BTAlwaysFail" id="BTAlwaysFail_igv7k"]
 
 [sub_resource type="BTAction" id="BTAction_bhc8s"]
 custom_name = "OuterRange"
@@ -289,7 +299,12 @@ script = ExtResource("5_halj7")
 
 [sub_resource type="BTSequence" id="BTSequence_ykgfq"]
 custom_name = "Charge"
-children = [SubResource("BTFail_jjyxl"), SubResource("BTAction_bhc8s"), SubResource("BTAction_jnv2x"), SubResource("BTAction_vpiw0"), SubResource("BTAction_eeyes")]
+children = [SubResource("BTAlwaysFail_igv7k"), SubResource("BTAction_bhc8s"), SubResource("BTAction_jnv2x"), SubResource("BTAction_vpiw0"), SubResource("BTAction_eeyes")]
+
+[sub_resource type="BTProbability" id="BTProbability_21cce"]
+run_chance = 0.25
+custom_name = "Charge"
+children = [SubResource("BTSequence_ykgfq")]
 
 [sub_resource type="BTAction" id="BTAction_swuqo"]
 script = ExtResource("6_qh4k4")
@@ -303,7 +318,7 @@ children = [SubResource("BTAction_swuqo"), SubResource("BTAction_53541")]
 
 [sub_resource type="BTSelector" id="BTSelector_14tjq"]
 custom_name = "Tree"
-children = [SubResource("BTCooldown_xh1cj"), SubResource("BTCooldown_qmnkv"), SubResource("BTCooldown_8rwqh"), SubResource("BTSequence_ykgfq"), SubResource("BTSequence_xh1cj")]
+children = [SubResource("BTCooldown_xh1cj"), SubResource("BTProbability_jjyxl"), SubResource("BTProbability_igv7k"), SubResource("BTProbability_21cce"), SubResource("BTSequence_xh1cj")]
 
 [sub_resource type="BTSequence" id="BTSequence_6u0pp"]
 custom_name = "Phase3"

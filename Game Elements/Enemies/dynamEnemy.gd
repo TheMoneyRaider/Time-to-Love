@@ -362,7 +362,7 @@ func boss_signal(sig :String, value1, value2):
 func clear_effects():
 	for effect in effects:
 		effect.lost(self)
-
+var animation = ""
 
 func _draw():
 	if !debug_mode:

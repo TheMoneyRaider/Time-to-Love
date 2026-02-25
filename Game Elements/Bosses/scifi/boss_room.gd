@@ -140,6 +140,7 @@ func scifi_phase2_to_3():
 	boss.get_node("AnimationTree").active = true
 	boss.get_node("AnimationPlayer").active = true
 	await get_tree().create_timer(2, false).timeout
+	animation_change("idle")
 	phase = 2
 	boss.phase = 2
 	Hud.show_boss_bar(healthbar_underlays[phase],healthbar_overlays[phase],boss_names[phase],boss_name_settings[phase],phase_overlay_index[phase])
@@ -328,11 +329,21 @@ func boss_animation():
 			"basic_laser":
 				var gun = boss.get_node("Segments/GunParts")
 				gun.rotation = lerp_angle(gun.rotation, (track_position - boss.global_position).angle(), 0.03)
+			"ultra_laser":
+				var count = 0
+				for child in boss.get_node("Segments/Rims").get_children():
+					count+=1
+					var angle = 45 *count+current_rotation
+					var new_position =Vector2.UP.rotated(deg_to_rad(angle)) * (32 +sin(lifetime*count/3)*2)
+					child.get_node("RimVis").global_position = new_position + boss.global_position
+					child.get_node("RimVis").global_rotation = deg_to_rad(angle - 224)
+
 var resetting = 0
 
 func animation_change(new_anim: String) -> void:
 	animation_reset()
 	animation = new_anim
+	boss.animation = new_anim
 
 func animation_reset() -> void:
 	var rims = boss.get_node("Segments/Rims")
@@ -341,18 +352,21 @@ func animation_reset() -> void:
 		rimvis.position = Vector2.ZERO
 		rimvis.rotation = 0
 
+var current_rotation = 0.0
 func scifi_laser_attack(num_lasers):
-	if !basic_laser_legal():
+	if !laser_legal():
 		return
 	print("LASEEERRRRRRR")
+	print(num_lasers)
 	if num_lasers > 1:
 		animation_change("laser_ultra")
 	else:
 		animation_change("basic_laser")
-	boss.get_node("AnimationTree").set("parameters/conditions/laser_basic",true)
-	await get_tree().create_timer(3.0, false).timeout
+	if num_lasers == 1:
+		boss.get_node("AnimationTree").set("parameters/conditions/laser_basic",true)
+		await get_tree().create_timer(3.0, false).timeout
 	boss.get_node("AnimationTree").set("parameters/conditions/laser_basic",false)
-	if !basic_laser_legal():
+	if !laser_legal():
 		return
 	
 	var gun = boss.get_node("Segments/GunParts")
@@ -378,29 +392,68 @@ func scifi_laser_attack(num_lasers):
 	idle_timer.one_shot = true
 	add_child(idle_timer)
 	idle_timer.start()
-	while idle_timer.time_left > 0 and basic_laser_legal():
+	
+	var angular_velocity := 0.0
+	current_rotation = 0
+	var max_speed := 1.0        # radians per second (tweak)
+	var accel_time := 2.0
+	var hold_time := 8.0
+	var decel_time := 2.0
+
+	var total_time := 0.0
+	
+	
+	while idle_timer.time_left > 0 and laser_legal():
 		if num_lasers == 1:
 			track_position = player1.global_position if is_purple else player2.global_position
 			if inst:
 				# Update laser direction
 				inst.direction = Vector2.RIGHT.rotated(gun.rotation)
-				inst.global_position = boss.global_position
 				inst.l_rotation = rad_to_deg(gun.rotation)
 				inst._update_laser_collision_shapes()
 				#Update shader
 				var s_material = LayerManager.get_node("game_container").material
 				s_material.set_shader_parameter("laser_rotation",inst.l_rotation)
-				s_material.set_shader_parameter("laser_impact_world_pos",inst.global_position)
+		else:
+			var delta := get_process_delta_time()
+			total_time += delta
+
+			# Phase 1: Accelerate
+			if total_time < accel_time:
+				var t := total_time / accel_time
+				angular_velocity = lerp(0.0, max_speed, t)
+
+			# Phase 2: Constant speed
+			elif total_time < accel_time + hold_time:
+				angular_velocity = max_speed
+
+			# Phase 3: Decelerate
+			elif total_time < accel_time + hold_time + decel_time:
+				var t := (total_time - accel_time - hold_time) / decel_time
+				angular_velocity = lerp(max_speed, 0.0, t)
+
+			# Done
+			else:
+				angular_velocity = 0.0
+
+			# Apply rotation
+			current_rotation += angular_velocity * delta
+			inst.l_rotation = rad_to_deg(current_rotation)
+			inst._update_laser_collision_shapes()
+			#Update shader
+			var s_material = LayerManager.get_node("game_container").material
+			s_material.set_shader_parameter("laser_rotation",inst.l_rotation)
+			
 		if get_tree():
 			await get_tree().process_frame
 	if inst and is_instance_valid(inst):
 		inst.queue_free()
-	if basic_laser_legal():
+	if laser_legal():
 		animation_change("idle")
 	
 	
-func basic_laser_legal():
-	if phase != 1 or phase_changing:
+func laser_legal():
+	if phase_changing:
 		return false
 	return true
 	
@@ -418,11 +471,17 @@ func activate(camera_in : Node, player1_in : Node, player2_in : Node):
 		bt_player.blackboard.set_var("attack_mode", "DISABLED")
 	#return
 	player1.disabled = true
+	player1.input_direction = Vector2.UP
+	player1.update_animation_parameters(player1.input_direction)
+	player1.update_animation_parameters(Vector2.ZERO)
 	print(player1.disabled)
 	print(player1)
 	if is_multiplayer:
 		player2 = player2_in
 		player2.disabled = true
+		player2.input_direction = Vector2.UP
+		player2.update_animation_parameters(player2.input_direction)
+		player2.update_animation_parameters(Vector2.ZERO)
 	Hud =LayerManager.hud
 	LayerManager.BossIntro.get_node("BossName").text = boss_name
 	LayerManager.BossIntro.get_node("Boss").texture = boss_splash_art
