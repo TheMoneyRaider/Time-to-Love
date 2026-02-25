@@ -568,6 +568,6 @@ FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type
 0,																																#NPC Spawnpoints   
 Globals.RoomType.Combat,
 Globals.RoomVariant.MedOut,																															#Is a shop room?
-["res://Game Elements/Characters/dynamEnemy.tscn"],																				#Enemies That can spawn in this room
+["res://Game Elements/Characters/archer.tscn"],																				#Enemies That can spawn in this room
 [1.0],																															#Weights for those enemies to spawn
 0)

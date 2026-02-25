@@ -7,12 +7,13 @@ this is like declaring/setting a global variable named "pos"
 "agent" referes to the root node this BT is under, 
 in our case the characterbody2d
 """
-const recalc_distance_threshold: float = 48.0
+var recalc_distance_threshold: float = 48.0
 @export var player_idx: String = "player_idx"
+@export var player_positions: String = "player_positions"
 
 func _tick(_delta: float) -> Status: 
 	# takes the random pos determined b4 in "chooseRadnomPos, and moves to it, simple as 
-	
+	var positions = blackboard.get_var(player_positions)
 	var path: Array = blackboard.get_var("path", [])
 	var waypoint_index: int = blackboard.get_var("waypoint_index", 0)
 	var path_target_pos: Vector2 = blackboard.get_var("target_pos", Vector2.ZERO)
@@ -24,7 +25,9 @@ func _tick(_delta: float) -> Status:
 		waypoint_index = skip_waypoints_behind(path, 0)
 		blackboard.set_var("waypoint_index", waypoint_index)
 		blackboard.set_var("path_recalculated", false)
-			
+	
+	if(blackboard.get_var("target_type") == 1):
+		recalc_distance_threshold = recalc_distance_threshold + 20		
 	if current_player_pos != Vector2.ZERO and path_target_pos != Vector2.ZERO and blackboard.get_var("state")=="agro":
 		var player_moved_distance = path_target_pos.distance_to(current_player_pos)
 		
