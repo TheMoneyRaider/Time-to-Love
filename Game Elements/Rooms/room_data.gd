@@ -538,14 +538,15 @@ var testing_room : Room = room.Create_Room(
 randi(),																														#Noise Seed           
 FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type       
 .1,																																#Noise Frequency                        
-2,																																#Num Traps              
-[.5, .5],																																#Trap Chances                                
-[Globals.Trap.Tile, Globals.Trap.Tile],																																#Trap Types                         
-4,																																#Num Pathways                   
-[Globals.Direction.Up,Globals.Direction.Right,Globals.Direction.Left, Globals.Direction.Down],									#Pathway Directions                       
-10,																																#Enemy Num Goal                               
+0,																																#Num Traps              
+[],																																#Trap Chances                                
+[],																																#Trap Types                         
+2,																																#Num Pathways                   
+[Globals.Direction.Up,Globals.Direction.Down],									#Pathway Directions                       
+0,																																#Enemy Num Goal                               
 0,																																#NPC Spawnpoints   
-false,																															#Is a shop room?
-["res://Game Elements/Characters/dynamEnemy.tscn"],																				#Enemies That can spawn in this room
-[1.0],																															#Weights for those enemies to spawn
-.25)																															#Chance for waves to be segmented
+Globals.RoomType.Buffer,																										#RoomType
+Globals.RoomVariant.MedOut,																							#RoomVariant
+[],																				#Enemies That can spawn in this room
+[],																															#Weights for those enemies to spawn
+0.0)

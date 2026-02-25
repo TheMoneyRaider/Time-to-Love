@@ -35,8 +35,6 @@ func _ready():
 	combo2.visible = false
 	LeftCooldownBar.get_node("CooldownBar").material =LeftCooldownBar.get_node("CooldownBar").material.duplicate(true)
 	RightCooldownBar.get_node("CooldownBar").material =RightCooldownBar.get_node("CooldownBar").material.duplicate(true)
-
-func _ready():
 	load_settings()
 	display_debug_setting_header()
 	

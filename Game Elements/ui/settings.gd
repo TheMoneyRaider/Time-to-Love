@@ -15,7 +15,7 @@ func load_settings():
 		$MarginContainer/VBoxContainer/Volume/Volume.value = Globals.config.get_value("audio", "master", 100)
 		Globals.player1_input = Globals.config.get_value("inputs","player1_input", "key")
 		Globals.player2_input = Globals.config.get_value("inputs","player2_input", "0")
-    mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
+		mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
 		print(Globals.config.get_value("debug", "enabled", false))
 		debug_mode = Globals.config.get_value("debug", "enabled", false)
 		$MarginContainer/VBoxContainer/Volume/Volume.value = Globals.config.get_value("audio", "master", 100)

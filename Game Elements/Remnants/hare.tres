@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://c0udqo6ftwbrs"]
+
+[ext_resource type="Texture2D" uid="uid://cbv1lm8fdqahe" path="res://art/remnants/hare.png" id="1_8rr8o"]
+[ext_resource type="Texture2D" uid="uid://c6wj4cbvpuce3" path="res://art/remnants/hare_icon.png" id="2_6ti52"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_71ycc"]
+
+[resource]
+script = ExtResource("3_71ycc")
+remnant_name = "Remnant of the Hare"
+description = "$X% speed boost for the first 10 seconds of each room"
+icon = ExtResource("2_6ti52")
+art = ExtResource("1_8rr8o")
+variable_names = Array[String](["$X"])
+variable_1_values = [20, 40, 60, 80, 100]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

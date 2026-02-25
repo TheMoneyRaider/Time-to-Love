@@ -64,6 +64,8 @@ var remnant_offer_popup
 var remnant_upgrade_popup
 #The total time of this run
 var time_passed := 0.0
+# time spent in room
+var time_in_room := 0.0
 var trap_cells := []
 var blocked_cells := []
 var liquid_cells : Array[Array]= [[],[],[],[],[],[],[],[],[],[]]
@@ -150,6 +152,10 @@ func _ready() -> void:
 	#rem.rank = 4
 	#player_1_remnants.append(rem.duplicate(true))
 	#player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/hare.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
 	
 	
 	player1.display_combo()
@@ -198,6 +204,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	
 	time_passed += delta
+	time_in_room += delta
+	
 	if !camera_override:
 		if is_multiplayer:
 			camera.global_position = (player1.global_position + player2.global_position) / 2 +camera.get_cam_offset(delta)
@@ -291,7 +299,7 @@ func create_new_rooms() -> void:
 	# Start async generation thread
 	thread_running = true
 	room_gen_thread = Thread.new()
-	room_gen_thread.start(_thread_generate_rooms.bind(bosses, room_instance_data)) #TODO change this to be based on layer ish
+	room_gen_thread.start(_thread_generate_rooms.bind(sci_fi_layer, room_instance_data)) #TODO change this to be based on layer ish
 
 func update_ai_array(generated_room : Node2D, generated_room_data : Room) -> void:
 	#Rooms cleared
@@ -1231,6 +1239,8 @@ func _finalize_room_creation(next_room_instance: Node2D, next_room_data: Room, d
 	_choose_reward(pathway_detect.name)
 	
 func _move_to_pathway_room(pathway_id: String) -> void:
+	time_in_room = 0
+	
 	var shido1 = 0.0
 	var shido2 = 0.0
 	var player1_ranked_up : Array[String] = []
@@ -1255,7 +1265,27 @@ func _move_to_pathway_room(pathway_id: String) -> void:
 				player2_ranked_up.append(rem.remnant_name)
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants,player1_ranked_up,player2_ranked_up)
 		
-	
+	for rem in player_1_remnants:
+		if rem.remnant_name == "Remnant of the Hare":
+			var effect = load("res://Game Elements/Effects/speed.tres")
+			effect.cooldown = 10
+			effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
+			effect.gained(player1)
+			player1.effects.append(effect)
+	for rem in player_2_remnants:
+		if rem.remnant_name == "Remnant of the Hare":
+			var effect = load("res://Game Elements/Effects/speed.tres")
+			effect.cooldown = 10
+			effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
+			if is_multiplayer:
+				print("multiplayer application")
+				effect.gained(player2)
+				player2.effects.append(effect)
+			else:
+				print("singleplayer application")
+				effect.gained(player1)
+				player1.effects.append(effect)
+			print("applied to player 2")
 	
 	if not generated_rooms.has(pathway_id):
 		push_warning("No linked room for pathway " + pathway_id)
