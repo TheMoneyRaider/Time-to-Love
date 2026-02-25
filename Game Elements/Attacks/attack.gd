@@ -401,7 +401,7 @@ func _update_laser_collision_shapes():
 		# rotate
 		shape.rotation = deg_to_rad(beam_angle)
 func _wave_process():
-	$CollisionShape2D.shape.radius = life/lifespan * wave_attack_dist
+	$CollisionShape2D.shape.radius = clamp(life/lifespan * wave_attack_dist - 48,0,1000000)
 	var s_material = LayerManager.get_node("game_container").material
 	s_material.set_shader_parameter("camera_center", LayerManager.camera.get_screen_center_position())
 	
@@ -431,7 +431,7 @@ func resume_shaders():
 		laser_differential+= Time.get_ticks_msec() / 1000.0 - pause_moment
 		s_material.set_shader_parameter("laser_differential", laser_differential)
 		
-var wave_attack_dist = 1000.0
+var wave_attack_dist = 2000.0
 func _wave_attack_setup():
 	$CollisionShape2D.call_deferred("set", "shape", $CollisionShape2D.shape.duplicate(true))
 	var s_material = LayerManager.get_node("game_container").material

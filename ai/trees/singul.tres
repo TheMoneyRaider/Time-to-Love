@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=66 format=3 uid="uid://b7lkxmyacbk8i"]
+[gd_resource type="BehaviorTree" load_steps=65 format=3 uid="uid://b7lkxmyacbk8i"]
 
 [ext_resource type="Script" uid="uid://dr4vkyorjqaqn" path="res://ai/tasks/getPlayerPos.gd" id="1_3ncdb"]
 [ext_resource type="Script" uid="uid://dgy3vj6nno8qj" path="res://ai/tasks/signul_phase1_spawn.gd" id="2_g4v1g"]
@@ -197,8 +197,6 @@ resource_name = "2"
 variable = &"phase"
 value = SubResource("BBVariant_igv7k")
 
-[sub_resource type="BTAlwaysFail" id="BTAlwaysFail_jjyxl"]
-
 [sub_resource type="BTAction" id="BTAction_gwtri"]
 script = ExtResource("3_halj7")
 min_time = 8.0
@@ -250,7 +248,7 @@ children = [SubResource("BTCooldown_xh1cj"), SubResource("BTSequence_ykgfq"), Su
 
 [sub_resource type="BTSequence" id="BTSequence_6u0pp"]
 custom_name = "Phase3"
-children = [SubResource("BTCheckVar_21cce"), SubResource("BTAlwaysFail_jjyxl"), SubResource("BTSelector_14tjq")]
+children = [SubResource("BTCheckVar_21cce"), SubResource("BTSelector_14tjq")]
 
 [sub_resource type="BTSelector" id="BTSelector_mrfvi"]
 custom_name = "Phases"

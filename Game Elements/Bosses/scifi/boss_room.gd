@@ -96,10 +96,8 @@ func scifi_phase2_to_3():
 	#Cleanup possible laser
 	var s_material = LayerManager.get_node("game_container").material
 	s_material.set_shader_parameter("laser_impact_time", -2)
-	#Disable animation system
-	boss.get_node("AnimationTree").active = false
-	boss.get_node("AnimationPlayer").active = false
-	boss.get_node("BTPlayer").active = false
+	
+	var anim_player = boss.get_node("AnimationPlayer")
 	#Explode boss
 	for child in boss.get_node("Segments").get_children():
 		if child.name != "GunParts" and child.name != "Rims":
@@ -110,6 +108,15 @@ func scifi_phase2_to_3():
 
 	for child in boss.get_node("Segments/Rims").get_children():
 		explode_segment(child)
+		
+	#Disable animation system
+	boss.get_node("AnimationTree").active = false
+	boss.get_node("AnimationPlayer").active = false
+	boss.get_node("BTPlayer").active = false
+	
+	
+	
+	
 	await get_tree().create_timer(3, false).timeout
 
 	if phase_changing:
@@ -128,7 +135,11 @@ func scifi_phase2_to_3():
 	var tween = create_tween()
 	tween.parallel().tween_property(LayerManager.hud.get_node("RootControl"),"modulate",Color(1.0,1.0,1.0,0.0),3.0)
 	tween.parallel().tween_property(LayerManager.awareness_display,"modulate",Color(1.0,1.0,1.0,0.0),3.0)
-	await get_tree().create_timer(8, false).timeout
+	
+	await get_tree().create_timer(2, false).timeout
+	boss.get_node("AnimationTree").active = true
+	boss.get_node("AnimationPlayer").active = true
+	await get_tree().create_timer(6, false).timeout
 	Hud.show_boss_bar(healthbar_underlays[phase],healthbar_overlays[phase],boss_names[phase],boss_name_settings[phase],phase_overlay_index[phase])
 	Hud.update_bossbar(1.0)
 	$Ground.visible = false
@@ -136,22 +147,11 @@ func scifi_phase2_to_3():
 	$Ground_Cyber.visible = true
 	$ColorRect.visible = true
 	$Filling_Cyber.visible = true
-	#Disable boss part physics
-	for child in boss.get_node("Segments").get_children():
-		if child.name != "GunParts" and child.name != "Rims":
-			child.start_rewind(3.0)
-	for child in boss.get_node("Segments/GunParts").get_children():
-			child.start_rewind(3.0)
-	for child in boss.get_node("Segments/Rims").get_children():
-			child.start_rewind(3.0)
+	boss.get_node("BTPlayer").active = true
+	boss.get_node("BTPlayer").blackboard.set_var("phase", phase)
 
 	await get_tree().create_timer(5, false).timeout
 	var tween2 = create_tween()
-	
-	boss.get_node("AnimationTree").active = true
-	boss.get_node("AnimationPlayer").active = true
-	boss.get_node("BTPlayer").active = true
-	boss.get_node("BTPlayer").blackboard.set_var("phase", phase)
 	
 	#Fully bring back boss
 	phase_changing = false
