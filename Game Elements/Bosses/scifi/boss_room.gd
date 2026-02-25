@@ -58,6 +58,7 @@ func scifi_phase1_to_2():
 	var tween = create_tween()
 	tween.tween_property($Forcefield,"modulate",Color(1.0,1.0,1.0,0.0),1.0)
 	await tween.finished
+	update_art(2)
 	boss.get_node("AnimationTree").set("parameters/conditions/idle",true)
 	print(boss.get_node("AnimationTree").get("parameters/conditions/idle"))
 	await get_tree().create_timer(3.0, false).timeout
@@ -137,6 +138,7 @@ func scifi_phase2_to_3():
 	tween.parallel().tween_property(LayerManager.awareness_display,"modulate",Color(1.0,1.0,1.0,0.0),3.0)
 	
 	await get_tree().create_timer(1, false).timeout
+	update_art(3)
 	boss.get_node("AnimationTree").active = true
 	boss.get_node("AnimationPlayer").active = true
 	await get_tree().create_timer(2, false).timeout
@@ -145,8 +147,8 @@ func scifi_phase2_to_3():
 	boss.phase = 2
 	Hud.show_boss_bar(healthbar_underlays[phase],healthbar_overlays[phase],boss_names[phase],boss_name_settings[phase],phase_overlay_index[phase])
 	Hud.update_bossbar(1.0)
-	boss.get_node("BTPlayer").active = true
 	await get_tree().create_timer(1, false).timeout
+	boss.get_node("BTPlayer").active = true
 	$Ground.visible = false
 	$Filling.visible = false
 	$Ground_Cyber.visible = true
@@ -199,6 +201,8 @@ func _process(delta: float) -> void:
 	if animation!= "" and boss and is_instance_valid(boss):
 		boss_animation()
 	scifi_binary_process(delta)
+	if !boss or !is_instance_valid(boss):
+		deactivate()
 
 func finish_intro():
 	player1.disabled = false
@@ -347,14 +351,16 @@ var resetting = 0
 func animation_change(new_anim: String) -> void:
 	animation_reset()
 	animation = new_anim
-	boss.animation = new_anim
+	if boss:
+		boss.animation = new_anim
 
 func animation_reset() -> void:
-	var rims = boss.get_node("Segments/Rims")
-	for rim in rims.get_children():
-		var rimvis = rim.get_node("RimVis")
-		rimvis.position = Vector2.ZERO
-		rimvis.rotation = 0
+	if boss:
+		var rims = boss.get_node("Segments/Rims")
+		for rim in rims.get_children():
+			var rimvis = rim.get_node("RimVis")
+			rimvis.position = Vector2.ZERO
+			rimvis.rotation = 0
 
 var current_rotation = 0.0
 func scifi_laser_attack(num_lasers):
@@ -440,13 +446,14 @@ func scifi_laser_attack(num_lasers):
 			else:
 				angular_velocity = 0.0
 
-			# Apply rotation
-			current_rotation += angular_velocity * delta
-			inst.l_rotation = rad_to_deg(current_rotation)
-			inst._update_laser_collision_shapes()
-			#Update shader
-			var s_material = LayerManager.get_node("game_container").material
-			s_material.set_shader_parameter("laser_rotation",inst.l_rotation)
+			if inst:
+				# Apply rotation
+				current_rotation += angular_velocity * delta
+				inst.l_rotation = rad_to_deg(current_rotation)
+				inst._update_laser_collision_shapes()
+				#Update shader
+				var s_material = LayerManager.get_node("game_container").material
+				s_material.set_shader_parameter("laser_rotation",inst.l_rotation)
 			
 		if get_tree():
 			await get_tree().create_timer(0.0, false).timeout
@@ -568,6 +575,31 @@ func laser_legal():
 	if phase_changing:
 		return false
 	return true
+	
+	
+	
+func update_art(p_in : int):
+	randomize()
+	for child in boss.get_node("Segments").get_children():
+		if child.name != "GunParts" and child.name != "Rims":
+			child.material.set_shader_parameter("phase",p_in)
+			child.material.set_shader_parameter("time_offset",Time.get_ticks_msec() / 1000.0+randf_range(1,1.5))
+
+	for child in boss.get_node("Segments/GunParts").get_children():
+		child.material.set_shader_parameter("phase",p_in)
+		child.material.set_shader_parameter("time_offset",Time.get_ticks_msec() / 1000.0+randf_range(1,1.5))
+
+	for child in boss.get_node("Segments/Rims").get_children():
+		child.get_node("RimVis").material.set_shader_parameter("phase",p_in)
+		child.get_node("RimVis").material.set_shader_parameter("time_offset",Time.get_ticks_msec() / 1000.0+randf_range(1,1.5))
+	
+
+func deactivate():
+	for node in get_children():
+		if node.is_in_group("pathway"):
+			node.enable_pathway()
+	active=false
+	Hud.hide_boss_bar()
 	
 
 

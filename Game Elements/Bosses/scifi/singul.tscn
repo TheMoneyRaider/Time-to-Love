@@ -1,9 +1,13 @@
-[gd_scene load_steps=21 format=3 uid="uid://bhgu6yah6ehqe"]
+[gd_scene load_steps=26 format=3 uid="uid://bhgu6yah6ehqe"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_lfybw"]
 [ext_resource type="Texture2D" uid="uid://b37xkqm1lpnrs" path="res://Game Elements/Bosses/scifi/signul_spritesheet.png" id="3_62gcm"]
 [ext_resource type="BehaviorTree" uid="uid://b7lkxmyacbk8i" path="res://ai/trees/singul.tres" id="3_lhrfr"]
 [ext_resource type="Script" uid="uid://b31k3fuuescdm" path="res://Game Elements/Bosses/scifi/part_physics.gd" id="4_jsyf7"]
+[ext_resource type="Shader" uid="uid://cu2sewlscc8g0" path="res://Game Elements/Bosses/scifi/signul_parts.gdshader" id="4_lhrfr"]
+[ext_resource type="Texture2D" uid="uid://bqovc2e53avq3" path="res://Game Elements/Bosses/scifi/signul_p1.png" id="5_bsd4e"]
+[ext_resource type="Texture2D" uid="uid://bmvxj83pxbbkw" path="res://Game Elements/Bosses/scifi/signul_p2.png" id="6_dt0fi"]
+[ext_resource type="Texture2D" uid="uid://5d61dyq7b0g4" path="res://Game Elements/Bosses/scifi/signul_p3.png" id="7_31xe5"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_76eou"]
 radius = 16.0
@@ -2439,6 +2443,16 @@ var/state/value = "agro"
 var/state/hint = 0
 var/state/hint_string = ""
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bsd4e"]
+shader = ExtResource("4_lhrfr")
+shader_parameter/phase = 0
+shader_parameter/p1 = ExtResource("5_bsd4e")
+shader_parameter/p2 = ExtResource("6_dt0fi")
+shader_parameter/p3 = ExtResource("7_31xe5")
+shader_parameter/time_offset = 0.0
+shader_parameter/frame = 0
+shader_parameter/blend_width = 0.05
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_62gcm"]
 animation = &"dead"
 
@@ -2566,6 +2580,7 @@ frame = 4
 z_index = -5
 
 [node name="Eye" type="Sprite2D" parent="Segments"]
+material = SubResource("ShaderMaterial_bsd4e")
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("3_62gcm")
 hframes = 8
@@ -2574,6 +2589,7 @@ script = ExtResource("4_jsyf7")
 
 [node name="2" type="Sprite2D" parent="Segments/Eye"]
 z_index = -1
+material = SubResource("ShaderMaterial_bsd4e")
 scale = Vector2(0.95, 0.95)
 texture = ExtResource("3_62gcm")
 hframes = 8
@@ -2582,6 +2598,7 @@ frame = 1
 
 [node name="3" type="Sprite2D" parent="Segments/Eye"]
 z_index = -1
+material = SubResource("ShaderMaterial_bsd4e")
 texture = ExtResource("3_62gcm")
 hframes = 8
 vframes = 8
@@ -2589,6 +2606,7 @@ frame = 3
 
 [node name="Plate" type="Sprite2D" parent="Segments"]
 z_index = -2
+material = SubResource("ShaderMaterial_bsd4e")
 position = Vector2(1.1920929e-07, -16)
 rotation = -0.16231562
 texture = ExtResource("3_62gcm")
@@ -2599,6 +2617,7 @@ script = ExtResource("4_jsyf7")
 
 [node name="Plate2" type="Sprite2D" parent="Segments"]
 z_index = -2
+material = SubResource("ShaderMaterial_bsd4e")
 position = Vector2(11, -3.000001)
 rotation = 0.97563905
 texture = ExtResource("3_62gcm")
@@ -2609,6 +2628,7 @@ script = ExtResource("4_jsyf7")
 
 [node name="Plate3" type="Sprite2D" parent="Segments"]
 z_index = -2
+material = SubResource("ShaderMaterial_bsd4e")
 position = Vector2(-14.000001, -3.0000005)
 rotation = 1.8430676
 texture = ExtResource("3_62gcm")
@@ -2619,6 +2639,7 @@ script = ExtResource("4_jsyf7")
 
 [node name="Plate4" type="Sprite2D" parent="Segments"]
 z_index = -2
+material = SubResource("ShaderMaterial_bsd4e")
 position = Vector2(-6.999999, 7.999999)
 rotation = 0.4886922
 texture = ExtResource("3_62gcm")
@@ -2629,6 +2650,7 @@ script = ExtResource("4_jsyf7")
 
 [node name="Plate5" type="Sprite2D" parent="Segments"]
 z_index = -2
+material = SubResource("ShaderMaterial_bsd4e")
 position = Vector2(5.000001, 8.999998)
 rotation = -0.59515727
 texture = ExtResource("3_62gcm")
@@ -2641,6 +2663,7 @@ script = ExtResource("4_jsyf7")
 
 [node name="Plate_Other" type="Sprite2D" parent="Segments/GunParts"]
 z_index = -3
+material = SubResource("ShaderMaterial_bsd4e")
 position = Vector2(-10.000001, -13)
 rotation = -0.59515727
 texture = ExtResource("3_62gcm")
@@ -2651,6 +2674,7 @@ script = ExtResource("4_jsyf7")
 
 [node name="Plate_Other2" type="Sprite2D" parent="Segments/GunParts"]
 z_index = -3
+material = SubResource("ShaderMaterial_bsd4e")
 position = Vector2(-9.536743e-07, -15)
 rotation = 0.14561088
 texture = ExtResource("3_62gcm")
@@ -2661,6 +2685,7 @@ script = ExtResource("4_jsyf7")
 
 [node name="Plate_Other3" type="Sprite2D" parent="Segments/GunParts"]
 z_index = -3
+material = SubResource("ShaderMaterial_bsd4e")
 position = Vector2(6, -12.999999)
 rotation = 0.71153015
 texture = ExtResource("3_62gcm")
@@ -2671,6 +2696,7 @@ script = ExtResource("4_jsyf7")
 
 [node name="Plate_Other4" type="Sprite2D" parent="Segments/GunParts"]
 z_index = -3
+material = SubResource("ShaderMaterial_bsd4e")
 position = Vector2(9.999999, -7)
 rotation = 1.1504576
 texture = ExtResource("3_62gcm")
@@ -2681,6 +2707,7 @@ script = ExtResource("4_jsyf7")
 
 [node name="Plate_Other5" type="Sprite2D" parent="Segments/GunParts"]
 z_index = -3
+material = SubResource("ShaderMaterial_bsd4e")
 position = Vector2(12, 2)
 rotation = 1.7522519
 texture = ExtResource("3_62gcm")
@@ -2691,6 +2718,7 @@ script = ExtResource("4_jsyf7")
 
 [node name="Plate_Other6" type="Sprite2D" parent="Segments/GunParts"]
 z_index = -3
+material = SubResource("ShaderMaterial_bsd4e")
 position = Vector2(6.000001, 10)
 rotation = 2.2195432
 texture = ExtResource("3_62gcm")
@@ -2701,6 +2729,7 @@ script = ExtResource("4_jsyf7")
 
 [node name="Plate_Other7" type="Sprite2D" parent="Segments/GunParts"]
 z_index = -3
+material = SubResource("ShaderMaterial_bsd4e")
 position = Vector2(-1.000001, 12.000001)
 rotation = -3.0972795
 texture = ExtResource("3_62gcm")
@@ -2711,6 +2740,7 @@ script = ExtResource("4_jsyf7")
 
 [node name="Plate_Other8" type="Sprite2D" parent="Segments/GunParts"]
 z_index = -3
+material = SubResource("ShaderMaterial_bsd4e")
 position = Vector2(-10, 10)
 rotation = -2.2915218
 texture = ExtResource("3_62gcm")
@@ -2721,6 +2751,7 @@ script = ExtResource("4_jsyf7")
 
 [node name="Plate_Other9" type="Sprite2D" parent="Segments/GunParts"]
 z_index = -3
+material = SubResource("ShaderMaterial_bsd4e")
 position = Vector2(-15.000001, 3)
 rotation = -1.7881378
 texture = ExtResource("3_62gcm")
@@ -2731,6 +2762,7 @@ script = ExtResource("4_jsyf7")
 
 [node name="Plate_Other10" type="Sprite2D" parent="Segments/GunParts"]
 z_index = -3
+material = SubResource("ShaderMaterial_bsd4e")
 position = Vector2(-17, -5)
 rotation = -1.1165642
 texture = ExtResource("3_62gcm")
@@ -2748,6 +2780,7 @@ scale = Vector2(0.75, 0.75)
 script = ExtResource("4_jsyf7")
 
 [node name="RimVis" type="Sprite2D" parent="Segments/Rims/Rim"]
+material = SubResource("ShaderMaterial_bsd4e")
 texture = ExtResource("3_62gcm")
 hframes = 8
 vframes = 8
@@ -2760,6 +2793,7 @@ scale = Vector2(0.75, 0.75)
 script = ExtResource("4_jsyf7")
 
 [node name="RimVis" type="Sprite2D" parent="Segments/Rims/Rim2"]
+material = SubResource("ShaderMaterial_bsd4e")
 texture = ExtResource("3_62gcm")
 hframes = 8
 vframes = 8
@@ -2772,6 +2806,7 @@ scale = Vector2(0.75, 0.75)
 script = ExtResource("4_jsyf7")
 
 [node name="RimVis" type="Sprite2D" parent="Segments/Rims/Rim3"]
+material = SubResource("ShaderMaterial_bsd4e")
 texture = ExtResource("3_62gcm")
 hframes = 8
 vframes = 8
@@ -2784,6 +2819,7 @@ scale = Vector2(0.75, 0.75)
 script = ExtResource("4_jsyf7")
 
 [node name="RimVis" type="Sprite2D" parent="Segments/Rims/Rim4"]
+material = SubResource("ShaderMaterial_bsd4e")
 texture = ExtResource("3_62gcm")
 hframes = 8
 vframes = 8
@@ -2795,6 +2831,7 @@ scale = Vector2(0.75, 0.75)
 script = ExtResource("4_jsyf7")
 
 [node name="RimVis" type="Sprite2D" parent="Segments/Rims/Rim5"]
+material = SubResource("ShaderMaterial_bsd4e")
 scale = Vector2(1.0000001, 1.0000001)
 texture = ExtResource("3_62gcm")
 hframes = 8
@@ -2808,6 +2845,7 @@ scale = Vector2(0.75, 0.75)
 script = ExtResource("4_jsyf7")
 
 [node name="RimVis" type="Sprite2D" parent="Segments/Rims/Rim6"]
+material = SubResource("ShaderMaterial_bsd4e")
 scale = Vector2(0.99999994, 0.99999994)
 texture = ExtResource("3_62gcm")
 hframes = 8
@@ -2821,6 +2859,7 @@ scale = Vector2(0.75, 0.75)
 script = ExtResource("4_jsyf7")
 
 [node name="RimVis" type="Sprite2D" parent="Segments/Rims/Rim7"]
+material = SubResource("ShaderMaterial_bsd4e")
 texture = ExtResource("3_62gcm")
 hframes = 8
 vframes = 8
@@ -2833,6 +2872,7 @@ scale = Vector2(0.75, 0.75)
 script = ExtResource("4_jsyf7")
 
 [node name="RimVis" type="Sprite2D" parent="Segments/Rims/Rim8"]
+material = SubResource("ShaderMaterial_bsd4e")
 texture = ExtResource("3_62gcm")
 hframes = 8
 vframes = 8

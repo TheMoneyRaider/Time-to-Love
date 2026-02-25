@@ -157,10 +157,6 @@ func _physics_process(delta):
 	
 	if !is_multiplayer:
 		if Input.is_action_just_pressed("swap_" + input_device):
-			#LayerManager.room_instance.boss.take_damage(50,self)
-			#LayerManager.room_instance.boss.phase = 2
-			#LayerManager.room_instance.scifi_phase2_to_3()
-			
 			swap_color()
 	else:
 		tether(delta)
