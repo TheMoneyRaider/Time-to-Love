@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://cb3s3dxm8q01w"]
+
+[ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/particles/effect_particles.gd" id="1_kexn8"]
+
+[sub_resource type="Curve" id="Curve_4w8jb"]
+_data = [Vector2(0, 0), 0.0, 6.7659764, 0, 0, Vector2(0.2385321, 1), 0.0, 0.0, 0, 0, Vector2(0.5168196, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_k7ydx"]
+curve = SubResource("Curve_4w8jb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bi1ny"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 20.0
+gravity = Vector3(0, -5, 0)
+scale_max = 4.0
+scale_curve = SubResource("CurveTexture_k7ydx")
+color = Color(0.9999984, 0.6378001, 0.4854319, 0.76862746)
+hue_variation_min = -0.020000022
+hue_variation_max = 0.019999977
+
+[node name="BurnParticles" type="GPUParticles2D"]
+z_index = 21
+y_sort_enabled = true
+amount = 100
+amount_ratio = 0.5
+process_material = SubResource("ParticleProcessMaterial_bi1ny")
+script = ExtResource("1_kexn8")

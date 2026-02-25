@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://c57ymw41kkp40"]
+
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_ndl7l"]
+[ext_resource type="PackedScene" uid="uid://mwbbeu8roktu" path="res://Game Elements/Particles/railgun_launch.tscn" id="2_ndl7l"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e1io4"]
+size = Vector2(2, 28)
+
+[node name="Area2D" type="Area2D" groups=["attack"]]
+z_index = 19
+y_sort_enabled = true
+collision_layer = 8
+collision_mask = 38
+script = ExtResource("1_ndl7l")
+speed = 300.0
+damage = 5.0
+lifespan = 7.0
+cooldown = 5.0
+pierce = -2.0
+wall_collision = false
+attack_type = "slug"
+deflectable = true
+repeat_hits = true
+spawn_particle = ExtResource("2_ndl7l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_e1io4")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

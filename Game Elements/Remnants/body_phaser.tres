@@ -10,6 +10,7 @@ remnant_name = "Remnant of Body Phaser"
 description = "Whenever you take damage, it’s scaled to your speed. Speed scaling is $X%(i.e Damage is $X% lower if you’re moving at twice your normal speed and $X% higher when not moving at all)"
 icon = ExtResource("2_tgu0y")
 art = ExtResource("1_50k2a")
+tags = Array[String](["sci-fi"])
 variable_names = Array[String](["$X"])
 variable_1_values = [10, 20, 35, 50, 75]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

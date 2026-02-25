@@ -10,6 +10,7 @@ remnant_name = "Remnant of Personal Forcefield"
 description = "For $X seconds after you change characters or activate the tether, you deal $Y points of contact damage to enemies."
 icon = ExtResource("2_p6bor")
 art = ExtResource("1_8y2ue")
+tags = Array[String](["sci-fi"])
 variable_names = Array[String](["$X", "$Y"])
 variable_1_values = [0.5, 1.0, 1.5, 2.0, 2.5]
 variable_2_values = [1, 2, 3, 4, 5]

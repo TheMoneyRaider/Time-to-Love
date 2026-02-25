@@ -10,6 +10,7 @@ remnant_name = "Remnant of Intelligence"
 description = "Your ranged attacks will be $X guided towards enemies"
 icon = ExtResource("2_tavq4")
 art = ExtResource("1_ll1sj")
+tags = Array[String](["sci-fi"])
 variable_names = Array[String](["$X"])
 variable_1_values = ["barely", "slightly", "significantly", "majorly", "massively"]
 variable_2_values = [2.0, 3.0, 4.0, 6.0, 8.0]

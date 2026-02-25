@@ -93,10 +93,13 @@ func _blend_textures(a: Texture2D, b: Texture2D, t: float) -> Texture2D:
 
 	return ImageTexture.create_from_image(out)
 
-func disable_pathway():
+func disable_pathway(fully : bool):
+	if fully:
+		visible = false
 	$ShaderSprite.visible = false
 	active = false
 func enable_pathway():
+	visible = true
 	$Icons/PathwayIcon1.z_index=0
 	$Icons/PathwayIcon2.z_index=0
 	$ShaderSprite.visible = true
@@ -119,7 +122,7 @@ func enable_pathway():
 		$Icons/PathwayIcon1.material.set_shader_parameter("upper_left", true)
 		$Icons/PathwayIcon2.material.set_shader_parameter("upper_left", false)
 
-func set_reward(reward1 : Globals.Reward, in_is_wave : bool = false, reward2 : Globals.Reward = Globals.Reward.Remnant, weapon_type : String = ""):
+func set_reward(reward1 : Globals.Reward, in_is_wave : bool = false, reward2 : Globals.Reward = Globals.Reward.Remnant, _weapon_type : String = ""):
 	var new_icon1 = null
 	var new_icon2 = null
 	is_wave = in_is_wave
@@ -142,6 +145,8 @@ func set_reward(reward1 : Globals.Reward, in_is_wave : bool = false, reward2 : G
 		Globals.Reward.Shop:
 			var inst = load("res://Game Elements/Objects/vision.tscn").instantiate()
 			new_icon1 = inst.get_node("Image")
+		Globals.Reward.Boss:
+			new_icon1 = load("res://Game Elements/Bosses/boss_symbol.png")
 	if !is_wave:
 		new_icon2 = new_icon1
 	else:
@@ -161,26 +166,30 @@ func set_reward(reward1 : Globals.Reward, in_is_wave : bool = false, reward2 : G
 			Globals.Reward.Health:
 				var inst =load("res://Game Elements/Objects/health.tscn").instantiate()
 				new_icon2 = inst.get_node("Image")
-			#Globals.Reward.NewWeapon:
-			#	var inst = load("res://Game ELements/OBjects/new_weapon.tscn").instantiate()
-			#	new_icon2 = inst.get_node("Image")
-			#	var weapon_resource = load("res://Game Elements/Weapons/" + weapon_type + ".tres")
-			#	new_icon2.texture = weapon_resource.weapon_sprite
-				
-	reward1_type = reward1
-	reward1_texture = new_icon1.texture
-	reward1_frame = new_icon1.frame
-	reward1_hframes = new_icon1.hframes
-	reward1_vframes = new_icon1.vframes
-	reward1_material = new_icon1.material
-	reward2_type = reward2
-	reward2_texture = new_icon2.texture
-	reward2_frame = new_icon2.frame
-	reward2_hframes = new_icon2.hframes
-	reward2_vframes = new_icon2.vframes
-	reward2_material = new_icon2.material
-	if active:
-		enable_pathway()
+	if reward1 == Globals.Reward.Boss:
+		reward2 = reward1
+		reward1_type = reward1
+		reward2_type = reward1
+		reward1_texture = new_icon1
+		reward2_texture = new_icon1
+		if active:
+			enable_pathway()
+		
+	else:
+		reward1_type = reward1
+		reward1_texture = new_icon1.texture
+		reward1_frame = new_icon1.frame
+		reward1_hframes = new_icon1.hframes
+		reward1_vframes = new_icon1.vframes
+		reward1_material = new_icon1.material
+		reward2_type = reward2
+		reward2_texture = new_icon2.texture
+		reward2_frame = new_icon2.frame
+		reward2_hframes = new_icon2.hframes
+		reward2_vframes = new_icon2.vframes
+		reward2_material = new_icon2.material
+		if active:
+			enable_pathway()
 
 func _on_body_entered(body):
 	if !active:

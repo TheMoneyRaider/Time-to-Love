@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Effect" load_steps=2 format=3 uid="uid://balr1ilt6d0oe"]
+
+[ext_resource type="Script" uid="uid://bdvafciec46e" path="res://Game Elements/Effects/Effect.gd" id="1_udjd3"]
+
+[resource]
+script = ExtResource("1_udjd3")
+type = "burn"
+metadata/_custom_type_script = "uid://bdvafciec46e"

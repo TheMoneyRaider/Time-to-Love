@@ -1,7 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://0hahdiffjt61"]
 
 [ext_resource type="Script" uid="uid://ttvprfi61vn4" path="res://Game Elements/ui/hud.gd" id="1_6fbih"]
-[ext_resource type="Script" uid="uid://cdv7ke8wr65tg" path="res://Game Elements/ui/health_bar.gd" id="1_e0onf"]
 [ext_resource type="Script" uid="uid://bs428146shl5s" path="res://Game Elements/ui/time_fabric_animation.gd" id="2_bjfho"]
 [ext_resource type="Texture2D" uid="uid://bxmiq87nvpvj8" path="res://art/notification.png" id="2_gp50j"]
 [ext_resource type="Texture2D" uid="uid://ch4g2j4jycixb" path="res://art/time_fabric.png" id="3_6fbih"]
@@ -10,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://ds6fo2yfcafce" path="res://art/ninja_1.png" id="6_gp50j"]
 [ext_resource type="Shader" uid="uid://dtp2e4p3wbgyp" path="res://Game Elements/ui/special_cooldown.gdshader" id="8_gp50j"]
 [ext_resource type="Texture2D" uid="uid://kdaw8in4wo0" path="res://art/weapons/crossbow/crossbow_bright.png" id="9_gp50j"]
+[ext_resource type="PackedScene" uid="uid://bsol6opkpit8y" path="res://Game Elements/ui/health_bar.tscn" id="10_sjf6p"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_t1xeu"]
 font_size = 35
@@ -32,7 +32,7 @@ bg_color = Color(0.38210395, 0.030576311, 0.5883771, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6fbih"]
 bg_color = Color(0.6858206, 0.29710156, 0.98195356, 1)
 
-[sub_resource type="Theme" id="Theme_6fbih"]
+[sub_resource type="Theme" id="Theme_gferk"]
 resource_local_to_scene = true
 Label/colors/font_color = Color(0.69411767, 0.32156864, 0.9843137, 1)
 Label/font_sizes/font_size = 40
@@ -51,7 +51,7 @@ shader_parameter/interp_time = 0.25
 shader_parameter/time_offset = 0.0
 shader_parameter/prev_progress = 0.0
 
-[sub_resource type="Theme" id="Theme_t1xeu"]
+[sub_resource type="Theme" id="Theme_gp50j"]
 resource_local_to_scene = true
 Label/colors/font_color = Color(0.69411767, 0.32156864, 0.9843137, 1)
 Label/font_sizes/font_size = 40
@@ -59,41 +59,40 @@ ProgressBar/styles/background = SubResource("StyleBoxFlat_bjfho")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_6fbih")
 
 [node name="Hud" type="CanvasLayer"]
-process_mode = 1
-scale = Vector2(0.5, 0.5)
-transform = Transform2D(0.5, 0, 0, 0.5, 0, 0)
+process_mode = 3
 script = ExtResource("1_6fbih")
 
 [node name="RootControl" type="Control" parent="."]
-process_mode = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="RemnantIcons" type="Control" parent="RootControl"]
-custom_minimum_size = Vector2(0, 64)
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
+mouse_filter = 2
 
 [node name="LeftRemnants" type="GridContainer" parent="RootControl/RemnantIcons"]
 layout_mode = 1
 anchors_preset = -1
 anchor_bottom = 1.0
-columns = 16
+offset_right = 916.0
+offset_bottom = 89.0
+columns = 8
 
 [node name="RightRemnants" type="GridContainer" parent="RootControl/RemnantIcons"]
 layout_mode = 1
-anchors_preset = -1
+anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
 grow_horizontal = 0
-columns = 16
+columns = 8
 
 [node name="TimeFabric" type="Control" parent="RootControl"]
 layout_mode = 1
@@ -242,23 +241,9 @@ tint_under = Color(0.15294118, 0.15294118, 0.15294118, 1)
 tint_over = Color(0.44313726, 0.44313726, 0.44313726, 0)
 tint_progress = Color(0.7191348, 0.1524289, 0.9021915, 1)
 
-[node name="HealthBar" type="HBoxContainer" parent="RootControl/Left_Bottom_Corner"]
+[node name="HealthBar" parent="RootControl/Left_Bottom_Corner" instance=ExtResource("10_sjf6p")]
 layout_mode = 2
-theme = SubResource("Theme_6fbih")
-script = ExtResource("1_e0onf")
-is_purple = true
-
-[node name="ProgressBar" type="ProgressBar" parent="RootControl/Left_Bottom_Corner/HealthBar"]
-custom_minimum_size = Vector2(175, 37)
-layout_mode = 2
-max_value = 10.0
-value = 10.0
-show_percentage = false
-
-[node name="Label" type="Label" parent="RootControl/Left_Bottom_Corner/HealthBar"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "5/10 HP"
+theme = SubResource("Theme_gferk")
 
 [node name="Right_Bottom_Corner" type="VBoxContainer" parent="RootControl"]
 layout_mode = 1
@@ -342,20 +327,35 @@ tint_under = Color(0.15294118, 0.15294118, 0.15294118, 1)
 tint_over = Color(0.44297108, 0.44297108, 0.44297108, 0)
 tint_progress = Color(1, 0.64705884, 0, 1)
 
-[node name="HealthBar" type="HBoxContainer" parent="RootControl/Right_Bottom_Corner"]
-layout_mode = 2
-theme = SubResource("Theme_t1xeu")
-script = ExtResource("1_e0onf")
+[node name="DebugMenu" type="Control" parent="RootControl"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="Label" type="Label" parent="RootControl/Right_Bottom_Corner/HealthBar"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "5/10 HP"
-horizontal_alignment = 2
+[node name="GridContainer" type="GridContainer" parent="RootControl/DebugMenu"]
+layout_mode = 0
+offset_left = 1708.0
+offset_top = 34.0
+offset_right = 1898.0
+offset_bottom = 138.0
 
-[node name="ProgressBar" type="ProgressBar" parent="RootControl/Right_Bottom_Corner/HealthBar"]
-custom_minimum_size = Vector2(175, 37)
+[node name="MenuIndicator" type="Label" parent="RootControl/DebugMenu/GridContainer"]
 layout_mode = 2
-max_value = 10.0
-value = 10.0
-show_percentage = false
+theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
+
+[node name="Invulnerability" type="Label" parent="RootControl/DebugMenu/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
+
+[node name="Paths" type="Label" parent="RootControl/DebugMenu/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
+
+[node name="Clamping" type="Label" parent="RootControl/DebugMenu/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
+[node name="HealthBar" parent="RootControl/Right_Bottom_Corner" instance=ExtResource("10_sjf6p")]
+layout_mode = 2
+theme = SubResource("Theme_gp50j")
+is_purple = false
+flipped = true

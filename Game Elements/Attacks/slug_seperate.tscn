@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://cmcxn5n448w1f"]
+
+[ext_resource type="Script" uid="uid://cnnrfhufpns66" path="res://Game Elements/Attacks/slug.gd" id="1_pub8h"]
+[ext_resource type="Texture2D" uid="uid://deityyr88ktos" path="res://art/weapons/railgun/railgun_slug.png" id="2_1m8p4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pub8h"]
+size = Vector2(2, 28)
+
+[node name="Bolt" type="RigidBody2D"]
+z_index = 19
+y_sort_enabled = true
+collision_layer = 0
+gravity_scale = 0.0
+continuous_cd = 2
+script = ExtResource("1_pub8h")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 4.7683716e-07)
+scale = Vector2(1, 1.25)
+texture = ExtResource("2_1m8p4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_pub8h")

@@ -120,6 +120,7 @@ _data = {
 }
 
 [node name="Duck" type="CharacterBody2D"]
+z_index = 20
 collision_layer = 4
 collision_mask = 7
 script = ExtResource("1_eryy6")

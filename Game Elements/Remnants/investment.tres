@@ -10,6 +10,7 @@ remnant_name = "Remnant of Investment Portfolio"
 description = "You will gain $X% of the timefabric you have when you enter a new combat node. When you take damage, lose $Y% of your timefabric."
 icon = ExtResource("2_tbyxe")
 art = ExtResource("1_7vt4b")
+tags = Array[String](["sci-fi"])
 variable_names = Array[String](["$X", "$Y"])
 variable_1_values = [2, 4, 6, 8, 10]
 variable_2_values = [0.5, 1.0, 1.5, 2.0, 2.5]

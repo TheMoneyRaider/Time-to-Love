@@ -1,8 +1,27 @@
-[gd_scene load_steps=2 format=3 uid="uid://whwenrbf4lw8"]
+[gd_scene load_steps=9 format=3 uid="uid://whwenrbf4lw8"]
 
 [ext_resource type="Texture2D" uid="uid://21s1bbewu58o" path="res://art/remnants/hunter_icon.png" id="1_2lyub"]
+[ext_resource type="Script" uid="uid://bdarb5v6mg88f" path="res://Game Elements/ui/remnant_icon.gd" id="1_nncub"]
+[ext_resource type="Texture2D" uid="uid://dnysvj1fsgjrx" path="res://art/remnants/icon_template_white.png" id="2_qatju"]
 
-[node name="RemnantIcon" type="Control"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nncub"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ayhuk"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dp3pg"]
+texture = ExtResource("2_qatju")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aqp6j"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ayhuk"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[node name="RemnantIcon" type="Control" node_paths=PackedStringArray("button")]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 3
 anchors_preset = 15
@@ -10,12 +29,16 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_nncub")
+button = NodePath("Button")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
+mouse_filter = 2
 texture = ExtResource("1_2lyub")
 stretch_mode = 5
 
@@ -27,3 +50,16 @@ offset_right = 57.0
 offset_bottom = 75.0
 theme_override_font_sizes/font_size = 32
 text = "I"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_nncub")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ayhuk")
+theme_override_styles/hover = SubResource("StyleBoxTexture_dp3pg")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_aqp6j")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ayhuk")
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

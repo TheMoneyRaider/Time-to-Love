@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8na7o2764at7"]
+
+[ext_resource type="Texture2D" uid="uid://rct2jkvl3a3c" path="res://art/weapons/crowbar/crack.png" id="1_us2y1"]
+
+[node name="Target" type="Sprite2D"]
+modulate = Color(1, 1, 1, 0)
+z_index = 1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_us2y1")

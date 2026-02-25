@@ -11,7 +11,7 @@
 [ext_resource type="StyleBox" uid="uid://7c2wqv48pg7x" path="res://Game Elements/ui/resources/7-2_button.tres" id="7_odps5"]
 [ext_resource type="Shader" uid="uid://df6is5vss0kty" path="res://Game Elements/ui/resources/timelines.gdshader" id="9_6wjqi"]
 [ext_resource type="StyleBox" uid="uid://bl5m86jryhcbv" path="res://Game Elements/ui/resources/4-3_button.tres" id="9_odps5"]
-[ext_resource type="Texture2D" uid="uid://eifbgnatdh4i" path="res://art/gradiant_dot3.png" id="10_a412y"]
+[ext_resource type="Texture2D" uid="uid://eifbgnatdh4i" path="res://art/particles/gradiant_dot3.png" id="10_a412y"]
 [ext_resource type="StyleBox" uid="uid://4eubuwqyfxh3" path="res://Game Elements/ui/resources/4-2_button.tres" id="10_c3jtu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qvtd8"]

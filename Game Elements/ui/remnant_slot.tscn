@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://bsnhxne2rojuk"]
+[gd_scene load_steps=12 format=3 uid="uid://bsnhxne2rojuk"]
 
 [ext_resource type="Script" uid="uid://cnu4t3y0q3ad1" path="res://Game Elements/ui/remnant_slot.gd" id="1_blhod"]
 [ext_resource type="Texture2D" uid="uid://buubskqgdc4jf" path="res://art/remnants/hunter.png" id="2_o7i6x"]
+[ext_resource type="Shader" uid="uid://cb0w7ut2pecc0" path="res://Game Elements/Shaders/outline.gdshader" id="2_xvddi"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o7i6x"]
 
@@ -12,6 +13,12 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4i1at"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8nt63"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b6cy5"]
+shader = ExtResource("2_xvddi")
+shader_parameter/outline_color = Vector4(1, 1, 0, 1)
+shader_parameter/outline_thickness = 2.0
+shader_parameter/outline_opacity = 0.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_o7i6x"]
 font_size = 40
@@ -27,9 +34,6 @@ font_color = Color(0.9186292, 0.88298976, 0.9554909, 1)
 outline_size = 14
 outline_color = Color(0, 0, 0, 1)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_7cik6"]
-viewport_path = NodePath("btn_select/SubViewport")
-
 [node name="RemnantSlot" type="Control"]
 custom_minimum_size = Vector2(413, 900)
 layout_mode = 3
@@ -38,7 +42,7 @@ offset_right = 413.0
 offset_bottom = 900.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-mouse_filter = 1
+mouse_filter = 2
 script = ExtResource("1_blhod")
 
 [node name="btn_select" type="Button" parent="."]
@@ -54,49 +58,52 @@ theme_override_styles/hover = SubResource("StyleBoxEmpty_7cik6")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_4i1at")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_8nt63")
 
-[node name="SubViewport" type="SubViewport" parent="btn_select"]
-disable_3d = true
-transparent_bg = true
-handle_input_locally = false
-canvas_item_default_texture_filter = 0
-size = Vector2i(413, 900)
-render_target_update_mode = 4
-
-[node name="art" type="TextureRect" parent="btn_select/SubViewport"]
+[node name="art" type="TextureRect" parent="btn_select"]
+material = SubResource("ShaderMaterial_b6cy5")
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_behavior_recursive = 1
+mouse_filter = 2
 texture = ExtResource("2_o7i6x")
 expand_mode = 5
 
-[node name="container" type="VBoxContainer" parent="btn_select/SubViewport"]
+[node name="container" type="VBoxContainer" parent="btn_select"]
+layout_mode = 0
 offset_left = 63.0
 offset_top = 72.0
 offset_right = 351.0
 offset_bottom = 934.0
+focus_behavior_recursive = 1
+mouse_filter = 2
 
-[node name="name_label" type="Label" parent="btn_select/SubViewport/container"]
+[node name="name_label" type="Label" parent="btn_select/container"]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
+focus_behavior_recursive = 1
 text = "Remnant of The Hunter"
 label_settings = SubResource("LabelSettings_o7i6x")
 horizontal_alignment = 1
 autowrap_mode = 2
 uppercase = true
 
-[node name="rank_label" type="Label" parent="btn_select/SubViewport/container"]
+[node name="rank_label" type="Label" parent="btn_select/container"]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
+focus_behavior_recursive = 1
 text = " Rank "
 label_settings = SubResource("LabelSettings_7cik6")
 autowrap_mode = 2
 uppercase = true
 
-[node name="description_label" type="RichTextLabel" parent="btn_select/SubViewport/container"]
+[node name="description_label" type="RichTextLabel" parent="btn_select/container"]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
+focus_behavior_recursive = 1
+mouse_filter = 2
 theme_override_colors/default_color = Color(0, 0.8518738, 0.80920357, 1)
 theme_override_colors/font_outline_color = Color(5.655363e-07, 0.19671893, 0.14139438, 1)
 theme_override_constants/outline_size = 7
@@ -108,11 +115,4 @@ scroll_active = false
 autowrap_mode = 2
 horizontal_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="btn_select"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("ViewportTexture_7cik6")
+[connection signal="pressed" from="btn_select" to="." method="_on_button_pressed"]

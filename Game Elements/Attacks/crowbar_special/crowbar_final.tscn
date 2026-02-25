@@ -1,0 +1,102 @@
+[gd_scene load_steps=8 format=3 uid="uid://bp6jf0fpt0o3v"]
+
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_chadp"]
+[ext_resource type="PackedScene" uid="uid://oqdny2g0p8q0" path="res://Game Elements/Particles/crowbar_particles.tscn" id="2_w1ybv"]
+[ext_resource type="Texture2D" uid="uid://cxxim68agekh1" path="res://art/weapons/crowbar/Nuclear_explosion1-sheet.png" id="2_wwfsb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wwfsb"]
+radius = 21.0
+
+[sub_resource type="Animation" id="Animation_2bkad"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:shape:radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [21.0]
+}
+
+[sub_resource type="Animation" id="Animation_rj53r"]
+resource_name = "explode"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0999375, 0.199875, 0.2998125, 0.39975, 0.4996875, 0.599625, 0.69956243, 0.79950005, 0.89943755),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:shape:radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.23333333, 0.33333334, 0.43333334, 0.6333333, 0.8, 0.93333334),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [21.0, 32.01562, 41.04875, 61.03278, 103.00485, 116.00431, 70.064255, 18.110771]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_svp3b"]
+_data = {
+&"RESET": SubResource("Animation_2bkad"),
+&"explode": SubResource("Animation_rj53r")
+}
+
+[node name="Crowbar" type="Area2D"]
+z_index = 36
+y_sort_enabled = true
+collision_layer = 8
+collision_mask = 47
+script = ExtResource("1_chadp")
+speed = 0.0
+damage = 30.0
+knockback_force = 400.0
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "crowbar_explosion"
+deflects = true
+spawn_particle = ExtResource("2_w1ybv")
+animation = "explode"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_wwfsb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, -39)
+texture = ExtResource("2_wwfsb")
+hframes = 10
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_svp3b")
+}
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

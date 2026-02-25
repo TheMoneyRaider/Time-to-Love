@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://4kec172p2w3c" path="res://art/closed_room_reward.png" id="2_okald"]
 [ext_resource type="Texture2D" uid="uid://jauot8cjpgbk" path="res://art/white_dot.png" id="6_rjdqg"]
 [ext_resource type="Shader" uid="uid://c7aprdgds5kpc" path="res://Game Elements/Shaders/chromatic_abberation.gdshader" id="6_x3etk"]
-[ext_resource type="Texture2D" uid="uid://dsg1hqhbidk6m" path="res://art/gradiant_dot.png" id="8_hgkmx"]
+[ext_resource type="Texture2D" uid="uid://dsg1hqhbidk6m" path="res://art/particles/gradiant_dot.png" id="8_hgkmx"]
 
 [sub_resource type="Gradient" id="Gradient_x3etk"]
 offsets = PackedFloat32Array(0.2647059, 0.5392157, 1)
@@ -122,7 +122,7 @@ viewport_path = NodePath("MaskViewport")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_okald"]
 
-[node name="Root" type="Node2D"]
+[node name="Root" type="Node2D" groups=["pathway"]]
 z_index = 39
 y_sort_enabled = true
 script = ExtResource("1_0mqoo")

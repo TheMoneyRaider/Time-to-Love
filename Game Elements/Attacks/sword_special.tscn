@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://brfs0a1i6c1rk"]
+
+[ext_resource type="Texture2D" uid="uid://dvuoi6pbvux07" path="res://art/attacks/laser_special.png" id="1_jwjso"]
+[ext_resource type="Script" uid="uid://bgxth5d0b4m5f" path="res://Game Elements/Attacks/sword_special.gd" id="2_nbyrm"]
+
+[node name="PathDots" type="MultiMeshInstance2D"]
+modulate = Color(1, 1, 1, 0)
+z_index = 19
+z_as_relative = false
+y_sort_enabled = true
+texture_filter = 1
+texture_repeat = 2
+texture = ExtResource("1_jwjso")
+script = ExtResource("2_nbyrm")

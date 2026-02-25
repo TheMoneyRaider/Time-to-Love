@@ -1,0 +1,94 @@
+[gd_scene load_steps=8 format=3 uid="uid://kvtmd0tqbxne"]
+
+[ext_resource type="Script" uid="uid://c2p8h2v8dbewx" path="res://Game Elements/Attacks/crowbar_special/crowbar_projectile.gd" id="1_4ti0q"]
+[ext_resource type="Shader" uid="uid://3gge73khn6k3" path="res://Game Elements/Attacks/crowbar_special/crowbar_projectile.gdshader" id="2_g03fd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ty6tl"]
+shader = ExtResource("2_g03fd")
+shader_parameter/sprite_width_px = 64
+shader_parameter/edges = true
+shader_parameter/mask_offset = Vector2(0, 0)
+shader_parameter/mask_midpoint_y = 0.5
+shader_parameter/masking_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eewlc"]
+shader = ExtResource("2_g03fd")
+shader_parameter/sprite_width_px = 64
+shader_parameter/edges = false
+shader_parameter/mask_offset = Vector2(0, -2)
+shader_parameter/mask_midpoint_y = 0.5
+shader_parameter/masking_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xdxah"]
+shader = ExtResource("2_g03fd")
+shader_parameter/sprite_width_px = 64
+shader_parameter/edges = false
+shader_parameter/mask_offset = Vector2(0, -4)
+shader_parameter/mask_midpoint_y = 0.5
+shader_parameter/masking_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wyymy"]
+shader = ExtResource("2_g03fd")
+shader_parameter/sprite_width_px = 64
+shader_parameter/edges = false
+shader_parameter/mask_offset = Vector2(0, -6)
+shader_parameter/mask_midpoint_y = 0.5
+shader_parameter/masking_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g03fd"]
+shader = ExtResource("2_g03fd")
+shader_parameter/sprite_width_px = 64
+shader_parameter/edges = false
+shader_parameter/mask_offset = Vector2(0, -8)
+shader_parameter/mask_midpoint_y = 0.5
+shader_parameter/masking_enabled = true
+
+[node name="CrowbarProjectile" type="Node2D"]
+z_index = 40
+y_sort_enabled = true
+script = ExtResource("1_4ti0q")
+
+[node name="Sprite1" type="Sprite2D" parent="."]
+texture_filter = 1
+material = SubResource("ShaderMaterial_ty6tl")
+
+[node name="Sprite2" type="Sprite2D" parent="."]
+modulate = Color(0.7708395, 0.77083945, 0.7708394, 1)
+z_index = -1
+texture_filter = 1
+material = SubResource("ShaderMaterial_eewlc")
+position = Vector2(0, 2)
+scale = Vector2(0.98, 0.98)
+
+[node name="Sprite3" type="Sprite2D" parent="."]
+modulate = Color(0.49747366, 0.49747366, 0.49747366, 1)
+z_index = -2
+texture_filter = 1
+material = SubResource("ShaderMaterial_xdxah")
+position = Vector2(0, 4)
+scale = Vector2(0.96, 0.96)
+
+[node name="Sprite4" type="Sprite2D" parent="."]
+modulate = Color(0.22670749, 0.22670752, 0.22670743, 1)
+z_index = -3
+texture_filter = 1
+material = SubResource("ShaderMaterial_wyymy")
+position = Vector2(0, 6)
+scale = Vector2(0.94, 0.94)
+
+[node name="Sprite5" type="Sprite2D" parent="."]
+self_modulate = Color(0.08468998, 0.08468992, 0.08468989, 1)
+z_index = -4
+texture_filter = 1
+material = SubResource("ShaderMaterial_g03fd")
+position = Vector2(0, 8)
+scale = Vector2(0.92, 0.92)
+
+[node name="Sprite1" type="Sprite2D" parent="Sprite5"]
+texture_filter = 1
+material = SubResource("ShaderMaterial_ty6tl")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+render_target_update_mode = 1

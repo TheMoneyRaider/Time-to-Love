@@ -6,6 +6,7 @@ var move_speed: float
 @export var max_health: float = 10
 @export var current_health: float = 10
 @onready var current_dmg_time: float = 0.0
+@onready var current_liquid_time: float = 0.0
 @onready var in_instant_trap: bool = false
 @onready var disabled_countdown : int = 0
 @onready var i_frames : int = 0
@@ -24,8 +25,7 @@ var move_speed: float
 @onready var crosshair = $Crosshair
 @onready var crosshair_sprite = $Crosshair/Sprite2D
 
-@onready var weapon_sprite = $WeaponSprite
-@onready var weapon_texture = $WeaponSprite/Sprite2D
+@onready var weapon_node = $WeaponSprite
 
 @onready var sprite = $Sprite2D
 @onready var purple_crosshair = preload("res://art/purple_crosshair.png")
@@ -33,6 +33,7 @@ var move_speed: float
 @onready var purple_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/Basic Purple Spritesheet-export.png")
 @onready var orange_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/Basic Orange Spritesheet-export.png")
 var other_player
+var disabled = false
 
 var tether_momentum = Vector2.ZERO
 var is_tethered = false
@@ -42,9 +43,11 @@ var tether_width_curve
 var is_multiplayer = false
 var input_device = "-1"
 var input_direction : Vector2 = Vector2.ZERO
-var last_input_direction : Vector2 = Vector2.ZERO
+var invulnerable : bool = false
+var debug_menu : bool = false
 
 var effects : Array[Effect] = []
+var last_liquid : Globals.Liquid = Globals.Liquid.Buffer
 
 var forcefield_active : bool = false
 
@@ -75,8 +78,8 @@ func _ready():
 	_initialize_state_machine()
 	update_animation_parameters(starting_direction)
 	add_to_group("player")
-	weapon_sprite.weapon_type = weapons[is_purple as int].type
-	weapon_texture.texture = weapons[is_purple as int].weapon_sprite
+	load_settings()
+	set_weapon_sprite(weapons[is_purple as int],weapon_node)
 	if is_multiplayer:
 		tether_gradient = tether_line.gradient
 		tether_width_curve = tether_line.width_curve
@@ -108,6 +111,11 @@ func update_input_device(in_dev : String):
 	input_device = in_dev
 	crosshair.player_input_device = input_device
 
+func load_settings():
+	var config = ConfigFile.new()
+	if config.load("user://settings.cfg") == OK:
+		debug_menu = config.get_value("debug", "enabled", false)
+
 func _initialize_state_machine():
 	#Define State transitions
 	state_machine.add_transition(idle_state,move_state, "to_move")
@@ -121,6 +129,8 @@ func apply_movement(_delta):
 	velocity = input_direction * move_speed
 
 func _physics_process(delta):
+	if disabled:
+		return
 	#print(move_speed)
 	if(i_frames > 0):
 		i_frames -= 1
@@ -142,8 +152,6 @@ func _physics_process(delta):
 		Input.get_action_strength("down_" + input_device) - Input.get_action_strength("up_" + input_device)
 	)
 	input_direction = input_direction.normalized()
-	if input_direction != Vector2.ZERO:
-		last_input_direction = input_direction
 	
 	update_animation_parameters(input_direction)	
 	
@@ -153,17 +161,22 @@ func _physics_process(delta):
 	else:
 		tether(delta)
 	input_direction += (tether_momentum / move_speed)
-	weapon_sprite.weapon_direction = (crosshair.position).normalized()
+	weapon_node.weapon_direction = (crosshair.position).normalized()
+	#move and slide function
+	if(self.process_mode != PROCESS_MODE_DISABLED and disabled_countdown <= 0):
+		move_and_slide()
 	
+	
+	if debug_menu and Input.is_action_just_pressed("toggle_invulnerability"):
+		invulnerable = !invulnerable
 	
 	if Input.is_action_just_pressed("attack_" + input_device):
 		if Input.is_action_pressed("special_" + input_device) and weapons[is_purple as int].current_special_hits >= weapons[is_purple as int].special_hits:
-			weapons[is_purple as int].end_special((crosshair.position).normalized(), global_position,self)
+			weapons[is_purple as int].use_normal_attack((crosshair.position).normalized(), global_position,self)
 		else:
 			handle_attack()
 	if Input.is_action_just_pressed("activate_" + input_device):
 		emit_signal("activate",self)
-		
 	if Input.is_action_pressed("special_" + input_device):
 		effects += weapons[is_purple as int].use_special(delta,false, (crosshair.position).normalized(), global_position,self)
 		emit_signal("special",self)
@@ -172,9 +185,6 @@ func _physics_process(delta):
 		
 	adjust_cooldowns(delta)
 	red_flash()
-	#move and slide function
-	if(self.process_mode != PROCESS_MODE_DISABLED and disabled_countdown <= 0):
-		move_and_slide()
 	if disabled_countdown >= 1:
 		disabled_countdown-=1
 
@@ -185,13 +195,13 @@ func update_animation_parameters(move_input : Vector2):
 		
 
 func request_attack(t_weapon : Weapon) -> float:
-	weapon_sprite.flip_direction()
+	weapon_node.flip_direction()
 	var attack_direction = (crosshair.position).normalized()
-	t_weapon.request_attacks(attack_direction,global_position,self)
+	t_weapon.request_attacks(attack_direction,global_position,self,weapon_node.flip)
 	return t_weapon.cooldown
 
-func take_damage(damage_amount : int, _dmg_owner : Node,_direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 20):
-	if(i_frames <= 0):
+func take_damage(damage_amount : int, _dmg_owner : Node,_direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 20,creates_indicators : bool = true):
+	if(i_frames <= 0) and not invulnerable:
 		i_frames = attack_i_frames
 		if check_drones():
 			LayerManager._damage_indicator(0, _dmg_owner,_direction, attack_body,self,Color(0.0, 0.666, 0.85, 1.0))
@@ -221,7 +231,7 @@ func take_damage(damage_amount : int, _dmg_owner : Node,_direction = Vector2(0,-
 				
 		current_health = current_health - damage_amount
 		emit_signal("player_took_damage",damage_amount,current_health,self)
-		if current_health >= 0:
+		if current_health >= 0 and creates_indicators:
 			LayerManager._damage_indicator(damage_amount, _dmg_owner,_direction, attack_body,self)
 		if(current_health <= 0):
 			if(die(true)):
@@ -230,7 +240,22 @@ func take_damage(damage_amount : int, _dmg_owner : Node,_direction = Vector2(0,-
 				instance.c_owner = self
 				LayerManager.room_instance.add_child(instance)
 				emit_signal("attack_requested",revive, position, Vector2.ZERO, 0)
+		_cleric_chance()
+		_barb_damage()
+
+func set_weapon_sprite(weapon : Weapon, f_weapon_node : Node):
+	var w_sprite = f_weapon_node.get_node("Sprite2D")
+	w_sprite.texture = weapon.weapon_sprite
+	f_weapon_node.weapon_type = weapon.type
+	w_sprite.hframes = weapon.sprite_hframes
+	w_sprite.vframes = weapon.sprite_vframes
+	if weapon.has_animation:
+		f_weapon_node.get_node("AnimationPlayer").play(weapon.sprite_animation)
+	else:
+		f_weapon_node.get_node("AnimationPlayer").play("RESET")
 	
+
+
 func swap_color():
 	check_forcefield()
 	emit_signal("swapped_color", self)
@@ -238,16 +263,14 @@ func swap_color():
 		is_purple = false
 		sprite.texture = orange_texture
 		crosshair_sprite.texture = orange_crosshair
-		weapon_texture.texture = weapons[0].weapon_sprite
-		weapon_sprite.weapon_type = weapons[0].type
+		set_weapon_sprite(weapons[0],weapon_node)
 		tether_line.default_color = Color("Orange")
 		weapons[1].special_time_elapsed = 0.0
 	else:
 		is_purple = true
 		sprite.texture = purple_texture
 		crosshair_sprite.texture = purple_crosshair
-		weapon_texture.texture = weapons[1].weapon_sprite
-		weapon_sprite.weapon_type = weapons[1].type
+		set_weapon_sprite(weapons[1],weapon_node)
 		tether_line.default_color = Color("Purple")
 		weapons[0].special_time_elapsed = 0.0
 
@@ -356,6 +379,16 @@ func check_traps(delta):
 		current_dmg_time = 0
 		in_instant_trap = false
 
+func _check_hydromancer(liquid : Globals.Liquid):
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = get_tree().get_root().get_node("LayerManager").player_1_remnants
+	else:
+		remnants = get_tree().get_root().get_node("LayerManager").player_2_remnants
+	var hydromancer = load("res://Game Elements/Remnants/hydromancer.tres")
+	for rem in remnants:
+		if rem.remnant_name == hydromancer.remnant_name:
+			last_liquid = liquid
 
 func check_liquids(delta):
 	var tile_pos = Vector2i(int(floor(global_position.x / 16)),int(floor(global_position.y / 16)))
@@ -370,10 +403,26 @@ func check_liquids(delta):
 					effect.value1 = 0.023
 					effect.gained(self)
 					effects.append(effect)
+					_check_hydromancer(Globals.Liquid.Water)
+				Globals.Liquid.Lava:
+					var idx = 0
+					for effect in effects:
+						if effect.type == "slow":
+							effect.tick(delta,self)
+							if effect.cooldown == 0:
+								effects.remove_at(idx)
+							current_liquid_time -= .01
+						idx +=1
+					current_liquid_time += delta
+					if current_liquid_time >= .25:
+						current_liquid_time -= .25
+						take_damage(2,null)
+					_check_hydromancer(Globals.Liquid.Lava)
 				Globals.Liquid.Conveyer:
 					position+=tile_data.get_custom_data("direction").normalized() *delta * 32
 				Globals.Liquid.Glitch:
 					_glitch_move()
+					_check_hydromancer(Globals.Liquid.Glitch)
 					
 					
 func _glitch_move() -> void:
@@ -437,6 +486,40 @@ func _crafter_chance() -> bool:
 			
 	return true
 
+func _cleric_chance():
+	randomize()
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = get_tree().get_root().get_node("LayerManager").player_1_remnants
+	else:
+		remnants = get_tree().get_root().get_node("LayerManager").player_2_remnants
+	var cleric = load("res://Game Elements/Remnants/cleric.tres")
+	for rem in remnants:
+		if rem.remnant_name == cleric.remnant_name:
+			if rem.variable_1_values[rem.rank-1] > randf()*100:
+				var particle =  load("res://Game Elements/Effects/heal_particles.tscn").instantiate()
+				particle.position = self.position
+				get_parent().add_child(particle)
+				change_health(rem.variable_2_values[rem.rank-1])
+
+func _barb_damage():
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = get_tree().get_root().get_node("LayerManager").player_1_remnants
+	else:
+		remnants = get_tree().get_root().get_node("LayerManager").player_2_remnants
+	var barbarian = load("res://Game Elements/Remnants/barbarian.tres")
+	for rem in remnants:
+		if rem.remnant_name == barbarian.remnant_name:
+			for weapon in weapons:
+				weapon.damage = weapon.damage * (1 + rem.variable_1_values[rem.rank-1] / 100.0)
+			_reset_barb_damage(rem.variable_1_values[rem.rank-1] / 100.0,rem.variable_2_values[rem.rank-1])
+
+func _reset_barb_damage(percent : float, time : float):
+	await get_tree().create_timer(time).timeout
+	for weapon in weapons:
+		weapon.damage = weapon.damage / (1 + percent)
+
 func damage_boost() -> float:
 	var boost : float = 1.0
 	randomize()
@@ -475,19 +558,20 @@ func change_health(add_to_current : int, add_to_max : int = 0):
 	emit_signal("max_health_changed",max_health,current_health,self)
 
 func red_flash() -> void:
-	if(i_frames > 0):
+	if(i_frames > 0) and not invulnerable:
 		sprite.self_modulate = Color(1.0, 0.378, 0.31, 1.0)
 	else:
 		sprite.self_modulate = Color(1.0, 1.0, 1.0)
 
 func set_weapon(purple : bool, resource_loc : String):
 	weapons[purple as int] = Weapon.create_weapon(resource_loc,self)
+	if LayerManager:
+		LayerManager.hud.set_max_cooldowns()
 	
 func update_weapon(resource_name : String):
 	var resource_loc = "res://Game Elements/Weapons/" + resource_name + ".tres"
 	weapons[is_purple as int] = Weapon.create_weapon(resource_loc,self)
-	weapon_texture.texture = weapons[is_purple as int].weapon_sprite
-	weapon_sprite.weapon_type = weapons[is_purple as int].type
+	set_weapon_sprite(weapons[is_purple as int],weapon_node)
 	
 
 func combo(input_purple : bool):
@@ -526,6 +610,8 @@ func player_special_reset():
 	emit_signal("special_reset", is_purple)
 
 func hit_enemy(attack_body : Node, enemy : Node):
+	if !attack_body:
+		return
 	var remnants : Array[Remnant] = []
 	var effect : Effect
 	if attack_body.attack_type == "emp":

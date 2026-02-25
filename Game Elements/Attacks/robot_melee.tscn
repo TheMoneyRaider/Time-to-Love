@@ -79,6 +79,7 @@ cooldown = 0.0
 pierce = -2.0
 attack_type = "robot melee"
 deflectable = true
+animation = "main"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_qt435")

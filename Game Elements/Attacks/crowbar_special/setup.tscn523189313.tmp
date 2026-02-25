@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://jfly4tbcg2de"]
+
+[ext_resource type="Script" uid="uid://qpurqdqiy5ur" path="res://Game Elements/Attacks/crowbar_special/setup.gd" id="1_3b1ln"]
+
+[node name="Setup" type="Node2D"]
+script = ExtResource("1_3b1ln")

@@ -22,19 +22,31 @@ var damage_direction = Vector2(0,-1)
 var sprint_timer : float = 0.0
 var sprint_cool : float = 0.0
 var damage_taken = 0
+var display_pathways = false
+var debug_menu = false
 var debug_mode = false
 var look_direction : Vector2 = Vector2(0,1)
 @export var weapon_cooldowns : Array[float] = []
+var last_hitter : Node = null
+var exploded : float = 0
+
 @export var hitable : bool = true
 @onready var i_frames : int = 0
 var weapon = null
 var effects : Array[Effect] = []
+var knockback_velocity : Vector2 = Vector2.ZERO
+@export var knockback_decay : float = .90
+
 
 var attacks = [preload("res://Game Elements/Attacks/bad_bolt.tscn"),preload("res://Game Elements/Attacks/robot_melee.tscn")]
 signal attack_requested(new_attack : PackedScene, t_position : Vector2, t_direction : Vector2, damage_boost : float)
 
 signal enemy_took_damage(damage : int,current_health : int,c_node : Node, direction : Vector2)
 
+
+func _input(event):
+	if debug_menu and event.is_action_pressed("display_paths"):
+		display_pathways = !display_pathways
 
 func handle_attack(target_position: Vector2):
 	var attack_direction = (target_position - global_position).normalized()
@@ -106,7 +118,17 @@ func sprint(start : bool):
 				$AnimationPlayer.play("sprint")
 			move_speed *=sprint_multiplier
 			sprint_timer = randf_range(min_sprint_time,max_sprint_time)
+
+func _physics_process(delta: float) -> void:
 	
+	if knockback_velocity != Vector2.ZERO: 
+		var temp_velocity = velocity
+		velocity = knockback_velocity
+		move_and_slide()
+		velocity = temp_velocity
+		# Gradually reduce knockback over time
+		knockback_velocity = knockback_velocity * knockback_decay
+
 func _process(delta):
 	if sprint_timer!=0.0 and max(0.0,sprint_timer-delta)==0.0:
 		sprint(false)
@@ -129,6 +151,9 @@ func _process(delta):
 		if effect.cooldown == 0:
 			effects.remove_at(idx)
 		idx +=1
+		
+	#Trap stuff
+	check_traps(delta)
 	check_liquids(delta)
 	
 	if debug_mode:
@@ -151,33 +176,56 @@ func _robot_process():
 	$RobotBrain.set_frame(block + offset)
 
 
-func take_damage(damage : int, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0):
+func take_damage(damage : int, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0,creates_indicators : bool = true):
 	if current_health< 0:
 		return
-	check_agro(dmg_owner)
-	if(i_frames <= 0) and enemy_type=="binary_bot":
-		i_frames = 20
+	if(i_frames > 0):
+		return
+	i_frames = attack_i_frames
+	if dmg_owner:
+		check_agro(dmg_owner)
+	if enemy_type=="binary_bot":
 		$Core.damage_glyphs()
 	if current_health >= 0 and display_damage and attack_body != null and attack_body.attack_type != "emp":
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(damage, dmg_owner,direction, attack_body,self)
+	if dmg_owner != null:
+		last_hitter = dmg_owner
+	_check_on_hit_remnants(dmg_owner, attack_body)
+	
 	if dmg_owner != null and dmg_owner.is_in_group("player"):
 		if attack_body and !attack_body.combod:
 			attack_body.combod = true
 			dmg_owner.combo(attack_body.is_purple)
 		dmg_owner.hit_enemy(attack_body,self)
-	#const KNOCKBACK_FORCE: float = 150.0
-	#velocity = direction * KNOCKBACK_FORCE
+	if attack_body:
+		match attack_body.attack_type:
+			"laser":
+				knockback_velocity = Vector2.UP.rotated(attack_body.rotation+PI/2) * attack_body.knockback_force
+			"forcefield":
+				knockback_velocity = (global_position-attack_body.global_position).normalized() * attack_body.knockback_force
+			"crowbar_explosion":
+				knockback_velocity = (global_position-attack_body.global_position).normalized() * attack_body.knockback_force
+			"ls_melee":
+				knockback_velocity = (global_position-attack_body.global_position).normalized() * attack_body.knockback_force
+			_:
+				knockback_velocity = attack_body.direction * attack_body.knockback_force
 	current_health -= damage
-	if current_health < 0 and enemy_type == "laser_e":
-		var bt_player = get_node("BTPlayer")
-		var board = bt_player.blackboard
-		if board:
-			board.set_var("kill_laser", true)
-			board.set_var("kill_damage", damage)
-			board.set_var("kill_direction", direction)
-		return
-	if current_health < 0 and dmg_owner.is_in_group("player"):
-		dmg_owner.kill_enemy(self)
+	if current_health < 0:
+		
+			
+		for effect in effects:
+			effect.lost(self)
+		
+		if  enemy_type == "laser_e":
+			var bt_player = get_node("BTPlayer")
+			var board = bt_player.blackboard
+			if board:
+				board.set_var("kill_laser", true)
+				board.set_var("kill_damage", damage)
+				board.set_var("kill_direction", direction)
+			return
+		if dmg_owner.is_in_group("player"):
+			dmg_owner.kill_enemy(self)
 	emit_signal("enemy_took_damage",damage,current_health,self,direction)
 
 func check_agro(dmg_owner : Node):
@@ -198,6 +246,54 @@ func check_agro(dmg_owner : Node):
 		board.set_var("player_idx", i)
 		board.set_var("state", "agro")
 
+
+func _check_on_hit_remnants(dmg_owner: Node, attack_body: Node):
+	if dmg_owner != null and dmg_owner.is_in_group("player"):
+		var remnants : Array[Remnant] = []
+		if dmg_owner.is_purple:
+			remnants = get_tree().get_root().get_node("LayerManager").player_1_remnants
+		else:
+			remnants = get_tree().get_root().get_node("LayerManager").player_2_remnants
+		var pyromancer = load("res://Game Elements/Remnants/pyromancer.tres")
+		var winter = load("res://Game Elements/Remnants/winters_embrace.tres")
+		var hydromancer = load("res://Game Elements/Remnants/hydromancer.tres")
+		var effect : Effect
+		exploded = 0
+		for rem in remnants:
+			match rem.remnant_name:
+				winter.remnant_name:
+					effect = load("res://Game Elements/Effects/winter_freeze.tres").duplicate(true)
+					effect.cooldown = rem.variable_2_values[rem.rank-1]
+					effect.value1 =  rem.variable_1_values[rem.rank-1]
+					effect.gained(self)
+					effects.append(effect)
+				pyromancer.remnant_name:
+					exploded = rem.variable_2_values[rem.rank-1]
+				hydromancer.remnant_name:
+					apply_hydromancer(rem, attack_body)
+				_:
+					pass
+
+func apply_hydromancer(rem : Remnant, attack_body : Node):
+	var effect : Effect
+	match attack_body.last_liquid:
+		Globals.Liquid.Water:
+			for i in range(rem.rank * 8):
+				effect = load("res://Game Elements/Effects/slow_down.tres").duplicate()
+				effect.cooldown = rem.rank
+				effect.value1 = 0.023
+				effect.gained(self)
+				effects.append(effect)
+		Globals.Liquid.Lava:
+			for i in range(1, rem.rank + 1):
+				effect = load("res://Game Elements/Effects/burn.tres").duplicate()
+				effect.cooldown = i
+				effect.value1 = 2
+				effect.gained(self)
+				effects.append(effect)
+		_:
+			pass
+		
 
 func check_traps(delta):
 	var tile_pos = Vector2i(int(floor(global_position.x / 16)),int(floor(global_position.y / 16)))
@@ -294,6 +390,9 @@ func _draw():
 	if !debug_mode:
 		return
 	# Get path from blackboard if behavior tree exists
+	if not display_pathways:
+		return
+	
 	if not has_node("BTPlayer"):
 		return
 	

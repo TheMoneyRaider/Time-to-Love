@@ -1,4 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://3c8xosoihgtb"]
+[gd_scene load_steps=7 format=3 uid="uid://3c8xosoihgtb"]
+
+[ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/Particles/effect_particles.gd" id="1_514pk"]
 
 [sub_resource type="Gradient" id="Gradient_04ah2"]
 offsets = PackedFloat32Array(0.18584071, 0.40117994, 0.7463127, 1)
@@ -37,9 +39,12 @@ hue_variation_min = -0.100000024
 hue_variation_max = 0.09999997
 
 [node name="FireDamage" type="GPUParticles2D"]
+z_index = 20
+y_sort_enabled = true
 emitting = false
 amount = 100
 lifetime = 1.5
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_04ah2")
+script = ExtResource("1_514pk")

@@ -50,9 +50,9 @@ func get_random_remnants(num: int = 4, player1_remnants: Array = [], player2_rem
 	for r in player2_remnants:
 		p2_names.append(r.remnant_name)
 	for rem in remnant_pool:
-		if rem.remnant_name not in p1_names:
+		if rem.remnant_name not in p1_names and meets_requirements(rem,p1_names):
 			pool_for_p1.append(rem)
-		if rem.remnant_name not in p2_names:
+		if rem.remnant_name not in p2_names and meets_requirements(rem,p2_names):
 			pool_for_p2.append(rem)
 	# Pick half from each
 	_pick_random_unique(pool_for_p1, half, result)
@@ -73,6 +73,13 @@ func get_random_remnants(num: int = 4, player1_remnants: Array = [], player2_rem
 	print("Result "+str(result))
 	return result
 	
+func meets_requirements(remnant : Remnant,names : Array[String]):
+	for rm in remnant.required_remnants:
+		if rm.remnant_name not in names:
+			return false
+	return true
+
+
 
 #Returns an array of up to `num` unique remnants from the two players pools that can be upgraded
 func get_remnant_upgrades(num: int = 4, player1_remnants: Array = [], player2_remnants : Array = []) -> Array[Resource]:

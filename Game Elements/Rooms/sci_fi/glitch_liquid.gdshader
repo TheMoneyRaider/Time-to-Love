@@ -6,6 +6,7 @@ uniform vec4 u_color_low : source_color = vec4(0, 0, 0, 1);
 uniform vec4 u_color_mid_red : source_color = vec4(0, 0.337, 0.32, 1.0); 
 uniform vec4 u_color_high : source_color = vec4(.4745, .98, 0.0, 1.0); 
 uniform float scale = 24.0;
+uniform bool enabled = true;
 
 
 
@@ -67,21 +68,27 @@ void vertex() {
 }
 
 void fragment() {
-	vec2 noise_coord = world_pos;
-    vec4 col = texture(TEXTURE, UV);
-	
-    vec2 screen_size = 1.0 / SCREEN_PIXEL_SIZE;
-    vec2 uv = FRAGCOORD.xy / screen_size.x; 
-   	float shade = pattern(floor(world_pos)/scale);
+	if (!enabled){
+		COLOR = texture(TEXTURE, UV);
+		
+	}else{
+		vec2 noise_coord = world_pos;
+	    vec4 col = texture(TEXTURE, UV);
+		
+	    vec2 screen_size = 1.0 / SCREEN_PIXEL_SIZE;
+	    vec2 uv = FRAGCOORD.xy / screen_size.x; 
+	   	float shade = pattern(floor(world_pos)/scale);
 
-    vec4 map_col = colormap(shade);
+	    vec4 map_col = colormap(shade);
+		
+		
+	    // Compute luminance of original texture
+	    float lum = dot(col.rgb, vec3(0.2126, 0.7152, 0.0722));
+	    
+		// Scale the colormap color to match original brightness
+	    vec3 final_rgb = map_col.rgb * lum;
+		
+		COLOR = vec4(final_rgb, col.a*map_col.a);
+	}
 	
-	
-    // Compute luminance of original texture
-    float lum = dot(col.rgb, vec3(0.2126, 0.7152, 0.0722));
-    
-	// Scale the colormap color to match original brightness
-    vec3 final_rgb = map_col.rgb * lum;
-	
-	COLOR = vec4(final_rgb, col.a*map_col.a);
 }

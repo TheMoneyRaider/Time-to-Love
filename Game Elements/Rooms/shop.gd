@@ -52,7 +52,7 @@ func check_rewards(player_node : Node) -> bool:
 						if layer_manager.is_multiplayer:
 							layer_manager.player2.change_health(5,5)
 						layer_manager.player1.change_health(5,5)
-						var particle =  load("res://Game Elements/Effects/heal_particles.tscn").instantiate()
+						var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 						particle.global_position = item.global_position
 						layer_manager.room_instance.add_child(particle)
 						item.queue_free()
@@ -61,7 +61,7 @@ func check_rewards(player_node : Node) -> bool:
 						if layer_manager.is_multiplayer:
 							layer_manager.player2.change_health(5)
 						layer_manager.player1.change_health(5)
-						var particle =  load("res://Game Elements/Effects/heal_particles.tscn").instantiate()
+						var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 						particle.global_position = item.global_position
 						layer_manager.room_instance.add_child(particle)
 						item.queue_free()
