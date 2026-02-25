@@ -492,10 +492,10 @@ FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type
 [],																																#Trap Types                         
 2,																																#Num Pathways                   
 [Globals.Direction.Up,Globals.Direction.Down],									#Pathway Directions                       
-2,																																#Enemy Num Goal                               
+0,																																#Enemy Num Goal                               
 0,																																#NPC Spawnpoints   
-Globals.RoomType.Combat,																										#RoomType
+Globals.RoomType.Buffer,																										#RoomType
 Globals.RoomVariant.MedOut,																							#RoomVariant
-["res://Game Elements/Characters/robot.tscn"],																				#Enemies That can spawn in this room
-[1.0],																															#Weights for those enemies to spawn
-.25)
+[],																				#Enemies That can spawn in this room
+[],																															#Weights for those enemies to spawn
+0.0)
