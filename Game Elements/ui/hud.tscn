@@ -15,7 +15,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5ho0i"]
 shader = ExtResource("3_8prbk")
-shader_parameter/effect_index = -1
+shader_parameter/effect_index = 2
 shader_parameter/progress = 1.0
 shader_parameter/image_size = Vector2(715, 41)
 shader_parameter/P1_u_speed = 0.125

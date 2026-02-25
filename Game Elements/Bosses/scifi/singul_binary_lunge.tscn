@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://d0hv1vywwh5hk"]
+
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_odtqk"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oynju"]
+radius = 24.0
+
+[node name="Lunge" type="Area2D" groups=["attack"]]
+z_index = 19
+y_sort_enabled = true
+collision_layer = 8
+collision_mask = 47
+script = ExtResource("1_odtqk")
+speed = 0.0
+damage = 6.0
+lifespan = 3.0
+hit_force = 100.0
+pierce = -2.0
+wall_collision = false
+attack_type = "lunge"
+deflects = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_oynju")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

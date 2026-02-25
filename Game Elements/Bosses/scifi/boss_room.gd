@@ -198,6 +198,7 @@ func _process(delta: float) -> void:
 		finish_intro()		
 	if animation!= "" and boss and is_instance_valid(boss):
 		boss_animation()
+	scifi_binary_process(delta)
 
 func finish_intro():
 	player1.disabled = false
@@ -305,38 +306,41 @@ func scifi_phase1_middles():
 		board.set_var("attack_mode", "NONE")
 	middle_active -=1
 	
-
-
-
-
 func boss_animation():
-	if boss_type=="scifi":
-		var eye = boss.get_node("Segments/Eye/3")
-		var board = boss.get_node("BTPlayer").blackboard
-		var is_purple = board.get_var("player_idx") as bool
-		var track_position = player1.global_position if is_purple else player2.global_position
-		eye.position = (track_position-eye.global_position).normalized()*6
-		match animation:
-			"idle":
-				boss.get_node("Segments").z_index=0
-				var count = 0
-				for child in boss.get_node("Segments/Rims").get_children():
-					count+=1
-					var angle = 45 *count+lifetime*20
-					var new_position =Vector2.UP.rotated(deg_to_rad(angle)) * (32 +sin(lifetime*count/3)*2)
-					child.get_node("RimVis").global_position = new_position + boss.global_position
-					child.get_node("RimVis").global_rotation = deg_to_rad(angle - 224)
-			"basic_laser":
-				var gun = boss.get_node("Segments/GunParts")
-				gun.rotation = lerp_angle(gun.rotation, (track_position - boss.global_position).angle(), 0.03)
-			"laser_ultra":
-				var count = 0
-				for child in boss.get_node("Segments/Rims").get_children():
-					count+=1
-					var angle = 45 *count+rad_to_deg(current_rotation)
-					var new_position =Vector2.UP.rotated(deg_to_rad(angle)) * (32 +sin(lifetime*count/3)*2)
-					child.get_node("RimVis").global_position = new_position + boss.global_position
-					child.get_node("RimVis").global_rotation = deg_to_rad(angle - 224)
+	var eye = boss.get_node("Segments/Eye/3")
+	var board = boss.get_node("BTPlayer").blackboard
+	var is_purple = board.get_var("player_idx") as bool
+	var track_position = player1.global_position if is_purple else player2.global_position
+	eye.position = (track_position-eye.global_position).normalized()*6
+	match animation:
+		"idle":
+			boss.get_node("Segments").z_index=0
+			var count = 0
+			for child in boss.get_node("Segments/Rims").get_children():
+				count+=1
+				var angle = 45 *count+lifetime*20
+				var new_position =Vector2.UP.rotated(deg_to_rad(angle)) * (rim_distance +sin(lifetime*count/3)*2)
+				child.get_node("RimVis").global_position = new_position + boss.global_position
+				child.get_node("RimVis").global_rotation = deg_to_rad(angle - 224)
+		"basic_laser":
+			var gun = boss.get_node("Segments/GunParts")
+			gun.rotation = lerp_angle(gun.rotation, (track_position - boss.global_position).angle(), 0.03)
+		"laser_ultra":
+			var count = 0
+			for child in boss.get_node("Segments/Rims").get_children():
+				count+=1
+				var angle = 45 *count+rad_to_deg(current_rotation)
+				var new_position =Vector2.UP.rotated(deg_to_rad(angle)) * (rim_distance +sin(lifetime*count/3)*2)
+				child.get_node("RimVis").global_position = new_position + boss.global_position
+				child.get_node("RimVis").global_rotation = deg_to_rad(angle - 224)
+		"binary_lunge":
+			var count = 0
+			for child in boss.get_node("Segments/Rims").get_children():
+				count+=1
+				var angle = 45 *count+lifetime*20
+				var new_position =Vector2.UP.rotated(deg_to_rad(angle)) * (rim_distance)
+				child.get_node("RimVis").global_position = new_position + boss.global_position
+				child.get_node("RimVis").global_rotation = deg_to_rad(angle - 224)
 
 var resetting = 0
 
@@ -450,6 +454,114 @@ func scifi_laser_attack(num_lasers):
 		inst.queue_free()
 	if animation == "basic_laser" or animation =="laser_ultra":
 		animation_change("idle")
+	
+
+
+
+
+enum MeleePhase { NONE, SHRINK, LUNGE, DECEL, EXPAND }
+	
+var attack_cooldown
+var attack_direct
+var tracked_player
+var melee_phase : int = MeleePhase.NONE
+var melee_timer : float = 0.0
+var melee_duration : float = 0.25
+var tracked_player_pos : Vector2
+var lunge_velocity : Vector2 = Vector2.ZERO
+var target_vector : Vector2 = Vector2.ZERO
+var friction : float = 10.0
+var track_strength := 6.0
+var melee_tween : Tween
+var rim_distance = 32.0
+
+func _deflect_melee_attack():
+	attack_direct = -1
+
+func _get_player_position() -> Vector2:
+	var players = get_tree().get_nodes_in_group("player")
+	var positions_array = []
+	for player in players: 
+		positions_array.append(player.global_position)
+
+	var board = boss.get_node("BTPlayer").blackboard
+	
+	tracked_player =players[board.get_var("player_idx")]
+	return positions_array[board.get_var("player_idx")]
+
+var attack
+
+func scifi_binary_attack():
+	animation_change("binary_lunge")
+	tracked_player_pos = _get_player_position()
+	attack_direct = 1
+	attack_cooldown = 1.2
+	melee_phase = MeleePhase.SHRINK
+	melee_timer = 0.0
+
+	melee_tween = create_tween()
+	melee_tween.tween_property(self, "rim_distance", 16, 0.5)
+	
+
+func scifi_binary_process(delta : float):
+	if melee_phase ==  MeleePhase.NONE:
+		return
+	match melee_phase:
+		MeleePhase.SHRINK:
+			# Track the player
+			tracked_player_pos = tracked_player_pos.lerp(
+				tracked_player.global_position,
+				1.0 - exp(-track_strength * delta)
+			)
+
+			# Wait for tween to finish
+			if !melee_tween.is_running():
+				melee_phase = MeleePhase.LUNGE
+				melee_timer = 0.0
+				boss.set_collision_layer_value(3, false)
+				boss.set_collision_mask_value(3, false)
+				boss.set_collision_mask_value(2, false)
+
+		MeleePhase.LUNGE:
+			# Compute target on first frame
+			if melee_timer == 0.0:
+				var movement_vector = tracked_player_pos - boss.global_position
+				if movement_vector.length() < 32:
+					movement_vector = movement_vector.normalized() * 32
+				target_vector = movement_vector.normalized() * movement_vector.length() * 1.5
+				attack = load("res://Game Elements/Bosses/scifi/singul_binary_lunge.tscn").instantiate()
+	
+				attack.direction = target_vector.normalized()
+				attack.c_owner= boss
+				boss.call_deferred("add_child",attack)
+
+			melee_timer += delta
+			var t = delta / melee_duration
+			lunge_velocity = target_vector * t * attack_direct * 60
+			boss.apply_velocity(lunge_velocity)
+
+			if melee_timer >= melee_duration:
+				melee_phase = MeleePhase.DECEL
+
+		MeleePhase.DECEL:
+			lunge_velocity = lunge_velocity.move_toward(Vector2.ZERO, friction * delta * 100)
+			boss.apply_velocity(lunge_velocity)
+			if lunge_velocity.length() <= 5.0:
+				boss.apply_velocity(Vector2.ZERO)
+				if attack:
+					attack.queue_free()
+				melee_phase = MeleePhase.EXPAND
+				melee_timer = -randf_range(0,2)
+				melee_tween = create_tween()
+				melee_tween.tween_property(self, "rim_distance", 32, 1.0)
+				boss.set_collision_layer_value(3, true)
+				boss.set_collision_mask_value(3, true)
+				boss.set_collision_mask_value(2, true)
+		MeleePhase.EXPAND:
+			melee_timer += delta
+			if melee_timer >= .8:
+				melee_phase = MeleePhase.NONE
+				animation_change("idle")
 	
 	
 func laser_legal():

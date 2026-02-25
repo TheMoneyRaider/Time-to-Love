@@ -2494,7 +2494,7 @@ max_timefabric = 1000
 move_speed = 50.0
 is_boss = true
 boss_phases = 3
-boss_healthpools = Array[float]([450.0, 100.0, 3000.0])
+boss_healthpools = Array[float]([450.0, 600.0, 750.0])
 knockback_decay = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

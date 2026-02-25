@@ -85,6 +85,9 @@ bool health_edge(sampler2D text, vec2 uv){
 	} else if (effect_index == 1) {
 		if(uv.x > progress)
 			return true;
+	} else if (effect_index == 2) {
+		if(uv.x > progress)
+			return true;
 	} else {
 	}
 	return false;
