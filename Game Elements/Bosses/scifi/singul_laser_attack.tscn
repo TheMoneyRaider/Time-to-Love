@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://ksla538d65wc"]
+
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_kyqlk"]
+
+[node name="Laser" type="Area2D" groups=["attack"]]
+z_index = 20
+y_sort_enabled = true
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("1_kyqlk")
+speed = 0.0
+damage = 2.0
+lifespan = 10.0
+knockback_force = 0.0
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "scifi_laser"
+repeat_hits = true
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

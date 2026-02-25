@@ -14,9 +14,7 @@ func _process(_delta: float) -> void:
 	for child in get_children():
 		# Recycle when offscreen
 		if child.position.x > size.x + 50:
-			used_y_positions.erase(child.position.y)  # free its Y position
-			child.queue_free()
-			make_new_string()
+			child.position.x = -50
 	
 	
 func make_new_string():

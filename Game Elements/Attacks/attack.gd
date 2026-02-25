@@ -31,6 +31,9 @@ var hit_nodes = {}
 @export var creates_indicators : bool = true
 @export var spawn_particle : PackedScene = null
 @export var animation : String = ""
+@export var hits_owner : bool = false
+@export var hits_all : bool = false
+
 var combod : bool = false
 var is_purple : bool = false
 
@@ -78,7 +81,7 @@ func _ready():
 	ready_hacks()
 	frozen = true
 	if start_lag > 0.0:
-		await get_tree().create_timer(start_lag).timeout
+		await get_tree().create_timer(start_lag, false).timeout
 	frozen = false
 	if spawn_particle:
 		var inst = spawn_particle.instantiate()
@@ -93,7 +96,8 @@ func _ready():
 			$Sprite2D.texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_purple.png")
 		else:
 			$Sprite2D.texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_orange.png")
-	rotation = direction.angle() + PI/2
+	if attack_type!="scifi_laser":
+		rotation = direction.angle() + PI/2
 	if attack_type == "explosion":
 		rotation = 0
 	if attack_type == "slug":
@@ -102,6 +106,10 @@ func _ready():
 		special_nodes[-1].global_rotation = global_rotation
 		get_parent().add_child(special_nodes[-1])
 		special_nodes[-1].setup(self)
+	if attack_type == "scifi_wave":
+		_wave_attack_setup()
+	if attack_type == "scifi_laser":
+		_laser_attack_setup()
 	
 
 
@@ -200,7 +208,7 @@ func _process(delta):
 		change_direction()
 	if frozen:
 		return
-	if attack_type == "laser":
+	if attack_type == "laser" or attack_type == "scifi_laser":
 		if has_method("get_overlapping_bodies"):
 			for body in get_overlapping_bodies():
 				intersection(body)
@@ -209,6 +217,10 @@ func _process(delta):
 	life+=delta
 	if attack_type == "smash":
 		get_node("CollisionShape2D").shape.radius = lerp(8,16,life/lifespan)
+	if attack_type == "scifi_wave":
+		_wave_process()
+	if attack_type == "scifi_laser":
+		_laser_process(delta)
 	if life < lifespan:
 		return
 	if attack_type == "death mark":
@@ -218,22 +230,31 @@ func _process(delta):
 	queue_free()
 	
 func apply_damage(body : Node, n_owner : Node, damage_dealt : int, a_direction: Vector2) -> int:
-	#Computer Hack Remnant
-	var hack_chance1 = 0.0 if !hack1 else hack1.variable_1_values[hack1.rank-1]/100.0
-	var hack_chance2 = 0.0 if !hack2 else hack2.variable_1_values[hack2.rank-1]/100.0
-	if hack_chance1 > randf():
-		n_owner = LayerManager.player1
-	if hack_chance2 > randf():
-		n_owner = LayerManager.player1
-		if Globals.is_multiplayer:
-			n_owner = LayerManager.player2
-	if body == n_owner:
+	if attack_type != "scifi_laser":
+		#Computer Hack Remnant
+		var hack_chance1 = 0.0 if !hack1 else hack1.variable_1_values[hack1.rank-1]/100.0
+		var hack_chance2 = 0.0 if !hack2 else hack2.variable_1_values[hack2.rank-1]/100.0
+		if hack_chance1 > randf():
+			n_owner = LayerManager.player1
+		if hack_chance2 > randf():
+			n_owner = LayerManager.player1
+			if Globals.is_multiplayer:
+				n_owner = LayerManager.player2
+	if body == n_owner and !hits_owner:
 		return 0
-	if n_owner.is_in_group("player") and body.is_in_group("player"):
+	if n_owner.is_in_group("player") and body.is_in_group("player") and !hits_all:
 		return 0
-	if !n_owner.is_in_group("player") and !body.is_in_group("player"):
+	if !n_owner.is_in_group("player") and !body.is_in_group("player") and !hits_all:
 		return 0
 	if body.has_method("take_damage"):
+		if attack_type=="scifi_wave":
+			var direct = (body.global_position-global_position)
+			var ray = cast_ray(global_position,direct.normalized(),wave_attack_dist,self)
+			if ray:
+				if (ray.position - global_position).length() < direct.length() or direct.length() < life/lifespan * 480 - 48:
+					return 0
+			else:
+				return 0
 		body.take_damage(damage_dealt,n_owner,a_direction,self, i_frames,creates_indicators)
 		return 1
 	if wall_damage:
@@ -257,7 +278,7 @@ func intersection(body):
 		match apply_damage(body,c_owner,damage,direction):
 			1:
 				pierce -= 1
-				if attack_type!= "laser" and attack_type!= "binary_melee":
+				if attack_type!= "laser" and attack_type!= "scifi_laser" and attack_type!= "binary_melee":
 					hit_nodes[body] = null
 			0:
 				pass
@@ -320,3 +341,177 @@ func _on_area_entered(area: Area2D) -> void:
 func _on_body_exited(body: Node2D) -> void:
 	if repeat_hits:
 		hit_nodes.erase(body)
+
+
+#######################################################################
+#Lasers and Waves
+#######################################################################
+func _laser_process(delta):
+	var s_material = LayerManager.get_node("game_container").material
+	if laser_rotation:
+		l_rotation+=rotation_speed*delta
+		s_material.set_shader_parameter("laser_rotation",l_rotation)
+	s_material.set_shader_parameter("camera_center", LayerManager.camera.get_screen_center_position())
+	_update_laser_collision_shapes()
+
+func _update_laser_collision_shapes():
+
+	if laser_shapes.is_empty(): return
+
+	var elapsed = Time.get_ticks_msec() / 1000.0 - laser_impact_time - laser_differential
+
+	if elapsed <= 0.0: return
+
+	var beam_spacing = 360.0 / float(num_lasers)
+
+	for i in range(num_lasers):
+
+		var shape = laser_shapes[i]
+		var rect = shape.shape
+
+		var beam_angle = l_rotation + i * beam_spacing
+		var wrapped = wrapf(beam_angle, 0.0, 360.0)
+		var index = int(wrapped * 2.0)
+		index = clamp(index, 0, 719)
+		
+		var max_dist = ray_distances[index]
+		
+		# --- longitudinal growth like shader ---
+		var beam_head = elapsed * laser_speed        # distance to front of wave
+
+		# clamp total beam length to max collision
+		var total_length = min(beam_head-32, max_dist)
+		
+		var visible_tail = max(beam_head - laser_wave_width,0)
+		
+
+		# set rectangle: width = total_length along X, height = laser_width
+		if(total_length - visible_tail) <= 0:
+			shape.disabled = true
+		else:
+			shape.disabled = false
+			rect.size.x = max(total_length - visible_tail,0)
+			rect.size.y = 12
+
+		# offset = half of solid + half of tail behind
+		var offset_x = rect.size.x * 0.5
+		var offset = Vector2(offset_x, 0).rotated(deg_to_rad(beam_angle))
+		if beam_head-150 > max_dist:
+			shape.position = Vector2(max_dist,0).rotated(deg_to_rad(beam_angle))-offset
+		else:
+			shape.position = offset
+
+		# rotate
+		shape.rotation = deg_to_rad(beam_angle)
+func _wave_process():
+	$CollisionShape2D.shape.radius = clamp(life/lifespan * wave_attack_dist - 48,0,1000000)
+	var s_material = LayerManager.get_node("game_container").material
+	s_material.set_shader_parameter("camera_center", LayerManager.camera.get_screen_center_position())
+	
+
+func pause_shaders():
+	if attack_type=="scifi_wave":
+		var s_material = LayerManager.get_node("game_container").material
+		pause_moment =Time.get_ticks_msec() / 1000.0
+		s_material.set_shader_parameter("wave_pause_time", pause_moment-wave_differential)
+		s_material.set_shader_parameter("wave_differential", -1)
+	if attack_type=="scifi_laser":
+		var s_material = LayerManager.get_node("game_container").material
+		pause_moment =Time.get_ticks_msec() / 1000.0
+		s_material.set_shader_parameter("laser_pause_time", pause_moment-laser_differential)
+		s_material.set_shader_parameter("laser_differential", -1)
+var wave_differential : float =0.0
+var laser_differential : float =0.0
+var pause_moment : float
+
+func resume_shaders():
+	if attack_type=="scifi_wave":
+		var s_material = LayerManager.get_node("game_container").material
+		wave_differential+= Time.get_ticks_msec() / 1000.0 - pause_moment
+		s_material.set_shader_parameter("wave_differential", wave_differential)
+	if attack_type=="scifi_laser":
+		var s_material = LayerManager.get_node("game_container").material
+		laser_differential+= Time.get_ticks_msec() / 1000.0 - pause_moment
+		s_material.set_shader_parameter("laser_differential", laser_differential)
+		
+var wave_attack_dist = 2000.0
+func _wave_attack_setup():
+	$CollisionShape2D.call_deferred("set", "shape", $CollisionShape2D.shape.duplicate(true))
+	var s_material = LayerManager.get_node("game_container").material
+	var visible_size = Vector2(get_viewport().size) / LayerManager.camera.zoom
+	s_material.set_shader_parameter("wave_impact_world_pos", global_position)
+	s_material.set_shader_parameter("wave_impact_time", Time.get_ticks_msec() / 1000.0)
+	s_material.set_shader_parameter("wave_speed",wave_attack_dist/lifespan)
+	s_material.set_shader_parameter("wave_width",48)
+	s_material.set_shader_parameter("camera_center", LayerManager.camera.get_screen_center_position())
+	s_material.set_shader_parameter("visible_world_size", visible_size)
+	s_material.set_shader_parameter("wave_pause_time", -1)
+	s_material.set_shader_parameter("wave_differential", -1)
+	var distances = []
+	var ray_direction : Vector2
+	for i in range(0,720):
+		ray_direction = Vector2.RIGHT.rotated(i/720.0 * TAU)
+		var ray = cast_ray(global_position, ray_direction, wave_attack_dist, self)
+		if ray:
+			distances.append((ray.position - global_position).length())
+		else:
+			distances.append(wave_attack_dist)
+	s_material.set_shader_parameter("collision_distances",distances)
+
+
+var laser_shapes : Array = []
+var l_rotation = 0
+var num_lasers = 16
+var rotation_speed : float = 20
+var laser_rotation : bool = false
+var ray_distances = []
+var laser_attack_dist = 600.0
+var laser_impact_time = 0.0
+var laser_wave_width = 1024
+var laser_speed = 2*laser_attack_dist/5
+func _laser_attack_setup():
+	var s_material = LayerManager.get_node("game_container").material
+	laser_shapes.clear()
+	ray_distances.clear()
+	
+	var visible_size = Vector2(get_viewport().size) / LayerManager.camera.zoom
+	s_material.set_shader_parameter("laser_impact_world_pos", global_position)
+	s_material.set_shader_parameter("laser_impact_time", Time.get_ticks_msec() / 1000.0)
+	laser_impact_time = Time.get_ticks_msec() / 1000.0
+	s_material.set_shader_parameter("laser_speed",2*laser_attack_dist/5)
+	s_material.set_shader_parameter("laser_count",num_lasers)
+	
+	l_rotation = rad_to_deg(direction.angle())
+	s_material.set_shader_parameter("laser_rotation",l_rotation)
+	s_material.set_shader_parameter("laser_wave_width",laser_wave_width)
+	s_material.set_shader_parameter("camera_center", LayerManager.camera.get_screen_center_position())
+	s_material.set_shader_parameter("visible_world_size", visible_size)
+	s_material.set_shader_parameter("laser_pause_time", -1)
+	s_material.set_shader_parameter("laser_differential", -1)
+	
+	# ----------------------------------
+	# Build ray distance array (720)
+	# ----------------------------------
+	var ray_direction : Vector2
+	for i in range(0,720):
+		ray_direction = Vector2.RIGHT.rotated(i/720.0 * TAU)
+		var ray = cast_ray(global_position, ray_direction, laser_attack_dist, self)
+		if ray:
+			ray_distances.append((ray.position - global_position).length())
+		else:
+			ray_distances.append(laser_attack_dist)
+	s_material.set_shader_parameter("collision_distances",ray_distances)
+	# ----------------------------------
+	# Create collision shapes per laser
+	# ----------------------------------
+	for i in range(num_lasers):
+
+		var shape = CollisionShape2D.new()
+		var rect = RectangleShape2D.new()
+
+		rect.size = Vector2(1, 16) # start tiny
+		shape.shape = rect
+		add_child(shape)
+		laser_shapes.append(shape)
+	if !laser_rotation:
+		_update_laser_collision_shapes()

@@ -199,7 +199,7 @@ func _process_melee_attack(delta):
 				var movement_vector = tracked_player_pos - global_position
 				if movement_vector.length() < 32:
 					movement_vector = movement_vector.normalized() * 32
-				target_vector = movement_vector * 1.5
+				target_vector = movement_vector.normalized() * clamp(movement_vector.length() * 1.5,0,30)
 				_change_glyph_colors(Color(0.743, 0.247, 0.148, 1.0), 0.125, 0.0)
 
 			melee_timer += delta

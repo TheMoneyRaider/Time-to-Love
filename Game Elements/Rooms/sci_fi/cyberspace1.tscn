@@ -16,6 +16,7 @@ shader_parameter/u_color_low = Color(0, 0, 0, 1)
 shader_parameter/u_color_mid_red = Color(0, 0.337, 0.32, 1)
 shader_parameter/u_color_high = Color(0.4745, 0.98, 0, 1)
 shader_parameter/scale = 24.0
+shader_parameter/enabled = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4klsv"]
 shader = ExtResource("5_8piji")

@@ -45,7 +45,7 @@ func _process(delta: float) -> void:
 
 func _change_color(color : Color, time : float = 1.0, delay : float = 0.0):
 	if delay > 0.0:
-		await get_tree().create_timer(delay).timeout
+		await get_tree().create_timer(delay, false).timeout
 	change_time = time
 	current_time = time
 	current_color = new_color
@@ -54,7 +54,7 @@ func _change_color(color : Color, time : float = 1.0, delay : float = 0.0):
 	
 func _change_char(char : String, delay : float = 0.0):
 	if delay > 0.0:
-		await get_tree().create_timer(delay).timeout
+		await get_tree().create_timer(delay, false).timeout
 	text = char
 
 

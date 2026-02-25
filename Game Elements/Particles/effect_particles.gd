@@ -19,5 +19,5 @@ func _ready() -> void:
 			pass
 	emitting = true
 	if one_shot:
-		await get_tree().create_timer(lifetime).timeout
+		await get_tree().create_timer(lifetime, false).timeout
 		queue_free()

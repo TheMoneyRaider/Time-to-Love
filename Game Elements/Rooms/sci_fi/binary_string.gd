@@ -64,5 +64,4 @@ func _process(delta: float):
 	if glyphs.size() == 0:
 		queue_free()
 	for i in range(glyphs.size()):
-		var g = glyphs[i]
-		g.position.y = sin(time_passed * wave_frequency + float(i)) * wave_amplitude
+		glyphs[i].position.y = sin(time_passed * wave_frequency + float(i)) * wave_amplitude

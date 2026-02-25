@@ -37,7 +37,7 @@ func _process(delta: float) -> void:
 	
 func set_values(c_owner : Node = null, attack : Node = null, attack_owner : Node = null, value : int = 7, direction : Vector2 = Vector2.UP,size : int = 64, override_color : Color = Color(0.267, 0.394, 0.394, 1.0)) -> void:
 	
-	print("Damage: "+str(value)+" C Owner: "+str(c_owner)+" attack: "+str(attack)+" attack_owner: "+str(attack_owner))
+	#print("Damage: "+str(value)+" C Owner: "+str(c_owner)+" attack: "+str(attack)+" attack_owner: "+str(attack_owner))
 	
 	var orig_len = 100
 	#Position based on attack and damage owner collision shapes
@@ -77,6 +77,8 @@ func set_values(c_owner : Node = null, attack : Node = null, attack_owner : Node
 		orig_len = 20
 	if override_color != Color(0.267, 0.394, 0.394, 1.0):
 		color=override_color
+	if attack and (attack.attack_type=="scifi_wave" or attack.attack_type=="scifi_laser"):
+		color = Color(1.0,1.0,1.0,1.0)
 			
 	# Initial big toss
 	direction = Vector2.UP #OVERRIDE DIRECTION

@@ -88,6 +88,7 @@ var layer_ai := [
 	]
 
 func _ready() -> void:
+	$game_container.material = $game_container.material.duplicate(true)
 	var conflict_cells : Array[Vector2i] = []
 	_setup_players()
 	hud.set_players(player1,player2)
@@ -299,7 +300,7 @@ func create_new_rooms() -> void:
 	# Start async generation thread
 	thread_running = true
 	room_gen_thread = Thread.new()
-	room_gen_thread.start(_thread_generate_rooms.bind(sci_fi_layer, room_instance_data)) #TODO change this to be based on layer ish
+	room_gen_thread.start(_thread_generate_rooms.bind(bosses, room_instance_data)) #TODO change this to be based on layer ish
 
 func update_ai_array(generated_room : Node2D, generated_room_data : Room) -> void:
 	#Rooms cleared
@@ -998,6 +999,8 @@ func _sprite_to_timefabric(sprite : Node,direction : Vector2, amount_range : Vec
 		return
 	while timefabrics_to_place.size() > amount_range.y-amount_variance:
 		timefabrics_to_place.remove_at(randi() % timefabrics_to_place.size())
+	if timefabrics_to_place.size() == 0:
+		return
 	while timefabrics_to_place.size() < amount_range.x+amount_variance:
 		timefabrics_to_place.append(timefabrics_to_place[randi() % timefabrics_to_place.size()])
 	for fabric in timefabrics_to_place:
@@ -1370,7 +1373,7 @@ func _move_to_pathway_room(pathway_id: String) -> void:
 	awareness_display.enemies = enemies.duplicate()
 	
 	if room_instance_data.roomtype == Globals.RoomType.Boss:
-		room_instance.activate(self,camera,player1,player2)
+		room_instance.activate(camera,player1,player2)
 	
 
 func _set_tilemaplayer_collisions(generated_room: Node2D, enable: bool) -> void:
@@ -1470,6 +1473,8 @@ func _on_enemy_take_damage(damage : int,current_health : int,enemy : Node, direc
 	if current_health <= 0:
 		for node in get_tree().get_nodes_in_group("attack"):
 			if node.c_owner == enemy:
+				if node.has_method("clear_effects"):
+					node.clear_effects()
 				node.queue_free()
 		if(enemy.exploded != 0):
 			var attack_instance = load("res://Game Elements/Attacks/explosion.tscn").instantiate()
@@ -1478,6 +1483,7 @@ func _on_enemy_take_damage(damage : int,current_health : int,enemy : Node, direc
 			attack_instance.c_owner = enemy.last_hitter
 			attack_instance.global_position = enemy.global_position
 			room_instance.call_deferred("add_child",attack_instance)
+		enemy.clear_effects()
 		_enemy_to_timefabric(enemy,direction,Vector2(enemy.min_timefabric,enemy.max_timefabric))
 		enemy.visible=false
 		enemy.queue_free()

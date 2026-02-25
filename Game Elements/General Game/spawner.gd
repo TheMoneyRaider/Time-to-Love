@@ -28,19 +28,22 @@ static func spawn_enemies(
 	available_cells: Array[Vector2i],
 	room_data: Room,
 	layer_manager: Node,
-	is_wave: bool
+	is_wave: bool,
+	override_enemy_count : int = -1,
+	override_enemy_type : String = ""
 ) -> void:
-	if room_data.num_enemy_goal <= 0:
+	if room_data.num_enemy_goal <= 0 and override_enemy_count == -1:
 		return
 
 	#Convert to hash set for O(1) lookup
 	var cell_set := {}
 	for c in available_cells:
 		cell_set[c] = true
-
 	var edges := _get_edges(cell_set)
 
 	var rechoose_enemy := not is_wave or room_data.wave_segment < randf()
+	if override_enemy_type != "":
+		rechoose_enemy = false
 	# === PRECOMPUTE STATIC FIELDS ===
 	player_penalty_field = _build_player_field(cell_set, players)
 	edge_penalty_field = _build_edge_field(cell_set, edges)
@@ -49,11 +52,14 @@ static func spawn_enemies(
 
 	var chosen_positions: Array[Vector2i] = []
 
-	var enemy_path := choose_enemy(room_data)
+	var enemy_path := choose_enemy(room_data) if override_enemy_type == "" else override_enemy_type
 	var enemy_scene := _get_enemy_scene(enemy_path)
 	var cells_needed := _cells_needed(_get_enemy_half_extents(enemy_path))
+	
+	var enemy_goal = room_data.num_enemy_goal
+	if override_enemy_count > -1: enemy_goal = override_enemy_count
 
-	for _i in room_data.num_enemy_goal:
+	for _i in enemy_goal:
 		var best := _choose_best_cell(
 			cell_set,
 			cells_needed
@@ -259,6 +265,8 @@ static func _spawn_enemy(cell: Vector2i, scene: Node, enemy: PackedScene, layer_
 	inst.global_position = cell * cell_world_size
 	scene.add_child(inst)
 	inst.enemy_took_damage.connect(layer_manager._on_enemy_take_damage)
+	if scene.has_method("_on_enemy_take_damage"):
+		inst.enemy_took_damage.connect(scene._on_enemy_take_damage)
 	
 static func spawn_after_image(entity : Node, layer_manager : Node, start_color : Color = Color(1,1,1,1), end_color : Color = Color(1,1,1,1),start_color_strength : float = 1.0, end_color_strength : float = 1.0, lifetime : float = 2.0, start_alpha : float  = 1, mono : bool = false, position_override : Vector2 = Vector2(-999,-999)):
 	
