@@ -132,7 +132,7 @@ func sprint(start : bool):
 
 func _physics_process(_delta: float) -> void:
 	
-	if knockback_velocity != Vector2.ZERO: 
+	if knockback_velocity != Vector2.ZERO and knockback_decay > 0.0: 
 		var temp_velocity = velocity
 		velocity = knockback_velocity
 		move_and_slide()

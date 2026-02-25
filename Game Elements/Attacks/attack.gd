@@ -358,7 +358,7 @@ func _update_laser_collision_shapes():
 
 	if laser_shapes.is_empty(): return
 
-	var elapsed = Time.get_ticks_msec() / 1000.0 - laser_impact_time
+	var elapsed = Time.get_ticks_msec() / 1000.0 - laser_impact_time - laser_differential
 
 	if elapsed <= 0.0: return
 

@@ -381,6 +381,12 @@ tint_under = Color(0.15294118, 0.15294118, 0.15294118, 1)
 tint_over = Color(0.44297108, 0.44297108, 0.44297108, 0)
 tint_progress = Color(1, 0.64705884, 0, 1)
 
+[node name="HealthBar" parent="RootControl/Right_Bottom_Corner" instance=ExtResource("10_sjf6p")]
+layout_mode = 2
+theme = SubResource("Theme_gp50j")
+is_purple = false
+flipped = true
+
 [node name="DebugMenu" type="Control" parent="RootControl"]
 anchors_preset = 0
 offset_right = 40.0
@@ -408,8 +414,3 @@ theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
 [node name="Clamping" type="Label" parent="RootControl/DebugMenu/GridContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
-[node name="HealthBar" parent="RootControl/Right_Bottom_Corner" instance=ExtResource("10_sjf6p")]
-layout_mode = 2
-theme = SubResource("Theme_gp50j")
-is_purple = false
-flipped = true

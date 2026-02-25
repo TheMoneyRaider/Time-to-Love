@@ -230,7 +230,7 @@ hit_range = 128
 
 [sub_resource type="BTAction" id="BTAction_xhkwo"]
 script = ExtResource("4_halj7")
-num_lasers = 10
+num_lasers = 8
 
 [sub_resource type="BBVariant" id="BBVariant_gwtri"]
 type = 4

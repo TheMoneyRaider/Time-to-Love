@@ -146,14 +146,14 @@ func scifi_phase2_to_3():
 	Hud.show_boss_bar(healthbar_underlays[phase],healthbar_overlays[phase],boss_names[phase],boss_name_settings[phase],phase_overlay_index[phase])
 	Hud.update_bossbar(1.0)
 	boss.get_node("BTPlayer").active = true
-	await get_tree().create_timer(3, false).timeout
+	await get_tree().create_timer(1, false).timeout
 	$Ground.visible = false
 	$Filling.visible = false
 	$Ground_Cyber.visible = true
 	$ColorRect.visible = true
 	$Filling_Cyber.visible = true
 
-	await get_tree().create_timer(1, false).timeout
+	await get_tree().create_timer(3, false).timeout
 	var tween2 = create_tween()
 	
 	#Fully bring back boss
@@ -329,11 +329,11 @@ func boss_animation():
 			"basic_laser":
 				var gun = boss.get_node("Segments/GunParts")
 				gun.rotation = lerp_angle(gun.rotation, (track_position - boss.global_position).angle(), 0.03)
-			"ultra_laser":
+			"laser_ultra":
 				var count = 0
 				for child in boss.get_node("Segments/Rims").get_children():
 					count+=1
-					var angle = 45 *count+current_rotation
+					var angle = 45 *count+rad_to_deg(current_rotation)
 					var new_position =Vector2.UP.rotated(deg_to_rad(angle)) * (32 +sin(lifetime*count/3)*2)
 					child.get_node("RimVis").global_position = new_position + boss.global_position
 					child.get_node("RimVis").global_rotation = deg_to_rad(angle - 224)
@@ -395,7 +395,7 @@ func scifi_laser_attack(num_lasers):
 	
 	var angular_velocity := 0.0
 	current_rotation = 0
-	var max_speed := 1.0        # radians per second (tweak)
+	var max_speed := .5        # radians per second (tweak)
 	var accel_time := 2.0
 	var hold_time := 8.0
 	var decel_time := 2.0
@@ -445,10 +445,10 @@ func scifi_laser_attack(num_lasers):
 			s_material.set_shader_parameter("laser_rotation",inst.l_rotation)
 			
 		if get_tree():
-			await get_tree().process_frame
+			await get_tree().create_timer(0.0, false).timeout
 	if inst and is_instance_valid(inst):
 		inst.queue_free()
-	if laser_legal():
+	if animation == "basic_laser" or animation =="laser_ultra":
 		animation_change("idle")
 	
 	

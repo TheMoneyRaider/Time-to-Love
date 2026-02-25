@@ -300,7 +300,7 @@ func create_new_rooms() -> void:
 	# Start async generation thread
 	thread_running = true
 	room_gen_thread = Thread.new()
-	room_gen_thread.start(_thread_generate_rooms.bind(sci_fi_layer, room_instance_data)) #TODO change this to be based on layer ish
+	room_gen_thread.start(_thread_generate_rooms.bind(bosses, room_instance_data)) #TODO change this to be based on layer ish
 
 func update_ai_array(generated_room : Node2D, generated_room_data : Room) -> void:
 	#Rooms cleared
@@ -1483,6 +1483,7 @@ func _on_enemy_take_damage(damage : int,current_health : int,enemy : Node, direc
 			attack_instance.c_owner = enemy.last_hitter
 			attack_instance.global_position = enemy.global_position
 			room_instance.call_deferred("add_child",attack_instance)
+		enemy.clear_effects()
 		_enemy_to_timefabric(enemy,direction,Vector2(enemy.min_timefabric,enemy.max_timefabric))
 		enemy.visible=false
 		enemy.queue_free()
