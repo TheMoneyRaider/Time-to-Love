@@ -212,7 +212,7 @@ func take_damage(damage : int, dmg_owner : Node, direction = Vector2(0,-1), atta
 	current_health -= damage
 	if is_boss:
 		LayerManager.hud.update_bossbar(clamp(float(current_health)/max_health,0.0,1.0))
-		if current_health <= 0: 
+		if current_health <= 0 and phase != boss_phases - 1:
 			if phase == last_phase:
 				phase+=1
 				if phase < boss_phases:

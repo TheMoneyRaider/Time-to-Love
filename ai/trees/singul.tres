@@ -80,14 +80,14 @@ value = SubResource("BBVariant_g4v1g")
 custom_name = "Phase0"
 children = [SubResource("BTCheckVar_kb6oh")]
 
-[sub_resource type="BBVariant" id="BBVariant_f1oat"]
+[sub_resource type="BBVariant" id="BBVariant_jjyxl"]
 type = 2
 saved_value = 0
 resource_name = "<null>"
 
-[sub_resource type="BTCheckVar" id="BTCheckVar_3ncdb"]
-variable = &"phase"
-value = SubResource("BBVariant_f1oat")
+[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_igv7k"]
+property = &"phase"
+value = SubResource("BBVariant_jjyxl")
 
 [sub_resource type="BTAction" id="BTAction_halj7"]
 script = ExtResource("3_halj7")
@@ -105,16 +105,16 @@ children = [SubResource("BTSequence_qh4k4")]
 
 [sub_resource type="BTSequence" id="BTSequence_ofden"]
 custom_name = "Phase1"
-children = [SubResource("BTCheckVar_3ncdb"), SubResource("BTCooldown_f1oat")]
+children = [SubResource("BTCheckAgentProperty_igv7k"), SubResource("BTCooldown_f1oat")]
 
-[sub_resource type="BBVariant" id="BBVariant_3ncdb"]
+[sub_resource type="BBVariant" id="BBVariant_21cce"]
 type = 2
 saved_value = 1
 resource_name = "1"
 
-[sub_resource type="BTCheckVar" id="BTCheckVar_ofden"]
-variable = &"phase"
-value = SubResource("BBVariant_3ncdb")
+[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_gwtri"]
+property = &"phase"
+value = SubResource("BBVariant_21cce")
 
 [sub_resource type="BTAction" id="BTAction_igv7k"]
 script = ExtResource("3_halj7")
@@ -186,16 +186,16 @@ children = [SubResource("BTCooldown_halj7"), SubResource("BTCooldown_6ypd5"), Su
 
 [sub_resource type="BTSequence" id="BTSequence_swuqo"]
 custom_name = "Phase2"
-children = [SubResource("BTCheckVar_ofden"), SubResource("BTSelector_ykgfq")]
+children = [SubResource("BTCheckAgentProperty_gwtri"), SubResource("BTSelector_ykgfq")]
 
-[sub_resource type="BBVariant" id="BBVariant_igv7k"]
+[sub_resource type="BBVariant" id="BBVariant_bhc8s"]
 type = 2
 saved_value = 2
 resource_name = "2"
 
-[sub_resource type="BTCheckVar" id="BTCheckVar_21cce"]
-variable = &"phase"
-value = SubResource("BBVariant_igv7k")
+[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_jnv2x"]
+property = &"phase"
+value = SubResource("BBVariant_bhc8s")
 
 [sub_resource type="BTAction" id="BTAction_gwtri"]
 script = ExtResource("3_halj7")
@@ -248,7 +248,7 @@ children = [SubResource("BTCooldown_xh1cj"), SubResource("BTSequence_ykgfq"), Su
 
 [sub_resource type="BTSequence" id="BTSequence_6u0pp"]
 custom_name = "Phase3"
-children = [SubResource("BTCheckVar_21cce"), SubResource("BTSelector_14tjq")]
+children = [SubResource("BTCheckAgentProperty_jnv2x"), SubResource("BTSelector_14tjq")]
 
 [sub_resource type="BTSelector" id="BTSelector_mrfvi"]
 custom_name = "Phases"

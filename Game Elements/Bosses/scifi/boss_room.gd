@@ -48,10 +48,10 @@ func _on_boss_phase_change(boss_in : Node):
 			
 	
 func scifi_phase1_to_2():
+	boss.phase = 0
 	if phase_changing:
 		return
 	phase_changing = true
-	phase = boss.phase
 	
 	boss.hitable = false
 	$Forcefield/CollisionShape2D.set_deferred("disabled", true)
@@ -62,6 +62,8 @@ func scifi_phase1_to_2():
 	print(boss.get_node("AnimationTree").get("parameters/conditions/idle"))
 	await get_tree().create_timer(3.0, false).timeout
 	boss.get_node("CollisionShape2D").set_deferred("disabled", false)
+	phase = 1
+	boss.phase = 1
 	Hud.show_boss_bar(healthbar_underlays[phase],healthbar_overlays[phase],boss_names[phase],boss_name_settings[phase],phase_overlay_index[phase])
 	animation_change("idle")
 	$Forcefield.queue_free()
@@ -69,7 +71,6 @@ func scifi_phase1_to_2():
 	boss.max_health = boss.boss_healthpools[phase]
 	phase_changing = false
 	boss.hitable = true
-	boss.get_node("BTPlayer").blackboard.set_var("phase", phase)
 
 func explode_segment(child: Node2D):
 	var offset = child.global_position - boss.global_position
@@ -84,7 +85,10 @@ func explode_segment(child: Node2D):
 
 	
 func scifi_phase2_to_3():
-	phase=boss.phase
+	boss.phase = 1
+	if phase_changing:
+		return
+	phase_changing = true
 	animation_change("dead")
 	#Cleanup attacks and enemies
 	for child in get_children():
@@ -97,7 +101,6 @@ func scifi_phase2_to_3():
 	var s_material = LayerManager.get_node("game_container").material
 	s_material.set_shader_parameter("laser_impact_time", -2)
 	
-	var anim_player = boss.get_node("AnimationPlayer")
 	#Explode boss
 	for child in boss.get_node("Segments").get_children():
 		if child.name != "GunParts" and child.name != "Rims":
@@ -117,13 +120,10 @@ func scifi_phase2_to_3():
 	
 	
 	
-	await get_tree().create_timer(3, false).timeout
+	await get_tree().create_timer(1.5, false).timeout
 
-	if phase_changing:
-		return
 	boss.hitable = false
 	Hud.update_bossbar(0.0)
-	phase_changing = true
 	#Wave Attack
 	var attack_inst = load("res://Game Elements/Bosses/scifi/wave_attack.tscn").instantiate()
 	attack_inst.damage = 10
@@ -139,18 +139,20 @@ func scifi_phase2_to_3():
 	await get_tree().create_timer(2, false).timeout
 	boss.get_node("AnimationTree").active = true
 	boss.get_node("AnimationPlayer").active = true
-	await get_tree().create_timer(6, false).timeout
+	await get_tree().create_timer(3, false).timeout
+	phase = 2
+	boss.phase = 2
 	Hud.show_boss_bar(healthbar_underlays[phase],healthbar_overlays[phase],boss_names[phase],boss_name_settings[phase],phase_overlay_index[phase])
 	Hud.update_bossbar(1.0)
+	boss.get_node("BTPlayer").active = true
+	await get_tree().create_timer(3, false).timeout
 	$Ground.visible = false
 	$Filling.visible = false
 	$Ground_Cyber.visible = true
 	$ColorRect.visible = true
 	$Filling_Cyber.visible = true
-	boss.get_node("BTPlayer").active = true
-	boss.get_node("BTPlayer").blackboard.set_var("phase", phase)
 
-	await get_tree().create_timer(5, false).timeout
+	await get_tree().create_timer(1, false).timeout
 	var tween2 = create_tween()
 	
 	#Fully bring back boss
@@ -164,8 +166,12 @@ func scifi_phase2_to_3():
 	
 	var playback = boss.get_node("AnimationTree").get("parameters/playback")
 	playback.travel("idle")
-	await get_tree().create_timer(1, false).timeout
+	await get_tree().create_timer(4, false).timeout
 	s_material.set_shader_parameter("ultimate", false)
+	print("finsihed phase change")
+	print(phase)
+	print(boss.phase)
+	print(boss.current_health)
 	
 
 var lifetime = 0.0

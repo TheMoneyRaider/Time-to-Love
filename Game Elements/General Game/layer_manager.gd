@@ -984,6 +984,8 @@ func _sprite_to_timefabric(sprite : Node,direction : Vector2, amount_range : Vec
 		return
 	while timefabrics_to_place.size() > amount_range.y-amount_variance:
 		timefabrics_to_place.remove_at(randi() % timefabrics_to_place.size())
+	if timefabrics_to_place.size() == 0:
+		return
 	while timefabrics_to_place.size() < amount_range.x+amount_variance:
 		timefabrics_to_place.append(timefabrics_to_place[randi() % timefabrics_to_place.size()])
 	for fabric in timefabrics_to_place:
