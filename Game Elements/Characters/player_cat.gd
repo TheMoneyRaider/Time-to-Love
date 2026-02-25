@@ -234,6 +234,7 @@ func _check_bulwark(damage_amount : float, _dmg_owner : Node, send_damage: bool)
 func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 20,creates_indicators : bool = true, bulwark : bool = true):
 	in_combat = 3
 	if(bulwark == false || i_frames <= 0):
+		time_since_last_hit = 0
 		i_frames = attack_i_frames
 		damage_amount = _check_bulwark(damage_amount, _dmg_owner, bulwark)
 		if check_drones():

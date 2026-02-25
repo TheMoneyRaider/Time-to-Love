@@ -23,6 +23,18 @@ tile_set = ExtResource("2_opril")
 tile_map_data = PackedByteArray("AAD8//P/AAANAA4AAADv//n/AAANAA4AAAAPAPv/AAANAA4AAAD+/+v/AAANAA4AAAA=")
 tile_set = ExtResource("2_opril")
 
+[node name="Trap2" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AADy//j/AwAAAAAAAADz//j/AwAAAAAAAAD0//j/AwAAAAAAAAD1//j/AwAAAAAAAAAEAPL/AwAAAAAAAAAEAPP/AwAAAAAAAAA=")
+tile_set = ExtResource("2_opril")
+
+[node name="Trap3" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD+/+v/AwAAAAAAAAD//+r/AwAAAAAAAAD+/+n/AwAAAAAAAAD+/+r/AwAAAAAAAAANAPj/AwAAAAAAAAA=")
+tile_set = ExtResource("2_opril")
+
+[node name="Trap4" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD+/wUAAwAAAAAAAAD+/wYAAwAAAAAAAAD+/wcAAwAAAAAAAAD7//7/AwAAAAAAAAD7//3/AwAAAAAAAAD8//7/AwAAAAAAAAADAPL/AwAAAAAAAAA=")
+tile_set = ExtResource("2_opril")
+
 [node name="PathwayD1_Detect" parent="." instance=ExtResource("3_uv23x")]
 position = Vector2(-1, 299)
 

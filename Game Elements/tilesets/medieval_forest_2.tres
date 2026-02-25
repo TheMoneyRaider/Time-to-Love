@@ -1,8 +1,9 @@
-[gd_resource type="TileSet" load_steps=7 format=3 uid="uid://b8jirmgfumpau"]
+[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://b8jirmgfumpau"]
 
 [ext_resource type="Texture2D" uid="uid://xty67dv37o0m" path="res://art/medieval_pack/Solaria Demo Tiles.png" id="1_2kvdu"]
 [ext_resource type="Texture2D" uid="uid://bnpnxgfjlbfnr" path="res://art/remnants/vines.png" id="2_6sw3y"]
 [ext_resource type="Texture2D" uid="uid://c77sktcgu2hk1" path="res://art/medieval_pack/freelavatileset-Sheet.png" id="2_icxl8"]
+[ext_resource type="Texture2D" uid="uid://l8fe4axa01o1" path="res://art/medieval_pack/thorns_attempt2.png" id="4_roj7u"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_icxl8"]
 texture = ExtResource("1_2kvdu")
@@ -1180,6 +1181,14 @@ texture = ExtResource("2_icxl8")
 2:0/0 = 0
 2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, 4, 4, 4, 4, 12, -4, 12)
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mhr45"]
+texture = ExtResource("4_roj7u")
+0:0/0 = 0
+0:0/0/custom_data_1 = 1
+0:0/0/custom_data_2 = 1.0
+0:0/0/custom_data_3 = 1
+0:0/0/custom_data_4 = true
+
 [resource]
 physics_layer_0/collision_layer = 1
 terrain_set_0/mode = 0
@@ -1211,3 +1220,4 @@ custom_data_layer_5/type = 1
 sources/0 = SubResource("TileSetAtlasSource_icxl8")
 sources/2 = SubResource("TileSetAtlasSource_6sw3y")
 sources/1 = SubResource("TileSetAtlasSource_roj7u")
+sources/3 = SubResource("TileSetAtlasSource_mhr45")

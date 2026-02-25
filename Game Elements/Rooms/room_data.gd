@@ -316,9 +316,9 @@ var medieval_rooms : Array[Room] = [room.Create_Room(
 randi(),																														#Noise Seed           
 FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type       
 .1,																																#Noise Frequency                        
-1,																																#Num Traps              
-[1],																																#Trap Chances                                
-[Globals.Trap.Snare],																																#Trap Types                         
+4,																																#Num Traps              
+[1,.5,.5,.5],																																#Trap Chances                                
+[Globals.Trap.Snare,Globals.Trap.Tile,Globals.Trap.Tile,Globals.Trap.Tile],																																#Trap Types                         
 4,																																#Num Pathways                   
 [Globals.Direction.Up,Globals.Direction.Down,Globals.Direction.Left,Globals.Direction.Right],									#Pathway Directions                     
 10,																																#Enemy Num Goal                               
@@ -331,8 +331,8 @@ Globals.RoomVariant.MedOut,																															#Is a shop room?
 room.Create_Room(
 "res://Game Elements/Rooms/medieval/outside2.tscn", 																		#Scene Location                       
 0,																																#Num Liquids
-[Globals.Liquid.Water,Globals.Liquid.Water,Globals.Liquid.Water,Globals.Liquid.Water,Globals.Liquid.Water],																										#Liquid Types 
-[.9,.9,.9,1,1],																										#Liquid Chances                     
+[Globals.Liquid.Water,Globals.Liquid.Water,Globals.Liquid.Water],																										#Liquid Types 
+[.9,.9,.9],																										#Liquid Chances                     
 0,																																#Num Fillings              
 [],																																#Terrain Set                                      
 [],																																#Terrain ID                       
@@ -340,9 +340,9 @@ room.Create_Room(
 randi(),																														#Noise Seed           
 FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type       
 .1,																																#Noise Frequency                        
-0,																																#Num Traps              
-[],																																#Trap Chances                                
-[],																																#Trap Types                         
+4,																																#Num Traps              
+[1,1,.25,.75],																																#Trap Chances                                
+[Globals.Trap.Tile,Globals.Trap.Tile,Globals.Trap.Tile,Globals.Trap.Tile],																																#Trap Types                         
 4,																																#Num Pathways                   
 [Globals.Direction.Up,Globals.Direction.Down,Globals.Direction.Left,Globals.Direction.Right],									#Pathway Directions                     
 12,																																#Enemy Num Goal                               
@@ -364,9 +364,9 @@ room.Create_Room(
 randi(),																														#Noise Seed           
 FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type       
 .1,																																#Noise Frequency                        
-0,																																#Num Traps              
-[],																																#Trap Chances                                
-[],																																#Trap Types                         
+11,																																#Num Traps              
+[.33,.33,.33,.33,.33,.33,.33,.33,.5,.5,.5],																																#Trap Chances                                
+[Globals.Trap.Tile, Globals.Trap.Tile,Globals.Trap.Tile,Globals.Trap.Tile,Globals.Trap.Tile,Globals.Trap.Tile,Globals.Trap.Tile,Globals.Trap.Tile,Globals.Trap.Tile,Globals.Trap.Tile,Globals.Trap.Tile],																																#Trap Types                         
 5,																																#Num Pathways                   
 [Globals.Direction.Up,Globals.Direction.Up,Globals.Direction.Down,Globals.Direction.Left,Globals.Direction.Right],									#Pathway Directions                     
 12,																																#Enemy Num Goal                               
@@ -508,9 +508,9 @@ room.Create_Room(
 randi(),																														#Noise Seed           
 FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type       
 .1,																																#Noise Frequency                        
-2,																																#Num Traps              
-[.5,.5],																																#Trap Chances                                
-[Globals.Trap.Snare,Globals.Trap.Snare],																																#Trap Types                         
+5,																																#Num Traps              
+[.5,.5,.5,.5,.5],																																#Trap Chances                                
+[Globals.Trap.Snare,Globals.Trap.Snare,Globals.Trap.Tile,Globals.Trap.Tile,Globals.Trap.Tile],																																#Trap Types                         
 4,																																#Num Pathways                   
 [Globals.Direction.Up,Globals.Direction.Down,Globals.Direction.Left,Globals.Direction.Right],									#Pathway Directions                     
 15,																																#Enemy Num Goal                               
@@ -559,9 +559,9 @@ var testing_room : Room = room.Create_Room(
 randi(),																														#Noise Seed           
 FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type       
 .1,																																#Noise Frequency                        
-2,																																#Num Traps              
-[.5,.5],																																#Trap Chances                                
-[Globals.Trap.Snare,Globals.Trap.Snare],																																#Trap Types                         
+5,																																#Num Traps              
+[.5,.5,.5,.5,.5],																																#Trap Chances                                
+[Globals.Trap.Snare,Globals.Trap.Snare,Globals.Trap.Tile,Globals.Trap.Tile,Globals.Trap.Tile],																																#Trap Types                         
 4,																																#Num Pathways                   
 [Globals.Direction.Up,Globals.Direction.Down,Globals.Direction.Left,Globals.Direction.Right],									#Pathway Directions                     
 15,																																#Enemy Num Goal                               
