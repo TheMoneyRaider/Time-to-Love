@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://cgccx4whthg4v"]
+
+[ext_resource type="Texture2D" uid="uid://dmqpt2tegqcpk" path="res://art/remnants/drunkard.png" id="1_3avo2"]
+[ext_resource type="Texture2D" uid="uid://kpqy7hsy3liv" path="res://art/remnants/drunkard_icon.png" id="2_0ehtu"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_f1tfa"]
+
+[resource]
+script = ExtResource("3_f1tfa")
+remnant_name = "Remnant of the Drunkard"
+description = "$X% damage boost, but increased spread"
+icon = ExtResource("2_0ehtu")
+art = ExtResource("1_3avo2")
+variable_names = Array[String](["$X"])
+variable_1_values = [20, 40, 60, 80, 100]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"
