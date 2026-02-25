@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=65 format=3 uid="uid://b7lkxmyacbk8i"]
+[gd_resource type="BehaviorTree" load_steps=80 format=3 uid="uid://b7lkxmyacbk8i"]
 
 [ext_resource type="Script" uid="uid://dr4vkyorjqaqn" path="res://ai/tasks/getPlayerPos.gd" id="1_3ncdb"]
 [ext_resource type="Script" uid="uid://dgy3vj6nno8qj" path="res://ai/tasks/signul_phase1_spawn.gd" id="2_g4v1g"]
@@ -209,7 +209,66 @@ script = ExtResource("8_qh4k4")
 children = [SubResource("BTAction_gwtri"), SubResource("BTAction_ykgfq")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_xh1cj"]
+custom_name = "Spawn Binary Bots"
 children = [SubResource("BTSequence_53541")]
+
+[sub_resource type="BTAction" id="BTAction_6ypd5"]
+script = ExtResource("3_halj7")
+min_time = 9.0
+max_time = 18.0
+
+[sub_resource type="BTAction" id="BTAction_p0wll"]
+custom_name = "InnerRange"
+script = ExtResource("3_3ncdb")
+hit_range = 128
+
+[sub_resource type="BTAction" id="BTAction_xhkwo"]
+script = ExtResource("4_halj7")
+num_lasers = 10
+
+[sub_resource type="BTAlwaysSucceed" id="BTAlwaysSucceed_26h7x"]
+
+[sub_resource type="BTDelay" id="BTDelay_ctenn"]
+seconds = 15.0
+children = [SubResource("BTAlwaysSucceed_26h7x")]
+
+[sub_resource type="BTSequence" id="BTSequence_7ub6e"]
+custom_name = "Attack if in Range"
+children = [SubResource("BTAction_6ypd5"), SubResource("BTAction_p0wll"), SubResource("BTAction_xhkwo"), SubResource("BTDelay_ctenn")]
+
+[sub_resource type="BTCooldown" id="BTCooldown_qmnkv"]
+custom_name = "Ultra Laser"
+children = [SubResource("BTSequence_7ub6e")]
+
+[sub_resource type="BTAction" id="BTAction_qm4ax"]
+script = ExtResource("3_halj7")
+min_time = 6.0
+max_time = 10.0
+
+[sub_resource type="BTAction" id="BTAction_o27n4"]
+custom_name = "InnerRange"
+script = ExtResource("3_3ncdb")
+hit_range = 64
+
+[sub_resource type="BTAction" id="BTAction_x2e5o"]
+script = ExtResource("8_jjyxl")
+
+[sub_resource type="BTAction" id="BTAction_nd6h3"]
+script = ExtResource("9_igv7k")
+
+[sub_resource type="BTDelay" id="BTDelay_377jo"]
+seconds = 1.5
+children = [SubResource("BTAction_nd6h3")]
+
+[sub_resource type="BTSequence" id="BTSequence_7isj3"]
+custom_name = "RobotMeleeAttack"
+children = [SubResource("BTAction_qm4ax"), SubResource("BTAction_o27n4"), SubResource("BTAction_x2e5o"), SubResource("BTDelay_377jo")]
+
+[sub_resource type="BTCooldown" id="BTCooldown_8rwqh"]
+custom_name = "Melee Attack"
+children = [SubResource("BTSequence_7isj3")]
+
+[sub_resource type="BTFail" id="BTFail_jjyxl"]
 
 [sub_resource type="BTAction" id="BTAction_bhc8s"]
 custom_name = "OuterRange"
@@ -229,8 +288,8 @@ hit_range = 48
 script = ExtResource("5_halj7")
 
 [sub_resource type="BTSequence" id="BTSequence_ykgfq"]
-custom_name = "Attack if in Range"
-children = [SubResource("BTAction_bhc8s"), SubResource("BTAction_jnv2x"), SubResource("BTAction_vpiw0"), SubResource("BTAction_eeyes")]
+custom_name = "Charge"
+children = [SubResource("BTFail_jjyxl"), SubResource("BTAction_bhc8s"), SubResource("BTAction_jnv2x"), SubResource("BTAction_vpiw0"), SubResource("BTAction_eeyes")]
 
 [sub_resource type="BTAction" id="BTAction_swuqo"]
 script = ExtResource("6_qh4k4")
@@ -244,7 +303,7 @@ children = [SubResource("BTAction_swuqo"), SubResource("BTAction_53541")]
 
 [sub_resource type="BTSelector" id="BTSelector_14tjq"]
 custom_name = "Tree"
-children = [SubResource("BTCooldown_xh1cj"), SubResource("BTSequence_ykgfq"), SubResource("BTSequence_xh1cj")]
+children = [SubResource("BTCooldown_xh1cj"), SubResource("BTCooldown_qmnkv"), SubResource("BTCooldown_8rwqh"), SubResource("BTSequence_ykgfq"), SubResource("BTSequence_xh1cj")]
 
 [sub_resource type="BTSequence" id="BTSequence_6u0pp"]
 custom_name = "Phase3"

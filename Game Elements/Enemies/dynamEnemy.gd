@@ -219,6 +219,11 @@ func take_damage(damage : int, dmg_owner : Node, direction = Vector2(0,-1), atta
 					emit_signal("boss_phase_change",self)
 					return
 			return
+		if current_health <= 0:
+			for child in get_parent().get_children():
+				if child.is_in_group("enemy") and !child.is_boss:
+					child.current_health = -1
+					child.emit_signal("enemy_took_damage",100,child.current_health,child,Vector2(0,-1))
 				
 	if current_health < 0:
 		

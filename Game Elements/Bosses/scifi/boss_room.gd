@@ -136,10 +136,10 @@ func scifi_phase2_to_3():
 	tween.parallel().tween_property(LayerManager.hud.get_node("RootControl"),"modulate",Color(1.0,1.0,1.0,0.0),3.0)
 	tween.parallel().tween_property(LayerManager.awareness_display,"modulate",Color(1.0,1.0,1.0,0.0),3.0)
 	
-	await get_tree().create_timer(2, false).timeout
+	await get_tree().create_timer(1, false).timeout
 	boss.get_node("AnimationTree").active = true
 	boss.get_node("AnimationPlayer").active = true
-	await get_tree().create_timer(3, false).timeout
+	await get_tree().create_timer(2, false).timeout
 	phase = 2
 	boss.phase = 2
 	Hud.show_boss_bar(healthbar_underlays[phase],healthbar_overlays[phase],boss_names[phase],boss_name_settings[phase],phase_overlay_index[phase])
@@ -195,7 +195,7 @@ func _process(delta: float) -> void:
 		camera.global_position = ((player1.global_position + player2.global_position) / 2).lerp(boss.global_position,1-t) +camera.get_cam_offset(delta)
 	elif lifetime>= animation_time+fade_time+camera_move_time+camera_move_time:
 		finish_intro()		
-	if animation!= "":
+	if animation!= "" and boss and is_instance_valid(boss):
 		boss_animation()
 
 func finish_intro():
@@ -203,7 +203,8 @@ func finish_intro():
 	if is_multiplayer:
 		player2.disabled = false
 	LayerManager.camera_override = false
-	boss.get_node("BTPlayer").blackboard.set_var("attack_mode", "NONE")
+	if boss and is_instance_valid(boss):
+		boss.get_node("BTPlayer").blackboard.set_var("attack_mode", "NONE")
 	return
 
 
@@ -344,7 +345,10 @@ func scifi_laser_attack(num_lasers):
 	if !basic_laser_legal():
 		return
 	print("LASEEERRRRRRR")
-	animation_change("basic_laser")
+	if num_lasers > 1:
+		animation_change("laser_ultra")
+	else:
+		animation_change("basic_laser")
 	boss.get_node("AnimationTree").set("parameters/conditions/laser_basic",true)
 	await get_tree().create_timer(3.0, false).timeout
 	boss.get_node("AnimationTree").set("parameters/conditions/laser_basic",false)
@@ -375,19 +379,20 @@ func scifi_laser_attack(num_lasers):
 	add_child(idle_timer)
 	idle_timer.start()
 	while idle_timer.time_left > 0 and basic_laser_legal():
-		track_position = player1.global_position if is_purple else player2.global_position
-		if inst:
-			# Update laser direction
-			inst.direction = Vector2.RIGHT.rotated(gun.rotation)
-			inst.global_position = boss.global_position
-			inst.l_rotation = rad_to_deg(gun.rotation)
-			inst._update_laser_collision_shapes()
-			#Update shader
-			var s_material = LayerManager.get_node("game_container").material
-			s_material.set_shader_parameter("laser_rotation",inst.l_rotation)
-			s_material.set_shader_parameter("laser_impact_world_pos",inst.global_position)
-			if get_tree():
-				await get_tree().process_frame
+		if num_lasers == 1:
+			track_position = player1.global_position if is_purple else player2.global_position
+			if inst:
+				# Update laser direction
+				inst.direction = Vector2.RIGHT.rotated(gun.rotation)
+				inst.global_position = boss.global_position
+				inst.l_rotation = rad_to_deg(gun.rotation)
+				inst._update_laser_collision_shapes()
+				#Update shader
+				var s_material = LayerManager.get_node("game_container").material
+				s_material.set_shader_parameter("laser_rotation",inst.l_rotation)
+				s_material.set_shader_parameter("laser_impact_world_pos",inst.global_position)
+		if get_tree():
+			await get_tree().process_frame
 	if inst and is_instance_valid(inst):
 		inst.queue_free()
 	if basic_laser_legal():
