@@ -59,7 +59,7 @@ static func spawn_enemies(
 			cells_needed
 		)
 
-		if best == null:
+		if best == Vector2i(-999,-999):
 			push_warning("No valid cell left to place enemy")
 			return
 
@@ -95,7 +95,7 @@ static func _choose_best_cell(
 	cells_needed: Vector2i
 ) -> Vector2i:
 	var total_weight := 0.0
-	var chosen: Vector2i
+	var chosen: Vector2i = Vector2(-999,-999)
 
 	for cell in cell_set.keys():
 		if not _can_fit(cell, cells_needed, cell_set):
