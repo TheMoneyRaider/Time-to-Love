@@ -210,7 +210,7 @@ func get_locations(start_node : Node,inital_direction : Vector2) -> Array[Vector
 		func(e) -> bool:
 		return (abs(e.global_position.x-camera_position.x) < laser_camera_distancex 
 			and abs(e.global_position.y-camera_position.y) < laser_camera_distancey 
-			and e.hitable)
+			and "hitable" in e and e.hitable)
 		)
 	
 	var best_chain: Array[Vector2] = [] # Stack stores: node, chain_length (index in chain), direction 
