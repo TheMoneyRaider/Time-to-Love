@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://c0udqo6ftwbrs"]
 
-[ext_resource type="Texture2D" uid="uid://c3vck7720wa6x" path="res://art/remnants/crafter.png" id="1_8rr8o"]
-[ext_resource type="Texture2D" uid="uid://b8fotiab21onh" path="res://art/remnants/crafter_icon.png" id="2_6ti52"]
+[ext_resource type="Texture2D" uid="uid://cbv1lm8fdqahe" path="res://art/remnants/hare.png" id="1_8rr8o"]
+[ext_resource type="Texture2D" uid="uid://c6wj4cbvpuce3" path="res://art/remnants/hare_icon.png" id="2_6ti52"]
 [ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_71ycc"]
 
 [resource]
