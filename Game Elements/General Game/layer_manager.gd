@@ -155,7 +155,7 @@ func _ready() -> void:
 	rem = load("res://Game Elements/Remnants/hare.tres")
 	rem.rank = 5
 	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
+	#player_2_remnants.append(rem.duplicate(true))
 	
 	
 	player1.display_combo()
@@ -1264,28 +1264,28 @@ func _move_to_pathway_room(pathway_id: String) -> void:
 				rem.rank +=1
 				player2_ranked_up.append(rem.remnant_name)
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants,player1_ranked_up,player2_ranked_up)
-		
-	for rem in player_1_remnants:
-		if rem.remnant_name == "Remnant of the Hare":
-			var effect = load("res://Game Elements/Effects/speed.tres")
-			effect.cooldown = 10
-			effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
-			effect.gained(player1)
-			player1.effects.append(effect)
-	for rem in player_2_remnants:
-		if rem.remnant_name == "Remnant of the Hare":
-			var effect = load("res://Game Elements/Effects/speed.tres")
-			effect.cooldown = 10
-			effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
-			if is_multiplayer:
-				print("multiplayer application")
-				effect.gained(player2)
-				player2.effects.append(effect)
-			else:
-				print("singleplayer application")
+	
+	if is_multiplayer or player1.is_purple:
+		for rem in player_1_remnants:
+			if rem.remnant_name == "Remnant of the Hare":
+				var effect = load("res://Game Elements/Effects/speed.tres")
+				effect.cooldown = 15
+				effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
 				effect.gained(player1)
 				player1.effects.append(effect)
-			print("applied to player 2")
+				
+	if is_multiplayer or not player1.is_purple:
+		for rem in player_2_remnants:
+			if rem.remnant_name == "Remnant of the Hare":
+				var effect = load("res://Game Elements/Effects/speed.tres")
+				effect.cooldown = 15
+				effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
+				if is_multiplayer:
+					effect.gained(player2)
+					player2.effects.append(effect)
+				else:
+					effect.gained(player1)
+					player1.effects.append(effect)
 	
 	if not generated_rooms.has(pathway_id):
 		push_warning("No linked room for pathway " + pathway_id)
