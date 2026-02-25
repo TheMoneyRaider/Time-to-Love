@@ -6,6 +6,7 @@ var move_speed: float
 @export var max_health: float = 10
 @export var current_health: float = 10
 @onready var current_dmg_time: float = 0.0
+@onready var current_liquid_time: float = 0.0
 @onready var in_instant_trap: bool = false
 @onready var disabled_countdown : int = 0
 @onready var i_frames : int = 0
@@ -42,9 +43,11 @@ var tether_width_curve
 var is_multiplayer = false
 var input_device = "-1"
 var input_direction : Vector2 = Vector2.ZERO
-var last_input_direction : Vector2 = Vector2.ZERO
+var invulnerable : bool = false
+var debug_menu : bool = false
 
 var effects : Array[Effect] = []
+var last_liquid : Globals.Liquid = Globals.Liquid.Buffer
 
 var forcefield_active : bool = false
 
@@ -75,6 +78,7 @@ func _ready():
 	_initialize_state_machine()
 	update_animation_parameters(starting_direction)
 	add_to_group("player")
+	load_settings()
 	set_weapon_sprite(weapons[is_purple as int],weapon_node)
 	if is_multiplayer:
 		tether_gradient = tether_line.gradient
@@ -106,6 +110,11 @@ func show_forcefield(interp_time : float):
 func update_input_device(in_dev : String):
 	input_device = in_dev
 	crosshair.player_input_device = input_device
+
+func load_settings():
+	var config = ConfigFile.new()
+	if config.load("user://settings.cfg") == OK:
+		debug_menu = config.get_value("debug", "enabled", false)
 
 func _initialize_state_machine():
 	#Define State transitions
@@ -143,8 +152,6 @@ func _physics_process(delta):
 		Input.get_action_strength("down_" + input_device) - Input.get_action_strength("up_" + input_device)
 	)
 	input_direction = input_direction.normalized()
-	if input_direction != Vector2.ZERO:
-		last_input_direction = input_direction
 	
 	update_animation_parameters(input_direction)	
 	
@@ -162,6 +169,10 @@ func _physics_process(delta):
 	#move and slide function
 	if(self.process_mode != PROCESS_MODE_DISABLED and disabled_countdown <= 0):
 		move_and_slide()
+	
+	
+	if debug_menu and Input.is_action_just_pressed("toggle_invulnerability"):
+		invulnerable = !invulnerable
 	
 	if Input.is_action_just_pressed("attack_" + input_device):
 		if Input.is_action_pressed("special_" + input_device) and weapons[is_purple as int].current_special_hits >= weapons[is_purple as int].special_hits:
@@ -194,7 +205,7 @@ func request_attack(t_weapon : Weapon) -> float:
 	return t_weapon.cooldown
 
 func take_damage(damage_amount : int, _dmg_owner : Node,_direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 20,creates_indicators : bool = true):
-	if(i_frames <= 0):
+	if(i_frames <= 0) and not invulnerable:
 		i_frames = attack_i_frames
 		if check_drones():
 			LayerManager._damage_indicator(0, _dmg_owner,_direction, attack_body,self,Color(0.0, 0.666, 0.85, 1.0))
@@ -233,6 +244,8 @@ func take_damage(damage_amount : int, _dmg_owner : Node,_direction = Vector2(0,-
 				instance.c_owner = self
 				LayerManager.room_instance.add_child(instance)
 				emit_signal("attack_requested",revive, position, Vector2.ZERO, 0)
+		_cleric_chance()
+		_barb_damage()
 
 func set_weapon_sprite(weapon : Weapon, f_weapon_node : Node):
 	var w_sprite = f_weapon_node.get_node("Sprite2D")
@@ -370,6 +383,16 @@ func check_traps(delta):
 		current_dmg_time = 0
 		in_instant_trap = false
 
+func _check_hydromancer(liquid : Globals.Liquid):
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = get_tree().get_root().get_node("LayerManager").player_1_remnants
+	else:
+		remnants = get_tree().get_root().get_node("LayerManager").player_2_remnants
+	var hydromancer = load("res://Game Elements/Remnants/hydromancer.tres")
+	for rem in remnants:
+		if rem.remnant_name == hydromancer.remnant_name:
+			last_liquid = liquid
 
 func check_liquids(delta):
 	var tile_pos = Vector2i(int(floor(global_position.x / 16)),int(floor(global_position.y / 16)))
@@ -384,10 +407,26 @@ func check_liquids(delta):
 					effect.value1 = 0.023
 					effect.gained(self)
 					effects.append(effect)
+					_check_hydromancer(Globals.Liquid.Water)
+				Globals.Liquid.Lava:
+					var idx = 0
+					for effect in effects:
+						if effect.type == "slow":
+							effect.tick(delta,self)
+							if effect.cooldown == 0:
+								effects.remove_at(idx)
+							current_liquid_time -= .01
+						idx +=1
+					current_liquid_time += delta
+					if current_liquid_time >= .25:
+						current_liquid_time -= .25
+						take_damage(2,null)
+					_check_hydromancer(Globals.Liquid.Lava)
 				Globals.Liquid.Conveyer:
 					position+=tile_data.get_custom_data("direction").normalized() *delta * 32
 				Globals.Liquid.Glitch:
 					_glitch_move()
+					_check_hydromancer(Globals.Liquid.Glitch)
 					
 					
 func _glitch_move() -> void:
@@ -451,6 +490,40 @@ func _crafter_chance() -> bool:
 			
 	return true
 
+func _cleric_chance():
+	randomize()
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = get_tree().get_root().get_node("LayerManager").player_1_remnants
+	else:
+		remnants = get_tree().get_root().get_node("LayerManager").player_2_remnants
+	var cleric = load("res://Game Elements/Remnants/cleric.tres")
+	for rem in remnants:
+		if rem.remnant_name == cleric.remnant_name:
+			if rem.variable_1_values[rem.rank-1] > randf()*100:
+				var particle =  load("res://Game Elements/Effects/heal_particles.tscn").instantiate()
+				particle.position = self.position
+				get_parent().add_child(particle)
+				change_health(rem.variable_2_values[rem.rank-1])
+
+func _barb_damage():
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = get_tree().get_root().get_node("LayerManager").player_1_remnants
+	else:
+		remnants = get_tree().get_root().get_node("LayerManager").player_2_remnants
+	var barbarian = load("res://Game Elements/Remnants/barbarian.tres")
+	for rem in remnants:
+		if rem.remnant_name == barbarian.remnant_name:
+			for weapon in weapons:
+				weapon.damage = weapon.damage * (1 + rem.variable_1_values[rem.rank-1] / 100.0)
+			_reset_barb_damage(rem.variable_1_values[rem.rank-1] / 100.0,rem.variable_2_values[rem.rank-1])
+
+func _reset_barb_damage(percent : float, time : float):
+	await get_tree().create_timer(time).timeout
+	for weapon in weapons:
+		weapon.damage = weapon.damage / (1 + percent)
+
 func damage_boost() -> float:
 	var boost : float = 1.0
 	randomize()
@@ -489,7 +562,7 @@ func change_health(add_to_current : int, add_to_max : int = 0):
 	emit_signal("max_health_changed",max_health,current_health,self)
 
 func red_flash() -> void:
-	if(i_frames > 0):
+	if(i_frames > 0) and not invulnerable:
 		sprite.self_modulate = Color(1.0, 0.378, 0.31, 1.0)
 	else:
 		sprite.self_modulate = Color(1.0, 1.0, 1.0)

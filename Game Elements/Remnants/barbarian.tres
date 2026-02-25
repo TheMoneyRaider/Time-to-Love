@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://cgvneop6png8q"]
+
+[ext_resource type="Texture2D" uid="uid://ww6esi1qqejv" path="res://art/remnants/barbarian_remannt.png" id="1_syxu3"]
+[ext_resource type="Texture2D" uid="uid://s3ddvmhi675a" path="res://art/remnants/barbarian_orb.png" id="2_v0lw1"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_djx3u"]
+
+[resource]
+script = ExtResource("3_djx3u")
+remnant_name = "Remnant of the Barbarian"
+description = "Deal $X% damage for $Y seconds after taking damage"
+icon = ExtResource("2_v0lw1")
+art = ExtResource("1_syxu3")
+variable_names = Array[String](["$X", "$Y"])
+variable_1_values = [10, 20, 30, 40, 50]
+variable_2_values = [1.0, 1.0, 2.0, 2.0, 3.0]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

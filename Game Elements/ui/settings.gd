@@ -3,8 +3,10 @@ var is_pause_settings = false
 var mouse_sensitivity: float = 1.0
 const SETTINGS_FILE = "user://settings.cfg"
 var debug_mode: bool = false
-var frag_mode: bool = false
-var devices : Array[Array]=[[],[]]
+var display_pathways: bool = false
+var mouse_clamping: bool = false
+var toggle_invulnerability: bool = false
+
 func load_settings():
 	if Globals.config_safe:
 		mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
@@ -13,7 +15,24 @@ func load_settings():
 		$MarginContainer/VBoxContainer/Volume/Volume.value = Globals.config.get_value("audio", "master", 100)
 		Globals.player1_input = Globals.config.get_value("inputs","player1_input", "key")
 		Globals.player2_input = Globals.config.get_value("inputs","player2_input", "0")
-
+		mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
+		print(Globals.config.get_value("debug", "enabled", false))
+		debug_mode = Globals.config.get_value("debug", "enabled", false)
+		$MarginContainer/VBoxContainer/Volume/Volume.value = Globals.config.get_value("audio", "master", 100)
+		
+func save_settings():
+	var config = ConfigFile.new()
+	
+	var volslider = $MarginContainer/VBoxContainer/Volume/Volume
+	config.set_value("audio", "master", volslider.value)
+	config.set_value("controls", "mouse_sensitivity", mouse_sensitivity)
+	config.set_value("debug", "enabled", debug_mode)
+	config.set_value("debug", "display_pathways", display_pathways)
+	config.set_value("debug", "mouse_clamping", mouse_clamping)
+	config.set_value("debug", "toggle_invulnerability", toggle_invulnerability)
+	config.save(SETTINGS_FILE)
+var frag_mode: bool = false
+var devices : Array[Array]=[[],[]]
 func _on_back_pressed() -> void:
 	if is_pause_settings:
 		queue_free()

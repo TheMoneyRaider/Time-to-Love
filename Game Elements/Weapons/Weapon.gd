@@ -93,32 +93,15 @@ func request_attacks(direction : Vector2, char_position : Vector2, node_attackin
 		var attack_position = attack_direction * spawn_distance + char_position
 		spawn_attack(attack_direction,attack_position,node_attacking,"",flip)
 
-func check_for_intelligence(node_attacking: Node) -> Remnant:
-	if !node_attacking.is_in_group("player"):
-		return null
-	
-	var remnants : Array[Remnant]
-	if node_attacking.is_purple:
-		remnants = node_attacking.LayerManager.player_1_remnants
-	else:
-		remnants = node_attacking.LayerManager.player_2_remnants
-	var intelligence = load("res://Game Elements/Remnants/intelligence.tres")
-	for rem in remnants:
-		if rem.remnant_name == intelligence.remnant_name:
-			return rem.duplicate(true)
-	return null
-
 func spawn_attack(attack_direction : Vector2, attack_position : Vector2, node_attacking : Node = null,particle_effect : String = "", flip : int = 1, variant : bool = false):
-	var intelligence = check_for_intelligence(node_attacking)
-	
 	if !c_owner:
 		return
 	var instance
 	if variant:
 		instance = load(special_attack_scene).instantiate()
+		apply_remnants(instance)
 		if instance.attack_type=="crowbar_melee":
 			instance.scale.x *= flip *-1
-		instance.intelligence = intelligence
 		instance.direction = attack_direction
 		instance.global_position = attack_position
 		instance.c_owner = c_owner
@@ -126,9 +109,9 @@ func spawn_attack(attack_direction : Vector2, attack_position : Vector2, node_at
 			instance.damage *= c_owner.damage_boost()
 	else:
 		instance = load(attack_scene).instantiate()
+		apply_remnants(instance)
 		if instance.attack_type=="crowbar_melee":
 			instance.scale.x *= flip *-1
-		instance.intelligence = intelligence
 		instance.direction = attack_direction
 		instance.global_position = attack_position
 		instance.c_owner = c_owner
@@ -147,6 +130,43 @@ func spawn_attack(attack_direction : Vector2, attack_position : Vector2, node_at
 		var effect = load("res://Game Elements/Effects/" + particle_effect + ".tscn").instantiate()
 		instance.add_child(effect)
 	c_owner.get_tree().get_root().get_node("LayerManager").room_instance.add_child(instance)
+
+func apply_remnants(attack_instance):
+	var remnants : Array[Remnant]
+	if c_owner != null && c_owner.is_in_group("player"):
+		var terramancer = load("res://Game Elements/Remnants/terramancer.tres")
+		var aeromancer = load("res://Game Elements/Remnants/aeromancer.tres")
+		var hydromancer = load("res://Game Elements/Remnants/hydromancer.tres")
+		var intelligence = load("res://Game Elements/Remnants/intelligence.tres")
+		if c_owner.is_purple:
+			remnants = c_owner.get_tree().get_root().get_node("LayerManager").player_1_remnants
+		else:
+			remnants = c_owner.get_tree().get_root().get_node("LayerManager").player_2_remnants
+		attack_instance.intelligence = null
+		for rem in remnants:
+			match rem.remnant_name:
+				terramancer.remnant_name:
+					if c_owner.velocity.length() <= .1:
+						attack_instance.scale = attack_instance.scale * (1 + rem.variable_2_values[rem.rank-1] / 4)
+						attack_instance.hit_force = attack_instance.hit_force * (1 + rem.variable_2_values[rem.rank-1] / 4)
+				aeromancer.remnant_name:
+					var similarity = attack_instance.direction.normalized().dot(c_owner.velocity.normalized())
+					if(attack_instance.speed != 0):
+						#Possibly add a min so it can't go lower than base damage? 
+						#Nah thats lame
+						attack_instance.damage = abs(attack_instance.damage * (((similarity * c_owner.velocity.length() * rem.variable_1_values[rem.rank-1] / 100) + attack_instance.speed) /  attack_instance.speed))
+						attack_instance.speed = ((similarity * c_owner.velocity.length() * rem.variable_1_values[rem.rank-1] / 100) + attack_instance.speed)
+					else:
+						print(abs(attack_instance.damage * ((similarity * (.005) * c_owner.velocity.length() * rem.variable_1_values[rem.rank-1] / 100) + 1)))
+						attack_instance.damage = abs(attack_instance.damage * ((similarity * (.005) * c_owner.velocity.length() * rem.variable_1_values[rem.rank-1] / 100) + 1))
+						attack_instance.speed = (.5 * similarity * c_owner.velocity.length() * rem.variable_1_values[rem.rank-1] / 100)
+				hydromancer.remnant_name:
+					attack_instance.last_liquid = c_owner.last_liquid
+					c_owner.last_liquid = Globals.Liquid.Buffer
+				intelligence.remnant_name:
+					attack_instance.intelligence = rem.duplicate(true)
+				_:
+					pass
 
 
 var laser_camera_distancex = 240
@@ -190,7 +210,7 @@ func get_locations(start_node : Node,inital_direction : Vector2) -> Array[Vector
 		func(e) -> bool:
 		return (abs(e.global_position.x-camera_position.x) < laser_camera_distancex 
 			and abs(e.global_position.y-camera_position.y) < laser_camera_distancey 
-			and e.hitable)
+			and "hitable" in e and e.hitable)
 		)
 	
 	var best_chain: Array[Vector2] = [] # Stack stores: node, chain_length (index in chain), direction 

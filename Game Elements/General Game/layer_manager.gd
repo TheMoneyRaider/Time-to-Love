@@ -64,6 +64,8 @@ var remnant_offer_popup
 var remnant_upgrade_popup
 #The total time of this run
 var time_passed := 0.0
+# time spent in room
+var time_in_room := 0.0
 var trap_cells := []
 var blocked_cells := []
 var liquid_cells : Array[Array]= [[],[],[],[],[],[],[],[],[],[]]
@@ -151,6 +153,10 @@ func _ready() -> void:
 	#rem.rank = 4
 	#player_1_remnants.append(rem.duplicate(true))
 	#player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/hare.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
 	
 	
 	player1.display_combo()
@@ -199,6 +205,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	
 	time_passed += delta
+	time_in_room += delta
+	
 	if !camera_override:
 		if is_multiplayer:
 			camera.global_position = (player1.global_position + player2.global_position) / 2 +camera.get_cam_offset(delta)
@@ -292,7 +300,7 @@ func create_new_rooms() -> void:
 	# Start async generation thread
 	thread_running = true
 	room_gen_thread = Thread.new()
-	room_gen_thread.start(_thread_generate_rooms.bind(bosses, room_instance_data)) #TODO change this to be based on layer ish
+	room_gen_thread.start(_thread_generate_rooms.bind(sci_fi_layer, room_instance_data)) #TODO change this to be based on layer ish
 
 func update_ai_array(generated_room : Node2D, generated_room_data : Room) -> void:
 	#Rooms cleared
@@ -402,24 +410,31 @@ func choose_pathways(direction : int, generated_room : Node2D, generated_room_da
 
 func place_liquids(generated_room : Node2D, generated_room_data : Room, conflict_cells : Array[Vector2i]) -> void:
 	#For each liquid check if you should place it and then check if there's room
-	var liquid_num = 0
 	var cells : Array[Vector2i]
 	var liquid_type : String
-	var rand : float
-	while liquid_num < generated_room_data.num_liquid:
-		liquid_num+=1
-		liquid_type= _get_liquid_string(generated_room_data.liquid_types[liquid_num-1])
-		rand = randf()
-		if rand > generated_room_data.liquid_chances[liquid_num-1]:
-			generated_room.get_node(liquid_type+str(liquid_num)).queue_free()
+	var types = [0,0,0,0,0,0,0,0,0,0]
+	for liquid in generated_room_data.liquid_types:
+		types[liquid] +=1
+		liquid_type= _get_liquid_string(liquid)
+		if randf() > get_liquid_chance(generated_room_data.liquid_chances,generated_room_data.liquid_types, liquid,types[liquid]):
+			generated_room.get_node(liquid_type+str(types[liquid])).queue_free()
 		else:
-			cells = generated_room.get_node(liquid_type+str(liquid_num)).get_used_cells()
+			cells = generated_room.get_node(liquid_type+str(types[liquid])).get_used_cells()
 			if(_arrays_intersect(cells, conflict_cells)):
-				generated_room.get_node(liquid_type+str(liquid_num)).queue_free()
+				generated_room.get_node(liquid_type+str(types[liquid])).queue_free()
 				#DEBUG
 				_debug_message("Layer collision removed")
 			else:
 				conflict_cells.append_array(cells)
+
+func get_liquid_chance(all_chances : Array[float], liquids: Array[Globals.Liquid], type : Globals.Liquid, index : int):
+	var idx = 0
+	for i in range(all_chances.size()):
+		if liquids[i]== type:
+			idx+=1
+		if idx==index:
+			return all_chances[i]
+	return 0.0
 
 
 func place_traps(generated_room : Node2D, generated_room_data : Room, conflict_cells : Array[Vector2i]) -> void:
@@ -1227,6 +1242,8 @@ func _finalize_room_creation(next_room_instance: Node2D, next_room_data: Room, d
 	_choose_reward(pathway_detect.name)
 	
 func _move_to_pathway_room(pathway_id: String) -> void:
+	time_in_room = 0
+	
 	var shido1 = 0.0
 	var shido2 = 0.0
 	var player1_ranked_up : Array[String] = []
@@ -1251,7 +1268,27 @@ func _move_to_pathway_room(pathway_id: String) -> void:
 				player2_ranked_up.append(rem.remnant_name)
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants,player1_ranked_up,player2_ranked_up)
 		
-	
+	for rem in player_1_remnants:
+		if rem.remnant_name == "Remnant of the Hare":
+			var effect = load("res://Game Elements/Effects/speed.tres")
+			effect.cooldown = 10
+			effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
+			effect.gained(player1)
+			player1.effects.append(effect)
+	for rem in player_2_remnants:
+		if rem.remnant_name == "Remnant of the Hare":
+			var effect = load("res://Game Elements/Effects/speed.tres")
+			effect.cooldown = 10
+			effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
+			if is_multiplayer:
+				print("multiplayer application")
+				effect.gained(player2)
+				player2.effects.append(effect)
+			else:
+				print("singleplayer application")
+				effect.gained(player1)
+				player1.effects.append(effect)
+			print("applied to player 2")
 	
 	if not generated_rooms.has(pathway_id):
 		push_warning("No linked room for pathway " + pathway_id)
@@ -1439,6 +1476,13 @@ func _on_enemy_take_damage(damage : int,current_health : int,enemy : Node, direc
 				if node.has_method("clear_effects"):
 					node.clear_effects()
 				node.queue_free()
+		if(enemy.exploded != 0):
+			var attack_instance = load("res://Game Elements/Attacks/explosion.tscn").instantiate()
+			attack_instance.damage = enemy.exploded
+			attack_instance.scale = attack_instance.scale * ((enemy.exploded) / 4)
+			attack_instance.c_owner = enemy.last_hitter
+			attack_instance.global_position = enemy.global_position
+			room_instance.call_deferred("add_child",attack_instance)
 		_enemy_to_timefabric(enemy,direction,Vector2(enemy.min_timefabric,enemy.max_timefabric))
 		enemy.visible=false
 		enemy.queue_free()

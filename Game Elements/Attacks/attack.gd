@@ -49,6 +49,7 @@ var special_nodes : Array[Node] = []
 
 #Special Variables
 var life = 0.0
+var last_liquid : Globals.Liquid = Globals.Liquid.Buffer
 
 #Multiplies the Speed, Damage, Lifespan adn Hit_Force of attack by given values
 func mult(speed_mult, damage_mult = 1, lifespan_mult = 1, hit_force_mult = 1):
@@ -97,6 +98,8 @@ func _ready():
 			$Sprite2D.texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_orange.png")
 	if attack_type!="scifi_laser":
 		rotation = direction.angle() + PI/2
+	if attack_type == "explosion":
+		rotation = 0
 	if attack_type == "slug":
 		special_nodes.append(load("res://Game Elements/Attacks/slug_seperate.tscn").instantiate())
 		special_nodes[-1].global_position = global_position
