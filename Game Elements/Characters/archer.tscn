@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://bky5i1giu1st8"]
+[gd_scene load_steps=17 format=3 uid="uid://bky5i1giu1st8"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_w832q"]
 [ext_resource type="Shader" uid="uid://jwdy7amsrtqm" path="res://Game Elements/Characters/spawn_transition.gdshader" id="2_dm2ew"]
 [ext_resource type="Texture2D" uid="uid://d2ue7tghptx6f" path="res://art/characters/robot/Full sprite sheet.png" id="3_3tt6f"]
 [ext_resource type="BehaviorTree" uid="uid://bpsmxbgw60kcj" path="res://ai/trees/archer.tres" id="4_w832q"]
 [ext_resource type="Script" uid="uid://chg34ggtxfi7k" path="res://Game Elements/Characters/robot.gd" id="5_tswc2"]
+[ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="6_dm2ew"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_llnr1"]
 shader = ExtResource("2_dm2ew")
@@ -120,11 +121,14 @@ var/state/value = "spawning"
 var/state/hint = 0
 var/state/hint_string = ""
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_w832q"]
+radius = 7.0
+
 [node name="Archer" type="CharacterBody2D" groups=["enemy"]]
 z_index = 20
 y_sort_enabled = true
-collision_layer = 4
-collision_mask = 15
+collision_layer = 0
+collision_mask = 13
 script = ExtResource("1_w832q")
 max_health = 30
 enemy_type = "robot"
@@ -160,3 +164,12 @@ blackboard_plan = SubResource("BlackboardPlan_8s1eb")
 
 [node name="RobotBrain" type="Node2D" parent="."]
 script = ExtResource("5_tswc2")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("6_dm2ew")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, 0)
+shape = SubResource("CircleShape2D_w832q")
