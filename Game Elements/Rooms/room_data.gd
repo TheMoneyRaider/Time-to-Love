@@ -545,7 +545,7 @@ FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type
 [Globals.Direction.Up,Globals.Direction.Down],									#Pathway Directions                       
 0,																																#Enemy Num Goal                               
 0,																																#NPC Spawnpoints   
-Globals.RoomType.Buffer,																										#RoomType
+Globals.RoomType.Combat,																										#RoomType
 Globals.RoomVariant.MedOut,																							#RoomVariant
 [],																				#Enemies That can spawn in this room
 [],																															#Weights for those enemies to spawn

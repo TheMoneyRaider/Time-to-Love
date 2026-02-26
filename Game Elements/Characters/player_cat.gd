@@ -238,7 +238,7 @@ func take_damage(damage_amount : int, _dmg_owner : Node,_direction = Vector2(0,-
 				var instance = revive.instantiate()
 				instance.global_position = position
 				instance.c_owner = self
-				LayerManager.room_instance.add_child(instance)
+				LayerManager.room_instance.call_deferred("add_child",instance)
 				emit_signal("attack_requested",revive, position, Vector2.ZERO, 0)
 		_cleric_chance()
 		_barb_damage()

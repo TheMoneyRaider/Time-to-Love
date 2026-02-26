@@ -272,6 +272,7 @@ func intersection(body):
 	if attack_type == "death mark":
 		if body != c_owner and body.is_in_group("player"):
 			c_owner.die(false)
+			queue_free()
 		return
 	
 	if(!hit_nodes.has(body)):

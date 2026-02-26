@@ -74,6 +74,7 @@ collision_layer = 8
 collision_mask = 47
 script = ExtResource("1_rj53r")
 speed = 0.0
+damage = 3.0
 lifespan = 0.3
 cooldown = 0.3
 pierce = -2.0

@@ -152,7 +152,7 @@ float laser_fraction(sampler2D text, vec2 uv) {
 		float perpendicular = abs(delta.x * beam_dir.y - delta.y * beam_dir.x);
 		if (perpendicular > laser_width) continue;
 
-		float strip_weight = 1.0 - (perpendicular / laser_width);
+		float strip_weight = 1.0 - (perpendicular / laser_width)*(perpendicular / laser_width);
 		best_beam_weight = max(best_beam_weight, strip_weight * wave_band);
 	}
 

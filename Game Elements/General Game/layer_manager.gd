@@ -12,7 +12,7 @@ const room_data = preload("res://Game Elements/Rooms/room_data.gd")
 var player1 = null
 var player2 = null
 var weapon1 = "res://Game Elements/Weapons/Crowbar.tres"
-var weapon2 = "res://Game Elements/Weapons/Railgun.tres"
+var weapon2 = "res://Game Elements/Weapons/LaserSword.tres"
 var undiscovered_weapons = []
 var possible_weapon = ""#undiscovered_weapons.pick_random()
 ###
@@ -160,6 +160,8 @@ func _ready() -> void:
 	
 	
 	player1.display_combo()
+	if is_multiplayer:
+		player2.display_combo()
 	
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
 	timefabric_collected = 100000
@@ -581,8 +583,8 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 		var orb = generated_room.get_node("HealthUpgrade") as Area2D
 		if player_reference in orb.tracked_bodies:
 			if is_multiplayer:
-				player2.change_health(5,5)
-			player1.change_health(5,5)
+				player2.change_health(50,50)
+			player1.change_health(50,50)
 			var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 			particle.position = orb.position
 			generated_room.add_child(particle)
