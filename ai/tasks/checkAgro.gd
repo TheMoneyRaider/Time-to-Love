@@ -25,11 +25,20 @@ func _tick(_delta: float) -> Status:
 	# looks for either enemy, and checks if they are in range, sends that position if they are
 	for i in range(distances_squared.size()): 
 		if distances_squared[i] <= agro_dist * agro_dist and healths[i] > 0:
-			blackboard.set_var(player_position_var, positions[i])
-			blackboard.set_var(player_idx, i)
-			blackboard.set_var("state", "agro")
-			
-			return SUCCESS
-			# pdate which index value the enemies should be acce`ssing
+			var ray = cast_ray(agent.global_position,(positions[i]-agent.global_position).normalized(),agro_dist,agent)
+			if ray and ray.position.distance_squared_to(positions[i]) < 1.0:
+				blackboard.set_var(player_position_var, positions[i])
+				blackboard.set_var(player_idx, i)
+				blackboard.set_var("state", "agro")
+				
+				return SUCCESS
+				# pdate which index value the enemies should be acce`ssing
 	
 	return SUCCESS
+func cast_ray(origin: Vector2, direction: Vector2, distance: float, player_node : Node) -> Dictionary:
+	var space = player_node.get_world_2d().direct_space_state
+	var query = PhysicsRayQueryParameters2D.create(origin - direction, origin + direction * distance)
+	query.collide_with_areas = false
+	query.collide_with_bodies = true
+	query.collision_mask = (1 << 0) | (1 << 1)
+	return space.intersect_ray(query)
