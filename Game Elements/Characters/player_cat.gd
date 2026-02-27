@@ -135,9 +135,127 @@ func _initialize_state_machine():
 func apply_movement(_delta):
 	velocity = input_direction * move_speed
 
+var _debug_rays : Array = []   # [{from, to, hit}]
+var debug_draw_angles : bool = true
+func _draw() -> void:
+	if !debug_draw_angles:
+		return
+
+	for r in _debug_rays:
+		var from_local = to_local(r.from)
+		var to_local_pos = to_local(r.to)
+
+		var color = Color.RED if !r.hit else Color.GREEN
+		color.a = 1.0
+
+		draw_line(from_local, to_local_pos, color, 2.0)
+		draw_circle(to_local_pos, 3.0, color)
+
+
+func smooth_aim_assist():
+	_debug_rays.clear()
+
+	var enemies : Array[Node]= []
+	for child in LayerManager.room_instance.get_children():
+		if child.is_in_group("enemy"):
+			enemies.append(child)
+	for enemy in enemies:
+		var band = angular_band_circle(global_position,enemy.get_node("CollisionShape2D"))
+		var ray_length = (enemy.global_position-global_position).length()
+
+		# Compute ray directions using cos/sin
+		var left_ray = Vector2(cos(band.x), sin(band.x))
+		var right_ray = Vector2(cos(band.y), sin(band.y))
+		var ray1 = cast_ray(global_position,left_ray,ray_length,self)
+		var ray2 = cast_ray(global_position,right_ray,ray_length,self)
+		if ray1:
+			_debug_rays.append({"from": global_position, "to": ray1.position, "hit": false})
+		else:
+			_debug_rays.append({"from": global_position, "to": global_position + left_ray * ray_length, "hit": true})
+		if ray2:
+			_debug_rays.append({"from": global_position, "to": ray2.position, "hit": false})
+		else:
+			_debug_rays.append({"from": global_position, "to": global_position + right_ray * ray_length, "hit": true})
+
+	
+	queue_redraw()
+
+func cast_ray(origin: Vector2, direction: Vector2, distance: float, player_node : Node) -> Dictionary:
+	var space = player_node.get_world_2d().direct_space_state
+	var query = PhysicsRayQueryParameters2D.create(origin - direction, origin + direction * distance)
+	query.collide_with_areas = false
+	query.collide_with_bodies = true
+	query.collision_mask = 1 << 0
+	return space.intersect_ray(query)
+
+
+func angular_band_circle(player_pos: Vector2, collision_shape: CollisionShape2D) -> Vector2:
+	var shape_pos = collision_shape.global_position
+	var to_shape = shape_pos - player_pos
+	if collision_shape.shape is CircleShape2D:
+		var radius = collision_shape.shape.radius
+
+		var distance = to_shape.length()
+
+		# Handle case if player is inside the shape
+		if distance < radius:
+			return Vector2(-PI, PI)
+
+		# Angular half-width
+		var half_angle = asin(radius / distance)
+
+		var center_angle = to_shape.angle()
+		return Vector2(center_angle - half_angle, center_angle + half_angle)
+	if collision_shape.shape is RectangleShape2D:
+			var extents = collision_shape.shape.extents
+			var corners = [
+				Vector2(-extents.x, -extents.y),
+				Vector2(extents.x, -extents.y),
+				Vector2(extents.x, extents.y),
+				Vector2(-extents.x, extents.y)
+			]
+
+			var angles = []
+			for corner in corners:
+				var global_corner = collision_shape.to_global(corner)
+				var dir = global_corner - player_pos
+				angles.append(dir.angle())
+
+			# Handle -π/π wrapping
+			var min_angle = angles[0]
+			var max_angle = angles[0]
+			for a in angles:
+				var diff = wrapf(a - min_angle, -PI, PI)
+				if diff < 0:
+					min_angle = a
+				diff = wrapf(a - max_angle, -PI, PI)
+				if diff > 0:
+					max_angle = a
+			return Vector2(min_angle, max_angle)
+	if collision_shape.shape is CapsuleShape2D:
+		var radius =collision_shape.shape.radius + collision_shape.shape.height/2.0
+
+		var distance = to_shape.length()
+
+		# Handle case if player is inside the shape
+		if distance < radius:
+			return Vector2(-PI, PI)
+
+		# Angular half-width
+		var half_angle = asin(radius / distance)
+
+		var center_angle = to_shape.angle()
+		return Vector2(center_angle - half_angle, center_angle + half_angle)
+	
+	
+	
+	return Vector2(to_shape.angle(),to_shape.angle())
+
+
 func _physics_process(delta):
 	if disabled:
 		return
+	smooth_aim_assist()
 	#print(move_speed)
 	if(i_frames > 0):
 		i_frames -= 1

@@ -78,6 +78,7 @@ func load_settings():
 	
 
 func _ready():
+	get_node("BTPlayer").active = false
 	if is_boss:
 		current_health = boss_healthpools[phase]
 		max_health = boss_healthpools[phase]
