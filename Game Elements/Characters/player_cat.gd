@@ -3,8 +3,8 @@ var mouse_sensitivity: float = 1.0
 
 @export var base_move_speed: float = 100
 var move_speed: float
-@export var max_health: float = 10
-@export var current_health: float = 10
+@export var max_health: float = 10.0
+@export var current_health: float = 10.0
 @onready var current_dmg_time: float = 0.0
 @onready var current_liquid_time: float = 0.0
 @onready var in_instant_trap: bool = false
@@ -61,11 +61,11 @@ var cooldowns = [0,0]
 var is_purple = true
 
 signal attack_requested(new_attack : PackedScene, t_position : Vector2, t_direction : Vector2, damage_boost : float)
-signal player_took_damage(damage : float, c_health : int, c_node : Node)
+signal player_took_damage(damage : float, c_health : float, c_node : Node)
 signal activate(player_node : Node)
 signal special(player_node : Node)
 signal swapped_color(player_node : Node)
-signal max_health_changed(new_max_health : int, new_current_health : int, player_node : Node)
+signal max_health_changed(new_max_health : float, new_current_health : float, player_node : Node)
 signal special_changed(is_purple : int, new_progress : int)
 signal special_reset(is_purple : int)
 
@@ -235,9 +235,9 @@ func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0
 				
 		current_health = current_health - damage_amount
 		emit_signal("player_took_damage",damage_amount,current_health,self)
-		if current_health >= 0 and creates_indicators:
+		if current_health >= 0.0 and creates_indicators:
 			LayerManager._damage_indicator(damage_amount, _dmg_owner,_direction, attack_body,self)
-		if(current_health <= 0):
+		if(current_health <= 0.0):
 			if(die(true)):
 				var instance = revive.instantiate()
 				instance.global_position = position
@@ -347,23 +347,23 @@ func die(death : bool , insta_die : bool = false) -> bool:
 		LayerManager.open_death_menu()
 		return false
 	else:
-		if other_player.current_health <= 0:
+		if other_player.current_health <= 0.0:
 			insta_die = true
 		if insta_die:
 			LayerManager.open_death_menu()
 			return false
 		if death:
-			max_health = max_health - 2
+			max_health = max_health/2.0 if max_health > 40 else max_health-2.0
 			emit_signal("max_health_changed",max_health,current_health, self)
 			self.process_mode = PROCESS_MODE_DISABLED
 			visible = false
-			if(max_health <= 0):
+			if(max_health <= 0.0):
 				#Change to signal 
 				LayerManager.open_death_menu()
 				return false
 		else:
-			current_health = round(max_health / 2)
-			emit_signal("player_took_damage",-round(max_health / 2),current_health,self)
+			current_health = max_health / 2.0
+			emit_signal("player_took_damage",-max_health / 2.0,current_health,self)
 			self.process_mode = PROCESS_MODE_INHERIT
 			visible = true
 	return true
@@ -578,10 +578,10 @@ func damage_boost() -> float:
 				boost *= LayerManager.hud.player2_combo
 	return boost
 
-func change_health(add_to_current : int, add_to_max : int = 0):
+func change_health(add_to_current : float, add_to_max : float = 0):
 	current_health+=add_to_current
 	max_health+=add_to_max
-	current_health = clamp(current_health,0,max_health)
+	current_health = clamp(current_health,0.0,max_health)
 	emit_signal("max_health_changed",max_health,current_health,self)
 
 func red_flash() -> void:

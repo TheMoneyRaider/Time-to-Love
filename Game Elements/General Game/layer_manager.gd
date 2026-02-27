@@ -581,8 +581,8 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 		var orb = generated_room.get_node("HealthUpgrade") as Area2D
 		if player_reference in orb.tracked_bodies:
 			if is_multiplayer:
-				player2.change_health(5,5)
-			player1.change_health(5,5)
+				player2.change_health(5.0,5.0)
+			player1.change_health(5.0,5.0)
 			var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 			particle.position = orb.position
 			generated_room.add_child(particle)
@@ -592,8 +592,8 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 		var orb = generated_room.get_node("Health") as Area2D
 		if player_reference in orb.tracked_bodies:
 			if is_multiplayer:
-				player2.change_health(5)
-			player1.change_health(5)
+				player2.change_health(5.0)
+			player1.change_health(5.0)
 			var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 			particle.position = orb.position
 			generated_room.add_child(particle)
@@ -1465,12 +1465,12 @@ func _open_random_pathways(generated_room : Node2D, generated_room_data : Room, 
 func _on_player_attack(_new_attack : PackedScene, _attack_position : Vector2, _attack_direction : Vector2, _damage_boost : float) -> void:
 	layer_ai[6]+=1
 	
-func _on_player_take_damage(damage_amount : float,_current_health : int,_player_node : Node) -> void:
+func _on_player_take_damage(damage_amount : float,_current_health : float,_player_node : Node) -> void:
 	layer_ai[11]+=damage_amount
 	
 func _on_enemy_take_damage(damage : float,current_health : int,enemy : Node, direction = Vector2(0,-1)) -> void:
 	layer_ai[5]+=damage
-	if current_health <= 0:
+	if current_health <= 0.0:
 		for node in get_tree().get_nodes_in_group("attack"):
 			if node.c_owner == enemy:
 				if node.has_method("clear_effects"):

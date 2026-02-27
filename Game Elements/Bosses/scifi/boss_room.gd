@@ -94,7 +94,7 @@ func scifi_phase2_to_3():
 	#Cleanup attacks and enemies
 	for child in get_children():
 		if child.is_in_group("enemy") and !child.is_boss:
-			child.current_health = -1
+			child.current_health = -1.0
 			child.emit_signal("enemy_took_damage",100.0,child.current_health,child,Vector2(0,-1))
 		if child.is_in_group("attack"):
 			child.queue_free()
@@ -263,7 +263,7 @@ func boss_death():
 
 func _on_enemy_take_damage(_damage : float,current_health : int,_enemy : Node, direction = Vector2(0,-1)) -> void:
 	var boss_health1 = boss.current_health
-	if boss_type =="scifi" and current_health <= 0 and phase == 0:
+	if boss_type =="scifi" and current_health <= 0.0 and phase == 0:
 		if is_multiplayer:
 			if .5 < randf():
 				boss.take_damage(10.0,player1,direction)
@@ -274,8 +274,8 @@ func _on_enemy_take_damage(_damage : float,current_health : int,_enemy : Node, d
 		pass
 	var boss_health2 = boss.current_health
 	if boss_type == "scifi":
-		var mini_phase1 = int(( boss_health1 / float(boss.max_health) ) * 3)
-		var mini_phase2 = int(( boss_health2 / float(boss.max_health) ) * 3)
+		var mini_phase1 = int(( boss_health1 / boss.max_health ) * 3)
+		var mini_phase2 = int(( boss_health2 / boss.max_health ) * 3)
 		print("P1: "+str(mini_phase1)+"P2: "+str(mini_phase2))
 		if  mini_phase1 != 3 and mini_phase1 >  mini_phase2:
 			scifi_phase1_middles()

@@ -1,7 +1,7 @@
 extends Control
 
-var current_health = 10
-var max_health = 10
+var current_health = 100
+var max_health = 100
 @export var is_purple : bool
 
 @export var width_scale := 100
@@ -17,7 +17,7 @@ var max_health = 10
 
 
 func _get_chunk_points(start_health: int, end_health: int) -> PackedVector2Array:
-	var total_width = width_scale * pow(max_health, exponent)
+	var total_width = width_scale * pow(max_health/10, exponent)
 	var height_half = progress_bar.size.y / 2
 	var start_pos = progress_bar.position
 	
@@ -75,7 +75,7 @@ func _ready() -> void:
 func set_max_health(health_value : int):
 	max_health = health_value
 	progress_bar.max_value = max_health
-	var width =  width_scale * pow(health_value, exponent)
+	var width =  width_scale * pow(health_value/10, exponent)
 	progress_bar.custom_minimum_size.x = width
 	update_text()
 	update_lines()
@@ -97,7 +97,7 @@ func set_current_health(health_value : int):
 
 
 func update_lines():
-	var total_width = width_scale * pow(max_health, exponent)
+	var total_width = width_scale * pow(max_health/10, exponent)
 	var filled_width = total_width * clamp(float(current_health)/max_health,0.0,1.0)
 
 	var start_pos = progress_bar.position
