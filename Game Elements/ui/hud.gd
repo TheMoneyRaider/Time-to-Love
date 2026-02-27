@@ -6,9 +6,10 @@ var menu_indicator : bool = false
 var display_paths : bool = false
 var toggle_invulnerability : bool = false 
 var mouse_clamping : bool = false
+var enemy_angles : bool = false
 @onready var health_bar_1 = $RootControl/Left_Bottom_Corner/HealthBar
 @onready var health_bar_2 = $RootControl/Right_Bottom_Corner/HealthBar
-@onready var TimeFabric = $RootControl/TimeFabric
+@onready var TimeFabric = $RootControl/VBoxContainer/HorizontalSlice/TimeFabric
 @onready var LeftCooldownBar = $RootControl/Left_Bottom_Corner/CooldownBar
 @onready var RightCooldownBar = $RootControl/Right_Bottom_Corner/CooldownBar
 @onready var IconSlotScene = preload("res://Game Elements/ui/remnant_icon.tscn")
@@ -30,7 +31,7 @@ var player2_combo_inc = 1.0
 var player2_combo_max = 1.0
 
 func _ready():
-	$RootControl/Notification.modulate.a = 0.0
+	$RootControl/VBoxContainer/Noti.modulate.a = 0.0
 	combo1.visible = false
 	combo2.visible = false
 	LeftCooldownBar.get_node("CooldownBar").material =LeftCooldownBar.get_node("CooldownBar").material.duplicate(true)
@@ -40,22 +41,22 @@ func _ready():
 	
 
 func set_timefabric_amount(timefabric_collected : int):
-	$RootControl/TimeFabric/HBoxContainer/Label.text = str(timefabric_collected)
+	$RootControl/VBoxContainer/HorizontalSlice/TimeFabric/HBoxContainer/Label.text = str(timefabric_collected)
 
 func set_remnant_icons(player1_remnants: Array, player2_remnants: Array, ranked_up1: Array[String] = [], ranked_up2: Array[String] = []):
-	for child in $RootControl/RemnantIcons/LeftRemnants.get_children():
+	for child in $RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/LeftRemnants.get_children():
 		child.queue_free()
-	for child in $RootControl/RemnantIcons/RightRemnants.get_children():
+	for child in $RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/RightRemnants.get_children():
 		child.queue_free()
 	await get_tree().process_frame
 	for remnant in player1_remnants:
 		if ranked_up1.has(remnant.remnant_name):
-			_add_slot($RootControl/RemnantIcons/LeftRemnants, remnant,true,true)
+			_add_slot($RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/LeftRemnants, remnant,true,true)
 		else:
-			_add_slot($RootControl/RemnantIcons/LeftRemnants, remnant,false,true)
+			_add_slot($RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/LeftRemnants, remnant,false,true)
 			
 	# --- Populate RIGHT (R->L per row with padding) ---
-	var right_grid = $RootControl/RemnantIcons/RightRemnants
+	var right_grid = $RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/RightRemnants
 	var columns = right_grid.columns
 	var total_icons = player2_remnants.size()
 
@@ -87,8 +88,8 @@ func set_remnant_icons(player1_remnants: Array, player2_remnants: Array, ranked_
 	if !pause_menu:
 		pause_menu = get_node_or_null("../PauseMenu")
 	if pause_menu:
-		pause_menu.setup($RootControl/RemnantIcons/LeftRemnants.get_children())
-		pause_menu.setup($RootControl/RemnantIcons/RightRemnants.get_children())
+		pause_menu.setup($RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/LeftRemnants.get_children())
+		pause_menu.setup($RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/RightRemnants.get_children())
 	await get_tree().process_frame
 	if pause_menu:
 		_setup_focus_connections()
@@ -107,12 +108,12 @@ func _add_slot(grid: Node, remnant: Resource, has_ranked : bool = false, is_purp
 		mat.shader = HIGHLIGHT_SHADER
 		mat.set_shader_parameter("start_time", Time.get_ticks_msec() / 1000.0)
 		slot.get_node("TextureRect").material = mat
-		await get_tree().create_timer(.5).timeout
+		await get_tree().create_timer(.5, false).timeout
 		label.text = _num_to_roman(remnant.rank)
 
 func _setup_focus_connections():
-	var left_grid = $RootControl/RemnantIcons/LeftRemnants
-	var right_grid = $RootControl/RemnantIcons/RightRemnants
+	var left_grid = $RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/LeftRemnants
+	var right_grid = $RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/RightRemnants
 	var pause_button = pause_menu.get_node("Control/VBoxContainer/Return")
 
 	_setup_grid_focus(left_grid, left_grid.columns, false)
@@ -124,9 +125,6 @@ func _setup_focus_connections():
 
 func _setup_grid_focus(grid: GridContainer, columns: int, is_reversed: bool):
 	var children = grid.get_children()
-
-	# Compute rows
-	var num_rows = ceil(children.size() / float(columns))
 
 	for i in range(children.size()):
 		if "remnant" not in children[i]:
@@ -340,25 +338,28 @@ func _on_player_swap(player_node : Node):
 			LeftCooldownBar.cover_cooldown()
 			RightCooldownBar.cover_cooldown()
 
-func _on_player_take_damage(_damage_amount : int, current_health : int, player_node : Node, _direction = Vector2(0,-1)):
-	if current_health < 0:
-		current_health = 0
+func _on_player_take_damage(_damage_amount : float, current_health : float, player_node : Node, _direction = Vector2(0,-1)):
+	var temp_current_health : int = int(current_health*10)
+	if temp_current_health < 0:
+		temp_current_health = 0
 	if(player_node == player1):
-		health_bar_1.set_current_health(current_health)
+		health_bar_1.set_current_health(temp_current_health)
 		if(!is_multiplayer):
-			health_bar_2.set_current_health(current_health)
+			health_bar_2.set_current_health(temp_current_health)
 	else:
-		health_bar_2.set_current_health(current_health)
+		health_bar_2.set_current_health(temp_current_health)
 
-func _on_max_health_changed(max_health : int, current_health : int,player_node : Node):
+func _on_max_health_changed(max_health : float, current_health : float,player_node : Node):
+	var temp_current_health : int = int(current_health*10)
+	var temp_max_health : int = int(max_health*10)
 	if(player_node == player1):
-		health_bar_1.set_max_health(max_health)
-		health_bar_1.set_current_health(current_health)
+		health_bar_1.set_max_health(temp_max_health)
+		health_bar_1.set_current_health(temp_current_health)
 		if(!is_multiplayer):
-			health_bar_2.set_max_health(max_health)
-			health_bar_2.set_current_health(current_health)
+			health_bar_2.set_max_health(temp_max_health)
+			health_bar_2.set_current_health(temp_current_health)
 	else:
-		health_bar_2.set_max_health(max_health)
+		health_bar_2.set_max_health(temp_max_health)
 		health_bar_2.set_current_health(current_health)
 		
 func load_settings():
@@ -390,6 +391,10 @@ func _input(event):
 			mouse_clamping = !mouse_clamping
 			if menu_indicator:  
 				update_clamping()
+		if event.is_action_pressed("toggle_enemy_angles"):
+			enemy_angles = !enemy_angles
+			if menu_indicator:  
+				update_clamping()
 				
 		update_menu_indicator()
 	return
@@ -401,6 +406,7 @@ func update_menu_indicator() -> void:
 	var paths_string = "  paths: | P | "
 	var invul_string = "  invuln: | I | "
 	var clamp_string = "  clamp: | C | "
+	var angle_string = "  angles: | V | "
 	
 	if menu_indicator:
 		$RootControl/DebugMenu/GridContainer/Paths.text = paths_string
@@ -409,10 +415,13 @@ func update_menu_indicator() -> void:
 		update_invulnerability()
 		$RootControl/DebugMenu/GridContainer/Clamping.text = clamp_string
 		update_clamping()
+		$RootControl/DebugMenu/GridContainer/EnemyAngles.text = angle_string
+		update_angles()
 	else:
 		$RootControl/DebugMenu/GridContainer/Paths.text = ""
 		$RootControl/DebugMenu/GridContainer/Invulnerability.text = ""
 		$RootControl/DebugMenu/GridContainer/Clamping.text = ""
+		$RootControl/DebugMenu/GridContainer/EnemyAngles.text = ""
 	return
 
 func update_display_paths() -> void:
@@ -432,6 +441,11 @@ func update_clamping():
 		$RootControl/DebugMenu/GridContainer/Clamping.text += "ON"
 	else:
 		$RootControl/DebugMenu/GridContainer/Clamping.text += "OFF"
+func update_angles():
+	if enemy_angles:
+		$RootControl/DebugMenu/GridContainer/EnemyAngles.text += "ON"
+	else:
+		$RootControl/DebugMenu/GridContainer/EnemyAngles.text += "OFF"
 
 func _on_special_reset(is_purple : bool):
 	if is_purple:
@@ -480,3 +494,28 @@ func display_notification(text : String, fade_in : float = 1.0, hold : float= 1.
 	tween.tween_property(hud_notification, "modulate:a", 1.0, fade_in)
 	tween.tween_interval(hold)
 	tween.tween_property(hud_notification, "modulate:a", 0.0, fade_out)
+
+func hide_boss_bar():
+	var bossbar = $RootControl/VBoxContainer/BossBar
+	var tween = create_tween()
+	tween.tween_property(bossbar,"modulate",Color(1.0,1.0,1.0,0.0),1.0)
+	await tween.finished
+	bossbar.modulate.a = 1.0
+	bossbar.visible = false
+	
+
+func update_bossbar(prog : float):
+	$RootControl/VBoxContainer/BossBar/Overlay.material.set_shader_parameter("progress",prog)
+
+func show_boss_bar(underlay : Texture2D = null,overlay : Texture2D = null, boss_string : String = "", settings : LabelSettings = null,index : int = -1, prog : float = 1.0):
+	var bossbar = $RootControl/VBoxContainer/BossBar
+	bossbar.visible = true
+	var overlay_node = bossbar.get_node("Overlay")
+	var boss_name = bossbar.get_node("Label")
+	boss_name.label_settings = settings
+	boss_name.text = boss_string
+	bossbar.get_node("Underlay").texture = underlay
+	overlay_node.texture = overlay
+	overlay_node.material.set_shader_parameter("effect_index",index)
+	overlay_node.material.set_shader_parameter("progress",prog)
+	overlay_node.material.set_shader_parameter("image_size",overlay.get_size())

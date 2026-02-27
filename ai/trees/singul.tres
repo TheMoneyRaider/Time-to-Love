@@ -1,0 +1,347 @@
+[gd_resource type="BehaviorTree" load_steps=83 format=3 uid="uid://b7lkxmyacbk8i"]
+
+[ext_resource type="Script" uid="uid://dr4vkyorjqaqn" path="res://ai/tasks/getPlayerPos.gd" id="1_3ncdb"]
+[ext_resource type="Script" uid="uid://dgy3vj6nno8qj" path="res://ai/tasks/signul_phase1_spawn.gd" id="2_g4v1g"]
+[ext_resource type="Script" uid="uid://c7b86gm25q0p3" path="res://ai/tasks/player_in_range.gd" id="3_3ncdb"]
+[ext_resource type="Script" uid="uid://c0bvdm1o3wjaq" path="res://ai/tasks/random_cooldown.gd" id="3_halj7"]
+[ext_resource type="Script" uid="uid://bxroggxsr4oc8" path="res://ai/tasks/singul_laser_attack.gd" id="4_halj7"]
+[ext_resource type="Script" uid="uid://ravfjih580jj" path="res://ai/tasks/moveToPlayer.gd" id="4_ofden"]
+[ext_resource type="Script" uid="uid://yu3fkdlxtfbv" path="res://ai/tasks/calcPath.gd" id="6_qh4k4"]
+[ext_resource type="Script" uid="uid://dko7uh5a2dm00" path="res://ai/tasks/moveToPos.gd" id="7_d73ak"]
+[ext_resource type="Script" uid="uid://d381byhc7s6dd" path="res://ai/tasks/singul_melee_attack_start.gd" id="8_jjyxl"]
+[ext_resource type="Script" uid="uid://c587eotyk658p" path="res://ai/tasks/signul_phase3_spawn.gd" id="8_qh4k4"]
+[ext_resource type="Script" uid="uid://f1htbanomhvm" path="res://ai/tasks/singul_melee_attack_end.gd" id="9_igv7k"]
+[ext_resource type="Script" uid="uid://bc3hnp5wvclgn" path="res://ai/tasks/singul_binary_attack.gd" id="12_jjyxl"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_ak6g3"]
+var/state/name = &"state"
+var/state/type = 4
+var/state/value = ""
+var/state/hint = 0
+var/state/hint_string = ""
+var/agro_dist/name = &"agro_dist"
+var/agro_dist/type = 3
+var/agro_dist/value = 0.0
+var/agro_dist/hint = 0
+var/agro_dist/hint_string = ""
+var/hit_range/name = &"hit_range"
+var/hit_range/type = 3
+var/hit_range/value = 0.0
+var/hit_range/hint = 0
+var/hit_range/hint_string = ""
+var/target_pos/name = &"target_pos"
+var/target_pos/type = 5
+var/target_pos/value = Vector2(0, 0)
+var/target_pos/hint = 0
+var/target_pos/hint_string = ""
+var/kill_laser/name = &"kill_laser"
+var/kill_laser/type = 1
+var/kill_laser/value = false
+var/kill_laser/hint = 0
+var/kill_laser/hint_string = ""
+var/attack_status/name = &"attack_status"
+var/attack_status/type = 4
+var/attack_status/value = "DONE"
+var/attack_status/hint = 2
+var/attack_status/hint_string = "STARTING,RUNNING,FINISHING,DONE"
+var/attack_mode/name = &"attack_mode"
+var/attack_mode/type = 4
+var/attack_mode/value = "DISABLED"
+var/attack_mode/hint = 2
+var/attack_mode/hint_string = "NONE,DISABLED"
+var/player_idx/name = &"player_idx"
+var/player_idx/type = 2
+var/player_idx/value = 0
+var/player_idx/hint = 0
+var/player_idx/hint_string = ""
+var/phase/name = &"phase"
+var/phase/type = 2
+var/phase/value = 0
+var/phase/hint = 0
+var/phase/hint_string = "0,1,2,3"
+
+[sub_resource type="BTAction" id="BTAction_lr4pt"]
+script = ExtResource("1_3ncdb")
+
+[sub_resource type="BTSequence" id="BTSequence_mrfvi"]
+custom_name = "Constants"
+children = [SubResource("BTAction_lr4pt")]
+
+[sub_resource type="BBVariant" id="BBVariant_g4v1g"]
+type = 4
+saved_value = "DISABLED"
+resource_name = "DISABLED"
+
+[sub_resource type="BTCheckVar" id="BTCheckVar_kb6oh"]
+variable = &"attack_mode"
+value = SubResource("BBVariant_g4v1g")
+
+[sub_resource type="BTSequence" id="BTSequence_ygkkq"]
+custom_name = "Phase0"
+children = [SubResource("BTCheckVar_kb6oh")]
+
+[sub_resource type="BBVariant" id="BBVariant_jjyxl"]
+type = 2
+saved_value = 0
+resource_name = "<null>"
+
+[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_igv7k"]
+property = &"phase"
+value = SubResource("BBVariant_jjyxl")
+
+[sub_resource type="BTAction" id="BTAction_halj7"]
+script = ExtResource("3_halj7")
+min_time = 8.0
+max_time = 16.0
+
+[sub_resource type="BTAction" id="BTAction_kb6oh"]
+script = ExtResource("2_g4v1g")
+
+[sub_resource type="BTSequence" id="BTSequence_qh4k4"]
+children = [SubResource("BTAction_halj7"), SubResource("BTAction_kb6oh")]
+
+[sub_resource type="BTCooldown" id="BTCooldown_f1oat"]
+children = [SubResource("BTSequence_qh4k4")]
+
+[sub_resource type="BTSequence" id="BTSequence_ofden"]
+custom_name = "Phase1"
+children = [SubResource("BTCheckAgentProperty_igv7k"), SubResource("BTCooldown_f1oat")]
+
+[sub_resource type="BBVariant" id="BBVariant_21cce"]
+type = 2
+saved_value = 1
+resource_name = "1"
+
+[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_gwtri"]
+property = &"phase"
+value = SubResource("BBVariant_21cce")
+
+[sub_resource type="BTAction" id="BTAction_igv7k"]
+script = ExtResource("3_halj7")
+min_time = 4.0
+max_time = 8.0
+
+[sub_resource type="BTAction" id="BTAction_21cce"]
+custom_name = "InnerRange"
+script = ExtResource("3_3ncdb")
+hit_range = 128
+
+[sub_resource type="BTAction" id="BTAction_jjyxl"]
+script = ExtResource("4_halj7")
+num_lasers = 1
+
+[sub_resource type="BBVariant" id="BBVariant_igv7k"]
+type = 4
+saved_value = "idle"
+resource_name = "idle"
+
+[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_21cce"]
+property = &"animation"
+check_type = 5
+value = SubResource("BBVariant_igv7k")
+
+[sub_resource type="BTRepeatUntilFailure" id="BTRepeatUntilFailure_gwtri"]
+children = [SubResource("BTCheckAgentProperty_21cce")]
+
+[sub_resource type="BTSequence" id="BTSequence_bhc8s"]
+custom_name = "Attack if in Range"
+children = [SubResource("BTAction_igv7k"), SubResource("BTAction_21cce"), SubResource("BTAction_jjyxl"), SubResource("BTRepeatUntilFailure_gwtri")]
+
+[sub_resource type="BTCooldown" id="BTCooldown_halj7"]
+duration = 6.0
+custom_name = "LaserAttack"
+children = [SubResource("BTSequence_bhc8s")]
+
+[sub_resource type="BTAction" id="BTAction_xh1cj"]
+script = ExtResource("3_halj7")
+min_time = 3.0
+max_time = 4.0
+
+[sub_resource type="BTAction" id="BTAction_14tjq"]
+custom_name = "InnerRange"
+script = ExtResource("3_3ncdb")
+hit_range = 64
+
+[sub_resource type="BTAction" id="BTAction_6u0pp"]
+script = ExtResource("8_jjyxl")
+
+[sub_resource type="BTAction" id="BTAction_r2p06"]
+script = ExtResource("9_igv7k")
+
+[sub_resource type="BTDelay" id="BTDelay_r2p06"]
+seconds = 1.5
+children = [SubResource("BTAction_r2p06")]
+
+[sub_resource type="BTSequence" id="BTSequence_6ypd5"]
+custom_name = "RobotMeleeAttack"
+children = [SubResource("BTAction_xh1cj"), SubResource("BTAction_14tjq"), SubResource("BTAction_6u0pp"), SubResource("BTDelay_r2p06")]
+
+[sub_resource type="BTCooldown" id="BTCooldown_6ypd5"]
+duration = 4.0
+custom_name = "MeleeAttack"
+children = [SubResource("BTSequence_6ypd5")]
+
+[sub_resource type="BTAction" id="BTAction_qh4k4"]
+script = ExtResource("6_qh4k4")
+
+[sub_resource type="BTAction" id="BTAction_d73ak"]
+script = ExtResource("7_d73ak")
+
+[sub_resource type="BTSequence" id="BTSequence_jjyxl"]
+custom_name = "Follow"
+children = [SubResource("BTAction_qh4k4"), SubResource("BTAction_d73ak")]
+
+[sub_resource type="BTSelector" id="BTSelector_ykgfq"]
+custom_name = "Tree"
+children = [SubResource("BTCooldown_halj7"), SubResource("BTCooldown_6ypd5"), SubResource("BTSequence_jjyxl")]
+
+[sub_resource type="BTSequence" id="BTSequence_swuqo"]
+custom_name = "Phase2"
+children = [SubResource("BTCheckAgentProperty_gwtri"), SubResource("BTSelector_ykgfq")]
+
+[sub_resource type="BBVariant" id="BBVariant_bhc8s"]
+type = 2
+saved_value = 2
+resource_name = "2"
+
+[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_jnv2x"]
+property = &"phase"
+value = SubResource("BBVariant_bhc8s")
+
+[sub_resource type="BTAction" id="BTAction_gwtri"]
+script = ExtResource("3_halj7")
+min_time = 8.0
+max_time = 16.0
+
+[sub_resource type="BTAction" id="BTAction_ykgfq"]
+script = ExtResource("8_qh4k4")
+
+[sub_resource type="BTSequence" id="BTSequence_53541"]
+children = [SubResource("BTAction_gwtri"), SubResource("BTAction_ykgfq")]
+
+[sub_resource type="BTCooldown" id="BTCooldown_xh1cj"]
+custom_name = "Spawn Binary Bots"
+children = [SubResource("BTSequence_53541")]
+
+[sub_resource type="BTAction" id="BTAction_p0wll"]
+custom_name = "InnerRange"
+script = ExtResource("3_3ncdb")
+hit_range = 128
+
+[sub_resource type="BTAction" id="BTAction_xhkwo"]
+script = ExtResource("4_halj7")
+num_lasers = 8
+
+[sub_resource type="BBVariant" id="BBVariant_gwtri"]
+type = 4
+saved_value = "idle"
+resource_name = "idle"
+
+[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_bhc8s"]
+property = &"animation"
+check_type = 5
+value = SubResource("BBVariant_gwtri")
+
+[sub_resource type="BTRepeatUntilFailure" id="BTRepeatUntilFailure_jnv2x"]
+children = [SubResource("BTCheckAgentProperty_bhc8s")]
+
+[sub_resource type="BTSequence" id="BTSequence_7ub6e"]
+custom_name = "Attack if in Range"
+children = [SubResource("BTAction_p0wll"), SubResource("BTAction_xhkwo"), SubResource("BTRepeatUntilFailure_jnv2x")]
+
+[sub_resource type="BTProbability" id="BTProbability_jjyxl"]
+run_chance = 0.25
+custom_name = "Ultra Laser"
+children = [SubResource("BTSequence_7ub6e")]
+
+[sub_resource type="BTAction" id="BTAction_o27n4"]
+custom_name = "InnerRange"
+script = ExtResource("3_3ncdb")
+hit_range = 64
+
+[sub_resource type="BTAction" id="BTAction_x2e5o"]
+script = ExtResource("8_jjyxl")
+
+[sub_resource type="BTAction" id="BTAction_nd6h3"]
+script = ExtResource("9_igv7k")
+
+[sub_resource type="BTDelay" id="BTDelay_377jo"]
+seconds = 1.5
+children = [SubResource("BTAction_nd6h3")]
+
+[sub_resource type="BTSequence" id="BTSequence_7isj3"]
+custom_name = "RobotMeleeAttack"
+children = [SubResource("BTAction_o27n4"), SubResource("BTAction_x2e5o"), SubResource("BTDelay_377jo")]
+
+[sub_resource type="BTProbability" id="BTProbability_igv7k"]
+run_chance = 0.33
+custom_name = "Melee Attack"
+children = [SubResource("BTSequence_7isj3")]
+
+[sub_resource type="BTAction" id="BTAction_bhc8s"]
+custom_name = "OuterRange"
+script = ExtResource("3_3ncdb")
+hit_range = 128
+
+[sub_resource type="BTAction" id="BTAction_jnv2x"]
+custom_name = "MoveToPlayer"
+script = ExtResource("4_ofden")
+
+[sub_resource type="BTAction" id="BTAction_vpiw0"]
+custom_name = "InnerRange"
+script = ExtResource("3_3ncdb")
+hit_range = 48
+
+[sub_resource type="BTAction" id="BTAction_eeyes"]
+script = ExtResource("12_jjyxl")
+
+[sub_resource type="BBVariant" id="BBVariant_ykgfq"]
+type = 4
+saved_value = "idle"
+resource_name = "idle"
+
+[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_swuqo"]
+property = &"animation"
+check_type = 5
+value = SubResource("BBVariant_ykgfq")
+
+[sub_resource type="BTRepeatUntilFailure" id="BTRepeatUntilFailure_53541"]
+children = [SubResource("BTCheckAgentProperty_swuqo")]
+
+[sub_resource type="BTSequence" id="BTSequence_ykgfq"]
+custom_name = "Charge"
+children = [SubResource("BTAction_bhc8s"), SubResource("BTAction_jnv2x"), SubResource("BTAction_vpiw0"), SubResource("BTAction_eeyes"), SubResource("BTRepeatUntilFailure_53541")]
+
+[sub_resource type="BTProbability" id="BTProbability_21cce"]
+custom_name = "Charge"
+children = [SubResource("BTSequence_ykgfq")]
+
+[sub_resource type="BTAction" id="BTAction_swuqo"]
+script = ExtResource("6_qh4k4")
+
+[sub_resource type="BTAction" id="BTAction_53541"]
+script = ExtResource("7_d73ak")
+
+[sub_resource type="BTSequence" id="BTSequence_xh1cj"]
+custom_name = "Follow"
+children = [SubResource("BTAction_swuqo"), SubResource("BTAction_53541")]
+
+[sub_resource type="BTSelector" id="BTSelector_14tjq"]
+custom_name = "Tree"
+children = [SubResource("BTCooldown_xh1cj"), SubResource("BTProbability_jjyxl"), SubResource("BTProbability_igv7k"), SubResource("BTProbability_21cce"), SubResource("BTSequence_xh1cj")]
+
+[sub_resource type="BTSequence" id="BTSequence_6u0pp"]
+custom_name = "Phase3"
+children = [SubResource("BTCheckAgentProperty_jnv2x"), SubResource("BTSelector_14tjq")]
+
+[sub_resource type="BTSelector" id="BTSelector_mrfvi"]
+custom_name = "Phases"
+children = [SubResource("BTSequence_ygkkq"), SubResource("BTSequence_ofden"), SubResource("BTSequence_swuqo"), SubResource("BTSequence_6u0pp")]
+
+[sub_resource type="BTSequence" id="BTSequence_7l6ws"]
+custom_name = "Constant and Behavior"
+children = [SubResource("BTSequence_mrfvi"), SubResource("BTSelector_mrfvi")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_ak6g3")
+root_task = SubResource("BTSequence_7l6ws")

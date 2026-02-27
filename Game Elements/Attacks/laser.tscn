@@ -16,7 +16,7 @@ pierce = -2.0
 wall_collision = false
 attack_type = "laser"
 deflectable = true
-i_frames = 10
+i_frames = 14
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 

@@ -8,6 +8,9 @@ extends GPUParticles2D
 
 
 func _ready() -> void:
+	if process_material:
+		process_material = process_material.duplicate(true)
+	
 	match range_choice:
 		0:
 			process_material.color_ramp = color_range1
@@ -19,5 +22,5 @@ func _ready() -> void:
 			pass
 	emitting = true
 	if one_shot:
-		await get_tree().create_timer(lifetime).timeout
+		await get_tree().create_timer(lifetime, false).timeout
 		queue_free()

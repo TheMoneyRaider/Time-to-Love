@@ -1,6 +1,6 @@
 class_name DynamEnemy
 extends CharacterBody2D
-@export var max_health: int = 10
+@export var max_health: float = 10.0
 @export var display_damage: bool =true
 @export var hit_range: int = 64
 @export var agro_distance: float = 150.0
@@ -14,14 +14,13 @@ extends CharacterBody2D
 @export var min_sprint_cooldown : float = 3.0
 @export var max_sprint_cooldown : float = 6.0
 @export var sprint_multiplier : float = 2.0
-var current_health: int = 10
+var current_health: float = 10.0
 @export var move_speed: float = 70
 @onready var current_dmg_time: float = 0.0
 @onready var in_instant_trap: bool = false
 var damage_direction = Vector2(0,-1)
 var sprint_timer : float = 0.0
 var sprint_cool : float = 0.0
-var damage_taken = 0
 var display_pathways = false
 var debug_menu = false
 var debug_mode = false
@@ -31,17 +30,24 @@ var last_hitter : Node = null
 var exploded : float = 0
 
 @export var hitable : bool = true
+@export var is_boss : bool = false
+@export var boss_phases : int = 0
+@export var boss_healthpools : Array[float] = []
+
+var phase = 0
 @onready var i_frames : int = 0
 var weapon = null
 var effects : Array[Effect] = []
 var knockback_velocity : Vector2 = Vector2.ZERO
 @export var knockback_decay : float = .90
+var LayerManager : Node
 
 
 var attacks = [preload("res://Game Elements/Attacks/bad_bolt.tscn"),preload("res://Game Elements/Attacks/robot_melee.tscn")]
 signal attack_requested(new_attack : PackedScene, t_position : Vector2, t_direction : Vector2, damage_boost : float)
 
-signal enemy_took_damage(damage : int,current_health : int,c_node : Node, direction : Vector2)
+signal enemy_took_damage(damage : float,current_health : float,c_node : Node, direction : Vector2)
+signal boss_phase_change(boss : Node)
 
 
 func _input(event):
@@ -72,6 +78,10 @@ func load_settings():
 	
 
 func _ready():
+	if is_boss:
+		current_health = boss_healthpools[phase]
+		max_health = boss_healthpools[phase]
+	LayerManager = get_tree().get_root().get_node("LayerManager")
 	if get_node_or_null("AnimationPlayer") and get_node("AnimationPlayer").has_animation("idle"):
 		$AnimationPlayer.play("idle")
 	if enemy_type=="robot":
@@ -119,17 +129,20 @@ func sprint(start : bool):
 			move_speed *=sprint_multiplier
 			sprint_timer = randf_range(min_sprint_time,max_sprint_time)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	
-	if knockback_velocity != Vector2.ZERO: 
+	if knockback_velocity != Vector2.ZERO and knockback_decay > 0.0: 
 		var temp_velocity = velocity
 		velocity = knockback_velocity
 		move_and_slide()
 		velocity = temp_velocity
 		# Gradually reduce knockback over time
 		knockback_velocity = knockback_velocity * knockback_decay
-
+var last_phase
 func _process(delta):
+	#Boss stuff
+	last_phase = phase
+	#
 	if sprint_timer!=0.0 and max(0.0,sprint_timer-delta)==0.0:
 		sprint(false)
 	sprint_timer = max(0.0,sprint_timer-delta)
@@ -176,8 +189,10 @@ func _robot_process():
 	$RobotBrain.set_frame(block + offset)
 
 
-func take_damage(damage : int, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0,creates_indicators : bool = true):
-	if current_health< 0:
+func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0,creates_indicators : bool = true):
+	if !hitable:
+		return
+	if current_health< 0.0:
 		return
 	if(i_frames > 0):
 		return
@@ -186,8 +201,8 @@ func take_damage(damage : int, dmg_owner : Node, direction = Vector2(0,-1), atta
 		check_agro(dmg_owner)
 	if enemy_type=="binary_bot":
 		$Core.damage_glyphs()
-	if current_health >= 0 and display_damage and attack_body != null and attack_body.attack_type != "emp":
-		get_tree().get_root().get_node("LayerManager")._damage_indicator(damage, dmg_owner,direction, attack_body,self)
+	if current_health >= 0.0 and display_damage and creates_indicators:
+		LayerManager._damage_indicator(damage, dmg_owner,direction, attack_body,self)
 	if dmg_owner != null:
 		last_hitter = dmg_owner
 	_check_on_hit_remnants(dmg_owner, attack_body)
@@ -210,8 +225,22 @@ func take_damage(damage : int, dmg_owner : Node, direction = Vector2(0,-1), atta
 			_:
 				knockback_velocity = attack_body.direction * attack_body.knockback_force
 	current_health -= damage
-	if current_health < 0:
-		
+	if is_boss:
+		LayerManager.hud.update_bossbar(clamp(current_health/max_health,0.0,1.0))
+		if current_health <= 0.0 and phase != boss_phases - 1:
+			if phase == last_phase:
+				phase+=1
+				if phase < boss_phases:
+					emit_signal("boss_phase_change",self)
+					return
+			return
+		if current_health <= 0.0:
+			for child in get_parent().get_children():
+				if child.is_in_group("enemy") and !child.is_boss:
+					child.current_health = -1.0
+					child.emit_signal("enemy_took_damage",100.0,child.current_health,child,Vector2(0,-1))
+				
+	if current_health < 0.0:
 			
 		for effect in effects:
 			effect.lost(self)
@@ -297,8 +326,8 @@ func apply_hydromancer(rem : Remnant, attack_body : Node):
 
 func check_traps(delta):
 	var tile_pos = Vector2i(int(floor(global_position.x / 16)),int(floor(global_position.y / 16)))
-	if tile_pos in get_tree().get_root().get_node("LayerManager").trap_cells:
-		var tile_data = get_tree().get_root().get_node("LayerManager").return_trap_layer(tile_pos).get_cell_tile_data(tile_pos)
+	if tile_pos in LayerManager.trap_cells:
+		var tile_data = LayerManager.return_trap_layer(tile_pos).get_cell_tile_data(tile_pos)
 		if tile_data:
 			var dmg = tile_data.get_custom_data("trap_instant")
 			#Instant trap
@@ -326,8 +355,8 @@ func check_liquids(delta):
 	if enemy_type == "laser_e":
 		return
 	var tile_pos = Vector2i(int(floor(global_position.x / 16)),int(floor(global_position.y / 16)))
-	if tile_pos in get_tree().get_root().get_node("LayerManager").liquid_cells[0]:
-		var tile_data = get_tree().get_root().get_node("LayerManager").return_liquid_layer(tile_pos).get_cell_tile_data(tile_pos)
+	if tile_pos in LayerManager.liquid_cells[0]:
+		var tile_data = LayerManager.return_liquid_layer(tile_pos).get_cell_tile_data(tile_pos)
 		if tile_data:
 			var type = tile_data.get_custom_data("liquid")
 			match type:
@@ -343,7 +372,7 @@ func check_liquids(delta):
 					_glitch_move()
 
 func _glitch_move() -> void:
-	var ground_cells = get_tree().get_root().get_node("LayerManager").room_instance.get_node("Ground").get_used_cells()
+	var ground_cells = LayerManager.room_instance.get_node("Ground").get_used_cells()
 	var move_dir_l = velocity.normalized() *16
 	var move_dir_r = velocity.normalized() *16
 	var check_pos_r = Vector2i(((position + move_dir_r)/16).floor())
@@ -369,13 +398,13 @@ func _glitch_move() -> void:
 	var color1 = shift_hue(Color(0.0, 0.867, 0.318, 1.0),randf_range(-hue_variance,hue_variance))
 	var color2 = shift_hue(Color(0.0, 0.116, 0.014, 1.0),randf_range(-hue_variance,hue_variance))
 	position+= Vector2(randf_range(-position_variance,position_variance),randf_range(-position_variance,position_variance))
-	Spawner.spawn_after_image(self,get_tree().get_root().get_node("LayerManager"),color1,color1,0.5,1.0,1+randf_range(-.1,.1),.75)
+	Spawner.spawn_after_image(self,LayerManager,color1,color1,0.5,1.0,1+randf_range(-.1,.1),.75)
 	position = saved_position
 	velocity=move_dir/2.0
 	move_and_slide()
 	saved_position = position
 	position+= Vector2(randf_range(-position_variance,position_variance),randf_range(-position_variance,position_variance))
-	Spawner.spawn_after_image(self,get_tree().get_root().get_node("LayerManager"),color2,color2,0.5,1.0,1+randf_range(-.1,.1),.75)
+	Spawner.spawn_after_image(self,LayerManager,color2,color2,0.5,1.0,1+randf_range(-.1,.1),.75)
 	position = saved_position
 	move_and_slide()
 	velocity = saved_velocity
@@ -385,6 +414,17 @@ func shift_hue(color: Color, amount: float) -> Color:
 	var h = color.h + amount
 	h = fposmod(h, 1.0) # wrap hue to 0–1
 	return Color.from_hsv(h, color.s, color.v, color.a)
+
+
+
+func boss_signal(sig :String, value1, value2):
+	if is_boss:
+		get_parent().boss_signal(sig,value1,value2)
+
+func clear_effects():
+	for effect in effects:
+		effect.lost(self)
+var animation = ""
 
 func _draw():
 	if !debug_mode:

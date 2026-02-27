@@ -1,15 +1,38 @@
-[gd_scene load_steps=18 format=3 uid="uid://0hahdiffjt61"]
+[gd_scene load_steps=21 format=3 uid="uid://0hahdiffjt61"]
 
 [ext_resource type="Script" uid="uid://ttvprfi61vn4" path="res://Game Elements/ui/hud.gd" id="1_6fbih"]
 [ext_resource type="Script" uid="uid://bs428146shl5s" path="res://Game Elements/ui/time_fabric_animation.gd" id="2_bjfho"]
+[ext_resource type="Texture2D" uid="uid://bw4uqdt1s2rcv" path="res://Game Elements/Bosses/scifi/healthbar_phase1_underlay.png" id="2_gferk"]
 [ext_resource type="Texture2D" uid="uid://bxmiq87nvpvj8" path="res://art/notification.png" id="2_gp50j"]
 [ext_resource type="Texture2D" uid="uid://ch4g2j4jycixb" path="res://art/time_fabric.png" id="3_6fbih"]
+[ext_resource type="Shader" uid="uid://cweesrh2cbhg6" path="res://Game Elements/ui/boss_healthbar.gdshader" id="3_8prbk"]
 [ext_resource type="Script" uid="uid://d36yo1gmy8tkb" path="res://Game Elements/ui/cooldown_bar_1.gd" id="5_kgqo6"]
 [ext_resource type="Texture2D" uid="uid://dj6erg8qveqb0" path="res://art/ninja_2.png" id="5_p8pfh"]
 [ext_resource type="Texture2D" uid="uid://ds6fo2yfcafce" path="res://art/ninja_1.png" id="6_gp50j"]
 [ext_resource type="Shader" uid="uid://dtp2e4p3wbgyp" path="res://Game Elements/ui/special_cooldown.gdshader" id="8_gp50j"]
 [ext_resource type="Texture2D" uid="uid://kdaw8in4wo0" path="res://art/weapons/crossbow/crossbow_bright.png" id="9_gp50j"]
 [ext_resource type="PackedScene" uid="uid://bsol6opkpit8y" path="res://Game Elements/ui/health_bar.tscn" id="10_sjf6p"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5ho0i"]
+shader = ExtResource("3_8prbk")
+shader_parameter/effect_index = 2
+shader_parameter/progress = 1.0
+shader_parameter/image_size = Vector2(715, 41)
+shader_parameter/P1_u_speed = 0.125
+shader_parameter/P1_u_color_low = Color(0, 0, 0, 1)
+shader_parameter/P1_u_color_mid = Color(0, 0.396, 0.5607, 1)
+shader_parameter/P1_u_color_high = Color(0, 0.9019, 0.73, 1)
+shader_parameter/P1_scale = 96.0
+shader_parameter/P2_u_speed = 0.125
+shader_parameter/P2_u_color_low = Color(0, 0, 0, 1)
+shader_parameter/P2_u_color_mid = Color(0.58, 0.58, 0.58, 1)
+shader_parameter/P2_u_color_high = Color(0.9, 0.9, 0.9, 1)
+shader_parameter/P2_scale = 32.0
+shader_parameter/P3_u_speed = 1.0
+shader_parameter/P3_u_color_low = Color(0, 0, 0, 1)
+shader_parameter/P3_u_color_mid = Color(0, 0.443, 0.2078, 1)
+shader_parameter/P3_u_color_high = Color(0.329, 0.917, 0, 1)
+shader_parameter/P3_scale = 8.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_t1xeu"]
 font_size = 35
@@ -71,22 +94,74 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="RemnantIcons" type="Control" parent="RootControl"]
+[node name="VBoxContainer" type="VBoxContainer" parent="RootControl"]
 layout_mode = 1
-anchors_preset = 10
+anchors_preset = 15
 anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BossBar" type="Control" parent="RootControl/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 180)
+layout_mode = 2
+
+[node name="Underlay" type="TextureRect" parent="RootControl/VBoxContainer/BossBar"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -357.5
+offset_right = 357.5
+offset_bottom = 41.0
+grow_horizontal = 2
+scale = Vector2(2, 2)
+pivot_offset = Vector2(357.5, -10)
+texture = ExtResource("2_gferk")
+
+[node name="Overlay" type="TextureRect" parent="RootControl/VBoxContainer/BossBar"]
+material = SubResource("ShaderMaterial_5ho0i")
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -357.5
+offset_right = 357.5
+offset_bottom = 41.0
+grow_horizontal = 2
+scale = Vector2(2, 2)
+pivot_offset = Vector2(357.5, -10)
+
+[node name="Label" type="Label" parent="RootControl/VBoxContainer/BossBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="HorizontalSlice" type="Control" parent="RootControl/VBoxContainer"]
+layout_mode = 2
+
+[node name="RemnantIcons" type="Control" parent="RootControl/VBoxContainer/HorizontalSlice"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 
-[node name="LeftRemnants" type="GridContainer" parent="RootControl/RemnantIcons"]
+[node name="LeftRemnants" type="GridContainer" parent="RootControl/VBoxContainer/HorizontalSlice/RemnantIcons"]
 layout_mode = 1
-anchors_preset = -1
-anchor_bottom = 1.0
 offset_right = 916.0
 offset_bottom = 89.0
 columns = 8
 
-[node name="RightRemnants" type="GridContainer" parent="RootControl/RemnantIcons"]
+[node name="RightRemnants" type="GridContainer" parent="RootControl/VBoxContainer/HorizontalSlice/RemnantIcons"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -94,7 +169,7 @@ anchor_right = 1.0
 grow_horizontal = 0
 columns = 8
 
-[node name="TimeFabric" type="Control" parent="RootControl"]
+[node name="TimeFabric" type="Control" parent="RootControl/VBoxContainer/HorizontalSlice"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -106,7 +181,7 @@ grow_horizontal = 2
 script = ExtResource("2_bjfho")
 spritesheet = ExtResource("3_6fbih")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="RootControl/TimeFabric"]
+[node name="HBoxContainer" type="HBoxContainer" parent="RootControl/VBoxContainer/HorizontalSlice/TimeFabric"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -115,50 +190,42 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 8
 
-[node name="TextureRect" type="TextureRect" parent="RootControl/TimeFabric/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="RootControl/VBoxContainer/HorizontalSlice/TimeFabric/HBoxContainer"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 texture = ExtResource("3_6fbih")
 
-[node name="Label" type="Label" parent="RootControl/TimeFabric/HBoxContainer"]
+[node name="Label" type="Label" parent="RootControl/VBoxContainer/HorizontalSlice/TimeFabric/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Num:"
 label_settings = SubResource("LabelSettings_t1xeu")
 
-[node name="Notification" type="VBoxContainer" parent="RootControl"]
+[node name="Noti" type="Control" parent="RootControl/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Background Texture" type="TextureRect" parent="RootControl/VBoxContainer/Noti"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -250.0
 offset_right = 250.0
-offset_bottom = 1372.0
-grow_horizontal = 2
-mouse_filter = 2
-
-[node name="Spacer" type="Control" parent="RootControl/Notification"]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Noti" type="Control" parent="RootControl/Notification"]
-custom_minimum_size = Vector2(0, 200)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Background Texture" type="TextureRect" parent="RootControl/Notification/Noti"]
-layout_mode = 0
-offset_right = 500.0
 offset_bottom = 200.0
+grow_horizontal = 2
 mouse_filter = 2
 texture = ExtResource("2_gp50j")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="RootControl/Notification/Noti"]
-layout_mode = 0
-offset_top = 68.0
-offset_right = 484.0
-offset_bottom = 228.0
+[node name="RichTextLabel" type="RichTextLabel" parent="RootControl/VBoxContainer/Noti"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -242.0
+offset_right = 242.0
+offset_bottom = 187.0
+grow_horizontal = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
@@ -169,6 +236,7 @@ text = "Wave 1 / 10"
 fit_content = true
 scroll_active = false
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Left_Bottom_Corner" type="VBoxContainer" parent="RootControl"]
 layout_mode = 1
@@ -200,18 +268,11 @@ texture_under = ExtResource("5_p8pfh")
 texture_progress = ExtResource("6_gp50j")
 
 [node name="Label" type="Label" parent="RootControl/Left_Bottom_Corner/Combo/TextureProgressBar"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -375.0
-offset_top = -175.5
-offset_right = 375.0
-offset_bottom = 174.5
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_left = -311.0
+offset_top = -111.0
+offset_right = 439.0
+offset_bottom = 239.0
 scale = Vector2(0.125, 0.125)
 pivot_offset = Vector2(375, 175)
 theme_override_font_sizes/font_size = 196
@@ -278,18 +339,11 @@ texture_under = ExtResource("5_p8pfh")
 texture_progress = ExtResource("6_gp50j")
 
 [node name="Label" type="Label" parent="RootControl/Right_Bottom_Corner/Combo/TextureProgressBar"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -375.0
-offset_top = -175.5
-offset_right = 375.0
-offset_bottom = 174.5
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_left = -311.0
+offset_top = -111.0
+offset_right = 439.0
+offset_bottom = 239.0
 scale = Vector2(0.125, 0.125)
 pivot_offset = Vector2(375, 175)
 theme_override_font_sizes/font_size = 196
@@ -327,6 +381,12 @@ tint_under = Color(0.15294118, 0.15294118, 0.15294118, 1)
 tint_over = Color(0.44297108, 0.44297108, 0.44297108, 0)
 tint_progress = Color(1, 0.64705884, 0, 1)
 
+[node name="HealthBar" parent="RootControl/Right_Bottom_Corner" instance=ExtResource("10_sjf6p")]
+layout_mode = 2
+theme = SubResource("Theme_gp50j")
+is_purple = false
+flipped = true
+
 [node name="DebugMenu" type="Control" parent="RootControl"]
 anchors_preset = 0
 offset_right = 40.0
@@ -354,8 +414,7 @@ theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
 [node name="Clamping" type="Label" parent="RootControl/DebugMenu/GridContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
-[node name="HealthBar" parent="RootControl/Right_Bottom_Corner" instance=ExtResource("10_sjf6p")]
+
+[node name="EnemyAngles" type="Label" parent="RootControl/DebugMenu/GridContainer"]
 layout_mode = 2
-theme = SubResource("Theme_gp50j")
-is_purple = false
-flipped = true
+theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)

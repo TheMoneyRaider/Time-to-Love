@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://5t4qnv73ntg1"]
+
+[ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/Particles/effect_particles.gd" id="1_q1npd"]
+
+[sub_resource type="Gradient" id="Gradient_q1npd"]
+offsets = PackedFloat32Array(0, 0.23515439, 0.6437055)
+colors = PackedColorArray(1, 0.80939215, 0.7234134, 1, 0, 0.66641015, 0.2634553, 1, 0, 0.5083045, 0.19630837, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vr8iq"]
+gradient = SubResource("Gradient_q1npd")
+
+[sub_resource type="Curve" id="Curve_f4jno"]
+_data = [Vector2(0, 0), 0.0, 1.3313979, 0, 0, Vector2(0.20663264, 0.61576355), 2.9287355, 2.9287355, 0, 0, Vector2(0.5168196, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -7.379302, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_n7a1f"]
+curve = SubResource("Curve_f4jno")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bi42g"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 99.63
+emission_ring_inner_radius = 72.62
+emission_ring_cone_angle = 90.0
+orbit_velocity_min = 0.3000001
+orbit_velocity_max = 0.3000001
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -200.0
+radial_accel_max = -200.0
+scale_max = 5.0
+scale_curve = SubResource("CurveTexture_n7a1f")
+color_ramp = SubResource("GradientTexture1D_vr8iq")
+
+[node name="ChargedParticles" type="GPUParticles2D"]
+z_index = 19
+emitting = false
+amount = 200
+lifetime = 1.5
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_bi42g")
+script = ExtResource("1_q1npd")

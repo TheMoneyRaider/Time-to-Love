@@ -127,7 +127,7 @@ func spawn_attack(attack_direction : Vector2, attack_position : Vector2, node_at
 		instance.pierce = pierce
 	instance.is_purple = c_owner.is_purple if c_owner.is_in_group("player") else false
 	if(particle_effect != ""):
-		var effect = load("res://Game Elements/Effects/" + particle_effect + ".tscn").instantiate()
+		var effect = load("res://Game Elements/Particles/" + particle_effect + ".tscn").instantiate()
 		instance.add_child(effect)
 	c_owner.get_tree().get_root().get_node("LayerManager").room_instance.add_child(instance)
 
@@ -257,7 +257,7 @@ func special_tick(special_direction : Vector2, node_attacking : Node):
 				var locations : Array[Vector2] = get_locations(node_attacking, special_direction)
 				special_nodes[0].draw_path(PackedVector2Array(locations))
 			"Railgun":
-				node_attacking.take_damage(1, null,Vector2(0,-1))
+				node_attacking.take_damage(1.0, null,Vector2(0,-1))
 				var fire = preload("res://Game Elements/Particles/fire_damage.tscn").instantiate()
 				fire.position = node_attacking.position
 				node_attacking.LayerManager.room_instance.add_child(fire)
@@ -450,7 +450,7 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 
 func cast_ray(origin: Vector2, direction: Vector2, distance: float, player_node : Node) -> Dictionary:
 	var space = player_node.get_world_2d().direct_space_state
-	var query = PhysicsRayQueryParameters2D.create(origin - direction, origin + direction * distance)
+	var query = PhysicsRayQueryParameters2D.create(origin, origin + direction * distance)
 	query.collide_with_areas = false
 	query.collide_with_bodies = true
 	query.collision_mask = 1 << 0

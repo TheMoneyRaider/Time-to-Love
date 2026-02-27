@@ -320,6 +320,11 @@ pause={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":6,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
+toggle_enemy_angles={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":86,"key_label":0,"unicode":118,"location":0,"echo":false,"script":null)
+]
+}
 
 [layer_names]
 
@@ -334,3 +339,46 @@ pause={
 
 textures/canvas_textures/default_texture_filter=0
 2d/snap/snap_2d_transforms_to_pixel=true
+
+[shader_globals]
+
+cloud_contrast={
+"type": "float",
+"value": 2.71
+}
+cloud_direction={
+"type": "vec2",
+"value": Vector2(0, -1)
+}
+cloud_diverge_angle={
+"type": "float",
+"value": 20.0
+}
+cloud_noise={
+"type": "sampler2D",
+"value": "res://Game Elements/General Game/MedievalGrass/Cloud_Noise.tres"
+}
+cloud_scale={
+"type": "float",
+"value": 52.035
+}
+cloud_shadow_min={
+"type": "float",
+"value": 0.2
+}
+cloud_speed={
+"type": "float",
+"value": -0.01
+}
+cloud_threshold={
+"type": "float",
+"value": 0.265
+}
+cloud_world_y={
+"type": "float",
+"value": 50.0
+}
+light_direction={
+"type": "vec3",
+"value": Vector3(-0.07, 0.725, 0)
+}
