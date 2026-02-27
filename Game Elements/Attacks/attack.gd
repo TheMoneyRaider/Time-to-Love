@@ -178,7 +178,7 @@ func change_direction():
 
 func cast_ray(origin: Vector2, in_direction: Vector2, distance: float, player_node : Node) -> Dictionary:
 	var space = player_node.get_world_2d().direct_space_state
-	var query = PhysicsRayQueryParameters2D.create(origin - in_direction, origin + in_direction * distance)
+	var query = PhysicsRayQueryParameters2D.create(origin, origin + in_direction * distance)
 	query.collide_with_areas = false
 	query.collide_with_bodies = true
 	query.collision_mask = 1 << 0

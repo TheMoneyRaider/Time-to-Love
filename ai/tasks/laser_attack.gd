@@ -23,7 +23,7 @@ var killed_direction : Vector2
 
 func cast_axis_ray(origin: Vector2, direction: Vector2, distance: float) -> Dictionary:
 	var space = agent.get_world_2d().direct_space_state
-	var query = PhysicsRayQueryParameters2D.create(origin - direction, origin + direction * distance)
+	var query = PhysicsRayQueryParameters2D.create(origin, origin + direction * distance)
 	query.collide_with_areas = false
 	query.collide_with_bodies = true
 	query.collision_mask = 1 << 0

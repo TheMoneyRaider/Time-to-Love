@@ -201,7 +201,7 @@ func smooth_aim_assist() -> Array[Vector2]:
 
 func cast_ray(origin: Vector2, direction: Vector2, distance: float, player_node : Node) -> Dictionary:
 	var space = player_node.get_world_2d().direct_space_state
-	var query = PhysicsRayQueryParameters2D.create(origin - direction, origin + direction * distance)
+	var query = PhysicsRayQueryParameters2D.create(origin, origin + direction * distance)
 	query.collide_with_areas = false
 	query.collide_with_bodies = true
 	query.collision_mask = 1 << 0
@@ -279,6 +279,8 @@ func compute_assist_angle(player_angle: float, enemy_angles: Array, band_size: f
 			# move along the circular difference, weighted by triangle shape
 			var t = 1.0 - abs(diff)/(band_size/2)
 			new_angle += diff * t
+			#TODO KABIR
+			#new_angle += diff * -0.5
 			new_angle = wrap_angle(new_angle)
 	return new_angle
 
@@ -446,6 +448,10 @@ func swap_color():
 		set_weapon_sprite(weapons[0],weapon_node)
 		tether_line.default_color = Color("Orange")
 		weapons[1].special_time_elapsed = 0.0
+		var inst = preload("res://Game Elements/Particles/swap_particles.tscn").instantiate()
+		inst.range_choice = 1
+		inst.global_position = global_position
+		LayerManager.room_instance.add_child(inst)
 	else:
 		is_purple = true
 		sprite.texture = purple_texture
@@ -453,6 +459,10 @@ func swap_color():
 		set_weapon_sprite(weapons[1],weapon_node)
 		tether_line.default_color = Color("Purple")
 		weapons[0].special_time_elapsed = 0.0
+		var inst = preload("res://Game Elements/Particles/swap_particles.tscn").instantiate()
+		inst.range_choice = 0
+		inst.global_position = global_position
+		LayerManager.room_instance.add_child(inst)
 		
 
 var single_swap_duration : float = 0.0
