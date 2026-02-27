@@ -157,6 +157,16 @@ func _ready() -> void:
 	rem.rank = 5
 	player_1_remnants.append(rem.duplicate(true))
 	#player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/healer.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	rem.rank = 3
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/hospital.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	rem.rank = 3
+	player_2_remnants.append(rem.duplicate(true))
 	
 	
 	player1.display_combo()
@@ -582,7 +592,9 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 		if player_reference in orb.tracked_bodies:
 			if is_multiplayer:
 				player2.change_health(5.0,5.0)
+				_remnant_of_hospital_heal(player1, player_1_remnants)
 			player1.change_health(5.0,5.0)
+			_remnant_of_hospital_heal(player1, player_1_remnants)
 			var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 			particle.position = orb.position
 			generated_room.add_child(particle)
@@ -593,7 +605,9 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 		if player_reference in orb.tracked_bodies:
 			if is_multiplayer:
 				player2.change_health(5.0)
+				_remnant_of_hospital_heal(player2, player_2_remnants)
 			player1.change_health(5.0)
+			_remnant_of_hospital_heal(player1, player_1_remnants)
 			var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 			particle.position = orb.position
 			generated_room.add_child(particle)
@@ -767,7 +781,6 @@ func _process_terrain_batch() -> void:
 
 func open_death_menu() -> void:
 	get_node("DeathMenu").activate()
-	
 
 func _randomize_room_reward(pathway_to_randomize : Node) -> void:
 	var reward_type1 = null
@@ -1268,9 +1281,16 @@ func _move_to_pathway_room(pathway_id: String) -> void:
 				player2_ranked_up.append(rem.remnant_name)
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants,player1_ranked_up,player2_ranked_up)
 	
+	var healer = load("res://Game Elements/Remnants/healer.tres")
+	var hare = load("res://Game Elements/Remnants/hare.tres")
 	if is_multiplayer or player1.is_purple:
 		for rem in player_1_remnants:
-			if rem.remnant_name == "Remnant of the Hare":
+			if rem.remnant_name == healer.remnant_name:
+				var amnt = rem.variable_1_values[rem.rank - 1]
+				player1.change_health(0, amnt)
+				_remnant_of_hospital_heal(player1, player_1_remnants)
+				
+			if rem.remnant_name == hare.remnant_name:
 				var effect = load("res://Game Elements/Effects/speed.tres")
 				effect.cooldown = 15
 				effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
@@ -1279,7 +1299,16 @@ func _move_to_pathway_room(pathway_id: String) -> void:
 				
 	if is_multiplayer or not player1.is_purple:
 		for rem in player_2_remnants:
-			if rem.remnant_name == "Remnant of the Hare":
+			if rem.remnant_name == healer.remnant_name:
+				var amnt = rem.variable_1_values[rem.rank - 1]
+				if is_multiplayer:
+					player2.change_health(0, amnt)
+					_remnant_of_hospital_heal(player2, player_2_remnants)
+				else:
+					player1.change_health(0, amnt)
+					_remnant_of_hospital_heal(player1, player_1_remnants)
+				
+			if rem.remnant_name == hare.remnant_name:
 				var effect = load("res://Game Elements/Effects/speed.tres")
 				effect.cooldown = 15
 				effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
@@ -1600,3 +1629,13 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 	var instance = load("res://Game Elements/Objects/damage_indicator.tscn").instantiate()
 	room_instance.add_child(instance)
 	instance.set_values(c_owner, attack_body, dmg_owner, damage, direction,64, override_color)
+
+func _remnant_of_hospital_heal(player:Node, remnants) -> void:
+	var hospital = load("res://Game Elements/Remnants/hospital.tres")
+	for rem in remnants:
+		print(rem.remnant_name)
+		if rem.remnant_name == hospital.remnant_name:
+			var amnt = rem.variable_1_values[rem.rank - 1] / 100.0
+			amnt *= player.current_health
+			player.change_health(amnt)
+			break
