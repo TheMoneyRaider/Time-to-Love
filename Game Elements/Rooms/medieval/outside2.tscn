@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=4 uid="uid://c3s5aauon6q4p"]
+[gd_scene load_steps=5 format=4 uid="uid://c3s5aauon6q4p"]
 
 [ext_resource type="Script" uid="uid://00rnhke2atmb" path="res://Game Elements/Rooms/room_script.gd" id="1_5tjm1"]
 [ext_resource type="TileSet" uid="uid://b8jirmgfumpau" path="res://Game Elements/tilesets/medieval_forest_2.tres" id="2_qcyk1"]
 [ext_resource type="PackedScene" uid="uid://ccwiql3bybf2p" path="res://Game Elements/Objects/pathway.tscn" id="3_qlqov"]
+[ext_resource type="PackedScene" uid="uid://krvyyr20xseg" path="res://Game Elements/General Game/MedievalGrass/Grass_Setup.tscn" id="4_qcyk1"]
 
 [node name="Root" type="Node2D"]
 script = ExtResource("1_5tjm1")
@@ -63,3 +64,5 @@ tile_map_data = PackedByteArray("AAAbAAwAAAABAAcAAQAbAAsAAAABAAcAAQAbAAoAAAABAAc
 tile_set = ExtResource("2_qcyk1")
 
 [node name="PathwayD1" type="TileMapLayer" parent="."]
+
+[node name="GrassSetup" parent="." instance=ExtResource("4_qcyk1")]
