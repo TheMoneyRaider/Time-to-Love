@@ -71,9 +71,16 @@ signal special_reset(is_purple : int)
 
 var LayerManager: Node
 
+
 func _ready():
-	$Forcefield/AnimationPlayer2.play("fritz")
 	LayerManager = get_tree().get_root().get_node("LayerManager")
+	if !is_multiplayer:
+		#Create Fake Player
+		other_player = preload("res://Game Elements/Characters/fake_player.tscn").instantiate()
+		get_parent().add_child(other_player)
+		other_player.disable()
+	
+	$Forcefield/AnimationPlayer2.play("fritz")
 	move_speed = base_move_speed
 	_initialize_state_machine()
 	update_animation_parameters(starting_direction)
@@ -155,12 +162,9 @@ func _physics_process(delta):
 	
 	update_animation_parameters(input_direction)	
 	
-	if !is_multiplayer:
-		if Input.is_action_just_pressed("swap_" + input_device):
-			swap_color()
-	else:
-		tether(delta)
-	input_direction += (tether_momentum / move_speed)
+	tether(delta)
+	if is_tethered:
+		input_direction += (tether_momentum / move_speed)
 	weapon_node.weapon_direction = (crosshair.position).normalized()
 	#move and slide function
 	if(self.process_mode != PROCESS_MODE_DISABLED and disabled_countdown <= 0):
@@ -257,7 +261,6 @@ func set_weapon_sprite(weapon : Weapon, f_weapon_node : Node):
 
 
 func swap_color():
-	check_forcefield()
 	emit_signal("swapped_color", self)
 	if(is_purple):
 		is_purple = false
@@ -273,18 +276,37 @@ func swap_color():
 		set_weapon_sprite(weapons[1],weapon_node)
 		tether_line.default_color = Color("Purple")
 		weapons[0].special_time_elapsed = 0.0
+		
+
+var single_swap_duration : float = 0.0
+var single_toggle : bool = false
+
+
 
 func tether(delta : float):
 	if Input.is_action_just_pressed("swap_" + input_device):
-		tether_momentum += (other_player.position - position) / 1
-		is_tethered = true
-	if Input.is_action_pressed("swap_" + input_device):
-		check_forcefield()
-		var effect = load("res://Game Elements/Effects/tether.tres").duplicate(true)
-		effect.cooldown = delta
-		effect.value1 = 0.5
-		effect.gained(self)
-		effects.append(effect)
+		if is_multiplayer:
+			tether_momentum += (other_player.position - position)
+			is_tethered = true
+		else:
+			single_toggle = false
+			var direct = (crosshair.position).normalized()
+			tether_momentum = direct*32
+			other_player.enable(self,direct,!is_purple)
+			update_animation_parameters(direct)
+	if !Input.is_action_pressed("swap_" + input_device):
+		single_toggle = false
+	if !single_toggle and Input.is_action_pressed("swap_" + input_device) and (is_multiplayer or (global_position-other_player.global_position).length() >=6 or single_swap_duration <.5):
+		if single_swap_duration+delta >=.5 and single_swap_duration <.5:
+			is_tethered = true
+		single_swap_duration+=delta
+		if is_tethered:
+			check_forcefield(delta)
+			var effect = load("res://Game Elements/Effects/tether.tres").duplicate(true)
+			effect.cooldown = delta
+			effect.value1 = 0.5
+			effect.gained(self)
+			effects.append(effect)
 		
 		tether_line.visible = true
 		if other_player.is_tethered:
@@ -304,6 +326,10 @@ func tether(delta : float):
 		tether_momentum *= .995
 		tether_line.width_curve.set_point_value(1, min(max(50 / tether_momentum.length(),.4),1))
 	else:
+		if (global_position-other_player.global_position).length() <=6 and !is_multiplayer and single_swap_duration >.5:
+			swap_color()
+			single_toggle = true
+		other_player.disable()
 		if tether_line.visible == true:
 			tether_line.visible = false
 			is_tethered = false
@@ -311,6 +337,7 @@ func tether(delta : float):
 			tether_momentum = Vector2.ZERO
 		else:
 			tether_momentum *= .92
+		single_swap_duration = 0.0
 
 func die(death : bool , insta_die : bool = false) -> bool:
 	if !is_multiplayer:
@@ -671,7 +698,7 @@ func check_drones():
 				return true
 	return false
 
-func check_forcefield():
+func check_forcefield(delta : float):
 	var remnants : Array[Remnant]
 	if is_purple:
 		remnants = LayerManager.player_1_remnants
@@ -681,8 +708,8 @@ func check_forcefield():
 	for rem in remnants:
 		if rem.remnant_name == force.remnant_name:
 			var effect = load("res://Game Elements/Effects/forcefield.tres").duplicate(true)
-			effect.cooldown = force.variable_1_values[rem.rank-1]
-			$Forcefield.damage = force.variable_2_values[rem.rank-1]
+			effect.cooldown = 2* delta
+			$Forcefield.damage = force.variable_1_values[rem.rank-1]
 			effect.gained(self)
 			effects.append(effect)
 	
