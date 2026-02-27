@@ -11,5 +11,5 @@ description = "Whenever you heal, heal $X% more health"
 icon = ExtResource("2_tgoow")
 art = ExtResource("1_waxin")
 variable_names = Array[String](["$X"])
-variable_1_values = [10, 25, 50, 75, 5]
+variable_1_values = [10, 25, 50, 75, 100]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

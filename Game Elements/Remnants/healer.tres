@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://cmotiux0slpys"]
 
-[ext_resource type="Texture2D" uid="uid://ctqsomddtcmpi" path="res://art/remnants/cleric_remannt.png" id="1_pwamh"]
-[ext_resource type="Texture2D" uid="uid://bc1ubv2dkymp5" path="res://art/remnants/cleric_orb.png" id="2_6pry1"]
+[ext_resource type="Texture2D" uid="uid://bs4u0pxd8d2pj" path="res://art/remnants/healer.png" id="1_pwamh"]
+[ext_resource type="Texture2D" uid="uid://j5tq3e1lkudb" path="res://art/remnants/healer_icon.png" id="2_6pry1"]
 [ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_grgpq"]
 
 [resource]
