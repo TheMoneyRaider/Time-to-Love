@@ -1,0 +1,62 @@
+[gd_scene load_steps=12 format=3 uid="uid://daqno7uyj3k8v"]
+
+[ext_resource type="Texture2D" uid="uid://cugblfkxmtvhu" path="res://art/particles/spark.png" id="1_j0e5o"]
+[ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/Particles/effect_particles.gd" id="2_ybv3c"]
+
+[sub_resource type="Gradient" id="Gradient_ybv3c"]
+offsets = PackedFloat32Array(0, 0.507109, 1)
+colors = PackedColorArray(0.9652154, 0.0009533739, 0.99283475, 1, 1, 0.39209542, 0.94843537, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_uklhh"]
+gradient = SubResource("Gradient_ybv3c")
+
+[sub_resource type="Curve" id="Curve_x0uf8"]
+_data = [Vector2(0, 0), 0.0, 6.7659764, 0, 0, Vector2(0.2385321, 1), 0.0, 0.0, 0, 0, Vector2(0.5168196, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_63bnn"]
+curve = SubResource("Curve_x0uf8")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vqfgd"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 10.0
+orbit_velocity_min = 9.49949e-08
+orbit_velocity_max = 9.49949e-08
+radial_velocity_min = 19.999977
+radial_velocity_max = 49.999977
+gravity = Vector3(0, 0, 0)
+scale_min = 0.25
+scale_max = 0.75
+scale_curve = SubResource("CurveTexture_63bnn")
+color_ramp = SubResource("GradientTexture1D_uklhh")
+hue_variation_min = -0.010000022
+hue_variation_max = 0.009999977
+
+[sub_resource type="Gradient" id="Gradient_j0e5o"]
+offsets = PackedFloat32Array(0, 0.507109, 1)
+colors = PackedColorArray(0.9647059, 0, 0.99215686, 0.90588236, 1, 0.39215687, 0.9490196, 0.8627451, 1, 1, 1, 0.627451)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ybv3c"]
+gradient = SubResource("Gradient_j0e5o")
+
+[sub_resource type="Gradient" id="Gradient_uklhh"]
+offsets = PackedFloat32Array(0, 0.507109, 1)
+colors = PackedColorArray(0.91764706, 0.4627451, 0, 0.90588236, 1, 0.5372549, 0.19215687, 0.8627451, 1, 1, 1, 0.6392157)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_x0uf8"]
+gradient = SubResource("Gradient_uklhh")
+
+[node name="SwapParticles" type="GPUParticles2D"]
+z_index = 21
+y_sort_enabled = true
+emitting = false
+amount = 50
+texture = ExtResource("1_j0e5o")
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_vqfgd")
+script = ExtResource("2_ybv3c")
+color_range1 = SubResource("GradientTexture1D_ybv3c")
+color_range2 = SubResource("GradientTexture1D_x0uf8")

@@ -3,8 +3,8 @@ var mouse_sensitivity: float = 1.0
 
 @export var base_move_speed: float = 100
 var move_speed: float
-@export var max_health: float = 10
-@export var current_health: float = 10
+@export var max_health: float = 10.0
+@export var current_health: float = 10.0
 @onready var current_dmg_time: float = 0.0
 @onready var current_liquid_time: float = 0.0
 @onready var in_instant_trap: bool = false
@@ -61,19 +61,27 @@ var cooldowns = [0,0]
 var is_purple = true
 
 signal attack_requested(new_attack : PackedScene, t_position : Vector2, t_direction : Vector2, damage_boost : float)
-signal player_took_damage(damage : int, c_health : int, c_node : Node)
+signal player_took_damage(damage : float, c_health : float, c_node : Node)
 signal activate(player_node : Node)
 signal special(player_node : Node)
 signal swapped_color(player_node : Node)
-signal max_health_changed(new_max_health : int, new_current_health : int, player_node : Node)
+signal max_health_changed(new_max_health : float, new_current_health : float, player_node : Node)
 signal special_changed(is_purple : int, new_progress : int)
 signal special_reset(is_purple : int)
 
 var LayerManager: Node
+var debug_mode : bool = false
 
 func _ready():
-	$Forcefield/AnimationPlayer2.play("fritz")
+	debug_mode = Globals.config.get_value("debug", 'enabled', false)
 	LayerManager = get_tree().get_root().get_node("LayerManager")
+	if !is_multiplayer:
+		#Create Fake Player
+		other_player = preload("res://Game Elements/Characters/fake_player.tscn").instantiate()
+		get_parent().add_child(other_player)
+		other_player.disable()
+	
+	$Forcefield/AnimationPlayer2.play("fritz")
 	move_speed = base_move_speed
 	_initialize_state_machine()
 	update_animation_parameters(starting_direction)
@@ -128,9 +136,187 @@ func _initialize_state_machine():
 func apply_movement(_delta):
 	velocity = input_direction * move_speed
 
+var _debug_wedges : Array = []   # [{from, left, right, hit}]
+func _draw() -> void:
+	if !debug_angles:
+		return
+
+	for w in _debug_wedges:
+		var from_local = to_local(w.from)
+		var left_local = to_local(w.left)
+		var right_local = to_local(w.right)
+
+		var color = Color.GREEN if !w.blocked else Color.RED
+		color.a = 0.2  # transparency
+
+		var points = PackedVector2Array([
+			from_local,
+			left_local,
+			right_local
+		])
+
+		draw_polygon(points, PackedColorArray([color, color, color]))
+		
+	var corrected_angle = compute_assist_angle((crosshair.position).angle(),output_angles)
+	draw_line(Vector2.ZERO, (crosshair.position).normalized() * 64, Color.RED, 2.0)
+	draw_line(Vector2.ZERO, Vector2.RIGHT.rotated(corrected_angle) * 64, Color.GREEN, 2.0)
+
+var debug_angles : bool = false
+func smooth_aim_assist() -> Array[Vector2]:
+
+	var enemies : Array[Node] = []
+	for child in LayerManager.room_instance.get_children():
+		if child.is_in_group("enemy"):
+			enemies.append(child)
+	var angles : Array[Vector2]= []
+	for enemy in enemies:
+		var band = angular_band_circle(global_position, enemy.get_node("CollisionShape2D"))
+		var ray_length = (enemy.global_position - global_position).length()
+
+		var left_ray = Vector2(cos(band.x), sin(band.x))
+		var right_ray = Vector2(cos(band.y), sin(band.y))
+
+		var ray1 = cast_ray(global_position, left_ray, ray_length, self)
+		var ray2 = cast_ray(global_position, right_ray, ray_length, self)
+
+		var left_point = ray1.position if ray1 else global_position + left_ray * ray_length
+		var right_point = ray2.position if ray2 else global_position + right_ray * ray_length
+
+		var blocked = false
+		if ray1 and ((global_position - ray1.position).length() - ray_length) < 4:
+			blocked = true
+		if ray2 and ((global_position - ray2.position).length() - ray_length) < 4:
+			blocked = true
+		if debug_angles:
+			_debug_wedges.append({
+				"from": global_position,
+				"left": left_point,
+				"right": right_point,
+				"blocked": blocked
+			})
+		if !blocked:
+			angles.append(band)
+	return angles
+
+
+func cast_ray(origin: Vector2, direction: Vector2, distance: float, player_node : Node) -> Dictionary:
+	var space = player_node.get_world_2d().direct_space_state
+	var query = PhysicsRayQueryParameters2D.create(origin, origin + direction * distance)
+	query.collide_with_areas = false
+	query.collide_with_bodies = true
+	query.collision_mask = 1 << 0
+	return space.intersect_ray(query)
+
+
+func angular_band_circle(player_pos: Vector2, collision_shape: CollisionShape2D) -> Vector2:
+	var shape_pos = collision_shape.global_position
+	var to_shape = shape_pos - player_pos
+	if collision_shape.shape is CircleShape2D:
+		var radius = collision_shape.shape.radius
+
+		var distance = to_shape.length()
+
+		# Handle case if player is inside the shape
+		if distance < radius:
+			return Vector2(-PI, PI)
+
+		# Angular half-width
+		var half_angle = asin(radius / distance)
+
+		var center_angle = to_shape.angle()
+		return Vector2(center_angle - half_angle, center_angle + half_angle)
+	if collision_shape.shape is RectangleShape2D:
+			var extents = collision_shape.shape.extents
+			var corners = [
+				Vector2(-extents.x, -extents.y),
+				Vector2(extents.x, -extents.y),
+				Vector2(extents.x, extents.y),
+				Vector2(-extents.x, extents.y)
+			]
+
+			var angles = []
+			for corner in corners:
+				var global_corner = collision_shape.to_global(corner)
+				var dir = global_corner - player_pos
+				angles.append(dir.angle())
+
+			# Handle -π/π wrapping
+			var min_angle = angles[0]
+			var max_angle = angles[0]
+			for a in angles:
+				var diff = wrapf(a - min_angle, -PI, PI)
+				if diff < 0:
+					min_angle = a
+				diff = wrapf(a - max_angle, -PI, PI)
+				if diff > 0:
+					max_angle = a
+			return Vector2(min_angle, max_angle)
+	if collision_shape.shape is CapsuleShape2D:
+		var radius =collision_shape.shape.radius + collision_shape.shape.height/2.0
+
+		var distance = to_shape.length()
+
+		# Handle case if player is inside the shape
+		if distance < radius:
+			return Vector2(-PI, PI)
+
+		# Angular half-width
+		var half_angle = asin(radius / distance)
+
+		var center_angle = to_shape.angle()
+		return Vector2(center_angle - half_angle, center_angle + half_angle)
+	
+	
+	
+	return Vector2(to_shape.angle(),to_shape.angle())
+
+func compute_assist_angle(player_angle: float, enemy_angles: Array, band_size: float = deg_to_rad(45)) -> float:
+	var new_angle = player_angle
+	for v in enemy_angles:
+		var center = (v.x + v.y) / 2
+		var diff = circular_diff(center, new_angle)
+		if abs(diff) <= band_size/2:
+			# move along the circular difference, weighted by triangle shape
+			var t = 1.0 - abs(diff)/(band_size/2)
+			new_angle += diff * t
+			#TODO KABIR
+			#new_angle += diff * -0.5
+			new_angle = wrap_angle(new_angle)
+	return new_angle
+
+func circular_diff(a: float, b: float) -> float:
+	var d = a - b
+	while d > PI: d -= TAU
+	while d < -PI: d += TAU
+	return d
+
+func wrap_angle(angle: float) -> float:
+	while angle > PI: angle -= TAU
+	while angle < -PI: angle += TAU
+	return angle
+
+
+
+var output_angles = []
+
+		
+			
+func _input(event):
+	if event.is_action_pressed("toggle_enemy_angles") and debug_mode:
+		debug_angles = !debug_angles
+		_debug_wedges.clear()
+		queue_redraw()
+
+
 func _physics_process(delta):
 	if disabled:
 		return
+		
+	if debug_angles:
+		_debug_wedges.clear()
+	output_angles = smooth_aim_assist()
+	if debug_angles:
+		queue_redraw()
 	#print(move_speed)
 	if(i_frames > 0):
 		i_frames -= 1
@@ -155,12 +341,9 @@ func _physics_process(delta):
 	
 	update_animation_parameters(input_direction)	
 	
-	if !is_multiplayer:
-		if Input.is_action_just_pressed("swap_" + input_device):
-			swap_color()
-	else:
-		tether(delta)
-	input_direction += (tether_momentum / move_speed)
+	tether(delta)
+	if is_tethered:
+		input_direction += (tether_momentum / move_speed)
 	weapon_node.weapon_direction = (crosshair.position).normalized()
 	#move and slide function
 	if(self.process_mode != PROCESS_MODE_DISABLED and disabled_countdown <= 0):
@@ -172,16 +355,16 @@ func _physics_process(delta):
 	
 	if Input.is_action_just_pressed("attack_" + input_device):
 		if Input.is_action_pressed("special_" + input_device) and weapons[is_purple as int].current_special_hits >= weapons[is_purple as int].special_hits:
-			weapons[is_purple as int].use_normal_attack((crosshair.position).normalized(), global_position,self)
+			weapons[is_purple as int].use_normal_attack(Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
 		else:
 			handle_attack()
 	if Input.is_action_just_pressed("activate_" + input_device):
 		emit_signal("activate",self)
 	if Input.is_action_pressed("special_" + input_device):
-		effects += weapons[is_purple as int].use_special(delta,false, (crosshair.position).normalized(), global_position,self)
+		effects += weapons[is_purple as int].use_special(delta,false, Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
 		emit_signal("special",self)
 	elif Input.is_action_just_released("special_" + input_device):
-		effects += weapons[is_purple as int].use_special(delta, true, (crosshair.position).normalized(), global_position,self)
+		effects += weapons[is_purple as int].use_special(delta, true, Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
 		
 	adjust_cooldowns(delta)
 	red_flash()
@@ -196,11 +379,11 @@ func update_animation_parameters(move_input : Vector2):
 
 func request_attack(t_weapon : Weapon) -> float:
 	weapon_node.flip_direction()
-	var attack_direction = (crosshair.position).normalized()
+	var attack_direction = Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles))
 	t_weapon.request_attacks(attack_direction,global_position,self,weapon_node.flip)
 	return t_weapon.cooldown
 
-func take_damage(damage_amount : int, _dmg_owner : Node,_direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 20,creates_indicators : bool = true):
+func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 20,creates_indicators : bool = true):
 	if(i_frames <= 0) and not invulnerable:
 		i_frames = attack_i_frames
 		if check_drones():
@@ -220,7 +403,7 @@ func take_damage(damage_amount : int, _dmg_owner : Node,_direction = Vector2(0,-
 				if input_direction != Vector2.ZERO:
 					temp_move = move_speed
 				damage_amount *= (1.0-rem.variable_1_values[rem.rank-1]/100.0*((temp_move/base_move_speed)-1))
-				damage_amount = max(0,damage_amount)
+				damage_amount = max(0.0,damage_amount)
 			if rem.remnant_name == invest.remnant_name:
 				LayerManager.timefabric_collected-= LayerManager.timefabric_collected * (rem.variable_2_values[rem.rank-1])/100.0
 			if rem.remnant_name == emp.remnant_name and _dmg_owner and _dmg_owner.is_in_group("enemy"):
@@ -231,9 +414,9 @@ func take_damage(damage_amount : int, _dmg_owner : Node,_direction = Vector2(0,-
 				
 		current_health = current_health - damage_amount
 		emit_signal("player_took_damage",damage_amount,current_health,self)
-		if current_health >= 0 and creates_indicators:
+		if current_health >= 0.0 and creates_indicators:
 			LayerManager._damage_indicator(damage_amount, _dmg_owner,_direction, attack_body,self)
-		if(current_health <= 0):
+		if(current_health <= 0.0):
 			if(die(true)):
 				var instance = revive.instantiate()
 				instance.global_position = position
@@ -257,7 +440,6 @@ func set_weapon_sprite(weapon : Weapon, f_weapon_node : Node):
 
 
 func swap_color():
-	check_forcefield()
 	emit_signal("swapped_color", self)
 	if(is_purple):
 		is_purple = false
@@ -266,6 +448,10 @@ func swap_color():
 		set_weapon_sprite(weapons[0],weapon_node)
 		tether_line.default_color = Color("Orange")
 		weapons[1].special_time_elapsed = 0.0
+		var inst = preload("res://Game Elements/Particles/swap_particles.tscn").instantiate()
+		inst.range_choice = 1
+		inst.global_position = global_position
+		LayerManager.room_instance.add_child(inst)
 	else:
 		is_purple = true
 		sprite.texture = purple_texture
@@ -273,18 +459,41 @@ func swap_color():
 		set_weapon_sprite(weapons[1],weapon_node)
 		tether_line.default_color = Color("Purple")
 		weapons[0].special_time_elapsed = 0.0
+		var inst = preload("res://Game Elements/Particles/swap_particles.tscn").instantiate()
+		inst.range_choice = 0
+		inst.global_position = global_position
+		LayerManager.room_instance.add_child(inst)
+		
+
+var single_swap_duration : float = 0.0
+var single_toggle : bool = false
+
+
 
 func tether(delta : float):
 	if Input.is_action_just_pressed("swap_" + input_device):
-		tether_momentum += (other_player.position - position) / 1
-		is_tethered = true
-	if Input.is_action_pressed("swap_" + input_device):
-		check_forcefield()
-		var effect = load("res://Game Elements/Effects/tether.tres").duplicate(true)
-		effect.cooldown = delta
-		effect.value1 = 0.5
-		effect.gained(self)
-		effects.append(effect)
+		if is_multiplayer:
+			tether_momentum += (other_player.position - position)
+			is_tethered = true
+		else:
+			single_toggle = false
+			var direct = (crosshair.position).normalized()
+			tether_momentum = direct*32
+			other_player.enable(self,direct,!is_purple)
+			update_animation_parameters(direct)
+	if !Input.is_action_pressed("swap_" + input_device):
+		single_toggle = false
+	if !single_toggle and Input.is_action_pressed("swap_" + input_device) and (is_multiplayer or (global_position-other_player.global_position).length() >=6 or single_swap_duration <.5):
+		if single_swap_duration+delta >=.5 and single_swap_duration <.5:
+			is_tethered = true
+		single_swap_duration+=delta
+		if is_tethered:
+			check_forcefield(delta)
+			var effect = load("res://Game Elements/Effects/tether.tres").duplicate(true)
+			effect.cooldown = delta
+			effect.value1 = 0.5
+			effect.gained(self)
+			effects.append(effect)
 		
 		tether_line.visible = true
 		if other_player.is_tethered:
@@ -304,6 +513,10 @@ func tether(delta : float):
 		tether_momentum *= .995
 		tether_line.width_curve.set_point_value(1, min(max(50 / tether_momentum.length(),.4),1))
 	else:
+		if (global_position-other_player.global_position).length() <=6 and !is_multiplayer and single_swap_duration >.5:
+			swap_color()
+			single_toggle = true
+		other_player.disable()
 		if tether_line.visible == true:
 			tether_line.visible = false
 			is_tethered = false
@@ -311,6 +524,7 @@ func tether(delta : float):
 			tether_momentum = Vector2.ZERO
 		else:
 			tether_momentum *= .92
+		single_swap_duration = 0.0
 
 func die(death : bool , insta_die : bool = false) -> bool:
 	if !is_multiplayer:
@@ -320,23 +534,23 @@ func die(death : bool , insta_die : bool = false) -> bool:
 		LayerManager.open_death_menu()
 		return false
 	else:
-		if other_player.current_health <= 0:
+		if other_player.current_health <= 0.0:
 			insta_die = true
 		if insta_die:
 			LayerManager.open_death_menu()
 			return false
 		if death:
-			max_health = max_health - 2
+			max_health = max_health/2.0 if max_health > 40 else max_health-2.0
 			emit_signal("max_health_changed",max_health,current_health, self)
 			self.process_mode = PROCESS_MODE_DISABLED
 			visible = false
-			if(max_health <= 0):
+			if(max_health <= 0.0):
 				#Change to signal 
 				LayerManager.open_death_menu()
 				return false
 		else:
-			current_health = round(max_health / 2)
-			emit_signal("player_took_damage",-round(max_health / 2),current_health,self)
+			current_health = max_health / 2.0
+			emit_signal("player_took_damage",-max_health / 2.0,current_health,self)
 			self.process_mode = PROCESS_MODE_INHERIT
 			visible = true
 	return true
@@ -416,7 +630,7 @@ func check_liquids(delta):
 					current_liquid_time += delta
 					if current_liquid_time >= .25:
 						current_liquid_time -= .25
-						take_damage(2,null)
+						take_damage(2.0,null)
 					_check_hydromancer(Globals.Liquid.Lava)
 				Globals.Liquid.Conveyer:
 					position+=tile_data.get_custom_data("direction").normalized() *delta * 32
@@ -551,10 +765,10 @@ func damage_boost() -> float:
 				boost *= LayerManager.hud.player2_combo
 	return boost
 
-func change_health(add_to_current : int, add_to_max : int = 0):
+func change_health(add_to_current : float, add_to_max : float = 0):
 	current_health+=add_to_current
 	max_health+=add_to_max
-	current_health = clamp(current_health,0,max_health)
+	current_health = clamp(current_health,0.0,max_health)
 	emit_signal("max_health_changed",max_health,current_health,self)
 
 func red_flash() -> void:
@@ -671,7 +885,7 @@ func check_drones():
 				return true
 	return false
 
-func check_forcefield():
+func check_forcefield(delta : float):
 	var remnants : Array[Remnant]
 	if is_purple:
 		remnants = LayerManager.player_1_remnants
@@ -681,8 +895,8 @@ func check_forcefield():
 	for rem in remnants:
 		if rem.remnant_name == force.remnant_name:
 			var effect = load("res://Game Elements/Effects/forcefield.tres").duplicate(true)
-			effect.cooldown = force.variable_1_values[rem.rank-1]
-			$Forcefield.damage = force.variable_2_values[rem.rank-1]
+			effect.cooldown = 2* delta
+			$Forcefield.damage = force.variable_1_values[rem.rank-1]
 			effect.gained(self)
 			effects.append(effect)
 	

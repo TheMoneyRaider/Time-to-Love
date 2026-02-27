@@ -2500,7 +2500,6 @@ y_sort_enabled = true
 collision_layer = 4
 collision_mask = 15
 script = ExtResource("1_lfybw")
-max_health = 2000
 enemy_type = "signul"
 displays = Array[NodePath]([NodePath("Segments/Eye"), NodePath("Segments/Eye/2"), NodePath("Segments/Eye/3"), NodePath("Segments/Plate"), NodePath("Segments/Plate2"), NodePath("Segments/Plate3"), NodePath("Segments/Plate4"), NodePath("Segments/Plate5"), NodePath("Segments/GunParts/Plate_Other"), NodePath("Segments/GunParts/Plate_Other2"), NodePath("Segments/GunParts/Plate_Other3"), NodePath("Segments/GunParts/Plate_Other4"), NodePath("Segments/GunParts/Plate_Other5"), NodePath("Segments/GunParts/Plate_Other6"), NodePath("Segments/GunParts/Plate_Other7"), NodePath("Segments/GunParts/Plate_Other8"), NodePath("Segments/GunParts/Plate_Other9"), NodePath("Segments/GunParts/Plate_Other10"), NodePath("Segments/Rims/Rim/RimVis"), NodePath("Segments/Rims/Rim2/RimVis"), NodePath("Segments/Rims/Rim3/RimVis"), NodePath("Segments/Rims/Rim4/RimVis"), NodePath("Segments/Rims/Rim5/RimVis"), NodePath("Segments/Rims/Rim6/RimVis"), NodePath("Segments/Rims/Rim7/RimVis"), NodePath("Segments/Rims/Rim8/RimVis")])
 min_timefabric = 500

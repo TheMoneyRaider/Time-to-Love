@@ -136,7 +136,7 @@ min_sprint_time = 3.0
 max_sprint_time = 5.0
 max_sprint_cooldown = 4.0
 sprint_multiplier = 3.0
-move_speed = 60.0
+move_speed = 0.06
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 y_sort_enabled = true

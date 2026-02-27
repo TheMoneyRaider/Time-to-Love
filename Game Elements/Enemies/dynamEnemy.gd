@@ -1,6 +1,6 @@
 class_name DynamEnemy
 extends CharacterBody2D
-@export var max_health: int = 10
+@export var max_health: float = 10.0
 @export var display_damage: bool =true
 @export var hit_range: int = 64
 @export var agro_distance: float = 150.0
@@ -14,14 +14,13 @@ extends CharacterBody2D
 @export var min_sprint_cooldown : float = 3.0
 @export var max_sprint_cooldown : float = 6.0
 @export var sprint_multiplier : float = 2.0
-var current_health: int = 10
+var current_health: float = 10.0
 @export var move_speed: float = 70
 @onready var current_dmg_time: float = 0.0
 @onready var in_instant_trap: bool = false
 var damage_direction = Vector2(0,-1)
 var sprint_timer : float = 0.0
 var sprint_cool : float = 0.0
-var damage_taken = 0
 var display_pathways = false
 var debug_menu = false
 var debug_mode = false
@@ -47,7 +46,7 @@ var LayerManager : Node
 var attacks = [preload("res://Game Elements/Attacks/bad_bolt.tscn"),preload("res://Game Elements/Attacks/robot_melee.tscn")]
 signal attack_requested(new_attack : PackedScene, t_position : Vector2, t_direction : Vector2, damage_boost : float)
 
-signal enemy_took_damage(damage : int,current_health : int,c_node : Node, direction : Vector2)
+signal enemy_took_damage(damage : float,current_health : float,c_node : Node, direction : Vector2)
 signal boss_phase_change(boss : Node)
 
 
@@ -190,10 +189,10 @@ func _robot_process():
 	$RobotBrain.set_frame(block + offset)
 
 
-func take_damage(damage : int, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0,creates_indicators : bool = true):
+func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0,creates_indicators : bool = true):
 	if !hitable:
 		return
-	if current_health< 0:
+	if current_health< 0.0:
 		return
 	if(i_frames > 0):
 		return
@@ -202,7 +201,7 @@ func take_damage(damage : int, dmg_owner : Node, direction = Vector2(0,-1), atta
 		check_agro(dmg_owner)
 	if enemy_type=="binary_bot":
 		$Core.damage_glyphs()
-	if current_health >= 0 and display_damage and creates_indicators:
+	if current_health >= 0.0 and display_damage and creates_indicators:
 		LayerManager._damage_indicator(damage, dmg_owner,direction, attack_body,self)
 	if dmg_owner != null:
 		last_hitter = dmg_owner
@@ -227,22 +226,21 @@ func take_damage(damage : int, dmg_owner : Node, direction = Vector2(0,-1), atta
 				knockback_velocity = attack_body.direction * attack_body.knockback_force
 	current_health -= damage
 	if is_boss:
-		LayerManager.hud.update_bossbar(clamp(float(current_health)/max_health,0.0,1.0))
-		if current_health <= 0 and phase != boss_phases - 1:
+		LayerManager.hud.update_bossbar(clamp(current_health/max_health,0.0,1.0))
+		if current_health <= 0.0 and phase != boss_phases - 1:
 			if phase == last_phase:
 				phase+=1
 				if phase < boss_phases:
 					emit_signal("boss_phase_change",self)
 					return
 			return
-		if current_health <= 0:
+		if current_health <= 0.0:
 			for child in get_parent().get_children():
 				if child.is_in_group("enemy") and !child.is_boss:
-					child.current_health = -1
-					child.emit_signal("enemy_took_damage",100,child.current_health,child,Vector2(0,-1))
+					child.current_health = -1.0
+					child.emit_signal("enemy_took_damage",100.0,child.current_health,child,Vector2(0,-1))
 				
-	if current_health < 0:
-		
+	if current_health < 0.0:
 			
 		for effect in effects:
 			effect.lost(self)

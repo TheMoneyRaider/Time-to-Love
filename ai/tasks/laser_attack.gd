@@ -16,21 +16,21 @@ var y_axis : bool = false
 var killed : bool = false
 var first_time : bool = true
 
-var killed_damage : int
+var killed_damage : float
 var killed_direction : Vector2
 
 
 
 func cast_axis_ray(origin: Vector2, direction: Vector2, distance: float) -> Dictionary:
 	var space = agent.get_world_2d().direct_space_state
-	var query = PhysicsRayQueryParameters2D.create(origin - direction, origin + direction * distance)
+	var query = PhysicsRayQueryParameters2D.create(origin, origin + direction * distance)
 	query.collide_with_areas = false
 	query.collide_with_bodies = true
 	query.collision_mask = 1 << 0
 	return space.intersect_ray(query)
 
 
-func kill(damage : int, direction : Vector2) -> void:
+func kill(damage : float, direction : Vector2) -> void:
 	killed = true
 	killed_damage = damage
 	killed_direction = direction

@@ -414,3 +414,7 @@ theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
 [node name="Clamping" type="Label" parent="RootControl/DebugMenu/GridContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
+
+[node name="EnemyAngles" type="Label" parent="RootControl/DebugMenu/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
