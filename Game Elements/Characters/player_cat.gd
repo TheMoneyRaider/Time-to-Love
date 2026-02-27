@@ -601,26 +601,30 @@ func damage_boost() -> float:
 	var kinetic = load("res://Game Elements/Remnants/kinetic_battery.tres")
 	var ninja = load("res://Game Elements/Remnants/ninja.tres")
 	var assassin = load("res://Game Elements/Remnants/assassin.tres")
+	var hoard = load("res://Game Elements/Remnants/hoard.tres")
 	for rem in remnants:
-		if rem.remnant_name == hunter.remnant_name:
-			var min_dist = 100000
-			for child in LayerManager.room_instance.get_children():
-				if child is DynamEnemy:
-					min_dist = min(min_dist,self.position.distance_to(child.position))
-			if rem.variable_2_values[rem.rank-1]*16 < min_dist:
-				boost = (100+float(rem.variable_1_values[rem.rank-1]))/100.0
-		if rem.remnant_name == kinetic.remnant_name:
-			var temp_move = 0
-			if input_direction != Vector2.ZERO:
-				temp_move = move_speed
-			boost *= (1.0+rem.variable_1_values[rem.rank-1]/100.0*((temp_move/base_move_speed)-1))
-		if rem.remnant_name == ninja.remnant_name:
-			if is_purple:
-				boost *= LayerManager.hud.player1_combo
-			else:
-				boost *= LayerManager.hud.player2_combo
-		if rem.remnant_name == assassin.remnant_name:
-			boost *= (1 + min(time_since_last_hit * rem.variable_1_values[rem.rank-1],rem.variable_2_values[rem.rank-1]) / 100.0)
+		match rem.remnant_name:
+			hunter.remnant_name:
+				var min_dist = 100000
+				for child in LayerManager.room_instance.get_children():
+					if child is DynamEnemy:
+						min_dist = min(min_dist,self.position.distance_to(child.position))
+				if rem.variable_2_values[rem.rank-1]*16 < min_dist:
+					boost = (100+float(rem.variable_1_values[rem.rank-1]))/100.0
+			kinetic.remnant_name:
+				var temp_move = 0
+				if input_direction != Vector2.ZERO:
+					temp_move = move_speed
+				boost *= (1.0+rem.variable_1_values[rem.rank-1]/100.0*((temp_move/base_move_speed)-1))
+			ninja.remnant_name:
+				if is_purple:
+					boost *= LayerManager.hud.player1_combo
+				else:
+					boost *= LayerManager.hud.player2_combo
+			assassin.remnant_name:
+				boost *= (1 + min(time_since_last_hit * rem.variable_1_values[rem.rank-1],rem.variable_2_values[rem.rank-1]) / 100.0)
+			hoard.remnant_name:
+				boost *= (1 + (rem.variable_1_values[rem.rank-1] * floor(LayerManager.timefabric_collected/50.0)  / 100.0))
 	return boost
 
 func change_health(add_to_current : int, add_to_max : int = 0):

@@ -93,7 +93,7 @@ func _ready() -> void:
 	hud.connect_signals(player1)
 	hud.set_cross_position()
 	
-	var rem = load("res://Game Elements/Remnants/assassin.tres")
+	var rem = load("res://Game Elements/Remnants/hoard.tres")
 	rem.rank = 4
 	player_1_remnants.append(rem.duplicate(true))
 	player_2_remnants.append(rem.duplicate(true))
@@ -177,7 +177,7 @@ func _ready() -> void:
 	player1.display_combo()
 	"""
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
-	timefabric_collected = 100000
+	timefabric_collected = 0
 	####
 	game_root.add_child(pathfinding)
 	preload_rooms()
