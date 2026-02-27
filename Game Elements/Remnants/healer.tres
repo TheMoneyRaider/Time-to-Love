@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://cmotiux0slpys"]
+
+[ext_resource type="Texture2D" uid="uid://ctqsomddtcmpi" path="res://art/remnants/cleric_remannt.png" id="1_pwamh"]
+[ext_resource type="Texture2D" uid="uid://bc1ubv2dkymp5" path="res://art/remnants/cleric_orb.png" id="2_6pry1"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_grgpq"]
+
+[resource]
+script = ExtResource("3_grgpq")
+remnant_name = "Remnant of the Healer"
+description = "At the start of each room gain $X max health"
+icon = ExtResource("2_6pry1")
+art = ExtResource("1_pwamh")
+variable_names = Array[String](["$X"])
+variable_1_values = [1, 2, 3, 4, 5]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"
