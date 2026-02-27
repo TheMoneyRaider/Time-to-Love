@@ -70,9 +70,10 @@ signal special_changed(is_purple : int, new_progress : int)
 signal special_reset(is_purple : int)
 
 var LayerManager: Node
-
+var debug_mode : bool = false
 
 func _ready():
+	debug_mode = Globals.config.get_value("debug", 'enabled', false)
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	if !is_multiplayer:
 		#Create Fake Player
@@ -135,50 +136,68 @@ func _initialize_state_machine():
 func apply_movement(_delta):
 	velocity = input_direction * move_speed
 
-var _debug_rays : Array = []   # [{from, to, hit}]
-var debug_draw_angles : bool = true
+var _debug_wedges : Array = []   # [{from, left, right, hit}]
 func _draw() -> void:
-	if !debug_draw_angles:
+	if !debug_angles:
 		return
 
-	for r in _debug_rays:
-		var from_local = to_local(r.from)
-		var to_local_pos = to_local(r.to)
+	for w in _debug_wedges:
+		var from_local = to_local(w.from)
+		var left_local = to_local(w.left)
+		var right_local = to_local(w.right)
 
-		var color = Color.RED if !r.hit else Color.GREEN
-		color.a = 1.0
+		var color = Color.GREEN if !w.blocked else Color.RED
+		color.a = 0.2  # transparency
 
-		draw_line(from_local, to_local_pos, color, 2.0)
-		draw_circle(to_local_pos, 3.0, color)
+		var points = PackedVector2Array([
+			from_local,
+			left_local,
+			right_local
+		])
 
+		draw_polygon(points, PackedColorArray([color, color, color]))
+		
+	var corrected_angle = compute_assist_angle((crosshair.position).angle(),output_angles)
+	draw_line(Vector2.ZERO, (crosshair.position).normalized() * 64, Color.RED, 2.0)
+	draw_line(Vector2.ZERO, Vector2.RIGHT.rotated(corrected_angle) * 64, Color.GREEN, 2.0)
 
-func smooth_aim_assist():
-	_debug_rays.clear()
+var debug_angles : bool = false
+func smooth_aim_assist() -> Array[Vector2]:
 
-	var enemies : Array[Node]= []
+	var enemies : Array[Node] = []
 	for child in LayerManager.room_instance.get_children():
 		if child.is_in_group("enemy"):
 			enemies.append(child)
+	var angles : Array[Vector2]= []
 	for enemy in enemies:
-		var band = angular_band_circle(global_position,enemy.get_node("CollisionShape2D"))
-		var ray_length = (enemy.global_position-global_position).length()
+		var band = angular_band_circle(global_position, enemy.get_node("CollisionShape2D"))
+		var ray_length = (enemy.global_position - global_position).length()
 
-		# Compute ray directions using cos/sin
 		var left_ray = Vector2(cos(band.x), sin(band.x))
 		var right_ray = Vector2(cos(band.y), sin(band.y))
-		var ray1 = cast_ray(global_position,left_ray,ray_length,self)
-		var ray2 = cast_ray(global_position,right_ray,ray_length,self)
-		if ray1:
-			_debug_rays.append({"from": global_position, "to": ray1.position, "hit": false})
-		else:
-			_debug_rays.append({"from": global_position, "to": global_position + left_ray * ray_length, "hit": true})
-		if ray2:
-			_debug_rays.append({"from": global_position, "to": ray2.position, "hit": false})
-		else:
-			_debug_rays.append({"from": global_position, "to": global_position + right_ray * ray_length, "hit": true})
 
-	
-	queue_redraw()
+		var ray1 = cast_ray(global_position, left_ray, ray_length, self)
+		var ray2 = cast_ray(global_position, right_ray, ray_length, self)
+
+		var left_point = ray1.position if ray1 else global_position + left_ray * ray_length
+		var right_point = ray2.position if ray2 else global_position + right_ray * ray_length
+
+		var blocked = false
+		if ray1 and ((global_position - ray1.position).length() - ray_length) < 4:
+			blocked = true
+		if ray2 and ((global_position - ray2.position).length() - ray_length) < 4:
+			blocked = true
+		if debug_angles:
+			_debug_wedges.append({
+				"from": global_position,
+				"left": left_point,
+				"right": right_point,
+				"blocked": blocked
+			})
+		if !blocked:
+			angles.append(band)
+	return angles
+
 
 func cast_ray(origin: Vector2, direction: Vector2, distance: float, player_node : Node) -> Dictionary:
 	var space = player_node.get_world_2d().direct_space_state
@@ -251,11 +270,51 @@ func angular_band_circle(player_pos: Vector2, collision_shape: CollisionShape2D)
 	
 	return Vector2(to_shape.angle(),to_shape.angle())
 
+func compute_assist_angle(player_angle: float, enemy_angles: Array, band_size: float = deg_to_rad(45)) -> float:
+	var new_angle = player_angle
+	for v in enemy_angles:
+		var center = (v.x + v.y) / 2
+		var diff = circular_diff(center, new_angle)
+		if abs(diff) <= band_size/2:
+			# move along the circular difference, weighted by triangle shape
+			var t = 1.0 - abs(diff)/(band_size/2)
+			new_angle += diff * t
+			new_angle = wrap_angle(new_angle)
+	return new_angle
+
+func circular_diff(a: float, b: float) -> float:
+	var d = a - b
+	while d > PI: d -= TAU
+	while d < -PI: d += TAU
+	return d
+
+func wrap_angle(angle: float) -> float:
+	while angle > PI: angle -= TAU
+	while angle < -PI: angle += TAU
+	return angle
+
+
+
+var output_angles = []
+
+		
+			
+func _input(event):
+	if event.is_action_pressed("toggle_enemy_angles") and debug_mode:
+		debug_angles = !debug_angles
+		_debug_wedges.clear()
+		queue_redraw()
+
 
 func _physics_process(delta):
 	if disabled:
 		return
-	smooth_aim_assist()
+		
+	if debug_angles:
+		_debug_wedges.clear()
+	output_angles = smooth_aim_assist()
+	if debug_angles:
+		queue_redraw()
 	#print(move_speed)
 	if(i_frames > 0):
 		i_frames -= 1
@@ -294,16 +353,16 @@ func _physics_process(delta):
 	
 	if Input.is_action_just_pressed("attack_" + input_device):
 		if Input.is_action_pressed("special_" + input_device) and weapons[is_purple as int].current_special_hits >= weapons[is_purple as int].special_hits:
-			weapons[is_purple as int].use_normal_attack((crosshair.position).normalized(), global_position,self)
+			weapons[is_purple as int].use_normal_attack(Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
 		else:
 			handle_attack()
 	if Input.is_action_just_pressed("activate_" + input_device):
 		emit_signal("activate",self)
 	if Input.is_action_pressed("special_" + input_device):
-		effects += weapons[is_purple as int].use_special(delta,false, (crosshair.position).normalized(), global_position,self)
+		effects += weapons[is_purple as int].use_special(delta,false, Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
 		emit_signal("special",self)
 	elif Input.is_action_just_released("special_" + input_device):
-		effects += weapons[is_purple as int].use_special(delta, true, (crosshair.position).normalized(), global_position,self)
+		effects += weapons[is_purple as int].use_special(delta, true, Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
 		
 	adjust_cooldowns(delta)
 	red_flash()
@@ -318,7 +377,7 @@ func update_animation_parameters(move_input : Vector2):
 
 func request_attack(t_weapon : Weapon) -> float:
 	weapon_node.flip_direction()
-	var attack_direction = (crosshair.position).normalized()
+	var attack_direction = Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles))
 	t_weapon.request_attacks(attack_direction,global_position,self,weapon_node.flip)
 	return t_weapon.cooldown
 

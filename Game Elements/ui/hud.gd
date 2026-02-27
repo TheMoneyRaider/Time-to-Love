@@ -6,6 +6,7 @@ var menu_indicator : bool = false
 var display_paths : bool = false
 var toggle_invulnerability : bool = false 
 var mouse_clamping : bool = false
+var enemy_angles : bool = false
 @onready var health_bar_1 = $RootControl/Left_Bottom_Corner/HealthBar
 @onready var health_bar_2 = $RootControl/Right_Bottom_Corner/HealthBar
 @onready var TimeFabric = $RootControl/VBoxContainer/HorizontalSlice/TimeFabric
@@ -390,6 +391,10 @@ func _input(event):
 			mouse_clamping = !mouse_clamping
 			if menu_indicator:  
 				update_clamping()
+		if event.is_action_pressed("toggle_enemy_angles"):
+			enemy_angles = !enemy_angles
+			if menu_indicator:  
+				update_clamping()
 				
 		update_menu_indicator()
 	return
@@ -401,6 +406,7 @@ func update_menu_indicator() -> void:
 	var paths_string = "  paths: | P | "
 	var invul_string = "  invuln: | I | "
 	var clamp_string = "  clamp: | C | "
+	var angle_string = "  angles: | V | "
 	
 	if menu_indicator:
 		$RootControl/DebugMenu/GridContainer/Paths.text = paths_string
@@ -409,10 +415,13 @@ func update_menu_indicator() -> void:
 		update_invulnerability()
 		$RootControl/DebugMenu/GridContainer/Clamping.text = clamp_string
 		update_clamping()
+		$RootControl/DebugMenu/GridContainer/EnemyAngles.text = angle_string
+		update_angles()
 	else:
 		$RootControl/DebugMenu/GridContainer/Paths.text = ""
 		$RootControl/DebugMenu/GridContainer/Invulnerability.text = ""
 		$RootControl/DebugMenu/GridContainer/Clamping.text = ""
+		$RootControl/DebugMenu/GridContainer/EnemyAngles.text = ""
 	return
 
 func update_display_paths() -> void:
@@ -432,6 +441,11 @@ func update_clamping():
 		$RootControl/DebugMenu/GridContainer/Clamping.text += "ON"
 	else:
 		$RootControl/DebugMenu/GridContainer/Clamping.text += "OFF"
+func update_angles():
+	if enemy_angles:
+		$RootControl/DebugMenu/GridContainer/EnemyAngles.text += "ON"
+	else:
+		$RootControl/DebugMenu/GridContainer/EnemyAngles.text += "OFF"
 
 func _on_special_reset(is_purple : bool):
 	if is_purple:
