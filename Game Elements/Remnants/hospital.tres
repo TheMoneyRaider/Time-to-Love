@@ -1,15 +1,13 @@
-[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://yg2541ywfctr"]
+[gd_resource type="Resource" script_class="Remnant" load_steps=3 format=3 uid="uid://yg2541ywfctr"]
 
 [ext_resource type="Texture2D" uid="uid://ctqsomddtcmpi" path="res://art/remnants/cleric_remannt.png" id="1_waxin"]
-[ext_resource type="Texture2D" uid="uid://bc1ubv2dkymp5" path="res://art/remnants/cleric_orb.png" id="2_tgoow"]
 [ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_sjfgh"]
 
 [resource]
 script = ExtResource("3_sjfgh")
 remnant_name = "Remnant of the Hospital"
-description = "Whenever you heal, heal $X% more health"
-icon = ExtResource("2_tgoow")
+description = "Whenever you heal, heal $X% of your max health"
 art = ExtResource("1_waxin")
 variable_names = Array[String](["$X"])
-variable_1_values = [10, 25, 50, 75, 100]
+variable_1_values = [5, 10, 15, 20, 25]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

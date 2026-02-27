@@ -157,6 +157,11 @@ func _ready() -> void:
 	rem.rank = 5
 	player_1_remnants.append(rem.duplicate(true))
 	#player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/healer.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	rem.rank = 3
+	player_2_remnants.append(rem.duplicate(true))
 	
 	
 	player1.display_combo()
@@ -1270,6 +1275,9 @@ func _move_to_pathway_room(pathway_id: String) -> void:
 	
 	if is_multiplayer or player1.is_purple:
 		for rem in player_1_remnants:
+			if rem.remnant_name == "Remnant of the Healer":
+				var amnt = rem.variable_1_values[rem.rank - 1]
+				player1.change_health(amnt, amnt)
 			if rem.remnant_name == "Remnant of the Hare":
 				var effect = load("res://Game Elements/Effects/speed.tres")
 				effect.cooldown = 15
@@ -1279,6 +1287,12 @@ func _move_to_pathway_room(pathway_id: String) -> void:
 				
 	if is_multiplayer or not player1.is_purple:
 		for rem in player_2_remnants:
+			if rem.remnant_name == "Remnant of the Healer":
+				var amnt = rem.variable_1_values[rem.rank - 1]
+				if is_multiplayer:
+					player2.change_health(amnt, amnt)
+				else:
+					player1.change_health(amnt, amnt)
 			if rem.remnant_name == "Remnant of the Hare":
 				var effect = load("res://Game Elements/Effects/speed.tres")
 				effect.cooldown = 15
