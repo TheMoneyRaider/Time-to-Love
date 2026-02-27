@@ -127,8 +127,8 @@ radius = 7.0
 [node name="Archer" type="CharacterBody2D" groups=["enemy"]]
 z_index = 20
 y_sort_enabled = true
-collision_layer = 0
-collision_mask = 13
+collision_layer = 4
+collision_mask = 9
 script = ExtResource("1_w832q")
 max_health = 30
 enemy_type = "robot"
@@ -168,6 +168,7 @@ script = ExtResource("5_tswc2")
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 7
+linear_damp = 0.0
 script = ExtResource("6_dm2ew")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
