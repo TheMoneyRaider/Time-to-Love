@@ -21,7 +21,7 @@ func _tick(_delta: float) -> Status:
 	for player in players: 
 		positions_array.append(player.global_position)
 		player_health_array.append(player.current_health)
-		
+	blackboard.set_var("target_type",0)	
 	blackboard.set_var(player_positions, positions_array)
 	blackboard.set_var(player_healths, player_health_array)
 	if blackboard.get_var("state") == "agro":
