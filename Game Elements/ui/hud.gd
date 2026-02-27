@@ -337,7 +337,7 @@ func _on_player_swap(player_node : Node):
 			LeftCooldownBar.cover_cooldown()
 			RightCooldownBar.cover_cooldown()
 
-func _on_player_take_damage(_damage_amount : int, current_health : int, player_node : Node, _direction = Vector2(0,-1)):
+func _on_player_take_damage(_damage_amount : float, current_health : int, player_node : Node, _direction = Vector2(0,-1)):
 	if current_health < 0:
 		current_health = 0
 	if(player_node == player1):

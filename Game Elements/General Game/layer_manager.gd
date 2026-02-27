@@ -1465,10 +1465,10 @@ func _open_random_pathways(generated_room : Node2D, generated_room_data : Room, 
 func _on_player_attack(_new_attack : PackedScene, _attack_position : Vector2, _attack_direction : Vector2, _damage_boost : float) -> void:
 	layer_ai[6]+=1
 	
-func _on_player_take_damage(damage_amount : int,_current_health : int,_player_node : Node) -> void:
+func _on_player_take_damage(damage_amount : float,_current_health : int,_player_node : Node) -> void:
 	layer_ai[11]+=damage_amount
 	
-func _on_enemy_take_damage(damage : int,current_health : int,enemy : Node, direction = Vector2(0,-1)) -> void:
+func _on_enemy_take_damage(damage : float,current_health : int,enemy : Node, direction = Vector2(0,-1)) -> void:
 	layer_ai[5]+=damage
 	if current_health <= 0:
 		for node in get_tree().get_nodes_in_group("attack"):
@@ -1596,7 +1596,7 @@ func _placable_locations():
 	placable_cells = temp_placable_locations
 
 
-func _damage_indicator(damage : int, dmg_owner : Node,direction : Vector2 , attack_body: Node = null, c_owner : Node = null,override_color : Color = Color(0.267, 0.394, 0.394, 1.0)):
+func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , attack_body: Node = null, c_owner : Node = null,override_color : Color = Color(0.267, 0.394, 0.394, 1.0)):
 	var instance = load("res://Game Elements/Objects/damage_indicator.tscn").instantiate()
 	room_instance.add_child(instance)
 	instance.set_values(c_owner, attack_body, dmg_owner, damage, direction,64, override_color)

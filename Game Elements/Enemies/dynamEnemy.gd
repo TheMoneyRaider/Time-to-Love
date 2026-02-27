@@ -21,7 +21,6 @@ var current_health: int = 10
 var damage_direction = Vector2(0,-1)
 var sprint_timer : float = 0.0
 var sprint_cool : float = 0.0
-var damage_taken = 0
 var display_pathways = false
 var debug_menu = false
 var debug_mode = false
@@ -47,7 +46,7 @@ var LayerManager : Node
 var attacks = [preload("res://Game Elements/Attacks/bad_bolt.tscn"),preload("res://Game Elements/Attacks/robot_melee.tscn")]
 signal attack_requested(new_attack : PackedScene, t_position : Vector2, t_direction : Vector2, damage_boost : float)
 
-signal enemy_took_damage(damage : int,current_health : int,c_node : Node, direction : Vector2)
+signal enemy_took_damage(damage : float,current_health : int,c_node : Node, direction : Vector2)
 signal boss_phase_change(boss : Node)
 
 
@@ -190,7 +189,7 @@ func _robot_process():
 	$RobotBrain.set_frame(block + offset)
 
 
-func take_damage(damage : int, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0,creates_indicators : bool = true):
+func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0,creates_indicators : bool = true):
 	if !hitable:
 		return
 	if current_health< 0:
@@ -239,7 +238,7 @@ func take_damage(damage : int, dmg_owner : Node, direction = Vector2(0,-1), atta
 			for child in get_parent().get_children():
 				if child.is_in_group("enemy") and !child.is_boss:
 					child.current_health = -1
-					child.emit_signal("enemy_took_damage",100,child.current_health,child,Vector2(0,-1))
+					child.emit_signal("enemy_took_damage",100.0,child.current_health,child,Vector2(0,-1))
 				
 	if current_health < 0:
 		

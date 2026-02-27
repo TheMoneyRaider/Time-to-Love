@@ -35,7 +35,7 @@ func _process(delta: float) -> void:
 		queue_free()
 	
 	
-func set_values(c_owner : Node = null, attack : Node = null, attack_owner : Node = null, value : int = 7, direction : Vector2 = Vector2.UP,size : int = 64, override_color : Color = Color(0.267, 0.394, 0.394, 1.0)) -> void:
+func set_values(c_owner : Node = null, attack : Node = null, attack_owner : Node = null, value : float = 7, direction : Vector2 = Vector2.UP,size : int = 64, override_color : Color = Color(0.267, 0.394, 0.394, 1.0)) -> void:
 	
 	#print("Damage: "+str(value)+" C Owner: "+str(c_owner)+" attack: "+str(attack)+" attack_owner: "+str(attack_owner))
 	
@@ -108,7 +108,7 @@ func set_values(c_owner : Node = null, attack : Node = null, attack_owner : Node
 			
 	text.add_theme_font_size_override("font_size", size)
 	text.add_theme_color_override("font_color", color)
-	text.text = str(value)
+	text.text = str(int(value*10.0))
 	first_color = color
 	lifetime = 1.5
 	self.scale = Vector2(.125,.125)

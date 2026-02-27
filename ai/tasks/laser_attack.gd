@@ -16,7 +16,7 @@ var y_axis : bool = false
 var killed : bool = false
 var first_time : bool = true
 
-var killed_damage : int
+var killed_damage : float
 var killed_direction : Vector2
 
 
@@ -30,7 +30,7 @@ func cast_axis_ray(origin: Vector2, direction: Vector2, distance: float) -> Dict
 	return space.intersect_ray(query)
 
 
-func kill(damage : int, direction : Vector2) -> void:
+func kill(damage : float, direction : Vector2) -> void:
 	killed = true
 	killed_damage = damage
 	killed_direction = direction

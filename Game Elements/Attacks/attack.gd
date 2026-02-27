@@ -229,7 +229,7 @@ func _process(delta):
 		node.queue_free()
 	queue_free()
 	
-func apply_damage(body : Node, n_owner : Node, damage_dealt : int, a_direction: Vector2) -> int:
+func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction: Vector2) -> int:
 	if attack_type != "scifi_laser":
 		#Computer Hack Remnant
 		var hack_chance1 = 0.0 if !hack1 else hack1.variable_1_values[hack1.rank-1]/100.0

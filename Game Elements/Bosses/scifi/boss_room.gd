@@ -95,7 +95,7 @@ func scifi_phase2_to_3():
 	for child in get_children():
 		if child.is_in_group("enemy") and !child.is_boss:
 			child.current_health = -1
-			child.emit_signal("enemy_took_damage",100,child.current_health,child,Vector2(0,-1))
+			child.emit_signal("enemy_took_damage",100.0,child.current_health,child,Vector2(0,-1))
 		if child.is_in_group("attack"):
 			child.queue_free()
 	#Cleanup possible laser
@@ -127,7 +127,7 @@ func scifi_phase2_to_3():
 	Hud.update_bossbar(0.0)
 	#Wave Attack
 	var attack_inst = load("res://Game Elements/Bosses/scifi/wave_attack.tscn").instantiate()
-	attack_inst.damage = 10
+	attack_inst.damage = 10.0
 	attack_inst.global_position = boss.global_position
 	attack_inst.c_owner = boss
 	attack_inst.direction = Vector2.UP
@@ -261,16 +261,16 @@ func boss_death():
 	Hud.hide_boss_bar()
 
 
-func _on_enemy_take_damage(_damage : int,current_health : int,_enemy : Node, direction = Vector2(0,-1)) -> void:
+func _on_enemy_take_damage(_damage : float,current_health : int,_enemy : Node, direction = Vector2(0,-1)) -> void:
 	var boss_health1 = boss.current_health
 	if boss_type =="scifi" and current_health <= 0 and phase == 0:
 		if is_multiplayer:
 			if .5 < randf():
-				boss.take_damage(10,player1,direction)
+				boss.take_damage(10.0,player1,direction)
 			else:
-				boss.take_damage(10,player2,direction)
+				boss.take_damage(10.0,player2,direction)
 		else:
-			boss.take_damage(10,player1,direction)
+			boss.take_damage(10.0,player1,direction)
 		pass
 	var boss_health2 = boss.current_health
 	if boss_type == "scifi":

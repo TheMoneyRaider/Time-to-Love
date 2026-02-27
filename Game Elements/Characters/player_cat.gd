@@ -61,7 +61,7 @@ var cooldowns = [0,0]
 var is_purple = true
 
 signal attack_requested(new_attack : PackedScene, t_position : Vector2, t_direction : Vector2, damage_boost : float)
-signal player_took_damage(damage : int, c_health : int, c_node : Node)
+signal player_took_damage(damage : float, c_health : int, c_node : Node)
 signal activate(player_node : Node)
 signal special(player_node : Node)
 signal swapped_color(player_node : Node)
@@ -204,7 +204,7 @@ func request_attack(t_weapon : Weapon) -> float:
 	t_weapon.request_attacks(attack_direction,global_position,self,weapon_node.flip)
 	return t_weapon.cooldown
 
-func take_damage(damage_amount : int, _dmg_owner : Node,_direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 20,creates_indicators : bool = true):
+func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 20,creates_indicators : bool = true):
 	if(i_frames <= 0) and not invulnerable:
 		i_frames = attack_i_frames
 		if check_drones():
@@ -224,7 +224,7 @@ func take_damage(damage_amount : int, _dmg_owner : Node,_direction = Vector2(0,-
 				if input_direction != Vector2.ZERO:
 					temp_move = move_speed
 				damage_amount *= (1.0-rem.variable_1_values[rem.rank-1]/100.0*((temp_move/base_move_speed)-1))
-				damage_amount = max(0,damage_amount)
+				damage_amount = max(0.0,damage_amount)
 			if rem.remnant_name == invest.remnant_name:
 				LayerManager.timefabric_collected-= LayerManager.timefabric_collected * (rem.variable_2_values[rem.rank-1])/100.0
 			if rem.remnant_name == emp.remnant_name and _dmg_owner and _dmg_owner.is_in_group("enemy"):
@@ -443,7 +443,7 @@ func check_liquids(delta):
 					current_liquid_time += delta
 					if current_liquid_time >= .25:
 						current_liquid_time -= .25
-						take_damage(2,null)
+						take_damage(2.0,null)
 					_check_hydromancer(Globals.Liquid.Lava)
 				Globals.Liquid.Conveyer:
 					position+=tile_data.get_custom_data("direction").normalized() *delta * 32
