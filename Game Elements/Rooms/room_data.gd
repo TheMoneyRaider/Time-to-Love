@@ -15,6 +15,8 @@ const room = preload("res://Game Elements/Rooms/room.gd")
 
 #the root node of each room MUST BE NAMED Root
 
+
+
 var sci_fi_rooms : Array[Room] = [room.Create_Room(
 "res://Game Elements/Rooms/sci_fi/factory1.tscn", 																				#Scene Location                       
 1,																																#Num Liquids
@@ -246,60 +248,53 @@ false,																															#Is a shop room?
 .75)]
 
 
-var sci_fi_shops : Array[Room]= []
-
-#var testing_room : Room = room.Create_Room(
-#"res://Game Elements/Rooms/western/canyon1.tscn", 																				#Scene Location                      
-#0,																																#Num Liquids
-#[],																																#Liquid Types 
-#[],																																#Liquid Chances                       
-#0,																																#Num Fillings              
-#[0],																															#Terrain Set                                      
-#[0],																															#Terrain ID                       
-#[],																																#Threshold            
-#randi(),																														#Noise Seed           
-#FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type       
-#.1,																																#Noise Frequency                        
-#0,																																#Num Traps              
-#[],																																#Trap Chances                                
-#[],																																#Trap Types                         
-#4,																																#Num Pathways                   
-#[Globals.Direction.Up,Globals.Direction.Right,Globals.Direction.Left, Globals.Direction.Down],									#Pathway Directions                       
-#3,																																#Enemy Num Goal                               
-#0,																																#NPC Spawnpoints   
-#false,																															#Is a shop room?
-#["res://Game Elements/Characters/robot.tscn"],																					#Enemies That can spawn in this room
-#[1.0],																															#Weights for those enemies to spawn
-#.25)																															#Chance for waves to be segmented
-#
-
-
-#var testing_room : Room = room.Create_Room(
-#"res://Game Elements/Rooms/western/canyon2.tscn", 																				#Scene Location                      
-#0,																																#Num Liquids
-#[],																																#Liquid Types 
-#[],																																#Liquid Chances                       
-#0,																																#Num Fillings              
-#[0],																															#Terrain Set                                      
-#[0],																															#Terrain ID                       
-#[],																																#Threshold            
-#randi(),																														#Noise Seed           
-#FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type       
-#.1,																																#Noise Frequency                        
-#4,																																#Num Traps              
-#[.75, .75, .75, .75],																												#Trap Chances                                
-#[Globals.Trap.Tile, Globals.Trap.Tile, Globals.Trap.Tile, Globals.Trap.Tile],													#Trap Types                         
-#4,																																#Num Pathways                   
-#[Globals.Direction.Up,Globals.Direction.Right,Globals.Direction.Left, Globals.Direction.Down],									#Pathway Directions                       
-#3,																																#Enemy Num Goal                               
-#0,																																#NPC Spawnpoints   
-#false,																															#Is a shop room?
-#["res://Game Elements/Characters/robot.tscn"],																					#Enemies That can spawn in this room
-#[1.0],																															#Weights for those enemies to spawn
-#.25)																															#Chance for waves to be segmented
-
-
-var testing_room : Room = room.Create_Room(
+var western_rooms : Array[Room] = [room.Create_Room(
+"res://Game Elements/Rooms/western/canyon1.tscn", 																				#Scene Location                      
+0,																																#Num Liquids
+[],																																#Liquid Types 
+[],																																#Liquid Chances                       
+0,																																#Num Fillings              
+[0],																															#Terrain Set                                      
+[0],																															#Terrain ID                       
+[],																																#Threshold            
+randi(),																														#Noise Seed           
+FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type       
+.1,																																#Noise Frequency                        
+0,																																#Num Traps              
+[],																																#Trap Chances                                
+[],																																#Trap Types                         
+4,																																#Num Pathways                   
+[Globals.Direction.Up,Globals.Direction.Right,Globals.Direction.Left, Globals.Direction.Down],									#Pathway Directions                       
+3,																																#Enemy Num Goal                               
+0,																																#NPC Spawnpoints   
+false,																															#Is a shop room?
+["res://Game Elements/Characters/robot.tscn"],																					#Enemies That can spawn in this room
+[1.0],																															#Weights for those enemies to spawn
+.25),
+room.Create_Room(
+"res://Game Elements/Rooms/western/canyon2.tscn", 																				#Scene Location                      
+0,																																#Num Liquids
+[],																																#Liquid Types 
+[],																																#Liquid Chances                       
+0,																																#Num Fillings              
+[0],																															#Terrain Set                                      
+[0],																															#Terrain ID                       
+[],																																#Threshold            
+randi(),																														#Noise Seed           
+FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type       
+.1,																																#Noise Frequency                        
+4,																																#Num Traps              
+[.75, .75, .75, .75],																												#Trap Chances                                
+[Globals.Trap.Tile, Globals.Trap.Tile, Globals.Trap.Tile, Globals.Trap.Tile],													#Trap Types                         
+4,																																#Num Pathways                   
+[Globals.Direction.Up,Globals.Direction.Right,Globals.Direction.Left, Globals.Direction.Down],									#Pathway Directions                       
+3,																																#Enemy Num Goal                               
+0,																																#NPC Spawnpoints   
+false,																															#Is a shop room?
+["res://Game Elements/Characters/robot.tscn"],																					#Enemies That can spawn in this room
+[1.0],																															#Weights for those enemies to spawn
+.25),
+room.Create_Room(
 "res://Game Elements/Rooms/western/canyon3.tscn", 																				#Scene Location                      
 0,																																#Num Liquids
 [],																																#Liquid Types 
@@ -316,7 +311,33 @@ FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type
 [Globals.Trap.Tile, Globals.Trap.Tile],																																#Trap Types                         
 4,																																#Num Pathways                   
 [Globals.Direction.Up,Globals.Direction.Right,Globals.Direction.Left, Globals.Direction.Down],									#Pathway Directions                       
-10,																																#Enemy Num Goal                               
+800,																																#Enemy Num Goal                               
+0,																																#NPC Spawnpoints   
+false,																															#Is a shop room?
+["res://Game Elements/Characters/dynamEnemy.tscn"],																				#Enemies That can spawn in this room
+[1.0],																															#Weights for those enemies to spawn
+.25)]
+
+var sci_fi_shops : Array[Room]= []
+
+var testing_room : Room = room.Create_Room(
+"res://Game Elements/Rooms/western/canyon4.tscn", 																				#Scene Location                      
+0,																																#Num Liquids
+[],																																#Liquid Types 
+[],																																#Liquid Chances                       
+0,																																#Num Fillings              
+[0],																															#Terrain Set                                      
+[0],																															#Terrain ID                       
+[],																																#Threshold            
+randi(),																														#Noise Seed           
+FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type       
+.1,																																#Noise Frequency                        
+0,																																#Num Traps              
+[],																																#Trap Chances                                
+[],																																#Trap Types                         
+4,																																#Num Pathways                   
+[Globals.Direction.Up,Globals.Direction.Right,Globals.Direction.Left, Globals.Direction.Down],									#Pathway Directions                       
+4,																																#Enemy Num Goal                               
 0,																																#NPC Spawnpoints   
 false,																															#Is a shop room?
 ["res://Game Elements/Characters/dynamEnemy.tscn"],																				#Enemies That can spawn in this room

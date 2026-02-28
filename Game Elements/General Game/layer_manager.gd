@@ -2,7 +2,7 @@ extends Node2D
 const room = preload("res://Game Elements/Rooms/room.gd")
 const room_data = preload("res://Game Elements/Rooms/room_data.gd")
 @onready var timefabric = preload("res://Game Elements/Objects/time_fabric.tscn")
-@onready var sci_fi_layer : Array[Room] = room_data.new().sci_fi_rooms
+@onready var sci_fi_layer : Array[Room] = room_data.new().western_rooms
 @onready var sci_fi_layer_shops : Array[Room] = room_data.new().sci_fi_shops
 @onready var testing_room : Room = room_data.new().testing_room
 @onready var reward_num : Array = [1.0,1.0,1.0,1.0,1.0,1.0]
