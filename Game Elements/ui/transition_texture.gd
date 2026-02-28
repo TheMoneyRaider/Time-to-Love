@@ -1,4 +1,4 @@
-extends Control
+extends CanvasLayer
 @export var fade_duration: float = 0.5  # seconds
 
 func _ready():

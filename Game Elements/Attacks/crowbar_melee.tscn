@@ -1,0 +1,154 @@
+[gd_scene load_steps=7 format=3 uid="uid://c3cqpiuy6kil0"]
+
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_3jqd2"]
+[ext_resource type="Texture2D" uid="uid://dnq6k6c24f746" path="res://art/weapons/crowbar/swing.png" id="2_3jqd2"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_184y7"]
+radius = 21.0
+height = 56.0
+
+[sub_resource type="Animation" id="Animation_2bkad"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:shape:radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [21.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionShape2D:shape:height")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [56.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CollisionShape2D:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -19)]
+}
+
+[sub_resource type="Animation" id="Animation_rj53r"]
+resource_name = "swing"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0199875, 0.039975, 0.0599625, 0.07995, 0.0999375, 0.119925, 0.13991249, 0.15990001, 0.1798875),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:shape:radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.031091666, 0.044416666, 0.07106667, 0.08883333, 0.14213334, 0.17766666),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [4.000001, 7.000001, 9.0, 9.0, 13.0, 13.0, 7.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionShape2D:shape:height")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.031091666, 0.044416666, 0.07106667, 0.08883333, 0.14213334, 0.17766666),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [10.0, 16.0, 27.999998, 38.0, 44.0, 28.0, 22.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CollisionShape2D:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.031607423, 0.04295368, 0.07212976, 0.08883333, 0.14213334, 0.17766666),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-17, -19), Vector2(-17, -19), Vector2(-10, -17), Vector2(-5, -18), Vector2(0, -16), Vector2(4, -19), Vector2(6, -23)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_svp3b"]
+_data = {
+&"RESET": SubResource("Animation_2bkad"),
+&"swing": SubResource("Animation_rj53r")
+}
+
+[node name="Crowbar" type="Area2D"]
+z_index = 20
+y_sort_enabled = true
+scale = Vector2(0.6, 0.6)
+collision_layer = 8
+collision_mask = 47
+script = ExtResource("1_3jqd2")
+speed = 0.0
+damage = 3.0
+lifespan = 0.2
+knockback_force = 200.0
+cooldown = 0.3
+pierce = -2.0
+wall_collision = false
+attack_type = "crowbar_melee"
+deflects = true
+animation = "swing"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -19)
+rotation = 1.5707964
+scale = Vector2(1.25, 1.25)
+shape = SubResource("CapsuleShape2D_184y7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = -1.2217305
+texture = ExtResource("2_3jqd2")
+hframes = 10
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_svp3b")
+}
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

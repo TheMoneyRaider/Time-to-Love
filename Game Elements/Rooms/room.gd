@@ -48,8 +48,10 @@ var pathway_direction : Array[Globals.Direction] = []
 var num_enemy_goal : int
 #NPC spawnpoints. Node to be labeled NPC#
 var num_npc_spawnpoints : int
-#Shop spawnpoint. Node to be labeled Shop
-var has_shop : bool
+#Type of Room
+var roomtype : Globals.RoomType
+#Variant of Room
+var roomvariant : Globals.RoomVariant
 #The different enemies this room can have
 var enemy_pool : Array[String]
 #The chances for each enemy to spawn in this room
@@ -75,7 +77,8 @@ t_num_pathways : int,
 t_pathway_direction : Array[Globals.Direction], 
 t_num_enemy_goal : int, 
 t_num_npc_spawnpoints : int, 
-t_has_shop : bool,
+t_roomtype : Globals.RoomType,
+t_roomvariant : Globals.RoomVariant,
 t_enemy_pool : Array[String],
 t_enemy_chances : Array[float],
 t_wave_segment : float
@@ -102,7 +105,8 @@ t_wave_segment : float
 	new_room.pathway_direction = t_pathway_direction
 	new_room.num_enemy_goal = t_num_enemy_goal
 	new_room.num_npc_spawnpoints = t_num_npc_spawnpoints
-	new_room.has_shop = t_has_shop
+	new_room.roomtype = t_roomtype
+	new_room.roomvariant = t_roomvariant
 	new_room.enemy_pool = t_enemy_pool
 	new_room.enemy_chances = t_enemy_chances
 	new_room.wave_segment = t_wave_segment

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=4 format=3 uid="uid://b1fc1v433w4if"]
+
+[ext_resource type="Texture2D" uid="uid://b1uk3yiytp2ul" path="res://art/weapons/crowbar/crowbar_outline.png" id="1_5egvg"]
+[ext_resource type="Script" uid="uid://dv58kn64xuqjd" path="res://Game Elements/Weapons/Weapon.gd" id="2_t0igp"]
+[ext_resource type="Texture2D" uid="uid://de4x2t3g0dybl" path="res://art/weapons/crowbar/crowbar.png" id="3_t0igp"]
+
+[resource]
+script = ExtResource("2_t0igp")
+type = "Crowbar"
+cooldown_icon = ExtResource("1_5egvg")
+weapon_sprite = ExtResource("3_t0igp")
+random_spread = false
+attack_type = "crowbar_melee"
+attack_scene = "res://Game Elements/Attacks/crowbar_melee.tscn"
+special_attack_scene = "res://Game Elements/Attacks/ls_range.tscn"
+spawn_distance = 0.0
+special_hits = 15
+special_on_release = false

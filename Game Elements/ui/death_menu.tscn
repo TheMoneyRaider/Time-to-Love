@@ -9,7 +9,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dydff"]
 shader = ExtResource("2_mh5qr")
 shader_parameter/time = 0.0
-shader_parameter/intensity = 0.0
+shader_parameter/intensity = 1.0
 
 [node name="DeathMenu" type="CanvasLayer"]
 process_mode = 3

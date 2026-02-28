@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://8au2lqvnboiw"]
+
+[ext_resource type="Texture2D" uid="uid://by0rhlyefejio" path="res://art/remnants/aeromancer.png" id="1_7axxn"]
+[ext_resource type="Texture2D" uid="uid://bddf30v8tr46m" path="res://art/remnants/aeromancer_orb.png" id="2_vt3b7"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_omujo"]
+
+[resource]
+script = ExtResource("3_omujo")
+remnant_name = "Remnant of the Aeromancer"
+description = "Ranged attacks inherit $X% of your velocity. Melee attacks inherit half of that."
+icon = ExtResource("2_vt3b7")
+art = ExtResource("1_7axxn")
+variable_names = Array[String](["$X", "$Y"])
+variable_1_values = [50.0, 100.0, 150.0, 200.0, 250.0]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

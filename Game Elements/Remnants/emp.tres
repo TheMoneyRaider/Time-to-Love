@@ -10,6 +10,7 @@ remnant_name = "Remnant of E.M.P"
 description = "When you take damage, release a pulse that stuns nearby enemies for $Y seconds."
 icon = ExtResource("2_m45qq")
 art = ExtResource("1_4lk6b")
+tags = Array[String](["sci-fi"])
 variable_names = Array[String](["$Y"])
 variable_1_values = [0.5, 1.0, 1.5, 2.0, 2.5]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://rawhoxpikpyp" path="res://art/title_assets/grainy_background_visual.png" id="7_5x5iw"]
 [ext_resource type="Shader" uid="uid://df6is5vss0kty" path="res://Game Elements/ui/resources/timelines.gdshader" id="8_3n0va"]
 [ext_resource type="StyleBox" uid="uid://4eubuwqyfxh3" path="res://Game Elements/ui/resources/4-2_button.tres" id="8_xt5ys"]
-[ext_resource type="Texture2D" uid="uid://eifbgnatdh4i" path="res://art/gradiant_dot3.png" id="9_xt5ys"]
+[ext_resource type="Texture2D" uid="uid://eifbgnatdh4i" path="res://art/particles/gradiant_dot3.png" id="9_xt5ys"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3n0va"]
 shader = ExtResource("8_3n0va")

@@ -19,10 +19,9 @@ func _process(_delta: float) -> void:
 func _on_body_entered(body):
 	if body.has_method("take_damage") and _crafter_chance(body):
 		body.take_damage(3, null,Vector2(0,-1),self)
-		var fire = preload("res://Game Elements/particles/fire_damage.tscn").instantiate()
+		var fire = preload("res://Game Elements/Particles/fire_damage.tscn").instantiate()
 		fire.position = body.position
 		get_parent().add_child(fire)
-		fire.emitting = true
 
 		
 func _crafter_chance(node_to_damage : Node) -> bool:
@@ -38,7 +37,7 @@ func _crafter_chance(node_to_damage : Node) -> bool:
 	for rem in remnants:
 		if rem.remnant_name == crafter.remnant_name:
 			if rem.variable_1_values[rem.rank-1] > randf()*100:
-				var particle =  load("res://Game Elements/Effects/crafter_particles.tscn").instantiate()
+				var particle =  load("res://Game Elements/Particles/crafter_particles.tscn").instantiate()
 				particle.position = self.position
 				get_parent().add_child(particle)
 				return false

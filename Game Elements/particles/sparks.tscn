@@ -1,0 +1,67 @@
+[gd_scene load_steps=13 format=3 uid="uid://cgndh64r4q76o"]
+
+[ext_resource type="Texture2D" uid="uid://cugblfkxmtvhu" path="res://art/particles/spark.png" id="1_yss0v"]
+[ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/Particles/effect_particles.gd" id="2_koqeg"]
+
+[sub_resource type="Gradient" id="Gradient_t20vv"]
+offsets = PackedFloat32Array(0, 0.13387978, 0.5136612, 0.6393443, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.9014503, 0.73730105, 3.85046e-07, 1, 0.957526, 0.8220268, 0, 1, 0.5978338, 0.26128513, 9.62615e-08, 1, 0.38929528, 0.005679555, 1.6845763e-07, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5xhsf"]
+gradient = SubResource("Gradient_t20vv")
+
+[sub_resource type="Curve" id="Curve_nju7d"]
+_data = [Vector2(0, 1), 0.0, 0.1195399, 0, 0, Vector2(0.26020408, 1), -6.4902844e-07, -6.4902844e-07, 0, 0, Vector2(1, 0), -3.1296098, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_uugi2"]
+curve = SubResource("Curve_nju7d")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_v6oxj"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 32.0
+initial_velocity_max = 64.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.14999999
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_uugi2")
+color_ramp = SubResource("GradientTexture1D_5xhsf")
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 1.0
+collision_use_scale = true
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_nju7d"]
+gradient = SubResource("Gradient_t20vv")
+
+[sub_resource type="Gradient" id="Gradient_uugi2"]
+offsets = PackedFloat32Array(0, 0.28752643, 0.6393443, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.7888689, 0.4260745, 0.96597046, 1, 0.14356753, 0.38605317, 1, 1, 0, 0.2176145, 0.42900613, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_j5151"]
+gradient = SubResource("Gradient_uugi2")
+
+[sub_resource type="Gradient" id="Gradient_ipg83"]
+offsets = PackedFloat32Array(0, 0.13387978, 0.5136612, 0.6393443, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.9014503, 0.73730105, 3.85046e-07, 1, 0.957526, 0.8220268, 0, 1, 0.5978338, 0.26128513, 9.62615e-08, 1, 0.38929528, 0.005679555, 1.6845763e-07, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_0xwad"]
+gradient = SubResource("Gradient_ipg83")
+
+[node name="Sparks" type="GPUParticles2D"]
+z_index = 19
+y_sort_enabled = true
+emitting = false
+amount = 5
+texture = ExtResource("1_yss0v")
+lifetime = 1.2
+one_shot = true
+explosiveness = 1.0
+collision_base_size = 0.0
+process_material = SubResource("ParticleProcessMaterial_v6oxj")
+script = ExtResource("2_koqeg")
+color_range1 = SubResource("GradientTexture1D_nju7d")
+color_range2 = SubResource("GradientTexture1D_j5151")
+color_range3 = SubResource("GradientTexture1D_0xwad")
+range_choice = 0

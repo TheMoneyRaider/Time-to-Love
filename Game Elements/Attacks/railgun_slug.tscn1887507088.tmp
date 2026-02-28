@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://c57ymw41kkp40"]
+
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_ndl7l"]
+[ext_resource type="Texture2D" uid="uid://deityyr88ktos" path="res://art/weapons/railgun/railgun_slug.png" id="2_ndl7l"]
+[ext_resource type="Script" uid="uid://cnnrfhufpns66" path="res://Game Elements/Attacks/slug.gd" id="3_ngpv0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e1io4"]
+size = Vector2(2, 28)
+
+[node name="Area2D" type="Area2D"]
+collision_layer = 8
+collision_mask = 38
+script = ExtResource("1_ndl7l")
+damage = 5.0
+lifespan = 2.0
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "slug"
+deflectable = true
+repeat_hits = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_e1io4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 4.7683716e-07)
+scale = Vector2(1, 1.25)
+texture = ExtResource("2_ndl7l")
+
+[node name="Bolt" type="RigidBody2D" parent="." groups=["attack"]]
+z_index = 20
+y_sort_enabled = true
+collision_layer = 8
+script = ExtResource("3_ngpv0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bolt"]
+shape = SubResource("RectangleShape2D_e1io4")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

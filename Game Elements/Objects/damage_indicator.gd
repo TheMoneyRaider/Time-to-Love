@@ -37,14 +37,32 @@ func _process(delta: float) -> void:
 	
 func set_values(c_owner : Node = null, attack : Node = null, attack_owner : Node = null, value : int = 7, direction : Vector2 = Vector2.UP,size : int = 64, override_color : Color = Color(0.267, 0.394, 0.394, 1.0)) -> void:
 	
+	print("Damage: "+str(value)+" C Owner: "+str(c_owner)+" attack: "+str(attack)+" attack_owner: "+str(attack_owner))
+	
 	var orig_len = 100
 	#Position based on attack and damage owner collision shapes
 	if attack:
 		position = attack.position
+	else:
+		position = c_owner.position
 	if c_owner and attack:
 		var new_pos = intersection_center(c_owner,attack)
 		if new_pos != Vector2.ZERO:
 			position= new_pos
+	
+			
+			
+	if attack and "attack_type" in attack and attack.attack_type=="laser":
+		var sparks = preload("res://Game Elements/Particles/sparks_enemy.tscn").instantiate()
+		if attack.c_owner and attack.c_owner.is_in_group("player"):
+			sparks.range_choice = 1
+		get_parent().add_child(sparks)
+		sparks.global_position = global_position
+	if attack and "attack_type" in attack and attack.attack_type=="crowbar_melee":
+		var crow = preload("res://Game Elements/Particles/crowbar_hit.tscn").instantiate()
+		get_parent().add_child(crow)
+		crow.global_position = global_position
+		crow.rotation = attack.direction.angle()+PI/2 +deg_to_rad(randf_range(-40,40))
 		
 	
 	var color = Color(0.564, 0.0, 0.061, 1.0)

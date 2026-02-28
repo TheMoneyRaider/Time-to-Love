@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://nnb0fsf5jvvd"]
 
 [ext_resource type="Script" uid="uid://b5rk25lsvl4jb" path="res://Game Elements/Objects/moving_target.gd" id="1_xivx2"]
-[ext_resource type="Texture2D" uid="uid://binx3rvrf87r" path="res://art/gradiant_dot2.png" id="2_ml7jn"]
+[ext_resource type="Texture2D" uid="uid://binx3rvrf87r" path="res://art/particles/gradiant_dot2.png" id="2_ml7jn"]
 
 [node name="MovingTarget" type="Node2D"]
 z_index = 40

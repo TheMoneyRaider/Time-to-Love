@@ -10,6 +10,7 @@ remnant_name = "Remnant of Computer Hack"
 description = "Enemy attacks have a $X% chance to hit other enemies"
 icon = ExtResource("2_fsm7q")
 art = ExtResource("1_hirxq")
+tags = Array[String](["sci-fi"])
 variable_names = Array[String](["$X"])
 variable_1_values = [2, 4, 8, 12, 16]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

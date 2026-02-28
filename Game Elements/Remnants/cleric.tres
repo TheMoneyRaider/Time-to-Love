@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://cjhrcacnh878s"]
+
+[ext_resource type="Texture2D" uid="uid://ctqsomddtcmpi" path="res://art/remnants/cleric_remannt.png" id="1_fypg4"]
+[ext_resource type="Texture2D" uid="uid://bc1ubv2dkymp5" path="res://art/remnants/cleric_orb.png" id="2_6lbgm"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_2xa3r"]
+
+[resource]
+script = ExtResource("3_2xa3r")
+remnant_name = "Remnant of the Cleric"
+description = "$X% Chance to heal $Y health after taking damage"
+icon = ExtResource("2_6lbgm")
+art = ExtResource("1_fypg4")
+variable_names = Array[String](["$X", "$Y"])
+variable_1_values = [30, 40, 50, 50, 50]
+variable_2_values = [1, 1, 1, 2, 3]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

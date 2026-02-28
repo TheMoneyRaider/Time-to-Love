@@ -10,6 +10,7 @@ remnant_name = "Remnant of Shido"
 description = "Each Remnant has a $X% chance to increase in rank upon changing timelines."
 icon = ExtResource("2_c4gvm")
 art = ExtResource("1_o554u")
+tags = Array[String](["sci-fi"])
 variable_names = Array[String](["$X"])
 variable_1_values = [3, 6, 9, 12, 15]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

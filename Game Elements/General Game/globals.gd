@@ -12,14 +12,20 @@ var config_safe = false
 var config_path := "user://settings.cfg"
 
 enum MenuState {Western, Space, Horror, Medieval}
+
+enum RoomVariant {MedOut, MedIn, WesternCanyon, WesternTown, HorrorDocks, HorrorMansion, SciFiCyberspace, SciFiFactory}
+enum RoomType {Buffer, Combat, Shop, Boss, Misc}
+
 enum Liquid {Buffer, Water, Lava, Acid, Conveyer, Glitch} #Don't mess with the buffer
 enum Direction {Up, Right, Left, Down, Error}
 enum Trap {Tile, Spike, Fire}
-enum Reward {TimeFabric, Remnant, RemnantUpgrade, HealthUpgrade, Health, Shop}
+enum Reward {TimeFabric, Remnant, RemnantUpgrade, HealthUpgrade, Health, Shop, Boss}
+
 
 var menu : MenuState
 
 func _ready():
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	var err = load_config()
 	if err == OK:
 		config_safe=true

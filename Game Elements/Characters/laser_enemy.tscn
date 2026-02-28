@@ -51,8 +51,8 @@ display_damage = false
 agro_distance = 500.0
 enemy_type = "laser_e"
 displays = Array[NodePath]([NodePath("Segment1/Sprite2D"), NodePath("Segment2/Sprite2D")])
-min_timefabric = 12
-max_timefabric = 25
+min_timefabric = 20
+max_timefabric = 40
 move_speed = 150.0
 weapon_cooldowns = Array[float]([0.0])
 hitable = false
@@ -116,7 +116,7 @@ render_target_update_mode = 4
 
 [node name="LaserBeam" type="Line2D" parent="SubViewportContainer/SubViewport"]
 y_sort_enabled = true
-points = PackedVector2Array(246, 256, 265, 256)
+points = PackedVector2Array(246, 256, 3035, 796)
 default_color = Color(1, 0, 0, 1)
 script = ExtResource("4_h87mk")
 power_curve = SubResource("Curve_h87mk")

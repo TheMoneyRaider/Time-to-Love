@@ -1,12 +1,53 @@
-[gd_scene load_steps=3 format=3 uid="uid://wymaxwjxh1tp"]
+[gd_scene load_steps=5 format=3 uid="uid://wymaxwjxh1tp"]
 
 [ext_resource type="Script" uid="uid://b8lj8jb4ye2c4" path="res://Game Elements/Weapons/weapon_sprite.gd" id="1_56kly"]
-[ext_resource type="Texture2D" uid="uid://bgt0rbmptp3qg" path="res://art/weapons/laser_sword/laser_sword.png" id="2_56kly"]
+
+[sub_resource type="Animation" id="Animation_lpiuj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_56kly"]
+resource_name = "idle_rail"
+length = 3.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.30000004, 0.45000008, 0.6, 0.75, 0.9000001, 1.0500001, 1.2, 1.35, 1.5, 1.65, 1.7999998, 1.9500003, 2.1000001),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6xtuq"]
+_data = {
+&"RESET": SubResource("Animation_lpiuj"),
+&"idle_rail": SubResource("Animation_56kly")
+}
 
 [node name="WeaponSprite" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_56kly")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_56kly")
 centered = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_6xtuq")
+}

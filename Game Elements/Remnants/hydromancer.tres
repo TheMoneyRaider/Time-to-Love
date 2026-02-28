@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://b3tfx4ec2844u"]
+
+[ext_resource type="Texture2D" uid="uid://dh0j0xnieubm8" path="res://art/remnants/hydromancer.png" id="1_7o63u"]
+[ext_resource type="Texture2D" uid="uid://cas13ria8mcoi" path="res://art/remnants/hydromancer_orb.png" id="2_538ff"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_3phi2"]
+
+[resource]
+script = ExtResource("3_3phi2")
+remnant_name = "Remnant of the Hydromancer"
+description = "Next attack gains a $X effect after touching a liquid"
+icon = ExtResource("2_538ff")
+art = ExtResource("1_7o63u")
+variable_names = Array[String](["$X", "$Y"])
+variable_1_values = ["Miniscule", "Small", "Moderate", "Large", "Giant"]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

@@ -140,14 +140,6 @@ func _tick(delta: float) -> Status:
 		
 	
 	
-	
-	#var p_index = blackboard.get_var("player_idx")
-	#var players = agent.get_tree().get_nodes_in_group("player")
-	#var current_player_pos: Vector2 = players[p_index].global_position if players else Vector2.ZERO
-	#var target_pos = blackboard.get_var("target_pos")
-	#
-	#agent.handle_attack(current_player_pos)
-	
 	return RUNNING
 
 func proc_finish(r_status: Status) -> Status:

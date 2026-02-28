@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://crr1nh7vtm0fe"]
+
+[ext_resource type="Shader" uid="uid://corxu8ees2ktr" path="res://Game Elements/Attacks/laser_shader.gdshader" id="1_6w2gy"]
+[ext_resource type="Script" uid="uid://dcnvtsxav7mo5" path="res://Game Elements/Attacks/laser_special.gd" id="2_mv61f"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m6xb1"]
+shader = ExtResource("1_6w2gy")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/outline_size = 1.0
+shader_parameter/alpha_threshold = 0.0
+shader_parameter/outline_samples = 4
+shader_parameter/shade_color = Color(1, 1, 1, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_6w2gy"]
+colors = PackedColorArray(6.738305e-07, 0.5753792, 0.8188193, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mv61f"]
+gradient = SubResource("Gradient_6w2gy")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.491453)
+fill_to = Vector2(0.5, 0)
+
+[node name="SubViewportContainer" type="SubViewportContainer"]
+z_index = 21
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_m6xb1")
+offset_left = -1024.0
+offset_top = -1024.0
+offset_right = 1024.0
+offset_bottom = 1024.0
+script = ExtResource("2_mv61f")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(2048, 2048)
+render_target_update_mode = 4
+
+[node name="LaserBeam" type="Line2D" parent="SubViewport"]
+y_sort_enabled = true
+points = PackedVector2Array(1147, 1091, 1036, 1040)
+width = 4.0
+default_color = Color(1.0588765e-05, 0.5855605, 0.9533066, 1)
+
+[node name="Light" type="PointLight2D" parent="."]
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_mv61f")

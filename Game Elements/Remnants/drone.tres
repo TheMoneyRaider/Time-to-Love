@@ -10,6 +10,7 @@ remnant_name = "Remnant of Drone Swarm"
 description = "When you kill an enemy, you gain a drone that can block one enemy attack. Your drones will last $X seconds, and you can have up to $Y of them"
 icon = ExtResource("2_bmfae")
 art = ExtResource("1_7c6hm")
+tags = Array[String](["sci-fi"])
 variable_names = Array[String](["$X", "$Y"])
 variable_1_values = [3, 6, 10, 16, 24]
 variable_2_values = [1, 2, 3, 4, 5]

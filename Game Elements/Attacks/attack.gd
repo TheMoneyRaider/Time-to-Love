@@ -9,6 +9,8 @@ var direction = Vector2.RIGHT
 #How long attack lasts in seconds before despawning
 @export var hit_force = 0.0
 #How much speed it adds to deflected objects
+@export var knockback_force = 100.0
+#How much it knocksback enemies
 @export var start_lag = 0.0
 #How much time after pressing attack does the attack start in seconds
 @export var cooldown = .5
@@ -16,6 +18,8 @@ var direction = Vector2.RIGHT
 @export var pierce = 0.0
 #If the attack can hit walls
 @export var wall_collision = true
+#If the attack damages walls
+@export var wall_damage = false
 var hit_nodes = {}
 #The attack type
 @export var attack_type : String = ""
@@ -23,6 +27,10 @@ var hit_nodes = {}
 @export var deflects : bool = false
 @export var i_frames : int = 20
 @export var c_owner: Node = null
+@export var repeat_hits : bool = false
+@export var creates_indicators : bool = true
+@export var spawn_particle : PackedScene = null
+@export var animation : String = ""
 var combod : bool = false
 var is_purple : bool = false
 
@@ -34,8 +42,11 @@ var intelligence : Remnant = null
 
 var LayerManager : Node = null
 
+var special_nodes : Array[Node] = []
+
 #Special Variables
 var life = 0.0
+var last_liquid : Globals.Liquid = Globals.Liquid.Buffer
 
 #Multiplies the Speed, Damage, Lifespan adn Hit_Force of attack by given values
 func mult(speed_mult, damage_mult = 1, lifespan_mult = 1, hit_force_mult = 1):
@@ -69,23 +80,35 @@ func _ready():
 	if start_lag > 0.0:
 		await get_tree().create_timer(start_lag).timeout
 	frozen = false
-	if attack_type == "robot melee":
-		$AnimationPlayer.play("main")
-	if attack_type == "ls_melee":
-		$AnimationPlayer.play("swing")
-	if attack_type == "emp":
-		$AnimationPlayer.play("explode")
-	
+	if spawn_particle:
+		var inst = spawn_particle.instantiate()
+		inst.global_position = global_position
+		if attack_type!="crowbar_explosion":
+			inst.rotation = direction.angle()
+		get_parent().add_child(inst)
+	if animation!= "" and $AnimationPlayer:
+		$AnimationPlayer.play(animation)
 	if attack_type == "death mark":
 		if c_owner.is_purple:
 			$Sprite2D.texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_purple.png")
 		else:
 			$Sprite2D.texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_orange.png")
 	rotation = direction.angle() + PI/2
+	if attack_type == "explosion":
+		rotation = 0
+	if attack_type == "slug":
+		special_nodes.append(load("res://Game Elements/Attacks/slug_seperate.tscn").instantiate())
+		special_nodes[-1].global_position = global_position
+		special_nodes[-1].global_rotation = global_rotation
+		get_parent().add_child(special_nodes[-1])
+		special_nodes[-1].setup(self)
+	
 
 
 
 func change_direction():
+	if debug_draw_detection:
+		_debug_rays.clear()
 	var enemies = {}
 	
 	var dist_scale = intelligence.variable_2_values[intelligence.rank-1]
@@ -106,8 +129,27 @@ func change_direction():
 		if angle <= max_angle:
 			# lower score = better
 			var score = dist + angle/max_angle
-			enemies[enemy] = score
+			var ray = cast_ray(global_position, to_enemy.normalized(), 1600, self)
+			if dist * dist_scale <= (ray.position -global_position).length() / 16.0:
+				enemies[enemy] = score
+				if debug_draw_detection:
+					_debug_rays.append({
+						"from": global_position,
+						"to": enemy.global_position,
+						"hit": true,
+						"score": score
+					})
+			elif debug_draw_detection:
+				_debug_rays.append({
+					"from": global_position,
+					"to": ray.position,
+					"hit": false,
+					"score": 0.0
+				})
+				
 
+	if debug_draw_detection:
+		queue_redraw()
 	if enemies.is_empty():
 		return
 	#Pick best enemy
@@ -125,19 +167,45 @@ func change_direction():
 		var angle_ratio = clamp(turn_strength/ float(angle),0.0,1.0)
 		direction = lerp(direction, to_enemy, angle_ratio)
 		rotation = direction.angle() + PI/2
-		
+
+func cast_ray(origin: Vector2, in_direction: Vector2, distance: float, player_node : Node) -> Dictionary:
+	var space = player_node.get_world_2d().direct_space_state
+	var query = PhysicsRayQueryParameters2D.create(origin - in_direction, origin + in_direction * distance)
+	query.collide_with_areas = false
+	query.collide_with_bodies = true
+	query.collision_mask = 1 << 0
+	return space.intersect_ray(query)
+
+var _debug_rays : Array = []   # [{from, to, hit, score}]
+@export var debug_draw_detection := false
+func _draw() -> void:
+	if !debug_draw_detection:
+		return
+
+	for r in _debug_rays:
+		var from_local = to_local(r.from)
+		var to_local_pos = to_local(r.to)
+
+		var color = Color.RED if !r.hit else Color.GREEN
+		color.a = 1.0-(r.score / 2.0)
+
+		draw_line(from_local, to_local_pos, color, 2.0)
+		draw_circle(to_local_pos, 3.0, color)
+	
 
 func _process(delta):
 	if attack_type == "ls_melee":
 		global_position = c_owner.global_position
-	if intelligence and speed > 0:
+	if intelligence and speed > 0 and attack_type != "slug":
 		change_direction()
 	if frozen:
 		return
 	if attack_type == "laser":
-		for body in get_overlapping_bodies():
-			intersection(body)
-	position += direction * speed * delta
+		if has_method("get_overlapping_bodies"):
+			for body in get_overlapping_bodies():
+				intersection(body)
+	if attack_type != "slug":
+		position += direction * speed * delta
 	life+=delta
 	if attack_type == "smash":
 		get_node("CollisionShape2D").shape.radius = lerp(8,16,life/lifespan)
@@ -145,6 +213,8 @@ func _process(delta):
 		return
 	if attack_type == "death mark":
 		c_owner.die(true,true)
+	for node in special_nodes:
+		node.queue_free()
 	queue_free()
 	
 func apply_damage(body : Node, n_owner : Node, damage_dealt : int, a_direction: Vector2) -> int:
@@ -164,9 +234,10 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : int, a_direction: 
 	if !n_owner.is_in_group("player") and !body.is_in_group("player"):
 		return 0
 	if body.has_method("take_damage"):
-		body.take_damage(damage_dealt,n_owner,a_direction,self, i_frames)
+		body.take_damage(damage_dealt,n_owner,a_direction,self, i_frames,creates_indicators)
 		return 1
-	get_tree().get_root().get_node("LayerManager")._damage_indicator(0, n_owner,a_direction, self,null)
+	if wall_damage:
+		get_tree().get_root().get_node("LayerManager")._damage_indicator(0, n_owner,a_direction, self,null)
 	return -1
 	
 
@@ -199,6 +270,11 @@ func intersection(body):
 
 
 func _on_body_entered(body):
+	if body.is_in_group("player") and attack_type == "slug" and body == c_owner:
+		c_owner.cooldowns[is_purple as int]=max(c_owner.cooldowns[is_purple as int]-3,0.0)
+		special_nodes[-1].queue_free()
+		queue_free()
+		return
 	intersection(body)
 
 func deflect(hit_direction, hit_speed, deflection_area):
@@ -224,12 +300,12 @@ func _on_area_entered(area: Area2D) -> void:
 		if area.attack_type =="laser":
 			if area.life > .5:
 				return
-			area.c_owner.take_damage(self.damage,c_owner,direction,self)
+			area.c_owner.take_damage(self.damage,c_owner,direction,self,creates_indicators)
 		if area.attack_type =="binary_melee":
 			print("DEFLECT")
 			area.c_owner.get_node("Core")._deflect_melee_attack()
-			area.c_owner.take_damage(self.damage,c_owner,direction,self)
-			area.c_owner.take_damage(self.damage,c_owner,direction,self)
+			area.c_owner.take_damage(self.damage,c_owner,direction,self,creates_indicators)
+			area.c_owner.take_damage(self.damage,c_owner,direction,self,creates_indicators)
 			return
 		area.deflect(direction, hit_force,self)
 		area.c_owner = c_owner
@@ -242,6 +318,5 @@ func _on_area_entered(area: Area2D) -> void:
 
 
 func _on_body_exited(body: Node2D) -> void:
-	if attack_type != "forcefield":
-		return
-	hit_nodes.erase(body)
+	if repeat_hits:
+		hit_nodes.erase(body)

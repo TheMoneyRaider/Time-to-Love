@@ -44,15 +44,15 @@ func _process(_delta):
 				hover_index2 = hover_index1
 				hover_index1 = -1
 	for i in range(slot_nodes.size()):
-		slot_nodes[i].outline_remnant(slot_nodes[i].btn_select.get_node("TextureRect"), Color.GREEN, 0.0)
+		slot_nodes[i].outline_remnant(Color.GREEN, 0.0)
 	if hover_index2!=-1:
-		slot_nodes[hover_index2].outline_remnant(slot_nodes[hover_index2].btn_select.get_node("TextureRect"), Color.ORANGE, .5)
+		slot_nodes[hover_index2].outline_remnant( Color.ORANGE, .5)
 	if hover_index1!=-1:
-		slot_nodes[hover_index1].outline_remnant(slot_nodes[hover_index1].btn_select.get_node("TextureRect"), Color.PURPLE, .5)
+		slot_nodes[hover_index1].outline_remnant(Color.PURPLE, .5)
 	if selected_index1 != -1:
-		slot_nodes[selected_index1].outline_remnant(slot_nodes[selected_index1].btn_select.get_node("TextureRect"), Color.PURPLE, 1)
+		slot_nodes[selected_index1].outline_remnant(Color.PURPLE, 1)
 	if selected_index2 != -1:
-		slot_nodes[selected_index2].outline_remnant(slot_nodes[selected_index2].btn_select.get_node("TextureRect"), Color.ORANGE, 1)
+		slot_nodes[selected_index2].outline_remnant(Color.ORANGE, 1)
 	if selected_index1 != selected_index2 and selected_index1 != -1 and selected_index2 != -1:
 		#If we now have two different selections -> close the menu
 		_close_after_two_chosen()
@@ -109,11 +109,18 @@ func popup_offer(player1_remnants_in : Array, player2_remnants_in : Array, rank_
 	var _tween = create_tween().tween_property(self, "modulate:a", 1.0, 0.5)
 	
 
+
+func meets_requirements(remnant : Remnant,names : Array[String]):
+	for rm in remnant.required_remnants:
+		if rm.remnant_name not in names:
+			return false
+	return true
+
 func _place_purple_selectable(slot : Node ,remnant : Resource):
 	var rem_names = []
 	for r in player1_remnants:
 		rem_names.append(r.remnant_name)
-	if remnant.remnant_name not in rem_names:
+	if remnant.remnant_name not in rem_names and meets_requirements(remnant,rem_names):
 		var particle = load("res://Game Elements/ui/purple_selectable.tscn").instantiate()
 		particle.position = slot.position+slot.size+$MarginContainer/slots_hbox.position
 		particle.position.x -= slot.size.x/2
@@ -123,7 +130,7 @@ func _place_orange_selectable(slot : Node ,remnant : Resource):
 	var rem_names = []
 	for r in player2_remnants:
 		rem_names.append(r.remnant_name)
-	if remnant.remnant_name not in rem_names:
+	if remnant.remnant_name not in rem_names and meets_requirements(remnant,rem_names):
 		var particle = load("res://Game Elements/ui/orange_selectable.tscn").instantiate()
 		particle.position = slot.position+slot.size+$MarginContainer/slots_hbox.position
 		particle.position.x -= slot.size.x/2

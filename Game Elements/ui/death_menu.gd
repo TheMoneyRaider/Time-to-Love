@@ -17,6 +17,7 @@ var recent_buffer := []
 var longterm_buffer := []
 var capture_timer: Timer
 var capturing := true
+var rewinding := false
 var total_time = 0.0
 var final_frame : Image
 
@@ -74,15 +75,28 @@ func _capture_frame():
 				longterm_buffer.pop_front()
 
 func _on_quit_pressed():
+	if rewinding:
+		return
 	get_tree().paused = false
 	get_tree().quit()
 func _on_menu_pressed():
+	if rewinding:
+		return
 	get_tree().paused = false
 	get_tree().call_deferred("change_scene_to_file", "res://Game Elements/ui/main_menu/main_menu.tscn")
 
 func _on_replay_pressed():
+	if rewinding:
+		return
+	rewinding = true
 	replay_texture.visible = true
-	death_box.visible = false
+	var tween = create_tween()
+	tween.tween_property(get_parent().get_node("EnemyAwareness/AwarenessManager"),"modulate:a",0.0,1.0)
+	tween.parallel().tween_property(get_parent().get_node("Hud/RootControl"),"modulate:a",0.0,1.0)
+	tween.parallel().tween_property(death_box,"modulate:a",0.0,1.0)
+	tween.parallel().tween_property(get_node("Control/DeathAnnouncement"),"modulate:a",0.0,1.0)
+	await tween.finished
+	
 	var now := Time.get_time_dict_from_system()
 	print(now.second)
 	play_replay_reverse()

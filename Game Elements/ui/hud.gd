@@ -1,6 +1,11 @@
 extends CanvasLayer
 
 var is_multiplayer : bool = true
+var debug_mode : bool = false
+var menu_indicator : bool = false
+var display_paths : bool = false
+var toggle_invulnerability : bool = false 
+var mouse_clamping : bool = false
 @onready var health_bar_1 = $RootControl/Left_Bottom_Corner/HealthBar
 @onready var health_bar_2 = $RootControl/Right_Bottom_Corner/HealthBar
 @onready var TimeFabric = $RootControl/TimeFabric
@@ -10,6 +15,7 @@ var is_multiplayer : bool = true
 const HIGHLIGHT_SHADER := preload("res://Game Elements/ui/highlight.gdshader")
 @onready var combo1 = $RootControl/Left_Bottom_Corner/Combo
 @onready var combo2 = $RootControl/Right_Bottom_Corner/Combo
+var pause_menu : Node = null
 var player1
 var player2
 var player1_max_time = 1.0
@@ -30,6 +36,11 @@ func _ready():
 	LeftCooldownBar.get_node("CooldownBar").material =LeftCooldownBar.get_node("CooldownBar").material.duplicate(true)
 	RightCooldownBar.get_node("CooldownBar").material =RightCooldownBar.get_node("CooldownBar").material.duplicate(true)
 
+func _ready():
+	load_settings()
+	display_debug_setting_header()
+	
+
 func set_timefabric_amount(timefabric_collected : int):
 	$RootControl/TimeFabric/HBoxContainer/Label.text = str(timefabric_collected)
 
@@ -38,30 +49,61 @@ func set_remnant_icons(player1_remnants: Array, player2_remnants: Array, ranked_
 		child.queue_free()
 	for child in $RootControl/RemnantIcons/RightRemnants.get_children():
 		child.queue_free()
+	await get_tree().process_frame
 	for remnant in player1_remnants:
 		if ranked_up1.has(remnant.remnant_name):
-			_add_slot($RootControl/RemnantIcons/LeftRemnants, remnant,true)
+			_add_slot($RootControl/RemnantIcons/LeftRemnants, remnant,true,true)
 		else:
-			_add_slot($RootControl/RemnantIcons/LeftRemnants, remnant,false)
-	#add in reverse so GridContainer displays them right->left
-	for i in range(player2_remnants.size() - 1, -1, -1):
-		if ranked_up2.has(player2_remnants[i].remnant_name):
-			_add_slot($RootControl/RemnantIcons/RightRemnants, player2_remnants[i],true)
-		else:
-			_add_slot($RootControl/RemnantIcons/RightRemnants, player2_remnants[i],false)
+			_add_slot($RootControl/RemnantIcons/LeftRemnants, remnant,false,true)
+			
+	# --- Populate RIGHT (R->L per row with padding) ---
+	var right_grid = $RootControl/RemnantIcons/RightRemnants
+	var columns = right_grid.columns
+	var total_icons = player2_remnants.size()
+
+	for row_start in range(0, total_icons, columns):
+		var row := player2_remnants.slice(row_start, row_start + columns)
+
+		var padding = columns - row.size()  # number of empty slots for incomplete row
+		var visual_row := []  # final order of things to add (with dummies)
+		# Add invisible placeholders first
+		for i in range(padding):
+			var dummy = Control.new()
+			visual_row.append(dummy)
+
+		# Add real remnants, reversed for right->left fill
+		row.reverse()
+		for remnant in row:
+			visual_row.append(remnant)
+			# Add to grid
+		for item in visual_row:
+			if item is Remnant:  # normal remnant
+				if ranked_up2.has(item.remnant_name):
+					_add_slot(right_grid, item,true,false)
+				else:
+					_add_slot(right_grid, item,false,false)
+			else:  # dummy Control
+				right_grid.add_child(item)
+
+	# --- Setup pause menu & focus ---
+	if !pause_menu:
+		pause_menu = get_node_or_null("../PauseMenu")
+	if pause_menu:
+		pause_menu.setup($RootControl/RemnantIcons/LeftRemnants.get_children())
+		pause_menu.setup($RootControl/RemnantIcons/RightRemnants.get_children())
+	await get_tree().process_frame
+	if pause_menu:
+		_setup_focus_connections()
 	
-func _add_slot(grid: Node, remnant: Resource, has_ranked : bool = false):
+func _add_slot(grid: Node, remnant: Resource, has_ranked : bool = false, is_purple_icon : bool = false):
 	var slot := IconSlotScene.instantiate()
-	var tex := slot.get_node("TextureRect")
 	var label := slot.get_node("Label")
-	tex.texture = remnant.icon
-	tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	tex.custom_minimum_size = remnant.icon.get_size() * 2
 	if has_ranked:
 		label.text = _num_to_roman(remnant.rank-1)
 	else:
 		label.text = _num_to_roman(remnant.rank)
 	grid.add_child(slot)
+	slot.setup(remnant,is_purple_icon)
 	if has_ranked:
 		var mat := ShaderMaterial.new()
 		mat.shader = HIGHLIGHT_SHADER
@@ -69,7 +111,112 @@ func _add_slot(grid: Node, remnant: Resource, has_ranked : bool = false):
 		slot.get_node("TextureRect").material = mat
 		await get_tree().create_timer(.5).timeout
 		label.text = _num_to_roman(remnant.rank)
-		
+
+func _setup_focus_connections():
+	var left_grid = $RootControl/RemnantIcons/LeftRemnants
+	var right_grid = $RootControl/RemnantIcons/RightRemnants
+	var pause_button = pause_menu.get_node("Control/VBoxContainer/Return")
+
+	_setup_grid_focus(left_grid, left_grid.columns, false)
+	_setup_grid_focus(right_grid, right_grid.columns, true)
+
+	_connect_bottom_row_to_pause(left_grid, left_grid.columns, pause_button,true)
+	_connect_bottom_row_to_pause(right_grid, right_grid.columns, pause_button,false)
+	_connect_grids_horizontally(left_grid, right_grid)
+
+func _setup_grid_focus(grid: GridContainer, columns: int, is_reversed: bool):
+	var children = grid.get_children()
+
+	# Compute rows
+	var num_rows = ceil(children.size() / float(columns))
+
+	for i in range(children.size()):
+		if "remnant" not in children[i]:
+			continue
+		var btn = children[i].button
+		btn.focus_mode = Control.FOCUS_ALL
+
+		var row = i / columns
+		var col = i % columns
+
+		# Horizontal neighbors
+		if is_reversed:
+			# Right grid (R→L visually), so left/right are inverted
+			if col > 0:
+				if "remnant" in children[i-1]:
+					btn.focus_neighbor_left = children[i - 1].button.get_path()
+			if col < columns - 1 and i + 1 < children.size():
+				if "remnant" in children[i+1]:
+					btn.focus_neighbor_right = children[i + 1].button.get_path()
+		else:
+			# Left grid (L→R normal)
+			if col > 0:
+				if "remnant" in children[i-1]:
+					btn.focus_neighbor_left = children[i - 1].button.get_path()
+			if col < columns - 1 and i + 1 < children.size():
+				if "remnant" in children[i+1]:
+					btn.focus_neighbor_right = children[i + 1].button.get_path()
+
+		# Vertical neighbors (up/down stay normal)
+		if row > 0:
+			var up_index = (row - 1) * columns + col
+			if up_index < children.size():
+				if "remnant" in children[up_index]:
+					btn.focus_neighbor_top = children[up_index].button.get_path()
+
+		var down_index = (row + 1) * columns + col
+		if down_index < children.size():
+			if "remnant" in children[down_index]:
+				btn.focus_neighbor_bottom = children[down_index].button.get_path()
+
+func _connect_bottom_row_to_pause(grid: GridContainer, columns: int, pause_button: Control, connect_pause : bool):
+	var children = grid.get_children()
+
+	# Filter out invisible placeholders
+	var visible_children := []
+	for child in children:
+		if child is Control and "remnant" in child:
+			visible_children.append(child)
+	if visible_children.is_empty():
+		return
+
+	var last_index = visible_children.size() - 1
+	var last_row = last_index / columns
+
+	for i in range(visible_children.size()):
+		var row = i / columns
+		if row == last_row:
+			visible_children[i].button.focus_neighbor_bottom = pause_button.get_path()
+	if connect_pause:
+		pause_button.focus_neighbor_top = visible_children[-1].button.get_path()
+
+func _connect_grids_horizontally(left_grid: GridContainer, right_grid: GridContainer):
+	var left_children = left_grid.get_children()
+	var right_children = right_grid.get_children()
+
+	var columns = left_grid.columns
+	var rows = int(ceil(left_children.size() / float(columns)))
+
+	for row in range(rows):
+		for col in range(columns):
+			var index = row * columns + col
+			
+			if index >= left_children.size():
+				continue
+
+			var left_btn = left_children[index].button
+			var visual_col = col  # left grid is NOT reversed
+			
+			# RIGHTMOST column of LEFT grid
+			if visual_col == columns - 1:
+				var right_index = row * columns + (columns - 1 - col)
+				
+				if right_index < right_children.size():
+					var right_btn = right_children[right_index].button
+					
+					left_btn.focus_neighbor_right = right_btn.get_path()
+					right_btn.focus_neighbor_left = left_btn.get_path()
+
 func _num_to_roman(input : int) -> String:
 	match input:
 		1:
@@ -91,6 +238,7 @@ func set_players(player1_node : Node, player2_node : Node = null):
 		is_multiplayer = false
 		RightCooldownBar.cover_cooldown()
 	set_cooldown_icons()
+	set_max_cooldowns()
 
 func connect_signals(player_node : Node):
 	player_node.player_took_damage.connect(_on_player_take_damage)
@@ -100,12 +248,8 @@ func connect_signals(player_node : Node):
 	player_node.special_reset.connect(_on_special_reset)
 
 func set_max_cooldowns():
-	if is_multiplayer:
-		LeftCooldownBar.set_max_cooldown(player1.attacks[1].cooldown)
-		RightCooldownBar.set_max_cooldown(player2.attacks[0].cooldown)
-	else:
-		LeftCooldownBar.set_max_cooldown(player1.attacks[1].cooldown)
-		RightCooldownBar.set_max_cooldown(player1.attacks[0].cooldown)
+	LeftCooldownBar.set_max_cooldown(player1.weapons[1].cooldown)
+	RightCooldownBar.set_max_cooldown(player1.weapons[0].cooldown)
 
 func set_cooldowns():
 	if is_multiplayer:
@@ -176,20 +320,21 @@ func combo_change(player_value : bool, increase_value : bool):
 		combo2.get_node("TextureProgressBar/Label").text = str(player2_combo)+"x"
 
 func _process(delta: float) -> void:
-	if is_multiplayer or player1.is_purple:
-		player1_time = max(player1_time-delta, 0.0)
-	if is_multiplayer or !player1.is_purple:
-		player2_time = max(player2_time-delta, 0.0)
-	if player1_time != 0.0:
-		combo1.get_node("TextureProgressBar").value = player1_time
-	if player1_time == 0.0:
-		if player1_combo > 1.0:
-			combo_change(true, false)
-	if player2_time != 0.0:
-		combo2.get_node("TextureProgressBar").value = player2_time
-	if player2_time == 0.0:
-		if player2_combo > 1.0:
-			combo_change(false, false)
+	if !get_tree().paused:
+		if is_multiplayer or player1.is_purple:
+			player1_time = max(player1_time-delta, 0.0)
+		if is_multiplayer or !player1.is_purple:
+			player2_time = max(player2_time-delta, 0.0)
+		if player1_time != 0.0:
+			combo1.get_node("TextureProgressBar").value = player1_time
+		if player1_time == 0.0:
+			if player1_combo > 1.0:
+				combo_change(true, false)
+		if player2_time != 0.0:
+			combo2.get_node("TextureProgressBar").value = player2_time
+		if player2_time == 0.0:
+			if player2_combo > 1.0:
+				combo_change(false, false)
 
 func _on_player_swap(player_node : Node):
 	if player1 == player_node:
@@ -211,16 +356,90 @@ func _on_max_health_changed(max_health : int, current_health : int,player_node :
 	if(player_node == player1):
 		health_bar_1.set_max_health(max_health)
 		health_bar_1.set_current_health(current_health)
+		if(!is_multiplayer):
+			health_bar_2.set_max_health(max_health)
+			health_bar_2.set_current_health(current_health)
 	else:
 		health_bar_2.set_max_health(max_health)
 		health_bar_2.set_current_health(current_health)
+		
+func load_settings():
+	if Globals.config_safe:
+		debug_mode = Globals.config.get_value("debug", "enabled", false)
+		
+func display_debug_setting_header():
+	$RootControl/DebugMenu/GridContainer.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
+	if debug_mode == true: 
+		$RootControl/DebugMenu/GridContainer.visible = true
+		$RootControl/DebugMenu/GridContainer/MenuIndicator.text = "debug menu: H"
+		
+func _input(event):
+	if debug_mode:
+		if event.is_action_pressed("display_debug_settings"):
+			menu_indicator = !menu_indicator
+		
+		if event.is_action_pressed("display_paths"):
+			display_paths = !display_paths
+			if menu_indicator:  
+				update_display_paths()
+			
+		if event.is_action_pressed("toggle_invulnerability"):
+			toggle_invulnerability = !toggle_invulnerability
+			if menu_indicator:  
+				update_invulnerability()
+			
+		if event.is_action_pressed("mouse_clamp"):
+			mouse_clamping = !mouse_clamping
+			if menu_indicator:  
+				update_clamping()
+				
+		update_menu_indicator()
+	return
+
+# all of these have to be signals. settings menu items don't make sense because individual components 
+# update settings at different periods, mostly on load, 
+
+func update_menu_indicator() -> void:
+	var paths_string = "  paths: | P | "
+	var invul_string = "  invuln: | I | "
+	var clamp_string = "  clamp: | C | "
+	
+	if menu_indicator:
+		$RootControl/DebugMenu/GridContainer/Paths.text = paths_string
+		update_display_paths()
+		$RootControl/DebugMenu/GridContainer/Invulnerability.text = invul_string
+		update_invulnerability()
+		$RootControl/DebugMenu/GridContainer/Clamping.text = clamp_string
+		update_clamping()
+	else:
+		$RootControl/DebugMenu/GridContainer/Paths.text = ""
+		$RootControl/DebugMenu/GridContainer/Invulnerability.text = ""
+		$RootControl/DebugMenu/GridContainer/Clamping.text = ""
+	return
+
+func update_display_paths() -> void:
+	if display_paths:
+		$RootControl/DebugMenu/GridContainer/Paths.text += "ON"
+	else:
+		$RootControl/DebugMenu/GridContainer/Paths.text += "OFF"
+
+func update_invulnerability():
+	if toggle_invulnerability:
+		$RootControl/DebugMenu/GridContainer/Invulnerability.text += "ON"
+	else:
+		$RootControl/DebugMenu/GridContainer/Invulnerability.text += "OFF"
+
+func update_clamping():
+	if mouse_clamping:
+		$RootControl/DebugMenu/GridContainer/Clamping.text += "ON"
+	else:
+		$RootControl/DebugMenu/GridContainer/Clamping.text += "OFF"
 
 func _on_special_reset(is_purple : bool):
 	if is_purple:
 		update_shader(LeftCooldownBar.get_node("CooldownBar").material,0.0, true)
 		return
 	update_shader(RightCooldownBar.get_node("CooldownBar").material,0.0, true)
-
 
 func _on_special_changed(is_purple : bool, new_progress):
 	if is_purple:

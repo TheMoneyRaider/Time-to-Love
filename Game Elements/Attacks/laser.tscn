@@ -6,12 +6,13 @@
 z_index = 20
 y_sort_enabled = true
 collision_layer = 8
-collision_mask = 47
+collision_mask = 46
 script = ExtResource("1_ix2b2")
 speed = 0.0
 lifespan = 10000000.0
+knockback_force = 0.0
 cooldown = 0.0
-pierce = 100000000000.0
+pierce = -2.0
 wall_collision = false
 attack_type = "laser"
 deflectable = true

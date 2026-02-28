@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://b4sycfpxwgw32"]
+
+[ext_resource type="Texture2D" uid="uid://dq0ngdo8gf0nh" path="res://art/remnants/terramancer.png" id="1_eyu3i"]
+[ext_resource type="Texture2D" uid="uid://uuevj3be6mun" path="res://art/remnants/terramancer_orb.png" id="2_t0ox3"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_4teqx"]
+
+[resource]
+script = ExtResource("3_4teqx")
+remnant_name = "Remnant of the Terramancer"
+description = "Gain $X boosts to attack size and knockback while rooted"
+icon = ExtResource("2_t0ox3")
+art = ExtResource("1_eyu3i")
+variable_names = Array[String](["$X", "$Y"])
+variable_1_values = ["Small", "Medium", "Large", "Giant", "Gargantuan"]
+variable_2_values = [1, 2, 3, 4, 5]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"
