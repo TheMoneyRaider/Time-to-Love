@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://krvyyr20xseg"]
+[gd_scene load_steps=17 format=3 uid="uid://krvyyr20xseg"]
 
 [ext_resource type="Script" uid="uid://cillp37vidxaj" path="res://Game Elements/General Game/MedievalGrass/ShaderGlobals.gd" id="1_1a687"]
 [ext_resource type="Shader" uid="uid://crrg80ldx7kyg" path="res://Game Elements/General Game/MedievalGrass/Floor.gdshader" id="2_fsw3q"]
@@ -6,9 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://cxqlrcr4x3v2p" path="res://art/white_square.png" id="4_fsw3q"]
 [ext_resource type="Shader" uid="uid://b7qt1qiksp1nt" path="res://Game Elements/General Game/MedievalGrass/Grass.gdshader" id="4_hcw2h"]
 [ext_resource type="Texture2D" uid="uid://bkh5tqpf8qy7o" path="res://Game Elements/General Game/MedievalGrass/grassleaf.png" id="5_dw6a5"]
-[ext_resource type="Texture2D" uid="uid://c3aw2qncec2uc" path="res://Game Elements/General Game/MedievalGrass/accentleaf.png" id="6_lnfsk"]
 [ext_resource type="Texture2D" uid="uid://bywhtp0yn6djq" path="res://Game Elements/General Game/MedievalGrass/Albedo3Noise.tres" id="7_821y4"]
-[ext_resource type="Texture2D" path="res://Game Elements/General Game/MedievalGrass/WindNoise.tres" id="8_48kra"]
+[ext_resource type="Texture2D" uid="uid://b6fhxncxd7b1t" path="res://Game Elements/General Game/MedievalGrass/WindNoise.tres" id="8_48kra"]
 [ext_resource type="Script" uid="uid://cos68tdnu37ij" path="res://Game Elements/General Game/MedievalGrass/CharacterManager.gd" id="9_5eitk"]
 [ext_resource type="Texture2D" uid="uid://cq8xe14aoqrs2" path="res://art/bullet.png" id="10_f3031"]
 
@@ -37,53 +36,25 @@ shader_parameter/steepness = 1.0
 shader_parameter/light_dir = Vector2(0, -1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_567bu"]
-render_priority = 0
 shader = ExtResource("4_hcw2h")
 shader_parameter/albedo_texture = ExtResource("5_dw6a5")
 shader_parameter/albedo1 = Color(0.443137, 0.635294, 0, 1)
 shader_parameter/albedo2 = Color(0.556863, 0.678431, 0.211765, 1)
+shader_parameter/albedo2_noise = ExtResource("3_f3031")
 shader_parameter/albedo2_scale = 0.11
 shader_parameter/albedo2_threshold = 0.537
-shader_parameter/albedo2_noise = ExtResource("3_f3031")
 shader_parameter/albedo3 = Color(0.501961, 0.654902, 0.223529, 1)
+shader_parameter/albedo3_noise = ExtResource("7_821y4")
 shader_parameter/albedo3_scale = 0.1
 shader_parameter/albedo3_threshold = 0.471
-shader_parameter/albedo3_noise = ExtResource("7_821y4")
-shader_parameter/accent_frequency1 = 0.001
-shader_parameter/accent_texture1 = ExtResource("5_dw6a5")
-shader_parameter/accent_albedo1 = Color(0.603922, 0.717647, 0, 1)
-shader_parameter/accent_height1 = 0.1
-shader_parameter/accent_scale1 = 1.0
-shader_parameter/accent_probability2 = 0.0001
-shader_parameter/accent_texture2 = ExtResource("6_lnfsk")
-shader_parameter/accent_albedo2 = Color(0.423529, 0.603922, 0, 1)
-shader_parameter/accent_height2 = 0.185
-shader_parameter/accent_scale2 = 1.0
-shader_parameter/framerate = 5.0
-shader_parameter/quantised = true
-shader_parameter/world_space_sway = true
-shader_parameter/debug_noise = false
-shader_parameter/world_sway_angle = 60.0
-shader_parameter/fake_perspective_scale = 0.3
 shader_parameter/wind_noise = ExtResource("8_48kra")
-shader_parameter/wind_noise_threshold = 0.365
 shader_parameter/wind_noise_scale = 0.071
 shader_parameter/wind_noise_speed = 0.025
-shader_parameter/wind_noise_direction = Vector2(0, 1)
-shader_parameter/noise_diverge_angle = 10.0
-shader_parameter/view_space_sway = true
+shader_parameter/world_sway_angle = 60.0
 shader_parameter/view_sway_speed = 0.1
 shader_parameter/view_sway_angle = 10.0
-shader_parameter/character_displacement = true
-shader_parameter/debug_displacement = false
-shader_parameter/player_displacement_angle_z = 60.0
-shader_parameter/player_displacement_angle_x = 62.7
-shader_parameter/radius_exponent = 0.9
+shader_parameter/character_count = 32
 shader_parameter/character_positions = [Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0)]
-shader_parameter/cuts = 3
-shader_parameter/wrap = 0.0
-shader_parameter/steepness = 1.0
-shader_parameter/threshold_gradient_size = 0.255
 
 [sub_resource type="QuadMesh" id="QuadMesh_hcw2h"]
 
@@ -119,6 +90,7 @@ cast_shadow = 0
 multimesh = SubResource("MultiMesh_tysh6")
 
 [node name="Grass2D" type="MultiMeshInstance2D" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_567bu")
 scale = Vector2(1.1947644, 1)
 multimesh = SubResource("MultiMesh_tysh6")
