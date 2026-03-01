@@ -199,8 +199,8 @@ func _ready() -> void:
 	blocked_cells = room_instance.blocked_cells
 	liquid_cells = room_instance.liquid_cells
 	var ground = room_instance.get_node("Ground")
-	if ground.get_node_or_null("GrassManager"):
-		ground.get_node("GrassManager").initalize(conflict_cells.duplicate())
+	if ground.get_node_or_null("GrassAddon"):
+		ground.get_node("GrassAddon").initalize(conflict_cells.duplicate())
 	create_new_rooms()
 	pathfinding.setup_from_room(room_instance.get_node("Ground"), room_instance.blocked_cells, room_instance.trap_cells)
 	_prepare_timefabric()
@@ -1241,8 +1241,8 @@ func _finalize_room_creation(next_room_instance: Node2D, next_room_data: Room, d
 	generated_room_metadata[pathway_detect.name] = next_room_data
 	generated_rooms[pathway_detect.name] = next_room_instance
 	generated_room_conflict[pathway_detect.name] = conflict_cells.duplicate()
-	if ground.get_node_or_null("GrassManager"):
-		ground.get_node("GrassManager").initalize(conflict_cells.duplicate())
+	if ground.get_node_or_null("GrassAddon"):
+		ground.get_node("GrassAddon").initalize(conflict_cells.duplicate())
 	
 	_choose_reward(pathway_detect.name)
 	

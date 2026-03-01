@@ -1,22 +1,22 @@
-[gd_scene load_steps=27 format=3 uid="uid://krvyyr20xseg"]
+[gd_scene load_steps=23 format=3 uid="uid://krvyyr20xseg"]
 
-[ext_resource type="Script" uid="uid://cillp37vidxaj" path="res://Game Elements/General Game/MedievalGrass/ShaderGlobals.gd" id="1_qefpf"]
-[ext_resource type="Script" uid="uid://ovjuh0e8nxm3" path="res://Game Elements/General Game/MedievalGrass/LightDirection.gd" id="2_7hcei"]
-[ext_resource type="Shader" uid="uid://crrg80ldx7kyg" path="res://Game Elements/General Game/MedievalGrass/Floor.gdshader" id="4_x8ips"]
-[ext_resource type="Texture2D" uid="uid://vqml4pj02ucs" path="res://Game Elements/General Game/MedievalGrass/Albedo2Noise.tres" id="5_wq276"]
-[ext_resource type="Shader" uid="uid://b7qt1qiksp1nt" path="res://Game Elements/General Game/MedievalGrass/Grass.gdshader" id="6_blpfm"]
-[ext_resource type="Texture2D" uid="uid://bkh5tqpf8qy7o" path="res://Game Elements/General Game/MedievalGrass/grassleaf.png" id="7_wxrgs"]
-[ext_resource type="Texture2D" uid="uid://c3aw2qncec2uc" path="res://Game Elements/General Game/MedievalGrass/accentleaf.png" id="8_cj1ax"]
-[ext_resource type="Texture2D" uid="uid://c52v6tkx73uro" path="res://Game Elements/General Game/MedievalGrass/Albedo3Noise.tres" id="9_1jwcv"]
-[ext_resource type="Texture2D" uid="uid://b6fhxncxd7b1t" path="res://Game Elements/General Game/MedievalGrass/WindNoise.tres" id="10_fx1gx"]
-[ext_resource type="Shader" uid="uid://d0pbe1toy541n" path="res://Game Elements/General Game/MedievalGrass/ToonShader.gdshader" id="12_7yig0"]
-[ext_resource type="Script" uid="uid://cos68tdnu37ij" path="res://Game Elements/General Game/MedievalGrass/CharacterManager.gd" id="14_esjwn"]
-[ext_resource type="Script" uid="uid://d2s4mqubfm7v0" path="res://Game Elements/General Game/MedievalGrass/RandomPositionCharacter.gd" id="15_y7u4v"]
+[ext_resource type="Script" uid="uid://bdmkmd1cji0xa" path="res://Game Elements/General Game/MedievalGrass/grass_addon.gd" id="1_02tsi"]
+[ext_resource type="Script" uid="uid://cillp37vidxaj" path="res://Game Elements/General Game/MedievalGrass/ShaderGlobals.gd" id="1_ypuxx"]
+[ext_resource type="Script" uid="uid://ovjuh0e8nxm3" path="res://Game Elements/General Game/MedievalGrass/LightDirection.gd" id="2_02tsi"]
+[ext_resource type="Shader" uid="uid://crrg80ldx7kyg" path="res://Game Elements/General Game/MedievalGrass/Floor.gdshader" id="3_w8r44"]
+[ext_resource type="Texture2D" uid="uid://vqml4pj02ucs" path="res://Game Elements/General Game/MedievalGrass/Albedo2Noise.tres" id="4_73kih"]
+[ext_resource type="Shader" uid="uid://b7qt1qiksp1nt" path="res://Game Elements/General Game/MedievalGrass/Grass.gdshader" id="5_wypm4"]
+[ext_resource type="Texture2D" uid="uid://bkh5tqpf8qy7o" path="res://Game Elements/General Game/MedievalGrass/grassleaf.png" id="6_hl2kt"]
+[ext_resource type="Texture2D" uid="uid://c3aw2qncec2uc" path="res://Game Elements/General Game/MedievalGrass/accentleaf.png" id="7_8is2c"]
+[ext_resource type="Texture2D" uid="uid://c52v6tkx73uro" path="res://Game Elements/General Game/MedievalGrass/Albedo3Noise.tres" id="8_d8pid"]
+[ext_resource type="Texture2D" uid="uid://b6fhxncxd7b1t" path="res://Game Elements/General Game/MedievalGrass/WindNoise.tres" id="9_uyw53"]
+[ext_resource type="Script" uid="uid://cos68tdnu37ij" path="res://Game Elements/General Game/MedievalGrass/CharacterManager.gd" id="10_6g25e"]
+[ext_resource type="Script" uid="uid://d2s4mqubfm7v0" path="res://Game Elements/General Game/MedievalGrass/RandomPositionCharacter.gd" id="11_iiqgr"]
 
 [sub_resource type="Environment" id="Environment_tysh6"]
 background_energy_multiplier = 2.0
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_tysh6"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_02tsi"]
 viewport_path = NodePath("SubViewport")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_q6i3i"]
@@ -29,10 +29,10 @@ seamless = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tysh6"]
 render_priority = 0
-shader = ExtResource("4_x8ips")
+shader = ExtResource("3_w8r44")
 shader_parameter/albedo1 = Color(0.443137, 0.635294, 0, 1)
 shader_parameter/albedo2 = Color(0.556863, 0.678431, 0.211765, 1)
-shader_parameter/albedo2_noise = ExtResource("5_wq276")
+shader_parameter/albedo2_noise = ExtResource("4_73kih")
 shader_parameter/albedo2_scale = 0.11
 shader_parameter/albedo2_threshold = 0.537
 shader_parameter/albedo3 = Color(0.501961, 0.654902, 0.223529, 1)
@@ -48,24 +48,24 @@ size = Vector2(25, 25)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_567bu"]
 render_priority = 0
-shader = ExtResource("6_blpfm")
-shader_parameter/albedo_texture = ExtResource("7_wxrgs")
+shader = ExtResource("5_wypm4")
+shader_parameter/albedo_texture = ExtResource("6_hl2kt")
 shader_parameter/albedo1 = Color(0.443137, 0.635294, 0, 1)
 shader_parameter/albedo2 = Color(0.556863, 0.678431, 0.211765, 1)
 shader_parameter/albedo2_scale = 0.11
 shader_parameter/albedo2_threshold = 0.537
-shader_parameter/albedo2_noise = ExtResource("5_wq276")
+shader_parameter/albedo2_noise = ExtResource("4_73kih")
 shader_parameter/albedo3 = Color(0.501961, 0.654902, 0.223529, 1)
 shader_parameter/albedo3_scale = 0.1
 shader_parameter/albedo3_threshold = 0.471
-shader_parameter/albedo3_noise = ExtResource("9_1jwcv")
+shader_parameter/albedo3_noise = ExtResource("8_d8pid")
 shader_parameter/accent_frequency1 = 0.001
-shader_parameter/accent_texture1 = ExtResource("7_wxrgs")
+shader_parameter/accent_texture1 = ExtResource("6_hl2kt")
 shader_parameter/accent_albedo1 = Color(0.603922, 0.717647, 0, 1)
 shader_parameter/accent_height1 = 0.1
 shader_parameter/accent_scale1 = 1.0
 shader_parameter/accent_probability2 = 0.0001
-shader_parameter/accent_texture2 = ExtResource("8_cj1ax")
+shader_parameter/accent_texture2 = ExtResource("7_8is2c")
 shader_parameter/accent_albedo2 = Color(0.423529, 0.603922, 0, 1)
 shader_parameter/accent_height2 = 0.185
 shader_parameter/accent_scale2 = 1.0
@@ -75,7 +75,7 @@ shader_parameter/world_space_sway = true
 shader_parameter/debug_noise = false
 shader_parameter/world_sway_angle = 60.0
 shader_parameter/fake_perspective_scale = 0.3
-shader_parameter/wind_noise = ExtResource("10_fx1gx")
+shader_parameter/wind_noise = ExtResource("9_uyw53")
 shader_parameter/wind_noise_threshold = 0.365
 shader_parameter/wind_noise_scale = 0.071
 shader_parameter/wind_noise_speed = 0.025
@@ -89,7 +89,7 @@ shader_parameter/debug_displacement = false
 shader_parameter/player_displacement_angle_z = 60.0
 shader_parameter/player_displacement_angle_x = 62.7
 shader_parameter/radius_exponent = 0.9
-shader_parameter/character_positions = [Vector4(-3.835088, 0, 3.6516242, 0.86), Vector4(-3.296324, 0, 7.1628957, 0.53), Vector4(-6.357456, 0, 1.1615216, 0.38), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0)]
+shader_parameter/character_positions = [Vector4(-2.672566, 0, -8.20416, 0.86), Vector4(3.5236723, 0, 0.31839204, 0.53), Vector4(3.9747078, 0, -1.2189088, 0.38), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0)]
 shader_parameter/cuts = 3
 shader_parameter/wrap = 0.0
 shader_parameter/steepness = 1.0
@@ -109,308 +109,11 @@ buffer = PackedFloat32Array(-1.001, 0, 0, -12.2018, 0, -4.37551e-08, 1.001, 0, 0
 radius = 0.3
 height = 1.5
 
-[sub_resource type="Shader" id="Shader_0gxxm"]
-code = "shader_type spatial;
-render_mode depth_prepass_alpha;
-
-// MIT License. Made by Leo Peltola
-// Inspired by https://threejs.org/examples/webgl_postprocessing_pixel.html
-
-uniform sampler2D DEPTH_TEXTURE : hint_depth_texture, filter_linear_mipmap;
-uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
-uniform sampler2D NORMAL_TEXTURE : hint_normal_roughness_texture, filter_nearest;
-
-
-uniform bool shadows_enabled = true;
-uniform bool highlights_enabled = true;
-
-uniform float alpha : hint_range(0.0, 1.0, 0.01) = 1.0;
-uniform float attenuation_threshold = 1.0;
-uniform float highlight_increase = 0.2;
-uniform float highlight_max : hint_range(0.0, 1.0, 0.01) = 1.0;
-
-uniform float omnilight_brightness = 1.0;
-uniform float omnilight_max = 1.0;
-uniform float omnilight_min = 0.0;
-uniform float directional_max = 1.0;
-
-uniform float fade_midpoint : hint_range(0.0, 100.0, 0.1) = 5.0;
-uniform float fade_gradient_length : hint_range(0.01, 100.0, 0.1) = 2.0;
-
-uniform vec3 magic = vec3(0.06711056f, 0.00583715f, 52.9829189f);
-uniform bool uniform_dither = false;
-//uniform bool dither = false;
-//global uniform float dither_fade_start;
-//global uniform float dither_fade_size;
-//uniform float dither_height_cutoff : hint_range(-10.0, 10.0) = 1.709;
-//uniform float dither_height_gradient : hint_range(0.0, 10.0) = 0.597;
-
-
-//global uniform float dither_circle_radius;
-//global uniform float dither_circle_fade;
-//global uniform float dither_circle_y_offset;
-//global uniform float dither_circle_x_scale;
-
-uniform float offset_dither_x : hint_range(-100.0, 100.0) = 0.0;
-uniform float offset_dither_y : hint_range(-100.0, 100.0) = 0.0;
-
-uniform float uv_scale_x = 50.0;
-
-uniform vec3 player_world_location = vec3(0.0);
-
-varying mat4 model_view_matrix;
-varying vec3 vertex_pos;
-varying vec3 world_pos;
-varying vec3 varying_normal;
-
-float bayer4x4(int x, int y) {
-    int index = y * 4 + x;
-    float[16] matrix = float[16](
-         0.0,  8.0,  2.0, 10.0,
-        12.0,  4.0, 14.0,  6.0,
-         3.0, 11.0,  1.0,  9.0,
-        15.0,  7.0, 13.0,  5.0
-    );
-    return (matrix[index] + 1.0) / 16.0;
-}
-
-float getDepth(vec2 screen_uv, sampler2D depth_texture, mat4 inv_projection_matrix){
-//	Credit: https://godotshaders.com/shader/depth-modulated-pixel-outline-in-screen-space/
-	float raw_depth = texture(depth_texture, screen_uv)[0];
-	vec3 normalized_device_coordinates = vec3(screen_uv * 2.0 - 1.0, raw_depth);
-    vec4 view_space = inv_projection_matrix * vec4(normalized_device_coordinates, 1.0);
-	view_space.xyz /= view_space.w;
-	return -view_space.z;
-}
-
-vec3 getPos(float depth, mat4 mvm, mat4 ipm, vec2 suv, mat4 wm, mat4 icm){
-  vec4 pos = inverse(mvm) * ipm * vec4((suv * 2.0 - 1.0), depth * 2.0 - 1.0, 1.0);
-  pos.xyz /= (pos.w+0.0001*(1.-abs(sign(pos.w))));
-  return (pos*icm).xyz+wm[3].xyz;
-}
-
-float normalIndicator(vec3 normalEdgeBias, vec3 baseNormal, vec3 newNormal, float depth_diff){
-	// Credit: https://threejs.org/examples/webgl_postprocessing_pixel.html
-	float normalDiff = dot(baseNormal - newNormal, normalEdgeBias);
-	float normalIndicator = clamp(smoothstep(-.01, .01, normalDiff), 0.0, 1.0);
-	float depthIndicator = clamp(sign(depth_diff * .25 + .0025), 0.0, 1.0);
-	return (1.0 - dot(baseNormal, newNormal)) * depthIndicator * normalIndicator;
-}
-
-void vertex(){
-    model_view_matrix = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);
-	vertex_pos = VERTEX;
-	varying_normal = NORMAL;
-	world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-	}
-
-void fragment() {
-	vec2 e = vec2(1.0 / VIEWPORT_SIZE.xy);
-
-	float raw_depth = texture(DEPTH_TEXTURE, SCREEN_UV).r;
-	vec3 ndc = vec3(SCREEN_UV * 2.0 - 1.0, raw_depth);
-	vec4 view_space_pos = INV_PROJECTION_MATRIX * vec4(ndc, 1.0);
-	view_space_pos.xyz /= view_space_pos.w;
-	float view_distance = -view_space_pos.z;
-
-	float fade_start = fade_midpoint - (fade_gradient_length * 0.5);
-	float fade_end = fade_midpoint + (fade_gradient_length * 0.5);
-	float fade_alpha = clamp((view_distance - fade_start) / (fade_end - fade_start), 0.0, 1.0);
-
-//	Shadows
-	float depth_diff = 0.0;
-	float neg_depth_diff = .5;
-	if (shadows_enabled) {
-		float depth = getDepth(SCREEN_UV, DEPTH_TEXTURE, INV_PROJECTION_MATRIX);
-		float du = getDepth(SCREEN_UV+vec2(0., -1.)*e, DEPTH_TEXTURE, INV_PROJECTION_MATRIX);
-		float dr = getDepth(SCREEN_UV+vec2(1., 0.)*e, DEPTH_TEXTURE, INV_PROJECTION_MATRIX);
-		float dd = getDepth(SCREEN_UV+vec2(0., 1.)*e, DEPTH_TEXTURE, INV_PROJECTION_MATRIX);
-		float dl = getDepth(SCREEN_UV+vec2(-1., 0.)*e, DEPTH_TEXTURE, INV_PROJECTION_MATRIX);
-		depth_diff += clamp(du - depth, 0., 1.);
-		depth_diff += clamp(dd - depth, 0., 1.);
-		depth_diff += clamp(dr - depth, 0., 1.);
-		depth_diff += clamp(dl - depth, 0., 1.);
-		neg_depth_diff += depth - du;
-		neg_depth_diff += depth - dd;
-		neg_depth_diff += depth - dr;
-		neg_depth_diff += depth - dl;
-		neg_depth_diff = clamp(neg_depth_diff, 0., 1.);
-		neg_depth_diff = clamp(smoothstep(0.5, 0.5, neg_depth_diff)*10., 0., 1.);
-		depth_diff = smoothstep(0.2, 0.3, depth_diff);
-//		ALBEDO = vec3(neg_depth_diff);
-	}
-
-//	Highlights
-	float normal_diff = 0.;
-	if (highlights_enabled) {
-		vec3 normal = texture(NORMAL_TEXTURE, SCREEN_UV).rgb * 2.0 - 1.0;
-		vec3 nu = texture(NORMAL_TEXTURE, SCREEN_UV+vec2(0., -1.)*e).rgb * 2.0 - 1.0;
-		vec3 nr = texture(NORMAL_TEXTURE, SCREEN_UV+vec2(1., 0.)*e).rgb * 2.0 - 1.0;
-		vec3 nd = texture(NORMAL_TEXTURE, SCREEN_UV+vec2(0., 1.)*e).rgb * 2.0 - 1.0;
-		vec3 nl = texture(NORMAL_TEXTURE, SCREEN_UV+vec2(-1., 0.)*e).rgb * 2.0 - 1.0;
-		vec3 normal_edge_bias = (vec3(1., 1., 1.));
-		normal_diff += normalIndicator(normal_edge_bias, normal, nu, depth_diff);
-		normal_diff += normalIndicator(normal_edge_bias, normal, nr, depth_diff);
-		normal_diff += normalIndicator(normal_edge_bias, normal, nd, depth_diff);
-		normal_diff += normalIndicator(normal_edge_bias, normal, nl, depth_diff);
-		normal_diff = smoothstep(0.2, 0.8, normal_diff);
-		normal_diff = clamp(normal_diff-neg_depth_diff, 0., 1.);
-//		ALBEDO = vec3(normal_diff);
-	}
-
-	vec3 original_color = texture(SCREEN_TEXTURE, SCREEN_UV).rgb;
-	ALBEDO = original_color;
-
-	float alpha_mask = depth_diff * float(shadows_enabled) + normal_diff * float(highlights_enabled);
-	ALPHA = clamp((alpha_mask) * 5.0, 0.0, 1.0) * alpha;// * fade_alpha;
-
-
-    // Compute distance from object origin to camera
-    vec3 object_origin_world = (MODEL_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
-
-	float distance_to_camera;
-    if (uniform_dither) {
-		distance_to_camera = distance(CAMERA_POSITION_WORLD.xz, object_origin_world.xz); // Whole Object
-	} else {
-		distance_to_camera = distance(CAMERA_POSITION_WORLD.xz, world_pos.xz); // fragment distance
-	}
-
-    // Distance-based dither factor
-	//float dither_fade_end = dither_fade_start - dither_fade_size;
-    //float final_dither = clamp((distance_to_camera - dither_fade_end) / (dither_fade_start - dither_fade_end), 0.0, 1.0);
-
-
-    //// === World-Space Height Cutoff ===
-    //if (world_pos.y >= dither_height_cutoff) {
-        //// Vertical height fade (gradient at cutoff height)
-        //float height_factor = 1.0;
-        //if (dither_height_gradient > 0.0) {
-            //height_factor = clamp(
-                //1.0 - (world_pos.y - dither_height_cutoff) / dither_height_gradient,
-                //0.0,
-                //1.0
-            //);
-        //}
-
-       // Construct tangent space from normal
-	vec3 N = normalize(varying_normal);
-	vec3 arbitrary = abs(N.y) < 0.99 ? vec3(0.0, 1.0, 0.0) : vec3(1.0, 0.0, 0.0); // Avoid colinearity
-	vec3 T = normalize(cross(arbitrary, N)); // Tangent
-	vec3 B = cross(N, T); // Bitangent
-
-	// Project world position into the tangent space
-	vec3 local_pos = (MODEL_MATRIX * vec4(world_pos, 0.0)).xyz;
-	vec2 proj_uv = vec2(dot(local_pos, T), dot(local_pos, B));
-
-        proj_uv *= uv_scale_x; // scale for dither density
-
-        int x = int(mod(floor(proj_uv.x), 4.0));
-        int y = int(mod(floor(proj_uv.y), 4.0));
-
-        float bayer = bayer4x4(x, y);
-
-        // Project player position to screen UV
-		vec4 player_view = VIEW_MATRIX * vec4(player_world_location, 1.0);
-		vec4 player_proj = PROJECTION_MATRIX * player_view;
-		vec2 player_screen_uv = (player_proj.xy / player_proj.w) * 0.5 + 0.5;
-
-		// Apply Y offset in screen space
-		//player_screen_uv.y += dither_circle_y_offset;
-
-
-		// Compute distance from player position in screen space
-		vec2 diff = SCREEN_UV - player_screen_uv;
-		//diff.x *= dither_circle_x_scale;
-		float dist_to_center = length(diff);
-
-		//// Circular mask with fade
-		//float circle_mask = clamp(
-		    //1.0 - (dist_to_center - dither_circle_radius) / max(dither_circle_fade, 0.001),
-		    //0.0,
-		    //1.0
-		//);
-//------------------
-
-		// frag location and angle check
-		vec2 uv = FRAGCOORD.xy / VIEWPORT_SIZE;     // 0..1
-		vec2 ndca = uv * 2.0 - 1.0;                  // -1..1
-
-		// NDC position with depth
-		vec4 clip = vec4(ndca, FRAGCOORD.z * 2.0 - 1.0, 1.0);
-
-		// View space position
-		vec4 view_pos = INV_PROJECTION_MATRIX * clip;
-		view_pos /= view_pos.w;
-
-		// World space position
-		vec4 frag_world_pos = INV_VIEW_MATRIX * view_pos;
-
-		vec2 player_to_camera = CAMERA_POSITION_WORLD.xz - player_world_location.xz;
-		vec2 player_to_fragment = world_pos.xz - player_world_location.xz;
-
-		player_to_camera = normalize(player_to_camera);
-		player_to_fragment = normalize(player_to_fragment);
-		float dot_product = dot(player_to_camera, player_to_fragment);
-
-        //if (dither) {
-			////if (final_dither < bayer && height_factor < bayer && circle_mask >= bayer) {
-			//if (final_dither < bayer && circle_mask >= bayer && height_factor < bayer) {
-	            //discard;
-        	//}
-		//}
-    //}
-}
-
-
-void light() {
-	if (ATTENUATION > attenuation_threshold) { // IN LIGHT
-		DIFFUSE_LIGHT += clamp(dot(NORMAL, LIGHT), highlight_max, highlight_max) * highlight_increase;
-		//DIFFUSE_LIGHT += clamp(dot(NORMAL, LIGHT), shadow_mind, shadow_decrease) * ATTENUATION * LIGHT_COLOR;
-}
-if (LIGHT_IS_DIRECTIONAL == false) {
-	DIFFUSE_LIGHT += clamp(dot(NORMAL, LIGHT), omnilight_min, omnilight_max) * (ATTENUATION * omnilight_brightness);
-}
-if (LIGHT_IS_DIRECTIONAL == true) {
-	DIFFUSE_LIGHT += clamp(dot(NORMAL, LIGHT), 0.0, directional_max) * ATTENUATION * LIGHT_COLOR;
-	//if (ATTENUATION > attenuation_threshold) {
-		//DIFFUSE_LIGHT += clamp(dot(NORMAL, LIGHT), 0.0, highlight_increase) * ATTENUATION * LIGHT_COLOR;
-		////DIFFUSE_LIGHT += clamp(dot(NORMAL, LIGHT), 0.0, highlight_increase) * ATTENUATION * LIGHT_COLOR;
-//}
-}}"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3hyav"]
-render_priority = 0
-shader = SubResource("Shader_0gxxm")
-shader_parameter/shadows_enabled = true
-shader_parameter/highlights_enabled = true
-shader_parameter/alpha = 1.0
-shader_parameter/attenuation_threshold = 0.725
-shader_parameter/highlight_increase = 0.2
-shader_parameter/highlight_max = 1.0
-shader_parameter/omnilight_brightness = 1.0
-shader_parameter/omnilight_max = 1.0
-shader_parameter/omnilight_min = 0.0
-shader_parameter/directional_max = 1.0
-shader_parameter/fade_midpoint = 5.0
-shader_parameter/fade_gradient_length = 2.0
-shader_parameter/magic = Vector3(0.0671106, 0.00583715, 52.9829)
-shader_parameter/uniform_dither = false
-shader_parameter/offset_dither_x = 0.0
-shader_parameter/offset_dither_y = 0.0
-shader_parameter/uv_scale_x = 50.0
-shader_parameter/player_world_location = Vector3(0, 0, 0)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_g2wh3"]
-render_priority = 0
-next_pass = SubResource("ShaderMaterial_3hyav")
-shader = ExtResource("12_7yig0")
-
-[sub_resource type="BoxMesh" id="BoxMesh_567bu"]
-
-[node name="Demo" type="Node3D"]
+[node name="GrassAddon" type="Node3D"]
+script = ExtResource("1_02tsi")
 
 [node name="ShaderGlobals" type="Node" parent="."]
-script = ExtResource("1_qefpf")
+script = ExtResource("1_ypuxx")
 cloud_contrast = 3.845
 cloud_direction = Vector2(0, -1)
 cloud_diverge_angle = 20.0
@@ -434,23 +137,23 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="ViewportTexture" type="Sprite2D" parent="Display"]
-position = Vector2(960, 540)
+position = Vector2(2382, 1394)
 scale = Vector2(3, 3)
-texture = SubResource("ViewportTexture_tysh6")
+texture = SubResource("ViewportTexture_02tsi")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 size = Vector2i(640, 360)
 
 [node name="Camera3D" type="Camera3D" parent="SubViewport"]
-transform = Transform3D(0.582123, 0.304593, -0.753894, 0, 0.927184, 0.374607, 0.813101, -0.218067, 0.539735, -14.02, 5.975, 9.92)
+transform = Transform3D(1, 0, 0, 0, 0.89648646, 0.44307122, 0, -0.44307122, 0.89648646, 0, 16, 28)
 projection = 1
 size = 6.085
 near = 0.001
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewport"]
-transform = Transform3D(0.994881, 0.0733036, -0.0695626, 0, 0.688354, 0.725375, 0.101056, -0.721661, 0.684831, 0, 3.81, 0)
+transform = Transform3D(0.99488074, 0.0733035, -0.06956094, -0.031229172, 0.87766975, 0.4782487, 0.09610881, -0.47362688, 0.87546515, 0, 3.81, 0)
 shadow_enabled = true
-script = ExtResource("2_7hcei")
+script = ExtResource("2_02tsi")
 
 [node name="Floor" type="MeshInstance3D" parent="SubViewport"]
 material_override = SubResource("ShaderMaterial_tysh6")
@@ -463,16 +166,16 @@ cast_shadow = 0
 multimesh = SubResource("MultiMesh_tysh6")
 
 [node name="CharacterManager" type="Node" parent="SubViewport" node_paths=PackedStringArray("grass")]
-script = ExtResource("14_esjwn")
+script = ExtResource("10_6g25e")
 grass = NodePath("../Floor/Grass")
 
 [node name="Characters" type="Node3D" parent="SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.56686, 0, 0.295852)
 
 [node name="Large" type="CharacterBody3D" parent="SubViewport/Characters" node_paths=PackedStringArray("camera") groups=["characters"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2620912, 0, 3.3493917)
-velocity = Vector3(0.08974528, 0, -0.09330535)
-script = ExtResource("15_y7u4v")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11245465, 0, -8.467368)
+velocity = Vector3(-0.4049164, 0, 1.9585819)
+script = ExtResource("11_iiqgr")
 camera = NodePath("../../Camera3D")
 speed = 2.0
 acceleration = 5.0
@@ -485,9 +188,9 @@ mesh = SubResource("CapsuleMesh_xcudr")
 skeleton = NodePath("../../..")
 
 [node name="Medium" type="CharacterBody3D" parent="SubViewport/Characters" node_paths=PackedStringArray("camera") groups=["characters"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6843896, 0, 6.706588)
-velocity = Vector3(0.67612326, 0, -2.4068353)
-script = ExtResource("15_y7u4v")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.063396, 0, 0.03939444)
+velocity = Vector3(-1.6281759, 0, 1.0112643)
+script = ExtResource("11_iiqgr")
 camera = NodePath("../../Camera3D")
 speed = 2.5
 acceleration = 5.0
@@ -500,9 +203,9 @@ mesh = SubResource("CapsuleMesh_xcudr")
 skeleton = NodePath("../../..")
 
 [node name="Small" type="CharacterBody3D" parent="SubViewport/Characters" node_paths=PackedStringArray("camera") groups=["characters"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.7780955, 0, 0.8302979)
-velocity = Vector3(0.18045259, 0, -0.5105991)
-script = ExtResource("15_y7u4v")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.549362, 0, -1.5151329)
+velocity = Vector3(0.4676839, 0, -0.022320986)
+script = ExtResource("11_iiqgr")
 camera = NodePath("../../Camera3D")
 speed = 3.0
 acceleration = 5.0
@@ -513,9 +216,3 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.4, 0)
 cast_shadow = 0
 mesh = SubResource("CapsuleMesh_xcudr")
 skeleton = NodePath("../../..")
-
-[node name="Cube" type="MeshInstance3D" parent="SubViewport"]
-transform = Transform3D(0.999848, 0, -0.0174524, 0, 1, 0, 0.0174524, 0, 0.999848, -4.962, 0.469, 3.324)
-visible = false
-material_override = SubResource("ShaderMaterial_g2wh3")
-mesh = SubResource("BoxMesh_567bu")

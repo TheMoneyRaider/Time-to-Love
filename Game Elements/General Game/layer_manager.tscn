@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cve6yfoeuc5u0" path="res://Game Elements/Objects/GlowCircle.tscn" id="5_570vf"]
 [ext_resource type="Script" uid="uid://c7h0iwnh6mu5v" path="res://Game Elements/General Game/viewport.gd" id="5_n317s"]
 [ext_resource type="Script" uid="uid://btw80vi8hk0iu" path="res://Game Elements/General Game/enemy_awareness.gd" id="6_754yq"]
-[ext_resource type="Script" uid="uid://bu61ndyofnbda" path="res://Game Elements/General Game/camera.gd" id="9_n317s"]
+[ext_resource type="Script" path="res://Game Elements/General Game/camera.gd" id="9_n317s"]
 [ext_resource type="Texture2D" uid="uid://1c47fiseukev" path="res://Game Elements/Bosses/purple.png" id="11_arwbq"]
 [ext_resource type="Texture2D" uid="uid://nljj8bohfllh" path="res://Game Elements/Bosses/orange.png" id="12_nt7kn"]
 [ext_resource type="Texture2D" uid="uid://1po7p0hcmfk" path="res://Game Elements/Bosses/scifi/scifi_splash.png" id="13_vxirk"]
@@ -489,3 +489,11 @@ y_sort_enabled = true
 [node name="Camera2D" type="Camera2D" parent="game_container/game_viewport/game_root"]
 zoom = Vector2(4, 4)
 script = ExtResource("9_n317s")
+
+[node name="GrassTexture" type="TextureRect" parent="game_container/game_viewport/game_root/Camera2D"]
+z_index = 1
+offset_left = -240.0
+offset_top = -125.0
+offset_right = 240.0
+offset_bottom = 125.0
+texture = ExtResource("14_sf3i7")
