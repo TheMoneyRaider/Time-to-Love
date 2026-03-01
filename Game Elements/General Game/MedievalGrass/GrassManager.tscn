@@ -1,32 +1,57 @@
 [gd_scene load_steps=10 format=3 uid="uid://c50qmx1cugvps"]
 
-[ext_resource type="Script" uid="uid://bggjsih6c2xda" path="res://Game Elements/General Game/MedievalGrass/grass_manager.gd" id="1_5xyhm"]
 [ext_resource type="Texture2D" uid="uid://bkh5tqpf8qy7o" path="res://Game Elements/General Game/MedievalGrass/grassleaf.png" id="1_o1ejr"]
 [ext_resource type="Shader" uid="uid://b7qt1qiksp1nt" path="res://Game Elements/General Game/MedievalGrass/Grass.gdshader" id="1_ukk30"]
-[ext_resource type="Texture2D" uid="uid://bj0pcrlpk3w20" path="res://Game Elements/General Game/MedievalGrass/Albedo2Noise.tres" id="4_rrif8"]
-[ext_resource type="Texture2D" uid="uid://bywhtp0yn6djq" path="res://Game Elements/General Game/MedievalGrass/Albedo3Noise.tres" id="5_eyxx3"]
+[ext_resource type="Texture2D" uid="uid://vqml4pj02ucs" path="res://Game Elements/General Game/MedievalGrass/Albedo2Noise.tres" id="4_rrif8"]
+[ext_resource type="Texture2D" uid="uid://c52v6tkx73uro" path="res://Game Elements/General Game/MedievalGrass/Albedo3Noise.tres" id="5_eyxx3"]
 [ext_resource type="Texture2D" uid="uid://b6fhxncxd7b1t" path="res://Game Elements/General Game/MedievalGrass/WindNoise.tres" id="6_c6em7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uylsy"]
+render_priority = 0
 shader = ExtResource("1_ukk30")
 shader_parameter/albedo_texture = ExtResource("1_o1ejr")
 shader_parameter/albedo1 = Color(0.443137, 0.635294, 0, 1)
 shader_parameter/albedo2 = Color(0.556863, 0.678431, 0.211765, 1)
-shader_parameter/albedo2_noise = ExtResource("4_rrif8")
 shader_parameter/albedo2_scale = 0.11
 shader_parameter/albedo2_threshold = 0.537
+shader_parameter/albedo2_noise = ExtResource("4_rrif8")
 shader_parameter/albedo3 = Color(0.501961, 0.654902, 0.223529, 1)
-shader_parameter/albedo3_noise = ExtResource("5_eyxx3")
 shader_parameter/albedo3_scale = 0.1
 shader_parameter/albedo3_threshold = 0.471
+shader_parameter/albedo3_noise = ExtResource("5_eyxx3")
+shader_parameter/accent_frequency1 = 0.001
+shader_parameter/accent_albedo1 = Color(1, 1, 1, 1)
+shader_parameter/accent_height1 = 0.5
+shader_parameter/accent_scale1 = 1.0
+shader_parameter/accent_probability2 = 0.1
+shader_parameter/accent_albedo2 = Color(1, 1, 1, 1)
+shader_parameter/accent_height2 = 0.5
+shader_parameter/accent_scale2 = 1.0
+shader_parameter/framerate = 5.0
+shader_parameter/quantised = true
+shader_parameter/world_space_sway = true
+shader_parameter/debug_noise = false
+shader_parameter/world_sway_angle = 60.0
+shader_parameter/fake_perspective_scale = 0.3
 shader_parameter/wind_noise = ExtResource("6_c6em7")
+shader_parameter/wind_noise_threshold = 0.365
 shader_parameter/wind_noise_scale = 0.071
 shader_parameter/wind_noise_speed = 0.025
-shader_parameter/world_sway_angle = 60.0
+shader_parameter/wind_noise_direction = Vector2(0, 1)
+shader_parameter/noise_diverge_angle = 10.0
+shader_parameter/view_space_sway = true
 shader_parameter/view_sway_speed = 0.1
 shader_parameter/view_sway_angle = 10.0
-shader_parameter/character_count = 32
+shader_parameter/character_displacement = true
+shader_parameter/debug_displacement = false
+shader_parameter/player_displacement_angle_z = 45.0
+shader_parameter/player_displacement_angle_x = 45.0
+shader_parameter/radius_exponent = 1.0
 shader_parameter/character_positions = [Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0)]
+shader_parameter/cuts = 3
+shader_parameter/wrap = 0.0
+shader_parameter/steepness = 1.0
+shader_parameter/threshold_gradient_size = 0.2
 
 [sub_resource type="QuadMesh" id="QuadMesh_o1ejr"]
 size = Vector2(8, 8)
@@ -34,9 +59,84 @@ size = Vector2(8, 8)
 [sub_resource type="MultiMesh" id="MultiMesh_o1ejr"]
 mesh = SubResource("QuadMesh_o1ejr")
 
+[sub_resource type="GDScript" id="GDScript_gpytt"]
+script/source = "
+extends MultiMeshInstance2D
+@export var conflict_cells: Array[Vector2i] = []
+
+
+
+@export var terrain_set_id: int = 0
+@export var terrain_id: int = 0
+@export var instances_per_tile : int = 25
+# Cells to avoid placing meshes on
+
+const VIEW_ANGLE_DEG := 26.4
+var view_compression := cos(deg_to_rad(VIEW_ANGLE_DEG))
+
+
+func initalize(conflict_cells_in : Array):
+	print(\"Generate_grass\")
+	conflict_cells=conflict_cells_in
+	generate()
+	
+
+func generate():
+	var tilemap := get_parent() as TileMapLayer
+	if tilemap == null:
+		push_error(\"Parent must be TileMapLayer\")
+		return
+
+	var valid_cells: Array[Vector2i] = []
+
+	# --- Collect valid terrain cells ---
+	for cell in tilemap.get_used_cells():
+		if conflict_cells.has(cell):
+			continue
+
+		var cell_data := tilemap.get_cell_tile_data(cell)
+		if cell_data == null:
+			continue
+
+		if cell_data.get_terrain_set() == terrain_set_id and cell_data.get_terrain() == terrain_id:
+			valid_cells.append(cell)
+
+	# --- Setup MultiMesh ---
+	var total_instances := valid_cells.size() * instances_per_tile
+	multimesh.instance_count = total_instances
+
+	var i := 0
+
+	for cell in valid_cells:
+		var tile_center := tilemap.map_to_local(cell)
+
+		for n in instances_per_tile:
+
+			# Random position inside tile (normalized -0.5 to 0.5)
+			var local_offset := Vector2(
+				randf_range(-0.5, 0.5),
+				randf_range(-0.5/view_compression, 0.5/view_compression)
+			)
+
+			# Compress Y distribution for camera tilt
+			local_offset.y *= view_compression
+
+			# Convert to pixel space
+			local_offset *= Vector2(16,16)
+
+			var final_pos := tile_center + local_offset
+
+
+
+			var instance_transform := Transform2D(0, final_pos)
+
+			multimesh.set_instance_transform_2d(i, instance_transform)
+			i += 1
+"
+
 [node name="GrassManager" type="MultiMeshInstance2D"]
 z_index = 1
 y_sort_enabled = true
 material = SubResource("ShaderMaterial_uylsy")
 multimesh = SubResource("MultiMesh_o1ejr")
-script = ExtResource("1_5xyhm")
+script = SubResource("GDScript_gpytt")

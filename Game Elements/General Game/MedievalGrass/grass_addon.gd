@@ -40,7 +40,7 @@ func initalize(conflict_cells_in : Array, tilemaplayer : TileMapLayer):
 	offset_y = -(sqrt(pow(grass_camera.position.y/cos(PI/2+grass_camera.rotation.x),2)-pow(grass_camera.position.y,2)))
 	print(camera_offset)
 	print("Generate_grass")
-
+	$SubViewport/CharacterManager.offset_y = offset_y
 	conflict_cells = conflict_cells_in
 	target_tilemap = tilemaplayer
 	generate()
