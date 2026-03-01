@@ -13,6 +13,10 @@ var grass_display : Node
 var scale_x = 1/ 45.0
 var offset_x = 2.57
 var offset_y : float
+var floor_offset_x = -.889
+var floor_offset_y = -3.05
+var grass_offset_x = 0
+var grass_offset_y = 0
 
 var scale_y = 1/ 18.5
 @onready var grass_camera = $SubViewport/Camera3D
@@ -48,8 +52,8 @@ func initalize(conflict_cells_in : Array, tilemaplayer : TileMapLayer):
 	var width_pixels  = used_rect.size.x * tile_size.x
 	var height_pixels = used_rect.size.y * tile_size.y
 	$SubViewport/Floor.mesh.size = Vector2(width_pixels* scale_x, height_pixels* scale_y)
-	$SubViewport/Floor.position.x=-.889
-	$SubViewport/Floor.position.z=offset_y-3.05
+	$SubViewport/Floor.position.x=floor_offset_x
+	$SubViewport/Floor.position.z=offset_y+floor_offset_y
 
 func generate():
 	if target_tilemap == null:
@@ -79,23 +83,18 @@ func generate():
 
 	for cell in valid_cells:
 		var tile_center_2d := target_tilemap.map_to_local(cell)
-		# Convert to 3D (X/Z plane)
-		var tile_center_3d := Vector3(
-			tile_center_2d.x,
-			0.0,
-			tile_center_2d.y
-		)
 
 		for n in instances_per_tile:
 
-			# Random offset inside tile (pixel space)
-			var offset := Vector3(
-				randf_range(-tile_size.x * 0.5, tile_size.x * 0.5),
+			# Random offset inside tile + Convert to 3D space
+			var final_pos := Vector3(
+				(tile_center_2d.x + randf_range(-tile_size.x * 0.5, tile_size.x * 0.5)) * scale_x,
 				0.0,
-				randf_range(-tile_size.y * 0.5, tile_size.y * 0.5)
+				(tile_center_2d.y + randf_range(-tile_size.y * 0.5, tile_size.y * 0.5)) * scale_y
 			)
 
-			var final_pos := tile_center_3d + offset
+			final_pos.x += grass_offset_x
+			final_pos.z += offset_y+grass_offset_y
 			var transform_inst := Transform3D(Basis.IDENTITY,final_pos)
 
 			$SubViewport/Grass.multimesh.set_instance_transform(i, transform_inst)

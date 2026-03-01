@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bjlqt0ad4do23"]
+[gd_scene load_steps=25 format=3 uid="uid://bjlqt0ad4do23"]
 
 [ext_resource type="Script" uid="uid://by1wxpi7fijx5" path="res://Game Elements/General Game/layer_manager.gd" id="1_gynnh"]
 [ext_resource type="PackedScene" uid="uid://0hahdiffjt61" path="res://Game Elements/ui/hud.tscn" id="2_4xk7e"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://1po7p0hcmfk" path="res://Game Elements/Bosses/scifi/scifi_splash.png" id="13_vxirk"]
 [ext_resource type="Texture2D" uid="uid://cggx60a5l71t7" path="res://art/white_square2.png" id="14_sf3i7"]
 [ext_resource type="FontFile" uid="uid://d366m5nnnpg1f" path="res://fonts/Orbitron-Bold.ttf" id="15_l10hl"]
+[ext_resource type="Shader" uid="uid://bxe3oguf2lb6m" path="res://Game Elements/General Game/grass_cull.gdshader" id="16_nt7kn"]
 
 [sub_resource type="Shader" id="Shader_alv7a"]
 code = "shader_type canvas_item;
@@ -341,6 +342,9 @@ shader_parameter/laser_width = 16.0
 shader_parameter/laser_fade_dist = 16.0
 shader_parameter/laser_rotation = 0.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vxirk"]
+shader = ExtResource("16_nt7kn")
+
 [node name="LayerManager" type="Node2D"]
 process_mode = 3
 script = ExtResource("1_gynnh")
@@ -492,6 +496,7 @@ script = ExtResource("9_n317s")
 
 [node name="GrassTexture" type="TextureRect" parent="game_container/game_viewport/game_root/Camera2D"]
 z_index = 1
+material = SubResource("ShaderMaterial_vxirk")
 offset_left = -240.0
 offset_top = -125.0
 offset_right = 1680.0
