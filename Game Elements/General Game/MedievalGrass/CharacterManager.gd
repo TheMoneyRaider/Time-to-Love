@@ -31,14 +31,13 @@ func _process(delta):
 			character_positions[i] = hidden_location
 		
 		# Get all nodes in the "characters" group
-		var characters = get_tree().get_nodes_in_group("enemy")
-		characters+=get_tree().get_nodes_in_group("player")
+		var characters = get_tree().get_nodes_in_group("characters")
 		
 		# Store their positions (up to MAX_CHARACTERS)
 		for i in range(min(characters.size(), MAX_CHARACTERS)):
 			var character = characters[i]
 			var size: float = character.grass_displacement_size
-			var position: Vector3 = Vector3(character.global_transform.origin.x,0.0,character.global_transform.origin.y)
+			var position: Vector3 = character.global_transform.origin
 			character_positions[i] = Vector4(position.x, position.y, position.z, size)
 			
 		
