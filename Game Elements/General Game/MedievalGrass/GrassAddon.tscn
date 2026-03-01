@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://krvyyr20xseg"]
+[gd_scene load_steps=21 format=3 uid="uid://krvyyr20xseg"]
 
 [ext_resource type="Script" uid="uid://bdmkmd1cji0xa" path="res://Game Elements/General Game/MedievalGrass/grass_addon.gd" id="1_02tsi"]
 [ext_resource type="Script" uid="uid://cillp37vidxaj" path="res://Game Elements/General Game/MedievalGrass/ShaderGlobals.gd" id="1_ypuxx"]
@@ -11,13 +11,12 @@
 [ext_resource type="Texture2D" uid="uid://c52v6tkx73uro" path="res://Game Elements/General Game/MedievalGrass/Albedo3Noise.tres" id="8_d8pid"]
 [ext_resource type="Texture2D" uid="uid://b6fhxncxd7b1t" path="res://Game Elements/General Game/MedievalGrass/WindNoise.tres" id="9_uyw53"]
 [ext_resource type="Script" uid="uid://cos68tdnu37ij" path="res://Game Elements/General Game/MedievalGrass/CharacterManager.gd" id="10_6g25e"]
-[ext_resource type="Script" uid="uid://d2s4mqubfm7v0" path="res://Game Elements/General Game/MedievalGrass/RandomPositionCharacter.gd" id="11_iiqgr"]
 
 [sub_resource type="Environment" id="Environment_tysh6"]
-background_energy_multiplier = 2.0
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_02tsi"]
-viewport_path = NodePath("SubViewport")
+background_energy_multiplier = 0.0
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.13
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_q6i3i"]
 seed = 1
@@ -89,7 +88,7 @@ shader_parameter/debug_displacement = false
 shader_parameter/player_displacement_angle_z = 60.0
 shader_parameter/player_displacement_angle_x = 62.7
 shader_parameter/radius_exponent = 0.9
-shader_parameter/character_positions = [Vector4(-2.672566, 0, -8.20416, 0.86), Vector4(3.5236723, 0, 0.31839204, 0.53), Vector4(3.9747078, 0, -1.2189088, 0.38), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0)]
+shader_parameter/character_positions = [Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0)]
 shader_parameter/cuts = 3
 shader_parameter/wrap = 0.0
 shader_parameter/steepness = 1.0
@@ -126,33 +125,20 @@ cloud_world_y = 50.0
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_tysh6")
 
-[node name="Display" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="ViewportTexture" type="Sprite2D" parent="Display"]
-position = Vector2(2382, 1394)
-scale = Vector2(3, 3)
-texture = SubResource("ViewportTexture_02tsi")
-
 [node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
 size = Vector2i(640, 360)
 
 [node name="Camera3D" type="Camera3D" parent="SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 0.89648646, 0.44307122, 0, -0.44307122, 0.89648646, 0, 16, 28)
+transform = Transform3D(1, 0, 0, 0, 0.89648646, 0.44307122, 0, -0.44307122, 0.89648646, 0, 8, 0)
 projection = 1
-size = 6.085
+size = 6.0
 near = 0.001
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewport"]
-transform = Transform3D(0.99488074, 0.0733035, -0.06956094, -0.031229172, 0.87766975, 0.4782487, 0.09610881, -0.47362688, 0.87546515, 0, 3.81, 0)
+transform = Transform3D(0.8751846, 0.45917767, 0.15234062, -0.32213792, 0.31817096, 0.8916315, 0.36093214, -0.82939816, 0.42639714, 0, 3.81, 0)
 shadow_enabled = true
+sky_mode = 1
 script = ExtResource("2_02tsi")
 
 [node name="Floor" type="MeshInstance3D" parent="SubViewport"]
@@ -160,56 +146,21 @@ material_override = SubResource("ShaderMaterial_tysh6")
 mesh = SubResource("PlaneMesh_q6i3i")
 skeleton = NodePath("../..")
 
-[node name="Grass" type="MultiMeshInstance3D" parent="SubViewport/Floor"]
+[node name="Grass" type="MultiMeshInstance3D" parent="SubViewport"]
 material_override = SubResource("ShaderMaterial_567bu")
 cast_shadow = 0
 multimesh = SubResource("MultiMesh_tysh6")
 
 [node name="CharacterManager" type="Node" parent="SubViewport" node_paths=PackedStringArray("grass")]
 script = ExtResource("10_6g25e")
-grass = NodePath("../Floor/Grass")
+grass = NodePath("../Grass")
 
 [node name="Characters" type="Node3D" parent="SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.56686, 0, 0.295852)
 
-[node name="Large" type="CharacterBody3D" parent="SubViewport/Characters" node_paths=PackedStringArray("camera") groups=["characters"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11245465, 0, -8.467368)
-velocity = Vector3(-0.4049164, 0, 1.9585819)
-script = ExtResource("11_iiqgr")
-camera = NodePath("../../Camera3D")
-speed = 2.0
-acceleration = 5.0
-grass_displacement_size = 0.86
-
-[node name="Capsule" type="MeshInstance3D" parent="SubViewport/Characters/Large"]
-transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0.75, 0)
-cast_shadow = 0
-mesh = SubResource("CapsuleMesh_xcudr")
-skeleton = NodePath("../../..")
-
-[node name="Medium" type="CharacterBody3D" parent="SubViewport/Characters" node_paths=PackedStringArray("camera") groups=["characters"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.063396, 0, 0.03939444)
-velocity = Vector3(-1.6281759, 0, 1.0112643)
-script = ExtResource("11_iiqgr")
-camera = NodePath("../../Camera3D")
-speed = 2.5
-acceleration = 5.0
-grass_displacement_size = 0.53
-
-[node name="Capsule" type="MeshInstance3D" parent="SubViewport/Characters/Medium"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
-cast_shadow = 0
-mesh = SubResource("CapsuleMesh_xcudr")
-skeleton = NodePath("../../..")
-
-[node name="Small" type="CharacterBody3D" parent="SubViewport/Characters" node_paths=PackedStringArray("camera") groups=["characters"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.549362, 0, -1.5151329)
-velocity = Vector3(0.4676839, 0, -0.022320986)
-script = ExtResource("11_iiqgr")
-camera = NodePath("../../Camera3D")
-speed = 3.0
-acceleration = 5.0
-grass_displacement_size = 0.38
+[node name="Small" type="CharacterBody3D" parent="SubViewport/Characters" groups=["characters"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.43, 0, -16.187)
+velocity = Vector3(-1.3333259, 0, -0.0044794977)
 
 [node name="Capsule" type="MeshInstance3D" parent="SubViewport/Characters/Small"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.4, 0)

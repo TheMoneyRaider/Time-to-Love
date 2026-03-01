@@ -7,12 +7,21 @@ extends Node3D
 # Cells to avoid placing meshes on
 var LayerManager : Node
 var game_camera : Node
+var camera_offset : float
 var grass_display : Node
+var scale_x = 1/ 45.0
+var scale_y = 1/ 18.5
 @onready var grass_camera = $SubViewport/Camera3D
 
-func _process(delta: float) -> void:
-	grass_camera.position.x = game_camera.position.x / 60.0
-	grass_camera.position.z = game_camera.position.y / 30.0 * 1/cos(grass_camera.rotation.x)+28
+func _process(_delta: float) -> void:
+	$SubViewport/Characters/Small.position.x = LayerManager.player1.position.x * scale_x+2.57
+	$SubViewport/Characters/Small.position.z = LayerManager.player1.position.y * scale_y+camera_offset
+	
+	
+	if not game_camera:
+		return
+	grass_camera.position.x = game_camera.position.x * scale_x
+	grass_camera.position.z = game_camera.position.y * scale_y
 	pass
 
 func initalize(conflict_cells_in : Array):
@@ -20,6 +29,8 @@ func initalize(conflict_cells_in : Array):
 	game_camera = LayerManager.camera
 	grass_display = game_camera.get_node("GrassTexture")
 	grass_display.texture = $SubViewport.get_texture()
+	camera_offset = -(sqrt(pow(grass_camera.position.y/cos(PI/2+grass_camera.rotation.x),2)-pow(grass_camera.position.y,2)))
+	print(camera_offset)
 	print("Generate_grass")
 	conflict_cells=conflict_cells_in
 	generate()
