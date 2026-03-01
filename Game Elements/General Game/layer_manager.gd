@@ -93,8 +93,8 @@ func _ready() -> void:
 	hud.connect_signals(player1)
 	hud.set_cross_position()
 	
-	var rem = load("res://Game Elements/Remnants/hoard.tres")
-	rem.rank = 4
+	var rem = load("res://Game Elements/Remnants/thorns.tres")
+	rem.rank = 5
 	player_1_remnants.append(rem.duplicate(true))
 	player_2_remnants.append(rem.duplicate(true))
 	####Remnant Testing
