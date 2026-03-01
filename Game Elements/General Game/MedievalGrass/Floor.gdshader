@@ -4,6 +4,7 @@
 
 shader_type spatial;
 
+uniform sampler2D mask_texture: filter_nearest, repeat_disable;
 group_uniforms colour;
 uniform vec4 albedo1 : source_color = vec4(1.0f);
 
@@ -37,6 +38,13 @@ void vertex() {
 }
 
 void fragment() {
+	vec2 uv = UV;
+
+	float mask = texture(mask_texture, uv).r;
+	
+	if (mask < 0.5) {
+		discard;
+	}
 	// Texture noises for grass patches
 	float albedo2_noise_tex = texture(albedo2_noise, vertex_world.xz * (albedo2_scale)).r;
 	float albedo3_noise_tex = texture(albedo3_noise, vertex_world.xz * (albedo3_scale)).r;
