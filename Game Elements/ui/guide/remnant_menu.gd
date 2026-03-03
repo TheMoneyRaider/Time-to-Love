@@ -2,8 +2,8 @@ extends CanvasLayer
 
 var mouse_mode = null
 var active = false
-@export var list_container : Node
-@export var marg_container : Node
+@export var list_container : HBoxContainer
+@export var scroller : Control
 
 var velocity := 0.0
 var is_dragging := false
@@ -27,15 +27,10 @@ func populate_remnants():
 	for rem in RemnantManager.remnant_pool:
 		rem.rank = 1
 		var entry = preload("res://Game Elements/ui/remnant_slot.tscn").instantiate()
-		var discovered = Globals.remnant_progress.has(rem.remnant_name)
 
 		list_container.add_child(entry)
 		entry.set_remnant(rem,false)
-		#if #total progress check
-		if prog < rem.progress_required:
-			entry.modulate = Color()
-		elif !discovered:
-			entry.get_node("btn_select/art").material.set_shader_parameter("grayscale",true)
+		visualize(entry,prog)
 		entry.slot_selected.connect(_on_slot_selected)
 		entry.index = i
 		if last_entry:
@@ -48,7 +43,10 @@ func populate_remnants():
 	scroll_position = 0
 	list_container.position.x = scroll_position
 
-func _gui_input(event):
+func _input(event):
+	if !active:
+		return
+
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
@@ -59,14 +57,32 @@ func _gui_input(event):
 				is_dragging = false
 				_calculate_snap_target()
 
-	if event is InputEventMouseMotion and is_dragging:
+	elif event is InputEventMouseMotion and is_dragging:
 		var delta = event.position.x - drag_last_x
 		drag_last_x = event.position.x
 
 		scroll_position += delta
 		velocity = delta
-
 		_update_scroll()
+
+func visualize(entry : Node, total_progress : float):
+	var rem = entry.remnant
+	var discovered = Globals.remnant_progress.has(rem.remnant_name)
+	if total_progress < rem.progress_required:
+		#entry.modulate = Color()
+		return
+	if !discovered:
+		entry.get_node("btn_select/container/description_label").visible = false
+		entry.get_node("btn_select/art").material.set_shader_parameter("grayscale",true)
+		return
+	var max_rank = Globals.remnant_progress[rem.remnant_name]
+	if rem.rank >max_rank:
+		entry.get_node("btn_select/container/description_label").visible = false
+		entry.get_node("btn_select/art").material.set_shader_parameter("grayscale",true)
+		return
+	entry.get_node("btn_select/container/description_label").visible = true
+	entry.get_node("btn_select/art").material.set_shader_parameter("grayscale",false)
+		
 
 
 func activate():
@@ -83,18 +99,15 @@ func _process(delta):
 		# Apply inertia
 		if abs(velocity) > 0.1:
 			scroll_position += velocity
-			velocity = lerp(velocity, 0, 5 * delta)
+			velocity = lerp(velocity, 0.0, 5 * delta)
 			_update_scroll()
 		else:
 			# Snap to nearest remnant
-			var diff = snap_target - scroll_position
-			scroll_position += diff * clamp(snap_speed * delta, 0, 1)
+			scroll_position = lerp(scroll_position, snap_target, snap_speed * delta)
 			_update_scroll()
 
 func _update_scroll():
-	list_container.position.x = scroll_position
-
-	var view_width = marg_container.size.x
+	var view_width = scroller.size.x
 	var content_width = list_container.size.x
 
 	# Clamp scrolling
@@ -102,7 +115,7 @@ func _update_scroll():
 	list_container.position.x = scroll_position
 
 	for child in list_container.get_children():
-		var center_dist = abs(child.global_position.x - marg_container.size.x / 2)
+		var center_dist = abs(child.global_position.x - scroller.size.x / 2)
 		var scale_factor = clamp(1.2 - center_dist / 600.0, 0.8, 1.2)
 		child.scale = Vector2.ONE * scale_factor
 
@@ -111,30 +124,34 @@ func _calculate_snap_target():
 	if list_container.get_child_count() == 0:
 		return
 
-	var center_x = marg_container.size.x / 2
-	var nearest = list_container.get_child(0)
-	var nearest_dist = abs((nearest.position.x + nearest.size.x/2 + scroll_position) - center_x)
+	# Assume all children have the same width
+	var child_width = list_container.get_child(0).size.x
 
-	for child in list_container.get_children():
-		var child_center = child.position.x + child.size.x / 2 + scroll_position
-		var dist = abs(child_center - center_x)
-		if dist < nearest_dist:
-			nearest = child
-			nearest_dist = dist
+	# Compute approximate nearest index from scroll_position
+	var center = scroller.size.x / 2
+	var approx_index = round((center - scroll_position - child_width / 2) / child_width)
 
-	# Snap target = so that nearest child is centered
-	snap_target = -nearest.position.x + center_x - nearest.size.x/2
-	# Clamp
-	snap_target = clamp(snap_target, min(marg_container.size.x - list_container.size.x, 0), 0)
+	# Clamp to valid child indices
+	approx_index = clamp(approx_index, 0, list_container.get_child_count() - 1)
+
+	# Snap to the child at that index
+	var child = list_container.get_child(approx_index)
+	snap_target = -child.position.x + center - child.size.x / 2
+
+	# Clamp snap_target to scroll bounds
+	snap_target = clamp(snap_target, min(scroller.size.x - list_container.size.x, 0), 0)
 
 
 
 func _on_slot_selected(idx: int) -> void:
+	#print(list_container.get_child(idx).remnant.remnant_name)
 	pass
 
 
 func _on_return_pressed():
 	active = false
 	hide()
+	snap_target=0.0
+	scroll_position=0.0
 	get_parent().get_node("PauseMenu").activate()
 	
