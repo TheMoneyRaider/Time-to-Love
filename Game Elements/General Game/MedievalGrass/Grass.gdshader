@@ -4,7 +4,7 @@
 shader_type spatial;
 render_mode depth_prepass_alpha, depth_draw_opaque; //, cull_disabled;
 
-#include "res://Game Elements/General Game/MedievalGrass/clouds.gdshaderinc"
+#include "res://Game Elements/General game/MedievalGrass/clouds.gdshaderinc"
 
 group_uniforms colours_and_textures;
 uniform sampler2D albedo_texture : source_color, filter_nearest; // Sprite for main grass quad

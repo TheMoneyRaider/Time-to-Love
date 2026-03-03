@@ -33,6 +33,7 @@ var exploded : float = 0
 @export var is_boss : bool = false
 @export var boss_phases : int = 0
 @export var boss_healthpools : Array[float] = []
+@export var grass_displacement_size = .5
 
 var phase = 0
 @onready var i_frames : int = 0

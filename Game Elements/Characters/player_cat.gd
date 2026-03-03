@@ -20,6 +20,7 @@ var move_speed: float
 @onready var swap_state = $LimboHSM/Swap
 
 @export var starting_direction : Vector2 =  Vector2(0,1)
+@export var grass_displacement_size = .5
 
 @onready var tether_line = $Line2D
 @onready var crosshair = $Crosshair

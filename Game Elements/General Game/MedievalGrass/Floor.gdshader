@@ -1,9 +1,10 @@
-// MIT License.
+// MIT License. 
 // Made by Dylearn
 // Adapted from atzuk4451 https://godotshaders.com/shader/flexible-toon-shader-godot-4/
 
 shader_type spatial;
 
+uniform sampler2D mask_texture: filter_nearest, repeat_disable;
 group_uniforms colour;
 uniform vec4 albedo1 : source_color = vec4(1.0f);
 
@@ -28,7 +29,7 @@ varying vec3 vertex_pos;
 varying vec3 normal;
 varying vec3 vertex_world;
 
-#include "res://Game Elements/General Game/MedievalGrass/clouds.gdshaderinc"
+#include "res://Game Elements/General game/MedievalGrass/clouds.gdshaderinc"
 
 void vertex() {
 	vertex_pos = VERTEX;
@@ -37,17 +38,37 @@ void vertex() {
 }
 
 void fragment() {
-	// Texture noises for grass patches
-	float albedo2_noise_tex = texture(albedo2_noise, vertex_world.xz * (albedo2_scale)).r;
-	float albedo3_noise_tex = texture(albedo3_noise, vertex_world.xz * (albedo3_scale)).r;
-	// Set colours based on noise thresholds
-	ALBEDO = albedo1.rgb;
-	if (albedo2_noise_tex > albedo2_threshold) {
-		ALBEDO = albedo2.rgb;
-	} if (albedo3_noise_tex > albedo3_threshold) {
-		ALBEDO = albedo3.rgb;
+	vec2 uv = UV;
+	
+	float mask = texture(mask_texture, vec2(uv.x,clamp(uv.y-uv.y/50.0,0.0,1.0))).r;
+	float mask2 = texture(mask_texture, uv).r;
+	
+	if (mask > 0.5 && mask2 < .5) {
+		ALBEDO = vec3(0.0,0.0,0.0);
+	}else{
+		if (mask2 < 0.5) {
+			discard;
+		}
+
+		// Texture noises for grass patches
+		float albedo2_noise_tex = texture(albedo2_noise, vertex_world.xz * (albedo2_scale)).r;
+		float albedo3_noise_tex = texture(albedo3_noise, vertex_world.xz * (albedo3_scale)).r;
+		// Set colours based on noise thresholds
+		ALBEDO = albedo1.rgb;
+		if (albedo2_noise_tex > albedo2_threshold) {
+			ALBEDO = albedo2.rgb;
+		} if (albedo3_noise_tex > albedo3_threshold) {
+			ALBEDO = albedo3.rgb;
+		}
 	}
+
+
+	
 }
+	
+	
+	
+
 
 void light() {
 	// Diffuse lighting.
