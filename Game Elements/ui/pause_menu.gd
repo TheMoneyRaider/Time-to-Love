@@ -41,7 +41,12 @@ func activate():
 	for node in get_tree().get_nodes_in_group("attack"):
 		node.pause_shaders()
 
-func _process(_delta):
+func _process(delta):
+	for child in $Control/Extras.get_children():
+		if child.is_hovered() or child.has_focus():
+			child.position.x = clamp(child.position.x-delta*150,168,198)
+		else:
+			child.position.x = clamp(child.position.x+delta*150,168,198)
 	pause_cooldown= max(0,pause_cooldown-1)
 		
 
@@ -92,3 +97,25 @@ func _on_menu_pressed():
 		slot_nodes[i].hide_visuals(true)
 	get_tree().paused = false
 	get_tree().call_deferred("change_scene_to_file", "res://Game Elements/ui/main_menu/main_menu.tscn")
+
+
+	
+
+
+
+func _on_letters_pressed() -> void:
+	pass # Replace with function body.
+
+
+func _on_weapons_pressed() -> void:
+	pass # Replace with function body.
+
+
+func _on_remnants_pressed() -> void:
+	active = false
+	pause_cooldown = 2000000000
+	for i in range(slot_nodes.size()):
+		slot_nodes[i].set_enabled(false)
+		slot_nodes[i].hide_visuals(true)
+	hide()
+	get_parent().get_node("RemnantMenu").activate()

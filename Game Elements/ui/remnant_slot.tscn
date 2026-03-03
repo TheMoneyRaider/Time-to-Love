@@ -19,6 +19,7 @@ shader = ExtResource("2_xvddi")
 shader_parameter/outline_color = Vector4(1, 1, 0, 1)
 shader_parameter/outline_thickness = 2.0
 shader_parameter/outline_opacity = 0.0
+shader_parameter/grayscale = false
 
 [sub_resource type="LabelSettings" id="LabelSettings_o7i6x"]
 font_size = 40

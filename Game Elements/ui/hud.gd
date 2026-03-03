@@ -44,6 +44,13 @@ func set_timefabric_amount(timefabric_collected : int):
 	$RootControl/VBoxContainer/HorizontalSlice/TimeFabric/HBoxContainer/Label.text = str(timefabric_collected)
 
 func set_remnant_icons(player1_remnants: Array, player2_remnants: Array, ranked_up1: Array[String] = [], ranked_up2: Array[String] = []):
+	
+	for rem in player1_remnants:
+		Globals.record_remnant(rem.remnant_name, rem.rank)
+	for rem in player2_remnants:
+		Globals.record_remnant(rem.remnant_name, rem.rank)
+	Globals.save_config()
+	
 	for child in $RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/LeftRemnants.get_children():
 		child.queue_free()
 	for child in $RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/RightRemnants.get_children():
@@ -363,8 +370,7 @@ func _on_max_health_changed(max_health : float, current_health : float,player_no
 		health_bar_2.set_current_health(current_health)
 		
 func load_settings():
-	if Globals.config_safe:
-		debug_mode = Globals.config.get_value("debug", "enabled", false)
+	debug_mode = Globals.config.get_value("debug", "enabled", false)
 		
 func display_debug_setting_header():
 	$RootControl/DebugMenu/GridContainer.set_anchors_preset(Control.PRESET_CENTER_RIGHT)

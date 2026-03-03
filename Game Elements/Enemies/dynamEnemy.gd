@@ -74,8 +74,7 @@ func request_attack(t_attack: PackedScene, attack_position: Vector2, attack_dire
 # import like, takes damage or something like that
 
 func load_settings():
-	if Globals.config_safe:
-		debug_mode = Globals.config.get_value("debug", "enabled", false)
+	debug_mode = Globals.config.get_value("debug", "enabled", false)
 	
 
 func _ready():

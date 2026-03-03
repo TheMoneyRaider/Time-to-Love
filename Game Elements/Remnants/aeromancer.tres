@@ -10,6 +10,6 @@ remnant_name = "Remnant of the Aeromancer"
 description = "Ranged attacks inherit $X% of your velocity. Melee attacks inherit half of that."
 icon = ExtResource("2_vt3b7")
 art = ExtResource("1_7axxn")
-variable_names = Array[String](["$X", "$Y"])
+variable_names = Array[String](["$X"])
 variable_1_values = [50.0, 100.0, 150.0, 200.0, 250.0]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://dx87pme08xv7f"]
+[gd_scene load_steps=9 format=3 uid="uid://dx87pme08xv7f"]
 
 [ext_resource type="Script" uid="uid://cwns04dm4s105" path="res://Game Elements/ui/pause_menu.gd" id="1_rk2xr"]
 [ext_resource type="StyleBox" uid="uid://bhn7lbt5yrxsl" path="res://Game Elements/ui/resources/6-1_button.tres" id="2_c1md2"]
 [ext_resource type="StyleBox" uid="uid://0lsgrq0cdmnb" path="res://Game Elements/ui/resources/6-3_button.tres" id="3_3by6j"]
 [ext_resource type="StyleBox" uid="uid://dnekp2864687f" path="res://Game Elements/ui/resources/6-2_button.tres" id="4_7ryux"]
 [ext_resource type="PackedScene" uid="uid://bsnhxne2rojuk" path="res://Game Elements/ui/remnant_slot.tscn" id="5_grgga"]
+[ext_resource type="Texture2D" uid="uid://crq6clfuj120q" path="res://art/UI Package/Book5.png" id="6_ndywj"]
+[ext_resource type="Texture2D" uid="uid://b07l7o62l7ykk" path="res://art/hammer.png" id="7_0k45p"]
+[ext_resource type="Texture2D" uid="uid://cmgl47tn0nsh0" path="res://art/example_mask.png" id="8_gvolt"]
 
 [node name="PauseMenu" type="CanvasLayer"]
 process_mode = 3
@@ -36,6 +39,7 @@ theme_override_constants/separation = 40
 
 [node name="Return" type="Button" parent="Control/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_right = NodePath("../../Extras/Letters")
 focus_neighbor_bottom = NodePath("../Settings")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = ExtResource("2_c1md2")
@@ -46,6 +50,7 @@ text = "Return to Game"
 [node name="Settings" type="Button" parent="Control/VBoxContainer"]
 layout_mode = 2
 focus_neighbor_top = NodePath("../Return")
+focus_neighbor_right = NodePath("../../Extras/Letters")
 focus_neighbor_bottom = NodePath("../Menu")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = ExtResource("2_c1md2")
@@ -56,6 +61,7 @@ text = "Settings"
 [node name="Menu" type="Button" parent="Control/VBoxContainer"]
 layout_mode = 2
 focus_neighbor_top = NodePath("../Return")
+focus_neighbor_right = NodePath("../../Extras/Letters")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = ExtResource("2_c1md2")
 theme_override_styles/pressed = ExtResource("3_3by6j")
@@ -90,6 +96,80 @@ layout_mode = 2
 [node name="slot2" parent="Control/MarginContainer/slots_hbox" instance=ExtResource("5_grgga")]
 layout_mode = 2
 
+[node name="Extras" type="Control" parent="Control"]
+custom_minimum_size = Vector2(280, 160)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Letters" type="Button" parent="Control/Extras"]
+layout_mode = 0
+offset_left = 198.0
+offset_top = 55.0
+offset_right = 518.0
+offset_bottom = 118.0
+focus_neighbor_left = NodePath("../../VBoxContainer/Settings")
+theme_override_styles/normal = ExtResource("2_c1md2")
+theme_override_styles/pressed = ExtResource("3_3by6j")
+theme_override_styles/hover = ExtResource("4_7ryux")
+
+[node name="TextureRect" type="TextureRect" parent="Control/Extras/Letters"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = -7.0
+offset_right = 79.0
+offset_bottom = 64.0
+texture = ExtResource("6_ndywj")
+
+[node name="Weapons" type="Button" parent="Control/Extras"]
+layout_mode = 0
+offset_left = 197.0
+offset_top = 121.0
+offset_right = 517.0
+offset_bottom = 184.0
+focus_neighbor_left = NodePath("../../VBoxContainer/Settings")
+theme_override_styles/normal = ExtResource("2_c1md2")
+theme_override_styles/pressed = ExtResource("3_3by6j")
+theme_override_styles/hover = ExtResource("4_7ryux")
+
+[node name="TextureRect" type="TextureRect" parent="Control/Extras/Weapons"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = -7.0
+offset_right = 79.0
+offset_bottom = 64.0
+texture = ExtResource("7_0k45p")
+
+[node name="Remnants" type="Button" parent="Control/Extras"]
+layout_mode = 0
+offset_left = 198.0
+offset_top = -11.0
+offset_right = 518.0
+offset_bottom = 52.0
+focus_neighbor_left = NodePath("../../VBoxContainer/Settings")
+theme_override_styles/normal = ExtResource("2_c1md2")
+theme_override_styles/pressed = ExtResource("3_3by6j")
+theme_override_styles/hover = ExtResource("4_7ryux")
+
+[node name="TextureRect" type="TextureRect" parent="Control/Extras/Remnants"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = -2.0
+offset_right = 73.0
+offset_bottom = 62.0
+texture = ExtResource("8_gvolt")
+
 [connection signal="pressed" from="Control/VBoxContainer/Return" to="." method="_on_return_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/Menu" to="." method="_on_menu_pressed"]
+[connection signal="pressed" from="Control/Extras/Letters" to="." method="_on_letters_pressed"]
+[connection signal="pressed" from="Control/Extras/Weapons" to="." method="_on_weapons_pressed"]
+[connection signal="pressed" from="Control/Extras/Remnants" to="." method="_on_remnants_pressed"]
