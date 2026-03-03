@@ -41,6 +41,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 413.0
 offset_bottom = 900.0
+pivot_offset = Vector2(206.5, 450)
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2

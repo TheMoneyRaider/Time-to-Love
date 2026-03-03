@@ -42,6 +42,7 @@ func populate_remnants():
 	# Reset scroll
 	scroll_position = 0
 	list_container.position.x = scroll_position
+	list_container.position.y = 0
 
 func _input(event):
 	if !active:
@@ -54,8 +55,8 @@ func _input(event):
 				drag_last_x = event.position.x
 				velocity = 0
 			else:
+				rem_snapped = false
 				is_dragging = false
-				_calculate_snap_target()
 
 	elif event is InputEventMouseMotion and is_dragging:
 		var delta = event.position.x - drag_last_x
@@ -91,7 +92,7 @@ func activate():
 	if Globals.is_multiplayer or Globals.player1_input != "key":
 		$Control/Return.grab_focus()
 	populate_remnants()
-
+var rem_snapped = false
 func _process(delta):
 	if !active:
 		return
@@ -103,20 +104,35 @@ func _process(delta):
 			_update_scroll()
 		else:
 			# Snap to nearest remnant
+			if !rem_snapped:
+				_calculate_snap_target()
+				rem_snapped = true
 			scroll_position = lerp(scroll_position, snap_target, snap_speed * delta)
 			_update_scroll()
 
 func _update_scroll():
+	
 	var view_width = scroller.size.x
 	var content_width = list_container.size.x
 
-	# Clamp scrolling
-	scroll_position = clamp(scroll_position, min(view_width - content_width, 0), 0)
+	if list_container.get_child_count() == 0:
+		return
+
+	var first_child = list_container.get_child(0)
+	var last_child = list_container.get_child(list_container.get_child_count() - 1)
+
+	# Calculate min/max so first/last can be centered
+	var min_scroll = view_width/2 - last_child.position.x - last_child.size.x/2
+	var max_scroll = view_width/2 - first_child.position.x - first_child.size.x/2
+
+	# Clamp scroll position to center first/last
+	scroll_position = clamp(scroll_position, min_scroll, max_scroll)
 	list_container.position.x = scroll_position
 
+	# Scale effect for children
 	for child in list_container.get_children():
-		var center_dist = abs(child.global_position.x - scroller.size.x / 2)
-		var scale_factor = clamp(1.2 - center_dist / 600.0, 0.8, 1.2)
+		var center_dist = abs(child.global_position.x + child.size.x/2 - scroller.global_position.x - scroller.size.x/2)
+		var scale_factor = clamp(1 - center_dist / 2400.0, 0.8, 1)
 		child.scale = Vector2.ONE * scale_factor
 
 # Find nearest remnant and set snap target
@@ -124,23 +140,27 @@ func _calculate_snap_target():
 	if list_container.get_child_count() == 0:
 		return
 
-	# Assume all children have the same width
-	var child_width = list_container.get_child(0).size.x
+	var center_x = scroller.global_position.x + scroller.size.x / 2
+	var nearest = list_container.get_child(0)
+	var nearest_dist = abs(nearest.global_position.x + nearest.size.x/2 - center_x)
 
-	# Compute approximate nearest index from scroll_position
-	var center = scroller.size.x / 2
-	var approx_index = round((center - scroll_position - child_width / 2) / child_width)
+	for child in list_container.get_children():
+		var child_center = child.global_position.x + child.size.x/2
+		var dist = abs(child_center - center_x)
+		if dist < nearest_dist:
+			nearest = child
+			nearest_dist = dist
 
-	# Clamp to valid child indices
-	approx_index = clamp(approx_index, 0, list_container.get_child_count() - 1)
+	# Compute snap target to center nearest child
+	snap_target = -nearest.position.x + scroller.size.x/2 - nearest.size.x/2
 
-	# Snap to the child at that index
-	var child = list_container.get_child(approx_index)
-	snap_target = -child.position.x + center - child.size.x / 2
+	# Use the same center-based clamp as _update_scroll
+	var first_child = list_container.get_child(0)
+	var last_child = list_container.get_child(list_container.get_child_count() - 1)
+	var min_scroll = scroller.size.x/2 - last_child.position.x - last_child.size.x/2
+	var max_scroll = scroller.size.x/2 - first_child.position.x - first_child.size.x/2
 
-	# Clamp snap_target to scroll bounds
-	snap_target = clamp(snap_target, min(scroller.size.x - list_container.size.x, 0), 0)
-
+	snap_target = clamp(snap_target, min_scroll, max_scroll)
 
 
 func _on_slot_selected(idx: int) -> void:
