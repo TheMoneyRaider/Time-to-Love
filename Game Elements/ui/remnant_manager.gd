@@ -14,20 +14,11 @@ func _load_all_remnants() -> void:
 	if dir == null:
 		push_error("Remnants folder not found: rres://Game Elements/Remnants/")
 		return
-	#dir.list_dir_begin()
-	#var file_name = dir.get_next()
-	
 	for file in dir:
 		if file.ends_with(".tres"):
 			var res = ResourceLoader.load("res://Game Elements/Remnants/" + file)
 			if res:
 				remnant_pool.append(res)
-		#if not dir.current_is_dir() and file_name.ends_with(".tres"):
-		#	var res = ResourceLoader.load("res://Game Elements/Remnants/" + file_name)
-		#	if res:
-		#		remnant_pool.append(res)
-		#file_name = dir.get_next()
-	#dir.list_dir_end()
 
 #Returns an array of up to `num` unique random remnants from the pool.
 func get_random_remnants(num: int = 4, player1_remnants: Array = [], player2_remnants : Array = []) -> Array[Resource]:

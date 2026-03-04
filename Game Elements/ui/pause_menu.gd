@@ -113,7 +113,13 @@ func _on_letters_pressed() -> void:
 
 
 func _on_weapons_pressed() -> void:
-	pass # Replace with function body.
+	active = false
+	pause_cooldown = 2000000000
+	for i in range(slot_nodes.size()):
+		slot_nodes[i].set_enabled(false)
+		slot_nodes[i].hide_visuals(true)
+	hide()
+	get_parent().get_node("WeaponMenu").activate()
 
 
 func _on_remnants_pressed() -> void:
