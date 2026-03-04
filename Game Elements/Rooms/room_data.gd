@@ -581,10 +581,10 @@ Globals.RoomVariant.SciFiFactory,																								#RoomVariant
 
 
 var testing_room : Room = room.Create_Room(
-"res://Game Elements/Rooms/medieval/outside2.tscn", 																		#Scene Location                       
+"res://Game Elements/Rooms/testing_room.tscn", 																		#Scene Location                       
 0,																																#Num Liquids
-[Globals.Liquid.Water,Globals.Liquid.Water,Globals.Liquid.Water,Globals.Liquid.Water,Globals.Liquid.Water],																										#Liquid Types 
-[.9,.9,.9,1,1],																										#Liquid Chances                     
+[],																																#Liquid Types 
+[],																																#Liquid Chances                     
 0,																																#Num Fillings              
 [],																																#Terrain Set                                      
 [],																																#Terrain ID                       
@@ -595,8 +595,8 @@ FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type
 0,																																#Num Traps              
 [],																																#Trap Chances                                
 [],																																#Trap Types                         
-4,																																#Num Pathways                   
-[Globals.Direction.Up,Globals.Direction.Down,Globals.Direction.Left,Globals.Direction.Right],									#Pathway Directions                     
+2,																																#Num Pathways                   
+[Globals.Direction.Up,Globals.Direction.Down],																					#Pathway Directions                     
 12,																																#Enemy Num Goal                               
 0,																																#NPC Spawnpoints   
 Globals.RoomType.Combat,

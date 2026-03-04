@@ -441,6 +441,10 @@ func set_weapon_sprite(weapon : Weapon, f_weapon_node : Node):
 
 
 func swap_color():
+	if LayerManager.room_instance:
+		var delta = get_process_delta_time()
+		effects += weapons[is_purple as int].use_special(delta, true, Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
+	
 	emit_signal("swapped_color", self)
 	if(is_purple):
 		is_purple = false
