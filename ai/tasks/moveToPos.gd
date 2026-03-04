@@ -60,8 +60,10 @@ func _tick(_delta: float) -> Status:
 			return SUCCESS
 		return RUNNING
 	
-	agent.move(target_pos, _delta)
-	return RUNNING
+	if(agent.move(target_pos, _delta)):
+		return RUNNING
+	else:
+		return FAILURE
 	
 func skip_waypoints_behind(path: Array, start_index: int) -> int:
 	if path.is_empty():

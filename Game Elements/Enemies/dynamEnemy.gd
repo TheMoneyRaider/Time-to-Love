@@ -28,6 +28,9 @@ var look_direction : Vector2 = Vector2(0,1)
 var last_hitter : Node = null
 var exploded : float = 0
 
+var last_pos:Vector2 = Vector2(0,0)
+var time_stuck: float = 0
+
 @export var hitable : bool = true
 @onready var i_frames : int = 0
 var weapon = null
@@ -83,6 +86,16 @@ func update_flip():
 	if sprite2d: 
 		sprite2d.flip_h = look_direction.x < 0
 
+func check_stuck(_delta: float):
+	if(position.distance_to(last_pos) <= 20):
+		time_stuck += _delta
+		if(time_stuck >= 2):
+			return false
+	else:
+		last_pos = position
+		time_stuck = 0
+	return true
+
 func move(target_pos: Vector2, _delta: float): 
 	look_direction = (target_pos - global_position).normalized()
 	
@@ -91,7 +104,14 @@ func move(target_pos: Vector2, _delta: float):
 	
 	update_flip()
 	
-	move_and_slide()
+	if(check_stuck(_delta)):
+		move_and_slide()
+		return true
+	else:
+		velocity = velocity.lerp(target_velocity * -2, 0.05)
+		move_and_slide()
+		return false
+		
 	
 func apply_velocity(vel : Vector2):
 	velocity=vel
