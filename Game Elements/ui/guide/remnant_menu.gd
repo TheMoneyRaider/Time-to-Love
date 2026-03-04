@@ -11,6 +11,10 @@ var drag_last_x := 0.0
 var scroll_position := 0.0
 var snap_target := 0.0
 var snap_speed := 10.0
+var current_focus_index := -2  # -1 means return focused
+@export var joystick_deadzone := 0.5  # adjust for your joystick sensitivity
+var last_input_dir := 0  # prevent repeated triggers
+var last_input_dirv := 0  # prevent repeated triggers
 
 func _ready():
 	hide()
@@ -53,7 +57,6 @@ func _setup_focus_neighbors(entry, left_neighbor):
 
 
 func _on_remnant_focus(focused_button: Button) -> void:
-	print("HEYYYYYYYYY")
 	# Center the focused button
 	var child = focused_button.get_parent() # assuming btn_select is a direct child of entry
 	var target_x = -child.position.x + scroller.size.x / 2 - child.size.x / 2
@@ -64,6 +67,7 @@ func _on_remnant_focus(focused_button: Button) -> void:
 	var min_scroll = scroller.size.x/2 - last_child.position.x - last_child.size.x/2
 	var max_scroll = scroller.size.x/2 - first_child.position.x - first_child.size.x/2
 	scroll_position = clamp(target_x, min_scroll, max_scroll)
+	snap_target = clamp(target_x, min_scroll, max_scroll)
 	list_container.position.x = scroll_position
 	
 	# Update $Control/Return's bottom focus neighbor
@@ -100,13 +104,43 @@ func visualize(entry : Node, total_progress : float):
 func activate():
 	active = true
 	show()
-	if Globals.is_multiplayer or Globals.player1_input != "key":
-		$Control/Return.grab_focus()
 	populate_remnants()
+	$Control/Return.grab_focus()
 var rem_snapped = false
 func _process(delta):
 	if !active:
 		return
+		
+	# --- Handle joystick navigation ---
+	var joy_dir := Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	var v_joy_dir := Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+
+	# Check for deadzone to avoid tiny movements
+	if abs(v_joy_dir) < joystick_deadzone:
+		last_input_dirv = 0
+	elif int(sign(v_joy_dir)) != last_input_dirv:
+		last_input_dirv = int(sign(v_joy_dir))
+		if last_input_dirv > 0:
+			current_focus_index = -1
+			$Control/Return.release_focus()
+		if last_input_dirv < 0:
+			current_focus_index = -2
+			$Control/Return.grab_focus()
+	if abs(joy_dir) < joystick_deadzone:
+		last_input_dir = 0
+	elif int(sign(joy_dir)) != last_input_dir:
+		last_input_dir = int(sign(joy_dir))
+		move_focus(last_input_dir)
+
+	# --- BUTTON PRESS ---
+	if Input.is_action_just_pressed("ui_accept"):
+		if current_focus_index >= 0:
+			var entry = list_container.get_child(current_focus_index)
+			entry.btn_select.emit_signal("pressed")  # or call _on_slot_selected
+		else:
+			_on_return_pressed()
+		
+		
 	if not is_dragging:
 		# Apply inertia
 		if abs(velocity) > 0.1:
@@ -120,6 +154,22 @@ func _process(delta):
 				rem_snapped = true
 			scroll_position = lerp(scroll_position, snap_target, snap_speed * delta)
 			_update_scroll()
+
+func move_focus(direction: int) -> void:
+	if list_container.get_child_count() == 0:
+		return
+
+	# Initialize focus if none
+	if current_focus_index == -1:
+		current_focus_index = 0
+	elif current_focus_index >= 0:
+		current_focus_index += direction
+		current_focus_index = clamp(current_focus_index, 0, list_container.get_child_count() - 1)
+	if current_focus_index >= 0:
+		var entry = list_container.get_child(current_focus_index)
+		var btn = entry.btn_select
+		_on_remnant_focus(btn)
+	print(current_focus_index)
 
 func _update_scroll():
 	
@@ -163,7 +213,8 @@ func _calculate_snap_target():
 
 	# Compute snap target to center nearest child
 	snap_target = -nearest.position.x + scroller.size.x/2 - nearest.size.x/2
-
+	if current_focus_index >= -1:
+		current_focus_index = nearest.index
 	# Use the same center-based clamp as _update_scroll
 	var first_child = list_container.get_child(0)
 	var last_child = list_container.get_child(list_container.get_child_count() - 1)
@@ -183,7 +234,6 @@ func _on_slot_selected(idx: int) -> void:
 
 
 func _on_return_pressed():
-	check_loop(self)
 	queue_free_children(list_container)
 	active = false
 	hide()
@@ -192,19 +242,11 @@ func _on_return_pressed():
 	drag_last_x = 0.0
 	scroll_position = 0.0
 	snap_target = 0.0
+	current_focus_index = -2
+	$Control/Return.grab_focus()
 	get_parent().get_node("PauseMenu").activate()
 	
 	
-func check_loop(node : Node):
-	for child in node.get_children():
-		check_loop(child)
-	debug_rect(node)
-	
-func debug_rect(node: Node):
-	if node.has_node("btn_select"):
-		var btn = node.get_node("btn_select")
-		print("Button:", btn.name, "GlobalPos:", btn.global_position, "Size:", btn.size)
-
 
 func _on_control_gui_input(event: InputEvent) -> void:
 	if !active:
