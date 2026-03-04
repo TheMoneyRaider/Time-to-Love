@@ -449,10 +449,11 @@ func swap_color():
 		set_weapon_sprite(weapons[0],weapon_node)
 		tether_line.default_color = Color("Orange")
 		weapons[1].special_time_elapsed = 0.0
-		var inst = preload("res://Game Elements/Particles/swap_particles.tscn").instantiate()
-		inst.range_choice = 1
-		inst.global_position = global_position
-		LayerManager.room_instance.add_child(inst)
+		if LayerManager.room_instance:
+			var inst = preload("res://Game Elements/Particles/swap_particles.tscn").instantiate()
+			inst.range_choice = 1
+			inst.global_position = global_position
+			LayerManager.room_instance.add_child(inst)
 	else:
 		is_purple = true
 		sprite.texture = purple_texture
@@ -460,10 +461,11 @@ func swap_color():
 		set_weapon_sprite(weapons[1],weapon_node)
 		tether_line.default_color = Color("Purple")
 		weapons[0].special_time_elapsed = 0.0
-		var inst = preload("res://Game Elements/Particles/swap_particles.tscn").instantiate()
-		inst.range_choice = 0
-		inst.global_position = global_position
-		LayerManager.room_instance.add_child(inst)
+		if LayerManager.room_instance:
+			var inst = preload("res://Game Elements/Particles/swap_particles.tscn").instantiate()
+			inst.range_choice = 0
+			inst.global_position = global_position
+			LayerManager.room_instance.add_child(inst)
 		
 
 var single_swap_duration : float = 0.0
@@ -517,7 +519,8 @@ func tether(delta : float):
 		if (global_position-other_player.global_position).length() <=6 and !is_multiplayer and single_swap_duration >.5:
 			swap_color()
 			single_toggle = true
-		other_player.disable()
+		if !is_multiplayer:
+			other_player.disable()
 		if tether_line.visible == true:
 			tether_line.visible = false
 			is_tethered = false

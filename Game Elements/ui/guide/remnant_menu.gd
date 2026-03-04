@@ -21,22 +21,21 @@ func queue_free_children(n :Node):
 
 func populate_remnants():
 	var i = 0
-	queue_free_children(list_container)
 	var prog = Globals.config.get_value("progress", "total_progress", 0.0)
 	var last_entry : Node = null
-	for rem in RemnantManager.remnant_pool:
+	var rems = RemnantManager.remnant_pool.duplicate(true)
+	rems.sort_custom(_sort_by_progress_required)
+	
+	for rem in rems:
 		rem.rank = 1
 		var entry = preload("res://Game Elements/ui/remnant_slot.tscn").instantiate()
 
 		list_container.add_child(entry)
-		entry.set_remnant(rem,false)
+		entry.set_remnant(rem.duplicate(true),false)
 		visualize(entry,prog)
 		entry.slot_selected.connect(_on_slot_selected)
 		entry.index = i
-		if last_entry:
-			entry.btn_select.focus_neighbor_left = last_entry.btn_select.get_path()
-			last_entry.btn_select.focus_neighbor_right = entry.btn_select.get_path()
-		entry.btn_select.focus_neighbor_top = $Control/Return.get_path()
+		call_deferred("_setup_focus_neighbors", entry, last_entry)
 		last_entry = entry
 		i+=1
 	# Reset scroll
@@ -44,33 +43,43 @@ func populate_remnants():
 	list_container.position.x = scroll_position
 	list_container.position.y = 0
 
-func _input(event):
-	if !active:
-		return
+func _setup_focus_neighbors(entry, left_neighbor):
+	if left_neighbor:
+		entry.btn_select.focus_neighbor_left = left_neighbor.btn_select.get_path()
+		left_neighbor.btn_select.focus_neighbor_right = entry.btn_select.get_path()
+	entry.btn_select.focus_neighbor_top = get_node("Control/Return").get_path()
+	if entry.index == 0:
+		$Control/Return.focus_neighbor_bottom = entry.btn_select.get_path()
 
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			if event.pressed:
-				is_dragging = true
-				drag_last_x = event.position.x
-				velocity = 0
-			else:
-				rem_snapped = false
-				is_dragging = false
 
-	elif event is InputEventMouseMotion and is_dragging:
-		var delta = event.position.x - drag_last_x
-		drag_last_x = event.position.x
+func _on_remnant_focus(focused_button: Button) -> void:
+	print("HEYYYYYYYYY")
+	# Center the focused button
+	var child = focused_button.get_parent() # assuming btn_select is a direct child of entry
+	var target_x = -child.position.x + scroller.size.x / 2 - child.size.x / 2
 
-		scroll_position += delta
-		velocity = delta
-		_update_scroll()
+	# Clamp using first/last child
+	var first_child = list_container.get_child(0)
+	var last_child = list_container.get_child(list_container.get_child_count() - 1)
+	var min_scroll = scroller.size.x/2 - last_child.position.x - last_child.size.x/2
+	var max_scroll = scroller.size.x/2 - first_child.position.x - first_child.size.x/2
+	scroll_position = clamp(target_x, min_scroll, max_scroll)
+	list_container.position.x = scroll_position
+	
+	# Update $Control/Return's bottom focus neighbor
+	$Control/Return.focus_neighbor_bottom = focused_button.get_path()
+
+func _sort_by_progress_required(a, b):
+	if a.progress_required < b.progress_required:
+		return true
+	return false
+
 
 func visualize(entry : Node, total_progress : float):
 	var rem = entry.remnant
 	var discovered = Globals.remnant_progress.has(rem.remnant_name)
 	if total_progress < rem.progress_required:
-		#entry.modulate = Color()
+		entry.modulate = Color()
 		return
 	if !discovered:
 		entry.get_node("btn_select/container/description_label").visible = false
@@ -84,6 +93,8 @@ func visualize(entry : Node, total_progress : float):
 	entry.get_node("btn_select/container/description_label").visible = true
 	entry.get_node("btn_select/art").material.set_shader_parameter("grayscale",false)
 		
+
+
 
 
 func activate():
@@ -113,7 +124,6 @@ func _process(delta):
 func _update_scroll():
 	
 	var view_width = scroller.size.x
-	var content_width = list_container.size.x
 
 	if list_container.get_child_count() == 0:
 		return
@@ -164,14 +174,56 @@ func _calculate_snap_target():
 
 
 func _on_slot_selected(idx: int) -> void:
-	#print(list_container.get_child(idx).remnant.remnant_name)
-	pass
+	var prog = Globals.config.get_value("progress", "total_progress", 0.0)
+	var entry = list_container.get_child(idx)
+	var rem = list_container.get_child(idx).remnant
+	rem.rank=(rem.rank %5)+1
+	entry.set_remnant(rem,false)
+	visualize(entry,prog)
 
 
 func _on_return_pressed():
+	check_loop(self)
+	queue_free_children(list_container)
 	active = false
 	hide()
-	snap_target=0.0
-	scroll_position=0.0
+	velocity = 0.0
+	is_dragging = false
+	drag_last_x = 0.0
+	scroll_position = 0.0
+	snap_target = 0.0
 	get_parent().get_node("PauseMenu").activate()
 	
+	
+func check_loop(node : Node):
+	for child in node.get_children():
+		check_loop(child)
+	debug_rect(node)
+	
+func debug_rect(node: Node):
+	if node.has_node("btn_select"):
+		var btn = node.get_node("btn_select")
+		print("Button:", btn.name, "GlobalPos:", btn.global_position, "Size:", btn.size)
+
+
+func _on_control_gui_input(event: InputEvent) -> void:
+	if !active:
+		return
+
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				is_dragging = true
+				drag_last_x = event.position.x
+				velocity = 0
+			else:
+				rem_snapped = false
+				is_dragging = false
+
+	elif event is InputEventMouseMotion and is_dragging:
+		var delta = event.position.x - drag_last_x
+		drag_last_x = event.position.x
+
+		scroll_position += delta
+		velocity = delta
+		_update_scroll()

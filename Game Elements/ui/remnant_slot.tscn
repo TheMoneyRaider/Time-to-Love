@@ -54,6 +54,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 theme_override_styles/normal = SubResource("StyleBoxEmpty_o7i6x")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_65u0l")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_7cik6")

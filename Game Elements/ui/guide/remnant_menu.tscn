@@ -9,8 +9,8 @@
 [ext_resource type="Shader" uid="uid://dr3o4q7afr1ft" path="res://Game Elements/ui/guide/remnant_menu.gdshader" id="7_q1eqk"]
 
 [sub_resource type="Gradient" id="Gradient_q1eqk"]
-offsets = PackedFloat32Array(0.2, 0.25, 0.5, 0.75, 0.8)
-colors = PackedColorArray(0.9119498, 0.9119498, 0.9119498, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9122807, 0.9122807, 0.9122807, 1)
+offsets = PackedFloat32Array(0.1, 0.25, 0.5, 0.75, 0.9)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_2fe1m"]
 gradient = SubResource("Gradient_q1eqk")
@@ -41,12 +41,14 @@ scroller = NodePath("Control/MarginContainer/Scroller")
 [node name="Background" type="TextureRect" parent="."]
 offset_right = 1920.0
 offset_bottom = 1000.0
+mouse_filter = 2
 texture = ExtResource("2_j7x1u")
 
 [node name="Overlay" type="TextureRect" parent="Background"]
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1000.0
+mouse_filter = 2
 texture = ExtResource("3_q1eqk")
 
 [node name="Control" type="Control" parent="."]
@@ -56,7 +58,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="Control"]
 layout_mode = 1
@@ -73,6 +74,7 @@ theme_override_constants/margin_bottom = 20
 
 [node name="Scroller" type="Control" parent="Control/MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="RemnantList" type="HBoxContainer" parent="Control/MarginContainer/Scroller"]
 layout_mode = 0
@@ -85,6 +87,7 @@ material = SubResource("ShaderMaterial_2fe1m")
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1000.0
+mouse_filter = 2
 texture = ExtResource("2_j7x1u")
 
 [node name="Overlay" type="TextureRect" parent="Control/Background2"]
@@ -92,14 +95,15 @@ material = SubResource("ShaderMaterial_q1eqk")
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1000.0
+mouse_filter = 2
 texture = ExtResource("3_q1eqk")
 
 [node name="Return" type="Button" parent="Control"]
 layout_mode = 0
 offset_left = 15.0
 offset_top = 14.0
-offset_right = 157.13522
-offset_bottom = 184.56227
+offset_right = 115.0
+offset_bottom = 134.0
 rotation = -1.5707964
 scale = Vector2(-1, 1)
 theme_override_font_sizes/font_size = 50
@@ -107,4 +111,5 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_2fe1m")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_rrs36")
 theme_override_styles/hover = SubResource("StyleBoxTexture_vk8ww")
 
+[connection signal="gui_input" from="Control" to="." method="_on_control_gui_input"]
 [connection signal="pressed" from="Control/Return" to="." method="_on_return_pressed"]
