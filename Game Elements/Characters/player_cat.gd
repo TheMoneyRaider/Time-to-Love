@@ -344,7 +344,10 @@ func _physics_process(delta):
 	
 	tether(delta)
 	if is_tethered:
-		input_direction += (tether_momentum / move_speed)
+		if is_multiplayer:
+			input_direction += (tether_momentum / move_speed)
+		else:
+			input_direction += (tether_momentum / move_speed) * 5.0
 	weapon_node.weapon_direction = (crosshair.position).normalized()
 	#move and slide function
 	if(self.process_mode != PROCESS_MODE_DISABLED and disabled_countdown <= 0):
@@ -438,13 +441,13 @@ func set_weapon_sprite(weapon : Weapon, f_weapon_node : Node):
 	else:
 		f_weapon_node.get_node("AnimationPlayer").play("RESET")
 	
-
+func reset_special():
+	var delta = get_process_delta_time()
+	effects += weapons[is_purple as int].use_special(delta, true, Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
 
 func swap_color():
 	if LayerManager.room_instance:
-		var delta = get_process_delta_time()
-		effects += weapons[is_purple as int].use_special(delta, true, Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
-	
+		reset_special()
 	emit_signal("swapped_color", self)
 	if(is_purple):
 		is_purple = false
@@ -490,8 +493,8 @@ func tether(delta : float):
 			update_animation_parameters(direct)
 	if !Input.is_action_pressed("swap_" + input_device):
 		single_toggle = false
-	if !single_toggle and Input.is_action_pressed("swap_" + input_device) and (is_multiplayer or (global_position-other_player.global_position).length() >=6 or single_swap_duration <.5):
-		if single_swap_duration+delta >=.5 and single_swap_duration <.5:
+	if !single_toggle and Input.is_action_pressed("swap_" + input_device) and (is_multiplayer or (global_position-other_player.global_position).length() >=6 or single_swap_duration <.25):
+		if single_swap_duration+delta >=.25 and single_swap_duration <.25:
 			is_tethered = true
 		single_swap_duration+=delta
 		if is_tethered:
@@ -513,14 +516,15 @@ func tether(delta : float):
 		tether_line.points[0] = position + (other_player.position - position).normalized() * 8
 		tether_line.points[2] = other_player.position + (position - other_player.position).normalized() * 8
 		tether_line.points[1] = (tether_line.points[0] + tether_line.points[2]) / 2
+		var tether_scale = 1.0
 		if ((other_player.position - position) / 25).length() > 8:
-			tether_momentum += (other_player.position - position).normalized() * 8 + (((other_player.position - position) - ((other_player.position - position).normalized() * 8)) / 100)
+			tether_momentum += ((other_player.position - position).normalized() * 8 + (((other_player.position - position) - ((other_player.position - position).normalized() * 8)) / 100)) * tether_scale
 		else:
 			tether_momentum += (other_player.position - position) / 25
 		tether_momentum *= .995
 		tether_line.width_curve.set_point_value(1, min(max(50 / tether_momentum.length(),.4),1))
 	else:
-		if (global_position-other_player.global_position).length() <=6 and !is_multiplayer and single_swap_duration >.5:
+		if (global_position-other_player.global_position).length() <=6 and !is_multiplayer and single_swap_duration >.25:
 			swap_color()
 			single_toggle = true
 		if !is_multiplayer:

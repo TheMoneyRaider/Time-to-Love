@@ -12,6 +12,7 @@ var active = false
 	$Control/MarginContainer/slots_hbox/slot2]
 
 func _ready():
+	LayerManager = get_tree().get_root().get_node("LayerManager")
 	for i in range(slot_nodes.size()):
 		slot_nodes[i].index = i
 		slot_nodes[i].slot_selected.connect(_on_slot_selected)
@@ -26,7 +27,7 @@ func setup(nodes : Array[Node]):
 			node.icon_selected.connect(_on_icon_selected)
 	
 
-
+var LayerManager : Node
 
 func activate():
 	active = true
@@ -40,6 +41,10 @@ func activate():
 	pause_cooldown = 5
 	for node in get_tree().get_nodes_in_group("attack"):
 		node.pause_shaders()
+	LayerManager.player1.reset_special()
+	if LayerManager.is_multiplayer:
+		LayerManager.player2.reset_special()
+		
 
 func _process(delta):
 	for child in $Control/Extras.get_children():
