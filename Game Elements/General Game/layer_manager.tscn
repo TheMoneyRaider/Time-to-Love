@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://bjlqt0ad4do23"]
+[gd_scene load_steps=28 format=3 uid="uid://bjlqt0ad4do23"]
 
 [ext_resource type="Script" uid="uid://by1wxpi7fijx5" path="res://Game Elements/General Game/layer_manager.gd" id="1_gynnh"]
 [ext_resource type="PackedScene" uid="uid://0hahdiffjt61" path="res://Game Elements/ui/hud.tscn" id="2_4xk7e"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://btw80vi8hk0iu" path="res://Game Elements/General Game/enemy_awareness.gd" id="6_754yq"]
 [ext_resource type="PackedScene" uid="uid://dm057ygch128h" path="res://Game Elements/ui/guide/remnant_menu.tscn" id="7_vxirk"]
 [ext_resource type="PackedScene" uid="uid://bfoxxhhsel1a" path="res://Game Elements/ui/guide/weapon_menu.tscn" id="8_sf3i7"]
+[ext_resource type="PackedScene" uid="uid://2nuxn7fyplmx" path="res://Game Elements/ui/guide/letter_menu.tscn" id="9_l10hl"]
 [ext_resource type="Script" path="res://Game Elements/General Game/camera.gd" id="9_n317s"]
 [ext_resource type="Texture2D" uid="uid://1c47fiseukev" path="res://Game Elements/Bosses/purple.png" id="11_arwbq"]
 [ext_resource type="Texture2D" uid="uid://nljj8bohfllh" path="res://Game Elements/Bosses/orange.png" id="12_nt7kn"]
@@ -369,6 +370,8 @@ glow_scene = ExtResource("5_570vf")
 [node name="RemnantMenu" parent="." instance=ExtResource("7_vxirk")]
 
 [node name="WeaponMenu" parent="." instance=ExtResource("8_sf3i7")]
+
+[node name="LetterMenu" parent="." instance=ExtResource("9_l10hl")]
 
 [node name="Transition" type="CanvasLayer" parent="."]
 layer = 2

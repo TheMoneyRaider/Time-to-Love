@@ -305,23 +305,24 @@ func _check_on_hit_remnants(dmg_owner: Node, attack_body: Node):
 
 func apply_hydromancer(rem : Remnant, attack_body : Node):
 	var effect : Effect
-	match attack_body.last_liquid:
-		Globals.Liquid.Water:
-			for i in range(rem.rank * 8):
-				effect = load("res://Game Elements/Effects/slow_down.tres").duplicate()
-				effect.cooldown = rem.rank
-				effect.value1 = 0.023
-				effect.gained(self)
-				effects.append(effect)
-		Globals.Liquid.Lava:
-			for i in range(1, rem.rank + 1):
-				effect = load("res://Game Elements/Effects/burn.tres").duplicate()
-				effect.cooldown = i
-				effect.value1 = 2
-				effect.gained(self)
-				effects.append(effect)
-		_:
-			pass
+	if attack_body:
+		match attack_body.last_liquid:
+			Globals.Liquid.Water:
+				for i in range(rem.rank * 8):
+					effect = load("res://Game Elements/Effects/slow_down.tres").duplicate()
+					effect.cooldown = rem.rank
+					effect.value1 = 0.023
+					effect.gained(self)
+					effects.append(effect)
+			Globals.Liquid.Lava:
+				for i in range(1, rem.rank + 1):
+					effect = load("res://Game Elements/Effects/burn.tres").duplicate()
+					effect.cooldown = i
+					effect.value1 = 2
+					effect.gained(self)
+					effects.append(effect)
+			_:
+				pass
 		
 
 func check_traps(delta):
