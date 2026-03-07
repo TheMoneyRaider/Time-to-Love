@@ -16,10 +16,9 @@ texture = ExtResource("5_jy464")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vk8ww"]
 texture = ExtResource("6_2be7c")
 
-[node name="LetterMenu" type="CanvasLayer" node_paths=PackedStringArray("scroller")]
+[node name="LetterMenu" type="CanvasLayer"]
 process_mode = 3
 script = ExtResource("1_1k26a")
-scroller = NodePath("Control/MarginContainer/Letters")
 
 [node name="Background" type="TextureRect" parent="."]
 offset_right = 1920.0

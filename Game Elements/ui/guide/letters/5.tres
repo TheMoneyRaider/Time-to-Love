@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="Letter" load_steps=2 format=3 uid="uid://dlcqik2ucggk6"]
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://dlcqik2ucggk6"]
 
 [ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="1_6j0n8"]
+[ext_resource type="Resource" uid="uid://cr3frg5xo54e2" path="res://Game Elements/ui/guide/letter_formats/normal_paper.tres" id="1_ucuqc"]
 
 [resource]
 script = ExtResource("1_6j0n8")
 letter_id = 4
 description = "I have often wondered, my love, what to call these realms we travel through. They sit woven through different possibilities, different outcomes from some set point so far back nothing and no one could ever truly hope to know the exact origin. With that point so far out of sight, how can we be sure these timelines don't sit apart from each other after all? Are these different times? Different worlds? Truly, I struggle to quailfy it all."
+letter_format = ExtResource("1_ucuqc")
 metadata/_custom_type_script = "uid://gbihjja6jybk"
