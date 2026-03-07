@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=2 format=3 uid="uid://dk8ju86ov3y7e"]
+
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="1_qvsmr"]
+
+[resource]
+script = ExtResource("1_qvsmr")
+letter_id = 0
+description = "TSS Odyssey, Captain’s Log: Day 364\\n    We are one day out from a solar standard year. The crew is excited for tomorrow's celebrations. They don’t even know that I’ve got a few bottles of Terran champagne stored for the occasion; beats the fabricated stuff. Looking out my porthole I can see the Violet-17 Nebula. Its hues are marvelous. Reds, blues, and purples abound. I wish you could see it my dear."
+metadata/_custom_type_script = "uid://gbihjja6jybk"

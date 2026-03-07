@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=2 format=3 uid="uid://dla5phkpnldr8"]
+
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="1_d38s3"]
+
+[resource]
+script = ExtResource("1_d38s3")
+letter_id = 2
+description = "Purple Room: Exhibit 4\\nThis rubbing, taken from carvings on a boulder discovered in the archeological remains of a 1388 French Battlefield, appears to demonstrate a personal grudge between the two enemy commanders. The boulder was likely launched by a trebuche. A reconstruction of a period accurate trebuche can be found in the orange hall.\\n“SO CAN A LEVER”"
+metadata/_custom_type_script = "uid://gbihjja6jybk"

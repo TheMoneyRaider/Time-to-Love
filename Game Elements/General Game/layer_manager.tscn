@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://btw80vi8hk0iu" path="res://Game Elements/General Game/enemy_awareness.gd" id="6_754yq"]
 [ext_resource type="PackedScene" uid="uid://dm057ygch128h" path="res://Game Elements/ui/guide/remnant_menu.tscn" id="7_vxirk"]
 [ext_resource type="PackedScene" uid="uid://bfoxxhhsel1a" path="res://Game Elements/ui/guide/weapon_menu.tscn" id="8_sf3i7"]
-[ext_resource type="PackedScene" uid="uid://2nuxn7fyplmx" path="res://Game Elements/ui/guide/letter_menu.tscn" id="9_l10hl"]
+[ext_resource type="PackedScene" uid="uid://2nuxn7fyplmx" path="res://Game Elements/ui/guide/letters/letter_menu.tscn" id="9_l10hl"]
 [ext_resource type="Script" path="res://Game Elements/General Game/camera.gd" id="9_n317s"]
 [ext_resource type="Texture2D" uid="uid://1c47fiseukev" path="res://Game Elements/Bosses/purple.png" id="11_arwbq"]
 [ext_resource type="Texture2D" uid="uid://nljj8bohfllh" path="res://Game Elements/Bosses/orange.png" id="12_nt7kn"]

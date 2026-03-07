@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=2 format=3 uid="uid://dg4igougmwk83"]
+
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="1_5v7u2"]
+
+[resource]
+script = ExtResource("1_5v7u2")
+letter_id = 1
+description = "TSS Odyssey Expunged Records.\\n    This is the first mate of the TSS Odyssey recording this for posterity’s sake. It moved, the nebula moved. All millions of miles of dust and gas moved at once. I know, I know, for any of those particles to move they would’ve broken lightspeed hundreds of times over. But I swear it. I checked out nav charts and they said the same thing. Before I could report my findings Captain Rust insisted I delete them. She has her reasons but this must stay known. The nebula inexplicably shifted and it spelled out:\\n “MAGIC CAN MOVE ANYTHING AS LONG AS IT IS A SUFFICIENT DISTANCE AWAY.”"
+metadata/_custom_type_script = "uid://gbihjja6jybk"
