@@ -9,7 +9,7 @@ var current_focus_index := -2  # -1 means return focused
 var last_input_dir := 0  # prevent repeated triggers
 var last_input_dirv := 0  # prevent repeated triggers
 var letter_pool: Array[Letter] = []
-
+var letter_buttons: Array[Button]
 var LayerManager : Node
 func _ready():
 	_load_all_letters()
@@ -96,12 +96,20 @@ func populate_letters():
 
 		btn.connect("pressed", Callable(self, "_on_letter_pressed").bind(count))
 		container.add_child(btn)
+		letter_buttons.append(btn)
 		
 
 		count += 1
+var button_cooldown : float = 0.0
+func _process(delta: float) -> void:
+	button_cooldown = max(0.0,button_cooldown-delta)
 
-func _on_letter_pressed(index: int):
-	print("Letter pressed: %d" % index)
+
+var letter_active : bool = false
+
+func view_letter(idx : int):
+	button_cooldown=.25
+	letter_active = true
 
 	var viewer = $Control/MarginContainer/Viewer
 	viewer.visible = true
@@ -109,7 +117,7 @@ func _on_letter_pressed(index: int):
 	var button = viewer.get_node("TextureButton") as TextureButton
 	var text = viewer.get_node("RichTextLabel") as RichTextLabel
 
-	var tex = letter_pool[index].letter_format.per_letter_art as Texture2D
+	var tex = letter_pool[idx].letter_format.per_letter_art as Texture2D
 	if tex == null:
 		push_error("Texture null")
 		return
@@ -120,48 +128,101 @@ func _on_letter_pressed(index: int):
 	# Resize button to keep aspect ratio
 	button.size = Vector2(viewer.size.y * tex.get_width()/tex.get_height(), viewer.size.y)
 	button.position.x = viewer.size.x/2 - button.size.x/2
+	button.pivot_offset = button.size/2.0
 
 	# Set text
-	text.text = letter_pool[index].description
+	text.text = letter_pool[idx].description
 	text.position = Vector2(0,0)
 	text.size = viewer.size
 
 	# Special per-letter tweaks
-	match letter_pool[index].letter_format.name:
+	match letter_pool[idx].letter_format.name:
 		"Stone":
 			text.position = Vector2(550,100)
 			text.size.x = 800
-			pass
 		"Paper":
 			text.position = Vector2(660,80)
 			text.size.x = 640
-			text.text = "[color=#363535][font_size=24]"+text.text
-			pass
+			text.text = "[color=#363535][font_size=24]" + text.text
 		"ModernNewspaper":
 			text.position = Vector2(550,350)
 			text.size.x = 780
-			text.text = "[color=#7e7e7e]"+text.text
-			pass
+			text.text = "[color=#7e7e7e]" + text.text
 		"1980sNewspaper":
 			text.position = Vector2(550,350)
 			text.size.x = 780
-			text.text = "[color=#979081]"+text.text
-			pass
+			text.text = "[color=#979081]" + text.text
 		"OldNewspaper":
 			text.position = Vector2(550,350)
 			text.size.x = 780
-			text.text = "[color=#82796c]"+text.text
-			pass
+			text.text = "[color=#82796c]" + text.text
 		"Holographic":
 			text.position = Vector2(750,40)
 			text.size.x = 340
-			text.text = "[color=#b9f9fa][font_size=20]"+text.text
-			pass
+			text.text = "[color=#b9f9fa][font_size=20]" + text.text
+
+
+	# -----------------------
+	# Animation
+	# -----------------------
+
+	var source_button = letter_buttons[idx]
+
+	# center of clicked button (global)
+	var start_center = source_button.global_position + source_button.size / 2
+
+	# convert to viewer parent space
+	var viewer_parent = viewer.get_parent()
+	var start_local = viewer_parent.get_global_transform().affine_inverse() * start_center
+
+	# final position
+	var final_pos = viewer.position
+
+	# set pivot so viewer scales from its center
+	viewer.pivot_offset = viewer.size / 2
+
+	# start state
+	viewer.position = start_local - viewer.size/2
+	viewer.scale = Vector2(0.2, 0.2)
+	viewer.modulate.a = 0.0
+
+	# animate
+	var tween = create_tween()
+	tween.set_trans(Tween.TRANS_BACK)
+	tween.set_ease(Tween.EASE_OUT)
+
+	tween.parallel().tween_property(viewer, "position", final_pos, 0.35)
+	tween.parallel().tween_property(viewer, "scale", Vector2.ONE, 0.35)
+	tween.parallel().tween_property(viewer, "modulate:a", 1.0, 0.25)
+	
+func close_letter():
+	button_cooldown=.25
+	letter_active = false
+	var viewer = $Control/MarginContainer/Viewer
+	var tween = create_tween()
+	tween.set_trans(Tween.TRANS_BACK)
+	tween.set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(viewer, "scale", Vector2.ZERO, .25)
+	tween.parallel().tween_property(viewer, "modulate:a", 0.0, .25)
+	pass
+
+
+
+
+func _on_letter_pressed(index: int):
+	if button_cooldown!=0.0:
+		return
+	print("Letter pressed: %d" % index)
+	if letter_active:
+		close_letter()
+		return
+	else:
+		view_letter(index)
 			
 			
 
 func _on_texture_button_pressed() -> void:
-	$Control/MarginContainer/Viewer.visible = false
+	close_letter()
 	
 
 func queue_free_children(n :Node):
@@ -169,6 +230,7 @@ func queue_free_children(n :Node):
 		c.queue_free()
 
 func activate():
+	letter_buttons.clear()
 	active = true
 	show()
 	populate_letters()
