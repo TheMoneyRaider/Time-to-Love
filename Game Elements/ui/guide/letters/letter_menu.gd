@@ -49,34 +49,58 @@ func populate_letters():
 
 		var letter_format = letter_pool[count].letter_format
 
-		# Create sprite
-		var text := TextureRect.new()
-		text.texture = letter_format.main_art
+		# Compute bounding box of the polygon
+		var min_x = frag_poly[0].x
+		var max_x = frag_poly[0].x
+		var min_y = frag_poly[0].y
+		var max_y = frag_poly[0].y
+		for p in frag_poly:
+			min_x = min(min_x, p.x)
+			max_x = max(max_x, p.x)
+			min_y = min(min_y, p.y)
+			max_y = max(max_y, p.y)
+		var bbox_size = Vector2(max_x - min_x, max_y - min_y)
 
-		# Scale sprite to container size
-		text.position = text.size / 2
-
-		container.add_child(text)
-		var mat = ShaderMaterial.new()
-		mat.shader = preload("res://Game Elements/ui/guide/letter.gdshader")
+		# Create a button inside that bounding box
+		var btn := preload("res://Game Elements/ui/guide/letter_fragment.tscn").instantiate()
+		btn.position = Vector2(min_x, min_y)
+		btn.size = bbox_size
+		btn.name = "LetterButton_%d" % count
 
 		var uv_points = []
 		for p in frag_poly:
 			uv_points.append(p / container.size)
 		var center = Vector2(0.0,0.0);
+		btn.polygon_points = uv_points  # uv_points normalized 0..1 inside button
+		
+		var text := TextureRect.new()
+		text.texture = letter_format.main_art
+		text.position = Vector2.ZERO
+		text.size = container.size
+		text.stretch_mode = TextureRect.STRETCH_SCALE
+		text.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		for p in frag_poly:
 			center += p
 		center = center / float(frag_poly.size()) / container.size
-
+		var mat  = ShaderMaterial.new()
+		mat.shader = preload("res://Game Elements/ui/guide/letter.gdshader")
 		mat.set_shader_parameter("point_count", uv_points.size())
 		mat.set_shader_parameter("points", uv_points)
 		mat.set_shader_parameter("center_point", center)
 		mat.set_shader_parameter("image_size", container.size)
-		text.material = mat
 		text.size = container.get_size()
+		text.material = mat
+		container.add_child(text)
+
+		btn.connect("pressed", Callable(self, "_on_letter_pressed").bind(count))
+		container.add_child(btn)
 		
 
 		count += 1
+
+func _on_letter_pressed(index: int):
+	print("Letter pressed: %d" % index)
+	# You can do whatever with the letter here
 
 
 func queue_free_children(n :Node):
