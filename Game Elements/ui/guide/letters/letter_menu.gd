@@ -13,6 +13,8 @@ var letter_pool: Array[Letter] = []
 var LayerManager : Node
 func _ready():
 	_load_all_letters()
+	$Control/MarginContainer/Viewer.visible = false
+	
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	hide()
 
@@ -100,8 +102,67 @@ func populate_letters():
 
 func _on_letter_pressed(index: int):
 	print("Letter pressed: %d" % index)
-	# You can do whatever with the letter here
 
+	var viewer = $Control/MarginContainer/Viewer
+	viewer.visible = true
+
+	var button = viewer.get_node("TextureButton") as TextureButton
+	var text = viewer.get_node("RichTextLabel") as RichTextLabel
+
+	var tex = letter_pool[index].letter_format.per_letter_art as Texture2D
+	if tex == null:
+		push_error("Texture null")
+		return
+
+	button.texture_normal = tex
+	await get_tree().process_frame
+
+	# Resize button to keep aspect ratio
+	button.size = Vector2(viewer.size.y * tex.get_width()/tex.get_height(), viewer.size.y)
+	button.position.x = viewer.size.x/2 - button.size.x/2
+
+	# Set text
+	text.text = letter_pool[index].description
+	text.position = Vector2(0,0)
+	text.size = viewer.size
+
+	# Special per-letter tweaks
+	match letter_pool[index].letter_format.name:
+		"Stone":
+			text.position = Vector2(550,100)
+			text.size.x = 800
+			pass
+		"Paper":
+			text.position = Vector2(660,80)
+			text.size.x = 640
+			text.text = "[color=#363535][font_size=24]"+text.text
+			pass
+		"ModernNewspaper":
+			text.position = Vector2(550,350)
+			text.size.x = 780
+			text.text = "[color=#7e7e7e]"+text.text
+			pass
+		"1980sNewspaper":
+			text.position = Vector2(550,350)
+			text.size.x = 780
+			text.text = "[color=#979081]"+text.text
+			pass
+		"OldNewspaper":
+			text.position = Vector2(550,350)
+			text.size.x = 780
+			text.text = "[color=#82796c]"+text.text
+			pass
+		"Holographic":
+			text.position = Vector2(750,40)
+			text.size.x = 340
+			text.text = "[color=#b9f9fa][font_size=20]"+text.text
+			pass
+			
+			
+
+func _on_texture_button_pressed() -> void:
+	$Control/MarginContainer/Viewer.visible = false
+	
 
 func queue_free_children(n :Node):
 	for c in n.get_children():

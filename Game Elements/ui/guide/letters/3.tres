@@ -6,6 +6,6 @@
 [resource]
 script = ExtResource("1_d38s3")
 letter_id = 2
-description = "Purple Room: Exhibit 4\\nThis rubbing, taken from carvings on a boulder discovered in the archeological remains of a 1388 French Battlefield, appears to demonstrate a personal grudge between the two enemy commanders. The boulder was likely launched by a trebuche. A reconstruction of a period accurate trebuche can be found in the orange hall.\\n“SO CAN A LEVER”"
+description = "[font_size=48][color=#574d3e]Purple Room: Exhibit 4[br][br][font_size=24]This rubbing, taken from carvings on a boulder discovered in the archeological remains of a 1388 French Battlefield, appears to demonstrate a personal grudge between the two enemy commanders. The boulder was likely launched by a trebuche. A reconstruction of a period accurate trebuche can be found in the orange hall.[br][br][br][br][font_size=32][color=orange]“SO CAN A LEVER”[/color]"
 letter_format = ExtResource("1_gf2qt")
 metadata/_custom_type_script = "uid://gbihjja6jybk"
