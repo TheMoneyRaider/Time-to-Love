@@ -4,12 +4,9 @@ var mouse_mode = null
 var active = false
 @onready var container : Control = $Control/MarginContainer/Letters
 
-var current_focus_index := -2  # -1 means return focused
-@export var joystick_deadzone := 0.5  # adjust for your joystick sensitivity
-var last_input_dir := 0  # prevent repeated triggers
-var last_input_dirv := 0  # prevent repeated triggers
 var letter_pool: Array[Letter] = []
 var letter_buttons: Array[Button]
+var fragment_visuals : Array[TextureRect] = []
 var LayerManager : Node
 func _ready():
 	_load_all_letters()
@@ -36,7 +33,7 @@ func populate_letters():
 	var letter_count = letter_pool.size()
 	if letter_count == 0:
 		return
-
+	container.size = Vector2(1880,960)
 	# compute grid close to sqrt(N)
 	var grid_x = ceil(sqrt(letter_count))
 	var grid_y = ceil(float(letter_count) / grid_x)
@@ -72,8 +69,12 @@ func populate_letters():
 		var uv_points = []
 		for p in frag_poly:
 			uv_points.append(p / container.size)
-		var center = Vector2(0.0,0.0);
-		btn.polygon_points = uv_points  # uv_points normalized 0..1 inside button
+		var center = Vector2(0.0,0.0)
+		var local_points = []
+		for p in frag_poly:
+			local_points.append(p - Vector2(min_x, min_y))
+
+		btn.scale_polygon(local_points, .9)
 		
 		var text := TextureRect.new()
 		text.texture = letter_format.main_art
@@ -93,7 +94,12 @@ func populate_letters():
 		text.size = container.get_size()
 		text.material = mat
 		container.add_child(text)
+		fragment_visuals.append(text)
 
+		btn.connect("focus_entered", Callable(self, "_on_fragment_hover").bind(count))
+		btn.connect("focus_exited", Callable(self, "_on_fragment_unhover").bind(count))
+		btn.connect("fragment_hovered", Callable(self, "_on_fragment_hover").bind(count))
+		btn.connect("fragment_unhovered", Callable(self, "_on_fragment_unhover").bind(count))
 		btn.connect("pressed", Callable(self, "_on_letter_pressed").bind(count))
 		container.add_child(btn)
 		letter_buttons.append(btn)
@@ -103,6 +109,19 @@ func populate_letters():
 var button_cooldown : float = 0.0
 func _process(delta: float) -> void:
 	button_cooldown = max(0.0,button_cooldown-delta)
+
+
+func _on_fragment_unhover(idx:int):
+	if fragment_visuals.size() >idx-1:
+		var mat = fragment_visuals[idx].material
+		mat.set_shader_parameter("highlight",0)
+	
+func _on_fragment_hover(idx:int):
+	if fragment_visuals.size() >idx-1:
+		var mat = fragment_visuals[idx].material
+		for child in fragment_visuals:
+			child.material.set_shader_parameter("highlight",0)
+		mat.set_shader_parameter("highlight", 1)
 
 
 var letter_active : bool = false
@@ -230,21 +249,19 @@ func queue_free_children(n :Node):
 		c.queue_free()
 
 func activate():
-	letter_buttons.clear()
 	active = true
 	show()
 	populate_letters()
 	$Control/Return.grab_focus()
-var wep_snapped = false
 
 
 
 func _on_return_pressed():
+	letter_buttons.clear()
+	fragment_visuals.clear()
 	queue_free_children(container)
 	active = false
 	hide()
-	current_focus_index = -2
-	$Control/Return.grab_focus()
 	get_parent().get_node("PauseMenu").activate()
 	
 	

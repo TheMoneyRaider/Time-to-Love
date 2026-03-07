@@ -9,6 +9,7 @@ uniform vec2 image_size;
 uniform float quant_scale = 256.0;
 uniform float pixel_shadow = 16.0;
 uniform float shade_strength = 0.5; // fraction to darken
+uniform int highlight = 0;
 
 bool point_in_polygon(vec2 p, float scale){
 	bool inside = false;
@@ -54,5 +55,8 @@ void fragment(){
 		COLOR = vec4(tex.rgb * (1.0 - shade_strength), tex.a) * modulate_color;
 	} else {
 		discard;
+	}
+	if(highlight > 0){
+		COLOR *= vec4(1.0, 0.874, 0.658,1.0);
 	}
 }
