@@ -74,7 +74,7 @@ func _input(event):
 				_on_fragment_unhover(i)
 
 	# Handle mouse button click
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+	if event is InputEventMouseButton and event.is_released() and event.button_index == MOUSE_BUTTON_LEFT:
 		for i in range(letter_buttons.size()):
 			if _point_in_polygon(event.position,polygons[i]):
 				_on_letter_pressed(i)
@@ -334,6 +334,9 @@ func close_letter(instant : bool = false):
 
 
 func _on_letter_pressed(index: int):
+	await get_tree().process_frame
+	if !active:
+		return
 	if button_cooldown!=0.0:
 		return
 	print("Letter pressed: %d" % index)
