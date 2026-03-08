@@ -30,7 +30,7 @@ func find_best_pair(min_num: int, ratio: float):
 	for a in range(1, max_a):
 		# compute b based on the ratio a/b ≈ ratio -> b ≈ a / ratio
 		var b = round(a / ratio)
-		if b <= 0:
+		if b <= 0 or a * b < min_num:
 			continue
 
 		var product_error = abs(a * b - min_num)
@@ -255,10 +255,11 @@ func view_letter(idx : int):
 		"Stone":
 			text.position = Vector2(550,100)
 			text.size.x = 800
+			text.text = "[color=#4a4a48][font_size=32]" + text.text
 		"Paper":
-			text.position = Vector2(660,80)
+			text.position = Vector2(660,78)
 			text.size.x = 640
-			text.text = "[color=#363535][font_size=24]" + text.text
+			text.text = "[color=#363535][font_size=26]" + text.text
 		"ModernNewspaper":
 			text.position = Vector2(550,350)
 			text.size.x = 780
@@ -274,7 +275,7 @@ func view_letter(idx : int):
 		"Holographic":
 			text.position = Vector2(750,40)
 			text.size.x = 340
-			text.text = "[color=#b9f9fa][font_size=20]" + text.text
+			text.text = "[font=res://fonts/Orbitron-Regular.ttf][color=#b9f9fa][font_size=20]" + text.text
 
 
 	# -----------------------
