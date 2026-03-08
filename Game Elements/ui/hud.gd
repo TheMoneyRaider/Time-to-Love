@@ -479,8 +479,8 @@ func update_shader(material: ShaderMaterial, new_prog : float, reset : bool = fa
 		material.set_shader_parameter("time_offset", Time.get_ticks_msec() / 1000.0-1)
 		
 func display_notification(text : String, fade_in : float = 1.0, hold : float= 1.0, fade_out : float= 1.0):
-	var hud_notification := $RootControl/Notification
-	var label := $RootControl/Notification/Noti/RichTextLabel
+	var hud_notification := $RootControl/VBoxContainer
+	var label := $RootControl/VBoxContainer/Noti/RichTextLabel
 
 	label.text = text
 	hud_notification.modulate.a = 0.0

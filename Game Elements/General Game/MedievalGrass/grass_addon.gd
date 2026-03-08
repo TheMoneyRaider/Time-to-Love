@@ -32,10 +32,15 @@ func _process(_delta: float) -> void:
 	grass_camera.position.z = game_camera.position.y * scale_y
 	pass
 
+func _exit_tree():
+	grass_display = game_camera.get_node("GrassTexture")
+	grass_display.visible = false
+
 func initalize(conflict_cells_in : Array, tilemaplayer : TileMapLayer):
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	game_camera = LayerManager.camera
 	grass_display = game_camera.get_node("GrassTexture")
+	grass_display.visible = true
 	grass_display.texture = $SubViewport.get_texture()
 	offset_y = -(sqrt(pow(grass_camera.position.y/cos(PI/2+grass_camera.rotation.x),2)-pow(grass_camera.position.y,2)))
 	print(camera_offset)

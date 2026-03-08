@@ -653,8 +653,8 @@ Globals.RoomVariant.SciFiFactory,																								#RoomVariant
 var testing_room : Room = room.Create_Room(
 "res://Game Elements/Rooms/medieval/outside2.tscn", 																		#Scene Location                       
 0,																																#Num Liquids
-[Globals.Liquid.Water,Globals.Liquid.Water,Globals.Liquid.Water,Globals.Liquid.Water,Globals.Liquid.Water],																										#Liquid Types 
-[.9,.9,.9,1,1],																										#Liquid Chances                     
+[Globals.Liquid.Water,Globals.Liquid.Water,Globals.Liquid.Water],																										#Liquid Types 
+[.9,.9,.9],																										#Liquid Chances                     
 0,																																#Num Fillings              
 [],																																#Terrain Set                                      
 [],																																#Terrain ID                       

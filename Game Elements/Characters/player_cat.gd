@@ -371,10 +371,10 @@ func _physics_process(delta):
 	elif Input.is_action_just_released("special_" + input_device):
 		effects += weapons[is_purple as int].use_special(delta, true, Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
 		
-  in_combat -= delta
+	in_combat -= delta
 	if(in_combat > 0):
 		time_since_last_hit += delta
-    
+	
 	adjust_cooldowns(delta)
 	red_flash()
 	if disabled_countdown >= 1:
@@ -442,7 +442,7 @@ func pre_damage_trigger(damage_amount: float, _dmg_owner : Node) -> float:
 					temp_move = move_speed
 				damage_amount *= (1.0-rem.variable_1_values[rem.rank-1]/100.0*((temp_move/base_move_speed)-1))
 				damage_amount = max(0.0,damage_amount)
-			if rem.remnant_name == invest.remnant_name:
+			invest.remnant_name:
 				LayerManager.timefabric_collected-= LayerManager.timefabric_collected * (rem.variable_2_values[rem.rank-1])/100.0
 			emp.remnant_name:
 				if _dmg_owner and _dmg_owner.is_in_group("enemy"):

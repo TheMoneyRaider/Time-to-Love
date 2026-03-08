@@ -376,7 +376,7 @@ func create_new_rooms() -> void:
 	# Start async generation thread
 	thread_running = true
 	room_gen_thread = Thread.new()
-	room_gen_thread.start(_thread_generate_rooms.bind(medieval_layer, room_instance_data)) #TODO change this to be based on layer ish
+	room_gen_thread.start(_thread_generate_rooms.bind(sci_fi_layer, room_instance_data)) #TODO change this to be based on layer ish
 
 func update_ai_array(generated_room : Node2D, generated_room_data : Room) -> void:
 	#Rooms cleared
