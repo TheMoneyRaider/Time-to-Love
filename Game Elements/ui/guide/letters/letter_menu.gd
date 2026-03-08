@@ -11,11 +11,42 @@ var LayerManager : Node
 func _ready():
 	_load_all_letters()
 	$Control/MarginContainer/Viewer.visible = false
-	
+	find_best_pair(letter_pool.size(),1880/960.0)
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	hide()
 	await view_letter(0)
 	close_letter()
+
+var grid_x 
+var grid_y
+func find_best_pair(min_num: int, ratio: float):
+	var best_a = 1
+	var best_b = min_num
+	var best_score = 2000000000
+	# Search a reasonable range for a
+	# We take square root as an approximate midpoint
+	var max_a = int(min_num ** 0.5 * 2) + 1
+	for a in range(1, max_a):
+		# compute b based on the ratio a/b ≈ ratio -> b ≈ a / ratio
+		var b = round(a / ratio)
+		if b <= 0:
+			continue
+
+		var product_error = abs(a * b - min_num)
+		var ratio_error = abs((a / b) - ratio)
+
+		# Combine errors into a score (weight can be tuned)
+		var score = product_error + ratio_error * min_num  # scale ratio error to product magnitude
+
+		if score < best_score:
+			best_score = score
+			best_a = a
+			best_b = b
+
+	grid_x = best_a
+	grid_y = best_b
+
+
 
 func _load_all_letters() -> void:
 	#var dir = DirAccess.open("res://Game Elements/Remnants/")
@@ -36,9 +67,6 @@ func populate_letters():
 	if letter_count == 0:
 		return
 	container.size = Vector2(1880,960)
-	# compute grid close to sqrt(N)
-	var grid_x = ceil(sqrt(letter_count))
-	var grid_y = ceil(float(letter_count) / grid_x)
 	await get_tree().process_frame
 
 	var fragments_data = generate_jittered_grid_fragments(container.size, grid_x, grid_y)
