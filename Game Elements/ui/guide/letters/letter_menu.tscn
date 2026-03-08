@@ -76,6 +76,7 @@ offset_right = 261.0
 offset_bottom = 480.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 0
 texture_normal = ExtResource("4_xgv7v")
 stretch_mode = 4
 

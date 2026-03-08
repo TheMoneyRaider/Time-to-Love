@@ -8,6 +8,7 @@ var hovering := false
 
 
 func _process(_delta):
+	queue_redraw()
 	if polygon_points.size() < 3:
 		return
 

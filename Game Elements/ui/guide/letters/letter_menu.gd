@@ -64,8 +64,8 @@ func populate_letters():
 
 		# Create a button inside that bounding box
 		var btn := preload("res://Game Elements/ui/guide/letter_fragment.tscn").instantiate()
-		btn.position = Vector2(min_x, min_y)
-		btn.size = bbox_size
+		btn.position = Vector2(min_x, min_y) + bbox_size / 2 - bbox_size / 10
+		btn.size = bbox_size / 10
 		btn.name = "LetterButton_%d" % count
 
 		var uv_points = []
@@ -84,6 +84,7 @@ func populate_letters():
 		text.size = container.size
 		text.stretch_mode = TextureRect.STRETCH_SCALE
 		text.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		text.focus_behavior_recursive = Control.FOCUS_BEHAVIOR_DISABLED
 		for p in frag_poly:
 			center += p
 		center = center / float(frag_poly.size()) / container.size
