@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://bmb5ip00tidvr"]
 
-[ext_resource type="Script" uid="uid://djs1rcercfqnx" path="res://Game Elements/ui/death_menu.gd" id="1_wxn66"]
+[ext_resource type="Script" uid="uid://c7fr1m61n7nob" path="res://Game Elements/ui/save_states/saves.gd" id="1_51ben"]
 [ext_resource type="Shader" uid="uid://bxy3s0x1oqsce" path="res://Game Elements/ui/resources/replay.gdshader" id="2_mh5qr"]
 [ext_resource type="StyleBox" uid="uid://bhn7lbt5yrxsl" path="res://Game Elements/ui/resources/6-1_button.tres" id="2_mw7a0"]
 [ext_resource type="StyleBox" uid="uid://0lsgrq0cdmnb" path="res://Game Elements/ui/resources/6-3_button.tres" id="3_dydff"]
@@ -13,7 +13,7 @@ shader_parameter/intensity = 1.0
 
 [node name="DeathMenu" type="CanvasLayer"]
 process_mode = 3
-script = ExtResource("1_wxn66")
+script = ExtResource("1_51ben")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

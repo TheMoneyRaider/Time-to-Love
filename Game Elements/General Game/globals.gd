@@ -4,11 +4,12 @@ extends Node
 var is_multiplayer:bool = false
 var player1_input
 var player2_input
-var total_progress : float = 2.3
+var total_progress : float = 0.0
 var current_progress : float = 0.0
 
 signal config_changed
-var remnant_progress : Dictionary = {}
+var save_state : SaveState
+var save_idx : int = 0
 var config := ConfigFile.new()
 var config_path := "user://settings.cfg"
 
@@ -30,26 +31,26 @@ func _ready():
 	load_config()
 	player1_input = config.get_value("inputs","player1_input", "key")
 	player2_input = config.get_value("inputs","player2_input", "0")
-	total_progress = config.get_value("progress","total_progress", 0.0)
 	randomize()
 	menu = randi()%4 as MenuState
 func load_config():
 	var err = config.load(config_path)
 	if err != OK:
 		print("Failed to load config:", err)
-
-	remnant_progress = config.get_value("progress", "remnant_progress", {})
+	save_idx = config.get_value("saves", "save_idx",0)
+	save_state = config.get_value("saves", str(save_idx), SaveState.new())
+	total_progress = save_state.total_progress
 
 func save_config():
-	config.set_value("progress","total_progress", max(total_progress,current_progress))
-	config.set_value("progress", "remnant_progress", remnant_progress)
+	save_state.total_progress = max(total_progress,current_progress)
+	config.set_value("saves", str(save_idx), save_state)
 	config.save(config_path)
 	emit_signal("config_changed")
 
 func record_remnant(remnant_name: String, rank: int, save_instantly : bool = false):
-	if remnant_name in remnant_progress:
-		remnant_progress[remnant_name] = max(remnant_progress[remnant_name], rank)
+	if remnant_name in save_state.remnant_progress:
+		save_state.remnant_progress[remnant_name] = max(save_state.remnant_progress[remnant_name], rank)
 	else:
-		remnant_progress[remnant_name] = rank
+		save_state.remnant_progress[remnant_name] = rank
 	if save_instantly:
 		save_config()

@@ -81,7 +81,7 @@ func _sort_by_progress_required(a, b):
 
 func visualize(entry : Node, total_progress : float):
 	var rem = entry.remnant
-	var discovered = Globals.remnant_progress.has(rem.remnant_name)
+	var discovered = Globals.save_state.remnant_progress.has(rem.remnant_name)
 	if total_progress < rem.progress_required:
 		entry.modulate = Color()
 		return
@@ -89,7 +89,7 @@ func visualize(entry : Node, total_progress : float):
 		entry.get_node("btn_select/container/description_label").visible = false
 		entry.get_node("btn_select/art").material.set_shader_parameter("grayscale",true)
 		return
-	var max_rank = Globals.remnant_progress[rem.remnant_name]
+	var max_rank = Globals.save_state.remnant_progress[rem.remnant_name]
 	if rem.rank >max_rank:
 		entry.get_node("btn_select/container/description_label").visible = false
 		entry.get_node("btn_select/art").material.set_shader_parameter("grayscale",true)

@@ -41,6 +41,11 @@ func _process(delta):
 		total_time+=delta
 
 func activate():
+	Globals.save_state.time_spent+=total_time
+	Globals.save_state.picture=recent_buffer[0]
+	Globals.save_config()
+	
+	
 	capturing=false
 	capture_timer.stop()
 	show()

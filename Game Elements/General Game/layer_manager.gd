@@ -161,6 +161,10 @@ func _ready() -> void:
 	rem.rank = 2
 	player_1_remnants.append(rem.duplicate(true))
 	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/aeromancer.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
 	
 	
 	player1.display_combo()
