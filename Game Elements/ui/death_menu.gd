@@ -53,6 +53,8 @@ func activate():
 			button.disabled = false
 	if Globals.is_multiplayer or Globals.player1_input != "key":
 		$Control/VBoxContainer/Rewind.grab_focus()
+	for node in get_tree().get_nodes_in_group("attack"):
+		node.pause_shaders()
 
 func _capture_frame():
 	frame_amount +=1

@@ -27,10 +27,9 @@ var menu : MenuState
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	var err = load_config()
-	if err == OK:
-		config_safe=true
-		player1_input = config.get_value("inputs","player1_input", "key")
-		player2_input = config.get_value("inputs","player2_input", "0")
+	config_safe=true
+	player1_input = config.get_value("inputs","player1_input", "key")
+	player2_input = config.get_value("inputs","player2_input", "0")
 	randomize()
 	menu = randi()%4 as MenuState
 func load_config():

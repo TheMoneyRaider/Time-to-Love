@@ -1,0 +1,219 @@
+[gd_scene load_steps=18 format=3 uid="uid://ing4lokwwifl"]
+
+[ext_resource type="Script" uid="uid://dmm75b80hjtpr" path="res://Game Elements/Characters/fake_player.gd" id="1_dwurg"]
+[ext_resource type="Texture2D" uid="uid://bse7gaxbkiksd" path="res://art/Sprout Lands - Sprites - Basic pack/Characters/Basic Purple Spritesheet-export.png" id="2_lpbgk"]
+[ext_resource type="Script" uid="uid://dcpvhpj3f8luc" path="res://Game Elements/States/idle.gd" id="3_levjs"]
+[ext_resource type="Script" uid="uid://dwkcar82gxuft" path="res://Game Elements/States/move.gd" id="4_ckvp8"]
+[ext_resource type="Script" uid="uid://btup6tc7rnbka" path="res://Game Elements/States/attack.gd" id="5_ke8d0"]
+[ext_resource type="Script" uid="uid://cb8pnerh8ctk3" path="res://Game Elements/States/swap.gd" id="6_it0g3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k8dsg"]
+size = Vector2(10, 15)
+
+[sub_resource type="Animation" id="Animation_5yx10"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_0nvui"]
+resource_name = "idle_down"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_3b306"]
+resource_name = "idle_left"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [8, 9]
+}
+
+[sub_resource type="Animation" id="Animation_adw66"]
+resource_name = "idle_right"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [12, 13]
+}
+
+[sub_resource type="Animation" id="Animation_mvmeq"]
+resource_name = "idle_up"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [4, 5]
+}
+
+[sub_resource type="Animation" id="Animation_hx6oh"]
+resource_name = "walk_down"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_pilkh"]
+resource_name = "walk_left"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [10, 11]
+}
+
+[sub_resource type="Animation" id="Animation_rktvm"]
+resource_name = "walk_right"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [14, 15]
+}
+
+[sub_resource type="Animation" id="Animation_tnolk"]
+resource_name = "walk_up"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [6, 7]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_428uj"]
+_data = {
+&"RESET": SubResource("Animation_5yx10"),
+&"idle_down": SubResource("Animation_0nvui"),
+&"idle_left": SubResource("Animation_3b306"),
+&"idle_right": SubResource("Animation_adw66"),
+&"idle_up": SubResource("Animation_mvmeq"),
+&"walk_down": SubResource("Animation_hx6oh"),
+&"walk_left": SubResource("Animation_pilkh"),
+&"walk_right": SubResource("Animation_rktvm"),
+&"walk_up": SubResource("Animation_tnolk")
+}
+
+[node name="FakePlayer" type="RigidBody2D" node_paths=PackedStringArray("state_machine")]
+z_index = 20
+y_sort_enabled = true
+collision_layer = 2
+collision_mask = 5
+gravity_scale = 0.0
+lock_rotation = true
+linear_damp = 4.0
+script = ExtResource("1_dwurg")
+state_machine = NodePath("LimboHSM")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_k8dsg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+texture = ExtResource("2_lpbgk")
+hframes = 4
+vframes = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_428uj")
+}
+
+[node name="LimboHSM" type="LimboHSM" parent="."]
+
+[node name="Idle" type="LimboState" parent="LimboHSM" node_paths=PackedStringArray("animation_player")]
+script = ExtResource("3_levjs")
+animation_player = NodePath("../../AnimationPlayer")
+
+[node name="Move" type="LimboState" parent="LimboHSM" node_paths=PackedStringArray("animation_player")]
+script = ExtResource("4_ckvp8")
+animation_player = NodePath("../../AnimationPlayer")
+animation = &"walk_up"
+
+[node name="Attack" type="LimboState" parent="LimboHSM" node_paths=PackedStringArray("animation_player")]
+script = ExtResource("5_ke8d0")
+animation_player = NodePath("../../AnimationPlayer")
+
+[node name="Swap" type="LimboState" parent="LimboHSM" node_paths=PackedStringArray("animation_player")]
+script = ExtResource("6_it0g3")
+animation_player = NodePath("../../AnimationPlayer")

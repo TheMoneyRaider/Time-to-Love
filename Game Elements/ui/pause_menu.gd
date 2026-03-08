@@ -38,6 +38,8 @@ func activate():
 	if Globals.is_multiplayer or Globals.player1_input != "key":
 		$Control/VBoxContainer/Return.grab_focus()
 	pause_cooldown = 5
+	for node in get_tree().get_nodes_in_group("attack"):
+		node.pause_shaders()
 
 func _process(_delta):
 	pause_cooldown= max(0,pause_cooldown-1)
@@ -81,6 +83,8 @@ func _on_return_pressed():
 	get_tree().get_root().get_node("LayerManager/DeathMenu").capturing = true
 	get_tree().paused = false
 	hide()
+	for node in get_tree().get_nodes_in_group("attack"):
+		node.resume_shaders()
 
 func _on_menu_pressed():
 	for i in range(slot_nodes.size()):

@@ -72,11 +72,8 @@ void fragment() {
 		COLOR = texture(TEXTURE, UV);
 		
 	}else{
-		vec2 noise_coord = world_pos;
 	    vec4 col = texture(TEXTURE, UV);
 		
-	    vec2 screen_size = 1.0 / SCREEN_PIXEL_SIZE;
-	    vec2 uv = FRAGCOORD.xy / screen_size.x; 
 	   	float shade = pattern(floor(world_pos)/scale);
 
 	    vec4 map_col = colormap(shade);

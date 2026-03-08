@@ -253,7 +253,8 @@ Globals.RoomType.Combat,																										#RoomType
 Globals.RoomVariant.SciFiCyberspace,																							#RoomVariant
 ["res://Game Elements/Characters/robot.tscn","res://Game Elements/Characters/binary_bot.tscn"],									#Enemies That can spawn in this room
 [.33,.66],																														#Weights for those enemies to spawn
-.75)]																															#Chance for waves to be segmented
+.75)]
+
 
 var sci_fi_shops : Array[Room]= [room.Create_Room(
 "res://Game Elements/Rooms/shops/shop_cyberspace.tscn", 																		#Scene Location                       
@@ -546,12 +547,114 @@ Globals.RoomVariant.SciFiFactory,																								#RoomVariant
 [],																																#Weights for those enemies to spawn
 0.0)]
 
+#var testing_room : Room = room.Create_Room(
+#"res://Game Elements/Rooms/western/canyon1.tscn", 																				#Scene Location                      
+#0,																																#Num Liquids
+#[],																																#Liquid Types 
+#[],																																#Liquid Chances                       
+#0,																																#Num Fillings              
+#[0],																															#Terrain Set                                      
+#[0],																															#Terrain ID                       
+#[],																																#Threshold            
+#randi(),																														#Noise Seed           
+#FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type       
+#.1,																																#Noise Frequency                        
+#0,																																#Num Traps              
+#[],																																#Trap Chances                                
+#[],																																#Trap Types                         
+#4,																																#Num Pathways                   
+#[Globals.Direction.Up,Globals.Direction.Right,Globals.Direction.Left, Globals.Direction.Down],									#Pathway Directions                       
+#3,																																#Enemy Num Goal                               
+#0,																																#NPC Spawnpoints   
+#false,																															#Is a shop room?
+#["res://Game Elements/Characters/robot.tscn"],																					#Enemies That can spawn in this room
+#[1.0],																															#Weights for those enemies to spawn
+#.25)																															#Chance for waves to be segmented
+#
+
+
+#var testing_room : Room = room.Create_Room(
+#"res://Game Elements/Rooms/western/canyon2.tscn", 																				#Scene Location                      
+#0,																																#Num Liquids
+#[],																																#Liquid Types 
+#[],																																#Liquid Chances                       
+#0,																																#Num Fillings              
+#[0],																															#Terrain Set                                      
+#[0],																															#Terrain ID                       
+#[],																																#Threshold            
+#randi(),																														#Noise Seed           
+#FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type       
+#.1,																																#Noise Frequency                        
+#4,																																#Num Traps              
+#[.75, .75, .75, .75],																												#Trap Chances                                
+#[Globals.Trap.Tile, Globals.Trap.Tile, Globals.Trap.Tile, Globals.Trap.Tile],													#Trap Types                         
+#4,																																#Num Pathways                   
+#[Globals.Direction.Up,Globals.Direction.Right,Globals.Direction.Left, Globals.Direction.Down],									#Pathway Directions                       
+#0,																																#Enemy Num Goal                               
+#0,																																#NPC Spawnpoints   
+#false,																															#Is a shop room?
+#[],																					#Enemies That can spawn in this room
+#[1.0],																															#Weights for those enemies to spawn
+#.25)																															#Chance for waves to be segmented
+
+#
+#var testing_room : Room = room.Create_Room(
+#"res://Game Elements/Rooms/western/canyon3.tscn", 																				#Scene Location                      
+#0,																																#Num Liquids
+#[],																																#Liquid Types 
+#[],																																#Liquid Chances                       
+#0,																																#Num Fillings              
+#[0],																															#Terrain Set                                      
+#[0],																															#Terrain ID                       
+#[],																																#Threshold            
+#randi(),																														#Noise Seed           
+#FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type       
+#.1,																																#Noise Frequency                        
+#0,																																#Num Traps              
+#[],																																#Trap Chances                                
+#[],																																#Trap Types                         
+#2,																																#Num Pathways                   
+#[Globals.Direction.Up,Globals.Direction.Down],									#Pathway Directions                       
+#0,																																#Enemy Num Goal                               
+#0,																																#NPC Spawnpoints   
+#Globals.RoomType.Combat,																										#RoomType
+#Globals.RoomVariant.MedOut,																							#RoomVariant
+#[],																				#Enemies That can spawn in this room
+#[],																															#Weights for those enemies to spawn
+#0.0)
+
+
+#var testing_room : Room = room.Create_Room(
+#"res://Game Elements/Rooms/testing_room.tscn", 																				#Scene Location                      
+#0,																																#Num Liquids
+#[],																																#Liquid Types 
+#[],																																#Liquid Chances                       
+#0,																																#Num Fillings              
+#[0],																															#Terrain Set                                      
+#[0],																															#Terrain ID                       
+#[],																																#Threshold            
+#randi(),																														#Noise Seed           
+#FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type       
+#.1,																																#Noise Frequency                        
+#0,																																#Num Traps              
+#[],																																#Trap Chances                                
+#[],																																#Trap Types                         
+#2,																																#Num Pathways                   
+#[Globals.Direction.Up,Globals.Direction.Down],									#Pathway Directions                       
+#10,																																#Enemy Num Goal                               
+#0,																																#NPC Spawnpoints   
+#Globals.RoomType.Combat,																										#RoomType
+#Globals.RoomVariant.MedOut,																							#RoomVariant
+#["res://Game Elements/Characters/robot.tscn"],																				#Enemies That can spawn in this room
+#[1],																															#Weights for those enemies to spawn
+#0.0)
+
 
 var testing_room : Room = room.Create_Room(
-"res://Game Elements/Rooms/medieval/outside5.tscn", 																		#Scene Location                       
-1,																																#Num Liquids
-[Globals.Liquid.Water],																										#Liquid Types 
-[.9],																										#Liquid Chances                     
+"res://Game Elements/Rooms/medieval/outside2.tscn", 																		#Scene Location                       
+0,																																#Num Liquids
+[Globals.Liquid.Water,Globals.Liquid.Water,Globals.Liquid.Water,Globals.Liquid.Water,Globals.Liquid.Water],																										#Liquid Types 
+[.9,.9,.9,1,1],																										#Liquid Chances                     
 0,																																#Num Fillings              
 [],																																#Terrain Set                                      
 [],																																#Terrain ID                       
@@ -559,15 +662,15 @@ var testing_room : Room = room.Create_Room(
 randi(),																														#Noise Seed           
 FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type       
 .1,																																#Noise Frequency                        
-5,																																#Num Traps              
-[.5,.5,.5,.5,.5],																																#Trap Chances                                
-[Globals.Trap.Snare,Globals.Trap.Snare,Globals.Trap.Tile,Globals.Trap.Tile,Globals.Trap.Tile],																																#Trap Types                         
+0,																																#Num Traps              
+[],																																#Trap Chances                                
+[],																																#Trap Types                         
 4,																																#Num Pathways                   
 [Globals.Direction.Up,Globals.Direction.Down,Globals.Direction.Left,Globals.Direction.Right],									#Pathway Directions                     
-15,																																#Enemy Num Goal                               
+12,																																#Enemy Num Goal                               
 0,																																#NPC Spawnpoints   
 Globals.RoomType.Combat,
-Globals.RoomVariant.MedOut,																															#Is a shop room?
-["res://Game Elements/Characters/archer.tscn"],																				#Enemies That can spawn in this room
+Globals.RoomVariant.MedOut,																																#Is a shop room?
+["res://Game Elements/Characters/robot.tscn"],																				#Enemies That can spawn in this room
 [1.0],																															#Weights for those enemies to spawn
 0)

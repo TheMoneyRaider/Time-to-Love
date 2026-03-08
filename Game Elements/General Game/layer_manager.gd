@@ -12,8 +12,8 @@ const room_data = preload("res://Game Elements/Rooms/room_data.gd")
 ### Temp Multiplayer Fix
 var player1 = null
 var player2 = null
-var weapon1 = "res://Game Elements/Weapons/Mace.tres"
-var weapon2 = "res://Game Elements/Weapons/Crossbow.tres"
+var weapon1 = "res://Game Elements/Weapons/CrossBow.tres"
+var weapon2 = "res://Game Elements/Weapons/laserSword.tres"
 var undiscovered_weapons = []
 var possible_weapon = ""#undiscovered_weapons.pick_random()
 ###
@@ -65,6 +65,8 @@ var remnant_offer_popup
 var remnant_upgrade_popup
 #The total time of this run
 var time_passed := 0.0
+# time spent in room
+var time_in_room := 0.0
 var trap_cells := []
 var blocked_cells := []
 var liquid_cells : Array[Array]= [[],[],[],[],[],[],[],[],[],[]]
@@ -87,6 +89,7 @@ var layer_ai := [
 	]
 
 func _ready() -> void:
+	$game_container.material = $game_container.material.duplicate(true)
 	var conflict_cells : Array[Vector2i] = []
 	_setup_players()
 	hud.set_players(player1,player2)
@@ -170,10 +173,10 @@ func _ready() -> void:
 	rem.rank = 4
 	player_1_remnants.append(rem.duplicate(true))
 	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/intelligence.tres")
-	rem.rank = 4
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
+	#rem = load("res://Game Elements/Remnants/intelligence.tres")
+	#rem.rank = 4
+	#player_1_remnants.append(rem.duplicate(true))
+	#player_2_remnants.append(rem.duplicate(true))
 	rem = load("res://Game Elements/Remnants/adrenal_injector.tres")
 	rem.rank = 4
 	player_1_remnants.append(rem.duplicate(true))
@@ -214,6 +217,20 @@ func _ready() -> void:
 	#rem.rank = 4
 	#player_1_remnants.append(rem.duplicate(true))
 	#player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/hare.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	#player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/healer.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	rem.rank = 3
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/hospital.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	rem.rank = 3
+	player_2_remnants.append(rem.duplicate(true))
 	
 	player1.display_combo()
 	"""
@@ -254,6 +271,9 @@ func _ready() -> void:
 	trap_cells = room_instance.trap_cells
 	blocked_cells = room_instance.blocked_cells
 	liquid_cells = room_instance.liquid_cells
+	var ground = room_instance.get_node("Ground")
+	if ground.get_node_or_null("GrassAddon"):
+		ground.get_node("GrassAddon").initalize(conflict_cells.duplicate(),ground)
 	create_new_rooms()
 	pathfinding.setup_from_room(room_instance.get_node("Ground"), room_instance.blocked_cells, room_instance.trap_cells)
 	_prepare_timefabric()
@@ -261,6 +281,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	
 	time_passed += delta
+	time_in_room += delta
+	
 	if !camera_override:
 		if is_multiplayer:
 			camera.global_position = (player1.global_position + player2.global_position) / 2 +camera.get_cam_offset(delta)
@@ -639,8 +661,10 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 		var orb = generated_room.get_node("HealthUpgrade") as Area2D
 		if player_reference in orb.tracked_bodies:
 			if is_multiplayer:
-				player2.change_health(5,5)
-			player1.change_health(5,5)
+				player2.change_health(5.0,5.0)
+				_remnant_of_hospital_heal(player1, player_1_remnants)
+			player1.change_health(5.0,5.0)
+			_remnant_of_hospital_heal(player1, player_1_remnants)
 			var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 			particle.position = orb.position
 			generated_room.add_child(particle)
@@ -650,8 +674,10 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 		var orb = generated_room.get_node("Health") as Area2D
 		if player_reference in orb.tracked_bodies:
 			if is_multiplayer:
-				player2.change_health(5)
-			player1.change_health(5)
+				player2.change_health(5.0)
+				_remnant_of_hospital_heal(player2, player_2_remnants)
+			player1.change_health(5.0)
+			_remnant_of_hospital_heal(player1, player_1_remnants)
 			var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 			particle.position = orb.position
 			generated_room.add_child(particle)
@@ -825,7 +851,6 @@ func _process_terrain_batch() -> void:
 
 func open_death_menu() -> void:
 	get_node("DeathMenu").activate()
-	
 
 func _randomize_room_reward(pathway_to_randomize : Node) -> void:
 	var reward_type1 = null
@@ -1057,6 +1082,8 @@ func _sprite_to_timefabric(sprite : Node,direction : Vector2, amount_range : Vec
 		return
 	while timefabrics_to_place.size() > amount_range.y-amount_variance:
 		timefabrics_to_place.remove_at(randi() % timefabrics_to_place.size())
+	if timefabrics_to_place.size() == 0:
+		return
 	while timefabrics_to_place.size() < amount_range.x+amount_variance:
 		timefabrics_to_place.append(timefabrics_to_place[randi() % timefabrics_to_place.size()])
 	for fabric in timefabrics_to_place:
@@ -1298,12 +1325,16 @@ func _finalize_room_creation(next_room_instance: Node2D, next_room_data: Room, d
 	generated_room_metadata[pathway_detect.name] = next_room_data
 	generated_rooms[pathway_detect.name] = next_room_instance
 	generated_room_conflict[pathway_detect.name] = conflict_cells.duplicate()
+	if ground.get_node_or_null("GrassAddon"):
+		ground.get_node("GrassAddon").initalize(conflict_cells.duplicate(),ground)
 	
 	_choose_reward(pathway_detect.name)
 
 
 
 func _move_to_pathway_room(pathway_id: String) -> void:
+	time_in_room = 0
+	
 	var shido1 = 0.0
 	var shido2 = 0.0
 	var player1_ranked_up : Array[String] = []
@@ -1349,8 +1380,44 @@ func _move_to_pathway_room(pathway_id: String) -> void:
 						player1.weapons[0].damage = player1.weapons[0].damage + (rem.rank % 2)
 				player2_ranked_up.append(rem.remnant_name)
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants,player1_ranked_up,player2_ranked_up)
-		
 	
+	var healer = load("res://Game Elements/Remnants/healer.tres")
+	var hare = load("res://Game Elements/Remnants/hare.tres")
+	if is_multiplayer or player1.is_purple:
+		for rem in player_1_remnants:
+			if rem.remnant_name == healer.remnant_name:
+				var amnt = rem.variable_1_values[rem.rank - 1]
+				player1.change_health(0, amnt)
+				_remnant_of_hospital_heal(player1, player_1_remnants)
+				
+			if rem.remnant_name == hare.remnant_name:
+				var effect = load("res://Game Elements/Effects/speed.tres")
+				effect.cooldown = 15
+				effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
+				effect.gained(player1)
+				player1.effects.append(effect)
+				
+	if is_multiplayer or not player1.is_purple:
+		for rem in player_2_remnants:
+			if rem.remnant_name == healer.remnant_name:
+				var amnt = rem.variable_1_values[rem.rank - 1]
+				if is_multiplayer:
+					player2.change_health(0, amnt)
+					_remnant_of_hospital_heal(player2, player_2_remnants)
+				else:
+					player1.change_health(0, amnt)
+					_remnant_of_hospital_heal(player1, player_1_remnants)
+				
+			if rem.remnant_name == hare.remnant_name:
+				var effect = load("res://Game Elements/Effects/speed.tres")
+				effect.cooldown = 15
+				effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
+				if is_multiplayer:
+					effect.gained(player2)
+					player2.effects.append(effect)
+				else:
+					effect.gained(player1)
+					player1.effects.append(effect)
 	
 	if not generated_rooms.has(pathway_id):
 		push_warning("No linked room for pathway " + pathway_id)
@@ -1435,7 +1502,7 @@ func _move_to_pathway_room(pathway_id: String) -> void:
 	awareness_display.enemies = enemies.duplicate()
 	
 	if room_instance_data.roomtype == Globals.RoomType.Boss:
-		room_instance.activate(self,camera,player1,player2)
+		room_instance.activate(camera,player1,player2)
 	
 
 func _set_tilemaplayer_collisions(generated_room: Node2D, enable: bool) -> void:
@@ -1527,14 +1594,16 @@ func _open_random_pathways(generated_room : Node2D, generated_room_data : Room, 
 func _on_player_attack(_new_attack : PackedScene, _attack_position : Vector2, _attack_direction : Vector2, _damage_boost : float) -> void:
 	layer_ai[6]+=1
 	
-func _on_player_take_damage(damage_amount : int,_current_health : int,_player_node : Node) -> void:
+func _on_player_take_damage(damage_amount : float,_current_health : float,_player_node : Node) -> void:
 	layer_ai[11]+=damage_amount
 	
-func _on_enemy_take_damage(damage : int,current_health : int,enemy : Node, direction = Vector2(0,-1)) -> void:
+func _on_enemy_take_damage(damage : float,current_health : int,enemy : Node, direction = Vector2(0,-1)) -> void:
 	layer_ai[5]+=damage
-	if current_health <= 0:
+	if current_health <= 0.0:
 		for node in get_tree().get_nodes_in_group("attack"):
 			if node.c_owner == enemy:
+				if node.has_method("clear_effects"):
+					node.clear_effects()
 				node.queue_free()
 		if(enemy.exploded != 0):
 			var attack_instance = load("res://Game Elements/Attacks/explosion.tscn").instantiate()
@@ -1543,6 +1612,7 @@ func _on_enemy_take_damage(damage : int,current_health : int,enemy : Node, direc
 			attack_instance.c_owner = enemy.last_hitter
 			attack_instance.global_position = enemy.global_position
 			room_instance.call_deferred("add_child",attack_instance)
+		enemy.clear_effects()
 		_enemy_to_timefabric(enemy,direction,Vector2(enemy.min_timefabric,enemy.max_timefabric))
 		enemy.visible=false
 		enemy.queue_free()
@@ -1705,7 +1775,17 @@ func _placable_locations():
 	placable_cells = temp_placable_locations
 
 
-func _damage_indicator(damage : int, dmg_owner : Node,direction : Vector2 , attack_body: Node = null, c_owner : Node = null,override_color : Color = Color(0.267, 0.394, 0.394, 1.0)):
+func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , attack_body: Node = null, c_owner : Node = null,override_color : Color = Color(0.267, 0.394, 0.394, 1.0)):
 	var instance = load("res://Game Elements/Objects/damage_indicator.tscn").instantiate()
 	room_instance.add_child(instance)
 	instance.set_values(c_owner, attack_body, dmg_owner, damage, direction,64, override_color)
+
+func _remnant_of_hospital_heal(player:Node, remnants) -> void:
+	var hospital = load("res://Game Elements/Remnants/hospital.tres")
+	for rem in remnants:
+		print(rem.remnant_name)
+		if rem.remnant_name == hospital.remnant_name:
+			var amnt = rem.variable_1_values[rem.rank - 1] / 100.0
+			amnt *= player.current_health
+			player.change_health(amnt)
+			break
