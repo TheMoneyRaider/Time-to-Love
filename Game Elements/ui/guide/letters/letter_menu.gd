@@ -5,6 +5,7 @@ var active = false
 @onready var container : Control = $Control/MarginContainer/Letters
 
 var letter_pool: Array[Letter] = []
+var polygons: Array[Array] = []
 var letter_buttons: Array[Button]
 var fragment_visuals : Array[TextureRect] = []
 var LayerManager : Node
@@ -60,7 +61,40 @@ func _load_all_letters() -> void:
 			if res:
 				letter_pool.append(res)
 
+func _input(event):
+	if not active:
+		return
 
+	# Handle mouse motion (hover)
+	if event is InputEventMouseMotion:
+		for i in range(letter_buttons.size()):
+			if _point_in_polygon(event.position,polygons[i]):
+				_on_fragment_hover(i)
+			else:
+				_on_fragment_unhover(i)
+
+	# Handle mouse button click
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		for i in range(letter_buttons.size()):
+			if _point_in_polygon(event.position,polygons[i]):
+				_on_letter_pressed(i)
+				break
+
+
+
+func _point_in_polygon(p : Vector2, polygon_points : Array) -> bool:
+	var inside = false
+	var n = polygon_points.size()
+
+	for i in range(n):
+		var a = polygon_points[i]
+		var b = polygon_points[(i + 1) % n]
+
+		if ((a.y > p.y) != (b.y > p.y)) \
+		and (p.x < (b.x - a.x) * (p.y - a.y) / (b.y - a.y + 0.00001) + a.x):
+			inside = not inside
+
+	return inside
 
 func populate_letters():
 	var letter_count = letter_pool.size()
@@ -92,8 +126,8 @@ func populate_letters():
 
 		# Create a button inside that bounding box
 		var btn := preload("res://Game Elements/ui/guide/letter_fragment.tscn").instantiate()
-		btn.position = Vector2(min_x, min_y) + bbox_size / 2 - bbox_size / 10
-		btn.size = bbox_size / 10
+		btn.position = Vector2(min_x, min_y) + bbox_size / 2 - bbox_size / 100
+		btn.size = bbox_size / 100
 		btn.name = "LetterButton_%d" % count
 
 		var uv_points = []
@@ -103,8 +137,6 @@ func populate_letters():
 		var local_points = []
 		for p in frag_poly:
 			local_points.append(p - Vector2(min_x, min_y))
-
-		btn.scale_polygon(local_points, .9)
 		
 		var text := TextureRect.new()
 		text.texture = letter_format.main_art
@@ -113,6 +145,7 @@ func populate_letters():
 		text.stretch_mode = TextureRect.STRETCH_SCALE
 		text.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		text.focus_behavior_recursive = Control.FOCUS_BEHAVIOR_DISABLED
+		polygons.append(frag_poly)
 		for p in frag_poly:
 			center += p
 		center = center / float(frag_poly.size()) / container.size
@@ -122,23 +155,55 @@ func populate_letters():
 		mat.set_shader_parameter("points", uv_points)
 		mat.set_shader_parameter("center_point", center)
 		mat.set_shader_parameter("image_size", container.size)
+		btn.connect("pressed", Callable(self, "_on_letter_pressed").bind(count))
 		text.size = container.get_size()
 		text.material = mat
 		container.add_child(text)
 		fragment_visuals.append(text)
-
-		btn.connect("focus_entered", Callable(self, "_on_fragment_hover").bind(count))
-		btn.connect("focus_exited", Callable(self, "_on_fragment_unhover").bind(count))
-		btn.connect("fragment_hovered", Callable(self, "_on_fragment_hover").bind(count))
-		btn.connect("fragment_unhovered", Callable(self, "_on_fragment_unhover").bind(count))
-		btn.connect("pressed", Callable(self, "_on_letter_pressed").bind(count))
 		container.add_child(btn)
 		letter_buttons.append(btn)
 		
 
 		count += 1
+	
+	assign_focus_neighbors()
+
+func assign_focus_neighbors():
+	if letter_buttons.size() == 0:
+		return
+	for y in range(grid_y):
+		for x in range(grid_x):
+			if x==0 and y == 0:
+				$Control/Return.focus_neighbor_bottom = letter_buttons[0].get_path()
+			var idx = y * grid_x + x
+			if idx >= letter_buttons.size():
+				continue
+
+			var btn = letter_buttons[idx]
+
+			# Compute neighbor indices
+			var up_idx = idx - grid_x if y > 0 else -1
+			var down_idx = idx + grid_x if y < grid_y - 1 and idx + grid_x < letter_buttons.size() else -1
+			var left_idx = idx - 1 if x > 0 else -1
+			var right_idx = idx + 1 if x < grid_x - 1 and idx + 1 < letter_buttons.size() else -1
+
+			# Assign neighbors (or null if not present)
+			btn.focus_neighbor_top = letter_buttons[up_idx].get_path() if up_idx >= 0 else $Control/Return.get_path()
+			btn.focus_neighbor_bottom = letter_buttons[down_idx].get_path() if down_idx >= 0 else NodePath("")
+			btn.focus_neighbor_left = letter_buttons[left_idx].get_path() if left_idx >= 0 else NodePath("")
+			btn.focus_neighbor_right = letter_buttons[right_idx].get_path() if right_idx >= 0 else NodePath("")
+
 var button_cooldown : float = 0.0
 func _process(delta: float) -> void:
+	var focused = get_viewport().gui_get_focus_owner()
+	if focused and focused != $Control/Return:
+		var i = 0
+		for btn in letter_buttons:
+			if btn == focused:
+				_on_fragment_hover(i)
+			else:
+				_on_fragment_unhover(i)
+			i+=1
 	button_cooldown = max(0.0,button_cooldown-delta)
 
 
@@ -249,15 +314,19 @@ func view_letter(idx : int):
 	tween.parallel().tween_property(viewer, "modulate:a", 1.0, 0.25)
 	await tween.finished
 	
-func close_letter():
+func close_letter(instant : bool = false):
 	button_cooldown=.25
 	letter_active = false
 	var viewer = $Control/MarginContainer/Viewer
-	var tween = create_tween()
-	tween.set_trans(Tween.TRANS_BACK)
-	tween.set_ease(Tween.EASE_OUT)
-	tween.parallel().tween_property(viewer, "scale", Vector2.ZERO, .25)
-	tween.parallel().tween_property(viewer, "modulate:a", 0.0, .25)
+	if !instant:
+		var tween = create_tween()
+		tween.set_trans(Tween.TRANS_BACK)
+		tween.set_ease(Tween.EASE_OUT)
+		tween.parallel().tween_property(viewer, "scale", Vector2.ZERO, .25)
+		tween.parallel().tween_property(viewer, "modulate:a", 0.0, .25)
+	else:
+		viewer.scale = Vector2(0,0)
+		viewer.modulate.a = 0.0
 	pass
 
 
@@ -292,11 +361,13 @@ func activate():
 
 
 func _on_return_pressed():
+	polygons.clear()
 	letter_buttons.clear()
 	fragment_visuals.clear()
 	queue_free_children(container)
 	active = false
 	hide()
+	close_letter()
 	get_parent().get_node("PauseMenu").activate()
 	
 	

@@ -41,6 +41,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="Control"]
 layout_mode = 1
@@ -107,6 +108,5 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_2fe1m")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_rrs36")
 theme_override_styles/hover = SubResource("StyleBoxTexture_vk8ww")
 
-[connection signal="gui_input" from="Control" to="." method="_on_control_gui_input"]
 [connection signal="pressed" from="Control/MarginContainer/Viewer/TextureButton" to="." method="_on_texture_button_pressed"]
 [connection signal="pressed" from="Control/Return" to="." method="_on_return_pressed"]
