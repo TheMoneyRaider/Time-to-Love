@@ -667,10 +667,10 @@ FastNoiseLite.TYPE_SIMPLEX_SMOOTH,																								#Noise Type
 [],																																#Trap Types                         
 4,																																#Num Pathways                   
 [Globals.Direction.Up,Globals.Direction.Down,Globals.Direction.Left,Globals.Direction.Right],									#Pathway Directions                     
-12,																																#Enemy Num Goal                               
+20,																																#Enemy Num Goal                               
 0,																																#NPC Spawnpoints   
 Globals.RoomType.Combat,
 Globals.RoomVariant.MedOut,																																#Is a shop room?
-["res://Game Elements/Characters/archer.tscn"],																				#Enemies That can spawn in this room
-[1.0],																															#Weights for those enemies to spawn
+["res://Game Elements/Characters/archer.tscn","res://Game Elements/Characters/skeleton.tscn"],																				#Enemies That can spawn in this room
+[2,18],																															#Weights for those enemies to spawn
 0)
