@@ -14,6 +14,8 @@ func _ready():
 	
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	hide()
+	await view_letter(0)
+	close_letter()
 
 func _load_all_letters() -> void:
 	#var dir = DirAccess.open("res://Game Elements/Remnants/")
@@ -184,11 +186,14 @@ func view_letter(idx : int):
 	# -----------------------
 	# Animation
 	# -----------------------
+	var start_center
+	if letter_buttons.size() < idx+1:
+		start_center = Vector2(0,0)
+	else:
+		var source_button = letter_buttons[idx]
 
-	var source_button = letter_buttons[idx]
-
-	# center of clicked button (global)
-	var start_center = source_button.global_position + source_button.size / 2
+		# center of clicked button (global)
+		start_center = source_button.global_position + source_button.size / 2
 
 	# convert to viewer parent space
 	var viewer_parent = viewer.get_parent()
@@ -213,6 +218,7 @@ func view_letter(idx : int):
 	tween.parallel().tween_property(viewer, "position", final_pos, 0.35)
 	tween.parallel().tween_property(viewer, "scale", Vector2.ONE, 0.35)
 	tween.parallel().tween_property(viewer, "modulate:a", 1.0, 0.25)
+	await tween.finished
 	
 func close_letter():
 	button_cooldown=.25
