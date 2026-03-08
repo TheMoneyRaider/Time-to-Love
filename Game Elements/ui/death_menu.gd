@@ -42,9 +42,13 @@ func _process(delta):
 
 func activate():
 	Globals.save_state.time_spent+=total_time
-	Globals.save_state.picture=recent_buffer[0]
-	Globals.save_config()
 	
+	if recent_buffer.size() > 0:
+		var img = recent_buffer[0]
+		if img is Image and not img.is_empty():
+			Globals.save_state.picture = ImageTexture.create_from_image(img)
+	
+	Globals.save_config()
 	
 	capturing=false
 	capture_timer.stop()
