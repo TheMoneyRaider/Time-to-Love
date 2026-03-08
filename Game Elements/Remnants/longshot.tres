@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://nugkdo5twd55"]
+
+[ext_resource type="Texture2D" uid="uid://c4y77s4ma5ax8" path="res://art/remnants/longshot.png" id="1_qyqfm"]
+[ext_resource type="Texture2D" uid="uid://t6t8tuu3ykj3" path="res://art/remnants/longshot_orb.png" id="2_xsrs2"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_karch"]
+
+[resource]
+script = ExtResource("3_karch")
+remnant_name = "Remnant of the Longshot"
+description = "Ranged attacks deal $X% more damage for every enemy hit"
+icon = ExtResource("2_xsrs2")
+art = ExtResource("1_qyqfm")
+variable_names = Array[String](["$X"])
+variable_1_values = [10, 20, 30, 40, 50]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

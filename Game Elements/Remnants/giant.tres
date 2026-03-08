@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://b07fadtpkox0j"]
+
+[ext_resource type="Texture2D" uid="uid://cfh7qmbu0xdf5" path="res://art/remnants/giant.png" id="1_bfyqr"]
+[ext_resource type="Texture2D" uid="uid://ryi2jtrqt0hb" path="res://art/remnants/giantr_orb.png" id="2_g7ptp"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_r0ira"]
+
+[resource]
+script = ExtResource("3_r0ira")
+remnant_name = "Remnant of the Giant"
+description = "Increases your size, health by $X and damage by $Y"
+icon = ExtResource("2_g7ptp")
+art = ExtResource("1_bfyqr")
+variable_names = Array[String](["$X", "$Y"])
+variable_1_values = [5, 10, 15, 20, 25]
+variable_2_values = [1.0, 1.0, 2.0, 2.0, 3.0]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

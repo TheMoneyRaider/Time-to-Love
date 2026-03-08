@@ -29,6 +29,9 @@ var look_direction : Vector2 = Vector2(0,1)
 var last_hitter : Node = null
 var exploded : float = 0
 
+var last_pos:Vector2 = Vector2(0,0)
+var time_stuck: float = 0
+
 @export var hitable : bool = true
 @export var is_boss : bool = false
 @export var boss_phases : int = 0
@@ -44,7 +47,7 @@ var knockback_velocity : Vector2 = Vector2.ZERO
 var LayerManager : Node
 
 
-var attacks = [preload("res://Game Elements/Attacks/bad_bolt.tscn"),preload("res://Game Elements/Attacks/robot_melee.tscn")]
+@export var attacks = [preload("res://Game Elements/Attacks/bad_bolt.tscn"),preload("res://Game Elements/Attacks/robot_melee.tscn")]
 signal attack_requested(new_attack : PackedScene, t_position : Vector2, t_direction : Vector2, damage_boost : float)
 
 signal enemy_took_damage(damage : float,current_health : float,c_node : Node, direction : Vector2)
@@ -100,6 +103,16 @@ func update_flip():
 	if sprite2d: 
 		sprite2d.flip_h = look_direction.x < 0
 
+func check_stuck(_delta: float):
+	if(position.distance_to(last_pos) <= 20):
+		time_stuck += _delta
+		if(time_stuck >= 2):
+			return false
+	else:
+		last_pos = position
+		time_stuck = 0
+	return true
+
 func move(target_pos: Vector2, _delta: float): 
 	look_direction = (target_pos - global_position).normalized()
 	
@@ -108,7 +121,14 @@ func move(target_pos: Vector2, _delta: float):
 	
 	update_flip()
 	
-	move_and_slide()
+	if(check_stuck(_delta)):
+		move_and_slide()
+		return true
+	else:
+		velocity = velocity.lerp(target_velocity * -2, 0.05)
+		move_and_slide()
+		return false
+		
 	
 func apply_velocity(vel : Vector2):
 	velocity=vel
@@ -206,6 +226,8 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 		LayerManager._damage_indicator(damage, dmg_owner,direction, attack_body,self)
 	if dmg_owner != null:
 		last_hitter = dmg_owner
+		if dmg_owner.is_in_group("player"):
+			dmg_owner.in_combat = 3
 	_check_on_hit_remnants(dmg_owner, attack_body)
 	
 	if dmg_owner != null and dmg_owner.is_in_group("player"):
@@ -254,7 +276,7 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 				board.set_var("kill_damage", damage)
 				board.set_var("kill_direction", direction)
 			return
-		if dmg_owner.is_in_group("player"):
+		if dmg_owner != null && dmg_owner.is_in_group("player"):
 			dmg_owner.kill_enemy(self)
 	emit_signal("enemy_took_damage",damage,current_health,self,direction)
 
@@ -279,14 +301,18 @@ func check_agro(dmg_owner : Node):
 
 func _check_on_hit_remnants(dmg_owner: Node, attack_body: Node):
 	if dmg_owner != null and dmg_owner.is_in_group("player"):
+		var mancer_value = 0
 		var remnants : Array[Remnant] = []
 		if dmg_owner.is_purple:
 			remnants = get_tree().get_root().get_node("LayerManager").player_1_remnants
+			mancer_value = dmg_owner.mancermancer_values[0]
 		else:
 			remnants = get_tree().get_root().get_node("LayerManager").player_2_remnants
+			mancer_value = dmg_owner.mancermancer_values[1]
 		var pyromancer = load("res://Game Elements/Remnants/pyromancer.tres")
 		var winter = load("res://Game Elements/Remnants/winters_embrace.tres")
 		var hydromancer = load("res://Game Elements/Remnants/hydromancer.tres")
+		var longshot = load("res://Game Elements/Remnants/longshot.tres")
 		var effect : Effect
 		exploded = 0
 		for rem in remnants:
@@ -298,29 +324,43 @@ func _check_on_hit_remnants(dmg_owner: Node, attack_body: Node):
 					effect.gained(self)
 					effects.append(effect)
 				pyromancer.remnant_name:
-					exploded = rem.variable_2_values[rem.rank-1]
+					exploded = rem.variable_2_values[rem.rank-1] + mancer_value
 				hydromancer.remnant_name:
-					apply_hydromancer(rem, attack_body)
+					apply_hydromancer(rem, attack_body, mancer_value)
+				longshot.remnant_name:
+					if(attack_body.speed != 0):
+						attack_body.damage = attack_body.damage * (1 + rem.variable_1_values[rem.rank - 1] / 100.0)
 				_:
 					pass
 
-func apply_hydromancer(rem : Remnant, attack_body : Node):
+func apply_hydromancer(rem : Remnant, attack_body : Node, mancer_value : int):
 	var effect : Effect
 	match attack_body.last_liquid:
 		Globals.Liquid.Water:
-			for i in range(rem.rank * 8):
+			@warning_ignore("integer_division")
+			for i in range((rem.rank + (mancer_value / 2)) * 8):
 				effect = load("res://Game Elements/Effects/slow_down.tres").duplicate()
 				effect.cooldown = rem.rank
 				effect.value1 = 0.023
 				effect.gained(self)
 				effects.append(effect)
 		Globals.Liquid.Lava:
-			for i in range(1, rem.rank + 1):
+			@warning_ignore("integer_division")
+			for i in range(1, rem.rank + (mancer_value / 2) + 1):
 				effect = load("res://Game Elements/Effects/burn.tres").duplicate()
 				effect.cooldown = i
 				effect.value1 = 2
 				effect.gained(self)
 				effects.append(effect)
+		Globals.Liquid.Glitch:
+			var glitch_dir = attack_body.direction
+			glitch_dir.rotated(randf_range(-15,15))
+			_glitch_move(glitch_dir.normalized() * 160)
+			effect = load("res://Game Elements/Effects/stun.tres").duplicate()
+			@warning_ignore("integer_division")
+			effect.cooldown = rem.rank + (mancer_value / 2) / 2.5
+			effect.gained(self)
+			effects.append(effect)
 		_:
 			pass
 		
@@ -372,10 +412,16 @@ func check_liquids(delta):
 				Globals.Liquid.Glitch:
 					_glitch_move()
 
-func _glitch_move() -> void:
+func _glitch_move(input_move_dir : Vector2 = Vector2(-1234,-1234)) -> void:
+	var move_dir_l
+	var move_dir_r
+	if(input_move_dir == Vector2(-1234,-1234)):
+		move_dir_l = velocity.normalized() *16
+		move_dir_r = velocity.normalized() *16
+	else:
+		move_dir_l = input_move_dir
+		move_dir_r = input_move_dir
 	var ground_cells = LayerManager.room_instance.get_node("Ground").get_used_cells()
-	var move_dir_l = velocity.normalized() *16
-	var move_dir_r = velocity.normalized() *16
 	var check_pos_r = Vector2i(((position + move_dir_r)/16).floor())
 	var check_pos_l = Vector2i(((position + move_dir_l)/16).floor())
 	var attempts = 0

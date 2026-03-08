@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://bem434jqm1o1b"]
+
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_nnvjx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oynju"]
+radius = 23.0
+
+[node name="Explosion" type="Area2D" groups=["attack"]]
+z_index = 19
+y_sort_enabled = true
+collision_layer = 8
+collision_mask = 15
+script = ExtResource("1_nnvjx")
+speed = 0.0
+damage = 3.0
+lifespan = 0.2
+hit_force = 50.0
+start_lag = 0.05
+pierce = -2.0
+wall_collision = false
+attack_type = "explosion"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_oynju")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

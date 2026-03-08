@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://bae1co4nc1d55"]
+
+[ext_resource type="Texture2D" uid="uid://bsw5ckgcimfk5" path="res://art/remnants/dragon.png" id="1_2fy13"]
+[ext_resource type="Texture2D" uid="uid://ddsxkbp8uc1cq" path="res://art/remnants/dragon_orb.png" id="2_g2o71"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_77bkw"]
+
+[resource]
+script = ExtResource("3_77bkw")
+remnant_name = "Remnant of Dragon's Greed"
+description = "Deal $X% more damage for every 50 time fragments. "
+icon = ExtResource("2_g2o71")
+art = ExtResource("1_2fy13")
+variable_names = Array[String](["$X"])
+variable_1_values = [2.5, 5.0, 7.5, 10.0, 15.0]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

@@ -231,7 +231,7 @@ radius = 12.0415945
 z_index = 20
 y_sort_enabled = true
 collision_layer = 2
-collision_mask = 13
+collision_mask = 9
 script = ExtResource("1_u0lhy")
 state_machine = NodePath("LimboHSM")
 
