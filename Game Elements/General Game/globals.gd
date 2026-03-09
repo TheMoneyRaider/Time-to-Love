@@ -26,6 +26,11 @@ enum Reward {TimeFabric, Remnant, RemnantUpgrade, HealthUpgrade, Health, Shop, B
 
 var menu : MenuState
 
+
+var letter_percentage : float = 0.0
+var num_letters : int = 0
+var num_letters_collected : int = 0
+
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	load_config()
@@ -33,6 +38,10 @@ func _ready():
 	player2_input = config.get_value("inputs","player2_input", "0")
 	randomize()
 	menu = randi()%4 as MenuState
+	num_letters_collected = save_state.letter_progress.size()
+	_count_all_letters()
+	letter_percentage = num_letters_collected/float(num_letters)
+	
 func load_config():
 	var err = config.load(config_path)
 	if err != OK:
@@ -54,3 +63,13 @@ func record_remnant(remnant_name: String, rank: int, save_instantly : bool = fal
 		save_state.remnant_progress[remnant_name] = rank
 	if save_instantly:
 		save_config()
+		
+
+func _count_all_letters() -> void:
+	var dir = ResourceLoader.list_directory("res://Game Elements/ui/guide/letters/")
+	if dir == null:
+		push_error("Letters folder not found: res://Game Elements/ui/guide/letters/")
+		return
+	for file in dir:
+		if file.ends_with(".tres"):
+			num_letters+=1

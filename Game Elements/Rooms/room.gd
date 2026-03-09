@@ -58,6 +58,8 @@ var enemy_pool : Array[String]
 var enemy_chances : Array[float]
 #If this room is a wave room, this is the chance that the saves will be segmented(only one enemy per wave)(0->1)
 var wave_segment : float
+#Max amoutn of letters this room cna make
+var letter_goal : int
 
 static func Create_Room(t_scene_location : String, 
 t_num_liquid : int, 
@@ -81,7 +83,8 @@ t_roomtype : Globals.RoomType,
 t_roomvariant : Globals.RoomVariant,
 t_enemy_pool : Array[String],
 t_enemy_chances : Array[float],
-t_wave_segment : float
+t_wave_segment : float,
+t_letter_goal : int
 ) -> Room:
 	var new_room = Room.new()
 	new_room.scene_location = t_scene_location
@@ -110,4 +113,5 @@ t_wave_segment : float
 	new_room.enemy_pool = t_enemy_pool
 	new_room.enemy_chances = t_enemy_chances
 	new_room.wave_segment = t_wave_segment
+	new_room.letter_goal = t_letter_goal
 	return new_room

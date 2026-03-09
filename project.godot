@@ -38,6 +38,7 @@ enemy=""
 timefabric=""
 drones=""
 pathway=""
+letter=""
 
 [input]
 
