@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bm3w0djre8003"]
+
+[ext_resource type="Texture2D" uid="uid://c2jvgd8juf1vs" path="res://art/UI Package/Scroll2.png" id="1_2fek2"]
+[ext_resource type="Script" uid="uid://dvn5bhjhikwaq" path="res://Game Elements/Objects/letter_animation/letter_animation.gd" id="1_xt1mx"]
+
+[node name="LetterAnimation" type="Sprite2D"]
+z_index = 40
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_2fek2")
+script = ExtResource("1_xt1mx")

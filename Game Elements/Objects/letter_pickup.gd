@@ -22,7 +22,11 @@ func enable():
 
 
 func spawn_letter():
-	print("spawn_letter")
+	var LayerManager = get_tree().get_root().get_node("LayerManager")
+	var letter = preload("res://Game Elements/Objects/letter_animation/letter_animation.tscn").instantiate()
+	LayerManager.camera.add_child(letter)
+	letter.position = (global_position - LayerManager.camera.global_position) / LayerManager.camera.scale
+	letter.launch(Vector2.UP * -(global_position - LayerManager.camera.global_position).normalized().y)
 	
 	
 	Globals.save_state.letter_progress[letter_id]=true
