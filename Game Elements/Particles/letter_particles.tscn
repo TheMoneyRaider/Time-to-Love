@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3 uid="uid://dybfmki0bbwm2"]
+
+[ext_resource type="Texture2D" uid="uid://cugblfkxmtvhu" path="res://art/particles/spark.png" id="1_e0btb"]
+[ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/Particles/effect_particles.gd" id="2_ueuly"]
+
+[sub_resource type="Gradient" id="Gradient_ueuly"]
+offsets = PackedFloat32Array(0.29449838, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xckl4"]
+gradient = SubResource("Gradient_ueuly")
+
+[sub_resource type="Curve" id="Curve_dq6e4"]
+_data = [Vector2(0, 0), 0.0, 2.4750752, 0, 0, Vector2(0.24844722, 1), 0.0, 0.0, 0, 0, Vector2(0.7422361, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_ji13e"]
+curve = SubResource("Curve_dq6e4")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hse8h"]
+lifetime_randomness = 0.33
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+spread = 90.0
+initial_velocity_min = 30.0
+initial_velocity_max = 60.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.25
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_ji13e")
+color = Color(0.9691369, 0.9691369, 0.9691368, 1)
+color_ramp = SubResource("GradientTexture1D_xckl4")
+
+[node name="LetterParticles" type="GPUParticles2D"]
+show_behind_parent = true
+z_index = 40
+rotation = 3.1415927
+scale = Vector2(2, 2)
+emitting = false
+amount = 512
+texture = ExtResource("1_e0btb")
+lifetime = 1.5
+one_shot = true
+explosiveness = 0.75
+process_material = SubResource("ParticleProcessMaterial_hse8h")
+script = ExtResource("2_ueuly")

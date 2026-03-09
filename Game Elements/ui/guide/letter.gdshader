@@ -64,7 +64,7 @@ void fragment(){
 	if(grayscale){
 		vec4 col = COLOR;
 		float lum = dot(col.rgb, vec3(0.299, 0.587, 0.114));
-		vec3 gray_col = vec3(lum);
+		vec3 gray_col = vec3(lum*2.0/3.0);
 		COLOR = vec4(gray_col,col.a);
 	}
 	if(full_white){

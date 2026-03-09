@@ -80,6 +80,7 @@ func _on_deletec1_pressed() -> void:
 	load_state($MarginContainer/VBoxContainer/Save1,save_state1)
 	$MarginContainer/VBoxContainer/Save1/HBoxContainer/Delete.visible = false
 	$MarginContainer/VBoxContainer/Save1/HBoxContainer/Options/Delete.grab_focus()
+	Globals.save_state = Globals.config.get_value("saves", str(Globals.save_idx), SaveState.new())
 	
 func _on_deletec2_pressed() -> void:
 	save_config = true
@@ -89,6 +90,7 @@ func _on_deletec2_pressed() -> void:
 	load_state($MarginContainer/VBoxContainer/Save2,save_state2)
 	$MarginContainer/VBoxContainer/Save2/HBoxContainer/Delete.visible = false
 	$MarginContainer/VBoxContainer/Save2/HBoxContainer/Options/Delete.grab_focus()
+	Globals.save_state = Globals.config.get_value("saves", str(Globals.save_idx), SaveState.new())
 
 func _on_deletec3_pressed() -> void:
 	save_config = true
@@ -98,3 +100,4 @@ func _on_deletec3_pressed() -> void:
 	load_state($MarginContainer/VBoxContainer/Save3,save_state3)
 	$MarginContainer/VBoxContainer/Save3/HBoxContainer/Delete.visible = false
 	$MarginContainer/VBoxContainer/Save3/HBoxContainer/Options/Delete.grab_focus()
+	Globals.save_state = Globals.config.get_value("saves", str(Globals.save_idx), SaveState.new())
