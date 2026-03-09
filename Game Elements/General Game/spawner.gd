@@ -395,7 +395,7 @@ static func _spawn_letter(cell: Vector2i, scene: Node, letter: PackedScene, room
 				print("Spawn letter with id: "+str(let.letter_id))
 				var inst := letter.instantiate()
 				inst.letter_id=let.letter_id
-				inst.global_position = cell * cell_world_size
+				inst.global_position = cell * cell_world_size+Vector2(8,8)
 				scene.add_child(inst)
 				inst.disable(room_data.roomvariant)
 				return
