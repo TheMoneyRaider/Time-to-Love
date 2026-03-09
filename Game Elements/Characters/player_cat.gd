@@ -448,6 +448,7 @@ func reset_special():
 func swap_color():
 	if LayerManager.room_instance:
 		reset_special()
+		Globals.save_state.letter_progress[0]=true
 	emit_signal("swapped_color", self)
 	if(is_purple):
 		is_purple = false

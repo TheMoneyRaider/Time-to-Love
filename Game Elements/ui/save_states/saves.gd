@@ -1,12 +1,14 @@
 extends Control
 
 func _on_back_pressed() -> void:
+	if save_config:
+		Globals.save_config()
 	get_tree().call_deferred("change_scene_to_file", "res://Game Elements/ui/main_menu/main_menu.tscn")
 
 var save_state1 : SaveState
 var save_state2 : SaveState
 var save_state3 : SaveState
-
+var save_config : bool = false
 func _ready() -> void:
 	save_state1 = Globals.config.get_value("saves", "0", SaveState.new())
 	save_state2 = Globals.config.get_value("saves", "1", SaveState.new())
@@ -19,9 +21,9 @@ func _ready() -> void:
 	
 	
 func highlight_state():
-	$MarginContainer/VBoxContainer/Save1/TextureRect2.modulate = Color(0.369, 0.001, 0.621, 1.0) if Globals.save_idx == 0 else Color(0.643, 0.004, 0.961)
-	$MarginContainer/VBoxContainer/Save2/TextureRect2.modulate = Color(0.369, 0.001, 0.621, 1.0) if Globals.save_idx == 1 else Color(0.643, 0.004, 0.961)
-	$MarginContainer/VBoxContainer/Save3/TextureRect2.modulate = Color(0.369, 0.001, 0.621, 1.0) if Globals.save_idx == 2 else Color(0.643, 0.004, 0.961)
+	$MarginContainer/VBoxContainer/Save1/TextureRect2.modulate = Color(0.5, 0.5, 0.5, 1.0) if Globals.save_idx == 0 else Color(1.0, 1.0, 1.0, 1.0)
+	$MarginContainer/VBoxContainer/Save2/TextureRect2.modulate = Color(0.5, 0.5, 0.5, 1.0) if Globals.save_idx == 1 else Color(1.0, 1.0, 1.0, 1.0)
+	$MarginContainer/VBoxContainer/Save3/TextureRect2.modulate = Color(0.5, 0.5, 0.5, 1.0) if Globals.save_idx == 2 else Color(1.0, 1.0, 1.0, 1.0)
 	
 func load_state(node : Node, save_state : SaveState):
 	var time = node.get_node("HBoxContainer/Time")
@@ -71,6 +73,7 @@ func _on_delete3_pressed() -> void:
 	$MarginContainer/VBoxContainer/Save2/HBoxContainer/Delete.visible = false
 
 func _on_deletec1_pressed() -> void:
+	save_config = true
 	print("Delete 1")
 	Globals.config.set_value("saves", "0", SaveState.new())
 	save_state1 = Globals.config.get_value("saves", "0", SaveState.new())
@@ -79,6 +82,7 @@ func _on_deletec1_pressed() -> void:
 	$MarginContainer/VBoxContainer/Save1/HBoxContainer/Options/Delete.grab_focus()
 	
 func _on_deletec2_pressed() -> void:
+	save_config = true
 	print("Delete 2")
 	Globals.config.set_value("saves", "1", SaveState.new())
 	save_state2 = Globals.config.get_value("saves", "1", SaveState.new())
@@ -87,6 +91,7 @@ func _on_deletec2_pressed() -> void:
 	$MarginContainer/VBoxContainer/Save2/HBoxContainer/Options/Delete.grab_focus()
 
 func _on_deletec3_pressed() -> void:
+	save_config = true
 	print("Delete 3")
 	Globals.config.set_value("saves", "2", SaveState.new())
 	save_state3 = Globals.config.get_value("saves", "2", SaveState.new())

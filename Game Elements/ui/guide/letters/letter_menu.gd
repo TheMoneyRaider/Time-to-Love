@@ -155,6 +155,7 @@ func populate_letters():
 		mat.set_shader_parameter("points", uv_points)
 		mat.set_shader_parameter("center_point", center)
 		mat.set_shader_parameter("image_size", container.size)
+		mat.set_shader_parameter("grayscale", !Globals.save_state.viewed_letter_progress.has(letter_pool[count].letter_id))
 		btn.connect("pressed", Callable(self, "_on_letter_pressed").bind(count))
 		text.size = container.get_size()
 		text.material = mat
@@ -162,11 +163,30 @@ func populate_letters():
 		fragment_visuals.append(text)
 		container.add_child(btn)
 		letter_buttons.append(btn)
-		
+		if !Globals.save_state.viewed_letter_progress.has(letter_pool[count].letter_id) and Globals.save_state.letter_progress.has(letter_pool[count].letter_id):
+			transition_letter(text,count)
+			
 
 		count += 1
 	
 	assign_focus_neighbors()
+
+
+func transition_letter(texturerect : TextureRect,count : int):
+	var text2 = texturerect.duplicate(true)
+	text2.material = text2.material.duplicate()
+	text2.material.set_shader_parameter("full_white",true)
+	text2.z_index +=1
+	container.add_child(text2)
+	text2.modulate.a = 0.0
+	var tween = create_tween()
+	tween.tween_property(text2,"modulate",Color(1.0,1.0,1.0,1.0),1.0)
+	await tween.finished
+	#viewed_letter_progress
+	Globals.save_state.viewed_letter_progress[letter_pool[count].letter_id] = true
+	texturerect.material.set_shader_parameter("grayscale", !Globals.save_state.viewed_letter_progress.has(letter_pool[count].letter_id))
+	tween = create_tween()
+	tween.tween_property(text2,"modulate",Color(1.0,1.0,1.0,0.0),1.0)
 
 func assign_focus_neighbors():
 	if letter_buttons.size() == 0:
@@ -224,8 +244,10 @@ var letter_active : bool = false
 
 func view_letter(idx : int):
 	button_cooldown=.25
+	if !Globals.save_state.viewed_letter_progress.has(letter_pool[idx].letter_id):
+		return
 	letter_active = true
-
+	
 	var viewer = $Control/MarginContainer/Viewer
 	viewer.visible = true
 

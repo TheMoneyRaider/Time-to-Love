@@ -40,7 +40,7 @@ func _process(delta):
 	if capturing:
 		total_time+=delta
 
-func activate():
+func state_change():
 	Globals.save_state.time_spent+=total_time
 	
 	if recent_buffer.size() > 0:
@@ -49,7 +49,10 @@ func activate():
 			Globals.save_state.picture = ImageTexture.create_from_image(img)
 	
 	Globals.save_config()
-	
+
+
+func activate():
+	state_change()
 	capturing=false
 	capture_timer.stop()
 	show()

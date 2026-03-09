@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c7fr1m61n7nob" path="res://Game Elements/ui/save_states/saves.gd" id="1_hd51q"]
 [ext_resource type="Texture2D" uid="uid://rawhoxpikpyp" path="res://art/title_assets/grainy_background_visual.png" id="2_ve1wb"]
-[ext_resource type="Texture2D" uid="uid://cw0gqmup73yr0" path="res://art/UI Package/Frames/1-5.png" id="3_1gek7"]
+[ext_resource type="Texture2D" uid="uid://deoucqhlm12h1" path="res://art/UI Package/Frames/1-6.png" id="3_1gek7"]
 [ext_resource type="StyleBox" uid="uid://dobyvfqwbwfh0" path="res://Game Elements/ui/resources/7-1_button.tres" id="3_hd51q"]
 [ext_resource type="Texture2D" uid="uid://cbpax2vcj4q0n" path="res://ui_captures/p1_none_hover_p2_none_hover.png" id="3_ve1wb"]
 [ext_resource type="StyleBox" uid="uid://gpahke45chv" path="res://Game Elements/ui/resources/7-3_button.tres" id="4_1gek7"]
@@ -74,7 +74,6 @@ custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 
 [node name="TextureRect2" type="TextureRect" parent="Control/MarginContainer/VBoxContainer/Save1"]
-modulate = Color(0.643, 0.004, 0.961, 1)
 layout_mode = 0
 offset_left = 960.0
 offset_top = -26.0
@@ -165,7 +164,6 @@ custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 
 [node name="TextureRect2" type="TextureRect" parent="Control/MarginContainer/VBoxContainer/Save2"]
-modulate = Color(0.6445913, 0.003674109, 0.9597015, 1)
 layout_mode = 0
 offset_left = 960.0
 offset_top = -26.0
@@ -256,7 +254,6 @@ custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 
 [node name="TextureRect2" type="TextureRect" parent="Control/MarginContainer/VBoxContainer/Save3"]
-modulate = Color(0.6445913, 0.003674109, 0.9597015, 1)
 layout_mode = 0
 offset_left = 960.0
 offset_top = -26.0

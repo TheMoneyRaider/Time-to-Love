@@ -10,6 +10,8 @@ uniform float quant_scale = 256.0;
 uniform float pixel_shadow = 16.0;
 uniform float shade_strength = 0.5; // fraction to darken
 uniform int highlight = 0;
+uniform bool grayscale = false;
+uniform bool full_white = false;
 
 bool point_in_polygon(vec2 p, float scale){
 	bool inside = false;
@@ -58,5 +60,15 @@ void fragment(){
 	}
 	if(highlight > 0){
 		COLOR *= vec4(1.0, 0.874, 0.658,1.0);
+	}
+	if(grayscale){
+		vec4 col = COLOR;
+		float lum = dot(col.rgb, vec3(0.299, 0.587, 0.114));
+		vec3 gray_col = vec3(lum);
+		COLOR = vec4(gray_col,col.a);
+	}
+	if(full_white){
+		vec4 col = COLOR;
+		COLOR = vec4(1.0,1.0,1.0,col.a);
 	}
 }

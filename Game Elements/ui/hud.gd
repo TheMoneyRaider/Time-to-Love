@@ -49,7 +49,6 @@ func set_remnant_icons(player1_remnants: Array, player2_remnants: Array, ranked_
 		Globals.record_remnant(rem.remnant_name, rem.rank)
 	for rem in player2_remnants:
 		Globals.record_remnant(rem.remnant_name, rem.rank)
-	Globals.save_config()
 	
 	for child in $RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/LeftRemnants.get_children():
 		child.queue_free()

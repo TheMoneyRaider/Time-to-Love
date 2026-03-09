@@ -97,6 +97,7 @@ func _on_return_pressed():
 		node.resume_shaders()
 
 func _on_menu_pressed():
+	get_tree().get_root().get_node("LayerManager/DeathMenu").state_change()
 	for i in range(slot_nodes.size()):
 		slot_nodes[i].set_enabled(false)
 		slot_nodes[i].hide_visuals(true)
