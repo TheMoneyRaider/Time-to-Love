@@ -308,7 +308,7 @@ static func spawn_after_image(entity : Node, layer_manager : Node, start_color :
 
 #Letters
 
-
+static var chosen_letters = {}
 static func spawn_letters(
 	players: Array[Node],
 	scene: Node,
@@ -317,9 +317,10 @@ static func spawn_letters(
 ) -> void:
 	if randf() >= sqrt(1.0-Globals.letter_percentage):
 		return
-	var letter_goal = int(room_data.letter_goal * randf())
+	var letter_goal = clamp(int(room_data.letter_goal * randf())+1,1,room_data.letter_goal)
 	if letter_goal <= 0:
 		return
+	chosen_letters = {}
 
 	#Convert to hash set for O(1) lookup
 	var cell_set := {}
@@ -390,9 +391,12 @@ static func _apply_letter_influence(center: Vector2i):
 				1.0
 			)
 static func _spawn_letter(cell: Vector2i, scene: Node, letter: PackedScene, room_data : Room) -> void:
-	for let in scene.get_tree().get_root().get_node("LayerManager/LetterMenu").letter_pool:
-		if !Globals.save_state.letter_progress.has(let.letter_id):
+	var letter_pool : Array= scene.get_tree().get_root().get_node("LayerManager/LetterMenu").letter_pool
+	letter_pool.shuffle()
+	for let in letter_pool:
+		if !Globals.save_state.letter_progress.has(let.letter_id) and !chosen_letters.has(let.letter_id):
 				print("Spawn letter with id: "+str(let.letter_id))
+				chosen_letters[let.letter_id] = true
 				var inst := letter.instantiate()
 				inst.letter_id=let.letter_id
 				inst.global_position = cell * cell_world_size+Vector2(8,8)

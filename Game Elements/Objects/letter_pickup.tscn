@@ -36,5 +36,4 @@ horizontal_alignment = 1
 
 [node name="PathwayIcon1" type="Sprite2D" parent="."]
 z_index = -1
-scale = Vector2(0.5, 0.5)
 texture = ExtResource("5_psqoo")

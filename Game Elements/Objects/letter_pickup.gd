@@ -15,8 +15,38 @@ func _ready():
 	player_area.connect("body_exited", Callable(self, "_on_body_exited"))
 
 
-func disable(_variant : Globals.RoomVariant):
+func disable(variant : Globals.RoomVariant):
 	active = false
+	match variant:
+		Globals.RoomVariant.MedOut:
+			choose_random("res://art/objects/letter_fragments/MedOut")
+		Globals.RoomVariant.MedIn:
+			choose_random("res://art/objects/letter_fragments/MedIn")
+		Globals.RoomVariant.WesternCanyon:
+			choose_random("res://art/objects/letter_fragments/WesternCanyon")
+			$PathwayIcon1.scale *= .5
+		Globals.RoomVariant.WesternTown:
+			choose_random("res://art/objects/letter_fragments/WesternTown")
+			$PathwayIcon1.scale *= .5
+		Globals.RoomVariant.SciFiCyberspace:
+			choose_random("res://art/objects/letter_fragments/SciFiCyberspace")
+		Globals.RoomVariant.SciFiFactory:
+			choose_random("res://art/objects/letter_fragments/SciFiFactory")
+			
+func choose_random(path : String):
+	var dir = ResourceLoader.list_directory(path)
+	var art_pool = []
+	if dir == null:
+		push_error("Letters art folder not found: "+path)
+		return
+	for file in dir:
+		if file.ends_with(".png"):
+			var res = ResourceLoader.load(path+"/" + file)
+			if res:
+				art_pool.append(res)
+	randomize()
+	$PathwayIcon1.texture = art_pool[int(randf()*art_pool.size())]
+	
 func enable():
 	active = true
 

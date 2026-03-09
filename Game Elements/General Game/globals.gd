@@ -15,7 +15,7 @@ var config_path := "user://settings.cfg"
 
 enum MenuState {Western, Space, Horror, Medieval}
 
-enum RoomVariant {MedOut, MedIn, WesternCanyon, WesternTown, HorrorDocks, HorrorMansion, SciFiCyberspace, SciFiFactory}
+enum RoomVariant {MedOut, MedIn, WesternCanyon, WesternTown, SciFiCyberspace, SciFiFactory}
 enum RoomType {Buffer, Combat, Shop, Boss, Misc}
 
 enum Liquid {Buffer, Water, Lava, Acid, Conveyer, Glitch} #Don't mess with the buffer
