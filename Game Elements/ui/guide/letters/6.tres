@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://8qoyr7jvbpyy"]
+
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="1_i84qi"]
+[ext_resource type="Resource" uid="uid://dlp3h4joc83ma" path="res://Game Elements/ui/guide/letter_formats/newspaper2.tres" id="1_idboi"]
+
+[resource]
+script = ExtResource("1_i84qi")
+letter_id = 5
+description = "Sometimes I wonder how old you are. It seems like you’ve seen so much from the various communications we have left and the stories you’ve told. You could be millenia older than me for all I know. It has to be impossible to do so much, even in a lifetime. Then again my mom lived her whole life and never met the president. I suppose there’s so much to do for those who want to find it."
+letter_format = ExtResource("1_idboi")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

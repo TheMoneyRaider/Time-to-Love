@@ -10,6 +10,7 @@ remnant_name = "Remnant of the Ninja"
 description = "Each successful hit you make increases your damage by $X% up to $Y%. This boost reduces if you don’t make another hit within $Z seconds."
 icon = ExtResource("2_stv83")
 art = ExtResource("1_81ul4")
+progress_required = 2.0
 tags = Array[String](["sci-fi"])
 variable_names = Array[String](["$X", "$Y", "$Z"])
 variable_1_values = [5, 10, 15, 20, 25]

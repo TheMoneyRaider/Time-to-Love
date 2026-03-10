@@ -1,0 +1,166 @@
+[gd_scene load_steps=15 format=3 uid="uid://b4d1vle0jg0gu"]
+
+[ext_resource type="Script" uid="uid://dh22y2ht6wpi7" path="res://Game Elements/ui/guide/weapon_slot.gd" id="1_ues56"]
+[ext_resource type="Shader" uid="uid://cb0w7ut2pecc0" path="res://Game Elements/Shaders/outline.gdshader" id="2_dcv7i"]
+[ext_resource type="Texture2D" uid="uid://cw0gqmup73yr0" path="res://art/UI Package/Frames/1-5.png" id="3_igg4a"]
+[ext_resource type="Texture2D" uid="uid://dxjbjqbq1hdms" path="res://art/UI Package/Frames/3-7.png" id="4_j5rl7"]
+[ext_resource type="Texture2D" uid="uid://dqpqlroj4sckj" path="res://art/UI Package/Frames/3-3.png" id="5_gr61n"]
+[ext_resource type="Texture2D" uid="uid://bl1vyxxyxqdsr" path="res://art/UI Package/Frames/2-1.png" id="6_8u7yv"]
+[ext_resource type="PackedScene" uid="uid://wymaxwjxh1tp" path="res://Game Elements/Weapons/Weapon_sprite.tscn" id="8_j5rl7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o7i6x"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_65u0l"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7cik6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4i1at"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8nt63"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b6cy5"]
+shader = ExtResource("2_dcv7i")
+shader_parameter/outline_color = Vector4(1, 1, 0, 1)
+shader_parameter/outline_thickness = 2.0
+shader_parameter/outline_opacity = 0.0
+shader_parameter/grayscale = false
+
+[sub_resource type="LabelSettings" id="LabelSettings_o7i6x"]
+font_size = 40
+outline_size = 14
+outline_color = Color(0, 0, 0, 1)
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(10, 10)
+
+[node name="RemnantSlot" type="Control"]
+custom_minimum_size = Vector2(413, 900)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 413.0
+offset_bottom = 900.0
+pivot_offset = Vector2(206.5, 450)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+script = ExtResource("1_ues56")
+
+[node name="btn_select" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxEmpty_o7i6x")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_65u0l")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_7cik6")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_4i1at")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_8nt63")
+
+[node name="art" type="TextureRect" parent="btn_select"]
+material = SubResource("ShaderMaterial_b6cy5")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -13.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_behavior_recursive = 1
+mouse_filter = 2
+texture = ExtResource("3_igg4a")
+expand_mode = 5
+
+[node name="art2" type="TextureRect" parent="btn_select/art"]
+modulate = Color(0.7539839, 0.75398386, 0.75398386, 1)
+material = SubResource("ShaderMaterial_b6cy5")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = 25.0
+offset_right = -50.0
+offset_bottom = -775.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_behavior_recursive = 1
+mouse_filter = 2
+texture = ExtResource("4_j5rl7")
+
+[node name="art3" type="TextureRect" parent="btn_select/art"]
+material = SubResource("ShaderMaterial_b6cy5")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 91.0
+offset_top = 131.0
+offset_right = -90.0
+offset_bottom = -550.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_behavior_recursive = 1
+mouse_filter = 2
+texture = ExtResource("5_gr61n")
+
+[node name="art4" type="TextureRect" parent="btn_select/art"]
+material = SubResource("ShaderMaterial_b6cy5")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 364.0
+offset_top = 367.0
+offset_right = 403.75244
+offset_bottom = -204.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5707964
+focus_behavior_recursive = 1
+mouse_filter = 2
+texture = ExtResource("6_8u7yv")
+
+[node name="container" type="VBoxContainer" parent="btn_select"]
+layout_mode = 0
+offset_left = 65.0
+offset_top = 20.0
+offset_right = 333.0
+offset_bottom = 806.0
+focus_behavior_recursive = 1
+mouse_filter = 2
+
+[node name="name_label" type="Label" parent="btn_select/container"]
+custom_minimum_size = Vector2(30, 120)
+layout_mode = 2
+focus_behavior_recursive = 1
+text = "Farmer's Shovel"
+label_settings = SubResource("LabelSettings_o7i6x")
+horizontal_alignment = 1
+autowrap_mode = 2
+uppercase = true
+
+[node name="Spacer" type="Control" parent="btn_select/container"]
+custom_minimum_size = Vector2(0, 260)
+layout_mode = 2
+
+[node name="WeaponSprite" parent="btn_select/container" instance=ExtResource("8_j5rl7")]
+position = Vector2(63, 117)
+
+[node name="description_label" type="RichTextLabel" parent="btn_select/container"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_behavior_recursive = 1
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.4351923, 0.43519226, 0.43519226, 1)
+theme_override_colors/font_outline_color = Color(0.23392546, 0.23392546, 0.23392543, 1)
+theme_override_constants/outline_size = 7
+bbcode_enabled = true
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+fit_content = true
+scroll_active = false
+autowrap_mode = 2
+
+[connection signal="pressed" from="btn_select" to="." method="_on_button_pressed"]

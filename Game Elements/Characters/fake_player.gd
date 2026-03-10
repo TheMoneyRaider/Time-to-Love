@@ -1,5 +1,5 @@
 extends RigidBody2D
-var speed = 400.0
+var speed = 600.0
 var is_purple : bool
 var active : bool = false
 var is_tethered : bool = false

@@ -20,6 +20,7 @@ static var _enemy_scene_cache := {}        # scene_path -> PackedScene
 static var player_penalty_field := {}
 static var edge_penalty_field := {}
 static var enemy_penalty_field := {}
+static var letter_penalty_field := {}
 
 ###PUBLIC API
 static func spawn_enemies(
@@ -301,3 +302,104 @@ static func spawn_after_image(entity : Node, layer_manager : Node, start_color :
 	after_image.lifetime = lifetime
 	after_image.start_alpha = start_alpha
 	layer_manager.room_instance.add_child(after_image)
+
+
+
+
+#Letters
+
+static var chosen_letters = {}
+static func spawn_letters(
+	players: Array[Node],
+	scene: Node,
+	available_cells: Array[Vector2i],
+	room_data: Room
+) -> void:
+	if randf() >= sqrt(1.0-Globals.letter_percentage):
+		return
+	var letter_goal = clamp(int(room_data.letter_goal * randf())+1,1,room_data.letter_goal)
+	if letter_goal <= 0:
+		return
+	chosen_letters = {}
+
+	#Convert to hash set for O(1) lookup
+	var cell_set := {}
+	for c in available_cells:
+		cell_set[c] = true
+	var edges := _get_edges(cell_set)
+
+	# === PRECOMPUTE STATIC FIELDS ===
+	player_penalty_field = _build_player_field(cell_set, players)
+	edge_penalty_field = _build_edge_field(cell_set, edges)
+
+	enemy_penalty_field.clear()
+
+	var chosen_positions: Array[Vector2i] = []
+
+	var letter_scene := preload("res://Game Elements/Objects/letter_pickup.tscn")
+
+	for _i in letter_goal:
+		var best := _choose_best_cell_letter(
+			cell_set
+		)
+
+		if best == Vector2i(-999,-999):
+			push_warning("No valid cell left to place enemy")
+			return
+
+		cell_set.erase(best)
+		chosen_positions.append(best)
+		_spawn_letter(best,scene,letter_scene,room_data)
+		_apply_letter_influence(best)
+
+
+static func _choose_best_cell_letter(cell_set: Dictionary) -> Vector2i:
+	var total_weight := 0.0
+	var chosen: Vector2i = Vector2(-999,-999)
+
+	for cell in cell_set.keys():
+		var score := 1.0
+		score -= player_penalty_field.get(cell, 0.0)
+		score += edge_penalty_field.get(cell, 0.0)
+		score -= letter_penalty_field.get(cell, 0.0)
+		score = clamp(score, 0.0, 1.0)
+
+		if score <= 0.0:
+			continue
+
+		total_weight += score
+		if randf() * total_weight < score:
+			chosen = cell
+
+	return chosen
+static func _apply_letter_influence(center: Vector2i):
+	var radius := int(ceil(enemy_threshold / cell_world_size))
+	var thresh_sq := enemy_threshold * enemy_threshold
+
+	for x in range(-radius, radius + 1):
+		for y in range(-radius, radius + 1):
+			var cell := center + Vector2i(x, y)
+			var d2 := (cell * cell_world_size).distance_squared_to(center * cell_world_size)
+
+			if d2 >= thresh_sq:
+				continue
+
+			var penalty := enemy_penalty_weight * (1.0 - d2 / thresh_sq)
+			letter_penalty_field[cell] = clamp(
+				letter_penalty_field.get(cell, 0.0) + penalty,
+				0.0,
+				1.0
+			)
+static func _spawn_letter(cell: Vector2i, scene: Node, letter: PackedScene, room_data : Room) -> void:
+	var letter_pool : Array= scene.get_tree().get_root().get_node("LayerManager/LetterMenu").letter_pool
+	letter_pool.shuffle()
+	for let in letter_pool:
+		if !Globals.save_state.letter_progress.has(let.letter_id) and !chosen_letters.has(let.letter_id):
+				print("Spawn letter with id: "+str(let.letter_id))
+				chosen_letters[let.letter_id] = true
+				var inst := letter.instantiate()
+				inst.letter_id=let.letter_id
+				inst.global_position = cell * cell_world_size+Vector2(8,8)
+				scene.add_child(inst)
+				inst.disable(room_data.roomvariant)
+				return

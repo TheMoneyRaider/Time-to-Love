@@ -258,8 +258,10 @@ func _ready() -> void:
 	_placable_locations()
 	if Globals.is_multiplayer:
 		Spawner.spawn_enemies([player1,player2], room_instance, placable_cells.duplicate(),room_instance_data,self,false)
+		Spawner.spawn_letters([player1,player2],room_instance, placable_cells.duplicate(),room_instance_data)
 	else:
 		Spawner.spawn_enemies([player1], room_instance, placable_cells.duplicate(),room_instance_data,self,false)
+		Spawner.spawn_letters([player1],room_instance, placable_cells.duplicate(),room_instance_data)
 	
 	var enemies : Array[Node]= []
 	for child in room_instance.get_children():
@@ -273,7 +275,10 @@ func _ready() -> void:
 	liquid_cells = room_instance.liquid_cells
 	var ground = room_instance.get_node("Ground")
 	if ground.get_node_or_null("GrassAddon"):
+		camera.get_node("GrassTexture").visible = true
 		ground.get_node("GrassAddon").initalize(conflict_cells.duplicate(),ground)
+	else:
+		camera.get_node("GrassTexture").visible = false
 	create_new_rooms()
 	pathfinding.setup_from_room(room_instance.get_node("Ground"), room_instance.blocked_cells, room_instance.trap_cells)
 	_prepare_timefabric()
@@ -347,6 +352,8 @@ func _process(delta: float) -> void:
 			room_reward(this_room_reward1)
 			if is_wave_room:
 				room_reward(this_room_reward2)
+			
+			_enable_letters()
 		room_cleared= true
 	else:
 		if !reward_claimed:
@@ -635,68 +642,63 @@ func preload_rooms() -> void:
 			cached_scenes[room_data_item.scene_location] = packed
 
 func check_reward(generated_room : Node2D, _generated_room_data : Room, player_reference : Node) -> bool:
-	if(if_node_exists("Shop",generated_room)):
-		var vision = generated_room.get_node("Shop/VisionNPC") as Area2D
-		if player_reference in vision.tracked_bodies:
-			vision.activate()
-			return true
-	if(if_node_exists("RemnantOrb",generated_room)):
-		var orb = generated_room.get_node("RemnantOrb") as Area2D
-		if player_reference in orb.tracked_bodies:
-			orb.queue_free()
-			_open_remnant_popup()
-			return true
-	if(if_node_exists("TimeFabricOrb",generated_room)):
-		var orb = generated_room.get_node("TimeFabricOrb") as Area2D
-		if player_reference in orb.tracked_bodies:
-			timefabric_rewarded = 200 #TODO change this to by dynamic(ish)
-			return true
-	if(if_node_exists("UpgradeOrb",generated_room)):
-		var orb = generated_room.get_node("UpgradeOrb") as Area2D
-		if player_reference in orb.tracked_bodies:
-			orb.queue_free()
-			_open_upgrade_popup()
-			return true
-	if(if_node_exists("HealthUpgrade",generated_room)):
-		var orb = generated_room.get_node("HealthUpgrade") as Area2D
-		if player_reference in orb.tracked_bodies:
-			if is_multiplayer:
-				player2.change_health(5.0,5.0)
-				_remnant_of_hospital_heal(player1, player_1_remnants)
-			player1.change_health(5.0,5.0)
-			_remnant_of_hospital_heal(player1, player_1_remnants)
-			var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
-			particle.position = orb.position
-			generated_room.add_child(particle)
-			orb.queue_free()
-			return true
-	if(if_node_exists("Health",generated_room)):
-		var orb = generated_room.get_node("Health") as Area2D
-		if player_reference in orb.tracked_bodies:
-			if is_multiplayer:
-				player2.change_health(5.0)
-				_remnant_of_hospital_heal(player2, player_2_remnants)
-			player1.change_health(5.0)
-			_remnant_of_hospital_heal(player1, player_1_remnants)
-			var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
-			particle.position = orb.position
-			generated_room.add_child(particle)
-			orb.queue_free()
-			return true
-	if(if_node_exists("NewWeapon",generated_room)):
-		var orb = generated_room.get_node("NewWeapon") as Area2D
-		if player_reference in orb.tracked_bodies:
-			player_reference.update_weapon(orb.weapon_type)
-			undiscovered_weapons.erase(possible_weapon)
-			if(undiscovered_weapons.size() == 0):
-				reward_num[6] = 0.0
-				possible_weapon = ""
-			else:
-				possible_weapon = undiscovered_weapons.pick_random()
-			hud.set_cooldown_icons()
-			orb.queue_free()
-			return true
-		
+	for node in generated_room.get_children():
+		match node.name:
+			"Shop":
+				var vision = generated_room.get_node("Shop/VisionNPC") as Area2D
+				if player_reference in vision.tracked_bodies:
+					vision.activate()
+					return true
+			"RemnantOrb":
+				if player_reference in node.tracked_bodies:
+					node.queue_free()
+					_open_remnant_popup()
+					return true
+			"TimeFabricOrb":
+				if player_reference in node.tracked_bodies:
+					timefabric_rewarded = 200 #TODO change this to by dynamic(ish)
+					return true
+			"UpgradeOrb":
+				if player_reference in node.tracked_bodies:
+					node.queue_free()
+					_open_upgrade_popup()
+					return true
+			"HealthUpgrade":
+				if player_reference in node.tracked_bodies:
+					if is_multiplayer:
+						player2.change_health(5.0,5.0)
+					player1.change_health(5.0,5.0)
+					var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+					particle.position = node.position
+					generated_room.add_child(particle)
+					node.queue_free()
+					return true
+			"Health":
+				if player_reference in node.tracked_bodies:
+					if is_multiplayer:
+						player2.change_health(5.0)
+					player1.change_health(5.0)
+					var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+					particle.position = node.position
+					generated_room.add_child(particle)
+					node.queue_free()
+					return true
+			"NewWeapon":
+				if player_reference in node.tracked_bodies:
+					player_reference.update_weapon(node.weapon_type)
+					undiscovered_weapons.erase(possible_weapon)
+					if(undiscovered_weapons.size() == 0):
+						reward_num[6] = 0.0
+						possible_weapon = ""
+					else:
+						possible_weapon = undiscovered_weapons.pick_random()
+					hud.set_cooldown_icons()
+					node.queue_free()
+					return true
+		if node.is_in_group("letter"):
+			if player_reference in node.tracked_bodies:
+				node.spawn_letter()
+				return true
 	return false
 
 func room_reward(reward_type : Globals.Reward) -> void:
@@ -1326,7 +1328,10 @@ func _finalize_room_creation(next_room_instance: Node2D, next_room_data: Room, d
 	generated_rooms[pathway_detect.name] = next_room_instance
 	generated_room_conflict[pathway_detect.name] = conflict_cells.duplicate()
 	if ground.get_node_or_null("GrassAddon"):
+		camera.get_node("GrassTexture").visible = true
 		ground.get_node("GrassAddon").initalize(conflict_cells.duplicate(),ground)
+	else:
+		camera.get_node("GrassTexture").visible = false
 	
 	_choose_reward(pathway_detect.name)
 
@@ -1483,8 +1488,10 @@ func _move_to_pathway_room(pathway_id: String) -> void:
 	
 	if Globals.is_multiplayer:
 		Spawner.spawn_enemies([player1,player2], room_instance, placable_cells.duplicate(),room_instance_data,self,is_wave_room)
+		Spawner.spawn_letters([player1,player2],room_instance, placable_cells.duplicate(),room_instance_data)
 	else:
 		Spawner.spawn_enemies([player1], room_instance, placable_cells.duplicate(),room_instance_data,self,is_wave_room)
+		Spawner.spawn_letters([player1],room_instance, placable_cells.duplicate(),room_instance_data)
 	
 	pathfinding.setup_from_room(room_instance.get_node("Ground"), 
 		room_instance.blocked_cells,
@@ -1774,6 +1781,10 @@ func _placable_locations():
 			temp_placable_locations.append(c)
 	placable_cells = temp_placable_locations
 
+func _enable_letters():
+	for node in room_instance.get_children():
+		if node.is_in_group("letter"):
+			node.enable()
 
 func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , attack_body: Node = null, c_owner : Node = null,override_color : Color = Color(0.267, 0.394, 0.394, 1.0)):
 	var instance = load("res://Game Elements/Objects/damage_indicator.tscn").instantiate()

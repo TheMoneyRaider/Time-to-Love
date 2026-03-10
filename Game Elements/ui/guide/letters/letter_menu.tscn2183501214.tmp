@@ -1,0 +1,112 @@
+[gd_scene load_steps=11 format=3 uid="uid://2nuxn7fyplmx"]
+
+[ext_resource type="Script" uid="uid://djmtkfv0ydopm" path="res://Game Elements/ui/guide/letters/letter_menu.gd" id="1_1k26a"]
+[ext_resource type="Texture2D" uid="uid://bi1xsi2ox612o" path="res://art/UI Package/Frames/4-3.png" id="2_u2sit"]
+[ext_resource type="Texture2D" uid="uid://ctfr8rnqnscsq" path="res://art/UI Package/Frames/1-1.png" id="3_6xrrc"]
+[ext_resource type="Texture2D" uid="uid://gyd3e8if27h4" path="res://art/UI Package/Elements/9-1.png" id="4_r4fmc"]
+[ext_resource type="Texture2D" uid="uid://bylncaft3mt5l" path="res://Game Elements/ui/guide/letter_formats/BlankNewspaper_New.png" id="4_xgv7v"]
+[ext_resource type="Texture2D" uid="uid://c2sjlkw4o1xdo" path="res://art/UI Package/Elements/9-3.png" id="5_jy464"]
+[ext_resource type="Texture2D" uid="uid://b2vvdus8g2bbm" path="res://art/UI Package/Elements/9-2.png" id="6_2be7c"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2fe1m"]
+texture = ExtResource("4_r4fmc")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rrs36"]
+texture = ExtResource("5_jy464")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vk8ww"]
+texture = ExtResource("6_2be7c")
+
+[node name="LetterMenu" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_1k26a")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1000.0
+mouse_filter = 2
+texture = ExtResource("2_u2sit")
+
+[node name="Overlay" type="TextureRect" parent="Background"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1000.0
+mouse_filter = 2
+texture = ExtResource("3_6xrrc")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Letters" type="Control" parent="Control/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Viewer" type="Control" parent="Control/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TextureButton" type="TextureButton" parent="Control/MarginContainer/Viewer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -940.0
+offset_top = -480.0
+offset_right = 261.0
+offset_bottom = 480.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("4_xgv7v")
+stretch_mode = 4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/MarginContainer/Viewer"]
+visible = false
+z_index = 1
+clip_contents = false
+layout_mode = 0
+offset_left = -407.0
+offset_top = 118.0
+offset_right = 393.0
+offset_bottom = 546.0
+focus_behavior_recursive = 1
+mouse_filter = 2
+bbcode_enabled = true
+text = "[font_size=32][color=#8a785b]Purple Room: Exhibit 4[br][br][font_size=16]This rubbing, taken from carvings on a boulder discovered in the archeological remains of a 1388 French Battlefield, appears to demonstrate a personal grudge between the two enemy commanders. The boulder was likely launched by a trebuche. A reconstruction of a period accurate trebuche can be found in the orange hall.[/color][br][br][color=orange]“SO CAN A LEVER”[/color]"
+scroll_active = false
+
+[node name="Return" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 14.0
+offset_right = 115.0
+offset_bottom = 134.0
+rotation = -1.5707964
+scale = Vector2(-1, 1)
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxTexture_2fe1m")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_rrs36")
+theme_override_styles/hover = SubResource("StyleBoxTexture_vk8ww")
+
+[connection signal="gui_input" from="Control" to="." method="_on_control_gui_input"]
+[connection signal="pressed" from="Control/MarginContainer/Viewer/TextureButton" to="." method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Control/Return" to="." method="_on_return_pressed"]

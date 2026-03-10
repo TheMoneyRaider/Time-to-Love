@@ -394,10 +394,10 @@ offset_bottom = 40.0
 
 [node name="GridContainer" type="GridContainer" parent="RootControl/DebugMenu"]
 layout_mode = 0
-offset_left = 1708.0
-offset_top = 34.0
-offset_right = 1898.0
-offset_bottom = 138.0
+offset_left = 1629.0
+offset_top = 412.0
+offset_right = 1819.0
+offset_bottom = 597.0
 
 [node name="MenuIndicator" type="Label" parent="RootControl/DebugMenu/GridContainer"]
 layout_mode = 2
@@ -416,5 +416,13 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
 
 [node name="EnemyAngles" type="Label" parent="RootControl/DebugMenu/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
+
+[node name="Move" type="Label" parent="RootControl/DebugMenu/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
+
+[node name="Kill" type="Label" parent="RootControl/DebugMenu/GridContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)

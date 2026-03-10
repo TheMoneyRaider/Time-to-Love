@@ -10,6 +10,7 @@ remnant_name = "Remnant of The Hunter"
 description = "Ranged attacks do $X% more damage if there are no enemies within $Y meters."
 icon = ExtResource("2_o1ar6")
 art = ExtResource("1_uvif7")
+progress_required = 1.0
 variable_names = Array[String](["$X", "$Y"])
 variable_1_values = [20, 40, 60, 80, 100]
 variable_2_values = [6, 5, 4, 3, 2]

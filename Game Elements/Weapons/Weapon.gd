@@ -21,6 +21,12 @@ class_name Weapon
 @export var sprite_animation : String = ""
 @export var sprite_hframes : int = 1
 @export var sprite_vframes : int = 1
+@export var is_player_weapon : bool = true
+@export var name : String = "Placeholder"
+@export var name_font : Font
+@export var description : String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+@export var description_font : Font
+@export var progress_required: float = 0.0
 var current_special_hits = 0
 
 var speed = 60.0

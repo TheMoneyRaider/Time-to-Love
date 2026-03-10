@@ -1,0 +1,21 @@
+[gd_scene load_steps=6 format=3 uid="uid://d3iufl13lmadk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0dulo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bs3ix"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_evbu3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m5kut"]
+
+[sub_resource type="GDScript" id="GDScript_0dulo"]
+script/source = "extends Button
+"
+
+[node name="LetterFragment" type="Button"]
+mouse_filter = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_0dulo")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_bs3ix")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_evbu3")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_m5kut")
+script = SubResource("GDScript_0dulo")

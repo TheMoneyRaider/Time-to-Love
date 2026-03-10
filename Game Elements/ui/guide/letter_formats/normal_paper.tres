@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Letter_Format" load_steps=4 format=3 uid="uid://cr3frg5xo54e2"]
+
+[ext_resource type="Texture2D" uid="uid://u5cqrk4r752f" path="res://Game Elements/ui/guide/letter_formats/paper1.png" id="1_iohdl"]
+[ext_resource type="Texture2D" uid="uid://djp36gw37bodf" path="res://Game Elements/ui/guide/letter_formats/paper2.png" id="2_aqvde"]
+[ext_resource type="Script" uid="uid://v0hrw11t0hm1" path="res://Game Elements/ui/guide/letter_formats/letter_format.gd" id="3_uktx8"]
+
+[resource]
+script = ExtResource("3_uktx8")
+name = "Paper"
+main_art = ExtResource("1_iohdl")
+per_letter_art = ExtResource("2_aqvde")
+metadata/_custom_type_script = "uid://v0hrw11t0hm1"

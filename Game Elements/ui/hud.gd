@@ -44,6 +44,12 @@ func set_timefabric_amount(timefabric_collected : int):
 	$RootControl/VBoxContainer/HorizontalSlice/TimeFabric/HBoxContainer/Label.text = str(timefabric_collected)
 
 func set_remnant_icons(player1_remnants: Array, player2_remnants: Array, ranked_up1: Array[String] = [], ranked_up2: Array[String] = []):
+	
+	for rem in player1_remnants:
+		Globals.record_remnant(rem.remnant_name, rem.rank)
+	for rem in player2_remnants:
+		Globals.record_remnant(rem.remnant_name, rem.rank)
+	
 	for child in $RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/LeftRemnants.get_children():
 		child.queue_free()
 	for child in $RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/RightRemnants.get_children():
@@ -363,8 +369,7 @@ func _on_max_health_changed(max_health : float, current_health : float,player_no
 		health_bar_2.set_current_health(current_health)
 		
 func load_settings():
-	if Globals.config_safe:
-		debug_mode = Globals.config.get_value("debug", "enabled", false)
+	debug_mode = Globals.config.get_value("debug", "enabled", false)
 		
 func display_debug_setting_header():
 	$RootControl/DebugMenu/GridContainer.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
@@ -394,7 +399,11 @@ func _input(event):
 		if event.is_action_pressed("toggle_enemy_angles"):
 			enemy_angles = !enemy_angles
 			if menu_indicator:  
-				update_clamping()
+				update_angles()
+		if event.is_action_pressed("move_to_pathway"):
+			move_to_pathway()
+		if event.is_action_pressed("kill_enemies"):
+			kill_enemies()
 				
 		update_menu_indicator()
 	return
@@ -402,11 +411,37 @@ func _input(event):
 # all of these have to be signals. settings menu items don't make sense because individual components 
 # update settings at different periods, mostly on load, 
 
+func move_to_pathway():
+	var LayerManager =  get_parent()
+	if !LayerManager.reward_claimed:
+		for node in LayerManager.room_instance.get_children():
+			if node.is_in_group("reward"):
+				LayerManager.player1.global_position = node.global_position
+				return
+	else:
+		for node in LayerManager.room_instance.get_children():
+			if node.is_in_group("pathway") and node.active and !node.used:
+				LayerManager.player1.global_position = node.global_position
+				return
+		
+	pass
+
+func kill_enemies():
+	var LayerManager =  get_parent()
+	for node in LayerManager.room_instance.get_children():
+		if node.is_in_group("enemy"):
+			node.current_health = -1.0
+			node.emit_signal("enemy_took_damage",100.0,node.current_health,node,Vector2(0,-1))
+		if node.is_in_group("attack"):
+			node.queue_free()
+
 func update_menu_indicator() -> void:
 	var paths_string = "  paths: | P | "
 	var invul_string = "  invuln: | I | "
 	var clamp_string = "  clamp: | C | "
 	var angle_string = "  angles: | V | "
+	var move_string = "  Move to Pathway: | M | "
+	var kill_string = "  Kill Enemies: | K | "
 	
 	if menu_indicator:
 		$RootControl/DebugMenu/GridContainer/Paths.text = paths_string
@@ -417,11 +452,15 @@ func update_menu_indicator() -> void:
 		update_clamping()
 		$RootControl/DebugMenu/GridContainer/EnemyAngles.text = angle_string
 		update_angles()
+		$RootControl/DebugMenu/GridContainer/Move.text = move_string
+		$RootControl/DebugMenu/GridContainer/Kill.text = kill_string
 	else:
 		$RootControl/DebugMenu/GridContainer/Paths.text = ""
 		$RootControl/DebugMenu/GridContainer/Invulnerability.text = ""
 		$RootControl/DebugMenu/GridContainer/Clamping.text = ""
 		$RootControl/DebugMenu/GridContainer/EnemyAngles.text = ""
+		$RootControl/DebugMenu/GridContainer/Move.text = ""
+		$RootControl/DebugMenu/GridContainer/Kill.text = ""
 	return
 
 func update_display_paths() -> void:
