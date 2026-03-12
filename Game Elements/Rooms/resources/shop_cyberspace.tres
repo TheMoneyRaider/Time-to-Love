@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Room" load_steps=2 format=3 uid="uid://dr1c10g8oe1jh"]
+
+[ext_resource type="Script" uid="uid://boljl4yehg187" path="res://Game Elements/Rooms/room.gd" id="1_ntw5w"]
+
+[resource]
+script = ExtResource("1_ntw5w")
+scene_location = "res://Game Elements/Rooms/shops/shop_cyberspace.tscn"
+num_liquid = 1
+liquid_types = Array[int]([5])
+liquid_chances = Array[float]([1.0])
+noise_seed = null
+roomtype = 2
+roomvariant = 4
+letter_goal = 1
+metadata/_custom_type_script = "uid://boljl4yehg187"

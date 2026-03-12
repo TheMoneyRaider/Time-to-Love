@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Room" load_steps=2 format=3 uid="uid://bmkympgk51x04"]
+
+[ext_resource type="Script" uid="uid://boljl4yehg187" path="res://Game Elements/Rooms/room.gd" id="1_gbi7p"]
+
+[resource]
+script = ExtResource("1_gbi7p")
+scene_location = "res://Game Elements/Rooms/medieval/cave2.tscn"
+num_liquid = 4
+liquid_types = Array[int]([2, 2, 1, 1])
+liquid_chances = Array[float]([0.8, 0.8, 0.8, 0.8])
+noise_seed = null
+num_pathways = 5
+pathway_direction = Array[int]([0, 3, 2, 1, 1])
+num_enemy_goal = 12
+roomvariant = 1
+enemy_pool = Array[String](["res://Game Elements/Characters/dynamEnemy.tscn"])
+enemy_chances = Array[float]([1.0])
+wave_segment = 0.0
+metadata/_custom_type_script = "uid://boljl4yehg187"

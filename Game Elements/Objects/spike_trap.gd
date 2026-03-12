@@ -6,6 +6,7 @@ extends Area2D
 var active: bool = false
 var running: bool = false
 var tracked_bodies: Array = []
+var attack_type = "spikes"
 
 func _ready():
 	connect("body_entered", Callable(self, "_on_body_entered"))

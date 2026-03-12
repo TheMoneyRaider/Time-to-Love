@@ -73,3 +73,16 @@ func _count_all_letters() -> void:
 	for file in dir:
 		if file.ends_with(".tres"):
 			num_letters+=1
+			
+			
+func invert_direction(direct : Direction) -> Direction:
+	match direct:
+		Direction.Left:
+			return Direction.Right
+		Direction.Right:
+			return Direction.Left
+		Direction.Up:
+			return Direction.Down
+		Direction.Down:
+			return Direction.Up
+	return Direction.Error
