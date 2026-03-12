@@ -142,8 +142,7 @@ func _ready() -> void:
 	player_1_remnants.append(rem.duplicate(true))
 	player_2_remnants.append(rem.duplicate(true))
 	####Remnant Testing
-	"""
-	var rem = load("res://Game Elements/Remnants/pyromancer.tres")
+	rem = load("res://Game Elements/Remnants/pyromancer.tres")
 	rem.rank = 4
 	player_1_remnants.append(rem.duplicate(true))
 	player_2_remnants.append(rem.duplicate(true))
@@ -233,7 +232,7 @@ func _ready() -> void:
 	player_2_remnants.append(rem.duplicate(true))
 	
 	player1.display_combo()
-	"""
+	
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
 	timefabric_collected = 0
 	####

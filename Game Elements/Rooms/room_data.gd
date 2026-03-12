@@ -465,7 +465,8 @@ Globals.RoomType.Combat,
 Globals.RoomVariant.MedIn,																															#Is a shop room?
 ["res://Game Elements/Characters/dynamEnemy.tscn"],																				#Enemies That can spawn in this room
 [1.0],																															#Weights for those enemies to spawn
-0),
+0,
+2),
 room.Create_Room(
 "res://Game Elements/Rooms/medieval/outside4.tscn", 																		#Scene Location                       
 0,																																#Num Liquids
@@ -489,7 +490,8 @@ Globals.RoomType.Combat,
 Globals.RoomVariant.MedOut,																															#Is a shop room?
 ["res://Game Elements/Characters/dynamEnemy.tscn"],																				#Enemies That can spawn in this room
 [1.0],																															#Weights for those enemies to spawn
-0),
+0,
+2),
 room.Create_Room(
 "res://Game Elements/Rooms/medieval/cave4.tscn", 																		#Scene Location                       
 3,																																#Num Liquids
@@ -513,7 +515,8 @@ Globals.RoomType.Combat,
 Globals.RoomVariant.MedIn,																															#Is a shop room?
 ["res://Game Elements/Characters/dynamEnemy.tscn"],																				#Enemies That can spawn in this room
 [1.0],																															#Weights for those enemies to spawn
-0),
+0,
+2),
 room.Create_Room(
 "res://Game Elements/Rooms/medieval/outside5.tscn", 																		#Scene Location                       
 1,																																#Num Liquids
@@ -537,7 +540,8 @@ Globals.RoomType.Combat,
 Globals.RoomVariant.MedOut,																															#Is a shop room?
 ["res://Game Elements/Characters/dynamEnemy.tscn"],																				#Enemies That can spawn in this room
 [1.0],																															#Weights for those enemies to spawn
-0)]
+0,
+2)]
 
 var boss_rooms : Array[Room] = [room.Create_Room(
 "res://Game Elements/Bosses/scifi/boss_room.tscn", 																			#Scene Location                       
