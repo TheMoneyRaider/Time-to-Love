@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Room" load_steps=2 format=3 uid="uid://bngm5wrvr5epd"]
+
+[ext_resource type="Script" uid="uid://boljl4yehg187" path="res://Game Elements/Rooms/room.gd" id="1_kepni"]
+
+[resource]
+script = ExtResource("1_kepni")
+scene_location = "res://Game Elements/Rooms/sci_fi/cyberspace4.tscn"
+num_liquid = 2
+liquid_types = Array[int]([5, 5])
+liquid_chances = Array[float]([0.4, 0.5])
+noise_seed = null
+num_enemy_goal = 12
+roomvariant = 4
+enemy_pool = Array[String](["res://Game Elements/Characters/robot.tscn", "res://Game Elements/Characters/binary_bot.tscn"])
+enemy_chances = Array[float]([0.33, 0.66])
+wave_segment = 0.75
+metadata/_custom_type_script = "uid://boljl4yehg187"

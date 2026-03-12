@@ -103,7 +103,7 @@ func populate_letters():
 	container.size = Vector2(1880,960)
 	await get_tree().process_frame
 
-	var fragments_data = generate_jittered_grid_fragments(container.size, grid_x, grid_y)
+	var fragments_data = generate_jittered_grid_fragments(container.size)
 
 	var count := 0
 	for frag_poly in fragments_data:
@@ -398,7 +398,7 @@ func _on_return_pressed():
 	
 	
 
-func generate_jittered_grid_fragments(size_tex: Vector2, grid_x: int, grid_y: int, jitter: float = 0.0) -> Array:
+func generate_jittered_grid_fragments(size_tex: Vector2, jitter: float = 0.0) -> Array:
 	jitter =  min(size_tex.x/grid_x/2.0,size_tex.y/grid_y/2.0)
 	var fragments = []
 	var cell_w = size_tex.x / grid_x

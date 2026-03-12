@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 RemnantManager="*res://Game Elements/General Game/remnant_manager.gd"
 Globals="*res://Game Elements/General Game/globals.gd"
+RoomManager="*res://Game Elements/General Game/room_manager.gd"
 
 [display]
 

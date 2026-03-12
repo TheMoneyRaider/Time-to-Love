@@ -1,13 +1,5 @@
 extends Node2D
-const room = preload("res://Game Elements/Rooms/room.gd")
-const room_data = preload("res://Game Elements/Rooms/room_data.gd")
 @onready var timefabric = preload("res://Game Elements/Objects/time_fabric.tscn")
-@onready var room_d = room_data.new()
-@onready var sci_fi_layer : Array[Room] = room_d.sci_fi_rooms
-@onready var sci_fi_layer_shops : Array[Room] = room_d.sci_fi_shops
-@onready var medieval_layer : Array[Room] = room_d.medieval_rooms
-@onready var bosses : Array[Room] = room_d.boss_rooms
-@onready var testing_room : Room = room_d.testing_room
 @onready var reward_num : Array = [1.0,1.0,1.0,1.0,1.0,1.0]
 ### Temp Multiplayer Fix
 var player1 = null
@@ -58,7 +50,6 @@ var thread_running := false
 @onready var awareness_display = $EnemyAwareness/AwarenessManager
 
 #Cached scenes to speed up room loading at runtime
-@onready var cached_scenes := {}
 var room_location : Resource 
 var room_instance
 var remnant_offer_popup
@@ -142,8 +133,7 @@ func _ready() -> void:
 	player_1_remnants.append(rem.duplicate(true))
 	player_2_remnants.append(rem.duplicate(true))
 	####Remnant Testing
-	"""
-	var rem = load("res://Game Elements/Remnants/pyromancer.tres")
+	rem = load("res://Game Elements/Remnants/pyromancer.tres")
 	rem.rank = 4
 	player_1_remnants.append(rem.duplicate(true))
 	player_2_remnants.append(rem.duplicate(true))
@@ -233,14 +223,13 @@ func _ready() -> void:
 	player_2_remnants.append(rem.duplicate(true))
 	
 	player1.display_combo()
-	"""
+	
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
 	timefabric_collected = 0
 	####
 	game_root.add_child(pathfinding)
-	preload_rooms()
 	randomize()
-	room_instance_data = testing_room
+	room_instance_data = RoomManager.testing_room
 	room_location = load(room_instance_data.scene_location)
 	room_instance = room_location.instantiate()
 	room_instance.y_sort_enabled = true
@@ -383,18 +372,18 @@ func create_new_rooms() -> void:
 	# Start async generation thread
 	thread_running = true
 	room_gen_thread = Thread.new()
-	room_gen_thread.start(_thread_generate_rooms.bind(sci_fi_layer, room_instance_data)) #TODO change this to be based on layer ish
+	room_gen_thread.start(_thread_generate_rooms.bind(RoomManager.get_room(), room_instance_data)) #TODO change this to be based on layer ish
 
 func update_ai_array(generated_room : Node2D, generated_room_data : Room) -> void:
 	#Rooms cleared
-	layer_ai[0] += 1
+	RoomManager.layer_ai[0] += 1
 	#Combat rooms cleared
-	if generated_room_data.roomtype == Globals.RoomType.Combat:
-		layer_ai[1] += 1
+	if generated_room_data.roomtype == Globals.RoomType.Combat or generated_room_data.roomtype == Globals.RoomType.Boss:
+		RoomManager.layer_ai[1] += 1
 	#Last room time
-	layer_ai[2] = time_passed - layer_ai[3]
+	RoomManager.layer_ai[2] = time_passed - RoomManager.layer_ai[3]
 	#Total time
-	layer_ai[3] = time_passed
+	RoomManager.layer_ai[3] = time_passed
 	if generated_room_data.roomtype == Globals.RoomType.Shop:
 		layer_ai[8] += 1
 	if generated_room_data.num_liquid > 0:
@@ -404,17 +393,17 @@ func update_ai_array(generated_room : Node2D, generated_room_data : Room) -> voi
 			liquid_num+=1
 			liquid_type= _get_liquid_string(generated_room_data.liquid_types[liquid_num-1])
 			if if_node_exists(liquid_type+str(liquid_num),generated_room):
-				layer_ai[9] += 1   #Liquid room
+				RoomManager.layer_ai[9] += 1   #Liquid room
 				break
 	if generated_room_data.num_trap > 0:
 		var trap_num = 0
 		while trap_num < generated_room_data.num_trap:
 			trap_num+=1
 			if if_node_exists("Trap"+str(trap_num),generated_room):
-				layer_ai[10] += 1   #Trap room
+				RoomManager.layer_ai[10] += 1   #Trap room
 				break
-	if generated_room_data==testing_room:
-		layer_ai = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+	if generated_room_data==RoomManager.testing_room:
+		RoomManager.layer_ai = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 		time_passed = 0.0
 	print(layer_ai)
 
@@ -446,13 +435,6 @@ func check_pathways(generated_room : Node2D, generated_room_data : Room, player_
 						return p_direct
 	return -1
 
-func choose_room() -> void:
-	#Shuffle rooms and load one
-	room_instance_data = sci_fi_layer[randi() % sci_fi_layer.size()]
-	
-	room_location = load(room_instance_data.scene_location)
-	room_instance = room_location.instantiate()
-	game_root.add_child(room_instance)
 
 func choose_pathways(direction : int, generated_room : Node2D, generated_room_data : Room, conflict_cells : Array[Vector2i]) -> void:
 	# Place required pathway(where the player(s) is entering		
@@ -461,7 +443,7 @@ func choose_pathways(direction : int, generated_room : Node2D, generated_room_da
 		direction_count[p_direct]+=1
 	var pathway_name
 	#Invert player direction so they come out the opposite side of a pathway
-	direction = generated_room_data.invert_direction(direction)
+	direction = Globals.invert_direction(direction)
 	
 	pathway_name = _get_pathway_name(direction,int(randf()*direction_count[direction])+1)
 	_open_pathway(pathway_name, generated_room)
@@ -623,23 +605,8 @@ func calculate_cell_arrays(generated_room : Node2D, generated_room_data : Room) 
 			generated_room.blocked_cells += generated_room.get_node(pathway_name).get_used_cells()
 	generated_room.blocked_cells = _remove_duplicates(generated_room.blocked_cells)
 	generated_room.liquid_cells[0] = _amalgamate_liquids(generated_room.liquid_cells)
-func preload_rooms() -> void:
-	for room_data_item in sci_fi_layer:
-		if not cached_scenes.has(room_data_item.scene_location):
-			var packed = ResourceLoader.load(room_data_item.scene_location, "PackedScene")
-			cached_scenes[room_data_item.scene_location] = packed
-	for room_data_item in bosses:
-		if not cached_scenes.has(room_data_item.scene_location):
-			var packed = ResourceLoader.load(room_data_item.scene_location, "PackedScene")
-			cached_scenes[room_data_item.scene_location] = packed
-	for room_data_item in sci_fi_layer_shops:
-		if not cached_scenes.has(room_data_item.scene_location):
-			var packed = ResourceLoader.load(room_data_item.scene_location, "PackedScene")
-			cached_scenes[room_data_item.scene_location] = packed
-	for room_data_item in medieval_layer:
-		if not cached_scenes.has(room_data_item.scene_location):
-			var packed = ResourceLoader.load(room_data_item.scene_location, "PackedScene")
-			cached_scenes[room_data_item.scene_location] = packed
+
+
 
 func check_reward(generated_room : Node2D, _generated_room_data : Room, player_reference : Node) -> bool:
 	for node in generated_room.get_children():
@@ -734,22 +701,18 @@ func room_reward(reward_type : Globals.Reward) -> void:
 
 #Thread functions
 
-func _thread_generate_rooms(room_data_array: Array, room_instance_data_sent: Room) -> Dictionary:
+func _thread_generate_rooms(room_data: Room, room_instance_data_sent: Room) -> Dictionary:
 	var result := {}
 	var direction_count = [0,0,0,0]
 	
 	for direction in room_instance_data_sent.pathway_direction:
 		direction_count[direction] += 1
 		var pathway_name = _get_pathway_name(direction, direction_count[direction])
-		# Only precompute data. No scene calls
-		var chosen_index = randi() % room_data_array.size()
-		var next_room_data = room_data_array[chosen_index]
 		result[pathway_name] = {
 			"pathway": pathway_name,
 			"direction": direction,
-			"chosen_index": chosen_index,
-			"scene_path": next_room_data.scene_location,
-			"room_data": next_room_data
+			"scene_path": room_data.scene_location,
+			"room_data": room_data
 		}
 	return result
 
@@ -778,7 +741,7 @@ func _create_room_step() -> void:
 		return
 	
 	# use a preloaded scene
-	var packed_scene: PackedScene = cached_scenes[scene_path]
+	var packed_scene: PackedScene = RoomManager.cached_scenes[scene_path]
 	var next_room_instance = packed_scene.instantiate()
 	next_room_instance.name = pathway_name
 	next_room_instance.visible = false

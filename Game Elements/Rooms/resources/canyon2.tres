@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Room" load_steps=2 format=3 uid="uid://dm05p1253ww8r"]
+
+[ext_resource type="Script" uid="uid://boljl4yehg187" path="res://Game Elements/Rooms/room.gd" id="1_5c74d"]
+
+[resource]
+script = ExtResource("1_5c74d")
+scene_location = "res://Game Elements/Rooms/western/canyon2.tscn"
+noise_seed = null
+num_trap = 4
+trap_chances = Array[float]([0.75, 0.75, 0.75, 0.75])
+trap_types = Array[int]([0, 0, 0, 0])
+num_enemy_goal = 0
+roomvariant = 2
+wave_segment = 0.25
+metadata/_custom_type_script = "uid://boljl4yehg187"
