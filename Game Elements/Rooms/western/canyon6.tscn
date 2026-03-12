@@ -35,7 +35,6 @@ tile_map_data = PackedByteArray("AAAnACgABAAJAAsAAAAnACcABAANAAoAAAAnABIABAAKAAk
 tile_set = ExtResource("3_prpb0")
 
 [node name="PathwayR1" type="TileMapLayer" parent="."]
-visible = false
 z_index = 32
 y_sort_enabled = true
 rotation = 0.00044968896
