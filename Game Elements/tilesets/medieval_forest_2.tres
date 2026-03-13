@@ -1,7 +1,9 @@
-[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://b8jirmgfumpau"]
+[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://b8jirmgfumpau"]
 
 [ext_resource type="Texture2D" uid="uid://xty67dv37o0m" path="res://art/medieval_pack/Solaria Demo Tiles.png" id="1_2kvdu"]
+[ext_resource type="Texture2D" uid="uid://bnpnxgfjlbfnr" path="res://art/remnants/vines.png" id="2_6sw3y"]
 [ext_resource type="Texture2D" uid="uid://c77sktcgu2hk1" path="res://art/medieval_pack/freelavatileset-Sheet.png" id="2_icxl8"]
+[ext_resource type="Texture2D" uid="uid://l8fe4axa01o1" path="res://art/medieval_pack/thorns_attempt2.png" id="4_roj7u"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_icxl8"]
 texture = ExtResource("1_2kvdu")
@@ -483,7 +485,7 @@ texture = ExtResource("1_2kvdu")
 24:12/0 = 0
 25:12/0 = 0
 27:12/0 = 0
-0:13/next_alternative_id = 3
+0:13/next_alternative_id = 4
 0:13/0 = 0
 0:13/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 0, -8, 0, 8, -8, 8)
 0:13/1 = 1
@@ -492,6 +494,9 @@ texture = ExtResource("1_2kvdu")
 0:13/2 = 2
 0:13/2/texture_origin = Vector2i(16, 0)
 0:13/2/physics_layer_0/polygon_0/points = PackedVector2Array(-24, -8, -24, 8, -16, 8, -16, -8)
+0:13/3 = 3
+0:13/3/texture_origin = Vector2i(-16, 0)
+0:13/3/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, 16, -8, 16, 8, 8, 8)
 2:13/next_alternative_id = 3
 2:13/0 = 0
 2:13/0/physics_layer_0/polygon_0/points = PackedVector2Array(0, -8, 8, -8, 8, 8, 0, 8)
@@ -556,6 +561,16 @@ texture = ExtResource("1_2kvdu")
 5:6/next_alternative_id = 2
 5:6/0 = 0
 5:6/0/custom_data_0 = 1
+13:14/0 = 0
+13:14/0/modulate = Color(0, 0, 0, 1)
+13:14/0/custom_data_5 = true
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_roj7u"]
+texture = ExtResource("2_6sw3y")
+0:0/0 = 0
+0:0/0/custom_data_5 = true
+1:0/0 = 0
+2:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6sw3y"]
 texture = ExtResource("2_icxl8")
@@ -1166,6 +1181,14 @@ texture = ExtResource("2_icxl8")
 2:0/0 = 0
 2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, 4, 4, 4, 4, 12, -4, 12)
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mhr45"]
+texture = ExtResource("4_roj7u")
+0:0/0 = 0
+0:0/0/custom_data_1 = 1
+0:0/0/custom_data_2 = 1.0
+0:0/0/custom_data_3 = 1
+0:0/0/custom_data_4 = true
+
 [resource]
 physics_layer_0/collision_layer = 1
 terrain_set_0/mode = 0
@@ -1192,5 +1215,9 @@ custom_data_layer_3/name = "trap_ongoing_dmg"
 custom_data_layer_3/type = 2
 custom_data_layer_4/name = "trap_ongoing"
 custom_data_layer_4/type = 1
+custom_data_layer_5/name = "place_trap"
+custom_data_layer_5/type = 1
 sources/0 = SubResource("TileSetAtlasSource_icxl8")
 sources/2 = SubResource("TileSetAtlasSource_6sw3y")
+sources/1 = SubResource("TileSetAtlasSource_roj7u")
+sources/3 = SubResource("TileSetAtlasSource_mhr45")

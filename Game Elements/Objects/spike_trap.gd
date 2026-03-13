@@ -6,6 +6,7 @@ extends Area2D
 var active: bool = false
 var running: bool = false
 var tracked_bodies: Array = []
+var attack_type = "spikes"
 
 func _ready():
 	connect("body_entered", Callable(self, "_on_body_entered"))
@@ -17,7 +18,7 @@ func activate():
 	active = true
 	for body in tracked_bodies:
 		if _crafter_chance(body):
-			body.take_damage(3, null, Vector2(0,-1), self)
+			body.take_damage(3.0, null, Vector2(0,-1), self)
 	while !tracked_bodies.is_empty():
 		await get_tree().process_frame
 	anim.play("deactivate")
@@ -33,7 +34,7 @@ func _on_body_entered(body):
 			return
 	elif body.has_method("take_damage"):
 		if _crafter_chance(body):
-			body.take_damage(3, null,Vector2(0,-1),self)
+			body.take_damage(3.0, null,Vector2(0,-1),self)
 
 func _on_body_exited(body):
 	if body in tracked_bodies:

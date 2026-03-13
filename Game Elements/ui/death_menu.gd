@@ -40,7 +40,19 @@ func _process(delta):
 	if capturing:
 		total_time+=delta
 
+func state_change():
+	Globals.save_state.time_spent+=total_time
+	
+	if recent_buffer.size() > 0:
+		var img = recent_buffer[0]
+		if img is Image and not img.is_empty():
+			Globals.save_state.picture = ImageTexture.create_from_image(img)
+	
+	Globals.save_config()
+
+
 func activate():
+	state_change()
 	capturing=false
 	capture_timer.stop()
 	show()
@@ -53,6 +65,8 @@ func activate():
 			button.disabled = false
 	if Globals.is_multiplayer or Globals.player1_input != "key":
 		$Control/VBoxContainer/Rewind.grab_focus()
+	for node in get_tree().get_nodes_in_group("attack"):
+		node.pause_shaders()
 
 func _capture_frame():
 	frame_amount +=1

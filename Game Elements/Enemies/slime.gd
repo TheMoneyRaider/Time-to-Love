@@ -3,7 +3,7 @@ extends CharacterBody2D
 enum SLIME_STATE { IDLE, WALK, DIE, HIT }
 @export var player : CharacterBody2D
 @export var move_speed : float = 12
-@export var health : float = 100
+@export var health : float = 100.0
 
 
 @onready var animation_tree = $AnimationTree

@@ -4,6 +4,7 @@ uniform vec4 outline_color = vec4(1.0, 1.0, 0.0, 1.0);
 uniform float outline_thickness : hint_range(1.0, 5.0) = 2.0;
 uniform float outline_opacity : hint_range(0.0, 1.0) = 1.0;
 
+uniform bool grayscale = false;
 void fragment() {
     vec4 tex_color = texture(TEXTURE, UV);
 
@@ -25,5 +26,11 @@ void fragment() {
 	        oc.a *= outline_opacity;
 	        COLOR = oc;
 	    }
+	}
+	if(grayscale){
+		vec4 col = texture(TEXTURE,UV);
+		float lum = dot(col.rgb, vec3(0.299, 0.587, 0.114));
+		vec3 gray_col = vec3(lum);
+		COLOR = vec4(gray_col,col.a);
 	}
 }

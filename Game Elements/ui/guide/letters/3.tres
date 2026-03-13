@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://dla5phkpnldr8"]
+
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="1_d38s3"]
+[ext_resource type="Resource" uid="uid://cr3frg5xo54e2" path="res://Game Elements/ui/guide/letter_formats/normal_paper.tres" id="1_gf2qt"]
+
+[resource]
+script = ExtResource("1_d38s3")
+letter_id = 2
+description = "[color=#574d3e]Purple Room: Exhibit 4[br][br]
+This rubbing, taken from carvings on a boulder discovered in the archeological remains of a 1388 French Battlefield, appears to demonstrate a personal grudge between the two enemy commanders. The boulder was likely launched by a trebuche. A reconstruction of a period accurate trebuche can be found in the orange hall."
+letter_format = ExtResource("1_gf2qt")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

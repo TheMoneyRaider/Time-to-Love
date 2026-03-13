@@ -18,3 +18,5 @@ special_hits = 15
 has_animation = true
 sprite_animation = "idle_rail"
 sprite_hframes = 13
+name = "Railgun"
+progress_required = 3.0

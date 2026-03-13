@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://ccewn28rb2yf5"]
+
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="1_cqdla"]
+[ext_resource type="Resource" uid="uid://cxtdv4tq7yh3e" path="res://Game Elements/ui/guide/letter_formats/newspaper3.tres" id="1_j8i54"]
+
+[resource]
+script = ExtResource("1_cqdla")
+letter_id = 7
+description = "It is a delight to visit the timelines I can tell you strayed near; they always bear some mark, some footprint, some residue from your presence. I found the historical records of your response. I'm impressed, but I must say, one rock is certainly… less than a nebula. That spell took ages to perfect, you know! Somewhere out there—I believe it may be in timeline 637 near the star that forms the middle of your Orion's belt—is a half-baked message that dissolved while it was still forming. I believe it may still read 'MACNOVSUCDY' out there. I should probably fix it. I struggle to determine whether or not that is a worthy use of my time."
+letter_format = ExtResource("1_j8i54")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

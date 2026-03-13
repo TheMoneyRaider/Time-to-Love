@@ -32,8 +32,7 @@ var UI: UIState = UIState.new()
 
 func _ready():
 	Title.texture = title_textures[Globals.menu]
-	if Globals.config_safe:
-		fragmenting = Globals.config.get_value("fragmentation", "enabled", true)
+	fragmenting = Globals.config.get_value("fragmentation", "enabled", true)
 	if !fragmenting:
 		$RichTextLabel.visible = false
 		UI_Group.get_node("VBoxContainer").get_child(2).grab_focus()

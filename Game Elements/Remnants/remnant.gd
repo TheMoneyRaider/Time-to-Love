@@ -6,6 +6,7 @@ class_name Remnant
 @export var description: String = "What the remnant does"
 @export var icon: Texture2D
 @export var art: Texture2D
+@export var progress_required: float = 0.0
 @export var tags: Array[String]
 @export var required_remnants: Array[Remnant]
 @export var variable_names: Array[String]

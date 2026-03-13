@@ -1,6 +1,7 @@
 extends Area2D
 
 
+var attack_type = "fire_trap"
 func _ready():
 	connect("body_entered", Callable(self, "_on_body_entered"))
 	connect("body_exited", Callable(self, "_on_body_exited"))
@@ -18,7 +19,7 @@ func _process(_delta: float) -> void:
 
 func _on_body_entered(body):
 	if body.has_method("take_damage") and _crafter_chance(body):
-		body.take_damage(3, null,Vector2(0,-1),self)
+		body.take_damage(3.0, null,Vector2(0,-1),self)
 		var fire = preload("res://Game Elements/Particles/fire_damage.tscn").instantiate()
 		fire.position = body.position
 		get_parent().add_child(fire)

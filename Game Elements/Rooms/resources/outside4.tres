@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Room" load_steps=2 format=3 uid="uid://c7exmv1e3s3n0"]
+
+[ext_resource type="Script" uid="uid://boljl4yehg187" path="res://Game Elements/Rooms/room.gd" id="1_1mibe"]
+
+[resource]
+script = ExtResource("1_1mibe")
+scene_location = "res://Game Elements/Rooms/medieval/outside4.tscn"
+noise_seed = null
+num_trap = 1
+trap_chances = Array[float]([1.0])
+trap_types = Array[int]([3])
+num_pathways = 5
+pathway_direction = Array[int]([0, 3, 2, 1, 0])
+num_enemy_goal = 15
+roomvariant = 0
+enemy_pool = Array[String](["res://Game Elements/Characters/dynamEnemy.tscn"])
+enemy_chances = Array[float]([1.0])
+wave_segment = 0.0
+metadata/_custom_type_script = "uid://boljl4yehg187"

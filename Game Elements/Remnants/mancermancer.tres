@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://1ql60crc2rhq"]
+
+[ext_resource type="Texture2D" uid="uid://bckulw863be5a" path="res://art/remnants/mancermancer.png" id="1_efflo"]
+[ext_resource type="Texture2D" uid="uid://doompcr5phafi" path="res://art/remnants/mancermancer_orb.png" id="2_mfaam"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_g0b75"]
+
+[resource]
+script = ExtResource("3_g0b75")
+remnant_name = "Remnant of the Mancermancer"
+description = "$X increase to all -mancer remnants."
+icon = ExtResource("2_mfaam")
+art = ExtResource("1_efflo")
+variable_names = Array[String](["$X"])
+variable_1_values = ["Small", "Medium", "Large", "Giant", "Gargantuan"]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

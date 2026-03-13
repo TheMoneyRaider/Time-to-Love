@@ -23,12 +23,8 @@ func _input(event):
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
 func load_settings():
-	if Globals.config_safe:
-		mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
-		debug_mode = Globals.config.get_value("debug", 'enabled', false)
-	else: 
-		mouse_sensitivity = 1.0
-		debug_mode = false
+	mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
+	debug_mode = Globals.config.get_value("debug", 'enabled', false)
 
 func _process(_delta: float) -> void:
 	var input_direction = Vector2.ZERO

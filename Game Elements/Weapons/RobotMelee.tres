@@ -12,3 +12,4 @@ split_attacks = true
 attack_type = "robot melee"
 attack_scene = "res://Game Elements/Attacks/robot_melee.tscn"
 spawn_distance = 5.0
+is_player_weapon = false

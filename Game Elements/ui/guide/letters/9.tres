@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://dlfv4c2gmoe85"]
+
+[ext_resource type="Resource" uid="uid://dn5rvtqod321e" path="res://Game Elements/ui/guide/letter_formats/stone_tablet.tres" id="1_hc3g5"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_e3vge"]
+
+[resource]
+script = ExtResource("2_e3vge")
+letter_id = 8
+description = "[center][font_size=76][color=9c7708][font=res://fonts/Orbitron-ExtraBold.ttf]
+
+
+SO CAN A LEVER"
+letter_format = ExtResource("1_hc3g5")
+metadata/_custom_type_script = "uid://gbihjja6jybk"
