@@ -8,4 +8,5 @@ scene_location = "res://Game Elements/Bosses/scifi/boss_room.tscn"
 noise_seed = null
 num_enemy_goal = 0
 roomtype = 3
+letter_goal = 0
 metadata/_custom_type_script = "uid://boljl4yehg187"

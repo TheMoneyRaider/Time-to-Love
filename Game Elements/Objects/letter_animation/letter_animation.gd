@@ -31,7 +31,6 @@ func _process(delta: float) -> void:
 	duration = clamp(duration,0.0,time)
 	position = quadratic_bezier(duration/time)
 	rotation+=rotation_speed
-	print(duration/time)
 	
 	
 	
