@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="Room" load_steps=2 format=3 uid="uid://dr1c10g8oe1jh"]
 
-[ext_resource type="Script" uid="uid://boljl4yehg187" path="res://Game Elements/Rooms/room.gd" id="1_ntw5w"]
+[ext_resource type="Script" uid="uid://boljl4yehg187" path="res://Game Elements/Rooms/room.gd" id="1_eiba1"]
 
 [resource]
-script = ExtResource("1_ntw5w")
+script = ExtResource("1_eiba1")
 scene_location = "res://Game Elements/Rooms/shops/shop_cyberspace.tscn"
 num_liquid = 1
 liquid_types = Array[int]([5])

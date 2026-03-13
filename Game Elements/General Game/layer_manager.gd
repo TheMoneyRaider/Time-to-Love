@@ -73,6 +73,17 @@ func _ready() -> void:
 	hud.set_cross_position()
 	
 	#dev_remnants()
+	
+	
+	var rem = load("res://Game Elements/Remnants/trickster.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	rem.rank = 5
+	player_2_remnants.append(rem.duplicate(true))
+	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
+	
+	
+	
 	####
 	game_root.add_child(pathfinding)
 	randomize()
@@ -118,7 +129,6 @@ func _ready() -> void:
 	create_new_rooms()
 	pathfinding.setup_from_room(room_instance.get_node("Ground"), room_instance.blocked_cells, room_instance.trap_cells)
 	_prepare_timefabric()
-	RoomManager.layer_ai = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
 func _process(delta: float) -> void:
 	
@@ -220,39 +230,7 @@ func create_new_rooms() -> void:
 	# Start async generation thread
 	thread_running = true
 	room_gen_thread = Thread.new()
-	room_gen_thread.start(_thread_generate_rooms.bind(RoomManager.get_room(), room_instance_data)) #TODO change this to be based on layer ish
-
-func update_ai_array(generated_room : Node2D, generated_room_data : Room) -> void:
-	#Rooms cleared
-	RoomManager.layer_ai[0] += 1
-	#Combat rooms cleared
-	if generated_room_data.roomtype == Globals.RoomType.Combat or generated_room_data.roomtype == Globals.RoomType.Boss:
-		RoomManager.layer_ai[1] += 1
-	#Last room time
-	RoomManager.layer_ai[2] = time_passed - RoomManager.layer_ai[3]
-	#Total time
-	RoomManager.layer_ai[3] = time_passed
-	if generated_room_data.roomtype == Globals.RoomType.Shop:
-		RoomManager.layer_ai[8] += 1
-	if generated_room_data.num_liquid > 0:
-		var liquid_num = 0
-		var liquid_type : String
-		while liquid_num < generated_room_data.num_liquid:
-			liquid_num+=1
-			liquid_type= _get_liquid_string(generated_room_data.liquid_types[liquid_num-1])
-			if if_node_exists(liquid_type+str(liquid_num),generated_room):
-				RoomManager.layer_ai[9] += 1   #Liquid room
-				break
-	if generated_room_data.num_trap > 0:
-		var trap_num = 0
-		while trap_num < generated_room_data.num_trap:
-			trap_num+=1
-			if if_node_exists("Trap"+str(trap_num),generated_room):
-				RoomManager.layer_ai[10] += 1   #Trap room
-				break
-	if generated_room_data==RoomManager.testing_room:
-		RoomManager.layer_ai = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-		time_passed = 0.0
+	room_gen_thread.start(_thread_generate_rooms.bind(room_instance_data))
 
 func check_pathways(generated_room : Node2D, generated_room_data : Room, player_reference : Node, is_special_action : bool = false) -> int:
 	var pathway_name= ""
@@ -548,13 +526,14 @@ func room_reward(reward_type : Globals.Reward) -> void:
 
 #Thread functions
 
-func _thread_generate_rooms(room_data: Room, room_instance_data_sent: Room) -> Dictionary:
+func _thread_generate_rooms(room_instance_data_sent: Room) -> Dictionary:
 	var result := {}
 	var direction_count = [0,0,0,0]
 	
 	for direction in room_instance_data_sent.pathway_direction:
 		direction_count[direction] += 1
 		var pathway_name = _get_pathway_name(direction, direction_count[direction])
+		var room_data = RoomManager.get_room()
 		result[pathway_name] = {
 			"pathway": pathway_name,
 			"direction": direction,
@@ -1137,11 +1116,6 @@ func _finalize_room_creation(next_room_instance: Node2D, next_room_data: Room, d
 	generated_room_metadata[pathway_detect.name] = next_room_data
 	generated_rooms[pathway_detect.name] = next_room_instance
 	generated_room_conflict[pathway_detect.name] = conflict_cells.duplicate()
-	if ground.get_node_or_null("GrassAddon"):
-		camera.get_node("GrassTexture").visible = true
-		ground.get_node("GrassAddon").initalize(conflict_cells.duplicate(),ground)
-	else:
-		camera.get_node("GrassTexture").visible = false
 	
 	_choose_reward(pathway_detect.name)
 
@@ -1258,8 +1232,7 @@ func _move_to_pathway_room(pathway_id: String) -> void:
 		room_instance.queue_free()
 
 	#Update algorithm statistics before data is overwriten
-	update_ai_array(room_instance, room_instance_data)
-	
+	RoomManager.update_ai_array(room_instance, room_instance_data,self)
 	# Activate the chosen room
 	next_room.visible = true
 	next_room.process_mode = Node.PROCESS_MODE_INHERIT
@@ -1320,6 +1293,12 @@ func _move_to_pathway_room(pathway_id: String) -> void:
 	
 	if room_instance_data.roomtype == Globals.RoomType.Boss:
 		room_instance.activate(camera,player1,player2)
+	var ground = room_instance.get_node("Ground")
+	if ground.get_node_or_null("GrassAddon"):
+		camera.get_node("GrassTexture").visible = true
+		ground.get_node("GrassAddon").initalize(global_conflict_cells.duplicate(),ground)
+	else:
+		camera.get_node("GrassTexture").visible = false
 	
 
 func _set_tilemaplayer_collisions(generated_room: Node2D, enable: bool) -> void:

@@ -32,10 +32,6 @@ func _process(_delta: float) -> void:
 	grass_camera.position.z = game_camera.position.y * scale_y
 	pass
 
-func _exit_tree():
-	grass_display = game_camera.get_node("GrassTexture")
-	grass_display.visible = false
-
 func initalize(conflict_cells_in : Array, tilemaplayer : TileMapLayer):
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	game_camera = LayerManager.camera
@@ -50,6 +46,7 @@ func initalize(conflict_cells_in : Array, tilemaplayer : TileMapLayer):
 	target_tilemap = tilemaplayer
 	generate()
 	var mask = build_mask(target_tilemap)
+	$SubViewport/Floor.material_override = $SubViewport/Floor.material_override.duplicate()
 	$SubViewport/Floor.material_override.set_shader_parameter("mask_texture",mask)
 	#mask.get_image().save_png("res://ui_captures/test.png")
 	var used_rect = target_tilemap.get_used_rect()
