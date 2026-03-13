@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Room" load_steps=2 format=3 uid="uid://dle2h8afj1dfq"]
+
+[ext_resource type="Script" uid="uid://boljl4yehg187" path="res://Game Elements/Rooms/room.gd" id="1_okhwf"]
+
+[resource]
+script = ExtResource("1_okhwf")
+scene_location = "res://Game Elements/Rooms/western/canyon3.tscn"
+noise_seed = null
+num_enemy_goal = 5
+roomvariant = 2
+enemy_pool = Array[String](["res://Game Elements/Characters/robot.tscn"])
+enemy_chances = Array[float]([1.0])
+wave_segment = 0.25
+metadata/_custom_type_script = "uid://boljl4yehg187"

@@ -22,7 +22,8 @@ var medieval_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources
 
 var western_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/canyon1.tres"),
 								preload("res://Game Elements/Rooms/resources/canyon2.tres"),
-								preload("res://Game Elements/Rooms/resources/canyon3.tres")]
+								preload("res://Game Elements/Rooms/resources/canyon3.tres"),
+								preload("res://Game Elements/Rooms/resources/canyon4.tres")]
 
 var sci_fi_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/factory1.tres"),
 								preload("res://Game Elements/Rooms/resources/factory2.tres"),
