@@ -68,8 +68,8 @@ var cached_scenes : Dictionary = {}
 var normal_rooms : Array = []
 var shop_rooms : Array = []
 
-func get_room():
-	var index = int(current_progress)
+func get_room(room : Room):
+	var index = int(current_progress) if room.roomtype != Globals.RoomType.Boss else int(current_progress+1.0)
 	#shop_override
 	var T = 0.15
 	var P = 0.05
@@ -77,7 +77,7 @@ func get_room():
 	var base = T + (T - float(layer_ai[8]) / max(layer_ai[0],1))
 	var prob = base + P * layer_ai[13]
 	var shop_override = clamp(prob, 0.0, 1.0)
-	if shop_override > randf() and layer_ai[0] > 3:
+	if shop_override > randf() and layer_ai[0] > 3 and room.roomtype != Globals.RoomType.Shop:
 		var shop_index = clamp(int(randf()*shop_rooms[index].size()),0,shop_rooms[index].size()-1)
 		return shop_rooms[index][shop_index]
 	if get_boss_chance() > randf()+.01:
@@ -118,6 +118,7 @@ func _ready() -> void:
 func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerManager : Node) -> void:
 	if generated_room_data==testing_room:
 		LayerManager.time_passed = 0.0
+		layer_ai = [0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 		return
 	#Rooms cleared
 	layer_ai[0] += 1
@@ -149,10 +150,13 @@ func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerM
 			if LayerManager.if_node_exists("Trap"+str(trap_num),generated_room):
 				layer_ai[10] += 1   #Trap room
 				break
+	
 	current_progress = 1-exp(-0.1386*layer_ai[0])
+	if generated_room_data.roomtype == Globals.RoomType.Boss:
+		current_progress = floor(current_progress)+1.0
 
 func get_boss_chance() -> float:
-	return pow((layer_ai[0]-10),2)/200 if current_progress > .85 else 0.0
+	return pow((layer_ai[0]-10),2)/200 if current_progress-int(current_progress) > .85 else 0.0
 	
 	
 	

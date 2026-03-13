@@ -207,13 +207,12 @@ func _process(delta: float) -> void:
 			for node in room_instance.get_children():
 				if node.is_in_group("reward"):
 					return
-			if this_room_reward1 == Globals.Reward.Boss:
-				return
 			if this_room_reward1 == Globals.Reward.Shop:
 				for i in 4:
 					await get_tree().process_frame
 			if !reward_claimed:
-				_enable_pathways()
+				_enable_pathways()a
+				_enable_letters()
 				reward_claimed=true
 
 func create_new_rooms() -> void:
@@ -244,7 +243,7 @@ func check_pathways(generated_room : Node2D, generated_room_data : Room, player_
 				for body in pathway_detect.get_node("Area2D").get_overlapping_bodies():
 					if body==player_reference:
 						if is_special_action:
-							if pathway_detect.reward1_type == Globals.Reward.Shop:
+							if pathway_detect.reward1_type == Globals.Reward.Shop or pathway_detect.reward1_type == Globals.Reward.Boss:
 								return 0
 							_randomize_room_reward(pathway_detect)
 							return -1
@@ -295,8 +294,9 @@ func choose_pathways(direction : int, generated_room : Node2D, generated_room_da
 	else:
 		#Open at least one pathway in the given direction
 		_open_random_pathway_in_direction(dir, direction_count, generated_room)
-	#Choose which pathways to keep      #add intelligent pathway choosing #TODO
-	_open_random_pathways(generated_room, generated_room_data, conflict_cells)
+	if generated_room_data.roomtype != Globals.RoomType.Boss:
+		#Choose which pathways to keep      #add intelligent pathway choosing #TODO
+		_open_random_pathways(generated_room, generated_room_data, conflict_cells)
 
 func place_liquids(generated_room : Node2D, generated_room_data : Room, conflict_cells : Array[Vector2i]) -> void:
 	#For each liquid check if you should place it and then check if there's room
@@ -533,7 +533,7 @@ func _thread_generate_rooms(room_instance_data_sent: Room) -> Dictionary:
 	for direction in room_instance_data_sent.pathway_direction:
 		direction_count[direction] += 1
 		var pathway_name = _get_pathway_name(direction, direction_count[direction])
-		var room_data = RoomManager.get_room()
+		var room_data = RoomManager.get_room(room_instance_data_sent)
 		result[pathway_name] = {
 			"pathway": pathway_name,
 			"direction": direction,

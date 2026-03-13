@@ -90,7 +90,6 @@ func _ready():
 	if enemy_type=="robot":
 		weapon = Weapon.create_weapon("res://Game Elements/Weapons/RobotMelee.tres",self)
 	current_health = max_health
-	add_to_group("enemy") #TODO might not be needed anymore. I added a global group and just put the scenes in that group
 	load_settings()
 	Globals.config_changed.connect(load_settings)
 
@@ -334,6 +333,8 @@ func _check_on_hit_remnants(dmg_owner: Node, attack_body: Node):
 					pass
 
 func apply_hydromancer(rem : Remnant, attack_body : Node, mancer_value : int):
+	if !attack_body:
+		return
 	var effect : Effect
 	match attack_body.last_liquid:
 		Globals.Liquid.Water:
