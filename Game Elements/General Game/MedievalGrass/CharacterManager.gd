@@ -3,7 +3,6 @@
 
 # Takes all locations of characters and passes them to shader for grass displacement
 
-@tool
 extends Node
 
 @export var grass: MultiMeshInstance3D
@@ -13,8 +12,8 @@ const MAX_CHARACTERS = 64
 var grass_timer = 0.0
 var offset_y = 0.0
 var scale_x = 1/ 45.0
-var offset_x = 2.57
 var scale_y = 1/ 18.5
+var offset_x = 2.57
 
 var hidden_location = Vector4.ZERO
 var LayerManager : Node

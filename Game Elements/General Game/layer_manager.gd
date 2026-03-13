@@ -1295,10 +1295,12 @@ func _move_to_pathway_room(pathway_id: String) -> void:
 		room_instance.activate(camera,player1,player2)
 	var ground = room_instance.get_node("Ground")
 	if ground.get_node_or_null("GrassAddon"):
+		camera.get_node("GrassTexture").texture = null
 		camera.get_node("GrassTexture").visible = true
 		ground.get_node("GrassAddon").initalize(global_conflict_cells.duplicate(),ground)
 	else:
 		camera.get_node("GrassTexture").visible = false
+		camera.get_node("GrassTexture").texture = null
 	
 
 func _set_tilemaplayer_collisions(generated_room: Node2D, enable: bool) -> void:

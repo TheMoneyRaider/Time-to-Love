@@ -9,6 +9,7 @@ num_liquid = 1
 liquid_types = Array[int]([5])
 liquid_chances = Array[float]([1.0])
 noise_seed = null
+num_enemy_goal = 0
 roomtype = 2
 roomvariant = 4
 letter_goal = 1

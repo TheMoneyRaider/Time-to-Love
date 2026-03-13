@@ -21,11 +21,10 @@ var grass_offset_y = 0
 var scale_y = 1/ 18.5
 @onready var grass_camera = $SubViewport/Camera3D
 
+func _ready() -> void:
+	$SubViewport/Floor.visible = false
+
 func _process(_delta: float) -> void:
-	#$SubViewport/Characters/Small.position.x = LayerManager.player1.position.x * scale_x+offset_x
-	#$SubViewport/Characters/Small.position.z = LayerManager.player1.position.y * scale_y+offset_y
-	
-	
 	if not game_camera:
 		return
 	grass_camera.position.x = game_camera.position.x * scale_x
@@ -35,9 +34,6 @@ func _process(_delta: float) -> void:
 func initalize(conflict_cells_in : Array, tilemaplayer : TileMapLayer):
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	game_camera = LayerManager.camera
-	grass_display = game_camera.get_node("GrassTexture")
-	grass_display.visible = true
-	grass_display.texture = $SubViewport.get_texture()
 	offset_y = -(sqrt(pow(grass_camera.position.y/cos(PI/2+grass_camera.rotation.x),2)-pow(grass_camera.position.y,2)))
 	print(camera_offset)
 	print("Generate_grass")
@@ -46,21 +42,19 @@ func initalize(conflict_cells_in : Array, tilemaplayer : TileMapLayer):
 	target_tilemap = tilemaplayer
 	generate()
 	var mask = build_mask(target_tilemap)
-	$SubViewport/Floor.material_override.set_shader_parameter("mask_texture",mask)
 	mask.get_image().save_png("res://ui_captures/test.png")
-	var used_rect = target_tilemap.get_used_rect()
-	var tile_size = target_tilemap.tile_set.tile_size
-	var width_pixels  = used_rect.size.x * tile_size.x
-	var height_pixels = used_rect.size.y * tile_size.y
-
-	var floor_width  = width_pixels * scale_x
-	var floor_height = height_pixels * scale_y
-
-	$SubViewport/Floor.mesh.size = Vector2(floor_width, floor_height)
-
-	# plane mesh is centered, so shift by half size
-	$SubViewport/Floor.position.x = floor_width * 0.5
-	$SubViewport/Floor.position.z = 0
+	$SubViewport/Floor.visible = true
+	$SubViewport/Floor.material_override =$SubViewport/Floor.material_override.duplicate(true)
+	var mat = $SubViewport/Floor.material_override
+	mat.set_shader_parameter("mask_texture", mask)
+	mat.set_shader_parameter("mask_scale", Vector2(scale_x, scale_y))
+	mat.set_shader_parameter("mask_offset",Vector2(target_tilemap.get_used_rect().position) +
+	Vector2(0, offset_y / scale_y / target_tilemap.tile_set.tile_size.y))
+	mat.set_shader_parameter("mask_tex_size",Vector2(mask.get_width(), mask.get_height()))
+	
+	grass_display = game_camera.get_node("GrassTexture")
+	grass_display.visible = true
+	grass_display.texture = $SubViewport.get_texture()
 
 func generate():
 	if target_tilemap == null:
@@ -83,6 +77,7 @@ func generate():
 
 	# --- Setup MultiMesh ---
 	var total_instances := valid_cells.size() * instances_per_tile
+	$SubViewport/Grass.multimesh = $SubViewport/Grass.multimesh.duplicate(true)
 	$SubViewport/Grass.multimesh.instance_count = total_instances
 	var tile_size = target_tilemap.tile_set.tile_size
 

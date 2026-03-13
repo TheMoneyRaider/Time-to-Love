@@ -4,7 +4,6 @@
 
 shader_type spatial;
 
-uniform sampler2D mask_texture: filter_nearest, repeat_disable;
 group_uniforms colour;
 uniform vec4 albedo1 : source_color = vec4(1.0f);
 
@@ -25,6 +24,13 @@ uniform int cuts : hint_range(1, 8) = 3;
 uniform float wrap : hint_range(-2.0f, 2.0f) = 0.0f;
 uniform float steepness : hint_range(1.0f, 8.0f) = 1.0f;
 
+group_uniforms mask;
+uniform vec2 mask_scale;
+uniform vec2 mask_offset;
+uniform sampler2D mask_texture: filter_nearest, repeat_disable;
+uniform vec2 mask_tex_size;
+
+
 varying vec3 vertex_pos;
 varying vec3 normal;
 varying vec3 vertex_world;
@@ -38,10 +44,18 @@ void vertex() {
 }
 
 void fragment() {
-	vec2 uv = vec2(UV.x,UV.y);
+	vec2 mask_uv;
+
+	mask_uv.x = (vertex_world.x / mask_scale.x) / 16.0 - mask_offset.x;
+	mask_uv.y = (vertex_world.z / mask_scale.y) / 16.0 - mask_offset.y;
+	mask_uv /= mask_tex_size;
 	
-	float mask = texture(mask_texture, vec2(uv.x,clamp(uv.y-uv.y/50.0,0.0,1.0))).r;
-	float mask2 = texture(mask_texture, uv).r;
+	float mask = texture(mask_texture, vec2(mask_uv.x,clamp(mask_uv.y-mask_uv.y/50.0,0.0,1.0))).r;
+	float mask2 = texture(mask_texture, mask_uv).r;
+	if (mask_uv.x<0.0 || mask_uv.x > 1.0 || mask_uv.y<0.0 || mask_uv.y > 1.0){
+		mask = 0.0;
+		mask2 = 0.0;
+	}
 	
 	if (mask > 0.5 && mask2 < .5) {
 		ALBEDO = vec3(0.0,0.0,0.0);

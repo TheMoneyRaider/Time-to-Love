@@ -100,6 +100,10 @@ func _ready() -> void:
 			if not cached_scenes.has(room_data_item.scene_location):
 				var packed = ResourceLoader.load(room_data_item.scene_location, "PackedScene")
 				cached_scenes[room_data_item.scene_location] = packed
+	for room_data_item in bosses:
+		if not cached_scenes.has(room_data_item.scene_location):
+			var packed = ResourceLoader.load(room_data_item.scene_location, "PackedScene")
+			cached_scenes[room_data_item.scene_location] = packed
 
 #func choose_room() -> void:
 	##Shuffle rooms and load one
