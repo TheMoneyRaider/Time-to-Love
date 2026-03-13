@@ -46,9 +46,8 @@ func initalize(conflict_cells_in : Array, tilemaplayer : TileMapLayer):
 	target_tilemap = tilemaplayer
 	generate()
 	var mask = build_mask(target_tilemap)
-	$SubViewport/Floor.material_override = $SubViewport/Floor.material_override.duplicate()
 	$SubViewport/Floor.material_override.set_shader_parameter("mask_texture",mask)
-	#mask.get_image().save_png("res://ui_captures/test.png")
+	mask.get_image().save_png("res://ui_captures/test.png")
 	var used_rect = target_tilemap.get_used_rect()
 	var tile_size = target_tilemap.tile_set.tile_size
 	var width_pixels  = used_rect.size.x * tile_size.x
@@ -114,9 +113,14 @@ func build_mask(tilemap: TileMapLayer) -> ImageTexture:
 		if conflict_cells.has(cell):
 			continue
 		
-		var x = cell.x - used.position.x
-		var y = cell.y - used.position.y
-		img.set_pixel(x, y, Color.WHITE)
+		var cell_data := target_tilemap.get_cell_tile_data(cell)
+		if cell_data == null:
+			continue
+
+		if cell_data.get_terrain_set() == terrain_set_id and cell_data.get_terrain() == terrain_id:
+			var x = cell.x - used.position.x
+			var y = cell.y - used.position.y
+			
+			img.set_pixel(x, y, Color.WHITE)
 	
-	var tex = ImageTexture.create_from_image(img)
-	return tex
+	return ImageTexture.create_from_image(img)
