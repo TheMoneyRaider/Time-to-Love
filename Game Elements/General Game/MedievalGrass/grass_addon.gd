@@ -52,9 +52,15 @@ func initalize(conflict_cells_in : Array, tilemaplayer : TileMapLayer):
 	var tile_size = target_tilemap.tile_set.tile_size
 	var width_pixels  = used_rect.size.x * tile_size.x
 	var height_pixels = used_rect.size.y * tile_size.y
-	$SubViewport/Floor.mesh.size = Vector2(width_pixels* scale_x, height_pixels* scale_y)
-	$SubViewport/Floor.position.x=floor_offset_x
-	$SubViewport/Floor.position.z=offset_y+floor_offset_y
+
+	var floor_width  = width_pixels * scale_x
+	var floor_height = height_pixels * scale_y
+
+	$SubViewport/Floor.mesh.size = Vector2(floor_width, floor_height)
+
+	# plane mesh is centered, so shift by half size
+	$SubViewport/Floor.position.x = floor_width * 0.5
+	$SubViewport/Floor.position.z = 0
 
 func generate():
 	if target_tilemap == null:

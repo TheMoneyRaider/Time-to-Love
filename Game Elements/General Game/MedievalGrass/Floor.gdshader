@@ -38,7 +38,7 @@ void vertex() {
 }
 
 void fragment() {
-	vec2 uv = UV;
+	vec2 uv = vec2(UV.x,UV.y);
 	
 	float mask = texture(mask_texture, vec2(uv.x,clamp(uv.y-uv.y/50.0,0.0,1.0))).r;
 	float mask2 = texture(mask_texture, uv).r;
