@@ -63,21 +63,6 @@ var blocked_cells := []
 var liquid_cells : Array[Array]= [[],[],[],[],[],[],[],[],[],[]]
 var is_multiplayer = Globals.is_multiplayer
 #
-var layer_ai := [
-	0,#Rooms cleared
-	0,#Combat rooms cleared
-	0,#Time spent in last room
-	0,#Time spent in game
-	0,#Time spent in combat
-	0,#Damage dealt
-	0,#Attacks made
-	0,#Enemies defeated
-	0,#Shops visited
-	0,#Liquid rooms visited
-	0,#Trap rooms visited
-	0,#Damage taken
-	0,#Currency collected
-	]
 
 func _ready() -> void:
 	$game_container.material = $game_container.material.duplicate(true)
@@ -87,145 +72,7 @@ func _ready() -> void:
 	hud.connect_signals(player1)
 	hud.set_cross_position()
 	
-	var rem = load("res://Game Elements/Remnants/thorns.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/cleric.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/barbarian.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/bulwark.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/hoard.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/hydromancer.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/longshot.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/mancermancer.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	player1.mancermancer_values = [5,5]
-	rem = load("res://Game Elements/Remnants/pyromancer.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/terramancer.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/aeromancer.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	####Remnant Testing
-	rem = load("res://Game Elements/Remnants/pyromancer.tres")
-	rem.rank = 4
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/mancermancer.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	player1.mancermancer_values[0] = rem.rank 
-	if(is_multiplayer):
-		player2.mancermancer_values[1] = rem.rank 
-	else:
-		player1.mancermancer_values[1] = rem.rank 
-	rem = load("res://Game Elements/Remnants/hydromancer.tres")
-	rem.rank = 4
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/aeromancer.tres")
-	rem.rank = 4
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/terramancer.tres")
-	rem.rank = 4
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-
-	rem = load("res://Game Elements/Remnants/emp.tres")
-	rem.rank = 4
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	#rem = load("res://Game Elements/Remnants/intelligence.tres")
-	#rem.rank = 4
-	#player_1_remnants.append(rem.duplicate(true))
-	#player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/adrenal_injector.tres")
-	rem.rank = 4
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/body_phaser.tres")
-	rem.rank = 4
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	#rem = load("res://Game Elements/Remnants/crafter.tres")
-	#rem.rank = 4
-	#player_1_remnants.append(rem.duplicate(true))
-	#player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/drone.tres")
-	rem.rank = 4
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/forcefield.tres")
-	rem.rank = 4
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	#rem = load("res://Game Elements/Remnants/hunter.tres")
-	#rem.rank = 4
-	#player_1_remnants.append(rem.duplicate(true))
-	#player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/investment.tres")
-	rem.rank = 4
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/kinetic_battery.tres")
-	rem.rank = 4
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/shido.tres")
-	rem.rank = 4
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	#rem = load("res://Game Elements/Remnants/winters_embrace.tres")
-	#rem.rank = 4
-	#player_1_remnants.append(rem.duplicate(true))
-	#player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/hare.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	#player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/healer.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	rem.rank = 3
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/hospital.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	rem.rank = 3
-	player_2_remnants.append(rem.duplicate(true))
-	
-	player1.display_combo()
-	
-	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
-	timefabric_collected = 0
+	#dev_remnants()
 	####
 	game_root.add_child(pathfinding)
 	randomize()
@@ -271,6 +118,7 @@ func _ready() -> void:
 	create_new_rooms()
 	pathfinding.setup_from_room(room_instance.get_node("Ground"), room_instance.blocked_cells, room_instance.trap_cells)
 	_prepare_timefabric()
+	RoomManager.layer_ai = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
 func _process(delta: float) -> void:
 	
@@ -337,7 +185,7 @@ func _process(delta: float) -> void:
 			awareness_display.enemies = enemies.duplicate()
 			return
 		if room_instance_data.roomtype == Globals.RoomType.Combat:
-			layer_ai[4] += time_passed - layer_ai[3] #Add to combat time
+			RoomManager.layer_ai[4] += time_passed - RoomManager.layer_ai[3] #Add to combat time
 			room_reward(this_room_reward1)
 			if is_wave_room:
 				room_reward(this_room_reward2)
@@ -385,7 +233,7 @@ func update_ai_array(generated_room : Node2D, generated_room_data : Room) -> voi
 	#Total time
 	RoomManager.layer_ai[3] = time_passed
 	if generated_room_data.roomtype == Globals.RoomType.Shop:
-		layer_ai[8] += 1
+		RoomManager.layer_ai[8] += 1
 	if generated_room_data.num_liquid > 0:
 		var liquid_num = 0
 		var liquid_type : String
@@ -405,7 +253,6 @@ func update_ai_array(generated_room : Node2D, generated_room_data : Room) -> voi
 	if generated_room_data==RoomManager.testing_room:
 		RoomManager.layer_ai = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 		time_passed = 0.0
-	print(layer_ai)
 
 func check_pathways(generated_room : Node2D, generated_room_data : Room, player_reference : Node, is_special_action : bool = false) -> int:
 	var pathway_name= ""
@@ -1562,13 +1409,13 @@ func _open_random_pathways(generated_room : Node2D, generated_room_data : Room, 
 				conflict_cells.append_array(generated_room.get_node(pathway_name).get_used_cells())
 			
 func _on_player_attack(_new_attack : PackedScene, _attack_position : Vector2, _attack_direction : Vector2, _damage_boost : float) -> void:
-	layer_ai[6]+=1
+	RoomManager.layer_ai[6]+=1
 	
 func _on_player_take_damage(damage_amount : float,_current_health : float,_player_node : Node) -> void:
-	layer_ai[11]+=damage_amount
+	RoomManager.layer_ai[11]+=damage_amount
 	
 func _on_enemy_take_damage(damage : float,current_health : int,enemy : Node, direction = Vector2(0,-1)) -> void:
-	layer_ai[5]+=damage
+	RoomManager.layer_ai[5]+=damage
 	if current_health <= 0.0:
 		for node in get_tree().get_nodes_in_group("attack"):
 			if node.c_owner == enemy:
@@ -1586,7 +1433,7 @@ func _on_enemy_take_damage(damage : float,current_health : int,enemy : Node, dir
 		_enemy_to_timefabric(enemy,direction,Vector2(enemy.min_timefabric,enemy.max_timefabric))
 		enemy.visible=false
 		enemy.queue_free()
-		layer_ai[7]+=1
+		RoomManager.layer_ai[7]+=1
 
 func _on_remnant_chosen(remnant1 : Resource, remnant2 : Resource):
 	var mancermancer = load("res://Game Elements/Remnants/mancermancer.tres")
@@ -1671,7 +1518,7 @@ func _on_remnant_upgraded(remnant1 : Resource, remnant2 : Resource):
 
 func _on_timefabric_absorbed(timefabric_node : Node):
 	timefabric_collected+=1
-	layer_ai[12]+=1
+	RoomManager.layer_ai[12]+=1
 	timefabric_node.queue_free()
 	
 func _on_activate(player_node : Node):
@@ -1763,3 +1610,143 @@ func _remnant_of_hospital_heal(player:Node, remnants) -> void:
 			amnt *= player.current_health
 			player.change_health(amnt)
 			break
+
+func dev_remnants():
+	var rem = load("res://Game Elements/Remnants/thorns.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/cleric.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/barbarian.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/bulwark.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/hoard.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/hydromancer.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/longshot.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/mancermancer.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	player1.mancermancer_values = [5,5]
+	rem = load("res://Game Elements/Remnants/pyromancer.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/terramancer.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/aeromancer.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	####Remnant Testing
+	rem = load("res://Game Elements/Remnants/pyromancer.tres")
+	rem.rank = 4
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/mancermancer.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	player1.mancermancer_values[0] = rem.rank 
+	if(is_multiplayer):
+		player2.mancermancer_values[1] = rem.rank 
+	else:
+		player1.mancermancer_values[1] = rem.rank 
+	rem = load("res://Game Elements/Remnants/hydromancer.tres")
+	rem.rank = 4
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/aeromancer.tres")
+	rem.rank = 4
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/terramancer.tres")
+	rem.rank = 4
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/emp.tres")
+	rem.rank = 4
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/intelligence.tres")
+	rem.rank = 4
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/adrenal_injector.tres")
+	rem.rank = 4
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/body_phaser.tres")
+	rem.rank = 4
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/crafter.tres")
+	rem.rank = 4
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/drone.tres")
+	rem.rank = 4
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/forcefield.tres")
+	rem.rank = 4
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/hunter.tres")
+	rem.rank = 4
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/investment.tres")
+	rem.rank = 4
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/kinetic_battery.tres")
+	rem.rank = 4
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/shido.tres")
+	rem.rank = 4
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/winters_embrace.tres")
+	rem.rank = 4
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/hare.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/healer.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	rem.rank = 3
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/hospital.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	rem.rank = 3
+	player_2_remnants.append(rem.duplicate(true))
+	
+	player1.display_combo()
+	
+	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
+	timefabric_collected = 0

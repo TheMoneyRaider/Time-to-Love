@@ -8,6 +8,21 @@ extends Node
 #40-49 UI Elements
 ####
 
+var layer_ai := [
+	0,#Rooms cleared
+	0,#Combat rooms cleared
+	0,#Time spent in last room
+	0,#Time spent in game
+	0,#Time spent in combat
+	0,#Damage dealt
+	0,#Attacks made
+	0,#Enemies defeated
+	0,#Shops visited
+	0,#Liquid rooms visited
+	0,#Trap rooms visited
+	0,#Damage taken
+	0,#Currency collected
+	]
 #the root node of each room MUST BE NAMED Root
 
 var medieval_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/cave1.tres"),
