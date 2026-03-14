@@ -77,8 +77,7 @@ func request_attack(t_attack: PackedScene, attack_position: Vector2, attack_dire
 # import like, takes damage or something like that
 
 func load_settings():
-	if Globals.config_safe:
-		debug_mode = Globals.config.get_value("debug", "enabled", false)
+	debug_mode = Globals.config.get_value("debug", "enabled", false)
 	
 
 func _ready():
@@ -91,7 +90,6 @@ func _ready():
 	if enemy_type=="robot":
 		weapon = Weapon.create_weapon("res://Game Elements/Weapons/RobotMelee.tres",self)
 	current_health = max_health
-	add_to_group("enemy") #TODO might not be needed anymore. I added a global group and just put the scenes in that group
 	load_settings()
 	Globals.config_changed.connect(load_settings)
 
@@ -224,8 +222,9 @@ func _robot_process():
 	$RobotBrain.set_frame(block + offset)
 
 
-func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0,creates_indicators : bool = true):
-	if !hitable:
+func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0,creates_indicators : bool = true, unstoppable : bool = false):
+
+	if !hitable and !unstoppable:
 		return
 	if current_health< 0.0:
 		return
@@ -348,6 +347,8 @@ func _check_on_hit_remnants(dmg_owner: Node, attack_body: Node):
 					pass
 
 func apply_hydromancer(rem : Remnant, attack_body : Node, mancer_value : int):
+	if !attack_body:
+		return
 	var effect : Effect
 	match attack_body.last_liquid:
 		Globals.Liquid.Water:

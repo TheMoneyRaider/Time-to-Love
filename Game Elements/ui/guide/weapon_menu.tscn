@@ -1,0 +1,83 @@
+[gd_scene load_steps=10 format=3 uid="uid://bfoxxhhsel1a"]
+
+[ext_resource type="Script" uid="uid://5sn6xase1xle" path="res://Game Elements/ui/guide/weapon_menu.gd" id="1_0wpji"]
+[ext_resource type="Texture2D" uid="uid://bi1xsi2ox612o" path="res://art/UI Package/Frames/4-3.png" id="2_8wkuc"]
+[ext_resource type="Texture2D" uid="uid://ctfr8rnqnscsq" path="res://art/UI Package/Frames/1-1.png" id="3_u6kjw"]
+[ext_resource type="Texture2D" uid="uid://gyd3e8if27h4" path="res://art/UI Package/Elements/9-1.png" id="5_trqh3"]
+[ext_resource type="Texture2D" uid="uid://c2sjlkw4o1xdo" path="res://art/UI Package/Elements/9-3.png" id="6_rbi16"]
+[ext_resource type="Texture2D" uid="uid://b2vvdus8g2bbm" path="res://art/UI Package/Elements/9-2.png" id="7_a2bxi"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2fe1m"]
+texture = ExtResource("5_trqh3")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rrs36"]
+texture = ExtResource("6_rbi16")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vk8ww"]
+texture = ExtResource("7_a2bxi")
+
+[node name="WeaponMenu" type="CanvasLayer" node_paths=PackedStringArray("list_container", "scroller")]
+process_mode = 3
+script = ExtResource("1_0wpji")
+list_container = NodePath("Control/MarginContainer/Scroller/RemnantList")
+scroller = NodePath("Control/MarginContainer/Scroller")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1000.0
+mouse_filter = 2
+texture = ExtResource("2_8wkuc")
+
+[node name="Overlay" type="TextureRect" parent="Background"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1000.0
+mouse_filter = 2
+texture = ExtResource("3_u6kjw")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Scroller" type="Control" parent="Control/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="RemnantList" type="HBoxContainer" parent="Control/MarginContainer/Scroller"]
+layout_mode = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Return" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 14.0
+offset_right = 115.0
+offset_bottom = 134.0
+rotation = -1.5707964
+scale = Vector2(-1, 1)
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxTexture_2fe1m")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_rrs36")
+theme_override_styles/hover = SubResource("StyleBoxTexture_vk8ww")
+
+[connection signal="gui_input" from="Control" to="." method="_on_control_gui_input"]
+[connection signal="pressed" from="Control/Return" to="." method="_on_return_pressed"]

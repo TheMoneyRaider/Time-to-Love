@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://dlecg6ioevxkg"]
+
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="1_nvx2q"]
+[ext_resource type="Resource" uid="uid://04ef0si7kl5q" path="res://Game Elements/ui/guide/letter_formats/newspaper1.tres" id="1_s1qw6"]
+
+[resource]
+script = ExtResource("1_nvx2q")
+letter_id = 6
+description = "I should be above chasing. I should be above begging fate for a new chance time and time again. My magic is such that I could rend nations apart with a whistle of storm winds or a twitch of vines set forth by my staff. I am the planet. I am the power my people learned to wield centuries ago. I am infinite, and yet faced against something so vast, I am infintesimal. I long for the day when I can truly say everything I contain was enough to save us both. Until then, I shall keep moving toward you and the day we may rest easy. I was never larger than life, but perhaps with you I we could be."
+letter_format = ExtResource("1_s1qw6")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Room" load_steps=2 format=3 uid="uid://b4kk53hmmrsb2"]
+
+[ext_resource type="Script" uid="uid://boljl4yehg187" path="res://Game Elements/Rooms/room.gd" id="1_0e604"]
+
+[resource]
+script = ExtResource("1_0e604")
+scene_location = "res://Game Elements/Bosses/scifi/boss_room.tscn"
+noise_seed = null
+num_enemy_goal = 0
+roomtype = 3
+letter_goal = 0
+metadata/_custom_type_script = "uid://boljl4yehg187"

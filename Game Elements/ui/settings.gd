@@ -8,17 +8,16 @@ var mouse_clamping: bool = false
 var toggle_invulnerability: bool = false
 
 func load_settings():
-	if Globals.config_safe:
-		mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
-		debug_mode = Globals.config.get_value("debug", "enabled", false)
-		frag_mode = Globals.config.get_value("fragmentation", "enabled", true)
-		$MarginContainer/VBoxContainer/Volume/Volume.value = Globals.config.get_value("audio", "master", 100)
-		Globals.player1_input = Globals.config.get_value("inputs","player1_input", "key")
-		Globals.player2_input = Globals.config.get_value("inputs","player2_input", "0")
-		mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
-		print(Globals.config.get_value("debug", "enabled", false))
-		debug_mode = Globals.config.get_value("debug", "enabled", false)
-		$MarginContainer/VBoxContainer/Volume/Volume.value = Globals.config.get_value("audio", "master", 100)
+	mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
+	debug_mode = Globals.config.get_value("debug", "enabled", false)
+	frag_mode = Globals.config.get_value("fragmentation", "enabled", true)
+	$MarginContainer/VBoxContainer/Volume/Volume.value = Globals.config.get_value("audio", "master", 100)
+	Globals.player1_input = Globals.config.get_value("inputs","player1_input", "key")
+	Globals.player2_input = Globals.config.get_value("inputs","player2_input", "0")
+	mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
+	print(Globals.config.get_value("debug", "enabled", false))
+	debug_mode = Globals.config.get_value("debug", "enabled", false)
+	$MarginContainer/VBoxContainer/Volume/Volume.value = Globals.config.get_value("audio", "master", 100)
 		
 func save_settings():
 	var config = ConfigFile.new()

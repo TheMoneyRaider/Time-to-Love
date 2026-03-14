@@ -175,6 +175,7 @@ _data = {
 }
 
 [node name="FakePlayer" type="RigidBody2D" node_paths=PackedStringArray("state_machine")]
+visible = false
 z_index = 20
 y_sort_enabled = true
 collision_layer = 2

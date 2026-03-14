@@ -16,3 +16,4 @@ special_attack_scene = "res://Game Elements/Attacks/ls_range.tscn"
 spawn_distance = 0.0
 special_hits = 15
 special_on_release = false
+name = "Crowbar"

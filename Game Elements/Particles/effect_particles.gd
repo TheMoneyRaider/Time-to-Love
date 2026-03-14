@@ -21,6 +21,9 @@ func _ready() -> void:
 		_:
 			pass
 	emitting = true
+var duration =0.0
+func _process(delta: float) -> void:
 	if one_shot:
-		await get_tree().create_timer(lifetime, false).timeout
-		queue_free()
+		duration+=delta
+		if duration >= lifetime:
+			queue_free()

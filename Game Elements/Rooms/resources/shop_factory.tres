@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Room" load_steps=2 format=3 uid="uid://dqh03si0w7e4o"]
+
+[ext_resource type="Script" uid="uid://boljl4yehg187" path="res://Game Elements/Rooms/room.gd" id="1_d78dk"]
+
+[resource]
+script = ExtResource("1_d78dk")
+scene_location = "res://Game Elements/Rooms/shops/shop_factory.tscn"
+num_liquid = 2
+liquid_types = Array[int]([4, 4])
+liquid_chances = Array[float]([1.0, 1.0])
+noise_seed = null
+num_enemy_goal = 0
+roomtype = 2
+letter_goal = 1
+metadata/_custom_type_script = "uid://boljl4yehg187"

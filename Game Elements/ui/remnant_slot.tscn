@@ -19,6 +19,7 @@ shader = ExtResource("2_xvddi")
 shader_parameter/outline_color = Vector4(1, 1, 0, 1)
 shader_parameter/outline_thickness = 2.0
 shader_parameter/outline_opacity = 0.0
+shader_parameter/grayscale = false
 
 [sub_resource type="LabelSettings" id="LabelSettings_o7i6x"]
 font_size = 40
@@ -40,6 +41,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 413.0
 offset_bottom = 900.0
+pivot_offset = Vector2(206.5, 450)
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
@@ -52,6 +54,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 theme_override_styles/normal = SubResource("StyleBoxEmpty_o7i6x")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_65u0l")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_7cik6")
