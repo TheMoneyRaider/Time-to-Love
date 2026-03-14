@@ -6,6 +6,7 @@
 script = ExtResource("1_okhwf")
 scene_location = "res://Game Elements/Rooms/western/canyon3.tscn"
 noise_seed = null
+trap_types = Array[int]([0])
 num_enemy_goal = 5
 roomvariant = 2
 enemy_pool = Array[String](["res://Game Elements/Characters/robot.tscn"])
