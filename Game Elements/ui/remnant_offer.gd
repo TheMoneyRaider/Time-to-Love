@@ -61,7 +61,7 @@ func _process(_delta):
 		if Globals.is_multiplayer:
 			inputs(Globals.player2_input,false)
 
-func popup_offer(player1_remnants_in : Array, player2_remnants_in : Array, rank_weights : Array = [50,35,10,5,0]):
+func popup_offer(player1_remnants_in : Array, player2_remnants_in : Array, rank_weights : Array = [70,20,10]):
 	player1_remnants = player1_remnants_in.duplicate()
 	player2_remnants = player2_remnants_in.duplicate()
 	crosshair_sprite.texture = purple_crosshair
@@ -72,7 +72,7 @@ func popup_offer(player1_remnants_in : Array, player2_remnants_in : Array, rank_
 	#populate UI
 	for i in range(slot_nodes.size()):
 		if i < offered_remnants.size():
-			offered_remnants[i].rank = weighted_random_index(rank_weights)
+			offered_remnants[i].rank = clamp(int(RoomManager.current_progress)+weighted_random_index(rank_weights),1,5)
 			slot_nodes[i].set_remnant(offered_remnants[i],false)
 		else:
 			slot_nodes[i].queue_free()
@@ -138,9 +138,7 @@ func _place_orange_selectable(slot : Node ,remnant : Resource):
 		add_child(particle)
 
 func weighted_random_index(weights: Array) -> int:
-	var total = 0
-	for w in weights:
-		total += w
+	var total = 100
 	var r = randf() * total
 	var cumulative = 0.0
 
