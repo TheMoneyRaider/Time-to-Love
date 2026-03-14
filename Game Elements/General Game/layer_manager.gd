@@ -114,7 +114,7 @@ func _ready() -> void:
 	for child in room_instance.get_children():
 		if child.is_in_group("enemy"):
 			enemies.append(child)
-	awareness_display.enemies = enemies.duplicate()
+	awareness_display.set_array(enemies.duplicate(),0)
 	floor_noise_sync(room_instance, room_instance_data)
 	calculate_cell_arrays(room_instance, room_instance_data)
 	trap_cells = room_instance.trap_cells
@@ -192,7 +192,7 @@ func _process(delta: float) -> void:
 			for child in room_instance.get_children():
 				if child.is_in_group("enemy"):
 					enemies.append(child)
-			awareness_display.enemies = enemies.duplicate()
+			awareness_display.set_array(enemies.duplicate(),0)
 			return
 		if room_instance_data.roomtype == Globals.RoomType.Combat:
 			RoomManager.layer_ai[4] += time_passed - RoomManager.layer_ai[3] #Add to combat time
@@ -202,6 +202,13 @@ func _process(delta: float) -> void:
 			
 			_enable_letters()
 		room_cleared= true
+		
+		await get_tree().process_frame
+		var rewards : Array[Node]= []
+		for child in room_instance.get_children():
+			if child.is_in_group("reward"):
+				rewards.append(child)
+		awareness_display.set_array(rewards.duplicate(),1)
 	else:
 		if !reward_claimed:
 			for node in room_instance.get_children():
@@ -211,9 +218,15 @@ func _process(delta: float) -> void:
 				for i in 4:
 					await get_tree().process_frame
 			if !reward_claimed:
-				_enable_pathways()a
+				_enable_pathways()
 				_enable_letters()
 				reward_claimed=true
+				
+				var pathways : Array[Node]= []
+				for child in room_instance.get_children():
+					if child.is_in_group("pathway") and !child.used and child.active:
+						pathways.append(child)
+				awareness_display.set_array(pathways.duplicate(),2)
 
 func create_new_rooms() -> void:
 	if thread_running:
@@ -1289,7 +1302,7 @@ func _move_to_pathway_room(pathway_id: String) -> void:
 	for child in room_instance.get_children():
 		if child.is_in_group("enemy"):
 			enemies.append(child)
-	awareness_display.enemies = enemies.duplicate()
+	awareness_display.set_array(enemies.duplicate(),0)
 	
 	if room_instance_data.roomtype == Globals.RoomType.Boss:
 		room_instance.activate(camera,player1,player2)
