@@ -169,6 +169,8 @@ func _process(delta):
 		sprint_cool = max(0.0,sprint_cool-delta)
 	if enemy_type=="robot":
 		_robot_process()
+	if enemy_type=="skeleton":
+		_skeleton_process()
 	if(i_frames > 0):
 		i_frames -= 1
 	for i in range(weapon_cooldowns.size()):
@@ -191,6 +193,18 @@ func _process(delta):
 	if debug_mode:
 		queue_redraw()
 	
+func _skeleton_process():
+	var dir = look_direction
+	var block : int = $SkeletonBrain.anim_frame / 4 * 4
+	var offset : int = $SkeletonBrain.anim_frame % 4
+	if abs(dir.y) > abs(dir.x): # Vertical
+		if dir.y > 0:
+			block += 2
+	else:# Horizontal
+		block += 1
+		if dir.x < 0:
+			$SkeletonBrain.sprite.flip_h = true
+	$SkeletonBrain.set_frame(block + offset)
 
 func _robot_process():
 	var dir = look_direction

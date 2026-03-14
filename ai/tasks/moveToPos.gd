@@ -27,11 +27,13 @@ func _tick(_delta: float) -> Status:
 		blackboard.set_var("path_recalculated", false)
 	
 	if(blackboard.get_var("target_type") == 1):
-		recalc_distance_threshold = recalc_distance_threshold + 20		
+		recalc_distance_threshold = 98		
 	if current_player_pos != Vector2.ZERO and path_target_pos != Vector2.ZERO and blackboard.get_var("state")=="agro":
 		var player_moved_distance = path_target_pos.distance_to(current_player_pos)
 		
 		if player_moved_distance > recalc_distance_threshold:
+			return FAILURE
+		if (player_moved_distance < 30 and blackboard.get_var("target_type") == 1):
 			return FAILURE
 	
 	if path.is_empty():

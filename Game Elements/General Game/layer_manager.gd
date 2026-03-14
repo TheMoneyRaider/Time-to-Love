@@ -211,7 +211,7 @@ func _process(delta: float) -> void:
 				for i in 4:
 					await get_tree().process_frame
 			if !reward_claimed:
-				_enable_pathways()a
+				_enable_pathways()
 				_enable_letters()
 				reward_claimed=true
 

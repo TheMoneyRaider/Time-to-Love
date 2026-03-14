@@ -18,9 +18,9 @@ func _tick(_delta : float) -> Status:
 	for player in players: 
 		var direction = player.global_position - agent.global_position
 		direction = direction.normalized() * -1
-		var ray = cast_ray(player.global_position, direction, 50, player)
+		var ray = cast_ray(player.global_position, direction, 90, player)
 		if(ray == { }):
-			ray["position"] = player.global_position + (direction * 50)
+			ray["position"] = player.global_position + (direction * 70)
 		else:
 			ray.position  = ray.position - direction * 20
 		positions_array.append(ray.position)
