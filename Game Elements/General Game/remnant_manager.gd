@@ -8,11 +8,10 @@ func _ready():
 
 #Loads all resources from res://remnants/
 func _load_all_remnants() -> void:
-	#var dir = DirAccess.open("res://Game Elements/Remnants/")
 	var dir = ResourceLoader.list_directory("res://Game Elements/Remnants/")
 
 	if dir == null:
-		push_error("Remnants folder not found: rres://Game Elements/Remnants/")
+		push_error("Remnants folder not found: res://Game Elements/Remnants/")
 		return
 	for file in dir:
 		if file.ends_with(".tres"):
@@ -65,9 +64,12 @@ func get_random_remnants(num: int = 4, player1_remnants: Array = [], player2_rem
 	return result
 	
 func meets_requirements(remnant : Remnant,names : Array[String]):
+	var prog = max(Globals.total_progress,RoomManager.current_progress)
 	for rm in remnant.required_remnants:
 		if rm.remnant_name not in names:
 			return false
+	if remnant.progress_required > prog:
+		return false
 	return true
 
 
@@ -116,8 +118,7 @@ func _pick_random_upgradable(from_pool: Array, amount: int, into: Array):
 			for rem in temp:
 				print("Name: "+str(rem.remnant_name)+" Rank: "+str(rem.rank))
 			break
-	
-	
+
 func _pick_random_unique(from_pool: Array, amount: int, into: Array):
 	var temp = from_pool.duplicate()
 	temp.shuffle()

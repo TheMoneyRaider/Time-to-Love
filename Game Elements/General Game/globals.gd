@@ -5,7 +5,6 @@ var is_multiplayer:bool = false
 var player1_input
 var player2_input
 var total_progress : float = 0.0
-var current_progress : float = 0.0
 
 signal config_changed
 var save_state : SaveState
@@ -51,7 +50,7 @@ func load_config():
 	total_progress = save_state.total_progress
 
 func save_config():
-	save_state.total_progress = max(total_progress,current_progress)
+	save_state.total_progress = max(total_progress,RoomManager.current_progress)
 	config.set_value("saves", str(save_idx), save_state)
 	config.save(config_path)
 	emit_signal("config_changed")
