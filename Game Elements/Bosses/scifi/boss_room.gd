@@ -262,6 +262,8 @@ func boss_death():
 
 
 func _on_enemy_take_damage(_damage : float,current_health : int,_enemy : Node, direction = Vector2(0,-1)) -> void:
+	if !boss:
+		return
 	var boss_health1 = boss.current_health
 	if boss_type =="scifi" and current_health <= 0.0 and phase == 0:
 		if is_multiplayer:

@@ -168,7 +168,7 @@ func _process(delta: float) -> void:
 	if !room_cleared:
 		for child in room_instance.get_children():
 			if child.is_in_group("enemy"):
-				if child.position.distance_to(player1.position) > 5000: #Haphazard fix for the disappearing enemy
+				if child.position.distance_to(player1.position) > 5000 or is_nan(child.position.x) or is_nan(child.position.y): #Haphazard fix for the disappearing enemy
 					push_error("REMOVED ENEMY DUE TO BUG")
 					child.queue_free()
 				return
@@ -1721,6 +1721,10 @@ func dev_remnants():
 	rem.rank = 4
 	player_1_remnants.append(rem.duplicate(true))
 	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/ninja.tres")
+	rem.rank = 4
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
 	rem = load("res://Game Elements/Remnants/shido.tres")
 	rem.rank = 4
 	player_1_remnants.append(rem.duplicate(true))
@@ -1753,14 +1757,15 @@ func dev_remnants():
 	player_1_remnants.append(rem.duplicate(true))
 	rem.rank = 3
 	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/assasin.tres")
+	rem = load("res://Game Elements/Remnants/assassin.tres")
 	rem.rank = 5
 	player_1_remnants.append(rem.duplicate(true))
 	rem.rank = 3
 	player_2_remnants.append(rem.duplicate(true))
 	
 	player1.display_combo()
-	player1.display_combo()
+	if is_multiplayer:
+		player2.display_combo()
 	
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
 	timefabric_collected = 0
