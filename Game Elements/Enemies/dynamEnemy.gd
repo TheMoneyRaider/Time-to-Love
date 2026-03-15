@@ -341,7 +341,7 @@ func _check_on_hit_remnants(dmg_owner: Node, attack_body: Node):
 				hydromancer.remnant_name:
 					apply_hydromancer(rem, attack_body, mancer_value)
 				longshot.remnant_name:
-					if(attack_body.speed != 0):
+					if attack_body and (attack_body.speed != 0):
 						attack_body.damage = attack_body.damage * (1 + rem.variable_1_values[rem.rank - 1] / 100.0)
 				_:
 					pass

@@ -10,6 +10,7 @@ remnant_name = "Remnant of the Hospital"
 description = "Whenever you heal, heal $X% of your max health"
 icon = ExtResource("2_tgoow")
 art = ExtResource("1_waxin")
+progress_required = 1.0
 variable_names = Array[String](["$X"])
 variable_1_values = [5, 10, 15, 20, 25]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

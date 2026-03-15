@@ -26,7 +26,7 @@ var generated_room_conflict : = {}
 var generated_room_entrance : = {}
 var global_conflict_cells= []
 var placable_cells= []
-var this_room_reward1 = Globals.Reward.HealthUpgrade
+var this_room_reward1 = Globals.Reward.Remnant
 var this_room_reward2 = Globals.Reward.HealthUpgrade
 var is_wave_room = false
 var total_waves = 0
@@ -72,15 +72,7 @@ func _ready() -> void:
 	hud.connect_signals(player1)
 	hud.set_cross_position()
 	
-	#dev_remnants()
-	
-	
-	var rem = load("res://Game Elements/Remnants/trickster.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	rem.rank = 5
-	player_2_remnants.append(rem.duplicate(true))
-	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
+	dev_remnants()
 	
 	
 	
@@ -114,7 +106,7 @@ func _ready() -> void:
 	for child in room_instance.get_children():
 		if child.is_in_group("enemy"):
 			enemies.append(child)
-	awareness_display.enemies = enemies.duplicate()
+	awareness_display.set_array(enemies.duplicate(),0)
 	floor_noise_sync(room_instance, room_instance_data)
 	calculate_cell_arrays(room_instance, room_instance_data)
 	trap_cells = room_instance.trap_cells
@@ -176,7 +168,7 @@ func _process(delta: float) -> void:
 	if !room_cleared:
 		for child in room_instance.get_children():
 			if child.is_in_group("enemy"):
-				if child.position.distance_to(player1.position) > 5000: #Haphazard fix for the disappearing enemy
+				if child.position.distance_to(player1.position) > 5000 or is_nan(child.position.x) or is_nan(child.position.y): #Haphazard fix for the disappearing enemy
 					push_error("REMOVED ENEMY DUE TO BUG")
 					child.queue_free()
 				return
@@ -192,7 +184,7 @@ func _process(delta: float) -> void:
 			for child in room_instance.get_children():
 				if child.is_in_group("enemy"):
 					enemies.append(child)
-			awareness_display.enemies = enemies.duplicate()
+			awareness_display.set_array(enemies.duplicate(),0)
 			return
 		if room_instance_data.roomtype == Globals.RoomType.Combat:
 			RoomManager.layer_ai[4] += time_passed - RoomManager.layer_ai[3] #Add to combat time
@@ -202,6 +194,13 @@ func _process(delta: float) -> void:
 			
 			_enable_letters()
 		room_cleared= true
+		
+		await get_tree().process_frame
+		var rewards : Array[Node]= []
+		for child in room_instance.get_children():
+			if child.is_in_group("reward"):
+				rewards.append(child)
+		awareness_display.set_array(rewards.duplicate(),1)
 	else:
 		if !reward_claimed:
 			for node in room_instance.get_children():
@@ -214,6 +213,12 @@ func _process(delta: float) -> void:
 				_enable_pathways()
 				_enable_letters()
 				reward_claimed=true
+				
+				var pathways : Array[Node]= []
+				for child in room_instance.get_children():
+					if child.is_in_group("pathway") and !child.used and child.active:
+						pathways.append(child)
+				awareness_display.set_array(pathways.duplicate(),2)
 
 func create_new_rooms() -> void:
 	if thread_running:
@@ -443,6 +448,10 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					return true
 			"RemnantOrb":
 				if player_reference in node.tracked_bodies:
+					if RemnantManager.will_softlock(player_1_remnants,player_2_remnants,false):
+						timefabric_rewarded = 200 #TODO change this to by dynamic(ish)
+						node.name = "TimeFabricOrb"
+						return true
 					node.queue_free()
 					_open_remnant_popup()
 					return true
@@ -452,6 +461,10 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					return true
 			"UpgradeOrb":
 				if player_reference in node.tracked_bodies:
+					if RemnantManager.will_softlock(player_1_remnants,player_2_remnants,true):
+						timefabric_rewarded = 200 #TODO change this to by dynamic(ish)
+						node.name = "TimeFabricOrb"
+						return true
 					node.queue_free()
 					_open_upgrade_popup()
 					return true
@@ -655,18 +668,20 @@ func _randomize_room_reward(pathway_to_randomize : Node) -> void:
 		if reward_val!= 5 or !wave:
 				match reward_val:
 					0:
-						reward_type1 = Globals.Reward.Remnant
-						if reward_type1 == prev_reward_type:
-							reward_type1 = null
+						if !RemnantManager.will_softlock(player_1_remnants,player_2_remnants,false):
+							reward_type1 = Globals.Reward.Remnant
+							if reward_type1 == prev_reward_type:
+								reward_type1 = null
 					1:
 						reward_type1 = Globals.Reward.TimeFabric
 						if reward_type1 == prev_reward_type:
 							reward_type1 = null
 					2:
-						if _upgradable_remnants():
-							reward_type1 = Globals.Reward.RemnantUpgrade
-							if reward_type1 == prev_reward_type:
-								reward_type1 = null
+						if !RemnantManager.will_softlock(player_1_remnants,player_2_remnants,true):
+							if _upgradable_remnants():
+								reward_type1 = Globals.Reward.RemnantUpgrade
+								if reward_type1 == prev_reward_type:
+									reward_type1 = null
 					3:
 						reward_type1 = Globals.Reward.HealthUpgrade
 						if reward_type1 == prev_reward_type:
@@ -711,17 +726,19 @@ func _choose_reward(pathway_name : String) -> void:
 		if reward_value!= 5 or !wave:
 			match reward_value:
 				0:
-					reward_type1 = Globals.Reward.Remnant
-					reward_num[reward_value] = reward_num[reward_value]/2.0
+					if !RemnantManager.will_softlock(player_1_remnants,player_2_remnants,false):
+						reward_type1 = Globals.Reward.Remnant
+						reward_num[reward_value] = reward_num[reward_value]/2.0
 
 				1:
 					reward_type1 = Globals.Reward.TimeFabric
 					reward_num[reward_value] = reward_num[reward_value]/2.0
 
 				2:
-					if _upgradable_remnants():
-						reward_type1 = Globals.Reward.RemnantUpgrade
-						reward_num[reward_value] = reward_num[reward_value]/2.0
+					if !RemnantManager.will_softlock(player_1_remnants,player_2_remnants,true):
+						if _upgradable_remnants():
+							reward_type1 = Globals.Reward.RemnantUpgrade
+							reward_num[reward_value] = reward_num[reward_value]/2.0
 				3:
 					reward_type1 = Globals.Reward.HealthUpgrade
 					reward_num[reward_value] = reward_num[reward_value]/2.0
@@ -1289,7 +1306,7 @@ func _move_to_pathway_room(pathway_id: String) -> void:
 	for child in room_instance.get_children():
 		if child.is_in_group("enemy"):
 			enemies.append(child)
-	awareness_display.enemies = enemies.duplicate()
+	awareness_display.set_array(enemies.duplicate(),0)
 	
 	if room_instance_data.roomtype == Globals.RoomType.Boss:
 		room_instance.activate(camera,player1,player2)
@@ -1704,6 +1721,10 @@ func dev_remnants():
 	rem.rank = 4
 	player_1_remnants.append(rem.duplicate(true))
 	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/ninja.tres")
+	rem.rank = 4
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
 	rem = load("res://Game Elements/Remnants/shido.tres")
 	rem.rank = 4
 	player_1_remnants.append(rem.duplicate(true))
@@ -1726,8 +1747,25 @@ func dev_remnants():
 	player_1_remnants.append(rem.duplicate(true))
 	rem.rank = 3
 	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/giant.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	rem.rank = 3
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/trickster.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	rem.rank = 3
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/assassin.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	rem.rank = 3
+	player_2_remnants.append(rem.duplicate(true))
 	
 	player1.display_combo()
+	if is_multiplayer:
+		player2.display_combo()
 	
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
 	timefabric_collected = 0

@@ -53,7 +53,7 @@ _data = {
 &"idle": SubResource("Animation_nftfu")
 }
 
-[node name="Health" type="Area2D"]
+[node name="Health" type="Area2D" groups=["reward"]]
 z_index = 20
 y_sort_enabled = true
 collision_mask = 3
