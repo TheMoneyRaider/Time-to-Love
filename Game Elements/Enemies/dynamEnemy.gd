@@ -90,7 +90,6 @@ func _ready():
 	if enemy_type=="robot":
 		weapon = Weapon.create_weapon("res://Game Elements/Weapons/RobotMelee.tres",self)
 	current_health = max_health
-	add_to_group("enemy") #TODO might not be needed anymore. I added a global group and just put the scenes in that group
 	load_settings()
 	Globals.config_changed.connect(load_settings)
 
@@ -170,6 +169,8 @@ func _process(delta):
 		sprint_cool = max(0.0,sprint_cool-delta)
 	if enemy_type=="robot":
 		_robot_process()
+	if enemy_type=="skeleton":
+		_skeleton_process()
 	if(i_frames > 0):
 		i_frames -= 1
 	for i in range(weapon_cooldowns.size()):
@@ -192,6 +193,18 @@ func _process(delta):
 	if debug_mode:
 		queue_redraw()
 	
+func _skeleton_process():
+	var dir = look_direction
+	var block : int = $SkeletonBrain.anim_frame / 4 * 4
+	var offset : int = $SkeletonBrain.anim_frame % 4
+	if abs(dir.y) > abs(dir.x): # Vertical
+		if dir.y > 0:
+			block += 2
+	else:# Horizontal
+		block += 1
+		if dir.x < 0:
+			$SkeletonBrain.sprite.flip_h = true
+	$SkeletonBrain.set_frame(block + offset)
 
 func _robot_process():
 	var dir = look_direction
@@ -328,12 +341,14 @@ func _check_on_hit_remnants(dmg_owner: Node, attack_body: Node):
 				hydromancer.remnant_name:
 					apply_hydromancer(rem, attack_body, mancer_value)
 				longshot.remnant_name:
-					if(attack_body.speed != 0):
+					if attack_body and (attack_body.speed != 0):
 						attack_body.damage = attack_body.damage * (1 + rem.variable_1_values[rem.rank - 1] / 100.0)
 				_:
 					pass
 
 func apply_hydromancer(rem : Remnant, attack_body : Node, mancer_value : int):
+	if !attack_body:
+		return
 	var effect : Effect
 	match attack_body.last_liquid:
 		Globals.Liquid.Water:

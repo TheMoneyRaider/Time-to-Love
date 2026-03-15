@@ -4,9 +4,15 @@ extends Node2D
 @export var enemies: Array[Node]
 @export var glow_scene: PackedScene
 @export var max_glows := 100
+var version = 0
 
 var glow_pool := []
 var active_glows := []
+
+func set_array(array : Array, version_in : int):
+	enemies =array
+	version = version_in
+
 
 func _ready():
 	# Initialize pool	
@@ -62,9 +68,16 @@ func _process(_d):
 		# screen_pos is already in screen coordinates
 		var screen_width = rect.size.x
 		var t_color = clamp((glow.global_position.x -camera.global_position.x+screen_width/2.0) / (screen_width * camera.zoom.x), 0.0, 1.0)
-		glow.modulate = lerp(Color(0.713, 0.001, 0.76, 1.0),Color(0.8, 0.407, 0.0, 1.0),t_color)
+		
 		glow.modulate.a = t
 		glow.visible = true
+		match version:
+			0:
+				glow.modulate = lerp(Color(0.713, 0.001, 0.76, 1.0),Color(0.8, 0.407, 0.0, 1.0),t_color)
+			1:
+				glow.modulate = Color(0.415, 0.0, 0.443, 1.0)
+			2:
+				glow.modulate = Color(1.0, 0.639, 0.386, 1.0)
 
 	# Hide any unused glows
 	for i in range(enemies.size(), glow_pool.size()):

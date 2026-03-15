@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://btjthdmkvgfv0"]
+[gd_scene load_steps=17 format=3 uid="uid://btjthdmkvgfv0"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_phyc7"]
 [ext_resource type="Shader" uid="uid://jwdy7amsrtqm" path="res://Game Elements/Characters/spawn_transition.gdshader" id="2_12o7h"]
 [ext_resource type="Texture2D" uid="uid://d2ue7tghptx6f" path="res://art/characters/robot/Full sprite sheet.png" id="2_phyc7"]
 [ext_resource type="Script" uid="uid://chg34ggtxfi7k" path="res://Game Elements/Characters/robot.gd" id="3_8s1eb"]
 [ext_resource type="BehaviorTree" uid="uid://divr2rf3r2i0x" path="res://ai/trees/robot.tres" id="3_phyc7"]
+[ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="5_llnr1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_llnr1"]
 shader = ExtResource("2_12o7h")
@@ -120,13 +121,15 @@ var/state/value = "spawning"
 var/state/hint = 0
 var/state/hint_string = ""
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_uhxym"]
+radius = 7.0
+
 [node name="Robot" type="CharacterBody2D" groups=["enemy"]]
 z_index = 20
 y_sort_enabled = true
 collision_layer = 4
-collision_mask = 15
+collision_mask = 9
 script = ExtResource("1_phyc7")
-max_health = 30
 enemy_type = "robot"
 displays = Array[NodePath]([NodePath("Sprite2D")])
 min_timefabric = 15
@@ -157,6 +160,17 @@ libraries = {
 [node name="BTPlayer" type="BTPlayer" parent="."]
 behavior_tree = ExtResource("3_phyc7")
 blackboard_plan = SubResource("BlackboardPlan_8s1eb")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(1, 6)
+collision_layer = 4
+collision_mask = 7
+linear_damp = 0.0
+script = ExtResource("5_llnr1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-2, -5)
+shape = SubResource("CircleShape2D_uhxym")
 
 [node name="RobotBrain" type="Node2D" parent="."]
 script = ExtResource("3_8s1eb")

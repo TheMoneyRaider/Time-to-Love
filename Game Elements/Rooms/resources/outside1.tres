@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="Room" load_steps=2 format=3 uid="uid://cyndgvhmdifaa"]
 
-[ext_resource type="Script" uid="uid://boljl4yehg187" path="res://Game Elements/Rooms/room.gd" id="1_kglpy"]
+[ext_resource type="Script" uid="uid://boljl4yehg187" path="res://Game Elements/Rooms/room.gd" id="1_vpyeu"]
 
 [resource]
-script = ExtResource("1_kglpy")
+script = ExtResource("1_vpyeu")
 scene_location = "res://Game Elements/Rooms/medieval/outside1.tscn"
 noise_seed = null
 num_trap = 4

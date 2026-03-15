@@ -8,11 +8,10 @@ func _ready():
 
 #Loads all resources from res://remnants/
 func _load_all_remnants() -> void:
-	#var dir = DirAccess.open("res://Game Elements/Remnants/")
 	var dir = ResourceLoader.list_directory("res://Game Elements/Remnants/")
 
 	if dir == null:
-		push_error("Remnants folder not found: rres://Game Elements/Remnants/")
+		push_error("Remnants folder not found: res://Game Elements/Remnants/")
 		return
 	for file in dir:
 		if file.ends_with(".tres"):
@@ -65,11 +64,56 @@ func get_random_remnants(num: int = 4, player1_remnants: Array = [], player2_rem
 	return result
 	
 func meets_requirements(remnant : Remnant,names : Array[String]):
+	var prog = max(Globals.total_progress,RoomManager.current_progress)
 	for rm in remnant.required_remnants:
 		if rm.remnant_name not in names:
 			return false
+	if remnant.progress_required > prog:
+		return false
 	return true
 
+
+
+func will_softlock(player1_remnants: Array = [], player2_remnants : Array = [],is_upgrade : bool = false) -> bool:
+	if !is_upgrade:
+		if remnant_pool.is_empty():
+			return true
+		#Filter pools
+		var pool_for_p1: Array = []
+		var pool_for_p2: Array = []
+
+		#Arrays of remnant names
+		var p1_names: Array[String] = []
+		var p2_names: Array[String] = []
+		for r in player1_remnants:
+			p1_names.append(r.remnant_name)
+		for r in player2_remnants:
+			p2_names.append(r.remnant_name)
+		for rem in remnant_pool:
+			if rem.remnant_name not in p1_names and meets_requirements(rem,p1_names):
+				pool_for_p1.append(rem)
+			if rem.remnant_name not in p2_names and meets_requirements(rem,p2_names):
+				pool_for_p2.append(rem)
+		if pool_for_p1.size() < 2:
+			return true
+		if pool_for_p2.size() < 2:
+			return true
+		return false
+	else:
+		var result: Array[Resource] = []
+
+		# Pick half from each
+		print("Check player 1 remnants")
+		_pick_random_upgradable(player1_remnants, 2, result)
+		var prev_size = result.size()
+		if result.size() < 1:
+			return true
+		print("Check player 2 remnants")
+		_pick_random_upgradable(player2_remnants, 2, result)
+		if result.size() == prev_size:
+			return true
+		return false
+		
 
 
 #Returns an array of up to `num` unique remnants from the two players pools that can be upgraded
@@ -116,8 +160,7 @@ func _pick_random_upgradable(from_pool: Array, amount: int, into: Array):
 			for rem in temp:
 				print("Name: "+str(rem.remnant_name)+" Rank: "+str(rem.rank))
 			break
-	
-	
+
 func _pick_random_unique(from_pool: Array, amount: int, into: Array):
 	var temp = from_pool.duplicate()
 	temp.shuffle()

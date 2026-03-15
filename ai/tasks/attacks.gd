@@ -8,5 +8,6 @@ func _tick(_delta: float) -> Status:
 	var current_player_pos: Vector2 = players[p_index].global_position if players else Vector2.ZERO
 	
 	agent.handle_attack(current_player_pos)
+	agent.time_stuck = 0
 	
 	return SUCCESS

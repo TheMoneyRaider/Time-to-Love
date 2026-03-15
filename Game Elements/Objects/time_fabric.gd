@@ -138,8 +138,8 @@ func check_player(player : Node):
 	var dir = (player.position - position)
 	var distance = dir.length()
 	var attraction_radius = 60.0
-	if distance < attraction_radius:
-		var new_vel = dir.normalized() * (100.0 + (attraction_radius - distance) * 5.0)
+	if distance < attraction_radius or attracted:
+		var new_vel = dir.normalized() * (100.0 + abs(attraction_radius - distance) * 5.0)
 		velocity = Vector3(new_vel.x, new_vel.y, 0)
 		attracted = true
 	if distance < 5:

@@ -30,6 +30,9 @@ shader_parameter/albedo3_threshold = 0.471
 shader_parameter/cuts = 3
 shader_parameter/wrap = 0.0
 shader_parameter/steepness = 1.0
+shader_parameter/mask_scale = Vector2(0, 0)
+shader_parameter/mask_offset = Vector2(0, 0)
+shader_parameter/mask_tex_size = Vector2(0, 0)
 
 [node name="Root" type="Node2D"]
 script = ExtResource("1_5tjm1")
