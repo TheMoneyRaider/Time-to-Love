@@ -72,15 +72,7 @@ func _ready() -> void:
 	hud.connect_signals(player1)
 	hud.set_cross_position()
 	
-	#dev_remnants()
-	
-	
-	var rem = load("res://Game Elements/Remnants/trickster.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	rem.rank = 5
-	player_2_remnants.append(rem.duplicate(true))
-	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
+	dev_remnants()
 	
 	
 	
@@ -456,6 +448,10 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					return true
 			"RemnantOrb":
 				if player_reference in node.tracked_bodies:
+					if RemnantManager.will_softlock(player_1_remnants,player_2_remnants,false):
+						timefabric_rewarded = 200 #TODO change this to by dynamic(ish)
+						node.name = "TimeFabricOrb"
+						return true
 					node.queue_free()
 					_open_remnant_popup()
 					return true
@@ -465,6 +461,10 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					return true
 			"UpgradeOrb":
 				if player_reference in node.tracked_bodies:
+					if RemnantManager.will_softlock(player_1_remnants,player_2_remnants,true):
+						timefabric_rewarded = 200 #TODO change this to by dynamic(ish)
+						node.name = "TimeFabricOrb"
+						return true
 					node.queue_free()
 					_open_upgrade_popup()
 					return true
@@ -668,18 +668,20 @@ func _randomize_room_reward(pathway_to_randomize : Node) -> void:
 		if reward_val!= 5 or !wave:
 				match reward_val:
 					0:
-						reward_type1 = Globals.Reward.Remnant
-						if reward_type1 == prev_reward_type:
-							reward_type1 = null
+						if !RemnantManager.will_softlock(player_1_remnants,player_2_remnants,false):
+							reward_type1 = Globals.Reward.Remnant
+							if reward_type1 == prev_reward_type:
+								reward_type1 = null
 					1:
 						reward_type1 = Globals.Reward.TimeFabric
 						if reward_type1 == prev_reward_type:
 							reward_type1 = null
 					2:
-						if _upgradable_remnants():
-							reward_type1 = Globals.Reward.RemnantUpgrade
-							if reward_type1 == prev_reward_type:
-								reward_type1 = null
+						if !RemnantManager.will_softlock(player_1_remnants,player_2_remnants,true):
+							if _upgradable_remnants():
+								reward_type1 = Globals.Reward.RemnantUpgrade
+								if reward_type1 == prev_reward_type:
+									reward_type1 = null
 					3:
 						reward_type1 = Globals.Reward.HealthUpgrade
 						if reward_type1 == prev_reward_type:
@@ -724,17 +726,19 @@ func _choose_reward(pathway_name : String) -> void:
 		if reward_value!= 5 or !wave:
 			match reward_value:
 				0:
-					reward_type1 = Globals.Reward.Remnant
-					reward_num[reward_value] = reward_num[reward_value]/2.0
+					if !RemnantManager.will_softlock(player_1_remnants,player_2_remnants,false):
+						reward_type1 = Globals.Reward.Remnant
+						reward_num[reward_value] = reward_num[reward_value]/2.0
 
 				1:
 					reward_type1 = Globals.Reward.TimeFabric
 					reward_num[reward_value] = reward_num[reward_value]/2.0
 
 				2:
-					if _upgradable_remnants():
-						reward_type1 = Globals.Reward.RemnantUpgrade
-						reward_num[reward_value] = reward_num[reward_value]/2.0
+					if !RemnantManager.will_softlock(player_1_remnants,player_2_remnants,true):
+						if _upgradable_remnants():
+							reward_type1 = Globals.Reward.RemnantUpgrade
+							reward_num[reward_value] = reward_num[reward_value]/2.0
 				3:
 					reward_type1 = Globals.Reward.HealthUpgrade
 					reward_num[reward_value] = reward_num[reward_value]/2.0
@@ -1739,7 +1743,23 @@ func dev_remnants():
 	player_1_remnants.append(rem.duplicate(true))
 	rem.rank = 3
 	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/giant.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	rem.rank = 3
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/trickster.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	rem.rank = 3
+	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/assasin.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	rem.rank = 3
+	player_2_remnants.append(rem.duplicate(true))
 	
+	player1.display_combo()
 	player1.display_combo()
 	
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
