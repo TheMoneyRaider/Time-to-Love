@@ -12,7 +12,7 @@ var save_idx : int = 0
 var config := ConfigFile.new()
 var config_path := "user://settings.cfg"
 
-enum MenuState {Western, Space, Horror, Medieval}
+enum MenuState {Western, Space, Medieval}
 
 enum RoomVariant {MedOut, MedIn, WesternCanyon, WesternTown, SciFiCyberspace, SciFiFactory}
 enum RoomType {Buffer, Combat, Shop, Boss, Misc}
@@ -36,7 +36,7 @@ func _ready():
 	player1_input = config.get_value("inputs","player1_input", "key")
 	player2_input = config.get_value("inputs","player2_input", "0")
 	randomize()
-	menu = randi()%4 as MenuState
+	menu = randi()%3 as MenuState
 	num_letters_collected = save_state.letter_progress.size()
 	_count_all_letters()
 	letter_percentage = num_letters_collected/float(num_letters)
