@@ -143,10 +143,10 @@ func apply_remnants(attack_instance):
 	var remnants : Array[Remnant]
 	if c_owner != null && c_owner.is_in_group("player"):
 		var mancer_value = 0
-		var terramancer = load("res://Game Elements/Remnants/terramancer.tres")
-		var aeromancer = load("res://Game Elements/Remnants/aeromancer.tres")
-		var hydromancer = load("res://Game Elements/Remnants/hydromancer.tres")
-		var intelligence = load("res://Game Elements/Remnants/intelligence.tres")
+		var terramancer = preload("res://Game Elements/Remnants/terramancer.tres")
+		var aeromancer = preload("res://Game Elements/Remnants/aeromancer.tres")
+		var hydromancer = preload("res://Game Elements/Remnants/hydromancer.tres")
+		var intelligence = preload("res://Game Elements/Remnants/intelligence.tres")
 		if c_owner.is_purple:
 			remnants = c_owner.get_tree().get_root().get_node("LayerManager").player_1_remnants
 			mancer_value = c_owner.mancermancer_values[0]
@@ -185,7 +185,7 @@ var laser_camera_distancey = 128
 func start_special(special_direction : Vector2, node_attacking : Node):
 	match type:
 		"Laser_Sword":
-			var mesh_inst = load("res://Game Elements/Attacks/sword_special.tscn").instantiate()
+			var mesh_inst = preload("res://Game Elements/Attacks/sword_special.tscn").instantiate()
 			node_attacking.LayerManager.room_instance.add_child(mesh_inst)
 
 			special_nodes.append(mesh_inst)
@@ -199,7 +199,7 @@ func start_special(special_direction : Vector2, node_attacking : Node):
 			
 		"Crowbar":
 			print("Start Crowbar")
-			var setup = load("res://Game Elements/Attacks/crowbar_special/setup.tscn").instantiate()
+			var setup = preload("res://Game Elements/Attacks/crowbar_special/setup.tscn").instantiate()
 			setup.tilemaplayer = node_attacking.LayerManager.room_instance.get_node("Ground")
 			setup.available_tiles = node_attacking.LayerManager.placable_cells
 			setup.global_position = node_attacking.global_position+special_direction*48
@@ -306,20 +306,20 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 					special_start_damage = damage
 				if(special_time_elapsed <= 3.0):
 					damage += (special_start_damage / 1.2) * time_elapsed
-				var effect = load("res://Game Elements/Effects/max_charge.tres").duplicate(true)
+				var effect = preload("res://Game Elements/Effects/max_charge.tres").duplicate(true)
 				effect.cooldown = 20*time_elapsed
 				effect.value1 = 0.15
 				effect.gained(c_owner)
 				Effects.append(effect)
 				if(special_time_elapsed >= 2.0):
-					effect = load("res://Game Elements/Effects/slow_down.tres").duplicate(true)
+					effect = preload("res://Game Elements/Effects/slow_down.tres").duplicate(true)
 					effect.cooldown = 1*time_elapsed
 					effect.value1 = 0.0
 					effect.gained(c_owner)
 					Effects.append(effect)
 			"Railgun":
 				if(special_time_elapsed <= 1.0):
-					var effect = load("res://Game Elements/Effects/rail_charge.tres").duplicate(true)
+					var effect = preload("res://Game Elements/Effects/rail_charge.tres").duplicate(true)
 					effect.cooldown = 20*time_elapsed
 					effect.value1 = 0.04
 					effect.gained(c_owner)
@@ -328,7 +328,7 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 					var check_forward
 					if special_nodes.size() < 1:
 						node_attacking.create_tween().tween_property(node_attacking.weapon_node.get_node("Sprite2D"),"modulate",Color(1.0, 0.0, 0.0, 1.0),1.0)
-						var inst = load("res://Game Elements/Attacks/railgun_laser.tscn").instantiate()
+						var inst = preload("res://Game Elements/Attacks/railgun_laser.tscn").instantiate()
 						special_nodes.append(inst)
 						inst.global_position = node_attacking.global_position + inst.size/-2.0 + special_direction*spawn_distance
 						check_forward = cast_ray(node_attacking.global_position, special_direction, 1600,node_attacking)
@@ -339,7 +339,7 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 					check_forward = cast_ray(node_attacking.global_position, special_direction, 1600,node_attacking)
 					special_nodes[0].update_points(node_attacking.global_position+special_direction*spawn_distance,check_forward.position)
 					
-					var effect = load("res://Game Elements/Effects/tether.tres").duplicate(true)
+					var effect = preload("res://Game Elements/Effects/tether.tres").duplicate(true)
 					effect.cooldown = 20*time_elapsed
 					effect.value1 = 0.02
 					effect.gained(c_owner)
@@ -415,7 +415,7 @@ func use_normal_attack(special_direction : Vector2, special_position : Vector2, 
 					
 				else:
 					print("Punt")
-					var attack = load("res://Game Elements/Attacks/crowbar_special/crowbar_projectile.tscn").instantiate()
+					var attack = preload("res://Game Elements/Attacks/crowbar_special/crowbar_projectile.tscn").instantiate()
 					attack.room_root = node_attacking.LayerManager.room_instance
 					attack.mask = special_nodes[0]
 					attack.global_position = special_nodes[0].global_position
@@ -477,7 +477,7 @@ func cast_ray(origin: Vector2, direction: Vector2, distance: float, player_node 
 	return space.intersect_ray(query)
 
 func mace_special_attack(attack_direction : Vector2, attack_position : Vector2):
-	var instance = load("res://Game Elements/Attacks/mace_special.tscn").instantiate()
+	var instance = preload("res://Game Elements/Attacks/mace_special.tscn").instantiate()
 	attack_position = attack_position + (attack_direction * 30)
 	instance.direction = attack_direction
 	instance.global_position = attack_position
