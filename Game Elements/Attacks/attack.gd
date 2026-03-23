@@ -91,6 +91,10 @@ func _ready():
 		get_parent().add_child(inst)
 	if animation!= "" and $AnimationPlayer:
 		$AnimationPlayer.play(animation)
+	if attack_type == "summon circle":
+		modulate.a = 0
+		var tween = self.create_tween()
+		tween.tween_property(self,"modulate:a",1,1)
 	if attack_type == "death mark":
 		if c_owner.is_purple:
 			$Sprite2D.texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_purple.png")

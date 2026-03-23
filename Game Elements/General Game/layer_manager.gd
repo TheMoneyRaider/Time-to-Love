@@ -1073,6 +1073,10 @@ func _add_trap(generated_room: Node2D, generated_room_data: Room, trap_num: int)
 				var snare = load("res://Game Elements/Objects/snare_trap.tscn").instantiate()
 				snare.position = generated_room.get_node("Trap"+str(trap_num)).map_to_local(cell)
 				generated_room.add_child(snare)
+			Globals.Trap.CryptSpike:
+				var cryptspike = load("res://Game Elements/Objects/spike_trap_crypt.tscn").instantiate()
+				cryptspike.position = generated_room.get_node("Trap"+str(trap_num)).map_to_local(cell)
+				generated_room.add_child(cryptspike)
 
 func return_trap_layer(tile_pos : Vector2i) -> TileMapLayer:
 	for trap_num in range(1,room_instance_data.num_trap+1):

@@ -10,6 +10,7 @@ in our case the characterbody2d
 var recalc_distance_threshold: float = 48.0
 @export var player_idx: String = "player_idx"
 @export var player_positions: String = "player_positions"
+@export var target_to_player: float = 90.0
 
 func _tick(_delta: float) -> Status: 
 	# takes the random pos determined b4 in "chooseRadnomPos, and moves to it, simple as 
@@ -27,7 +28,7 @@ func _tick(_delta: float) -> Status:
 		blackboard.set_var("path_recalculated", false)
 	
 	if(blackboard.get_var("target_type") == 1):
-		recalc_distance_threshold = 98		
+		recalc_distance_threshold = target_to_player + 10		
 	if current_player_pos != Vector2.ZERO and path_target_pos != Vector2.ZERO and blackboard.get_var("state")=="agro":
 		var player_moved_distance = path_target_pos.distance_to(current_player_pos)
 		

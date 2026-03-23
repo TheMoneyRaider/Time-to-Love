@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://xvgc7jxjo4ip" path="res://Game Elements/Attacks/bolt.tscn" id="2_5dlb8"]
 [ext_resource type="Shader" uid="uid://jwdy7amsrtqm" path="res://Game Elements/Characters/spawn_transition.gdshader" id="3_olkcb"]
 [ext_resource type="Texture2D" uid="uid://pjw0msy2kxfl" path="res://art/characters/archer/Archers.png" id="4_5dk6u"]
-[ext_resource type="BehaviorTree" uid="uid://bpsmxbgw60kcj" path="res://ai/trees/archer.tres" id="5_lkqw2"]
+[ext_resource type="BehaviorTree" uid="uid://cvov2hu7nu1qy" path="res://ai/trees/archlich.tres" id="5_mov0j"]
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="6_05idx"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_llnr1"]
@@ -111,12 +111,13 @@ var/state/hint_string = ""
 [sub_resource type="CircleShape2D" id="CircleShape2D_w832q"]
 radius = 6.0
 
-[node name="Archer" type="CharacterBody2D" groups=["enemy"]]
+[node name="ArchLich" type="CharacterBody2D" groups=["enemy"]]
 z_index = 20
 y_sort_enabled = true
 collision_layer = 4
 collision_mask = 9
 script = ExtResource("1_q5hl3")
+max_health = 100.0
 hit_range = 75
 enemy_type = "archer"
 displays = Array[NodePath]([NodePath("Sprite2D")])
@@ -145,7 +146,7 @@ libraries = {
 }
 
 [node name="BTPlayer" type="BTPlayer" parent="."]
-behavior_tree = ExtResource("5_lkqw2")
+behavior_tree = ExtResource("5_mov0j")
 blackboard_plan = SubResource("BlackboardPlan_8s1eb")
 
 [node name="Area2D" type="Area2D" parent="."]

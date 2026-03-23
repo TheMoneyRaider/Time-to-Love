@@ -20,7 +20,7 @@ enum RoomType {Buffer, Combat, Shop, Boss, Misc}
 
 enum Liquid {Buffer, Water, Lava, Acid, Conveyer, Glitch} #Don't mess with the buffer
 enum Direction {Up, Right, Left, Down, Error}
-enum Trap {Tile, Spike, Fire, Snare}
+enum Trap {Tile, Spike, Fire, Snare, CryptSpike}
 enum Reward {TimeFabric, Remnant, RemnantUpgrade, HealthUpgrade, Health, Shop, Boss}
 
 

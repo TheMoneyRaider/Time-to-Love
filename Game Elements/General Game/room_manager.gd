@@ -58,9 +58,10 @@ var sci_fi_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/s
 								preload("res://Game Elements/Rooms/resources/shop_factory.tres")]
 								
 var testing_room : Room = preload("res://Game Elements/Rooms/resources/testing_room.tres")
-var bosses : Array[Room] = [preload("res://Game Elements/Rooms/resources/scifi_boss.tres"),
-						preload("res://Game Elements/Rooms/resources/scifi_boss.tres"),
-						preload("res://Game Elements/Rooms/resources/scifi_boss.tres")]
+var bosses : Array[Room] = [#preload("res://Game Elements/Rooms/resources/scifi_boss.tres"),
+						#preload("res://Game Elements/Rooms/resources/scifi_boss.tres"),
+						#preload("res://Game Elements/Rooms/resources/scifi_boss.tres"),
+						preload("res://Game Elements/Rooms/resources/medieval_boss.tres")]
 
 var cached_scenes : Dictionary = {}
 
@@ -81,7 +82,8 @@ func get_room(room : Room):
 		var shop_index = clamp(int(randf()*shop_rooms[index].size()),0,shop_rooms[index].size()-1)
 		return shop_rooms[index][shop_index]
 	if get_boss_chance() > randf()+.01:
-		return bosses[index]
+		return bosses[0]
+		#CHANGE BACK BEFORE COMMIT
 
 	var normal_index = clamp(int(randf()*normal_rooms[index].size()),0,normal_rooms[index].size()-1)
 	return normal_rooms[index][normal_index]
@@ -156,7 +158,7 @@ func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerM
 		current_progress = floor(current_progress)+1.0
 
 func get_boss_chance() -> float:
-	return pow((layer_ai[0]-10),2)/200 if current_progress-int(current_progress) > .85 else 0.0
+	return 1#pow((layer_ai[0]-10),2)/200 if current_progress-int(current_progress) > .85 else 0.0
 	
 	
 	
