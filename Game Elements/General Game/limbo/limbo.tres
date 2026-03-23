@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://bnynt05sqn4fy"]
+
+[ext_resource type="Shader" uid="uid://38vxobsuweed" path="res://Game Elements/General Game/limbo/limbo_effect.gdshader" id="1_r16mi"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_w3n1o"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_rcs8p"]
+width = 1024
+height = 1024
+generate_mipmaps = false
+noise = SubResource("FastNoiseLite_w3n1o")
+seamless = true
+
+[resource]
+shader = ExtResource("1_r16mi")
+shader_parameter/z_order = 0
+shader_parameter/progress = 1.0
+shader_parameter/noise = SubResource("NoiseTexture2D_rcs8p")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
