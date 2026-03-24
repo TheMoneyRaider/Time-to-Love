@@ -110,16 +110,6 @@ func _ready() -> void:
 			var packed = ResourceLoader.load(room_data_item.scene_location, "PackedScene")
 			cached_scenes[room_data_item.scene_location] = packed
 
-#func choose_room() -> void:
-	##Shuffle rooms and load one
-	#room_instance_data = sci_fi_layer[randi() % sci_fi_layer.size()]
-	#
-	#room_location = load(room_instance_data.scene_location)
-	#room_instance = room_location.instantiate()
-	#game_root.add_child(room_instance)
-	
-	
-
 func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerManager : Node) -> void:
 	if generated_room_data==testing_room:
 		LayerManager.time_passed = 0.0
@@ -156,7 +146,7 @@ func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerM
 				layer_ai[10] += 1   #Trap room
 				break
 	
-	current_progress = 1-exp(-0.1386*layer_ai[0])
+	current_progress = floor(current_progress)+1-exp(-0.1386*layer_ai[0])
 	if generated_room_data.roomtype == Globals.RoomType.Boss:
 		current_progress = floor(current_progress)+1.0
 	current_progress = max(3.0,current_progress)#TEST
@@ -165,4 +155,12 @@ func get_boss_chance() -> float:
 	return pow((layer_ai[0]-10),2)/200 if current_progress-int(current_progress) > .85 else 0.0
 	
 	
+func make_room_limbo(room_reference : Node, z_val : int):
+	for child in room_reference.get_children():
+		if child is TileMapLayer:
+			make_room_limbo(child, z_val +child.z_index)
+			child.material.set_shader_parameter("z_order",z_val +child.z_index)
+			child.material.set_shader_parameter("progress",current_progress - floor(current_progress))
+				
+	pass
 	

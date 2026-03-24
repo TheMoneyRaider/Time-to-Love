@@ -1254,6 +1254,7 @@ func _move_to_pathway_room(pathway_id: String) -> void:
 	next_room.visible = true
 	next_room.process_mode = Node.PROCESS_MODE_INHERIT
 	room_instance = next_room
+	RoomManager.make_room_limbo(room_instance,room_instance.z_index)
 	_placable_locations()
 	apply_shared_noise_offset(room_instance)
 	
