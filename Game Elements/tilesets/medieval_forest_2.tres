@@ -52,6 +52,7 @@ texture = ExtResource("1_2kvdu")
 23:0/0 = 0
 23:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 24:0/0 = 0
+24:0/0/physics_layer_0/linear_velocity = Vector2(5, 0)
 24:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 25:0/0 = 0
 26:0/0 = 0

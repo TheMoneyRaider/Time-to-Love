@@ -104,7 +104,7 @@ _data = {
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_8s1eb"]
 var/state/name = &"state"
 var/state/type = 4
-var/state/value = "spawning"
+var/state/value = "agro"
 var/state/hint = 0
 var/state/hint_string = ""
 

@@ -13,6 +13,8 @@ var screen : Node = null
 var active : bool = false
 var is_multiplayer : bool = false
 var phase = 0
+enum skel_type {NORMAL, RED, YELLOW, BLUE, PURPLE}
+
 
 @export var boss_splash_art : Texture2D
 @export var healthbar_underlays : Array[Texture2D]
@@ -86,13 +88,15 @@ func lich_signal(sig :String, value1, value2, value3, value4):
 			var attack_instance = load("res://Game Elements/Attacks/summoning_circle.tscn").instantiate()
 			attack_instance.c_owner = boss
 			attack_instance.global_position = value3
+			attack_instance.scale = attack_instance.scale * value4 / 64.0
 			call_deferred("add_child",attack_instance)
 			await get_tree().create_timer(1.0).timeout
-			if is_multiplayer:
-				Spawner.spawn_enemies([player1,player2], self, get_cells_in_radius(value3,value4).duplicate(),LayerManager.room_instance_data,LayerManager,true,value1,value2)
-			else:
-				Spawner.spawn_enemies([player1], self, get_cells_in_radius(value3,value4).duplicate(),LayerManager.room_instance_data,LayerManager,true,value1,value2)
-			
+			for i in range(value1 / 3):
+				if is_multiplayer:
+					Spawner.spawn_enemies([player1,player2], self, get_cells_in_radius(value3,value4).duplicate(),LayerManager.room_instance_data,LayerManager,true,value1,value2)
+				else:
+					Spawner.spawn_enemies([player1], self, get_cells_in_radius(value3,value4).duplicate(),LayerManager.room_instance_data,LayerManager,true,value1,value2)
+			var color = (randi() % 4) + 1
 			var enemies : Array[Node]= []
 			var positions : Array[Vector2] = []
 			positions.append(player1.global_position)
@@ -100,8 +104,24 @@ func lich_signal(sig :String, value1, value2, value3, value4):
 				positions.append(player2.global_position)
 			for child in get_children():
 				if child.is_in_group("enemy"):
-					if(child.global_position.distance_to(value3) <= value4 && child.has_node("SkeletonBrain") && child.get_node("SkeletonBrain").skeleton_type != 0):
+					if(child.global_position.distance_to(value3) <= value4 && child.has_node("SkeletonBrain") && child.get_node("SkeletonBrain").skeleton_type == 0):
 						enemies.append(child)
+						child.get_node("SkeletonBrain").skeleton_type = color
+						match color:
+							skel_type.RED:
+								child.modulate = Color("Red")
+								var attack_scene = load("res://Game Elements/Attacks/skeleton_red_swipe.tscn")
+								child.attacks[0] = attack_scene
+							skel_type.YELLOW:
+								child.modulate = Color("Yellow")
+								child.move_speed = 200.0
+							skel_type.BLUE:
+								child.modulate = Color("Blue")
+								child.max_health = 10
+								child.current_health = 10
+							skel_type.PURPLE:
+								child.modulate = Color("Purple")
+								child.purple_explode = true
 						var board = child.get_node("BTPlayer").blackboard
 						if board.get_var("state") == "spawning":
 							continue

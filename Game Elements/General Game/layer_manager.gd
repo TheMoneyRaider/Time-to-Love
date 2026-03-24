@@ -1414,6 +1414,14 @@ func _on_enemy_take_damage(damage : float,current_health : int,enemy : Node, dir
 			attack_instance.c_owner = enemy.last_hitter
 			attack_instance.global_position = enemy.global_position
 			room_instance.call_deferred("add_child",attack_instance)
+		if(enemy.purple_explode):
+			var attack_instance = load("res://Game Elements/Attacks/explosion.tscn").instantiate()
+			attack_instance.modulate = Color("bb20ff")
+			attack_instance.scale = attack_instance.scale * 2
+			attack_instance.damage = 5
+			attack_instance.c_owner = enemy
+			attack_instance.global_position = enemy.global_position
+			room_instance.call_deferred("add_child",attack_instance)
 		enemy.clear_effects()
 		_enemy_to_timefabric(enemy,direction,Vector2(enemy.min_timefabric,enemy.max_timefabric))
 		enemy.visible=false

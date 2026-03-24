@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bgysbj2623d8d"]
+[gd_scene load_steps=30 format=3 uid="uid://bgysbj2623d8d"]
 
 [ext_resource type="Script" uid="uid://dpumkeekpn38k" path="res://Game Elements/Characters/player_cat.gd" id="1_u0lhy"]
 [ext_resource type="Texture2D" uid="uid://bse7gaxbkiksd" path="res://art/Sprout Lands - Sprites - Basic pack/Characters/Basic Purple Spritesheet-export.png" id="2_qmbn4"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://cb8pnerh8ctk3" path="res://Game Elements/States/swap.gd" id="8_5huac"]
 [ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="9_0lmd5"]
 [ext_resource type="Texture2D" uid="uid://df0xx4vere0ln" path="res://art/attacks/forcefield/Shield Round Hex Distorted Loop 128x128 Blue.png" id="9_q6sfk"]
+[ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="11_nxfgs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k8dsg"]
 size = Vector2(10, 15)
@@ -227,6 +228,9 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_q6sfk"]
 radius = 12.0415945
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_e5m2x"]
+radius = 4.0
+
 [node name="PlayerCat" type="CharacterBody2D" node_paths=PackedStringArray("state_machine") groups=["depth_entities", "player"]]
 z_index = 20
 y_sort_enabled = true
@@ -312,6 +316,17 @@ vframes = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Forcefield"]
 shape = SubResource("CircleShape2D_q6sfk")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(1, 6)
+collision_layer = 4
+collision_mask = 7
+linear_damp = 0.0
+script = ExtResource("11_nxfgs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, -6)
+shape = SubResource("CircleShape2D_e5m2x")
 
 [connection signal="area_entered" from="Forcefield" to="Forcefield" method="_on_area_entered"]
 [connection signal="body_entered" from="Forcefield" to="Forcefield" method="_on_body_entered"]
