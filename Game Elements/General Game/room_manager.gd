@@ -161,15 +161,14 @@ func make_room_limbo(room_reference : Node, z_val : int, set_values : bool = tru
 		cur_prog = current_progress - floor(current_progress)
 		new_prog = 1-exp(-0.1386*(layer_ai[0]+1))
 	for child in room_reference.get_children():
-		if child is TileMapLayer:
-			make_room_limbo(child, z_val +child.z_index,false)
+		make_room_limbo(child, z_val +child.z_index if "z_index" in child else z_val,false)
+		if child is TileMapLayer and child.material != null:
 			child.material.set_shader_parameter("z_order",z_val +child.z_index)
-			var tween = create_tween()
+			var tween = child.create_tween()
 			tween.tween_method(
 				func(value: float): child.material.set_shader_parameter("progress", value),
 				cur_prog,  # from
 				new_prog,  # to
-				45.0   # duration in seconds
+				25.0   # duration in seconds
 			)
-	pass
 	
