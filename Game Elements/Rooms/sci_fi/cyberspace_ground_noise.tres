@@ -1,6 +1,7 @@
-[gd_resource type="ShaderMaterial" load_steps=7 format=3 uid="uid://m8b3vc11xgri"]
+[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://m8b3vc11xgri"]
 
 [ext_resource type="Shader" uid="uid://ckbk1w1sfj1lp" path="res://Game Elements/Rooms/ground.gdshader" id="1_24ato"]
+[ext_resource type="Texture2D" uid="uid://n0bko3km56nl" path="res://Game Elements/General Game/limbo/limbo_noise.tres" id="2_74kkw"]
 
 [sub_resource type="Gradient" id="Gradient_keuru"]
 offsets = PackedFloat32Array(0.33958334, 0.37291667, 0.93125, 0.9505208)
@@ -15,19 +16,13 @@ noise = SubResource("FastNoiseLite_hy0jy")
 color_ramp = SubResource("Gradient_keuru")
 seamless = true
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_24ato"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_74kkw"]
-noise = SubResource("FastNoiseLite_24ato")
-seamless = true
-
 [resource]
 shader = ExtResource("1_24ato")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
 shader_parameter/progress = 0.3730000177175
-shader_parameter/sob_noise = SubResource("NoiseTexture2D_74kkw")
+shader_parameter/sob_noise = ExtResource("2_74kkw")
 shader_parameter/noise = SubResource("NoiseTexture2D_pttda")
 shader_parameter/displayDecal = false
 shader_parameter/is_tile_clamped = false

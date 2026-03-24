@@ -9,15 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dlcpw4tgvjjuo" path="res://art/ring_texture.png" id="6_6n8ig"]
 [ext_resource type="Shader" uid="uid://38vxobsuweed" path="res://Game Elements/General Game/limbo/limbo_effect.gdshader" id="6_scgmt"]
 [ext_resource type="Shader" uid="uid://djb6fots67ufy" path="res://Game Elements/Rooms/sci_fi/glitch_liquid.gdshader" id="7_6n8ig"]
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_mqv2a"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_a01vj"]
-width = 1024
-height = 1024
-generate_mipmaps = false
-noise = SubResource("FastNoiseLite_mqv2a")
-seamless = true
+[ext_resource type="Texture2D" uid="uid://n0bko3km56nl" path="res://Game Elements/General Game/limbo/limbo_noise.tres" id="2_vuvng"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6f0l6"]
 shader = ExtResource("6_scgmt")
@@ -25,16 +17,8 @@ shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
 shader_parameter/progress = 0.470000022325
-shader_parameter/sob_noise = SubResource("NoiseTexture2D_a01vj")
+shader_parameter/sob_noise = ExtResource("2_vuvng")
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_k3dmu"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ufh1c"]
-width = 1024
-height = 1024
-generate_mipmaps = false
-noise = SubResource("FastNoiseLite_k3dmu")
-seamless = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kwq8p"]
 shader = ExtResource("6_scgmt")
@@ -42,19 +26,11 @@ shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
 shader_parameter/progress = 0.470000022325
-shader_parameter/sob_noise = SubResource("NoiseTexture2D_ufh1c")
+shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_703p1"]
 shader = ExtResource("5_2rlu2")
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_agjjv"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_scgmt"]
-width = 1024
-height = 1024
-generate_mipmaps = false
-noise = SubResource("FastNoiseLite_agjjv")
-seamless = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mqv2a"]
 shader = ExtResource("6_scgmt")
@@ -62,16 +38,8 @@ shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
 shader_parameter/progress = 0.470000022325
-shader_parameter/sob_noise = SubResource("NoiseTexture2D_scgmt")
+shader_parameter/sob_noise = ExtResource("2_vuvng")
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_a01vj"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_6f0l6"]
-width = 1024
-height = 1024
-generate_mipmaps = false
-noise = SubResource("FastNoiseLite_a01vj")
-seamless = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k3dmu"]
 shader = ExtResource("6_scgmt")
@@ -79,16 +47,8 @@ shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
 shader_parameter/progress = 0.470000022325
-shader_parameter/sob_noise = SubResource("NoiseTexture2D_6f0l6")
+shader_parameter/sob_noise = ExtResource("2_vuvng")
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_ufh1c"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kwq8p"]
-width = 1024
-height = 1024
-generate_mipmaps = false
-noise = SubResource("FastNoiseLite_ufh1c")
-seamless = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jq2me"]
 shader = ExtResource("6_scgmt")
@@ -96,7 +56,7 @@ shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
 shader_parameter/progress = 0.470000022325
-shader_parameter/sob_noise = SubResource("NoiseTexture2D_kwq8p")
+shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_agjjv"]
 shader = ExtResource("7_6n8ig")
