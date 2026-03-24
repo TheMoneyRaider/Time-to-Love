@@ -18,13 +18,13 @@ func _process(_delta: float) -> void:
 	
 	
 func make_new_string():
-	var instance = preload("res://Game Elements/Rooms/sci_fi/binary_string.tscn").instantiate()
+	var instance = load("res://Game Elements/Rooms/sci_fi/binary_string.tscn").instantiate()
 	instance.position = Vector2(-50, get_random_y())
 	add_child(instance)
 	used_y_positions.append(instance.position.y)
 	
 func make_new_string_ready():
-	var instance = preload("res://Game Elements/Rooms/sci_fi/binary_string.tscn").instantiate()
+	var instance = load("res://Game Elements/Rooms/sci_fi/binary_string.tscn").instantiate()
 	instance.position = Vector2(randf_range(-size.x, size.x), get_random_y())
 	add_child(instance)
 	used_y_positions.append(instance.position.y)

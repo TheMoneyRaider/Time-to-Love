@@ -434,9 +434,9 @@ func pre_damage_trigger(damage_amount: float, _dmg_owner : Node) -> float:
 		remnants = LayerManager.player_1_remnants
 	else:
 		remnants = LayerManager.player_2_remnants
-	var phase = preload("res://Game Elements/Remnants/body_phaser.tres")
-	var invest = preload("res://Game Elements/Remnants/investment.tres")
-	var emp = preload("res://Game Elements/Remnants/emp.tres")
+	var phase = load("res://Game Elements/Remnants/body_phaser.tres")
+	var invest = load("res://Game Elements/Remnants/investment.tres")
+	var emp = load("res://Game Elements/Remnants/emp.tres")
 	for rem in remnants:
 		match rem.remnant_name:
 			phase.remnant_name:
@@ -449,7 +449,7 @@ func pre_damage_trigger(damage_amount: float, _dmg_owner : Node) -> float:
 				LayerManager.timefabric_collected-= LayerManager.timefabric_collected * (rem.variable_2_values[rem.rank-1])/100.0
 			emp.remnant_name:
 				if _dmg_owner and _dmg_owner.is_in_group("enemy"):
-					var instance = preload("res://Game Elements/Attacks/emp.tscn").instantiate()
+					var instance = load("res://Game Elements/Attacks/emp.tscn").instantiate()
 					instance.c_owner = self
 					instance.global_position = global_position
 					LayerManager.room_instance.call_deferred("add_child",instance)
@@ -463,14 +463,14 @@ func post_damage_trigger(damage_amount: float, _dmg_owner : Node):
 		remnants = LayerManager.player_1_remnants
 	else:
 		remnants = LayerManager.player_2_remnants
-	var cleric = preload("res://Game Elements/Remnants/cleric.tres")
-	var barbarian = preload("res://Game Elements/Remnants/barbarian.tres")
-	var thorns = preload("res://Game Elements/Remnants/thorns.tres")
+	var cleric = load("res://Game Elements/Remnants/cleric.tres")
+	var barbarian = load("res://Game Elements/Remnants/barbarian.tres")
+	var thorns = load("res://Game Elements/Remnants/thorns.tres")
 	for rem in remnants:
 		match rem.remnant_name:
 			cleric.remnant_name:
 				if rem.variable_1_values[rem.rank-1] > randf()*100:
-					var particle =  preload("res://Game Elements/particles/heal_particles.tscn").instantiate()
+					var particle =  load("res://Game Elements/particles/heal_particles.tscn").instantiate()
 					particle.position = self.position
 					get_parent().add_child(particle)
 					change_health(rem.variable_2_values[rem.rank-1])
@@ -480,14 +480,14 @@ func post_damage_trigger(damage_amount: float, _dmg_owner : Node):
 				_reset_barb_damage(rem.variable_1_values[rem.rank-1] / 100.0,rem.variable_2_values[rem.rank-1])
 			thorns.remnant_name:
 				if(rem.rank == 5):
-					var attack_instance = preload("res://Game Elements/Attacks/thorns_invisible.tscn").instantiate()
+					var attack_instance = load("res://Game Elements/Attacks/thorns_invisible.tscn").instantiate()
 					attack_instance.get_node("CollisionShape2D").shape = get_camera_rect()
 					attack_instance.damage = damage_amount
 					attack_instance.c_owner = self
 					attack_instance.global_position = self.global_position
 					LayerManager.room_instance.call_deferred("add_child",attack_instance)
 				else:
-					var attack_instance = preload("res://Game Elements/Attacks/thorns_invisible.tscn").instantiate()
+					var attack_instance = load("res://Game Elements/Attacks/thorns_invisible.tscn").instantiate()
 					attack_instance.damage = damage_amount
 					attack_instance.scale = attack_instance.scale * ((rem.rank) / 2.0)
 					attack_instance.c_owner = self
@@ -581,7 +581,7 @@ func _check_giant():
 	remnants_orange = LayerManager.player_2_remnants
 	var purple_giant_rank = 0
 	var orange_giant_rank = 0
-	var giant = preload("res://Game Elements/Remnants/giant.tres")
+	var giant = load("res://Game Elements/Remnants/giant.tres")
 	for rem in remnants_purple:
 		if rem.remnant_name == giant.remnant_name:
 			purple_giant_rank = rem.rank
@@ -627,7 +627,7 @@ func tether(delta : float):
 		single_swap_duration+=delta
 		if is_tethered:
 			check_forcefield(delta)
-			var effect = preload("res://Game Elements/Effects/tether.tres").duplicate(true)
+			var effect = load("res://Game Elements/Effects/tether.tres").duplicate(true)
 			effect.cooldown = delta
 			effect.value1 = 0.5
 			effect.gained(self)
@@ -739,7 +739,7 @@ func _check_hydromancer(liquid : Globals.Liquid):
 		remnants = get_tree().get_root().get_node("LayerManager").player_1_remnants
 	else:
 		remnants = get_tree().get_root().get_node("LayerManager").player_2_remnants
-	var hydromancer = preload("res://Game Elements/Remnants/hydromancer.tres")
+	var hydromancer = load("res://Game Elements/Remnants/hydromancer.tres")
 	for rem in remnants:
 		if rem.remnant_name == hydromancer.remnant_name:
 			last_liquid = liquid
@@ -752,7 +752,7 @@ func check_liquids(delta):
 			var type = tile_data.get_custom_data("liquid")
 			match type:
 				Globals.Liquid.Water:
-					var effect = preload("res://Game Elements/Effects/slow_down.tres").duplicate(true)
+					var effect = load("res://Game Elements/Effects/slow_down.tres").duplicate(true)
 					effect.cooldown = 20*delta
 					effect.value1 = 0.023
 					effect.gained(self)
@@ -829,11 +829,11 @@ func _crafter_chance() -> bool:
 		remnants = LayerManager.player_1_remnants
 	else:
 		remnants = LayerManager.player_2_remnants
-	var crafter = preload("res://Game Elements/Remnants/crafter.tres")
+	var crafter = load("res://Game Elements/Remnants/crafter.tres")
 	for rem in remnants:
 		if rem.remnant_name == crafter.remnant_name:
 			if rem.variable_1_values[rem.rank-1] > randf()*100:
-				var particle =  preload("res://Game Elements/particles/crafter_particles.tscn").instantiate()
+				var particle =  load("res://Game Elements/particles/crafter_particles.tscn").instantiate()
 				particle.position = self.position
 				get_parent().add_child(particle)
 				return false
@@ -853,11 +853,11 @@ func damage_boost() -> float:
 		remnants = LayerManager.player_1_remnants
 	else:
 		remnants = LayerManager.player_2_remnants
-	var hunter = preload("res://Game Elements/Remnants/hunter.tres")
-	var kinetic = preload("res://Game Elements/Remnants/kinetic_battery.tres")
-	var ninja = preload("res://Game Elements/Remnants/ninja.tres")
-	var assassin = preload("res://Game Elements/Remnants/assassin.tres")
-	var hoard = preload("res://Game Elements/Remnants/hoard.tres")
+	var hunter = load("res://Game Elements/Remnants/hunter.tres")
+	var kinetic = load("res://Game Elements/Remnants/kinetic_battery.tres")
+	var ninja = load("res://Game Elements/Remnants/ninja.tres")
+	var assassin = load("res://Game Elements/Remnants/assassin.tres")
+	var hoard = load("res://Game Elements/Remnants/hoard.tres")
 	for rem in remnants:
 		match rem.remnant_name:
 			hunter.remnant_name:
@@ -912,14 +912,14 @@ func combo(input_purple : bool):
 		remnants = LayerManager.player_1_remnants
 	else:
 		remnants = LayerManager.player_2_remnants
-	var ninja = preload("res://Game Elements/Remnants/ninja.tres")
+	var ninja = load("res://Game Elements/Remnants/ninja.tres")
 	for rem in remnants:
 		if rem.remnant_name == ninja.remnant_name:
 			LayerManager.hud.combo_change(input_purple,true)
 			
 func display_combo():
 	var remnants : Array[Remnant]
-	var ninja = preload("res://Game Elements/Remnants/ninja.tres")
+	var ninja = load("res://Game Elements/Remnants/ninja.tres")
 	if !Globals.is_multiplayer:
 		if !is_purple:
 			remnants = LayerManager.player_1_remnants
@@ -952,10 +952,10 @@ func hit_enemy(attack_body : Node, enemy : Node):
 			remnants = get_tree().get_root().get_node("LayerManager").player_1_remnants
 		else:
 			remnants = get_tree().get_root().get_node("LayerManager").player_2_remnants
-		var emp = preload("res://Game Elements/Remnants/emp.tres")
+		var emp = load("res://Game Elements/Remnants/emp.tres")
 		for rem in remnants:
 			if rem.remnant_name == emp.remnant_name:
-				effect = preload("res://Game Elements/Effects/stun.tres").duplicate(true)
+				effect = load("res://Game Elements/Effects/stun.tres").duplicate(true)
 				effect.cooldown = rem.variable_1_values[rem.rank-1]
 				effect.gained(enemy)
 				enemy.effects.append(effect)
@@ -974,10 +974,10 @@ func hit_enemy(attack_body : Node, enemy : Node):
 	else:
 		remnants = get_tree().get_root().get_node("LayerManager").player_2_remnants
 		
-	var winter = preload("res://Game Elements/Remnants/winters_embrace.tres")
+	var winter = load("res://Game Elements/Remnants/winters_embrace.tres")
 	for rem in remnants:
 		if rem.remnant_name == winter.remnant_name:
-			effect = preload("res://Game Elements/Effects/winter_freeze.tres").duplicate(true)
+			effect = load("res://Game Elements/Effects/winter_freeze.tres").duplicate(true)
 			effect.cooldown = rem.variable_2_values[rem.rank-1]
 			effect.value1 =  rem.variable_1_values[rem.rank-1]
 			effect.gained(enemy)
@@ -990,7 +990,7 @@ func check_drones():
 		remnants = LayerManager.player_1_remnants
 	else:
 		remnants = LayerManager.player_2_remnants
-	var drone = preload("res://Game Elements/Remnants/drone.tres")
+	var drone = load("res://Game Elements/Remnants/drone.tres")
 	for rem in remnants:
 		if rem.remnant_name == drone.remnant_name:
 			var drones = get_tree().get_nodes_in_group("drones")
@@ -1009,10 +1009,10 @@ func check_forcefield(delta : float):
 		remnants = LayerManager.player_1_remnants
 	else:
 		remnants = LayerManager.player_2_remnants
-	var force = preload("res://Game Elements/Remnants/forcefield.tres")
+	var force = load("res://Game Elements/Remnants/forcefield.tres")
 	for rem in remnants:
 		if rem.remnant_name == force.remnant_name:
-			var effect = preload("res://Game Elements/Effects/forcefield.tres").duplicate(true)
+			var effect = load("res://Game Elements/Effects/forcefield.tres").duplicate(true)
 			effect.cooldown = 2* delta
 			$Forcefield.damage = force.variable_1_values[rem.rank-1]
 			effect.gained(self)
@@ -1026,12 +1026,12 @@ func kill_enemy(enemy: Node):
 		remnants = LayerManager.player_1_remnants
 	else:
 		remnants = LayerManager.player_2_remnants
-	var adrenal = preload("res://Game Elements/Remnants/adrenal_injector.tres")
-	var drone = preload("res://Game Elements/Remnants/drone.tres")
+	var adrenal = load("res://Game Elements/Remnants/adrenal_injector.tres")
+	var drone = load("res://Game Elements/Remnants/drone.tres")
 	for rem in remnants:
 		if rem.remnant_name == adrenal.remnant_name:
 			if move_speed < 3*base_move_speed:
-				var effect = preload("res://Game Elements/Effects/speed.tres").duplicate(true)
+				var effect = load("res://Game Elements/Effects/speed.tres").duplicate(true)
 				effect.cooldown = adrenal.variable_2_values[rem.rank-1]
 				effect.value1 = adrenal.variable_1_values[rem.rank-1] / 100.0
 				if move_speed * (1+effect.value1) >3*base_move_speed:
@@ -1046,7 +1046,7 @@ func kill_enemy(enemy: Node):
 					drone_num+=1
 			if drone_num >= rem.variable_2_values[rem.rank-1]:
 				break
-			var dr_inst = preload("res://Game Elements/Remnants/drone/drone.tscn").instantiate()
+			var dr_inst = load("res://Game Elements/Remnants/drone/drone.tscn").instantiate()
 			LayerManager.room_instance.add_child(dr_inst)
 			dr_inst.global_position = enemy.global_position
 			dr_inst.prep(self, rem.variable_1_values[rem.rank-1])

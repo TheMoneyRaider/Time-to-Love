@@ -180,7 +180,7 @@ func end_replay():
 	frame_amount = 0
 
 	# Create a full-screen overlay with the last frame
-	var overlay = preload("res://Game Elements/ui/transition_texture.tscn").instantiate()
+	var overlay = load("res://Game Elements/ui/transition_texture.tscn").instantiate()
 	overlay.get_node("TextureRect").texture = ImageTexture.create_from_image(final_frame)
 	overlay.get_properties(replay_texture)
 	get_tree().get_root().add_child(overlay)

@@ -21,7 +21,7 @@ func activate():
 				if effect.type == "speed":
 					do_effect = false
 			if do_effect:
-				var new_effect = preload("res://Game Elements/Effects/speed.tres").duplicate(true)
+				var new_effect = load("res://Game Elements/Effects/speed.tres").duplicate(true)
 				new_effect.cooldown = .2
 				new_effect.value1 = -.8
 				new_effect.gained(body)
@@ -42,7 +42,7 @@ func _on_body_entered(body):
 			return
 	elif body.has_method("take_damage"):
 		if _crafter_chance(body):
-			var effect = preload("res://Game Elements/Effects/speed.tres").duplicate(true)
+			var effect = load("res://Game Elements/Effects/speed.tres").duplicate(true)
 			effect.cooldown = 1
 			effect.value1 = -.8
 			effect.gained(body)
@@ -61,11 +61,11 @@ func _crafter_chance(node_to_damage : Node) -> bool:
 		remnants = get_tree().get_root().get_node("LayerManager").player_1_remnants
 	else:
 		remnants = get_tree().get_root().get_node("LayerManager").player_2_remnants
-	var crafter = preload("res://Game Elements/Remnants/crafter.tres")
+	var crafter = load("res://Game Elements/Remnants/crafter.tres")
 	for rem in remnants:
 		if rem.remnant_name == crafter.remnant_name:
 			if rem.variable_1_values[rem.rank-1] > randf()*100:
-				var particle =  preload("res://Game Elements/Particles/crafter_particles.tscn").instantiate()
+				var particle =  load("res://Game Elements/Particles/crafter_particles.tscn").instantiate()
 				particle.position = self.position
 				get_parent().add_child(particle)
 				return false

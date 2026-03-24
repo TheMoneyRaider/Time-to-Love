@@ -79,7 +79,7 @@ func _on_settings_pressed():
 	for i in range(slot_nodes.size()):
 		slot_nodes[i].set_enabled(false)
 		slot_nodes[i].hide_visuals(true)
-	var setting = preload("res://Game Elements/ui/settings.tscn").instantiate()
+	var setting = load("res://Game Elements/ui/settings.tscn").instantiate()
 	add_child(setting)
 	setting.get_child(0).is_pause_settings=true
 

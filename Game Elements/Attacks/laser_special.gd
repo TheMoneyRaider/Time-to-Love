@@ -44,7 +44,7 @@ func fire_laser(from_point : Vector2, to_point : Vector2,node : Node):
 	line.clear_points()
 	light.scale.y = .25
 	
-	var instance = preload("res://Game Elements/Attacks/laser.tscn").instantiate()
+	var instance = load("res://Game Elements/Attacks/laser.tscn").instantiate()
 	instance.c_owner = node
 	get_parent().add_child(instance)
 	laser_attack = instance

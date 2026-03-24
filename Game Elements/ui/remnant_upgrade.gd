@@ -110,14 +110,14 @@ func popup_upgrade(player1_remnants_in : Array, player2_remnants_in : Array):
 
 func _place_purple_selectable(slot : Node ,remnant : Resource):
 	if remnant in player1_remnants:
-		var particle = preload("res://Game Elements/ui/purple_selectable.tscn").instantiate()
+		var particle = load("res://Game Elements/ui/purple_selectable.tscn").instantiate()
 		particle.position = slot.position+slot.size+$MarginContainer/slots_hbox.position
 		particle.position.x -= slot.size.x/2
 		add_child(particle)
 
 func _place_orange_selectable(slot : Node ,remnant : Resource):
 	if remnant in player2_remnants:
-		var particle = preload("res://Game Elements/ui/orange_selectable.tscn").instantiate()
+		var particle = load("res://Game Elements/ui/orange_selectable.tscn").instantiate()
 		particle.position = slot.position+slot.size+$MarginContainer/slots_hbox.position
 		particle.position.x -= slot.size.x/2
 		particle.position.y -= slot.size.y

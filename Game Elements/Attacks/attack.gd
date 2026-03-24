@@ -65,7 +65,7 @@ func set_values(attack_speed = self.attack_speed, attack_damage = self.damage, a
 	self.hit_force = attack_hit_force
 
 func ready_hacks():
-	var hack = preload("res://Game Elements/Remnants/hack.tres")
+	var hack = load("res://Game Elements/Remnants/hack.tres")
 	for rem in LayerManager.player_1_remnants:
 		if rem.remnant_name == hack.remnant_name:
 			hack1=rem.duplicate(true)
@@ -93,9 +93,9 @@ func _ready():
 		$AnimationPlayer.play(animation)
 	if attack_type == "death mark":
 		if c_owner.is_purple:
-			$Sprite2D.texture = load("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_purple.png")
+			$Sprite2D.texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_purple.png")
 		else:
-			$Sprite2D.texture = load("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_orange.png")
+			$Sprite2D.texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_orange.png")
 	if attack_type!="scifi_laser":
 		rotation = direction.angle() + PI/2
 	if attack_type == "explosion":
