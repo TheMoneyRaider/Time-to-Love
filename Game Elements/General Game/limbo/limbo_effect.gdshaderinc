@@ -1,5 +1,9 @@
 uniform bool inverse_output = true;
 uniform vec3 edge_color = vec3(1.0,1.0,1.0);
+uniform int z_order = 0;
+uniform float progress : hint_range(0.0, 1.0) = .5;
+uniform sampler2D sob_noise;
+varying vec2 sob_worldUV;
 
 float lum(vec3 color){
     return dot(color, vec3(0.299, 0.587, 0.114)); // brightness
