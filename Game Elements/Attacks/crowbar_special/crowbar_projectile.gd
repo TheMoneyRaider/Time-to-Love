@@ -86,10 +86,10 @@ func attack():
 	disabled = true
 	player_owner.LayerManager.camera.shake(20)
 	var tween = create_tween()
-	tween.tween_property(self, "modulate:a", 0.0, 0.125) # notice the ':' syntax in Godot 4
+	tween.tween_property(self, "modulate:a", 0.0, 0.125)
 	await tween.finished   # wait until tween actually finishes
 	tween = create_tween()
-	tween.tween_property(target, "modulate:a", 0.0, 4.0) # notice the ':' syntax in Godot 4
+	tween.tween_property(target, "modulate:a", 0.0, 4.0)
 	await tween.finished   # wait until tween actually finishes
 	queue_free()
 

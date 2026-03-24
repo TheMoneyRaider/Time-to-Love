@@ -52,7 +52,7 @@ func check_rewards(player_node : Node) -> bool:
 						if layer_manager.is_multiplayer:
 							layer_manager.player2.change_health(5.0,5.0)
 						layer_manager.player1.change_health(5.0,5.0)
-						var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+						var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 						particle.global_position = item.global_position
 						layer_manager.room_instance.add_child(particle)
 						item.queue_free()
@@ -61,7 +61,7 @@ func check_rewards(player_node : Node) -> bool:
 						if layer_manager.is_multiplayer:
 							layer_manager.player2.change_health(5.0)
 						layer_manager.player1.change_health(5.0)
-						var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+						var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 						particle.global_position = item.global_position
 						layer_manager.room_instance.add_child(particle)
 						item.queue_free()
@@ -160,16 +160,16 @@ func _on_tentacle_reached_hole(tentacle: Node) -> void:
 					ten_reward_num[reward_value] = ten_reward_num[reward_value]/2.0
 	match reward_type:
 		Globals.Reward.Remnant:
-			reward = load("res://Game Elements/Objects/remnant_orb.tscn").instantiate()
+			reward = preload("res://Game Elements/Objects/remnant_orb.tscn").instantiate()
 			reward.set_meta("reward_type", "remnant")
 		Globals.Reward.RemnantUpgrade:
-			reward = load("res://Game Elements/Objects/upgrade_orb.tscn").instantiate()
+			reward = preload("res://Game Elements/Objects/upgrade_orb.tscn").instantiate()
 			reward.set_meta("reward_type", "remnantupgrade")
 		Globals.Reward.HealthUpgrade:
-			reward = load("res://Game Elements/Objects/health_upgrade.tscn").instantiate()
+			reward = preload("res://Game Elements/Objects/health_upgrade.tscn").instantiate()
 			reward.set_meta("reward_type", "healthupgrade")
 		Globals.Reward.Health:
-			reward = load("res://Game Elements/Objects/health.tscn").instantiate()
+			reward = preload("res://Game Elements/Objects/health.tscn").instantiate()
 			reward.set_meta("reward_type", "health")
 	
 	get_node("Items").add_child(reward)
