@@ -154,13 +154,22 @@ func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerM
 func get_boss_chance() -> float:
 	return pow((layer_ai[0]-10),2)/200 if current_progress-int(current_progress) > .85 else 0.0
 	
-	
-func make_room_limbo(room_reference : Node, z_val : int):
+var cur_prog = 0.0
+var new_prog = 0.0
+func make_room_limbo(room_reference : Node, z_val : int, set_values : bool = true):
+	if set_values:
+		cur_prog = current_progress - floor(current_progress)
+		new_prog = 1-exp(-0.1386*(layer_ai[0]+1))
 	for child in room_reference.get_children():
 		if child is TileMapLayer:
-			make_room_limbo(child, z_val +child.z_index)
+			make_room_limbo(child, z_val +child.z_index,false)
 			child.material.set_shader_parameter("z_order",z_val +child.z_index)
-			child.material.set_shader_parameter("progress",current_progress - floor(current_progress))
-				
+			var tween = create_tween()
+			tween.tween_method(
+				func(value: float): child.material.set_shader_parameter("progress", value),
+				cur_prog,  # from
+				new_prog,  # to
+				45.0   # duration in seconds
+			)
 	pass
 	
