@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bjlqt0ad4do23"]
+[gd_scene load_steps=29 format=3 uid="uid://bjlqt0ad4do23"]
 
 [ext_resource type="Script" uid="uid://by1wxpi7fijx5" path="res://Game Elements/General Game/layer_manager.gd" id="1_gynnh"]
 [ext_resource type="PackedScene" uid="uid://0hahdiffjt61" path="res://Game Elements/ui/hud.tscn" id="2_4xk7e"]
@@ -12,13 +12,14 @@
 [ext_resource type="PackedScene" uid="uid://dm057ygch128h" path="res://Game Elements/ui/guide/remnant_menu.tscn" id="7_vxirk"]
 [ext_resource type="PackedScene" uid="uid://bfoxxhhsel1a" path="res://Game Elements/ui/guide/weapon_menu.tscn" id="8_sf3i7"]
 [ext_resource type="PackedScene" uid="uid://2nuxn7fyplmx" path="res://Game Elements/ui/guide/letters/letter_menu.tscn" id="9_l10hl"]
-[ext_resource type="Script" uid="uid://bu61ndyofnbda" path="res://Game Elements/General Game/camera.gd" id="9_n317s"]
+[ext_resource type="Script" path="res://Game Elements/General Game/camera.gd" id="9_n317s"]
 [ext_resource type="Texture2D" uid="uid://1c47fiseukev" path="res://Game Elements/Bosses/purple.png" id="11_arwbq"]
 [ext_resource type="Texture2D" uid="uid://nljj8bohfllh" path="res://Game Elements/Bosses/orange.png" id="12_nt7kn"]
 [ext_resource type="Texture2D" uid="uid://1po7p0hcmfk" path="res://Game Elements/Bosses/scifi/scifi_splash.png" id="13_vxirk"]
 [ext_resource type="Texture2D" uid="uid://cggx60a5l71t7" path="res://art/white_square2.png" id="14_sf3i7"]
 [ext_resource type="FontFile" uid="uid://d366m5nnnpg1f" path="res://fonts/Orbitron-Bold.ttf" id="15_l10hl"]
 [ext_resource type="Shader" uid="uid://bxe3oguf2lb6m" path="res://Game Elements/General Game/grass_cull.gdshader" id="16_nt7kn"]
+[ext_resource type="Texture2D" uid="uid://n0bko3km56nl" path="res://Game Elements/General Game/limbo/limbo_noise.tres" id="20_fpruh"]
 
 [sub_resource type="Shader" id="Shader_alv7a"]
 code = "shader_type canvas_item;
@@ -346,6 +347,11 @@ shader_parameter/laser_rotation = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vxirk"]
 shader = ExtResource("16_nt7kn")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.5
+shader_parameter/sob_noise = ExtResource("20_fpruh")
 
 [node name="LayerManager" type="Node2D"]
 process_mode = 3

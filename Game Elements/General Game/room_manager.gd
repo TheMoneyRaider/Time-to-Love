@@ -75,6 +75,7 @@ func get_room(room : Room):
 	var index = int(current_progress) if room.roomtype != Globals.RoomType.Boss else int(current_progress+1.0)
 	if index >= 3:
 		index = randi() % 3
+		index = 0
 	#shop_override
 	var T = 0.15
 	var P = 0.05
@@ -156,12 +157,21 @@ func get_boss_chance() -> float:
 	
 var cur_prog = 0.0
 var new_prog = 0.0
-func make_room_limbo(room_reference : Node, z_val : int, set_values : bool = true):
+func make_room_limbo(room_reference : Node, z_val : int, layermanager : Node,set_values : bool = true):
 	if set_values:
 		cur_prog = current_progress - floor(current_progress)
 		new_prog = 1-exp(-0.1386*(layer_ai[0]+1))
 	for child in room_reference.get_children():
-		make_room_limbo(child, z_val +child.z_index if "z_index" in child else z_val,false)
+		make_room_limbo(child, z_val +child.z_index if "z_index" in child else z_val,layermanager, false)
+		if child.name =="GrassAddon":
+			layermanager.camera.get_node("GrassTexture").material.set_shader_parameter("z_order",z_val)
+			var tween = child.create_tween()
+			tween.tween_method(
+				func(value: float): layermanager.camera.get_node("GrassTexture").material.set_shader_parameter("progress", value),
+				cur_prog,  # from
+				new_prog,  # to
+				25.0   # duration in seconds
+			)
 		if child is TileMapLayer and child.material != null:
 			child.material.set_shader_parameter("z_order",z_val +child.z_index)
 			var tween = child.create_tween()
