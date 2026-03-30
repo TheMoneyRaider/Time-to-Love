@@ -75,7 +75,7 @@ func get_room(room : Room):
 	var index = int(current_progress) if room.roomtype != Globals.RoomType.Boss else int(current_progress+1.0)
 	if index >= 3:
 		index = randi() % 3
-		index = 0
+		index = 2
 	#shop_override
 	var T = 0.15
 	var P = 0.05
