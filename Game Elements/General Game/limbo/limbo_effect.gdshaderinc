@@ -31,3 +31,14 @@ vec4 sobel(vec4 original_color, sampler2D text, vec2 uv){
 	float edge = sqrt(gx * gx + gy * gy);
 	return vec4(edge_color*(1.0-edge),1.0);
 }
+
+vec2 band(vec2 tiledUV){
+	int z_band =  z_order/10;
+	if (z_band == 1)
+		return vec2(tiledUV.y,tiledUV.x);
+	if (z_band == 2)
+		return vec2(tiledUV.x,tiledUV.y)/1.5 +.5;
+	if (z_band == 3)
+		return vec2(tiledUV.y,1.0-tiledUV.x)*1.5;
+	return tiledUV;
+}

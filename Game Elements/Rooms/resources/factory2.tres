@@ -5,9 +5,9 @@
 [resource]
 script = ExtResource("1_6cpts")
 scene_location = "res://Game Elements/Rooms/sci_fi/factory2.tscn"
-num_liquid = 11
-liquid_types = Array[int]([4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4])
-liquid_chances = Array[float]([0.75, 0.75, 0.75, 0.75, 0.9, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5])
+num_liquid = 10
+liquid_types = Array[int]([4, 4, 4, 4, 4, 4, 4, 4, 4, 4])
+liquid_chances = Array[float]([0.75, 0.75, 0.75, 0.75, 0.9, 0.5, 0.5, 0.5, 0.5, 0.5])
 noise_seed = null
 num_enemy_goal = 15
 enemy_pool = Array[String](["res://Game Elements/Characters/robot.tscn", "res://Game Elements/Characters/laser_enemy.tscn"])

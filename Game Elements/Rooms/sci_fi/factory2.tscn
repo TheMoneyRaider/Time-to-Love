@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://l0j8nuqpdjub"]
+[gd_scene load_steps=24 format=4 uid="uid://l0j8nuqpdjub"]
 
 [ext_resource type="Script" uid="uid://00rnhke2atmb" path="res://Game Elements/Rooms/room_script.gd" id="1_82cn2"]
 [ext_resource type="Material" uid="uid://dbtu31h02s2bg" path="res://Game Elements/Rooms/sci_fi/factory_ground_noise.tres" id="2_82cn2"]
@@ -10,6 +10,118 @@
 [ext_resource type="PackedScene" uid="uid://bnvlpgvaekg6k" path="res://Game Elements/Objects/fire_trap.tscn" id="6_ig4yt"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jbkdy"]
+shader = ExtResource("4_jbkdy")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_se07g"]
+shader = ExtResource("4_jbkdy")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d6ho8"]
+shader = ExtResource("4_jbkdy")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ig4yt"]
+shader = ExtResource("4_jbkdy")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ltqfw"]
+shader = ExtResource("4_jbkdy")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bnv3w"]
+shader = ExtResource("4_jbkdy")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_anpbs"]
+shader = ExtResource("4_jbkdy")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6wr5b"]
+shader = ExtResource("4_jbkdy")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d8020"]
+shader = ExtResource("4_jbkdy")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7tpqn"]
+shader = ExtResource("4_jbkdy")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_udoxd"]
+shader = ExtResource("4_jbkdy")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_165r5"]
+shader = ExtResource("4_jbkdy")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_by1vw"]
+shader = ExtResource("4_jbkdy")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jk4rs"]
+shader = ExtResource("4_jbkdy")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bu6xm"]
 shader = ExtResource("4_jbkdy")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
@@ -48,28 +160,28 @@ position = Vector2(351, 52)
 [node name="PathwayD1" type="TileMapLayer" parent="."]
 z_index = 32
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_jbkdy")
+material = SubResource("ShaderMaterial_se07g")
 tile_map_data = PackedByteArray("AADx/+3/AAASAA4AAADx/+7/AAASAA8AAADy/+3/AAATAA4AAADy/+7/AAATAA8AAAD6//X/AAARAAAAAAD6//b/AAARAAEAAAD8//X/AAARAAAAAAD8//b/AAARAAEAAAD+//X/AAARAAAAAAD+//b/AAARAAEAAAD9//X/AAARAAAAAAD9//b/AAARAAEAAAD2/wQAAAAQABUAAAD2/wUAAAAQABYAAAD3/wQAAAARABUAAAD3/wUAAAARABYAAAD4/wQAAAASABUAAAD4/wUAAAASABYAAAA=")
 tile_set = ExtResource("2_luv7r")
 
 [node name="PathwayR1" type="TileMapLayer" parent="."]
 z_index = 32
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_jbkdy")
+material = SubResource("ShaderMaterial_d6ho8")
 tile_map_data = PackedByteArray("AAD8//H/AAAeABQAAAD8//L/AAAeABUAAAD9//H/AAAfABQAAAD9//L/AAAfABUAAADy//H/AAAeABQAAADy//L/AAAeABUAAADz//H/AAAfABQAAADz//L/AAAfABUAAAD5//D/AAAZABsAAAD6//D/AAAbABsAAADy//D/AAAZABsAAADz//D/AAAbABsAAAAaAAcAAgALAAMAAAAaAAYAAgAJAAIAAAAaAAUAAgAJAAIAAAAaAAQAAgAJAAIAAAAaAAMAAgAJAAIAAAAaAAIAAgAJAAIAAAAaAAEAAgAJAAIAAAAaAAAAAgAJAAIAAAAaAP//AgAJAAIAAAAaAP7/AgAJAAIAAAAaAP3/AgAJAAIAAAAZAAcAAgAJAAMAAAAZAAYAAgAJAAIAAAAZAAUAAgAJAAIAAAAZAAQAAgAJAAIAAAAZAAMAAgAJAAIAAAAZAAIAAgAJAAIAAAAZAAEAAgAJAAIAAAAZAAAAAgAJAAIAAAAZAP//AgAJAAIAAAAZAP7/AgAJAAIAAAAZAP3/AgAJAAIAAAAYAAcAAgAJAAMAAAAYAAYAAgAJAAIAAAAYAAUAAgAJAAIAAAAYAAQAAgAJAAIAAAAYAAMAAgAJAAIAAAAYAAIAAgAJAAIAAAAYAAEAAgAJAAIAAAAYAAAAAgAJAAIAAAAYAP//AgAJAAIAAAAYAP7/AgAJAAIAAAAYAP3/AgAJAAIAAAAXAAcAAgAJAAMAAAAXAAYAAgAJAAIAAAAXAAUAAgAJAAIAAAAXAAQAAgAJAAIAAAAXAAMAAgAJAAIAAAAXAAIAAgAJAAIAAAAXAAEAAgAJAAIAAAAXAAAAAgAJAAIAAAAXAP//AgAJAAIAAAAXAP7/AgAJAAIAAAAXAP3/AgAJAAIAAAAWAAcAAgAJAAMAAAAWAAYAAgAJAAIAAAAWAAUAAgAJAAIAAAAWAAQAAgAJAAIAAAAWAAMAAgAJAAIAAAAWAAIAAgAJAAIAAAAWAAEAAgAJAAIAAAAWAAAAAgAJAAIAAAAWAP//AgAJAAIAAAAWAP7/AgAJAAIAAAAWAP3/AgAJAAIAAAAVAAcAAgAJAAMAAAAVAAYAAgAJAAIAAAAVAAUAAgAJAAIAAAAVAAQAAgAJAAIAAAAVAAMAAgAJAAIAAAAVAAIAAgAJAAIAAAAVAAEAAgAJAAIAAAAVAAAAAgAJAAIAAAAVAP//AgAJAAIAAAAVAP7/AgAJAAIAAAAVAP3/AgAJAAIAAAAUAAcAAgAJAAMAAAAUAAYAAgAJAAIAAAAUAAUAAgAJAAIAAAAUAAQAAgAJAAIAAAAUAAMAAgAJAAIAAAAUAAIAAgAJAAIAAAAUAAEAAgAJAAIAAAAUAAAAAgAJAAIAAAAUAP//AgAJAAIAAAAUAP7/AgAJAAIAAAAUAP3/AgAJAAIAAAATAAcAAgAIAAMAAAATAAYAAgAIAAEAAAATAAUAAgAIAAEAAAATAAQAAgAIAAEAAAATAAMAAgAIAAEAAAATAAIAAgAIAAEAAAATAAEAAgAIAAEAAAATAAAAAgAIAAEAAAATAP//AgAIAAEAAAATAP7/AgAIAAEAAAATAP3/AgAIAAEAAAAUAPz/AgAJAAIAAAAVAPz/AgAJAAIAAAAWAPz/AgAJAAIAAAAXAPz/AgAJAAIAAAAYAPz/AgAJAAIAAAAZAPz/AgAJAAIAAAA=")
 tile_set = ExtResource("2_luv7r")
 
 [node name="PathwayU1" type="TileMapLayer" parent="."]
 z_index = 32
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_jbkdy")
+material = SubResource("ShaderMaterial_ig4yt")
 tile_map_data = PackedByteArray("AAAEAA0AAAATABUAAAAEAA4AAAATABYAAAAFAA0AAAAUABUAAAAFAA4AAAAUABYAAAD///j/AAATABUAAAD///n/AAATABYAAAAAAPj/AAAUABUAAAAAAPn/AAAUABYAAADx/+j/AgAJAAIAAADx/+n/AgAJAAIAAADx/+r/AgAJAAIAAADx/+v/AgAJAAIAAADx/+z/AgAJAAIAAADx/+3/AgAJAAIAAADx/+7/AgAJAAIAAADx/+//AgAJAAIAAADx//D/AgAJAAIAAADx//H/AgAJAAIAAADx//L/AgAJAAIAAADx//P/AgAJAAIAAADx//T/AgAJAAIAAADy/+j/AgAJAAIAAADy/+n/AgAJAAIAAADy/+r/AgAJAAIAAADy/+v/AgAJAAIAAADy/+z/AgAJAAIAAADy/+3/AgAJAAIAAADy/+7/AgAJAAIAAADy/+//AgAJAAIAAADy//D/AgAJAAIAAADy//H/AgAJAAIAAADy//L/AgAJAAIAAADy//P/AgAJAAIAAADy//T/AgAJAAIAAADz/+j/AgAJAAIAAADz/+n/AgAJAAIAAADz/+r/AgAJAAIAAADz/+v/AgAJAAIAAADz/+z/AgAJAAIAAADz/+3/AgAJAAIAAADz/+7/AgAJAAIAAADz/+//AgAJAAIAAADz//D/AgAJAAIAAADz//H/AgAJAAIAAADz//L/AgAJAAIAAADz//P/AgAJAAIAAADz//T/AgAJAAIAAAD0/+j/AgAJAAIAAAD0/+n/AgAJAAIAAAD0/+r/AgAJAAIAAAD0/+v/AgAJAAIAAAD0/+z/AgAJAAIAAAD0/+3/AgAJAAIAAAD0/+7/AgAJAAIAAAD0/+//AgAJAAIAAAD0//D/AgAJAAIAAAD0//H/AgAJAAIAAAD0//L/AgAJAAIAAAD0//P/AgAJAAIAAAD0//T/AgAJAAIAAAD1/+j/AgAJAAIAAAD1/+n/AgAJAAIAAAD1/+r/AgAJAAIAAAD1/+v/AgAJAAIAAAD1/+z/AgAJAAIAAAD1/+3/AgAJAAIAAAD1/+7/AgAJAAIAAAD1/+//AgAJAAIAAAD1//D/AgAJAAIAAAD1//H/AgAJAAIAAAD1//L/AgAJAAIAAAD1//P/AgAJAAIAAAD1//T/AgAJAAIAAAD2/+j/AgAJAAIAAAD2/+n/AgAJAAIAAAD2/+r/AgAJAAIAAAD2/+v/AgAJAAIAAAD2/+z/AgAJAAIAAAD2/+3/AgAJAAIAAAD2/+7/AgAJAAIAAAD2/+//AgAJAAIAAAD2//D/AgAJAAIAAAD2//H/AgAJAAIAAAD2//L/AgAJAAIAAAD2//P/AgAJAAIAAAD2//T/AgAJAAIAAAD3/+j/AgAJAAIAAAD3/+n/AgAJAAIAAAD3/+r/AgAJAAIAAAD3/+v/AgAJAAIAAAD3/+z/AgAJAAIAAAD3/+3/AgAJAAIAAAD3/+7/AgAJAAIAAAD3/+//AgAJAAIAAAD3//D/AgAJAAIAAAD3//H/AgAJAAIAAAD3//L/AgAJAAIAAAD3//P/AgAJAAIAAAD3//T/AgAJAAIAAAD4/+j/AgAJAAIAAAD4/+n/AgAJAAIAAAD4/+r/AgAJAAIAAAD4/+v/AgAJAAIAAAD4/+z/AgAJAAIAAAD4/+3/AgAJAAIAAAD4/+7/AgAJAAIAAAD4/+//AgAJAAIAAAD4//D/AgAJAAIAAAD4//H/AgAJAAIAAAD4//L/AgAJAAIAAAD4//P/AgAJAAIAAAD4//T/AgAJAAIAAAD5/+j/AgAJAAIAAAD5/+n/AgAJAAIAAAD5/+r/AgAJAAIAAAD5/+v/AgAJAAIAAAD5/+z/AgAJAAIAAAD5/+3/AgAJAAIAAAD5/+7/AgAJAAIAAAD5/+//AgAJAAIAAAD5//D/AgAJAAIAAAD5//H/AgAJAAIAAAD5//L/AgAJAAIAAAD5//P/AgAJAAIAAAD5//T/AgAJAAIAAAD6/+j/AgAJAAIAAAD6/+n/AgAJAAIAAAD6/+r/AgAJAAIAAAD6/+v/AgAJAAIAAAD6/+z/AgAJAAIAAAD6/+3/AgAJAAIAAAD6/+7/AgAJAAIAAAD6/+//AgAJAAIAAAD6//D/AgAJAAIAAAD6//H/AgAJAAIAAAD6//L/AgAJAAIAAAD6//P/AgAJAAIAAAD6//T/AgAJAAIAAAD7/+j/AgAJAAIAAAD7/+n/AgAJAAIAAAD7/+r/AgAJAAIAAAD7/+v/AgAJAAIAAAD7/+z/AgAJAAIAAAD7/+3/AgAJAAIAAAD7/+7/AgAJAAIAAAD7/+//AgAJAAIAAAD7//D/AgAJAAIAAAD7//H/AgAJAAIAAAD7//L/AgAJAAIAAAD7//P/AgAJAAIAAAD7//T/AgAJAAIAAAD8/+j/AgAJAAIAAAD8/+n/AgAJAAIAAAD8/+r/AgAJAAIAAAD8/+v/AgAJAAIAAAD8/+z/AgAJAAIAAAD8/+3/AgAJAAIAAAD8/+7/AgAJAAIAAAD8/+//AgAJAAIAAAD8//D/AgAJAAIAAAD8//H/AgAJAAIAAAD8//L/AgAJAAIAAAD8//P/AgAJAAIAAAD8//T/AgAJAAIAAAD9/+j/AgAJAAIAAAD9/+n/AgAJAAIAAAD9/+r/AgAJAAIAAAD9/+v/AgAJAAIAAAD9/+z/AgAJAAIAAAD9/+3/AgAJAAIAAAD9/+7/AgAJAAIAAAD9/+//AgAJAAIAAAD9//D/AgAJAAIAAAD9//H/AgAJAAIAAAD9//L/AgAJAAIAAAD9//P/AgAJAAIAAAD9//T/AgAJAAIAAAD+/+j/AgAJAAIAAAD+/+n/AgAJAAIAAAD+/+r/AgAJAAIAAAD+/+v/AgAJAAIAAAD+/+z/AgAJAAIAAAD+/+3/AgAJAAIAAAD+/+7/AgAJAAIAAAD+/+//AgAJAAIAAAD+//D/AgAJAAIAAAD+//H/AgAJAAIAAAD+//L/AgAJAAIAAAD+//P/AgAJAAIAAAD+//T/AgAJAAIAAAD//+j/AgAJAAIAAAD//+n/AgAJAAIAAAD//+r/AgAJAAIAAAD//+v/AgAJAAIAAAD//+z/AgAJAAIAAAD//+3/AgAJAAIAAAD//+7/AgAJAAIAAAD//+//AgAJAAIAAAD///D/AgAJAAIAAAD///H/AgAJAAIAAAD///L/AgAJAAIAAAD///P/AgAJAAIAAAD///T/AgAJAAIAAAAAAOj/AgAJAAIAAAAAAOn/AgAJAAIAAAAAAOr/AgAJAAIAAAAAAOv/AgAJAAIAAAAAAOz/AgAJAAIAAAAAAO3/AgAJAAIAAAAAAO7/AgAJAAIAAAAAAO//AgAJAAIAAAAAAPD/AgAJAAIAAAAAAPH/AgAJAAIAAAAAAPL/AgAJAAIAAAAAAPP/AgAJAAIAAAAAAPT/AgAJAAIAAADw/+z/AgAJAAIAAADw/+3/AgAJAAIAAADw/+7/AgAJAAIAAADw/+//AgAJAAIAAADw//D/AgAJAAIAAADw//H/AgAJAAIAAADw//L/AgAJAAIAAADw//P/AgAJAAIAAADs/+b/AgAJAAIAAADs/+f/AgAJAAIAAADs/+j/AgAJAAIAAADs/+n/AgAJAAIAAADs/+r/AgAJAAIAAADs/+v/AgAJAAIAAADt/+b/AgAJAAIAAADt/+f/AgAJAAIAAADt/+j/AgAJAAIAAADt/+n/AgAJAAIAAADt/+r/AgAJAAIAAADt/+v/AgAJAAIAAADu/+b/AgAJAAIAAADu/+f/AgAJAAIAAADu/+j/AgAJAAIAAADu/+n/AgAJAAIAAADu/+r/AgAJAAIAAADu/+v/AgAJAAIAAADv/+b/AgAJAAIAAADv/+f/AgAJAAIAAADv/+j/AgAJAAIAAADv/+n/AgAJAAIAAADv/+r/AgAJAAIAAADv/+v/AgAJAAIAAADw/+b/AgAJAAIAAADw/+f/AgAJAAIAAADw/+j/AgAJAAIAAADw/+n/AgAJAAIAAADw/+r/AgAJAAIAAADw/+v/AgAJAAIAAADx/+b/AgAJAAIAAADx/+f/AgAJAAIAAADy/+b/AgAJAAIAAADy/+f/AgAJAAIAAADw//T/AgAJAAIAAAD0//X/AgAJAAIAAAD1//X/AgAJAAIAAAD2//X/AgAJAAIAAAD3//X/AgAJAAIAAAD4//X/AgAJAAIAAAD5//X/AgAJAAIAAAD6//X/AgAJAAIAAAD7//X/AgAJAAIAAAD8//X/AgAJAAIAAAD9//X/AgAJAAIAAAD+//X/AgAJAAIAAAD///X/AgAGAAIAAAD1//b/AgAJAAIAAAD2//b/AgAJAAIAAAD3//b/AgAJAAIAAAD4//b/AgAJAAIAAAD5//b/AgAJAAIAAAD6//b/AgAJAAIAAAD7//b/AgAJAAIAAAD8//b/AgAJAAIAAAD9//b/AgAJAAIAAAD+//b/AgAJAAIAAAD///b/AgALAAIAAAD0//b/AgAJAAIAAAD1//f/AgAJAAMAAAD2//f/AgAJAAMAAAD3//f/AgAJAAMAAAD4//f/AgAJAAMAAAD5//f/AgAJAAMAAAD6//f/AgAJAAMAAAD7//f/AgAJAAMAAAD8//f/AgAJAAMAAAD9//f/AgAJAAMAAAD+//f/AgAJAAMAAAD///f/AgALAAMAAAD0//f/AgAGAAIAAAA=")
 tile_set = ExtResource("2_luv7r")
 
 [node name="PathwayL1" type="TileMapLayer" parent="."]
 z_index = 32
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_jbkdy")
+material = SubResource("ShaderMaterial_ltqfw")
 tile_map_data = PackedByteArray("AAADAAYAAAAMABcAAAADAAUAAAAMABYAAAADAAQAAAAMABUAAAADAAMAAAAMABQAAAADAAIAAAAMABMAAAADAAEAAAAMABIAAAAEAAYAAAANABcAAAAEAAUAAAANABYAAAAEAAQAAAANABUAAAAEAAMAAAANABQAAAAEAAIAAAANABMAAAAEAAEAAAANABIAAAAFAAYAAAAOABcAAAAFAAUAAAAOABYAAAAFAAQAAAAOABUAAAAFAAMAAAAOABQAAAAFAAIAAAAOABMAAAAFAAEAAAAOABIAAAAMAAwAAAAMABcAAAAMAAsAAAAMABYAAAAMAAoAAAAMABUAAAAMAAkAAAAMABQAAAAMAAgAAAAMABMAAAAMAAcAAAAMABIAAAANAAwAAAANABcAAAANAAsAAAANABYAAAANAAoAAAANABUAAAANAAkAAAANABQAAAANAAgAAAANABMAAAANAAcAAAANABIAAAAOAAwAAAAOABcAAAAOAAsAAAAOABYAAAAOAAoAAAAOABUAAAAOAAkAAAAOABQAAAAOAAgAAAAOABMAAAAOAAcAAAAOABIAAAAMAAAAAAAMABcAAAAMAP//AAAMABYAAAAMAP7/AAAMABUAAAAMAP3/AAAMABQAAAAMAPz/AAAMABMAAAAMAPv/AAAMABIAAAANAAAAAAANABcAAAANAP//AAANABYAAAANAP7/AAANABUAAAANAP3/AAANABQAAAANAPz/AAANABMAAAANAPv/AAANABIAAAAOAAAAAAAOABcAAAAOAP//AAAOABYAAAAOAP7/AAAOABUAAAAOAP3/AAAOABQAAAAOAPz/AAAOABMAAAAOAPv/AAAOABIAAAACAPb/AAAMABcAAAACAPX/AAAMABYAAAACAPT/AAAMABUAAAACAPP/AAAMABQAAAACAPL/AAAMABMAAAACAPH/AAAMABIAAAADAPb/AAANABcAAAADAPX/AAANABYAAAADAPT/AAANABUAAAADAPP/AAANABQAAAADAPL/AAANABMAAAADAPH/AAANABIAAAAEAPb/AAAOABcAAAAEAPX/AAAOABYAAAAEAPT/AAAOABUAAAAEAPP/AAAOABQAAAAEAPL/AAAOABMAAAAEAPH/AAAOABIAAAD0/wYAAgALAAIAAAD0/wUAAgALAAIAAAD0/wQAAgALAAIAAAD0/wMAAgALAAIAAAD0/wIAAgALAAIAAAD0/wEAAgALAAIAAAD0/wAAAgALAAIAAAD0////AgALAAIAAAD0//7/AgALAAIAAAD0//3/AgALAAIAAADz/wYAAgAJAAIAAADz/wUAAgAJAAIAAADz/wQAAgAJAAIAAADz/wMAAgAJAAIAAADz/wIAAgAJAAIAAADz/wEAAgAJAAIAAADz/wAAAgAJAAIAAADz////AgAJAAIAAADz//7/AgAJAAIAAADz//3/AgAJAAIAAADy/wYAAgAJAAIAAADy/wUAAgAJAAIAAADy/wQAAgAJAAIAAADy/wMAAgAJAAIAAADy/wIAAgAJAAIAAADy/wEAAgAJAAIAAADy/wAAAgAJAAIAAADy////AgAJAAIAAADy//7/AgAJAAIAAADy//3/AgAJAAIAAADx/wYAAgAJAAIAAADx/wUAAgAJAAIAAADx/wQAAgAJAAIAAADx/wMAAgAJAAIAAADx/wIAAgAJAAIAAADx/wEAAgAJAAIAAADx/wAAAgAJAAIAAADx////AgAJAAIAAADx//7/AgAJAAIAAADx//3/AgAJAAIAAADw/wYAAgAJAAIAAADw/wUAAgAJAAIAAADw/wQAAgAJAAIAAADw/wMAAgAJAAIAAADw/wIAAgAJAAIAAADw/wEAAgAJAAIAAADw/wAAAgAJAAIAAADw////AgAJAAIAAADw//7/AgAJAAIAAADw//3/AgAJAAIAAADv/wYAAgAJAAIAAADv/wUAAgAJAAIAAADv/wQAAgAJAAIAAADv/wMAAgAJAAIAAADv/wIAAgAJAAIAAADv/wEAAgAJAAIAAADv/wAAAgAJAAIAAADv////AgAJAAIAAADv//7/AgAJAAIAAADv//3/AgAJAAIAAADu/wYAAgAJAAIAAADu/wUAAgAJAAIAAADu/wQAAgAJAAIAAADu/wMAAgAJAAIAAADu/wIAAgAJAAIAAADu/wEAAgAJAAIAAADu/wAAAgAJAAIAAADu////AgAJAAIAAADu//7/AgAJAAIAAADu//3/AgAJAAIAAADt/wYAAgAJAAIAAADt/wUAAgAJAAIAAADt/wQAAgAJAAIAAADt/wMAAgAJAAIAAADt/wIAAgAJAAIAAADt/wEAAgAJAAIAAADt/wAAAgAJAAIAAADt////AgAJAAIAAADt//7/AgAJAAIAAADt//3/AgAJAAIAAADs/wYAAgAJAAIAAADs/wUAAgAJAAIAAADs/wQAAgAJAAIAAADs/wMAAgAJAAIAAADs/wIAAgAJAAIAAADs/wEAAgAJAAIAAADs/wAAAgAJAAIAAADs////AgAJAAIAAADs//7/AgAJAAIAAADs//3/AgAJAAIAAADr/wYAAgAJAAIAAADr/wUAAgAJAAIAAADr/wQAAgAJAAIAAADr/wMAAgAJAAIAAADr/wIAAgAJAAIAAADr/wEAAgAJAAIAAADr/wAAAgAJAAIAAADr////AgAJAAIAAADr//7/AgAJAAIAAADr//3/AgAJAAIAAADq/wYAAgAJAAIAAADq/wUAAgAJAAIAAADq/wQAAgAJAAIAAADq/wMAAgAJAAIAAADq/wIAAgAJAAIAAADq/wEAAgAJAAIAAADq/wAAAgAJAAIAAADq////AgAJAAIAAADq//7/AgAJAAIAAADq//3/AgAJAAIAAADp/wYAAgAJAAIAAADp/wUAAgAJAAIAAADp/wQAAgAJAAIAAADp/wMAAgAJAAIAAADp/wIAAgAJAAIAAADp/wEAAgAJAAIAAADp/wAAAgAJAAIAAADp////AgAJAAIAAADp//7/AgAJAAIAAADp//3/AgAJAAIAAAA=")
 tile_set = ExtResource("2_luv7r")
 
@@ -86,7 +198,7 @@ position = Vector2(-151, -168)
 [node name="Conveyer1" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_jbkdy")
+material = SubResource("ShaderMaterial_bnv3w")
 tile_map_data = PackedByteArray("AAAQAPj/BQAEAAUAAAAPAPj/BQAEAAkAAAAOAPj/BQAEAAkAAAANAPj/BQAEAAkAAAAMAPj/BQAEAAkAAAALAPj/BQAEAAkAAAAKAPj/BQAEAAkAAAAJAPj/BQAEAAkAAAAIAPj/BQAEAAkAAAAHAPj/BQAEAAkAAAA=")
 tile_set = ExtResource("2_luv7r")
 
@@ -97,7 +209,7 @@ position = Vector2(280, -120)
 [node name="Conveyer2" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_jbkdy")
+material = SubResource("ShaderMaterial_anpbs")
 tile_map_data = PackedByteArray("AAAQAP//BQAEAAUAAAAPAP//BQAEAAkAAAAOAP//BQAEAAkAAAANAP//BQAEAAkAAAAMAP//BQAEAAkAAAALAP//BQAEAAkAAAAKAP//BQAEAAkAAAAJAP//BQAEAAkAAAAIAP//BQAEAAkAAAAHAP//BQAEAAkAAAA=")
 tile_set = ExtResource("2_luv7r")
 
@@ -108,7 +220,7 @@ position = Vector2(280, -7)
 [node name="Conveyer3" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_jbkdy")
+material = SubResource("ShaderMaterial_6wr5b")
 tile_map_data = PackedByteArray("AAAQAAYABQAEAAUAAAAPAAYABQAEAAkAAAAOAAYABQAEAAkAAAANAAYABQAEAAkAAAAMAAYABQAEAAkAAAALAAYABQAEAAkAAAAKAAYABQAEAAkAAAAJAAYABQAEAAkAAAAIAAYABQAEAAkAAAAHAAYABQAEAAkAAAA=")
 tile_set = ExtResource("2_luv7r")
 
@@ -119,7 +231,7 @@ position = Vector2(281, 105)
 [node name="Conveyer4" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_jbkdy")
+material = SubResource("ShaderMaterial_d8020")
 tile_map_data = PackedByteArray("AAAQAA0ABQAEAAUAAAAPAA0ABQAEAAkAAAAOAA0ABQAEAAkAAAANAA0ABQAEAAkAAAAMAA0ABQAEAAkAAAALAA0ABQAEAAkAAAAKAA0ABQAEAAkAAAAJAA0ABQAEAAkAAAAIAA0ABQAEAAkAAAAHAA0ABQAEAAkAAAA=")
 tile_set = ExtResource("2_luv7r")
 
@@ -130,47 +242,41 @@ position = Vector2(281, 217)
 [node name="Conveyer5" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_jbkdy")
+material = SubResource("ShaderMaterial_7tpqn")
 tile_map_data = PackedByteArray("AAAGAA8ABQAEAAYAAAAGAA4ABQAAAAgAAAAGAA0ABQAAAAgAAAAGAAwABQAAAAgAAAAGAAsABQAAAAgAAAAGAAoABQAAAAgAAAAGAAkABQAAAAgAAAAGAAgABQAAAAgAAAAGAAcABQAAAAgAAAAGAAYABQAAAAgAAAAGAAUABQAAAAgAAAAGAAQABQAAAAgAAAAGAAMABQAAAAgAAAAGAAIABQAAAAgAAAAGAAEABQAAAAgAAAAGAAAABQAAAAgAAAAGAP//BQAAAAgAAAAGAP7/BQAAAAgAAAAGAP3/BQAAAAgAAAAGAPz/BQAAAAgAAAAGAPv/BQAAAAgAAAAGAPr/BQAAAAgAAAAGAPn/BQAAAAgAAAAGAPj/BQAAAAgAAAAGAPf/BQAAAAgAAAAGAPb/BQAAAAcAAAA=")
 tile_set = ExtResource("2_luv7r")
 
 [node name="Conveyer6" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_jbkdy")
+material = SubResource("ShaderMaterial_udoxd")
 tile_map_data = PackedByteArray("AAD6/wkABQAEAAkAAAD5/wkABQAEAAkAAAD4/wkABQAEAAkAAAD3/wkABQAEAAkAAAD2/wkABQAEAAkAAAD1/wkABQAEAAkAAAD7/wgABQAAAAgAAAD7/wcABQAAAAgAAAD7/wYABQAAAAgAAAD7/wUABQAAAAgAAAD7/wQABQAAAAgAAAD7/wMABQAAAAgAAAD7/wIABQAAAAgAAAD7/wEABQAAAAgAAAD7/wAABQAAAAgAAAD7////BQAAAAgAAAD7//7/BQAAAAgAAAD7//3/BQAAAAgAAAD7//z/BQABAAIAAAD6//z/BQAEAAgAAAD5//z/BQAEAAgAAAD4//z/BQAEAAgAAAD3//z/BQAEAAgAAAD2//z/BQAEAAgAAAD1//z/BQAEAAgAAAD7/wkABQABAAMAAAA=")
 tile_set = ExtResource("2_luv7r")
 
 [node name="Conveyer7" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_jbkdy")
+material = SubResource("ShaderMaterial_165r5")
 tile_map_data = PackedByteArray("AADz/wUABQAAAAgAAADz/wQABQAAAAgAAADz/wMABQAAAAgAAADz/wIABQAAAAgAAADz/wEABQAAAAgAAADz/wAABQAAAAgAAADz////BQAAAAgAAADv/wUABQAAAAkAAADv/wQABQAAAAkAAADv/wMABQAAAAkAAADv/wIABQAAAAkAAADv/wEABQAAAAkAAADv/wAABQAAAAkAAADv////BQAAAAkAAAA=")
 tile_set = ExtResource("2_luv7r")
 
 [node name="Conveyer8" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_jbkdy")
+material = SubResource("ShaderMaterial_by1vw")
 tile_map_data = PackedByteArray("AAD+//v/BQAAAAEAAAD+//r/BQAAAAgAAAD+//n/BQAAAAgAAAD+//j/BQAAAAAAAAABAPv/BQABAAEAAAAAAPv/BQAEAAgAAAD///v/BQAEAAgAAAABAPr/BQAAAAkAAAABAPn/BQAAAAkAAAABAPj/BQABAAAAAAAAAPj/BQAEAAkAAAD///j/BQAEAAkAAAA=")
 tile_set = ExtResource("2_luv7r")
 
 [node name="Conveyer9" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_jbkdy")
+material = SubResource("ShaderMaterial_jk4rs")
 tile_map_data = PackedByteArray("AAAAAAYABQABAAIAAAD//wYABQAEAAgAAAD+/wYABQAAAAIAAAAAAAgABQABAAMAAAAAAAcABQAAAAgAAAD+/wgABQAAAAMAAAD+/wcABQAAAAkAAAD//wgABQAEAAkAAAA=")
 tile_set = ExtResource("2_luv7r")
 
 [node name="Conveyer10" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_jbkdy")
+material = SubResource("ShaderMaterial_bu6xm")
 tile_map_data = PackedByteArray("AAABAA4ABQABAAIAAAAAAA4ABQAEAAgAAAD//w4ABQAEAAgAAAD+/w4ABQAEAAgAAAD8/w4ABQAEAAkAAAD7/w8ABQAAAAgAAAD7/w4ABQAAAAAAAAD9/w8ABQAEAAcAAAD9/w4ABQAAAAIAAAD9/w0ABQAAAAgAAAD9/wwABQAAAAAAAAD//wwABQAEAAkAAAD+/wwABQAEAAkAAAAAAAwABQAEAAkAAAABAAwABQAEAAkAAAACAAwABQAEAAkAAAADAAwABQAEAAkAAAAFAAwABQAEAAkAAAAEAAwABQAEAAkAAAABAA8ABQAAAAgAAAA=")
-tile_set = ExtResource("2_luv7r")
-
-[node name="Conveyer11" type="TileMapLayer" parent="."]
-z_index = 10
-y_sort_enabled = true
-material = SubResource("ShaderMaterial_jbkdy")
 tile_set = ExtResource("2_luv7r")

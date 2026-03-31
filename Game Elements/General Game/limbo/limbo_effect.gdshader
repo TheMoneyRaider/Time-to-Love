@@ -6,6 +6,7 @@ shader_type canvas_item;
 
 
 
+
 void vertex() {
 	sob_worldUV = (MODEL_MATRIX*vec4(VERTEX, 0.0, 1.0)).xy;
 }
@@ -14,7 +15,7 @@ void fragment() {
 	vec4 original_color = texture(TEXTURE, UV);
 	COLOR = original_color;
     if (original_color.a < 0.01) discard;
-	vec2 tiledUV = fract(floor(sob_worldUV) / 1024.0);
+	vec2 tiledUV = band(fract(floor(sob_worldUV) / 1024.0));
 	float value = texture(sob_noise,tiledUV).r;
 	if (value < progress){
 		vec4 sob = sobel(original_color, TEXTURE, UV);

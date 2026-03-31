@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://dknqdhiq0bprb"]
+[gd_scene load_steps=25 format=4 uid="uid://dknqdhiq0bprb"]
 
 [ext_resource type="Script" uid="uid://00rnhke2atmb" path="res://Game Elements/Rooms/room_script.gd" id="1_nb1l4"]
 [ext_resource type="TileSet" uid="uid://cdo6cx4dxml7u" path="res://Game Elements/tilesets/sci_fi3.tres" id="2_0p6kk"]
@@ -7,7 +7,143 @@
 [ext_resource type="PackedScene" uid="uid://ccwiql3bybf2p" path="res://Game Elements/Objects/pathway.tscn" id="3_saq3n"]
 [ext_resource type="Shader" uid="uid://38vxobsuweed" path="res://Game Elements/General Game/limbo/limbo_effect.gdshader" id="4_nb1l4"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nb1l4"]
+shader = ExtResource("4_nb1l4")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0p6kk"]
+shader = ExtResource("4_nb1l4")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_saq3n"]
+shader = ExtResource("4_nb1l4")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pyv7p"]
+shader = ExtResource("4_nb1l4")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jynje"]
+shader = ExtResource("4_nb1l4")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d2r8i"]
+shader = ExtResource("4_nb1l4")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o1pi5"]
+shader = ExtResource("4_nb1l4")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_snbct"]
+shader = ExtResource("4_nb1l4")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fu2ne"]
+shader = ExtResource("4_nb1l4")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6np1i"]
+shader = ExtResource("4_nb1l4")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_57kfr"]
+shader = ExtResource("4_nb1l4")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nkbpk"]
+shader = ExtResource("4_nb1l4")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m16dc"]
+shader = ExtResource("4_nb1l4")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wk5aj"]
+shader = ExtResource("4_nb1l4")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_snkai"]
+shader = ExtResource("4_nb1l4")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_24wit"]
+shader = ExtResource("4_nb1l4")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8fh1t"]
+shader = ExtResource("4_nb1l4")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.470000022325
+shader_parameter/sob_noise = ExtResource("2_vuvng")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rvwef"]
 shader = ExtResource("4_nb1l4")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
@@ -26,7 +162,7 @@ tile_set = ExtResource("2_0p6kk")
 
 [node name="Enviornmental" type="TileMapLayer" parent="."]
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_0p6kk")
+material = SubResource("ShaderMaterial_nb1l4")
 tile_map_data = PackedByteArray("AADN//L/AAAMAAwAAADO//L/AAAMAAwAAADP//L/AAAMAAwAAADQ//L/AAAMAAwAAADR//L/AAAMAAwAAADS//L/AAAMAAwAAADT//L/AAAMAAwAAADa//L/AAAMAAwAAADb//L/AAAMAAwAAADc//L/AAAMAAwAAADd//L/AAAMAAwAAADe//L/AAAMAAwAAADf//L/AAAMAAwAAADg//L/AAAMAAwAAADY//3/AAANAAwAAADZ//3/AAANAAwAAADa//3/AAANAAwAAAC2//7/AAAMAA0AAAC3//7/AAAMAA0AAAC4//7/AAAMAA0AAADU//L/AAAMAAwAAADV//L/AAAMAAwAAADW//L/AAAMAAwAAADX//L/AAAMAAwAAADY//L/AAAMAAwAAADZ//L/AAAMAAwAAAA=")
 tile_set = ExtResource("2_0p6kk")
 
@@ -52,111 +188,111 @@ position = Vector2(-485, 746)
 [node name="PathwayR1" type="TileMapLayer" parent="."]
 z_index = 32
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_0p6kk")
+material = SubResource("ShaderMaterial_saq3n")
 tile_map_data = PackedByteArray("AAC5/xsAAAAZABsAAAC6/xsAAAAbABsAAAA=")
 tile_set = ExtResource("2_0p6kk")
 
 [node name="PathwayU1" type="TileMapLayer" parent="."]
 z_index = 32
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_0p6kk")
+material = SubResource("ShaderMaterial_pyv7p")
 tile_map_data = PackedByteArray("AADZ//L/AgALAAMAAADZ//H/AgALAAIAAADZ//D/AgAGAAIAAADZ/+//AgAJAAIAAADY//L/AgAJAAMAAADY//H/AgAJAAIAAADY//D/AgAJAAIAAADY/+//AgAJAAIAAADX//L/AgAJAAMAAADX//H/AgAJAAIAAADX//D/AgAJAAIAAADX/+//AgAJAAIAAADW//L/AgAJAAMAAADW//H/AgAJAAIAAADW//D/AgAJAAIAAADW/+//AgAJAAIAAADV//L/AgAJAAMAAADV//H/AgAJAAIAAADV//D/AgAJAAIAAADV/+//AgAJAAIAAADU//L/AgAIAAMAAADU//H/AgAIAAEAAADU//D/AgAFAAIAAADU/+//AgAJAAIAAADT//D/AgAJAAMAAADT/+//AgAJAAIAAADS//D/AgAIAAMAAADS/+//AgAFAAIAAADb//D/AgALAAMAAADb/+//AgAGAAIAAADb/+7/AgAJAAIAAADa//D/AgAJAAMAAADa/+//AgAJAAIAAADa/+7/AgAJAAIAAADZ/+7/AgAJAAIAAADZ/+3/AgAJAAIAAADY/+7/AgAJAAIAAADY/+3/AgAJAAIAAADX/+7/AgAJAAIAAADX/+3/AgAJAAIAAADW/+7/AgAJAAIAAADW/+3/AgAJAAIAAADV/+7/AgAJAAIAAADV/+3/AgAJAAIAAADU/+7/AgAJAAIAAADU/+3/AgAJAAIAAADT/+7/AgAJAAIAAADS/+7/AgAJAAIAAADR/+z/AgAJAAIAAADR/+3/AgAJAAIAAADR/+7/AgAJAAIAAADS/+z/AgAJAAIAAADS/+3/AgAJAAIAAADT/+z/AgAJAAIAAADT/+3/AgAJAAIAAADU/+z/AgAJAAIAAADV/+z/AgAJAAIAAADW/+z/AgAJAAIAAADX/+z/AgAJAAIAAADY/+z/AgAJAAIAAADZ/+z/AgAJAAIAAADa/+z/AgAJAAIAAADa/+3/AgAJAAIAAADb/+z/AgAJAAIAAADb/+3/AgAJAAIAAADN/+7/AAAQAA0AAADN/+//AAAQAA4AAADN//D/AAAQAA8AAADO/+7/AAARAA0AAADO/+//AAARAA4AAADO//D/AAARAA8AAADP/+7/AAAQAA0AAADP/+//AAAQAA4AAADP//D/AAAQAA8AAADQ/+7/AAARAA0AAADQ/+//AAARAA4AAADQ//D/AAARAA8AAADd/+7/AAAQAA0AAADd/+//AAAQAA4AAADd//D/AAAQAA8AAADe/+7/AAARAA0AAADe/+//AAARAA4AAADe//D/AAARAA8AAADf/+7/AAAQAA0AAADf/+//AAAQAA4AAADf//D/AAAQAA8AAADg/+7/AAARAA0AAADg/+//AAARAA4AAADg//D/AAARAA8AAAA=")
 tile_set = ExtResource("2_0p6kk")
 
 [node name="PathwayD1" type="TileMapLayer" parent="."]
 z_index = 32
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_0p6kk")
+material = SubResource("ShaderMaterial_jynje")
 tile_map_data = PackedByteArray("AAC2/yMAAAATABUAAAC2/yQAAAATABYAAAC3/yMAAAAUABUAAAC3/yQAAAAUABYAAAC4/yMAAAATABUAAAC4/yQAAAATABYAAAC5/yMAAAAUABUAAAC5/yQAAAAUABYAAAC2/yIAAAASABcAAAC3/yIAAAAQABcAAAC4/yIAAAARABcAAAC5/yIAAAASABcAAAA=")
 tile_set = ExtResource("2_0p6kk")
 
 [node name="PathwayL1" type="TileMapLayer" parent="."]
 z_index = 32
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_0p6kk")
+material = SubResource("ShaderMaterial_d2r8i")
 tile_map_data = PackedByteArray("AACw//j/AAAXABsAAACw//n/AAAXABwAAACx//j/AAAYABsAAACx//n/AAAYABwAAAC4//f/AAAVABsAAAC4//j/AAAVABwAAAC+//r/AAAVABsAAAC+//v/AAAVABwAAACy//z/AAAVABsAAACy//3/AAAVABwAAAC+//f/AAAWABwAAAC4//z/AAAWABwAAAC2//T/AAAWABwAAACv//v/AAAWABwAAAC+//3/AAAVAB0AAAC///X/AAAVAB0AAAC9//T/AAAVAB0AAAC1//r/AAAVAB0AAACy//X/AAAVAB0AAACv//b/AAAVAB0AAAA=")
 tile_set = ExtResource("2_0p6kk")
 
 [node name="Conveyer1" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_0p6kk")
+material = SubResource("ShaderMaterial_o1pi5")
 tile_map_data = PackedByteArray("AADg//P/BQAEAAUAAADf//P/BQAEAAkAAADe//P/BQAEAAkAAADd//P/BQAEAAkAAADc//P/BQAEAAkAAADb//P/BQAEAAkAAADa//P/BQAEAAkAAADZ//P/BQAEAAkAAADY//P/BQAEAAkAAADX//P/BQAEAAkAAADW//P/BQAEAAkAAADV//P/BQAEAAkAAADU//P/BQAAAAQAAADS//P/BQAEAAUAAADR//P/BQAEAAkAAADQ//P/BQAEAAkAAADP//P/BQAEAAkAAADO//P/BQAEAAkAAADN//P/BQAAAAQAAADg//X/BQAEAAUAAADf//X/BQAEAAkAAADe//X/BQAEAAkAAADd//X/BQAEAAkAAADc//X/BQAEAAkAAADb//X/BQAEAAkAAADa//X/BQAEAAkAAADZ//X/BQAEAAkAAADY//X/BQAEAAkAAADX//X/BQAEAAkAAADW//X/BQAEAAkAAADV//X/BQAEAAkAAADU//X/BQAEAAkAAADT//X/BQAEAAkAAADS//X/BQAEAAkAAADR//X/BQAEAAkAAADQ//X/BQAAAAQAAADN//X/BQAAAAQAAADg//f/BQAEAAUAAADf//f/BQAEAAkAAADe//f/BQAEAAkAAADd//f/BQAEAAkAAADc//f/BQAEAAkAAADb//f/BQAEAAkAAADa//f/BQAEAAkAAADZ//f/BQAAAAQAAADX//f/BQAEAAUAAADW//f/BQAEAAkAAADV//f/BQAEAAkAAADU//f/BQAEAAkAAADT//f/BQAEAAkAAADS//f/BQAEAAkAAADR//f/BQAEAAkAAADQ//f/BQAEAAkAAADP//f/BQAEAAkAAADO//f/BQAEAAkAAADN//f/BQAAAAQAAADg//n/BQAEAAUAAADf//n/BQAEAAkAAADe//n/BQAEAAkAAADd//n/BQAEAAkAAADc//n/BQAEAAkAAADb//n/BQAEAAkAAADa//n/BQAAAAQAAADY//n/BQAEAAUAAADX//n/BQAEAAkAAADW//n/BQAEAAkAAADV//n/BQAEAAkAAADU//n/BQAEAAkAAADT//n/BQAEAAkAAADS//n/BQAEAAkAAADR//n/BQAEAAkAAADQ//n/BQAEAAkAAADP//n/BQAEAAkAAADO//n/BQAEAAkAAADN//n/BQAAAAQAAADg//v/BQAEAAUAAADf//v/BQAEAAkAAADe//v/BQAEAAkAAADd//v/BQAEAAkAAADc//v/BQAEAAkAAADb//v/BQAEAAkAAADa//v/BQAEAAkAAADZ//v/BQAEAAkAAADY//v/BQAEAAkAAADX//v/BQAAAAQAAADV//v/BQAEAAUAAADU//v/BQAEAAkAAADT//v/BQAEAAkAAADS//v/BQAEAAkAAADR//v/BQAEAAkAAADQ//v/BQAEAAkAAADP//v/BQAEAAkAAADO//v/BQAEAAkAAADN//v/BQAAAAQAAADg//T/BQAEAAQAAADf//T/BQAEAAgAAADe//T/BQAEAAgAAADd//T/BQAEAAgAAADc//T/BQAEAAgAAADb//T/BQAEAAgAAADa//T/BQAAAAUAAADY//T/BQAEAAQAAADX//T/BQAEAAgAAADW//T/BQAEAAgAAADV//T/BQAEAAgAAADU//T/BQAEAAgAAADT//T/BQAEAAgAAADS//T/BQAEAAgAAADR//T/BQAEAAgAAADQ//T/BQAEAAgAAADP//T/BQAEAAgAAADO//T/BQAEAAgAAADN//T/BQAAAAUAAADg//b/BQAEAAQAAADf//b/BQAEAAgAAADe//b/BQAAAAUAAADc//b/BQAEAAQAAADb//b/BQAEAAgAAADa//b/BQAEAAgAAADZ//b/BQAEAAgAAADY//b/BQAEAAgAAADX//b/BQAEAAgAAADW//b/BQAAAAUAAADS//b/BQAAAAUAAADQ//b/BQAEAAQAAADP//b/BQAEAAgAAADO//b/BQAEAAgAAADN//b/BQAAAAUAAADg//j/BQAEAAQAAADf//j/BQAEAAgAAADe//j/BQAEAAgAAADd//j/BQAEAAgAAADc//j/BQAEAAgAAADb//j/BQAEAAgAAADa//j/BQAEAAgAAADZ//j/BQAEAAgAAADY//j/BQAEAAgAAADX//j/BQAEAAgAAADW//j/BQAEAAgAAADV//j/BQAEAAgAAADU//j/BQAEAAgAAADT//j/BQAEAAgAAADS//j/BQAAAAUAAADQ//j/BQAEAAQAAADP//j/BQAEAAgAAADO//j/BQAEAAgAAADN//j/BQAAAAUAAADg//r/BQAEAAQAAADf//r/BQAEAAgAAADe//r/BQAAAAUAAADc//r/BQAEAAQAAADb//r/BQAEAAgAAADa//r/BQAEAAgAAADZ//r/BQAEAAgAAADY//r/BQAEAAgAAADX//r/BQAEAAgAAADW//r/BQAEAAgAAADV//r/BQAEAAgAAADU//r/BQAEAAgAAADT//r/BQAAAAUAAADR//r/BQAEAAQAAADQ//r/BQAAAAUAAADO//r/BQAEAAQAAADN//r/BQAAAAUAAADU//b/BQAEAAQAAADT//b/BQAEAAgAAADO//X/BQAEAAUAAADd//z/BQAEAAQAAADc//z/BQAEAAgAAADb//z/BQAEAAgAAADa//z/BQAEAAgAAADZ//z/BQAEAAgAAADY//z/BQAEAAgAAADX//z/BQAEAAgAAADW//z/BQAEAAgAAADV//z/BQAEAAgAAADU//z/BQAEAAgAAADT//z/BQAEAAgAAADS//z/BQAAAAUAAADQ//z/BQAEAAQAAADP//z/BQAEAAgAAADO//z/BQAEAAgAAADN//z/BQAAAAUAAADg//z/BQAEAAQAAADf//z/BQAAAAUAAAA=")
 tile_set = ExtResource("2_0p6kk")
 
 [node name="Conveyer2" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_0p6kk")
+material = SubResource("ShaderMaterial_snbct")
 tile_map_data = PackedByteArray("AADe/wUABQAAAAkAAADe/wQABQAAAAkAAADe/wMABQAAAAkAAADe/wIABQAAAAkAAADe/wEABQAAAAkAAADe/wAABQAAAAkAAADe////BQAAAAkAAADe//7/BQAAAAYAAADe/xsABQAAAAkAAADe/xoABQAAAAkAAADe/xkABQAAAAkAAADe/xgABQAAAAkAAADe/xcABQAAAAkAAADe/xYABQAAAAkAAADe/xUABQAAAAkAAADe/xQABQAAAAkAAADe/xMABQAAAAkAAADe/xIABQAAAAkAAADe/xEABQAAAAkAAADe/xAABQAAAAkAAADe/w8ABQAAAAkAAADe/w4ABQAAAAkAAADe/w0ABQAAAAkAAADe/wwABQAAAAkAAADe/wsABQAAAAkAAADe/woABQAAAAkAAADe/wkABQAAAAkAAADe/wgABQAAAAkAAADe/wcABQAAAAkAAADe/wYABQAAAAkAAADe/ycABQAEAAcAAADe/yYABQAAAAkAAADe/yUABQAAAAkAAADe/yQABQAAAAkAAADe/yMABQAAAAkAAADe/yIABQAAAAkAAADe/yEABQAAAAkAAADe/yAABQAAAAkAAADe/x8ABQAAAAkAAADe/x4ABQAAAAkAAADe/x0ABQAAAAkAAADe/xwABQAAAAkAAAA=")
 tile_set = ExtResource("2_0p6kk")
 
 [node name="Conveyer3" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_0p6kk")
+material = SubResource("ShaderMaterial_fu2ne")
 tile_map_data = PackedByteArray("AADb/xAABQAEAAQAAADa/xAABQAEAAgAAADZ/xAABQAEAAgAAADY/xAABQAEAAgAAADX/xAABQAEAAgAAADW/xAABQAEAAgAAADV/xAABQAEAAgAAADU/xAABQAEAAgAAADT/xAABQAEAAgAAADS/xAABQAEAAgAAADR/xAABQAEAAgAAADQ/xAABQAEAAgAAADP/xAABQAEAAgAAADO/xAABQAEAAgAAADN/xAABQAEAAgAAADM/xAABQAEAAgAAADL/xAABQAEAAgAAADK/xAABQAEAAgAAADJ/xAABQAEAAgAAADI/xAABQAEAAgAAADH/xAABQAEAAgAAADG/xAABQAEAAgAAADF/xAABQAEAAgAAADE/xAABQAEAAgAAADD/xAABQAEAAgAAADC/xAABQAEAAgAAADB/xAABQAEAAgAAADA/xAABQAEAAgAAAC//xAABQAEAAgAAAC+/xAABQAEAAgAAAC9/xAABQAEAAgAAAC8/xAABQAEAAgAAAC7/xAABQAEAAgAAAC6/xAABQAEAAgAAAC5/xAABQAAAAUAAAA=")
 tile_set = ExtResource("2_0p6kk")
 
 [node name="Conveyer4" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_0p6kk")
+material = SubResource("ShaderMaterial_6np1i")
 tile_map_data = PackedByteArray("AAC2/xkABQAEAAYAAAC2/xgABQAAAAgAAAC2/xcABQAAAAgAAAC2/xYABQAAAAgAAAC2/xUABQAAAAgAAAC2/xQABQAAAAgAAAC2/xMABQAAAAgAAAC2/xIABQAAAAgAAAC2/xEABQAAAAgAAAC2/xAABQAAAAgAAAC2/w8ABQAAAAgAAAC2/w4ABQAAAAgAAAC2/w0ABQAAAAgAAAC2/wwABQAAAAgAAAC2/wsABQAAAAgAAAC2/woABQAAAAgAAAC2/wkABQAAAAgAAAC2/wgABQAAAAgAAAC2/wcABQAAAAgAAAC2/wYABQAAAAgAAAC2/wUABQAAAAgAAAC2/wQABQAAAAgAAAC2/wMABQAAAAgAAAC2/wIABQAAAAgAAAC2/wEABQAAAAgAAAC2/wAABQAAAAgAAAC2////BQAAAAcAAAA=")
 tile_set = ExtResource("2_0p6kk")
 
 [node name="Conveyer5" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_0p6kk")
+material = SubResource("ShaderMaterial_57kfr")
 tile_map_data = PackedByteArray("AADe/wUABQAAAAgAAADe/wQABQAAAAgAAADe/wMABQAAAAgAAADe/wIABQAAAAgAAADe/wEABQAAAAgAAADe/wAABQAAAAgAAADe////BQAAAAgAAADe//7/BQAAAAcAAADe/xsABQAAAAgAAADe/xoABQAAAAgAAADe/xkABQAAAAgAAADe/xgABQAAAAgAAADe/xcABQAAAAgAAADe/xYABQAAAAgAAADe/xUABQAAAAgAAADe/xQABQAAAAgAAADe/xMABQAAAAgAAADe/xIABQAAAAgAAADe/xEABQAAAAgAAADe/xAABQAAAAgAAADe/w8ABQAAAAgAAADe/w4ABQAAAAgAAADe/w0ABQAAAAgAAADe/wwABQAAAAgAAADe/wsABQAAAAgAAADe/woABQAAAAgAAADe/wkABQAAAAgAAADe/wgABQAAAAgAAADe/wcABQAAAAgAAADe/wYABQAAAAgAAADe/ycABQAEAAYAAADe/yYABQAAAAgAAADe/yUABQAAAAgAAADe/yQABQAAAAgAAADe/yMABQAAAAgAAADe/yIABQAAAAgAAADe/yEABQAAAAgAAADe/yAABQAAAAgAAADe/x8ABQAAAAgAAADe/x4ABQAAAAgAAADe/x0ABQAAAAgAAADe/xwABQAAAAgAAAA=")
 tile_set = ExtResource("2_0p6kk")
 
 [node name="Conveyer6" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_0p6kk")
+material = SubResource("ShaderMaterial_nkbpk")
 tile_map_data = PackedByteArray("AADb/xAABQAEAAUAAADa/xAABQAEAAkAAADZ/xAABQAEAAkAAADY/xAABQAEAAkAAADX/xAABQAEAAkAAADW/xAABQAEAAkAAADV/xAABQAEAAkAAADU/xAABQAEAAkAAADT/xAABQAEAAkAAADS/xAABQAEAAkAAADR/xAABQAEAAkAAADQ/xAABQAEAAkAAADP/xAABQAEAAkAAADO/xAABQAEAAkAAADN/xAABQAEAAkAAADM/xAABQAEAAkAAADL/xAABQAEAAkAAADK/xAABQAEAAkAAADJ/xAABQAEAAkAAADI/xAABQAEAAkAAADH/xAABQAEAAkAAADG/xAABQAEAAkAAADF/xAABQAEAAkAAADE/xAABQAEAAkAAADD/xAABQAEAAkAAADC/xAABQAEAAkAAADB/xAABQAEAAkAAADA/xAABQAEAAkAAAC//xAABQAEAAkAAAC+/xAABQAEAAkAAAC9/xAABQAEAAkAAAC8/xAABQAEAAkAAAC7/xAABQAEAAkAAAC6/xAABQAEAAkAAAC5/xAABQAAAAQAAAA=")
 tile_set = ExtResource("2_0p6kk")
 
 [node name="Conveyer7" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_0p6kk")
+material = SubResource("ShaderMaterial_m16dc")
 tile_map_data = PackedByteArray("AAC2/xkABQAEAAcAAAC2/xgABQAAAAkAAAC2/xcABQAAAAkAAAC2/xYABQAAAAkAAAC2/xUABQAAAAkAAAC2/xQABQAAAAkAAAC2/xMABQAAAAkAAAC2/xIABQAAAAkAAAC2/xEABQAAAAkAAAC2/xAABQAAAAkAAAC2/w8ABQAAAAkAAAC2/w4ABQAAAAkAAAC2/w0ABQAAAAkAAAC2/wwABQAAAAkAAAC2/wsABQAAAAkAAAC2/woABQAAAAkAAAC2/wkABQAAAAkAAAC2/wgABQAAAAkAAAC2/wcABQAAAAkAAAC2/wYABQAAAAkAAAC2/wUABQAAAAkAAAC2/wQABQAAAAkAAAC2/wMABQAAAAkAAAC2/wIABQAAAAkAAAC2/wEABQAAAAkAAAC2/wAABQAAAAkAAAC2////BQAAAAYAAAA=")
 tile_set = ExtResource("2_0p6kk")
 
 [node name="Conveyer8" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_0p6kk")
+material = SubResource("ShaderMaterial_wk5aj")
 tile_map_data = PackedByteArray("AAC7/yEABQAEAAcAAAC7/yAABQAAAAkAAAC7/x8ABQAAAAkAAAC7/x4ABQAAAAkAAAC7/x0ABQAAAAkAAAC7/xwABQAAAAkAAAC7/xsABQAAAAYAAAC9/yEABQAEAAcAAAC9/yAABQAAAAkAAAC9/x8ABQAAAAkAAAC9/x4ABQAAAAkAAAC9/x0ABQAAAAkAAAC9/xwABQAAAAkAAAC9/xsABQAAAAYAAACy/yEABQAEAAcAAACy/yAABQAAAAkAAACy/x8ABQAAAAkAAACy/x4ABQAAAAkAAACy/x0ABQAAAAkAAACy/xwABQAAAAkAAACy/xsABQAAAAYAAAC0/yEABQAEAAcAAAC0/yAABQAAAAkAAAC0/x8ABQAAAAkAAAC0/x4ABQAAAAkAAAC0/x0ABQAAAAkAAAC0/xwABQAAAAkAAAC0/xsABQAAAAYAAAA=")
 tile_set = ExtResource("2_0p6kk")
 
 [node name="Trap1" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_0p6kk")
+material = SubResource("ShaderMaterial_snkai")
 tile_map_data = PackedByteArray("AADR//z/AwAAAA4AAADP//r/AwAAAA4AAADS//r/AwAAAA4AAADR//j/AwAAAA4AAADR//b/AwAAAA4AAADP//X/AwAAAA4AAADT//P/AwAAAA4AAADV//b/AwAAAA4AAADZ//T/AwAAAA4AAADY//f/AwAAAA4AAADZ//n/AwAAAA4AAADW//v/AwAAAA4AAADd//r/AwAAAA4AAADe//z/AwAAAA4AAADd//b/AwAAAA4AAAA=")
 tile_set = ExtResource("2_0p6kk")
 
 [node name="Trap2" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_0p6kk")
+material = SubResource("ShaderMaterial_24wit")
 tile_map_data = PackedByteArray("AADe/ysAAwAAAA4AAADe/ywAAwAAAA4AAADe/y0AAwAAAA4AAADe/y4AAwAAAA4AAADe/y8AAwAAAA4AAADf/ysAAwAAAA4AAADg/ysAAwAAAA4AAADh/ysAAwAAAA4AAADi/ysAAwAAAA4AAADh/ykAAwAAAA4AAADi/ykAAwAAAA4AAADe/ykAAwAAAA4AAADf/ykAAwAAAA4AAADc/ykAAwAAAA4AAADc/yoAAwAAAA4AAADc/ywAAwAAAA4AAADc/y0AAwAAAA4AAADc/y8AAwAAAA4AAAA=")
 tile_set = ExtResource("2_0p6kk")
 
 [node name="Trap3" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_0p6kk")
+material = SubResource("ShaderMaterial_8fh1t")
 tile_map_data = PackedByteArray("AACy//P/AwAAAA4AAACz//P/AwAAAA4AAAC0//P/AwAAAA4AAAC1//P/AwAAAA4AAAC2//P/AwAAAA4AAAC3//P/AwAAAA4AAAC4//P/AwAAAA4AAAC5//P/AwAAAA4AAAC6//P/AwAAAA4AAAC7//P/AwAAAA4AAAC8//P/AwAAAA4AAAC9//P/AwAAAA4AAAC+//P/AwAAAA4AAAC///P/AwAAAA4AAADA//P/AwAAAA4AAADA//T/AwAAAA4AAADA//X/AwAAAA4AAADA//b/AwAAAA4AAADA//f/AwAAAA4AAADA//j/AwAAAA4AAADA//n/AwAAAA4AAADA//r/AwAAAA4AAADA//v/AwAAAA4AAADA//z/AwAAAA4AAADA//3/AwAAAA4AAADA//7/AwAAAA4AAAC5//7/AwAAAA4AAAC6//7/AwAAAA4AAAC7//7/AwAAAA4AAAC8//7/AwAAAA4AAAC9//7/AwAAAA4AAAC+//7/AwAAAA4AAAC///7/AwAAAA4AAACu//7/AwAAAA4AAACv//7/AwAAAA4AAACw//7/AwAAAA4AAACx//7/AwAAAA4AAACy//7/AwAAAA4AAACz//7/AwAAAA4AAAC0//7/AwAAAA4AAAC1//7/AwAAAA4AAACu//f/AwAAAA4AAACu//j/AwAAAA4AAACu//n/AwAAAA4AAACu//r/AwAAAA4AAACu//v/AwAAAA4AAACu//z/AwAAAA4AAACu//3/AwAAAA4AAACu//P/AwAAAA4AAACu//T/AwAAAA4AAACu//X/AwAAAA4AAACu//b/AwAAAA4AAACv//P/AwAAAA4AAACw//P/AwAAAA4AAACx//P/AwAAAA4AAAA=")
 tile_set = ExtResource("2_0p6kk")
 
 [node name="Trap4" type="TileMapLayer" parent="."]
 z_index = 10
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_0p6kk")
+material = SubResource("ShaderMaterial_rvwef")
 tile_map_data = PackedByteArray("AAC6//X/AwAAAA4AAAC6//b/AwAAAA4AAAC6//f/AwAAAA4AAAC6//j/AwAAAA4AAAC6//n/AwAAAA4AAAC6//r/AwAAAA4AAAC6//v/AwAAAA4AAAC6//z/AwAAAA4AAAC7//X/AwAAAA4AAAC7//b/AwAAAA4AAAC7//f/AwAAAA4AAAC7//j/AwAAAA4AAAC7//n/AwAAAA4AAAC7//r/AwAAAA4AAAC7//v/AwAAAA4AAAC7//z/AwAAAA4AAACz//X/AwAAAA4AAACz//b/AwAAAA4AAACz//f/AwAAAA4AAACz//j/AwAAAA4AAACz//n/AwAAAA4AAACz//r/AwAAAA4AAACz//v/AwAAAA4AAACz//z/AwAAAA4AAAC0//X/AwAAAA4AAAC0//b/AwAAAA4AAAC0//f/AwAAAA4AAAC0//j/AwAAAA4AAAC0//n/AwAAAA4AAAC0//r/AwAAAA4AAAC0//v/AwAAAA4AAAC0//z/AwAAAA4AAAA=")
 tile_set = ExtResource("2_0p6kk")
