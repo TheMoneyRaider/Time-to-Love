@@ -1,8 +1,8 @@
-[gd_scene load_steps=25 format=3 uid="uid://ccwiql3bybf2p"]
+[gd_scene load_steps=20 format=3 uid="uid://ccwiql3bybf2p"]
 
 [ext_resource type="Script" uid="uid://ddvtpbrhc2iw1" path="res://Game Elements/Objects/pathway.gd" id="1_0mqoo"]
 [ext_resource type="Texture2D" uid="uid://4kec172p2w3c" path="res://art/closed_room_reward.png" id="2_okald"]
-[ext_resource type="Texture2D" uid="uid://jauot8cjpgbk" path="res://art/white_dot.png" id="6_rjdqg"]
+[ext_resource type="Texture2D" uid="uid://jauot8cjpgbk" path="res://art/particles/white_dot.png" id="6_rjdqg"]
 [ext_resource type="Shader" uid="uid://c7aprdgds5kpc" path="res://Game Elements/Shaders/chromatic_abberation.gdshader" id="6_x3etk"]
 [ext_resource type="Texture2D" uid="uid://dsg1hqhbidk6m" path="res://art/particles/gradiant_dot.png" id="8_hgkmx"]
 
@@ -10,14 +10,14 @@
 offsets = PackedFloat32Array(0.2647059, 0.5392157, 1)
 colors = PackedColorArray(0.88733417, 0.64631766, 0.35203508, 1, 0.7655881, 0.4938748, 0, 0.81960785, 1, 1, 1, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_hgkmx"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_okald"]
 gradient = SubResource("Gradient_x3etk")
 
 [sub_resource type="Curve" id="Curve_f0d0v"]
 _data = [Vector2(0.0043478236, 0), 0.0, 12.662923, 0, 0, Vector2(0.26521742, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_1vvwv"]
+[sub_resource type="CurveTexture" id="CurveTexture_khmhv"]
 curve = SubResource("Curve_f0d0v")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bamh0"]
@@ -38,21 +38,21 @@ tangential_accel_min = -50.0
 tangential_accel_max = -50.0
 scale_min = 0.099999994
 scale_max = 0.29999998
-scale_curve = SubResource("CurveTexture_1vvwv")
-color_ramp = SubResource("GradientTexture1D_hgkmx")
+scale_curve = SubResource("CurveTexture_khmhv")
+color_ramp = SubResource("GradientTexture1D_okald")
 
 [sub_resource type="Gradient" id="Gradient_hgkmx"]
 offsets = PackedFloat32Array(0.2647059, 0.5392157, 1)
 colors = PackedColorArray(0.94686705, 0.4836762, 0.99999994, 1, 0.87058824, 0, 0.98039216, 0.81960785, 1, 1, 1, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_5ec6i"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2debc"]
 gradient = SubResource("Gradient_hgkmx")
 
 [sub_resource type="Curve" id="Curve_ccisr"]
 _data = [Vector2(0.0043478236, 0), 0.0, 12.662923, 0, 0, Vector2(0.26521742, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_ccisr"]
+[sub_resource type="CurveTexture" id="CurveTexture_qa5l0"]
 curve = SubResource("Curve_ccisr")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1vvwv"]
@@ -72,49 +72,15 @@ radial_accel_max = -20.000002
 tangential_accel_min = 39.999996
 tangential_accel_max = 39.999996
 scale_max = 2.0
-scale_curve = SubResource("CurveTexture_ccisr")
-color_ramp = SubResource("GradientTexture1D_5ec6i")
+scale_curve = SubResource("CurveTexture_qa5l0")
+color_ramp = SubResource("GradientTexture1D_2debc")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_okald"]
 radius = 32.0
 
-[sub_resource type="Gradient" id="Gradient_rjdqg"]
-offsets = PackedFloat32Array(0.2647059, 0.5392157, 1)
-colors = PackedColorArray(0.88733417, 0.64631766, 0.35203508, 1, 0.7655881, 0.4938748, 0, 0.81960785, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_rjdqg"]
-gradient = SubResource("Gradient_rjdqg")
-
-[sub_resource type="Curve" id="Curve_hgkmx"]
-_data = [Vector2(0, 0.28089893), 0.0, 5.0165224, 0, 0, Vector2(0.13043478, 0.9550562), 0.0, 0.0, 0, 0, Vector2(0.9826088, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_5ec6i"]
-curve = SubResource("Curve_hgkmx")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ccisr"]
-particle_flag_disable_z = true
-emission_shape = 6
-emission_ring_axis = Vector3(0, 0, 1)
-emission_ring_height = 1.0
-emission_ring_radius = 18.0
-emission_ring_inner_radius = 0.0
-emission_ring_cone_angle = 90.0
-spread = 180.0
-initial_velocity_min = 25.0
-initial_velocity_max = 25.0
-gravity = Vector3(0, 0, 0)
-radial_accel_min = -20.000002
-radial_accel_max = -20.000002
-tangential_accel_min = -40.0
-tangential_accel_max = -40.0
-scale_max = 2.0
-scale_curve = SubResource("CurveTexture_5ec6i")
-color_ramp = SubResource("GradientTexture1D_rjdqg")
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hgkmx"]
 shader = ExtResource("6_x3etk")
-shader_parameter/aberration_strength = 0.002
+shader_parameter/aberration_strength = 0.2000000095
 shader_parameter/mask_intensity = 1.0
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_dp20r"]
@@ -152,14 +118,6 @@ collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_okald")
-
-[node name="RiftWisps_OrangeOld" type="GPUParticles2D" parent="."]
-visible = false
-position = Vector2(240, 69)
-amount = 100
-texture = ExtResource("8_hgkmx")
-lifetime = 2.0
-process_material = SubResource("ParticleProcessMaterial_ccisr")
 
 [node name="ShaderSprite" type="Sprite2D" parent="."]
 visible = false

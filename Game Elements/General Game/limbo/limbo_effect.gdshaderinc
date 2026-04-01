@@ -34,11 +34,16 @@ vec4 sobel(vec4 original_color, sampler2D text, vec2 uv){
 
 vec2 band(vec2 tiledUV){
 	int z_band =  z_order/10;
+	vec2 temp_ans;
 	if (z_band == 1)
-		return vec2(tiledUV.y,tiledUV.x);
+		temp_ans = tiledUV;
+	if (z_band == 1)
+		temp_ans = vec2(tiledUV.y,tiledUV.x);
 	if (z_band == 2)
-		return vec2(tiledUV.x,tiledUV.y)/1.5 +.5;
+		temp_ans = vec2(tiledUV.x,tiledUV.y)/1.5 +.5;
 	if (z_band == 3)
-		return vec2(tiledUV.y,1.0-tiledUV.x)*1.5;
-	return tiledUV;
+		temp_ans = vec2(tiledUV.y,1.0-tiledUV.x)*1.5;
+	temp_ans+=vec2(3.0,3.0);
+	temp_ans = temp_ans - floor(temp_ans);
+	return temp_ans;
 }

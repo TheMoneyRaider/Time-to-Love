@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jauot8cjpgbk"
-path="res://.godot/imported/white_dot.png-4f2cd9efe422ce4d03354b22413416c0.ctex"
+uid="uid://lwp6tmccxc3r"
+path="res://.godot/imported/white_dot_blur.png-74e9bd0ae0d5342c7514296979c6dcc7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/white_dot.png"
-dest_files=["res://.godot/imported/white_dot.png-4f2cd9efe422ce4d03354b22413416c0.ctex"]
+source_file="res://art/particles/white_dot_blur.png"
+dest_files=["res://.godot/imported/white_dot_blur.png-74e9bd0ae0d5342c7514296979c6dcc7.ctex"]
 
 [params]
 

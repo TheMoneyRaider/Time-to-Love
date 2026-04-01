@@ -26,7 +26,7 @@ var generated_room_conflict : = {}
 var generated_room_entrance : = {}
 var global_conflict_cells= []
 var placable_cells= []
-var this_room_reward1 = Globals.Reward.Remnant
+var this_room_reward1 = Globals.Reward.HealthUpgrade
 var this_room_reward2 = Globals.Reward.HealthUpgrade
 var is_wave_room = false
 var total_waves = 0
@@ -63,6 +63,8 @@ var blocked_cells := []
 var liquid_cells : Array[Array]= [[],[],[],[],[],[],[],[],[],[]]
 var is_multiplayer = Globals.is_multiplayer
 #
+@onready var PathwayViewport =  $PathwayViewport
+@onready var PathwayTransition =  $game_container/game_viewport/game_root/Camera2D/PathwayTransition
 
 func _ready() -> void:
 	$game_container.material = $game_container.material.duplicate(true)
@@ -121,9 +123,11 @@ func _ready() -> void:
 	create_new_rooms()
 	pathfinding.setup_from_room(room_instance.get_node("Ground"), room_instance.blocked_cells, room_instance.trap_cells)
 	_prepare_timefabric()
+	PathwayTransition.material.set_shader_parameter("mask_texture", PathwayTransition.get_texture())
 
 func _process(delta: float) -> void:
-	
+	if PathwayViewport.get_children().size() > 0: 
+		PathwayTransition.material.set_shader_parameter("mask_texture", PathwayTransition.get_texture())
 	time_passed += delta
 	time_in_room += delta
 	
@@ -255,11 +259,7 @@ func check_pathways(generated_room : Node2D, generated_room_data : Room, player_
 						is_wave_room  = pathway_detect.is_wave
 						this_room_reward1 = pathway_detect.reward1_type
 						this_room_reward2 = pathway_detect.reward2_type
-						_move_to_pathway_room(pathway_name+"_Detect")
-						if is_wave_room:
-							total_waves = 2 #TODO make dynamic
-							current_wave = 1
-							hud.display_notification("Wave "+str(current_wave)+" / "+str(total_waves))
+						_move_to_pathway_room(pathway_name+"_Detect",is_wave_room)
 						print(is_special_action)
 						return p_direct
 	return -1
@@ -1137,14 +1137,42 @@ func _finalize_room_creation(next_room_instance: Node2D, next_room_data: Room, d
 	_choose_reward(pathway_detect.name)
 
 
-
-func _move_to_pathway_room(pathway_id: String) -> void:
+var transitioning : bool = false
+func _move_to_pathway_room(pathway_id: String, is_wave_room : bool) -> void:
 	time_in_room = 0
 	
 	var shido1 = 0.0
 	var shido2 = 0.0
 	var player1_ranked_up : Array[String] = []
 	var player2_ranked_up : Array[String] = []
+	if transitioning:
+		return
+	#Transition
+	var pathway =  room_instance.get_node(pathway_id)
+	#pathway.get_node("Prompt1").visible = false
+	#pathway.get_node("Prompt2").visible = false
+	#pathway.get_node("Icons").visible = false
+	player1.disabled = true
+	if is_multiplayer:
+		player2.disabled = true
+		
+	var particles = load("res://Game Elements/Particles/pathway_particles.tscn").instantiate()
+	PathwayTransition.global_position = pathway.global_position - Vector2(1024,1024)
+	PathwayViewport.add_child(particles)
+	particles.position = Vector2(1024,1024)
+	transitioning = true
+	await get_tree().create_timer(3.0,false).timeout
+	player1.disabled = false
+	if is_multiplayer:
+		player2.disabled = false
+
+	transitioning = false
+	if is_wave_room:
+		total_waves = 2 #TODO make dynamic
+		current_wave = 1
+		hud.display_notification("Wave "+str(current_wave)+" / "+str(total_waves))
+	
+	
 	for rem in player_1_remnants:
 		if rem.remnant_name == "Remnant of Shido":
 			shido1 = rem.variable_1_values[rem.rank-1]/100.0
@@ -1202,7 +1230,6 @@ func _move_to_pathway_room(pathway_id: String) -> void:
 				effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
 				effect.gained(player1)
 				player1.effects.append(effect)
-				
 	if is_multiplayer or not player1.is_purple:
 		for rem in player_2_remnants:
 			if rem.remnant_name == healer.remnant_name:

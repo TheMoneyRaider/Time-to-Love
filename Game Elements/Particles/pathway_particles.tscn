@@ -1,0 +1,101 @@
+[gd_scene load_steps=14 format=3 uid="uid://dv81hehnm8n2s"]
+
+[ext_resource type="Script" uid="uid://cslhitgg2jcir" path="res://Game Elements/Particles/pathway_particles.gd" id="1_hikjp"]
+[ext_resource type="Texture2D" uid="uid://dsg1hqhbidk6m" path="res://art/particles/gradiant_dot.png" id="2_hikjp"]
+[ext_resource type="Texture2D" uid="uid://lwp6tmccxc3r" path="res://art/particles/white_dot_blur.png" id="3_hikjp"]
+
+[sub_resource type="Gradient" id="Gradient_4lkcr"]
+offsets = PackedFloat32Array(0.025052192, 0.27139875, 1)
+colors = PackedColorArray(0.94686705, 0.4836762, 0.99999994, 1, 0.87058824, 0, 0.98039216, 0.81960785, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ejwir"]
+gradient = SubResource("Gradient_4lkcr")
+
+[sub_resource type="Curve" id="Curve_3autm"]
+_limits = [0.0, 4.0, 0.0, 1.0]
+_data = [Vector2(0.0043478236, 0), 0.0, 12.662923, 0, 0, Vector2(0.09306931, 1), 3.9917748, 3.9917748, 0, 0, Vector2(0.35445544, 4), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_rkpg2"]
+curve = SubResource("Curve_3autm")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mi623"]
+lifetime_randomness = 0.2
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 18.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+spread = 180.0
+initial_velocity_min = 25.0
+initial_velocity_max = 25.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -20.000002
+radial_accel_max = -20.000002
+tangential_accel_min = 160.0
+tangential_accel_max = 160.0
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_rkpg2")
+color_ramp = SubResource("GradientTexture1D_ejwir")
+
+[sub_resource type="Gradient" id="Gradient_j3hag"]
+offsets = PackedFloat32Array(0.0960334, 0.49895614, 1)
+colors = PackedColorArray(0.88733417, 0.64631766, 0.35203508, 1, 0.7655881, 0.4938748, 0, 0.81960785, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_3autm"]
+gradient = SubResource("Gradient_j3hag")
+
+[sub_resource type="Curve" id="Curve_ijk0x"]
+_limits = [0.0, 4.0, 0.0, 1.0]
+_data = [Vector2(0.0043478236, 0), 0.0, 12.662923, 0, 0, Vector2(0.108910896, 0.8895864), 8.198146, 8.198146, 0, 0, Vector2(0.2891089, 2.1181684), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_j3hag"]
+curve = SubResource("Curve_ijk0x")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_btxau"]
+lifetime_randomness = 0.2
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 6.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+spread = 180.0
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -20.000002
+radial_accel_max = -20.000002
+tangential_accel_min = -100.0
+tangential_accel_max = -100.0
+scale_min = 0.29999998
+scale_max = 0.59999996
+scale_curve = SubResource("CurveTexture_j3hag")
+color_ramp = SubResource("GradientTexture1D_3autm")
+
+[node name="PathwayParticles" type="Node2D"]
+script = ExtResource("1_hikjp")
+
+[node name="Purple" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 1800
+texture = ExtResource("2_hikjp")
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.5
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_mi623")
+
+[node name="Orange" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 5400
+texture = ExtResource("3_hikjp")
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.5
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_btxau")
