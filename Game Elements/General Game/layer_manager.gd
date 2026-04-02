@@ -1140,7 +1140,7 @@ func _finalize_room_creation(next_room_instance: Node2D, next_room_data: Room, d
 
 
 var transitioning : bool = false
-func _move_to_pathway_room(pathway_id: String, is_wave_room : bool) -> void:
+func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	time_in_room = 0
 	
 	var shido1 = 0.0
@@ -1169,7 +1169,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room : bool) -> void:
 		player2.disabled = false
 
 	transitioning = false
-	if is_wave_room:
+	if is_wave_room_p:
 		total_waves = 2 #TODO make dynamic
 		current_wave = 1
 		delay_wave_notification("Wave "+str(current_wave)+" / "+str(total_waves),4.0)
@@ -1337,6 +1337,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room : bool) -> void:
 	for child in room_instance.get_children():
 		if child.is_in_group("enemy"):
 			enemies.append(child)
+			child.process_mode = Node.PROCESS_MODE_DISABLED
 	awareness_display.set_array(enemies.duplicate(),0)
 	
 	if room_instance_data.roomtype == Globals.RoomType.Boss:
@@ -1352,6 +1353,11 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room : bool) -> void:
 	
 	
 	create_new_rooms()
+	
+	
+	await get_tree().create_timer(2.0,false).timeout
+	for child in enemies:
+		child.process_mode = Node.PROCESS_MODE_PAUSABLE
 	
 
 func delay_wave_notification(message : String, delay : float):
