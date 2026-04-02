@@ -262,6 +262,8 @@ func check_pathways(generated_room : Node2D, generated_room_data : Room, player_
 						_move_to_pathway_room(pathway_name+"_Detect",is_wave_room)
 						print(is_special_action)
 						return p_direct
+	if is_special_action:
+		return 0
 	return -1
 
 
@@ -1149,9 +1151,9 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room : bool) -> void:
 		return
 	#Transition
 	var pathway =  room_instance.get_node(pathway_id)
-	#pathway.get_node("Prompt1").visible = false
-	#pathway.get_node("Prompt2").visible = false
-	#pathway.get_node("Icons").visible = false
+	pathway.get_node("Prompt1").visible = false
+	pathway.get_node("Prompt2").visible = false
+	pathway.get_node("Icons").visible = false
 	player1.disabled = true
 	if is_multiplayer:
 		player2.disabled = true
@@ -1347,6 +1349,9 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room : bool) -> void:
 	else:
 		camera.get_node("GrassTexture").visible = false
 		camera.get_node("GrassTexture").texture = null
+	
+	
+	create_new_rooms()
 	
 
 func delay_wave_notification(message : String, delay : float):
@@ -1563,9 +1568,7 @@ func _on_activate(player_node : Node):
 		if room_instance.get_node_or_null("Shop") and room_instance.get_node("Shop").check_rewards(player_node):
 			return
 		if reward_claimed:
-			var direction = check_pathways(room_instance, room_instance_data,player_node,false)
-			if direction != -1:
-				create_new_rooms()
+			check_pathways(room_instance, room_instance_data,player_node,false)
 	
 func _on_special(player_node : Node):
 	var remnants : Array[Remnant] = []
