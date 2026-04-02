@@ -1,7 +1,7 @@
 shader_type canvas_item;
 
 uniform sampler2D mask_texture;
-uniform float aberration_strength : hint_range(0.0,0.5) = 0.5;
+uniform float aberration_strength : hint_range(0.0, 30.0) = 2.0;
 uniform float mask_intensity : hint_range(0.0,1.0) = 1.0;
 
 void fragment() {
@@ -13,7 +13,7 @@ void fragment() {
     vec4 base_color = texture(TEXTURE, uv);
 
     // Chromatic aberration offsets (local UV only)
-    vec2 aberr_offset = vec2(aberration_strength/100.0, 0.0);
+	vec2 aberr_offset = vec2(aberration_strength * TEXTURE_PIXEL_SIZE.x, 0.0);
 
     vec4 aberrated;
     aberrated.r = texture(TEXTURE, uv + aberr_offset).r;
@@ -27,5 +27,6 @@ void fragment() {
     // Add visible mask if desired
     vec4 mask_color = texture(mask_texture, uv) * mask_intensity;
 
-    COLOR = color_with_aberration + mask_color * mask;
+	COLOR = mix(color_with_aberration, color_with_aberration + mask_color, mask * mask_intensity);
+
 }

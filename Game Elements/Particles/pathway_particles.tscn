@@ -34,8 +34,8 @@ initial_velocity_max = 25.0
 gravity = Vector3(0, 0, 0)
 radial_accel_min = -20.000002
 radial_accel_max = -20.000002
-tangential_accel_min = 160.0
-tangential_accel_max = 160.0
+tangential_accel_min = 240.0
+tangential_accel_max = 240.0
 scale_max = 3.0
 scale_curve = SubResource("CurveTexture_rkpg2")
 color_ramp = SubResource("GradientTexture1D_ejwir")
@@ -70,8 +70,8 @@ initial_velocity_max = 50.0
 gravity = Vector3(0, 0, 0)
 radial_accel_min = -20.000002
 radial_accel_max = -20.000002
-tangential_accel_min = -100.0
-tangential_accel_max = -100.0
+tangential_accel_min = -150.0
+tangential_accel_max = -150.0
 scale_min = 0.29999998
 scale_max = 0.59999996
 scale_curve = SubResource("CurveTexture_j3hag")
@@ -82,9 +82,9 @@ script = ExtResource("1_hikjp")
 
 [node name="Purple" type="GPUParticles2D" parent="."]
 emitting = false
-amount = 1800
+amount = 1200
 texture = ExtResource("2_hikjp")
-lifetime = 8.0
+lifetime = 5.0
 one_shot = true
 explosiveness = 0.5
 local_coords = true
@@ -92,9 +92,9 @@ process_material = SubResource("ParticleProcessMaterial_mi623")
 
 [node name="Orange" type="GPUParticles2D" parent="."]
 emitting = false
-amount = 5400
+amount = 3600
 texture = ExtResource("3_hikjp")
-lifetime = 8.0
+lifetime = 5.0
 one_shot = true
 explosiveness = 0.5
 local_coords = true

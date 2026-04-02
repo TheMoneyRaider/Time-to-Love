@@ -11,7 +11,7 @@ shader = ExtResource("2_m10nd")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.5
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("3_6jiiy")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8u5p7"]

@@ -12,7 +12,7 @@ shader = ExtResource("4_nb1l4")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.470000022325
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0p6kk"]
@@ -20,7 +20,7 @@ shader = ExtResource("4_nb1l4")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.470000022325
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_saq3n"]
@@ -28,7 +28,7 @@ shader = ExtResource("4_nb1l4")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.470000022325
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pyv7p"]
@@ -36,7 +36,7 @@ shader = ExtResource("4_nb1l4")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.470000022325
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jynje"]
@@ -44,7 +44,7 @@ shader = ExtResource("4_nb1l4")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.470000022325
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d2r8i"]
@@ -52,7 +52,7 @@ shader = ExtResource("4_nb1l4")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.470000022325
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_o1pi5"]
@@ -60,7 +60,7 @@ shader = ExtResource("4_nb1l4")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.470000022325
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_snbct"]
@@ -68,7 +68,7 @@ shader = ExtResource("4_nb1l4")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.470000022325
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fu2ne"]
@@ -76,7 +76,7 @@ shader = ExtResource("4_nb1l4")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.470000022325
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6np1i"]
@@ -84,7 +84,7 @@ shader = ExtResource("4_nb1l4")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.470000022325
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_57kfr"]
@@ -92,7 +92,7 @@ shader = ExtResource("4_nb1l4")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.470000022325
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nkbpk"]
@@ -100,7 +100,7 @@ shader = ExtResource("4_nb1l4")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.470000022325
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_m16dc"]
@@ -108,7 +108,7 @@ shader = ExtResource("4_nb1l4")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.470000022325
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wk5aj"]
@@ -116,7 +116,7 @@ shader = ExtResource("4_nb1l4")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.470000022325
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_snkai"]
@@ -124,7 +124,7 @@ shader = ExtResource("4_nb1l4")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.470000022325
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_24wit"]
@@ -132,7 +132,7 @@ shader = ExtResource("4_nb1l4")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.470000022325
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8fh1t"]
@@ -140,7 +140,7 @@ shader = ExtResource("4_nb1l4")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.470000022325
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rvwef"]
@@ -148,7 +148,7 @@ shader = ExtResource("4_nb1l4")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.470000022325
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [node name="Root" type="Node2D"]

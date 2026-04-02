@@ -351,13 +351,13 @@ shader = ExtResource("16_nt7kn")
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.5
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("20_fpruh")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jceoj"]
 shader = ExtResource("21_x2m3a")
-shader_parameter/aberration_strength = 0.0
-shader_parameter/mask_intensity = 1.0
+shader_parameter/aberration_strength = 2.000000095
+shader_parameter/mask_intensity = 0.400000019
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_lsyjg"]
 viewport_path = NodePath("PathwayViewport")

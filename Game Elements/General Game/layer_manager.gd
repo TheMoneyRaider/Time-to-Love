@@ -1161,7 +1161,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room : bool) -> void:
 	PathwayViewport.add_child(particles)
 	particles.position = Vector2(1024,1024)
 	transitioning = true
-	await get_tree().create_timer(3.0,false).timeout
+	await get_tree().create_timer(2.5,false).timeout
 	player1.disabled = false
 	if is_multiplayer:
 		player2.disabled = false
@@ -1281,7 +1281,8 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room : bool) -> void:
 	next_room.visible = true
 	next_room.process_mode = Node.PROCESS_MODE_INHERIT
 	room_instance = next_room
-	RoomManager.make_room_limbo(room_instance,room_instance.z_index,self)
+	if RoomManager.current_progress > 3.0:
+		RoomManager.make_room_limbo(room_instance,room_instance.z_index,self)
 	_placable_locations()
 	apply_shared_noise_offset(room_instance)
 	
