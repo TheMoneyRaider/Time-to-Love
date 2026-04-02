@@ -1163,7 +1163,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	PathwayViewport.add_child(particles)
 	particles.position = Vector2(1024,1024)
 	transitioning = true
-	await get_tree().create_timer(2.5,false).timeout
+	await get_tree().create_timer(2,false).timeout
 	player1.disabled = false
 	if is_multiplayer:
 		player2.disabled = false

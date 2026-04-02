@@ -1,9 +1,9 @@
 extends Node2D
 func _ready():
-	$Orange.emitting = true
-	$Purple.emitting = true
+	for child in get_children():
+		child.emitting = true
 var duration =0.0
 func _process(delta: float) -> void:
 	duration+=delta
-	if duration >= $Orange.lifetime and duration >= $Purple.lifetime:
+	if duration >= get_child(0).lifetime:
 		queue_free()

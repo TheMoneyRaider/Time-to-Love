@@ -13,7 +13,7 @@ gradient = SubResource("Gradient_4lkcr")
 
 [sub_resource type="Curve" id="Curve_3autm"]
 _limits = [0.0, 4.0, 0.0, 1.0]
-_data = [Vector2(0.0043478236, 0), 0.0, 12.662923, 0, 0, Vector2(0.09306931, 1), 3.9917748, 3.9917748, 0, 0, Vector2(0.35445544, 4), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0.0043478236, 0), 0.0, 12.662923, 0, 0, Vector2(0.09306931, 1), 3.9917748, 3.9917748, 0, 0, Vector2(0.36831683, 3.0086331), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 4
 
 [sub_resource type="CurveTexture" id="CurveTexture_rkpg2"]
@@ -29,8 +29,8 @@ emission_ring_radius = 18.0
 emission_ring_inner_radius = 0.0
 emission_ring_cone_angle = 90.0
 spread = 180.0
-initial_velocity_min = 25.0
-initial_velocity_max = 25.0
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
 gravity = Vector3(0, 0, 0)
 radial_accel_min = -20.000002
 radial_accel_max = -20.000002
@@ -39,6 +39,8 @@ tangential_accel_max = 240.0
 scale_max = 3.0
 scale_curve = SubResource("CurveTexture_rkpg2")
 color_ramp = SubResource("GradientTexture1D_ejwir")
+hue_variation_min = -0.030000022
+hue_variation_max = 0.029999977
 
 [sub_resource type="Gradient" id="Gradient_j3hag"]
 offsets = PackedFloat32Array(0.0960334, 0.49895614, 1)
@@ -65,8 +67,8 @@ emission_ring_radius = 6.0
 emission_ring_inner_radius = 0.0
 emission_ring_cone_angle = 90.0
 spread = 180.0
-initial_velocity_min = 50.0
-initial_velocity_max = 50.0
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
 gravity = Vector3(0, 0, 0)
 radial_accel_min = -20.000002
 radial_accel_max = -20.000002
@@ -76,26 +78,208 @@ scale_min = 0.29999998
 scale_max = 0.59999996
 scale_curve = SubResource("CurveTexture_j3hag")
 color_ramp = SubResource("GradientTexture1D_3autm")
+hue_variation_min = -0.030000022
+hue_variation_max = 0.029999977
 
 [node name="PathwayParticles" type="Node2D"]
 script = ExtResource("1_hikjp")
 
 [node name="Purple" type="GPUParticles2D" parent="."]
 emitting = false
-amount = 1200
+amount = 90
 texture = ExtResource("2_hikjp")
-lifetime = 5.0
+lifetime = 6.0
 one_shot = true
-explosiveness = 0.5
+explosiveness = 0.75
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_mi623")
 
 [node name="Orange" type="GPUParticles2D" parent="."]
 emitting = false
-amount = 3600
+amount = 270
 texture = ExtResource("3_hikjp")
-lifetime = 5.0
+lifetime = 6.0
 one_shot = true
-explosiveness = 0.5
+explosiveness = 0.75
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_btxau")
+
+[node name="Purple2" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 90
+texture = ExtResource("2_hikjp")
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.75
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_mi623")
+
+[node name="Orange2" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 270
+texture = ExtResource("3_hikjp")
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.75
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_btxau")
+
+[node name="Purple3" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 90
+texture = ExtResource("2_hikjp")
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.75
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_mi623")
+
+[node name="Orange3" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 270
+texture = ExtResource("3_hikjp")
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.75
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_btxau")
+
+[node name="Purple4" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 90
+texture = ExtResource("2_hikjp")
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.75
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_mi623")
+
+[node name="Orange4" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 270
+texture = ExtResource("3_hikjp")
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.75
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_btxau")
+
+[node name="Purple5" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 90
+texture = ExtResource("2_hikjp")
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.75
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_mi623")
+
+[node name="Orange5" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 270
+texture = ExtResource("3_hikjp")
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.75
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_btxau")
+
+[node name="Purple6" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 90
+texture = ExtResource("2_hikjp")
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.75
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_mi623")
+
+[node name="Orange6" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 270
+texture = ExtResource("3_hikjp")
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.75
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_btxau")
+
+[node name="Purple7" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 90
+texture = ExtResource("2_hikjp")
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.75
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_mi623")
+
+[node name="Orange7" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 270
+texture = ExtResource("3_hikjp")
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.75
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_btxau")
+
+[node name="Purple8" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 90
+texture = ExtResource("2_hikjp")
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.75
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_mi623")
+
+[node name="Orange8" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 270
+texture = ExtResource("3_hikjp")
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.75
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_btxau")
+
+[node name="Purple9" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 90
+texture = ExtResource("2_hikjp")
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.75
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_mi623")
+
+[node name="Orange9" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 270
+texture = ExtResource("3_hikjp")
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.75
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_btxau")
+
+[node name="Purple10" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 90
+texture = ExtResource("2_hikjp")
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.75
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_mi623")
+
+[node name="Orange10" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 270
+texture = ExtResource("3_hikjp")
+lifetime = 6.0
+one_shot = true
+explosiveness = 0.75
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_btxau")
