@@ -1157,7 +1157,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room : bool) -> void:
 		player2.disabled = true
 		
 	var particles = load("res://Game Elements/Particles/pathway_particles.tscn").instantiate()
-	PathwayTransition.global_position = pathway.global_position - Vector2(1024,1024)
+	PathwayTransition.global_position = pathway.global_position
 	PathwayViewport.add_child(particles)
 	particles.position = Vector2(1024,1024)
 	transitioning = true
@@ -1170,7 +1170,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room : bool) -> void:
 	if is_wave_room:
 		total_waves = 2 #TODO make dynamic
 		current_wave = 1
-		hud.display_notification("Wave "+str(current_wave)+" / "+str(total_waves))
+		delay_wave_notification("Wave "+str(current_wave)+" / "+str(total_waves),4.0)
 	
 	
 	for rem in player_1_remnants:
@@ -1346,6 +1346,11 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room : bool) -> void:
 	else:
 		camera.get_node("GrassTexture").visible = false
 		camera.get_node("GrassTexture").texture = null
+	
+
+func delay_wave_notification(message : String, delay : float):
+		await get_tree().create_timer(delay,false).timeout
+		hud.display_notification(message)
 	
 
 func _set_tilemaplayer_collisions(generated_room: Node2D, enable: bool) -> void:

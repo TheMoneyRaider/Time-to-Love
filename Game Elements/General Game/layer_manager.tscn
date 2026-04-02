@@ -356,7 +356,7 @@ shader_parameter/sob_noise = ExtResource("20_fpruh")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jceoj"]
 shader = ExtResource("21_x2m3a")
-shader_parameter/aberration_strength = 0.01200000057
+shader_parameter/aberration_strength = 0.0
 shader_parameter/mask_intensity = 1.0
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_lsyjg"]
