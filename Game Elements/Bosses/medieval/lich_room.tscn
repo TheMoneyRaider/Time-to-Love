@@ -90,6 +90,11 @@ y_sort_enabled = true
 tile_map_data = PackedByteArray("AAD7/wMAAAAZAAkAAAD7/wQAAAAZAAkAAAD7/wUAAAAZAAkAAAACAAMAAAAZAAkAAAACAAQAAAAZAAkAAAACAAUAAAAZAAkAAAD7//7/AAAZAAkAAAD7////AAAZAAkAAAD7/wAAAAAZAAkAAAACAP7/AAAZAAkAAAACAP//AAAZAAkAAAACAAAAAAAZAAkAAAA=")
 tile_set = ExtResource("15_k1ney")
 
+[node name="Lava1" type="TileMapLayer" parent="."]
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAD0//v/AgABAA0AAAD1//v/AgAAAAMAAAD2//v/AgACAA0AAAD2//z/AgAAAAMAAAD2//3/AgAHAA0AAAAHAPv/AgAGAA0AAAAIAPv/AgAHAAsAAAAJAPv/AgABAA0AAAAHAPz/AgAHAA4AAAAHAP3/AgAHAAoAAAA=")
+tile_set = ExtResource("15_k1ney")
+
 [node name="Filling" type="TileMapLayer" parent="."]
 z_index = 30
 y_sort_enabled = true

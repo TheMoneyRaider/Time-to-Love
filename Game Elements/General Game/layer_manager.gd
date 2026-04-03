@@ -4,8 +4,8 @@ extends Node2D
 ### Temp Multiplayer Fix
 var player1 = null
 var player2 = null
-var weapon1 = "res://Game Elements/Weapons/CrossBow.tres"
-var weapon2 = "res://Game Elements/Weapons/laserSword.tres"
+var weapon1 = "res://Game Elements/Weapons/Crossbow.tres"
+var weapon2 = "res://Game Elements/Weapons/LaserSword.tres"
 var undiscovered_weapons = []
 var possible_weapon = ""#undiscovered_weapons.pick_random()
 ###
@@ -460,7 +460,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					if is_multiplayer:
 						player2.change_health(5.0,5.0)
 					player1.change_health(5.0,5.0)
-					var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+					var particle =  load("res://Game Elements/particles/heal_particles.tscn").instantiate()
 					particle.position = node.position
 					generated_room.add_child(particle)
 					node.queue_free()
@@ -470,7 +470,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					if is_multiplayer:
 						player2.change_health(5.0)
 					player1.change_health(5.0)
-					var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+					var particle =  load("res://Game Elements/particles/heal_particles.tscn").instantiate()
 					particle.position = node.position
 					generated_room.add_child(particle)
 					node.queue_free()

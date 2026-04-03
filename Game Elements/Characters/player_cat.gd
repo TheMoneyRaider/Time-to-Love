@@ -550,7 +550,7 @@ func swap_color():
 		tether_line.default_color = Color("Orange")
 		weapons[1].special_time_elapsed = 0.0
 		if LayerManager.room_instance:
-			var inst = preload("res://Game Elements/Particles/swap_particles.tscn").instantiate()
+			var inst = preload("res://Game Elements/particles/swap_particles.tscn").instantiate()
 			inst.range_choice = 1
 			inst.global_position = global_position
 			LayerManager.room_instance.add_child(inst)
@@ -563,7 +563,7 @@ func swap_color():
 		tether_line.default_color = Color("Purple")
 		weapons[0].special_time_elapsed = 0.0
 		if LayerManager.room_instance:
-			var inst = preload("res://Game Elements/Particles/swap_particles.tscn").instantiate()
+			var inst = preload("res://Game Elements/particles/swap_particles.tscn").instantiate()
 			inst.range_choice = 0
 			inst.global_position = global_position
 			LayerManager.room_instance.add_child(inst)
