@@ -46,6 +46,7 @@ var intelligence : Remnant = null
 var LayerManager : Node = null
 
 var special_nodes : Array[Node] = []
+var drag_along : Array[Node] = []
 
 #Special Variables
 var life = 0.0
@@ -116,7 +117,11 @@ func _ready():
 		_laser_attack_setup()
 	
 
-
+func drag():
+	if(attack_type == "giant_bolt"):
+		for x in drag_along:
+			if(x):
+				x.global_position = global_position - direction
 
 func change_direction():
 	if debug_draw_detection:
@@ -206,6 +211,7 @@ func _draw() -> void:
 	
 
 func _process(delta):
+	drag()
 	if attack_type == "ls_melee":
 		global_position = c_owner.global_position
 	if intelligence and speed > 0 and attack_type != "slug":
@@ -288,6 +294,8 @@ func intersection(body):
 				pierce -= 1
 				if attack_type!= "laser" and attack_type!= "scifi_laser" and attack_type!= "binary_melee":
 					hit_nodes[body] = null
+				if(attack_type == "giant_bolt"):
+					drag_along.append(body)
 			0:
 				pass
 			-1:
@@ -347,6 +355,8 @@ func _on_area_entered(area: Area2D) -> void:
 
 
 func _on_body_exited(body: Node2D) -> void:
+	if(attack_type == "giant_bolt"):
+		body.velocity = direction * speed
 	if repeat_hits:
 		hit_nodes.erase(body)
 
