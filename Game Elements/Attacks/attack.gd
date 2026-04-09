@@ -98,7 +98,7 @@ func _ready():
 			$Sprite2D.texture = load("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_orange.png")
 	if attack_type!="scifi_laser":
 		rotation = direction.angle() + PI/2
-	if attack_type == "explosion":
+	if attack_type == "explosion" or attack_type=="tentacle":
 		rotation = 0
 	if attack_type == "slug":
 		special_nodes.append(load("res://Game Elements/Attacks/slug_seperate.tscn").instantiate())
@@ -282,7 +282,7 @@ func intersection(body):
 		match apply_damage(body,c_owner,damage,direction):
 			1:
 				pierce -= 1
-				if attack_type!= "laser" and attack_type!= "scifi_laser" and attack_type!= "binary_melee":
+				if attack_type!= "laser" and attack_type!= "scifi_laser" and attack_type!= "binary_melee" and attack_type!= "tentacle":
 					hit_nodes[body] = null
 			0:
 				pass

@@ -1,6 +1,7 @@
 extends Node2D
 
 var killed : bool = false
+
 func kill(dmg_owner : Node, damage : float, current_health : float, direction : Vector2):
 	if killed:
 		return

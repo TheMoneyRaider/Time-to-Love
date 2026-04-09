@@ -70,6 +70,12 @@ var hole_texture: Texture2D
 var hole_size: Vector2 = Vector2(128,128)
 @export var hole_source : String = "shop_tentacles_sdf"
 @export var uses_sdf : bool = true
+@export var collision_enabled : bool = false
+
+# --- Collision ---
+var _hit_segments: Array[CollisionShape2D] = []
+var _hit_segments2: Array[CollisionShape2D] = []
+
 
 ## Runs on scene load and sets up segments.
 ## Separate from _initialize_segments() so setters can rebuild segments during editing.
@@ -94,6 +100,45 @@ func _ready() -> void:
 	$SubViewportContainer/SubViewport/TwoToneCanvasGroup.material.set_shader_parameter("light_color",light_color)
 	$SubViewportContainer/SubViewport/TwoToneCanvasGroup.material.set_shader_parameter("dark_color",dark_color)
 	$SubViewportContainer.material.set_shader_parameter("emerge_height",emerge_height)
+	if collision_enabled:
+		_setup_hit_segments()   # <-- add this after _initialize_segments
+
+
+# Call this from _ready() AFTER _initialize_segments()
+func _setup_hit_segments() -> void:
+	# Clean up any old ones (useful if called again on reinit)
+	for node in _hit_segments:
+		node.queue_free()
+	_hit_segments.clear()
+	for node in _hit_segments2:
+		node.queue_free()
+	_hit_segments2.clear()
+
+	# Skip index 0
+	for i in range(1, _segments.size()):
+		var shape := CollisionShape2D.new()
+		var circle := CircleShape2D.new()
+		# get_segment_half_width already samples width_curve * line_width * 0.5
+		circle.radius = get_segment_half_width(i) * line_width
+		shape.shape = circle
+		get_parent().add_child.call_deferred(shape)
+		var shape2 = shape.duplicate(true)
+		get_parent().get_node("Attack").add_child.call_deferred(shape2)
+		_hit_segments.append(shape)
+		_hit_segments2.append(shape2)
+
+	print("Arm: created %d hit segments" % _hit_segments.size())
+
+
+func _update_hit_segments() -> void:
+	# _segments[0] is the anchor, _hit_segments[0] corresponds to _segments[1]
+	for i in range(_hit_segments.size()):
+		var seg_index := i + 1
+		if seg_index >= _segments.size():
+			break
+		# _segments are in local space of the Arm node, Area2Ds are children so position is also local
+		_hit_segments[i].position = _segments[seg_index]
+		_hit_segments2[i].position = _segments[seg_index]
 
 
 func shrink(shrink_amount : float, change_length : bool = true):
@@ -119,6 +164,8 @@ func _physics_process(delta: float) -> void:
 	apply_constraints()
 
 	update_line2d()
+	if collision_enabled:
+		_update_hit_segments()
 
 
 ## Two-pass FABRIK IK: backward pass pulls tip to target, forward pass anchors base.

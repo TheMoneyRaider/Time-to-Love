@@ -6,7 +6,7 @@
 [ext_resource type="Shader" uid="uid://5p6gpotop3c4" path="res://Game Elements/Objects/canvas_group_two_tone.gdshader" id="3_viu4x"]
 
 [sub_resource type="Curve" id="Curve_djn6u"]
-_data = [Vector2(0, 0.7186568), 0.0, 0.0, 0, 0, Vector2(1, 0.33059704), -0.30850744, 0.0, 0, 0]
+_data = [Vector2(0, 0.7186568), 0.0, 0.0, 0, 0, Vector2(0.9963303, 0.31207597), -0.30850744, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_djn6u"]

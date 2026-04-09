@@ -276,7 +276,7 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 					child.current_health = -1.0
 					child.emit_signal("enemy_took_damage",100.0,child.current_health,child,Vector2(0,-1))
 				
-	if current_health < 0.0:
+	if current_health <= 0.0:
 			
 		for effect in effects:
 			effect.lost(self)
