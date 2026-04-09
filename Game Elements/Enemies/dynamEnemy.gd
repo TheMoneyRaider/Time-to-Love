@@ -280,7 +280,10 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 			
 		for effect in effects:
 			effect.lost(self)
-		
+		if enemy_type == "tentacle":
+			var brain = get_node("Brain")
+			brain.kill(dmg_owner,damage,current_health,direction)
+			return
 		if  enemy_type == "laser_e":
 			var bt_player = get_node("BTPlayer")
 			var board = bt_player.blackboard

@@ -16,6 +16,7 @@ shader_parameter/outline_size = 1.0
 shader_parameter/alpha_threshold = 0.77999998256544
 shader_parameter/outline_samples = 4
 shader_parameter/shade_color = Color(1, 1, 1, 0)
+shader_parameter/enabled_hole = true
 shader_parameter/hole_mask = ExtResource("3_rt1qa")
 shader_parameter/hole_center = Vector2(8, 40)
 shader_parameter/node_offset = Vector2(0, 0)

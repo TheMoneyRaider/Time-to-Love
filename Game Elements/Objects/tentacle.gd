@@ -68,17 +68,22 @@ var _wave_time: float = 0.0
 var hole_image: Image
 var hole_texture: Texture2D
 var hole_size: Vector2 = Vector2(128,128)
-var hole_source : String = "shop_tentacles_sdf"
+@export var hole_source : String = "shop_tentacles_sdf"
+@export var uses_sdf : bool = true
 
 ## Runs on scene load and sets up segments.
 ## Separate from _initialize_segments() so setters can rebuild segments during editing.
 var viewport_offset
 func _ready() -> void:
+	$SubViewportContainer.material = $SubViewportContainer.material.duplicate(true)
+	if !uses_sdf:
+		$SubViewportContainer.material.set_shader_parameter("enabled_hole",false)
 	viewport_offset = $SubViewportContainer.position + base_node.position
 	_wave_time = randf() * 100
-	hole_texture = load("res://art/holes/"+hole_source+".png")
-	hole_image = hole_texture.get_image()
-	compute_hole_sdf()
+	if uses_sdf:
+		hole_texture = load("res://art/holes/"+hole_source+".png")
+		hole_image = hole_texture.get_image()
+		compute_hole_sdf()
 	
 	$SubViewportContainer/SubViewport/TwoToneCanvasGroup.material = $SubViewportContainer/SubViewport/TwoToneCanvasGroup.material.duplicate()
 	if base_node:
@@ -131,9 +136,9 @@ func solve_ik(target_position: Vector2) -> void:
 			var dir_len = vec.length()
 			var dir = vec / dir_len if dir_len > 0.0001 else Vector2.RIGHT
 			_segments[i] = _segments[i + 1] + dir * _segment_lengths[i]
-			
-			# Clamp to hole if under ground
-			_segments[i] = constrain_to_hole_mask(_segments[i],i)
+			if uses_sdf:
+				# Clamp to hole if under ground
+				_segments[i] = constrain_to_hole_mask(_segments[i],i)
 
 		# Forward: Re-anchor the base and propagate correct lengths forward
 		# After this pass, base is correct but tip has moved slightly off target
@@ -145,8 +150,9 @@ func solve_ik(target_position: Vector2) -> void:
 			var dir = vec / dir_len if dir_len > 0.0001 else Vector2.RIGHT
 			_segments[i + 1] = _segments[i] + dir * _segment_lengths[i]
 			
-			# Clamp to hole if under ground
-			_segments[i + 1] = constrain_to_hole_mask(_segments[i + 1],i + 1)
+			if uses_sdf:
+				# Clamp to hole if under ground
+				_segments[i + 1] = constrain_to_hole_mask(_segments[i + 1],i + 1)
 
 
 ## moves both _segments toward each other to fix segment stretching. (ಠ_ಠ)
