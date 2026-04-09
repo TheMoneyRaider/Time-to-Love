@@ -47,8 +47,6 @@ func state_change():
 		var img = recent_buffer[0]
 		if img is Image and not img.is_empty():
 			Globals.save_state.picture = ImageTexture.create_from_image(img)
-	
-	Globals.save_config()
 
 
 func activate():
@@ -97,6 +95,7 @@ func _on_menu_pressed():
 	if rewinding:
 		return
 	get_tree().paused = false
+	Globals.save_config()
 	get_tree().call_deferred("change_scene_to_file", "res://Game Elements/ui/main_menu/main_menu.tscn")
 
 func _on_replay_pressed():
