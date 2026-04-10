@@ -208,7 +208,7 @@ func _process(delta):
 		change_direction()
 	if frozen:
 		return
-	if attack_type == "laser" or attack_type == "scifi_laser":
+	if attack_type == "laser" or attack_type == "scifi_laser" or attack_type == "tentacle":
 		if has_method("get_overlapping_bodies"):
 			for body in get_overlapping_bodies():
 				intersection(body)
@@ -268,6 +268,8 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 
 func intersection(body):
 	if c_owner == null:
+		return
+	if "current_health" not in c_owner or c_owner.current_health <= 0.0:
 		return
 	if body.get("c_owner") != null and !is_instance_valid(body.c_owner):
 		return
