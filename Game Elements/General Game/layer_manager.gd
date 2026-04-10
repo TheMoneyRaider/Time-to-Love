@@ -1357,7 +1357,8 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	
 	await get_tree().create_timer(2.0,false).timeout
 	for child in enemies:
-		child.process_mode = Node.PROCESS_MODE_PAUSABLE
+		if child:
+			child.process_mode = Node.PROCESS_MODE_PAUSABLE
 	
 
 func delay_wave_notification(message : String, delay : float):
