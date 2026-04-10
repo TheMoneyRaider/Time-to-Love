@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://c0bvdm1o3wjaq" path="res://ai/tasks/random_cooldown.gd" id="5_1ufl2"]
 [ext_resource type="Script" uid="uid://b7mqxkcvqcrar" path="res://ai/tasks/check_if_moving.gd" id="5_861og"]
 [ext_resource type="Script" uid="uid://c7b86gm25q0p3" path="res://ai/tasks/player_in_range.gd" id="6_yry68"]
-[ext_resource type="Script" uid="uid://ravfjih580jj" path="res://ai/tasks/moveToPlayer.gd" id="7_3pddk"]
+[ext_resource type="Script" uid="uid://cp8st4653ft5q" path="res://ai/tasks/moveToPlayerAdjusted.gd" id="8_861og"]
 [ext_resource type="Script" uid="uid://rvfhx3hd7gln" path="res://ai/tasks/attacks.gd" id="8_k4yq3"]
 [ext_resource type="Script" uid="uid://danrund51c7i6" path="res://ai/tasks/chooseRandomPos.gd" id="9_5gebp"]
 
@@ -102,16 +102,17 @@ max_time = 2.0
 [sub_resource type="BTAction" id="BTAction_yg7nc"]
 custom_name = "OuterRange"
 script = ExtResource("6_yry68")
-hit_range = 120
+hit_range = 150
 
-[sub_resource type="BTAction" id="BTAction_2flr3"]
-custom_name = "MoveToPlayer"
-script = ExtResource("7_3pddk")
+[sub_resource type="BTAction" id="BTAction_1ufl2"]
+script = ExtResource("8_861og")
+in_range = 50
+out_range = 120
 
 [sub_resource type="BTAction" id="BTAction_h7qfk"]
 custom_name = "InnerRange"
 script = ExtResource("6_yry68")
-hit_range = 50
+hit_range = 150
 
 [sub_resource type="BBNode" id="BBNode_1kwu6"]
 saved_value = NodePath("AnimationPlayer")
@@ -150,7 +151,7 @@ children = [SubResource("BTPlayAnimation_ppdyw")]
 
 [sub_resource type="BTSequence" id="BTSequence_v4ajl"]
 custom_name = "Attack if in Range"
-children = [SubResource("BTAction_v4ajl"), SubResource("BTAction_yg7nc"), SubResource("BTAction_2flr3"), SubResource("BTAction_h7qfk"), SubResource("BTStopAnimation_3ccgm"), SubResource("BTPlayAnimation_4evon"), SubResource("BTDelay_arvq5"), SubResource("BTDelay_1ufl2")]
+children = [SubResource("BTAction_v4ajl"), SubResource("BTAction_yg7nc"), SubResource("BTAction_1ufl2"), SubResource("BTAction_h7qfk"), SubResource("BTStopAnimation_3ccgm"), SubResource("BTPlayAnimation_4evon"), SubResource("BTDelay_arvq5"), SubResource("BTDelay_1ufl2")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_33y05"]
 duration = 1.0

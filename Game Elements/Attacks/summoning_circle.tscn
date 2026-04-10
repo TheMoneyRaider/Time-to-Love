@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://b3paf0lncthrx"]
+
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_kw8qr"]
+[ext_resource type="Texture2D" uid="uid://crreefmvtlfbj" path="res://art/medieval_pack/summoning_circle.png" id="2_kw8qr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e1io4"]
+
+[node name="Summon_circle" type="Area2D" groups=["attack"]]
+z_index = 10
+y_sort_enabled = true
+collision_mask = 2
+input_pickable = false
+script = ExtResource("1_kw8qr")
+speed = 0.0
+damage = 0.0
+lifespan = 3.0
+pierce = -1.0
+wall_collision = false
+attack_type = "summon circle"
+creates_indicators = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_e1io4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_kw8qr")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

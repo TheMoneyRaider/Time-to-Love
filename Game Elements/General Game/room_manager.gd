@@ -61,9 +61,12 @@ var sci_fi_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/s
 								preload("res://Game Elements/Rooms/resources/shop_factory.tres")]
 								
 var testing_room : Room = preload("res://Game Elements/Rooms/resources/testing_room.tres")
-var bosses : Array[Room] = [preload("res://Game Elements/Rooms/resources/scifi_boss.tres"),
+#preload("res://Game Elements/Rooms/resources/testing_room.tres")
+var bosses : Array[Room] = [preload("res://Game Elements/Rooms/resources/medieval_boss.tres"),
+	preload("res://Game Elements/Rooms/resources/scifi_boss.tres"),
 						preload("res://Game Elements/Rooms/resources/scifi_boss.tres"),
-						preload("res://Game Elements/Rooms/resources/scifi_boss.tres")]
+						preload("res://Game Elements/Rooms/resources/scifi_boss.tres")
+						]
 
 var cached_scenes : Dictionary = {}
 
@@ -160,6 +163,6 @@ func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerM
 
 func get_boss_chance() -> float:
 	return pow((layer_ai[0]-10),2)/200 if current_progress-int(current_progress) > .85 else 0.0
-	
+	#WE NEED THIS TO BE QUICKER
 	
 	

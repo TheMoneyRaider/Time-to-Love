@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1pyabsjrjod1"]
+
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_l50ie"]
+[ext_resource type="Texture2D" uid="uid://cws3x8eprmqf1" path="res://art/bolt.png" id="2_t8rky"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e1io4"]
+size = Vector2(10, 20)
+
+[node name="Bolt" type="Area2D" groups=["attack"]]
+z_index = 20
+y_sort_enabled = true
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("1_l50ie")
+speed = 200.0
+damage = 4.0
+pierce = 5.0
+attack_type = "giant_bolt"
+deflectable = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_e1io4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 4.7683716e-07)
+scale = Vector2(1, 1.25)
+texture = ExtResource("2_t8rky")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

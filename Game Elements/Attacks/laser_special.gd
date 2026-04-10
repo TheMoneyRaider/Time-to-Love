@@ -86,7 +86,7 @@ func _process(delta):
 	var end_pos : Vector2= point1 + (point2 - point1).normalized() * powered_length
 
 	
-	var sparks = preload("res://Game Elements/Particles/sparks.tscn").instantiate()
+	var sparks = preload("res://Game Elements/particles/sparks.tscn").instantiate()
 	sparks.range_choice = 1
 	get_parent().add_child(sparks)
 	sparks.global_position = point2

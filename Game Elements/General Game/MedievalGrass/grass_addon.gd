@@ -1,5 +1,4 @@
 extends Node3D
-@export var conflict_cells: Array[Vector2i] = []
 
 @export var terrain_set_id: int = 0
 @export var terrain_id: int = 0
@@ -31,14 +30,13 @@ func _process(_delta: float) -> void:
 	grass_camera.position.z = game_camera.position.y * scale_y
 	pass
 
-func initalize(conflict_cells_in : Array, tilemaplayer : TileMapLayer):
+func initalize(_conflict_cells_in : Array, tilemaplayer : TileMapLayer):
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	game_camera = LayerManager.camera
 	offset_y = -(sqrt(pow(grass_camera.position.y/cos(PI/2+grass_camera.rotation.x),2)-pow(grass_camera.position.y,2)))
 	print(camera_offset)
 	print("Generate_grass")
 	$SubViewport/CharacterManager.offset_y = offset_y
-	conflict_cells = conflict_cells_in
 	target_tilemap = tilemaplayer
 	generate()
 	var mask = build_mask(target_tilemap)
@@ -65,8 +63,6 @@ func generate():
 
 	# --- Collect valid terrain cells ---
 	for cell in target_tilemap.get_used_cells():
-		if conflict_cells.has(cell):
-			continue
 
 		var cell_data := target_tilemap.get_cell_tile_data(cell)
 		if cell_data == null:
@@ -111,8 +107,6 @@ func build_mask(tilemap: TileMapLayer) -> ImageTexture:
 	img.fill(Color.BLACK)
 	
 	for cell in tilemap.get_used_cells():
-		if conflict_cells.has(cell):
-			continue
 		
 		var cell_data := target_tilemap.get_cell_tile_data(cell)
 		if cell_data == null:
