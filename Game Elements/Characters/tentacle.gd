@@ -34,13 +34,28 @@ func kill(dmg_owner : Node, damage : float, current_health : float, direction : 
 var target : Node
 var LayerManager: Node
 var length
+@export var Tween_Target : Node
 func _process(_delta: float) -> void:
-	if LayerManager.player1.global_position.distance_to(global_position) < length*1.5:
-		tentacle.target = LayerManager.player1
+	var ratio = LayerManager.player1.global_position.distance_to(global_position) / (length*1.1)
+	if ratio < 1.0:
+		target_tween(LayerManager.player1,ratio)
+		return
 	if LayerManager.is_multiplayer:
-		if LayerManager.player2.global_position.distance_to(global_position) < length*1.5:
-			tentacle.target = LayerManager.player2
-	
+		ratio = LayerManager.player2.global_position.distance_to(global_position) / (length*1.1)
+		if ratio < 1.0:
+			target_tween(LayerManager.player2,ratio)
+			return
+	target_tween(LayerManager.player1,ratio,true)
+
+
+func target_tween(player : Node, ratio : float, ignore_player : bool = false):
+	var cur_pos = Tween_Target.global_position
+	if ignore_player:
+		Tween_Target.global_position = lerp(cur_pos,target.global_position,.01)
+		return
+	else:
+		Tween_Target.global_position = lerp(cur_pos,(player.global_position - global_position)*1.5 +global_position ,.005+.1 * (1.0-ratio))
+		
 
 func _ready() -> void:
 	LayerManager = get_tree().get_root().get_node("LayerManager")
@@ -56,6 +71,4 @@ func _ready() -> void:
 	target.center_pull = 2.0
 	target.position = Vector2(randf_range(-1.0,1.0),randf_range(-1.0,1.0)).normalized() * length * (4/3.0 + randf()*1/3.0)
 	get_parent().add_child.call_deferred(target)
-	tentacle.target = target
 	tentacle._initialize_segments()
-	

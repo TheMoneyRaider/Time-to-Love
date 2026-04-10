@@ -31,9 +31,10 @@ hole_source = ""
 uses_sdf = false
 collision_enabled = true
 
-[node name="Brain" type="Node2D" parent="." node_paths=PackedStringArray("tentacle")]
+[node name="Brain" type="Node2D" parent="." node_paths=PackedStringArray("tentacle", "Tween_Target")]
 script = ExtResource("3_tns6v")
 tentacle = NodePath("../Tentacle")
+Tween_Target = NodePath("../Tween_target")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 10
@@ -45,7 +46,7 @@ collision_layer = 8
 collision_mask = 39
 script = ExtResource("5_387ia")
 speed = 0.0
-damage = 2.0
+damage = 0.0
 lifespan = 1000000000.0
 cooldown = 0.0
 pierce = -2.0
