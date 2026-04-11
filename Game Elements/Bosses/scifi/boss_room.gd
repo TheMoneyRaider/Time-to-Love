@@ -126,7 +126,7 @@ func scifi_phase2_to_3():
 	boss.hitable = false
 	Hud.update_bossbar(0.0)
 	#Wave Attack
-	var attack_inst = load("res://Game Elements/Bosses/scifi/wave_attack.tscn").instantiate()
+	var attack_inst = preload("res://Game Elements/Bosses/scifi/wave_attack.tscn").instantiate()
 	attack_inst.damage = 10.0
 	attack_inst.global_position = boss.global_position
 	attack_inst.c_owner = boss
@@ -284,7 +284,7 @@ func _on_enemy_take_damage(_damage : float,current_health : int,_enemy : Node, d
 		
 var middle_active : int = 0
 func scifi_phase1_middles():
-	var attack_inst = load("res://Game Elements/Bosses/scifi/wave_attack.tscn").instantiate()
+	var attack_inst = preload("res://Game Elements/Bosses/scifi/wave_attack.tscn").instantiate()
 	attack_inst.global_position = boss.global_position
 	attack_inst.c_owner = boss
 	attack_inst.direction = Vector2.UP
@@ -385,7 +385,7 @@ func scifi_laser_attack(num_lasers):
 	var board = boss.get_node("BTPlayer").blackboard
 	var is_purple = board.get_var("player_idx") as bool
 	var track_position = player1.global_position if is_purple else player2.global_position
-	var inst = load("res://Game Elements/Bosses/scifi/singul_laser_attack.tscn").instantiate()
+	var inst = preload("res://Game Elements/Bosses/scifi/singul_laser_attack.tscn").instantiate()
 	
 	inst.direction = Vector2.RIGHT.rotated(lerp_angle(gun.rotation, (track_position - boss.global_position).angle(), 0.03))
 	
@@ -538,7 +538,7 @@ func scifi_binary_process(delta : float):
 				if movement_vector.length() < 32:
 					movement_vector = movement_vector.normalized() * 32
 				target_vector = movement_vector.normalized() * movement_vector.length() * 1.5
-				attack = load("res://Game Elements/Bosses/scifi/singul_binary_lunge.tscn").instantiate()
+				attack = preload("res://Game Elements/Bosses/scifi/singul_binary_lunge.tscn").instantiate()
 	
 				attack.direction = target_vector.normalized()
 				attack.c_owner= boss

@@ -281,7 +281,10 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 			
 		for effect in effects:
 			effect.lost(self)
-		
+		if enemy_type == "tentacle":
+			var brain = get_node("Brain")
+			brain.kill(dmg_owner,damage,current_health,direction)
+			return
 		if  enemy_type == "laser_e":
 			var bt_player = get_node("BTPlayer")
 			var board = bt_player.blackboard
@@ -323,16 +326,16 @@ func _check_on_hit_remnants(dmg_owner: Node, attack_body: Node):
 		else:
 			remnants = get_tree().get_root().get_node("LayerManager").player_2_remnants
 			mancer_value = dmg_owner.mancermancer_values[1]
-		var pyromancer = load("res://Game Elements/Remnants/pyromancer.tres")
-		var winter = load("res://Game Elements/Remnants/winters_embrace.tres")
-		var hydromancer = load("res://Game Elements/Remnants/hydromancer.tres")
-		var longshot = load("res://Game Elements/Remnants/longshot.tres")
+		var pyromancer = preload("res://Game Elements/Remnants/pyromancer.tres")
+		var winter = preload("res://Game Elements/Remnants/winters_embrace.tres")
+		var hydromancer = preload("res://Game Elements/Remnants/hydromancer.tres")
+		var longshot = preload("res://Game Elements/Remnants/longshot.tres")
 		var effect : Effect
 		exploded = 0
 		for rem in remnants:
 			match rem.remnant_name:
 				winter.remnant_name:
-					effect = load("res://Game Elements/Effects/winter_freeze.tres").duplicate(true)
+					effect = preload("res://Game Elements/Effects/winter_freeze.tres").duplicate(true)
 					effect.cooldown = rem.variable_2_values[rem.rank-1]
 					effect.value1 =  rem.variable_1_values[rem.rank-1]
 					effect.gained(self)
@@ -355,7 +358,7 @@ func apply_hydromancer(rem : Remnant, attack_body : Node, mancer_value : int):
 		Globals.Liquid.Water:
 			@warning_ignore("integer_division")
 			for i in range((rem.rank + (mancer_value / 2)) * 8):
-				effect = load("res://Game Elements/Effects/slow_down.tres").duplicate()
+				effect = preload("res://Game Elements/Effects/slow_down.tres").duplicate()
 				effect.cooldown = rem.rank
 				effect.value1 = 0.023
 				effect.gained(self)
@@ -363,7 +366,7 @@ func apply_hydromancer(rem : Remnant, attack_body : Node, mancer_value : int):
 		Globals.Liquid.Lava:
 			@warning_ignore("integer_division")
 			for i in range(1, rem.rank + (mancer_value / 2) + 1):
-				effect = load("res://Game Elements/Effects/burn.tres").duplicate()
+				effect = preload("res://Game Elements/Effects/burn.tres").duplicate()
 				effect.cooldown = i
 				effect.value1 = 2
 				effect.gained(self)
@@ -372,7 +375,7 @@ func apply_hydromancer(rem : Remnant, attack_body : Node, mancer_value : int):
 			var glitch_dir = attack_body.direction
 			glitch_dir.rotated(randf_range(-15,15))
 			_glitch_move(glitch_dir.normalized() * 160)
-			effect = load("res://Game Elements/Effects/stun.tres").duplicate()
+			effect = preload("res://Game Elements/Effects/stun.tres").duplicate()
 			@warning_ignore("integer_division")
 			effect.cooldown = rem.rank + (mancer_value / 2) / 2.5
 			effect.gained(self)
@@ -418,7 +421,7 @@ func check_liquids(delta):
 			var type = tile_data.get_custom_data("liquid")
 			match type:
 				Globals.Liquid.Water:
-					var effect = load("res://Game Elements/Effects/slow_down.tres").duplicate(true)
+					var effect = preload("res://Game Elements/Effects/slow_down.tres").duplicate(true)
 					effect.cooldown = 20*delta
 					effect.value1 = 0.023
 					effect.gained(self)

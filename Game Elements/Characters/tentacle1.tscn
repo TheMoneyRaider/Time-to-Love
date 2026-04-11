@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=3 uid="uid://cskdfrq6kdly6"]
+
+[ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_uepfv"]
+[ext_resource type="PackedScene" uid="uid://cryh3p532bi7" path="res://Game Elements/Objects/tentacle.tscn" id="3_ciyr3"]
+[ext_resource type="Script" uid="uid://bup57y8xaqkcl" path="res://Game Elements/Characters/tentacle.gd" id="3_tns6v"]
+[ext_resource type="Texture2D" uid="uid://dwoka2jahe86h" path="res://art/holes/tentacle1_hole.png" id="4_tns6v"]
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="5_387ia"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hq7sw"]
+radius = 5.0
+
+[node name="Tentacle" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_uepfv")
+max_health = 30.0
+enemy_type = "tentacle"
+move_speed = 0.0
+knockback_decay = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_hq7sw")
+
+[node name="Tentacle" parent="." node_paths=PackedStringArray("target") instance=ExtResource("3_ciyr3")]
+z_index = 35
+target = NodePath("../Tween_target")
+num__segments = 18
+max_length = 96.0
+wave_speed = 3.0
+hole_source = ""
+uses_sdf = false
+collision_enabled = true
+
+[node name="Brain" type="Node2D" parent="." node_paths=PackedStringArray("tentacle", "Tween_Target")]
+script = ExtResource("3_tns6v")
+tentacle = NodePath("../Tentacle")
+Tween_Target = NodePath("../Tween_target")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 10
+position = Vector2(1, 0)
+texture = ExtResource("4_tns6v")
+
+[node name="Attack" type="Area2D" parent="." node_paths=PackedStringArray("c_owner")]
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("5_387ia")
+speed = 0.0
+lifespan = 1000000000.0
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "tentacle"
+c_owner = NodePath("..")
+
+[node name="Tween_target" type="Node2D" parent="."]
+
+[connection signal="area_entered" from="Attack" to="Attack" method="_on_area_entered"]
+[connection signal="body_entered" from="Attack" to="Attack" method="_on_body_entered"]

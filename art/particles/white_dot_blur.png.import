@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qi2j18w2ccr1"
-path="res://.godot/imported/p1_StartMPlayer_press_p2_StartSinglePlayer_press.png-fab2c0d45ce70292680a1a34775104c7.ctex"
+uid="uid://lwp6tmccxc3r"
+path="res://.godot/imported/white_dot_blur.png-74e9bd0ae0d5342c7514296979c6dcc7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui_captures/p1_StartMPlayer_press_p2_StartSinglePlayer_press.png"
-dest_files=["res://.godot/imported/p1_StartMPlayer_press_p2_StartSinglePlayer_press.png-fab2c0d45ce70292680a1a34775104c7.ctex"]
+source_file="res://art/particles/white_dot_blur.png"
+dest_files=["res://.godot/imported/white_dot_blur.png-74e9bd0ae0d5342c7514296979c6dcc7.ctex"]
 
 [params]
 

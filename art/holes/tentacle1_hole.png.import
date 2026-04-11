@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bl828pfut7rcq"
-path="res://.godot/imported/p1_QuitButton_hover_p2_SettingsButton_press.png-e07ba04274b94488e3ee4bec93a247dc.ctex"
+uid="uid://dwoka2jahe86h"
+path="res://.godot/imported/tentacle1_hole.png-975aebca4a64fb0c0d17810bc858ff8a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui_captures/p1_QuitButton_hover_p2_SettingsButton_press.png"
-dest_files=["res://.godot/imported/p1_QuitButton_hover_p2_SettingsButton_press.png-e07ba04274b94488e3ee4bec93a247dc.ctex"]
+source_file="res://art/holes/tentacle1_hole.png"
+dest_files=["res://.godot/imported/tentacle1_hole.png-975aebca4a64fb0c0d17810bc858ff8a.ctex"]
 
 [params]
 

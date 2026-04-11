@@ -47,8 +47,6 @@ func state_change():
 		var img = recent_buffer[0]
 		if img is Image and not img.is_empty():
 			Globals.save_state.picture = ImageTexture.create_from_image(img)
-	
-	Globals.save_config()
 
 
 func activate():
@@ -97,6 +95,7 @@ func _on_menu_pressed():
 	if rewinding:
 		return
 	get_tree().paused = false
+	Globals.save_config()
 	get_tree().call_deferred("change_scene_to_file", "res://Game Elements/ui/main_menu/main_menu.tscn")
 
 func _on_replay_pressed():
@@ -180,7 +179,7 @@ func end_replay():
 	frame_amount = 0
 
 	# Create a full-screen overlay with the last frame
-	var overlay = load("res://Game Elements/ui/transition_texture.tscn").instantiate()
+	var overlay = preload("res://Game Elements/ui/transition_texture.tscn").instantiate()
 	overlay.get_node("TextureRect").texture = ImageTexture.create_from_image(final_frame)
 	overlay.get_properties(replay_texture)
 	get_tree().get_root().add_child(overlay)

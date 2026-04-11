@@ -40,7 +40,6 @@ func initalize(_conflict_cells_in : Array, tilemaplayer : TileMapLayer):
 	target_tilemap = tilemaplayer
 	generate()
 	var mask = build_mask(target_tilemap)
-	mask.get_image().save_png("res://ui_captures/test.png")
 	$SubViewport/Floor.visible = true
 	$SubViewport/Floor.material_override =$SubViewport/Floor.material_override.duplicate(true)
 	var mat = $SubViewport/Floor.material_override

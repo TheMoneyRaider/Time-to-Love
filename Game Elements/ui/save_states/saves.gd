@@ -19,7 +19,9 @@ func _ready() -> void:
 	load_state($MarginContainer/VBoxContainer/Save3,save_state3)
 	$MarginContainer/Back.grab_focus()
 	
-	
+func _process(delta: float) -> void:
+	$ColorRect.material.set_shader_parameter("time", $ColorRect.material.get_shader_parameter("time")+delta)	
+
 func highlight_state():
 	$MarginContainer/VBoxContainer/Save1/TextureRect2.modulate = Color(0.5, 0.5, 0.5, 1.0) if Globals.save_idx == 0 else Color(1.0, 1.0, 1.0, 1.0)
 	$MarginContainer/VBoxContainer/Save2/TextureRect2.modulate = Color(0.5, 0.5, 0.5, 1.0) if Globals.save_idx == 1 else Color(1.0, 1.0, 1.0, 1.0)

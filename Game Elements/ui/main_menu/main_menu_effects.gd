@@ -19,13 +19,13 @@ class UIState:
 @onready var exploaded: bool = false
 @onready var fragmenting: bool = true
 @onready var prepared = false
-@export var capture_all_states: bool = false
-@export var saved_fragments_paths: Array[String] = ["res://Game Elements/ui/main_menu/BreakFXSavedWestern.tres","res://Game Elements/ui/main_menu/BreakFXSavedSpace.tres","res://Game Elements/ui/main_menu/BreakFXSavedHorror.tres","res://Game Elements/ui/main_menu/BreakFXSavedMedieval.tres"]
+var capture_all_states: bool = false
+@export var saved_fragments_paths: Array[String] = ["res://Game Elements/ui/main_menu/BreakFXSavedWestern.tres","res://Game Elements/ui/main_menu/BreakFXSavedSpace.tres","res://Game Elements/ui/main_menu/BreakFXSavedMedieval.tres"]
 
 var last_mouse_pos : Vector2
 var ui_textures: Dictionary = {}
 var last_devices : Array = []
-var title_textures : Array = [load("res://art/title_assets/title_variants/western.png"),load("res://art/title_assets/title_variants/space.png"),load("res://art/title_assets/title_variants/horror.png"),load("res://art/title_assets/title_variants/medieval.png")]
+var title_textures : Array = [preload("res://art/title_assets/title_variants/western.png"),preload("res://art/title_assets/title_variants/space.png"),preload("res://art/title_assets/title_variants/medieval.png")]
 var UI: UIState = UIState.new()
 @onready var prev_state = null
 
@@ -33,6 +33,8 @@ var UI: UIState = UIState.new()
 func _ready():
 	Title.texture = title_textures[Globals.menu]
 	fragmenting = Globals.config.get_value("fragmentation", "enabled", true)
+	if capture_all_states:
+		fragmenting = true
 	if !fragmenting:
 		$RichTextLabel.visible = false
 		UI_Group.get_node("VBoxContainer").get_child(2).grab_focus()
@@ -189,7 +191,7 @@ func explode_ui():
 
 	# --- Otherwise, generate fragments ---
 	print("start saving fragments")
-	for state in [Globals.MenuState.Western,Globals.MenuState.Space,Globals.MenuState.Horror,Globals.MenuState.Medieval]:
+	for state in [Globals.MenuState.Western,Globals.MenuState.Space,Globals.MenuState.Medieval]:
 		Title.texture = title_textures[state]
 		await get_tree().process_frame
 		var vp_tex = $SubViewportContainer/SubViewport.get_texture()
@@ -207,7 +209,7 @@ func explode_ui():
 
 		for frag_poly in fragments_data:
 
-			var frag = load("res://Game Elements/ui/main_menu/break_frag.tscn").instantiate()
+			var frag = preload("res://Game Elements/ui/main_menu/break_frag.tscn").instantiate()
 			$BreakFX.add_child(frag)
 
 			# Assign polygon & texture
@@ -240,7 +242,7 @@ func load_fragments(path: String) -> void:
 	UI_Group.visible = true
 	var container: FragmentsContainer = load(path)
 	for fdata in container.fragments:
-		var frag = load("res://Game Elements/ui/main_menu/break_frag.tscn").instantiate()
+		var frag = preload("res://Game Elements/ui/main_menu/break_frag.tscn").instantiate()
 		$BreakFX.add_child(frag)
 		frag.global_position = fdata.position
 		var button_bounds = {}
@@ -413,6 +415,7 @@ func update_ui_display():
 				frag.set_display_texture(ui_textures[fname])
 	
 func capture_all_ui_states():		
+	print("capturing")
 	var buttons = []
 	for button in $SubViewportContainer/SubViewport/UI_Group/VBoxContainer.get_children():
 		if button is Button:

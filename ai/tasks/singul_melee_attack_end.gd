@@ -39,7 +39,7 @@ func request_attacks(direction : Vector2, char_position : Vector2):
 			
 
 func spawn_attack(attack_direction : Vector2, attack_position : Vector2):
-	var instance = load("res://Game Elements/Bosses/scifi/signul_melee.tscn").instantiate()
+	var instance = preload("res://Game Elements/Bosses/scifi/signul_melee.tscn").instantiate()
 	instance.direction = attack_direction
 	instance.global_position = attack_position
 	instance.c_owner = agent

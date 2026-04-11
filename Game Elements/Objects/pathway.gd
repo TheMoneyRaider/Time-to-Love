@@ -99,6 +99,7 @@ func disable_pathway(fully : bool):
 	$ShaderSprite.visible = false
 	active = false
 func enable_pathway():
+	print("Enable: "+name)
 	visible = true
 	$Icons/PathwayIcon1.z_index=0
 	$Icons/PathwayIcon2.z_index=0
@@ -123,6 +124,8 @@ func enable_pathway():
 		$Icons/PathwayIcon2.material.set_shader_parameter("upper_left", false)
 
 func set_reward(reward1 : Globals.Reward, in_is_wave : bool = false, reward2 : Globals.Reward = Globals.Reward.Remnant, _weapon_type : String = ""):
+	
+	print("Set Reward: "+name)
 	var new_icon1 = null
 	var new_icon2 = null
 	is_wave = in_is_wave

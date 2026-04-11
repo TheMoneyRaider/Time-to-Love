@@ -279,7 +279,7 @@ static func _spawn_enemy(cell: Vector2i, scene: Node, enemy: PackedScene, layer_
 static func spawn_after_image(entity : Node, layer_manager : Node, start_color : Color = Color(1,1,1,1), end_color : Color = Color(1,1,1,1),start_color_strength : float = 1.0, end_color_strength : float = 1.0, lifetime : float = 2.0, start_alpha : float  = 1, mono : bool = false, position_override : Vector2 = Vector2(-999,-999)):
 	
 	# Instance the after image
-	var after_image = load("res://Game Elements/Objects/after_image.tscn").instantiate()
+	var after_image = preload("res://Game Elements/Objects/after_image.tscn").instantiate()
 
 	# Match position and rotation
 	if position_override != Vector2(-999,-999):

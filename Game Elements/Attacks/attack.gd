@@ -66,7 +66,7 @@ func set_values(attack_speed = self.attack_speed, attack_damage = self.damage, a
 	self.hit_force = attack_hit_force
 
 func ready_hacks():
-	var hack = load("res://Game Elements/Remnants/hack.tres")
+	var hack = preload("res://Game Elements/Remnants/hack.tres")
 	for rem in LayerManager.player_1_remnants:
 		if rem.remnant_name == hack.remnant_name:
 			hack1=rem.duplicate(true)
@@ -98,12 +98,12 @@ func _ready():
 		tween.tween_property(self,"modulate:a",1,1)
 	if attack_type == "death mark":
 		if c_owner.is_purple:
-			$Sprite2D.texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_purple.png")
+			$Sprite2D.texture = load("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_purple.png")
 		else:
-			$Sprite2D.texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_orange.png")
+			$Sprite2D.texture = load("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_orange.png")
 	if attack_type!="scifi_laser":
 		rotation = direction.angle() + PI/2
-	if attack_type == "explosion":
+	if attack_type == "explosion" or attack_type=="tentacle":
 		rotation = 0
 	if attack_type == "slug":
 		special_nodes.append(load("res://Game Elements/Attacks/slug_seperate.tscn").instantiate())
@@ -218,7 +218,7 @@ func _process(delta):
 		change_direction()
 	if frozen:
 		return
-	if attack_type == "laser" or attack_type == "scifi_laser":
+	if attack_type == "laser" or attack_type == "scifi_laser" or attack_type == "tentacle":
 		if has_method("get_overlapping_bodies"):
 			for body in get_overlapping_bodies():
 				intersection(body)
@@ -279,6 +279,8 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 func intersection(body):
 	if c_owner == null:
 		return
+	if "current_health" not in c_owner or c_owner.current_health <= 0.0:
+		return
 	if body.get("c_owner") != null and !is_instance_valid(body.c_owner):
 		return
 	if attack_type == "laser" and life < .5:
@@ -292,7 +294,7 @@ func intersection(body):
 		match apply_damage(body,c_owner,damage,direction):
 			1:
 				pierce -= 1
-				if attack_type!= "laser" and attack_type!= "scifi_laser" and attack_type!= "binary_melee":
+				if attack_type!= "laser" and attack_type!= "scifi_laser" and attack_type!= "binary_melee" and attack_type!= "tentacle":
 					hit_nodes[body] = null
 				if(attack_type == "giant_bolt"):
 					drag_along.append(body)
