@@ -28,6 +28,7 @@ var look_direction : Vector2 = Vector2(0,1)
 @export var weapon_cooldowns : Array[float] = []
 var last_hitter : Node = null
 var exploded : float = 0
+var purple_explode : bool = false
 
 var last_pos:Vector2 = Vector2(0,0)
 var time_stuck: float = 0
@@ -480,7 +481,9 @@ func shift_hue(color: Color, amount: float) -> Color:
 	h = fposmod(h, 1.0) # wrap hue to 0–1
 	return Color.from_hsv(h, color.s, color.v, color.a)
 
-
+func lich_signal(sig :String, value1, value2, value3, value4):
+	if is_boss:
+		get_parent().lich_signal(sig,value1,value2,value3,value4)
 
 func boss_signal(sig :String, value1, value2):
 	if is_boss:

@@ -53,13 +53,13 @@ func set_values(c_owner : Node = null, attack : Node = null, attack_owner : Node
 			
 			
 	if attack and "attack_type" in attack and attack.attack_type=="laser":
-		var sparks = preload("res://Game Elements/Particles/sparks_enemy.tscn").instantiate()
+		var sparks = preload("res://Game Elements/particles/sparks_enemy.tscn").instantiate()
 		if attack.c_owner and attack.c_owner.is_in_group("player"):
 			sparks.range_choice = 1
 		get_parent().add_child(sparks)
 		sparks.global_position = global_position
 	if attack and "attack_type" in attack and attack.attack_type=="crowbar_melee":
-		var crow = preload("res://Game Elements/Particles/crowbar_hit.tscn").instantiate()
+		var crow = preload("res://Game Elements/particles/crowbar_hit.tscn").instantiate()
 		get_parent().add_child(crow)
 		crow.global_position = global_position
 		crow.rotation = attack.direction.angle()+PI/2 +deg_to_rad(randf_range(-40,40))

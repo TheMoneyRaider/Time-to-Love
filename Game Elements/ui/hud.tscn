@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://0hahdiffjt61"]
+[gd_scene load_steps=22 format=3 uid="uid://0hahdiffjt61"]
 
 [ext_resource type="Script" uid="uid://ttvprfi61vn4" path="res://Game Elements/ui/hud.gd" id="1_6fbih"]
 [ext_resource type="Script" uid="uid://bs428146shl5s" path="res://Game Elements/ui/time_fabric_animation.gd" id="2_bjfho"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bxmiq87nvpvj8" path="res://art/notification.png" id="2_gp50j"]
 [ext_resource type="Texture2D" uid="uid://ch4g2j4jycixb" path="res://art/time_fabric.png" id="3_6fbih"]
 [ext_resource type="Shader" uid="uid://cweesrh2cbhg6" path="res://Game Elements/ui/boss_healthbar.gdshader" id="3_8prbk"]
+[ext_resource type="Texture2D" uid="uid://bgvhn45utxhhx" path="res://Game Elements/Bosses/scifi/healthbar_phase1_overlay.png" id="4_m7god"]
 [ext_resource type="Script" uid="uid://d36yo1gmy8tkb" path="res://Game Elements/ui/cooldown_bar_1.gd" id="5_kgqo6"]
 [ext_resource type="Texture2D" uid="uid://dj6erg8qveqb0" path="res://art/ninja_2.png" id="5_p8pfh"]
 [ext_resource type="Texture2D" uid="uid://ds6fo2yfcafce" path="res://art/ninja_1.png" id="6_gp50j"]
@@ -15,7 +16,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5ho0i"]
 shader = ExtResource("3_8prbk")
-shader_parameter/effect_index = 2
+shader_parameter/effect_index = 3
 shader_parameter/progress = 1.0
 shader_parameter/image_size = Vector2(715, 41)
 shader_parameter/P1_u_speed = 0.125
@@ -33,6 +34,11 @@ shader_parameter/P3_u_color_low = Color(0, 0, 0, 1)
 shader_parameter/P3_u_color_mid = Color(0, 0.443, 0.2078, 1)
 shader_parameter/P3_u_color_high = Color(0.329, 0.917, 0, 1)
 shader_parameter/P3_scale = 8.0
+shader_parameter/P4_u_speed = 2.0
+shader_parameter/P4_u_color_low = Color(0, 0, 0, 1)
+shader_parameter/P4_u_color_mid = Color(0.47843137, 0.003921569, 0.8235294, 1)
+shader_parameter/P4_u_color_high = Color(0.85490197, 0.44705883, 0.8901961, 1)
+shader_parameter/P4_scale = 16.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_t1xeu"]
 font_size = 35
@@ -132,6 +138,7 @@ offset_bottom = 41.0
 grow_horizontal = 2
 scale = Vector2(2, 2)
 pivot_offset = Vector2(357.5, -10)
+texture = ExtResource("4_m7god")
 
 [node name="Label" type="Label" parent="RootControl/VBoxContainer/BossBar"]
 layout_mode = 1

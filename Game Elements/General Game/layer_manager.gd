@@ -4,8 +4,8 @@ extends Node2D
 ### Temp Multiplayer Fix
 var player1 = null
 var player2 = null
-var weapon1 = "res://Game Elements/Weapons/CrossBow.tres"
-var weapon2 = "res://Game Elements/Weapons/laserSword.tres"
+var weapon1 = "res://Game Elements/Weapons/Crossbow.tres"
+var weapon2 = "res://Game Elements/Weapons/LaserSword.tres"
 var undiscovered_weapons = []
 var possible_weapon = ""#undiscovered_weapons.pick_random()
 ###
@@ -475,7 +475,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					if is_multiplayer:
 						player2.change_health(5.0,5.0)
 					player1.change_health(5.0,5.0)
-					var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+					var particle =  load("res://Game Elements/particles/heal_particles.tscn").instantiate()
 					particle.position = node.position
 					generated_room.add_child(particle)
 					node.queue_free()
@@ -485,7 +485,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					if is_multiplayer:
 						player2.change_health(5.0)
 					player1.change_health(5.0)
-					var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+					var particle =  load("res://Game Elements/particles/heal_particles.tscn").instantiate()
 					particle.position = node.position
 					generated_room.add_child(particle)
 					node.queue_free()
@@ -1092,6 +1092,10 @@ func _add_trap(generated_room: Node2D, generated_room_data: Room, trap_num: int)
 				var snare = preload("res://Game Elements/Objects/snare_trap.tscn").instantiate()
 				snare.position = generated_room.get_node("Trap"+str(trap_num)).map_to_local(cell)
 				generated_room.add_child(snare)
+			Globals.Trap.CryptSpike:
+				var cryptspike = load("res://Game Elements/Objects/spike_trap_crypt.tscn").instantiate()
+				cryptspike.position = generated_room.get_node("Trap"+str(trap_num)).map_to_local(cell)
+				generated_room.add_child(cryptspike)
 
 func return_trap_layer(tile_pos : Vector2i) -> TileMapLayer:
 	for trap_num in range(1,room_instance_data.num_trap+1):
@@ -1474,6 +1478,14 @@ func _on_enemy_take_damage(damage : float,current_health : int,enemy : Node, dir
 			attack_instance.damage = enemy.exploded
 			attack_instance.scale = attack_instance.scale * ((enemy.exploded) / 4)
 			attack_instance.c_owner = enemy.last_hitter
+			attack_instance.global_position = enemy.global_position
+			room_instance.call_deferred("add_child",attack_instance)
+		if(enemy.purple_explode):
+			var attack_instance = load("res://Game Elements/Attacks/explosion.tscn").instantiate()
+			attack_instance.modulate = Color("bb20ff")
+			attack_instance.scale = attack_instance.scale * 2
+			attack_instance.damage = 5
+			attack_instance.c_owner = enemy
 			attack_instance.global_position = enemy.global_position
 			room_instance.call_deferred("add_child",attack_instance)
 		enemy.clear_effects()

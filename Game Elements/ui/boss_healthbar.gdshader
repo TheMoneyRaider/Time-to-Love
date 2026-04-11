@@ -22,12 +22,19 @@ uniform vec4 P3_u_color_mid : source_color = vec4(0, 0.443, 0.2078, 1.0);
 uniform vec4 P3_u_color_high : source_color = vec4(0.329, 0.917, 0.0, 1.0);
 uniform float P3_scale = 8.0;
 
+uniform float P4_u_speed = 1.0;
+uniform vec4 P4_u_color_low : source_color = vec4(0, 0, 0, 1);
+uniform vec4 P4_u_color_mid : source_color = vec4(0.478, 0.004, 0.824, 1.0);
+uniform vec4 P4_u_color_high : source_color = vec4(0.855, 0.447, 0.89, 1.0);
+uniform float P4_scale = 8.0;
+
 
 
 
 #define P1_iTime (TIME * P1_u_speed)
 #define P2_iTime (TIME * P2_u_speed)
 #define P3_iTime (TIME * P3_u_speed)
+#define P4_iTime (TIME * P4_u_speed)
 
 const mat2 mtx = mat2( vec2(0.80, -0.60), vec2(0.60, 0.80) );
 
@@ -76,20 +83,8 @@ vec4 colormap(float x, vec4 color_low, vec4 color_mid, vec4 color_high) {
 
 
 bool health_edge(sampler2D text, vec2 uv){
-	if (effect_index == -1) {
-		if(uv.x > progress)
-			return true;
-	} else if (effect_index == 0) {
-		if(uv.x > progress)
-			return true;
-	} else if (effect_index == 1) {
-		if(uv.x > progress)
-			return true;
-	} else if (effect_index == 2) {
-		if(uv.x > progress)
-			return true;
-	} else {
-	}
+	if(uv.x > progress)
+		return true;
 	return false;
 }
 
@@ -111,6 +106,10 @@ vec4 health_color(sampler2D text, vec2 uv, vec2 pixel_size, vec4 fragment_coord,
 		vec2 uv2 = floor(uv*image_size);
 		uv2 /= P3_scale;
 		return colormap(pattern(uv2,P3_iTime),P3_u_color_low,P3_u_color_mid,P3_u_color_high);
+	} else if (effect_index == 3) {
+		vec2 uv2 = floor(uv*image_size);
+		uv2 /= P4_scale;
+		return colormap(pattern(uv2,P4_iTime),P4_u_color_low,P4_u_color_mid,P4_u_color_high);
 	}
 	return vec4(0.0,0.0,0.0,0.0);
 }

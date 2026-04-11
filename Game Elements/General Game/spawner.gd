@@ -22,6 +22,13 @@ static var edge_penalty_field := {}
 static var enemy_penalty_field := {}
 static var letter_penalty_field := {}
 
+
+
+
+
+
+
+
 ###PUBLIC API
 static func spawn_enemies(
 	players: Array[Node],
