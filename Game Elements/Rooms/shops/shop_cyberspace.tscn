@@ -21,7 +21,7 @@ shader_parameter/enabled = true
 shader_parameter/inverse_output = true
 shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
-shader_parameter/progress = 0.5
+shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2na5x"]

@@ -21,25 +21,25 @@ func gained(node_to_change : Node):
 	match type:
 		"winter":
 			node_to_change.move_speed = ((100-value1)/100 * node_to_change.move_speed)
-			var particle =  load("res://Game Elements/particles/winter_particles.tscn").instantiate()
+			var particle =  load("res://Game Elements/Particles/winter_particles.tscn").instantiate()
 			particle.position = node_to_change.position
 			node_to_change.get_parent().add_child(particle)
 		"slow":
 			node_to_change.move_speed = ((1-value1) * node_to_change.move_speed)
-			var particle =  load("res://Game Elements/particles/water_particles.tscn").instantiate()
+			var particle =  load("res://Game Elements/Particles/water_particles.tscn").instantiate()
 			particle.position = node_to_change.position
 			node_to_change.get_parent().add_child(particle)
 		"tether":
 			node_to_change.move_speed = ((1-value1) * node_to_change.move_speed)
 		"charged":
 			node_to_change.move_speed = ((1-value1) * node_to_change.move_speed)
-			var particle =  load("res://Game Elements/particles/charged_particles.tscn").instantiate()
+			var particle =  load("res://Game Elements/Particles/charged_particles.tscn").instantiate()
 			particle.position = node_to_change.position
 			node_to_change.get_parent().add_child(particle)
 		"speed":
 			node_to_change.move_speed = ((1+value1) * node_to_change.move_speed)
 		"stun":
-			var particle =  load("res://Game Elements/particles/stun_particles.tscn").instantiate()
+			var particle =  load("res://Game Elements/Particles/stun_particles.tscn").instantiate()
 			particle.position = node_to_change.position
 			saved_nodes.append(particle)
 			node_to_change.get_parent().add_child(particle)
@@ -55,11 +55,11 @@ func gained(node_to_change : Node):
 					node_to_change.show_forcefield(.25)
 		"rail_charge":
 			node_to_change.move_speed = ((1-value1) * node_to_change.move_speed)
-			var particle =  load("res://Game Elements/particles/railgun_charge_particles.tscn").instantiate()
+			var particle =  load("res://Game Elements/Particles/railgun_charge_particles.tscn").instantiate()
 			particle.position = node_to_change.position
 			node_to_change.get_parent().add_child(particle)
 		"burn":
-			var particle =  load("res://Game Elements/particles/burn_particles.tscn").instantiate()
+			var particle =  load("res://Game Elements/Particles/burn_particles.tscn").instantiate()
 			particle.lifetime = cooldown
 			node_to_change.add_child(particle)
 					

@@ -135,7 +135,7 @@ func spawn_attack(attack_direction : Vector2, attack_position : Vector2, node_at
 		apply_remnants(instance)
 	instance.is_purple = c_owner.is_purple if c_owner.is_in_group("player") else false
 	if(particle_effect != ""):
-		var effect = load("res://Game Elements/particles/" + particle_effect + ".tscn").instantiate()
+		var effect = load("res://Game Elements/Particles/" + particle_effect + ".tscn").instantiate()
 		instance.add_child(effect)
 	c_owner.get_tree().get_root().get_node("LayerManager").room_instance.add_child(instance)
 
@@ -269,13 +269,13 @@ func special_tick(special_direction : Vector2, node_attacking : Node):
 				special_nodes[0].draw_path(PackedVector2Array(locations))
 			"Railgun":
 				node_attacking.take_damage(1.0, null,Vector2(0,-1))
-				var fire = preload("res://Game Elements/particles/fire_damage.tscn").instantiate()
+				var fire = preload("res://Game Elements/Particles/fire_damage.tscn").instantiate()
 				fire.position = node_attacking.position
 				node_attacking.LayerManager.room_instance.add_child(fire)
 				pass
 			"Crowbar":
 				if special_nodes.size()> 1:
-					var throw = preload("res://Game Elements/particles/throw_particles.tscn").instantiate()
+					var throw = preload("res://Game Elements/Particles/throw_particles.tscn").instantiate()
 					var ray = cast_ray(node_attacking.global_position, special_direction, 1600,node_attacking)
 					throw.global_position = node_attacking.global_position
 					if ray:

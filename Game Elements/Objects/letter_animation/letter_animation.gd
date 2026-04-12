@@ -36,7 +36,7 @@ func _process(delta: float) -> void:
 	
 	#End effect
 	if duration >= time:
-		var particles = preload("res://Game Elements/particles/letter_particles.tscn").instantiate()
+		var particles = preload("res://Game Elements/Particles/letter_particles.tscn").instantiate()
 		var screen_size = get_viewport_rect().size
 		var right_edge = screen_size.x / 2 / get_parent().zoom.x
 		particles.position = Vector2(right_edge,0)

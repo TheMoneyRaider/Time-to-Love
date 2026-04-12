@@ -470,7 +470,7 @@ func post_damage_trigger(damage_amount: float, _dmg_owner : Node):
 		match rem.remnant_name:
 			cleric.remnant_name:
 				if rem.variable_1_values[rem.rank-1] > randf()*100:
-					var particle =  preload("res://Game Elements/particles/heal_particles.tscn").instantiate()
+					var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 					particle.position = self.position
 					get_parent().add_child(particle)
 					change_health(rem.variable_2_values[rem.rank-1])
@@ -550,7 +550,7 @@ func swap_color():
 		tether_line.default_color = Color("Orange")
 		weapons[1].special_time_elapsed = 0.0
 		if LayerManager.room_instance:
-			var inst = preload("res://Game Elements/particles/swap_particles.tscn").instantiate()
+			var inst = preload("res://Game Elements/Particles/swap_particles.tscn").instantiate()
 			inst.range_choice = 1
 			inst.global_position = global_position
 			LayerManager.room_instance.add_child(inst)
@@ -563,7 +563,7 @@ func swap_color():
 		tether_line.default_color = Color("Purple")
 		weapons[0].special_time_elapsed = 0.0
 		if LayerManager.room_instance:
-			var inst = preload("res://Game Elements/particles/swap_particles.tscn").instantiate()
+			var inst = preload("res://Game Elements/Particles/swap_particles.tscn").instantiate()
 			inst.range_choice = 0
 			inst.global_position = global_position
 			LayerManager.room_instance.add_child(inst)
@@ -833,7 +833,7 @@ func _crafter_chance() -> bool:
 	for rem in remnants:
 		if rem.remnant_name == crafter.remnant_name:
 			if rem.variable_1_values[rem.rank-1] > randf()*100:
-				var particle =  preload("res://Game Elements/particles/crafter_particles.tscn").instantiate()
+				var particle =  preload("res://Game Elements/Particles/crafter_particles.tscn").instantiate()
 				particle.position = self.position
 				get_parent().add_child(particle)
 				return false

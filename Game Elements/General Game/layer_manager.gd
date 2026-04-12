@@ -475,7 +475,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					if is_multiplayer:
 						player2.change_health(5.0,5.0)
 					player1.change_health(5.0,5.0)
-					var particle =  load("res://Game Elements/particles/heal_particles.tscn").instantiate()
+					var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 					particle.position = node.position
 					generated_room.add_child(particle)
 					node.queue_free()
@@ -485,7 +485,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					if is_multiplayer:
 						player2.change_health(5.0)
 					player1.change_health(5.0)
-					var particle =  load("res://Game Elements/particles/heal_particles.tscn").instantiate()
+					var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 					particle.position = node.position
 					generated_room.add_child(particle)
 					node.queue_free()
