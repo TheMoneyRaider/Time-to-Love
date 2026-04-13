@@ -12,6 +12,7 @@ var save_idx : int = 0
 var config := ConfigFile.new()
 var config_path := "user://settings.cfg"
 var save_dir := "user://saves/"
+var cinematic_viewed : bool = false
 
 enum MenuState {Western, Space, Medieval}
 

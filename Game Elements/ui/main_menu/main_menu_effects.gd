@@ -28,9 +28,14 @@ var last_devices : Array = []
 var title_textures : Array = [preload("res://art/title_assets/title_variants/western.png"),preload("res://art/title_assets/title_variants/space.png"),preload("res://art/title_assets/title_variants/medieval.png")]
 var UI: UIState = UIState.new()
 @onready var prev_state = null
-
+var paused : bool = true
 
 func _ready():
+	if Globals.cinematic_viewed:
+		paused = false
+		$Intro.queue_free()
+	else:
+		$Intro/AnimationPlayer.play("main")
 	Title.texture = title_textures[Globals.menu]
 	fragmenting = Globals.config.get_value("fragmentation", "enabled", true)
 	if capture_all_states:
@@ -65,8 +70,18 @@ func _begin_explosion_cooldown():
 		cooldown = randf_range(2,4)
 		exploaded = true
 
+			
+
+
 func _process(delta):
 	$ColorRect.material.set_shader_parameter("time", $ColorRect.material.get_shader_parameter("time")+delta)
+	if paused:
+		if $Intro/AnimationPlayer.is_playing():
+			return
+		else:
+			$Intro.queue_free()
+			Globals.cinematic_viewed = true
+			paused=false
 	if !fragmenting:
 		return
 	if Globals.player1_input:
@@ -148,6 +163,17 @@ func mouse_over(button: Button):
 		UI.player2.hover_button = button
 
 func _input(event):
+	if !Globals.cinematic_viewed:
+		var is_button = event is InputEventKey \
+			or event is InputEventMouseButton \
+			or event is InputEventJoypadButton
+
+		if is_button and event.pressed:
+			if get_node("Intro"):
+				$Intro.queue_free()
+			Globals.cinematic_viewed = true
+			paused=false
+		return
 	if !fragmenting:
 		return
 	if event is InputEventMouseButton:
