@@ -11,7 +11,7 @@ point_count = 2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_djn6u"]
 shader = ExtResource("2_e712x")
-shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/outline_color = Color(0.8, 0.8, 0.8, 1)
 shader_parameter/outline_size = 1.0
 shader_parameter/alpha_threshold = 0.77999998256544
 shader_parameter/outline_samples = 4
