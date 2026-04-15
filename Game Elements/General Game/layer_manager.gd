@@ -4,7 +4,7 @@ extends Node2D
 ### Temp Multiplayer Fix
 var player1 = null
 var player2 = null
-var weapon1 = "res://Game Elements/Weapons/Crossbow.tres"
+var weapon1 = "res://Game Elements/Weapons/Shotgun.tres"
 var weapon2 = "res://Game Elements/Weapons/LaserSword.tres"
 var undiscovered_weapons = []
 var possible_weapon = ""#undiscovered_weapons.pick_random()
@@ -438,8 +438,6 @@ func calculate_cell_arrays(generated_room : Node2D, generated_room_data : Room) 
 	generated_room.blocked_cells = _remove_duplicates(generated_room.blocked_cells)
 	generated_room.liquid_cells[0] = _amalgamate_liquids(generated_room.liquid_cells)
 
-
-
 func check_reward(generated_room : Node2D, _generated_room_data : Room, player_reference : Node) -> bool:
 	for node in generated_room.get_children():
 		match node.name:
@@ -490,18 +488,24 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					generated_room.add_child(particle)
 					node.queue_free()
 					return true
-			"NewWeapon":
-				if player_reference in node.tracked_bodies:
-					player_reference.update_weapon(node.weapon_type)
-					undiscovered_weapons.erase(possible_weapon)
-					if(undiscovered_weapons.size() == 0):
-						reward_num[6] = 0.0
-						possible_weapon = ""
-					else:
-						possible_weapon = undiscovered_weapons.pick_random()
-					hud.set_cooldown_icons()
-					node.queue_free()
-					return true
+			#"NewWeapon":
+				#if player_reference in node.tracked_bodies:
+					#player_reference.update_weapon(node.weapon_type)
+					##undiscovered_weapons.erase(possible_weapon)
+					##if(undiscovered_weapons.size() == 0):
+					##	reward_num[6] = 0.0
+					##	possible_weapon = ""
+					##else:
+					##	possible_weapon = undiscovered_weapons.pick_random()
+					#hud.set_cooldown_icons()
+					#node.queue_free()
+					#return true
+		if node.is_in_group("weapon_select"):
+			if player_reference in node.tracked_bodies:
+				player_reference.update_weapon(node.weapon_type)
+				hud.set_cooldown_icons()
+				#node.queue_free()
+				return true
 		if node.is_in_group("letter"):
 			if player_reference in node.tracked_bodies:
 				node.spawn_letter()
