@@ -65,4 +65,4 @@ weapon_type = "Shotgun"
 [node name="LaserSword" parent="." instance=ExtResource("4_cvdxx")]
 z_index = 30
 position = Vector2(111, 106)
-weapon_type = "Shotgun"
+weapon_type = "LaserSword"

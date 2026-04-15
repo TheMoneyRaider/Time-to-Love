@@ -7,10 +7,11 @@
 [resource]
 script = ExtResource("3_2xa3r")
 remnant_name = "Remnant of the Cleric"
-description = "$X% Chance to heal $Y health after taking damage"
+description = "$X% Chance to heal $Z health after taking damage"
 icon = ExtResource("2_6lbgm")
 art = ExtResource("1_fypg4")
 variable_names = Array[String](["$X", "$Y"])
 variable_1_values = [30, 40, 50, 50, 50]
 variable_2_values = [1, 1, 1, 2, 3]
+variable_3_values = [10, 10, 10, 20, 30]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

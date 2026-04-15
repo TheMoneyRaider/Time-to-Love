@@ -534,8 +534,9 @@ func set_weapon_sprite(weapon : Weapon, f_weapon_node : Node):
 		f_weapon_node.get_node("AnimationPlayer").play("RESET")
 	
 func reset_special():
-	var delta = get_process_delta_time()
-	effects += weapons[is_purple as int].use_special(delta, true, Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
+	#var delta = get_process_delta_time()
+	#effects += weapons[is_purple as int].use_special(delta, true, Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
+	weapons[is_purple as int].special_cleanup()
 
 func swap_color():
 	if LayerManager.room_instance:
@@ -621,6 +622,21 @@ func tether(delta : float):
 			update_animation_parameters(direct)
 	if !Input.is_action_pressed("swap_" + input_device):
 		single_toggle = false
+	if Input.is_action_just_released("swap_" + input_device):
+		if(!is_multiplayer and single_swap_duration <= .15 and single_swap_duration != 0):
+			swap_color()
+			single_toggle = true
+			if !is_multiplayer:
+				other_player.disable()
+			if tether_line.visible == true:
+				tether_line.visible = false
+				is_tethered = false
+			if(abs(tether_momentum.length_squared()) <  .1):
+				tether_momentum = Vector2.ZERO
+			else:
+				tether_momentum *= .92
+			single_swap_duration = 0.0
+		print(single_swap_duration)
 	if !single_toggle and Input.is_action_pressed("swap_" + input_device) and (is_multiplayer or (global_position-other_player.global_position).length() >=6 or single_swap_duration <.25):
 		if single_swap_duration+delta >=.25 and single_swap_duration <.25:
 			is_tethered = true
