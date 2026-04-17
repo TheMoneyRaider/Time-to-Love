@@ -529,7 +529,7 @@ scale = Vector2(0.25, 0.25)
 texture = ExtResource("14_sf3i7")
 
 [node name="PathwayTransition" type="Sprite2D" parent="game_container/game_viewport/game_root/Camera2D"]
-z_index = 40
+z_index = 50
 material = SubResource("ShaderMaterial_jceoj")
 texture = SubResource("ViewportTexture_lsyjg")
 
