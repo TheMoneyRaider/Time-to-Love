@@ -59,10 +59,29 @@ func _process(delta: float) -> void:
 		if original_position.y - position.y <=0:
 			queue_free()
 
+
+func copy_texture_rect_to_viewport() -> void:
+	var node: TextureRect = get_tree().get_root().get_node(
+	    "LayerManager/game_container/game_viewport/game_root/Camera2D/GrassTexture"
+	)
+	var camera: Camera2D = node.get_parent()
+	var copy: TextureRect = node.duplicate()
+	vp.add_child(copy)
+	
+	var global_pos := node.get_global_rect().position
+	var local_pos := global_transform.affine_inverse() * global_pos
+	local_pos += viewport_size * 0.5
+
+	copy.position = local_pos
+
 func flatten_nodes_to_sprite(root: Node, z_limit: int) -> Texture:
 
 	vp.size = viewport_size
 	_copy_below_z(root,z_limit)
+	copy_texture_rect_to_viewport()
+	
+	
+	
 
 	# Force one frame update (optional)
 	await get_tree().process_frame
