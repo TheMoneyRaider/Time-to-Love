@@ -206,6 +206,7 @@ func start_special(special_direction : Vector2, node_attacking : Node):
 			node_attacking.LayerManager.room_instance.add_child(setup)
 
 			special_nodes.append(setup)
+			use_normal_attack(special_direction, setup.global_position,node_attacking)
 		_ :
 			pass
 
