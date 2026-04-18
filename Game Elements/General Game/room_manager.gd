@@ -149,13 +149,13 @@ func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerM
 				layer_ai[10] += 1   #Trap room
 				break
 	
-	current_progress = floor(current_progress)+1-exp(-0.1386*layer_ai[0])
+	current_progress = floor(current_progress)+1-exp(-0.25*layer_ai[0])
 	if generated_room_data.roomtype == Globals.RoomType.Boss:
 		current_progress = floor(current_progress)+1.0
 	#current_progress = max(3.0,current_progress)#TEST
 
 func get_boss_chance() -> float:
-	return pow((layer_ai[0]-10),2)/200 if current_progress-int(current_progress) > .85 else 0.0
+	return pow((layer_ai[0]),2)/125 if current_progress-int(current_progress) > .85 else 0.0
 	#WE NEED THIS TO BE QUICKER
 	
 var cur_prog = 0.0
