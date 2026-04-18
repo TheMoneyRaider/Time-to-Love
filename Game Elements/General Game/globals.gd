@@ -66,7 +66,8 @@ func load_config():
 	total_progress = save_state.total_progress
 
 func save_config():
-	save_state.total_progress = max(total_progress, RoomManager.current_progress)
+	total_progress = max(total_progress, RoomManager.current_progress)
+	save_state.total_progress = total_progress
 	DirAccess.make_dir_recursive_absolute(save_dir)  # ensure it exists every time
 	var err = ResourceSaver.save(save_state, _save_path())
 	if err != OK:

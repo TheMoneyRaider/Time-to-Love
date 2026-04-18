@@ -64,6 +64,24 @@ func _ready():
 			cooldown = -1
 		if capture_all_states:
 			capture_all_ui_states()
+			
+			
+	if Globals.total_progress < 1.0:
+		$ColorRect.material.set_shader_parameter("tendril_count", 30)
+		$ColorRect.material.set_shader_parameter("range_start", 1.5)
+		$ColorRect.material.set_shader_parameter("range_end", 2.5)
+	elif Globals.total_progress < 2.0:
+		$ColorRect.material.set_shader_parameter("tendril_count", 20)
+		$ColorRect.material.set_shader_parameter("range_start", 1.625)
+		$ColorRect.material.set_shader_parameter("range_end", 2.375)
+	elif Globals.total_progress < 3.0:
+		$ColorRect.material.set_shader_parameter("tendril_count", 10)
+		$ColorRect.material.set_shader_parameter("range_start", 1.75)
+		$ColorRect.material.set_shader_parameter("range_end", 2.25)
+	elif Globals.total_progress < 4.0:
+		$ColorRect.material.set_shader_parameter("tendril_count", 2)
+		$ColorRect.material.set_shader_parameter("range_start", 2)
+		$ColorRect.material.set_shader_parameter("range_end", 2)
 		
 func _begin_explosion_cooldown():
 	if cooldown < 0:

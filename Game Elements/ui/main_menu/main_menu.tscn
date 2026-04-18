@@ -18,13 +18,13 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qvtd8"]
 shader = ExtResource("9_6wjqi")
 shader_parameter/time = 0.0
-shader_parameter/tendril_count = 30
+shader_parameter/tendril_count = 2
 shader_parameter/tendril_thickness = 20.0
 shader_parameter/tendril_waviness = 18.206000627285
 shader_parameter/tendril_speed = 1.5
 shader_parameter/view_offset = Vector2(0.5, 0.5)
-shader_parameter/range_start = 1.50000007125
-shader_parameter/range_end = 2.50000011875
+shader_parameter/range_start = 2.000000095
+shader_parameter/range_end = 2.000000095
 
 [sub_resource type="LabelSettings" id="LabelSettings_l8pfx"]
 font_size = 200
