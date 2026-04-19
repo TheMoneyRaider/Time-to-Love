@@ -25,7 +25,7 @@ var layer_ai := [
 	0	#Rooms since shop room 			13
 	]
 #the root node of each room MUST BE NAMED Root
-@onready var current_progress = 0.0 #TEST 3.0
+@onready var current_progress = 3.0 #TEST 3.0
 var medieval_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/cave1.tres"),
 								preload("res://Game Elements/Rooms/resources/cave2.tres"),
 								preload("res://Game Elements/Rooms/resources/cave3.tres"),
@@ -152,7 +152,7 @@ func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerM
 	current_progress = floor(current_progress)+1-exp(-0.25*layer_ai[0])
 	if generated_room_data.roomtype == Globals.RoomType.Boss:
 		current_progress = floor(current_progress)+1.0
-	#current_progress = max(3.0,current_progress)#TEST
+	current_progress = max(3.0,current_progress)#TEST
 
 func get_boss_chance() -> float:
 	return pow((layer_ai[0]),2)/125 if current_progress-int(current_progress) > .85 else 0.0

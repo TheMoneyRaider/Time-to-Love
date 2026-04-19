@@ -44,7 +44,7 @@ var length
 @export var Tween_Target : Node
 func _process(delta: float) -> void:
 	cooldown -= delta
-	var bt_player = get_node("../BTPlayer")
+	var bt_player = get_node_or_null("../BTPlayer")
 	if bt_player:
 		var board = bt_player.blackboard
 		var attack_mode = board.get_var("attack_mode")
@@ -63,7 +63,7 @@ func _process(delta: float) -> void:
 			target_tween(LayerManager.player2,ratio)
 			return
 	if cooldown < 0.0:
-		bt_player = get_node("../BTPlayer")
+		bt_player = get_node_or_null("../BTPlayer")
 		if bt_player:
 			var board = bt_player.blackboard
 			if board.get_var("attack_status") == "RUNNING":
@@ -120,7 +120,7 @@ func shrink():
 		attack.monitoring = false
 		attack.monitorable = false
 		print("shrink / FINISHING")
-		bt_player = get_node("../BTPlayer")
+		bt_player = get_node_or_null("../BTPlayer")
 		if bt_player:
 			var board = bt_player.blackboard
 			board.set_var("attack_status","FINISHING")
@@ -139,7 +139,7 @@ func shrink():
 	
 	
 	
-	bt_player = get_node("../BTPlayer")
+	bt_player = get_node_or_null("../BTPlayer")
 	if bt_player:
 		print("finished shrinking ? MELEE / DONE")
 		var board = bt_player.blackboard

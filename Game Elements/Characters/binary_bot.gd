@@ -96,7 +96,7 @@ func _process(delta):
 		var attack_mode = board.get_var("attack_mode")
 		if attack_mode == "SPAWNING":
 			if !tracked_wave:
-				board.set_var("attack_mode","MELEE")
+				board.set_var("attack_mode","CHASE")
 				get_parent().get_node("CollisionShape2D").disabled=false
 			else:
 				var labels = tracked_wave.glyphs

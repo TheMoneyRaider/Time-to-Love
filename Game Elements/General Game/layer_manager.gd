@@ -98,10 +98,10 @@ func _ready() -> void:
 	global_conflict_cells = conflict_cells
 	_placable_locations()
 	if Globals.is_multiplayer:
-		Spawner.spawn_enemies([player1,player2], room_instance, placable_cells.duplicate(),room_instance_data,self,false)
+		Spawner.spawn_enemies([player1,player2], room_instance, placable_cells.duplicate(),room_instance_data,self,false,-1,"",true)
 		Spawner.spawn_letters([player1,player2],room_instance, placable_cells.duplicate(),room_instance_data)
 	else:
-		Spawner.spawn_enemies([player1], room_instance, placable_cells.duplicate(),room_instance_data,self,false)
+		Spawner.spawn_enemies([player1], room_instance, placable_cells.duplicate(),room_instance_data,self,false,-1,"",true)
 		Spawner.spawn_letters([player1],room_instance, placable_cells.duplicate(),room_instance_data)
 	
 	var enemies : Array[Node]= []
@@ -180,9 +180,9 @@ func _process(delta: float) -> void:
 			current_wave+=1
 			hud.display_notification("Wave "+str(current_wave)+" / "+str(total_waves))
 			if Globals.is_multiplayer:
-				Spawner.spawn_enemies([player1,player2], room_instance, placable_cells.duplicate(),room_instance_data,self,true)
+				Spawner.spawn_enemies([player1,player2], room_instance, placable_cells.duplicate(),room_instance_data,self,true,-1,"",true)
 			else:
-				Spawner.spawn_enemies([player1], room_instance, placable_cells.duplicate(),room_instance_data,self,true)
+				Spawner.spawn_enemies([player1], room_instance, placable_cells.duplicate(),room_instance_data,self,true,-1,"",true)
 			
 			var enemies : Array[Node]= []
 			for child in room_instance.get_children():
@@ -1322,10 +1322,10 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	liquid_cells = room_instance.liquid_cells
 	
 	if Globals.is_multiplayer:
-		Spawner.spawn_enemies([player1,player2], room_instance, placable_cells.duplicate(),room_instance_data,self,is_wave_room)
+		Spawner.spawn_enemies([player1,player2], room_instance, placable_cells.duplicate(),room_instance_data,self,is_wave_room,-1,"",true)
 		Spawner.spawn_letters([player1,player2],room_instance, placable_cells.duplicate(),room_instance_data)
 	else:
-		Spawner.spawn_enemies([player1], room_instance, placable_cells.duplicate(),room_instance_data,self,is_wave_room)
+		Spawner.spawn_enemies([player1], room_instance, placable_cells.duplicate(),room_instance_data,self,is_wave_room,-1,"",true)
 		Spawner.spawn_letters([player1],room_instance, placable_cells.duplicate(),room_instance_data)
 	
 	pathfinding.setup_from_room(room_instance.get_node("Ground"), 

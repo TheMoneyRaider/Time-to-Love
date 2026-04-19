@@ -66,9 +66,11 @@ hole_source = ""
 uses_sdf = false
 collision_enabled = true
 
-[node name="Brain" type="Node2D" parent="." node_paths=PackedStringArray("tentacle", "Tween_Target")]
+[node name="Brain" type="Node2D" parent="." node_paths=PackedStringArray("tentacle", "attack", "particles", "Tween_Target")]
 script = ExtResource("3_tns6v")
 tentacle = NodePath("../Tentacle")
+attack = NodePath("../Attack")
+particles = NodePath("../TentParticles")
 Tween_Target = NodePath("../Tween_target")
 
 [node name="Attack" type="Area2D" parent="." node_paths=PackedStringArray("c_owner")]
