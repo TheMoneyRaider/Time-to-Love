@@ -4,6 +4,7 @@ var killed : bool = false
 @export var tentacle : Node
 @export var attack : Node
 @export var particles : Node
+@export var is_purple : bool = false
 func kill(dmg_owner : Node, damage : float, current_health : float, direction : Vector2):
 	if killed:
 		return
@@ -24,6 +25,12 @@ func kill(dmg_owner : Node, damage : float, current_health : float, direction : 
 		func(value: Color): mat.set_shader_parameter("dark_color", value),
 		col2,
 		Color(0.0, 0.0, 0.0, 0.15),
+		1.4
+	)
+	tween.parallel().tween_method(
+		func(value: Color): particles.modulate = value,
+		Color(1.0, 1.0, 1.0, 1.0),
+		Color(0.0, 0.0, 0.0, 0.0),
 		1.4
 	)
 	await tween.finished
@@ -70,41 +77,65 @@ func _process(delta: float) -> void:
 
 
 func target_tween(player : Node, ratio : float, ignore_player : bool = false):
+	#if Tween_Target.global_position.distance_to(global_position) > length * 2.0:
+		#Tween_Target.global_position = global_position
+	var cur_pos = Tween_Target.global_position
+	if is_purple:
+		Tween_Target.global_position = lerp(cur_pos,((player.global_position - global_position)*(min(player.global_position.distance_to(global_position),length))*1.5/length +global_position),.1)
+		return
 	if !target:
 		return
-	var cur_pos = Tween_Target.global_position
 	if ignore_player:
 		Tween_Target.global_position = lerp(cur_pos,target.global_position,.01)
 		return
 	else:
 		Tween_Target.global_position = lerp(cur_pos,(player.global_position - global_position)*1.5 +global_position ,.005+.1 * (1.0-ratio))
-		
+
 func _ready() -> void:
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	grow()
+	if is_purple:
+		var L = 32
+		var X = 48
+		length = randf() * X + L
+		tentacle.max_length = length
+		tentacle.num__segments = int(length / 5.33)
+		tentacle._initialize_segments()
+		tentacle.set_length_scale(0.0)
+		# Fade in
+		tentacle.modulate.a = 0.0
+		var fade_tween = create_tween()
+		fade_tween.tween_property(tentacle, "modulate:a", 1.0, 0.4)
+		var tween = create_tween()
+		tween.tween_method(
+			tentacle.set_length_scale,
+			0.0, 1.0, 1.2
+		).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	
 
 func shrink():
-	get_parent().hitable = false
-	attack.monitoring = false
-	attack.monitorable = false
-	print("shrink / FINISHING")
-	var bt_player = get_node("../BTPlayer")
-	if bt_player:
-		var board = bt_player.blackboard
-		board.set_var("attack_status","FINISHING")
-	var tween = create_tween()
-	tween.tween_method(
-		tentacle.set_length_scale,
-		1.0, 0.0, 0.4
-	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	var bt_player
+	if !is_purple:
+		get_parent().hitable = false
+		attack.monitoring = false
+		attack.monitorable = false
+		print("shrink / FINISHING")
+		bt_player = get_node("../BTPlayer")
+		if bt_player:
+			var board = bt_player.blackboard
+			board.set_var("attack_status","FINISHING")
+		var tween = create_tween()
+		tween.tween_method(
+			tentacle.set_length_scale,
+			1.0, 0.0, 0.4
+		).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 
-	await tween.finished
-	var tween2 = create_tween()
-	# Fade out (timed to finish with the shrink)
-	tween2.parallel().tween_property(tentacle, "modulate:a", 0.0, 0.2)
-	await tween2.finished
-	target.queue_free()
+		await tween.finished
+		var tween2 = create_tween()
+		# Fade out (timed to finish with the shrink)
+		tween2.parallel().tween_property(tentacle, "modulate:a", 0.0, 0.2)
+		await tween2.finished
+		target.queue_free()
 	
 	
 	
@@ -117,10 +148,12 @@ func shrink():
 		
 var cooldown : float = 0.0
 func grow():
+	cooldown = randf() * 3.0 +2.0
+	if is_purple:
+		return
 	var L = 32
 	var X = 48
 	length = randf() * X + L
-	cooldown = randf() * 3.0 +2.0
 	tentacle.max_length = length
 	tentacle.num__segments = int(length / 5.33)
 
