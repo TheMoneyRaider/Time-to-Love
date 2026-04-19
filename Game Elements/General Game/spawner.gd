@@ -266,13 +266,20 @@ static func _cells_needed(half_extents: Vector2) -> Vector2i:
 		ceil(half_extents.x / cell_world_size),
 		ceil(half_extents.y / cell_world_size)
 	)
-static var replacement_enemies : Array[PackedScene] = [preload("res://Game Elements/Characters/tentacle1.tscn"),preload("res://Game Elements/Characters/tentacle2.tscn"),preload("res://Game Elements/Characters/tentacle3.tscn")]
+static var replacement_enemies : Array[PackedScene] = []
+func _ready() -> void:
+	replacement_enemies = [
+		load("res://Game Elements/Characters/tentacle1.tscn"),
+		load("res://Game Elements/Characters/tentacle2.tscn"),
+		load("res://Game Elements/Characters/tentacle3.tscn"),
+	]
+
 ###SPAWNING
 static func _spawn_enemy(cell: Vector2i, scene: Node, enemy: PackedScene, layer_manager: Node,is_natural_spawn : bool) -> void:
 	var inst
-	var replace : int = replace()
-	if is_natural_spawn and replace > -1:
-		inst = replacement_enemies[replace].instantiate()
+	var replacevar : int = replace()
+	if is_natural_spawn and replacevar > -1:
+		inst = replacement_enemies[replacevar].instantiate()
 	else:
 		inst = enemy.instantiate()
 	inst.global_position = cell * cell_world_size
@@ -280,6 +287,7 @@ static func _spawn_enemy(cell: Vector2i, scene: Node, enemy: PackedScene, layer_
 	inst.enemy_took_damage.connect(layer_manager._on_enemy_take_damage)
 	if scene.has_method("_on_enemy_take_damage"):
 		inst.enemy_took_damage.connect(scene._on_enemy_take_damage)
+		
 static func replace() -> int:
 	if RoomManager.current_progress < 3.0:
 		return -1
