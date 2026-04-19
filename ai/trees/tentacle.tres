@@ -1,12 +1,12 @@
-[gd_resource type="BehaviorTree" load_steps=31 format=3 uid="uid://do5k61nakb7mo"]
+[gd_resource type="BehaviorTree" load_steps=27 format=3 uid="uid://u43doxw6b1xg"]
 
-[ext_resource type="Script" uid="uid://dr4vkyorjqaqn" path="res://ai/tasks/getPlayerPos.gd" id="1_1ipxq"]
-[ext_resource type="Script" uid="uid://clsympdov604o" path="res://ai/tasks/checkAgro.gd" id="2_tojib"]
-[ext_resource type="Script" uid="uid://ravfjih580jj" path="res://ai/tasks/moveToPlayer.gd" id="4_1ipxq"]
-[ext_resource type="Script" uid="uid://c7b86gm25q0p3" path="res://ai/tasks/player_in_range.gd" id="4_38pnp"]
-[ext_resource type="Script" uid="uid://cmb8joe4lefgx" path="res://ai/tasks/binary_melee_attack.gd" id="4_pmm7h"]
-[ext_resource type="Script" uid="uid://yu3fkdlxtfbv" path="res://ai/tasks/calcPath.gd" id="6_1fl3p"]
-[ext_resource type="Script" uid="uid://dko7uh5a2dm00" path="res://ai/tasks/moveToPos.gd" id="7_eo4y3"]
+[ext_resource type="Script" uid="uid://dr4vkyorjqaqn" path="res://ai/tasks/getPlayerPos.gd" id="1_7nths"]
+[ext_resource type="Script" uid="uid://clsympdov604o" path="res://ai/tasks/checkAgro.gd" id="2_hr0tp"]
+[ext_resource type="Script" uid="uid://c7b86gm25q0p3" path="res://ai/tasks/player_in_range.gd" id="3_50yrk"]
+[ext_resource type="Script" uid="uid://ravfjih580jj" path="res://ai/tasks/moveToPlayer.gd" id="4_0rv7m"]
+[ext_resource type="Script" uid="uid://npexc8pbvmml" path="res://ai/tasks/tentacle_melee_attack.gd" id="4_64agr"]
+[ext_resource type="Script" uid="uid://yu3fkdlxtfbv" path="res://ai/tasks/calcPath.gd" id="6_n6dej"]
+[ext_resource type="Script" uid="uid://dko7uh5a2dm00" path="res://ai/tasks/moveToPos.gd" id="7_dbqlg"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_ak6g3"]
 var/state/name = &"state"
@@ -51,57 +51,38 @@ var/player_idx/hint = 0
 var/player_idx/hint_string = ""
 
 [sub_resource type="BTAction" id="BTAction_lr4pt"]
-script = ExtResource("1_1ipxq")
+script = ExtResource("1_7nths")
 
 [sub_resource type="BTAction" id="BTAction_uikho"]
-script = ExtResource("2_tojib")
+script = ExtResource("2_hr0tp")
 
 [sub_resource type="BTSequence" id="BTSequence_mrfvi"]
 custom_name = "Constants"
 children = [SubResource("BTAction_lr4pt"), SubResource("BTAction_uikho")]
 
-[sub_resource type="BBVariant" id="BBVariant_1ipxq"]
-type = 4
-saved_value = "SPAWNING"
-resource_name = "SPAWNING"
-
-[sub_resource type="BTCheckVar" id="BTCheckVar_tojib"]
-variable = &"attack_mode"
-value = SubResource("BBVariant_1ipxq")
-
-[sub_resource type="BTSequence" id="BTSequence_sdpef"]
-custom_name = "Spawning"
-children = [SubResource("BTCheckVar_tojib")]
-
 [sub_resource type="BBVariant" id="BBVariant_sdpef"]
 type = 4
-saved_value = "CHASE"
-resource_name = "CHASE"
+saved_value = "MELEE"
+resource_name = "MELEE"
 
 [sub_resource type="BTCheckVar" id="BTCheckVar_38pnp"]
 variable = &"attack_mode"
 value = SubResource("BBVariant_sdpef")
 
-[sub_resource type="BTAction" id="BTAction_eo4y3"]
-custom_name = "MoveToPlayer"
-script = ExtResource("4_1ipxq")
-
-[sub_resource type="BTAction" id="BTAction_1fl3p"]
-custom_name = "OuterRange"
-script = ExtResource("4_38pnp")
-hit_range = 64
-
 [sub_resource type="BTAction" id="BTAction_w0000"]
 custom_name = "InnerRange"
-script = ExtResource("4_38pnp")
-hit_range = 48
+script = ExtResource("3_50yrk")
 
-[sub_resource type="BTAction" id="BTAction_v8hg1"]
-script = ExtResource("4_pmm7h")
+[sub_resource type="BTAction" id="BTAction_hr0tp"]
+custom_name = "MoveToPlayer"
+script = ExtResource("4_0rv7m")
+
+[sub_resource type="BTAction" id="BTAction_7nths"]
+script = ExtResource("4_64agr")
 
 [sub_resource type="BTSequence" id="BTSequence_2ycj8"]
-custom_name = "Attack if in Range"
-children = [SubResource("BTAction_eo4y3"), SubResource("BTAction_1fl3p"), SubResource("BTAction_w0000"), SubResource("BTAction_v8hg1")]
+custom_name = "Attack"
+children = [SubResource("BTAction_w0000"), SubResource("BTAction_hr0tp"), SubResource("BTAction_7nths")]
 
 [sub_resource type="BBVariant" id="BBVariant_iowe0"]
 type = 4
@@ -113,10 +94,10 @@ variable = &"state"
 value = SubResource("BBVariant_iowe0")
 
 [sub_resource type="BTAction" id="BTAction_dvgxm"]
-script = ExtResource("6_1fl3p")
+script = ExtResource("6_n6dej")
 
 [sub_resource type="BTAction" id="BTAction_nu3tg"]
-script = ExtResource("7_eo4y3")
+script = ExtResource("7_dbqlg")
 
 [sub_resource type="BTSequence" id="BTSequence_32x7r"]
 custom_name = "Follow"
@@ -132,7 +113,7 @@ children = [SubResource("BTCheckVar_38pnp"), SubResource("BTSelector_1ipxq")]
 
 [sub_resource type="BTSelector" id="BTSelector_mrfvi"]
 custom_name = "Modes"
-children = [SubResource("BTSequence_sdpef"), SubResource("BTSequence_sjkbe")]
+children = [SubResource("BTSequence_sjkbe")]
 
 [sub_resource type="BTSequence" id="BTSequence_7l6ws"]
 custom_name = "Constant and Behavior"

@@ -157,6 +157,8 @@ var total_length
 var root_offset
 ## Runs each physics frame applying IK, constraints, wave motion, then constraints again.
 func _physics_process(delta: float) -> void:
+	if total_length < .05:
+		return
 	root_offset = get_parent().get_parent().get_parent().position
 	var target_pos: Vector2 = to_local(target.global_position)-root_offset if target else to_local(get_global_mouse_position())
 	solve_ik(target_pos)
@@ -294,7 +296,12 @@ func _initialize_segments() -> void:
 	update_line2d()
 	total_length = max_length
 
-
+func set_length_scale(f_scale: float) -> void:
+	var target_len = max_length * f_scale
+	var per_segment = target_len / num__segments
+	for i in range(_segment_lengths.size()):
+		_segment_lengths[i] = per_segment
+	total_length = target_len
 
 
 

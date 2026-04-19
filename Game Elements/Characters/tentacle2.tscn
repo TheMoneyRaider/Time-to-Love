@@ -1,0 +1,79 @@
+[gd_scene load_steps=9 format=3 uid="uid://crlrj2kwclvap"]
+
+[ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_gfybd"]
+[ext_resource type="PackedScene" uid="uid://cryh3p532bi7" path="res://Game Elements/Objects/tentacle.tscn" id="2_6q507"]
+[ext_resource type="Script" uid="uid://bup57y8xaqkcl" path="res://Game Elements/Characters/tentacle.gd" id="3_j34xe"]
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="5_isrlk"]
+[ext_resource type="BehaviorTree" uid="uid://u43doxw6b1xg" path="res://ai/trees/tentacle.tres" id="6_6q507"]
+[ext_resource type="PackedScene" uid="uid://b4dph7ijgkng5" path="res://Game Elements/Particles/tentacle_particles.tscn" id="7_j34xe"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hq7sw"]
+radius = 5.0
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_j34xe"]
+var/attack_status/name = &"attack_status"
+var/attack_status/type = 4
+var/attack_status/value = "RUNNING"
+var/attack_status/hint = 2
+var/attack_status/hint_string = "STARTING,RUNNING,FINISHING,DONE"
+var/attack_mode/name = &"attack_mode"
+var/attack_mode/type = 4
+var/attack_mode/value = "NONE"
+var/attack_mode/hint = 2
+var/attack_mode/hint_string = "NONE,MELEE,SPAWNING"
+
+[node name="Tentacle" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_gfybd")
+max_health = 30.0
+enemy_type = "tentacle"
+move_speed = 150.0
+knockback_decay = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_hq7sw")
+
+[node name="Tentacle" parent="." node_paths=PackedStringArray("target") instance=ExtResource("2_6q507")]
+z_index = 35
+target = NodePath("../Tween_target")
+num__segments = 18
+max_length = 96.0
+wave_speed = 3.0
+light_color = Color(0.5372549, 1, 0.6627451, 1)
+dark_color = Color(0, 0.6509804, 0.3137255, 1)
+hole_source = ""
+uses_sdf = false
+collision_enabled = true
+
+[node name="Brain" type="Node2D" parent="." node_paths=PackedStringArray("tentacle", "attack", "particles", "Tween_Target")]
+script = ExtResource("3_j34xe")
+tentacle = NodePath("../Tentacle")
+attack = NodePath("../Attack")
+particles = NodePath("../TentParticles")
+Tween_Target = NodePath("../Tween_target")
+
+[node name="Attack" type="Area2D" parent="." node_paths=PackedStringArray("c_owner")]
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("5_isrlk")
+speed = 0.0
+lifespan = 1000000000.0
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "tentacle"
+c_owner = NodePath("..")
+
+[node name="Tween_target" type="Node2D" parent="."]
+
+[node name="BTPlayer" type="BTPlayer" parent="."]
+behavior_tree = ExtResource("6_6q507")
+blackboard_plan = SubResource("BlackboardPlan_j34xe")
+
+[node name="TentParticles" parent="." instance=ExtResource("7_j34xe")]
+scale = Vector2(0.125, 0.125)
+
+[connection signal="area_entered" from="Attack" to="Attack" method="_on_area_entered"]
+[connection signal="body_entered" from="Attack" to="Attack" method="_on_body_entered"]

@@ -219,7 +219,7 @@ func _process(delta):
 	if frozen:
 		return
 	if attack_type == "laser" or attack_type == "scifi_laser" or attack_type == "tentacle":
-		if has_method("get_overlapping_bodies"):
+		if has_method("get_overlapping_bodies") and monitoring:
 			for body in get_overlapping_bodies():
 				intersection(body)
 	if attack_type != "slug":

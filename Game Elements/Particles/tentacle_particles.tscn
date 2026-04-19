@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=3 uid="uid://b4dph7ijgkng5"]
+
+[ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/Particles/effect_particles.gd" id="1_nhudc"]
+[ext_resource type="Texture2D" uid="uid://lxky0g53u5tv" path="res://art/weapons/crowbar/crack2.png" id="1_si1aa"]
+
+[sub_resource type="Gradient" id="Gradient_si1aa"]
+offsets = PackedFloat32Array(0, 0.5156576, 1)
+colors = PackedColorArray(0.5372549, 1, 0.6627451, 1, 1.92523e-06, 0.7832813, 0.3820471, 1, 0, 0.43864724, 0.09684434, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_jq281"]
+gradient = SubResource("Gradient_si1aa")
+
+[sub_resource type="Curve" id="Curve_jq281"]
+_data = [Vector2(0, 0), 0.0, 10.396509, 0, 0, Vector2(0.27326733, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.7516327, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_31wvd"]
+curve = SubResource("Curve_jq281")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_k6f81"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 20.0
+angle_min = -720.0
+angle_max = 720.0
+spread = 180.0
+initial_velocity_min = -20.0
+initial_velocity_max = 20.0
+angular_velocity_min = -60.000015
+angular_velocity_max = 59.99998
+gravity = Vector3(0, 0, 0)
+scale_min = 0.25
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_31wvd")
+color = Color(0.5372549, 1, 0.6627451, 1)
+color_ramp = SubResource("GradientTexture1D_jq281")
+hue_variation_min = -0.020000022
+hue_variation_max = 0.019999977
+
+[node name="TentParticles" type="GPUParticles2D"]
+z_index = 21
+y_sort_enabled = true
+amount = 150
+amount_ratio = 0.5
+texture = ExtResource("1_si1aa")
+lifetime = 3.0
+process_material = SubResource("ParticleProcessMaterial_k6f81")
+script = ExtResource("1_nhudc")
