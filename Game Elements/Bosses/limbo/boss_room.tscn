@@ -1,6 +1,6 @@
-[gd_scene load_steps=28 format=4 uid="uid://d3ln1dkv7my03"]
+[gd_scene load_steps=32 format=4 uid="uid://d3ln1dkv7my03"]
 
-[ext_resource type="Script" uid="uid://bt8feidnt38e0" path="res://Game Elements/Bosses/limbo/boss_room.gd" id="1_igt57"]
+[ext_resource type="Script" uid="uid://bt8feidnt38e0" path="res://Game Elements/Bosses/limbo/limbo_boss_room.gd" id="1_igt57"]
 [ext_resource type="Texture2D" uid="uid://bi8ihiw4mjsuc" path="res://art/characters/vision/vision_splash2.png" id="2_5rr6x"]
 [ext_resource type="Texture2D" uid="uid://bxo6xg810tg3h" path="res://Game Elements/Bosses/limbo/healthbar_phase1_underlay.png" id="3_tqkqi"]
 [ext_resource type="Texture2D" uid="uid://bt0arshcvc3av" path="res://Game Elements/Bosses/limbo/healthbar_phase2_underlay.png" id="4_wkhqg"]
@@ -18,7 +18,10 @@
 [ext_resource type="Texture2D" uid="uid://n0bko3km56nl" path="res://Game Elements/General Game/limbo/limbo_noise.tres" id="17_oaf46"]
 [ext_resource type="Shader" uid="uid://38vxobsuweed" path="res://Game Elements/General Game/limbo/limbo_effect.gdshader" id="18_igt57"]
 [ext_resource type="Script" uid="uid://b56ruwgbi1lqa" path="res://Game Elements/Rooms/sci_fi/cyber_background.gd" id="18_u2s2s"]
-[ext_resource type="PackedScene" uid="uid://c7jn6wdb1cywy" path="res://Game Elements/Rooms/shop.tscn" id="19_oaf46"]
+[ext_resource type="PackedScene" uid="uid://cryh3p532bi7" path="res://Game Elements/Objects/tentacle.tscn" id="19_tqkqi"]
+[ext_resource type="PackedScene" uid="uid://nnb0fsf5jvvd" path="res://Game Elements/Objects/moving_target.tscn" id="20_wkhqg"]
+[ext_resource type="Script" uid="uid://br2t8al7u1a0m" path="res://Game Elements/Rooms/vision_npc.gd" id="21_lxjrb"]
+[ext_resource type="Texture2D" uid="uid://b8xv6nl2ivrdf" path="res://art/characters/vision/vision_character.png" id="22_ier7o"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_jgoy3"]
 font_size = 64
@@ -95,6 +98,9 @@ shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("17_oaf46")
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_douwh"]
+radius = 10.12
+
 [node name="BossRoom" type="Node2D" node_paths=PackedStringArray("boss")]
 process_mode = 1
 script = ExtResource("1_igt57")
@@ -103,7 +109,7 @@ healthbar_underlays = Array[Texture2D]([ExtResource("3_tqkqi"), ExtResource("4_w
 healthbar_overlays = Array[Texture2D]([ExtResource("6_ier7o"), ExtResource("7_douwh"), ExtResource("8_2xyam")])
 boss_names = Array[String](["Vision, The Merchant", "Vision of True Majesty"])
 boss_name_settings = Array[LabelSettings]([SubResource("LabelSettings_jgoy3"), SubResource("LabelSettings_agmvj")])
-boss = NodePath("")
+boss = NodePath("Shop/VisionNPC")
 boss_name = "Vision"
 boss_font = ExtResource("9_br3ub")
 phase_overlay_index = Array[int]([10, 11])
@@ -196,5 +202,257 @@ position = Vector2(-3.0517578e-05, 3.0517578e-05)
 scale = Vector2(0.99999994, 0.99999994)
 tile_set = ExtResource("15_wm7l5")
 
-[node name="Shop" parent="." instance=ExtResource("19_oaf46")]
-position = Vector2(-335, 354)
+[node name="Shop" type="Node2D" parent="."]
+z_index = 20
+position = Vector2(-348, 351)
+
+[node name="Tentacles" type="Node2D" parent="Shop"]
+position = Vector2(-256, -250)
+
+[node name="Tentacle1" parent="Shop/Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+position = Vector2(236, 332)
+target = NodePath("../../Targets/MovingTarget1")
+num__segments = 26
+max_length = 190.0
+wave_speed = 1.1
+light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
+dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
+emerge_height = 60.0
+
+[node name="Tentacle2" parent="Shop/Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+position = Vector2(220, 325)
+target = NodePath("../../Targets/MovingTarget2")
+num__segments = 26
+max_length = 210.0
+wave_speed = 0.9
+light_color = Color(0.8063605, 0.49320686, 1, 1)
+dark_color = Color(0.74219275, 0.22175905, 0.99999565, 1)
+
+[node name="Tentacle3" parent="Shop/Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+position = Vector2(237, 339)
+target = NodePath("../../Targets/MovingTarget3")
+num__segments = 26
+max_length = 225.0
+wave_speed = 0.7
+light_color = Color(1, 0.36862746, 0.3764706, 1)
+dark_color = Color(0.9415628, 0, 0.19590142, 1)
+emerge_height = 30.0
+
+[node name="Tentacle4" parent="Shop/Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+position = Vector2(252, 335)
+target = NodePath("../../Targets/MovingTarget4")
+num__segments = 26
+max_length = 240.0
+light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
+dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
+emerge_height = 25.0
+
+[node name="Tentacle5" parent="Shop/Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+position = Vector2(271, 339)
+target = NodePath("../../Targets/MovingTarget5")
+num__segments = 26
+max_length = 245.0
+wave_speed = 0.7
+light_color = Color(0.8063605, 0.49320686, 1, 1)
+dark_color = Color(0.74219275, 0.22175905, 0.99999565, 1)
+emerge_height = 30.0
+
+[node name="Tentacle6" parent="Shop/Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+position = Vector2(290, 337)
+target = NodePath("../../Targets/MovingTarget6")
+num__segments = 26
+max_length = 230.0
+wave_speed = 0.9
+light_color = Color(1, 0.36862746, 0.3764706, 1)
+dark_color = Color(0.9415628, 0, 0.19590142, 1)
+emerge_height = 35.0
+
+[node name="Tentacle7" parent="Shop/Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+position = Vector2(306, 328)
+target = NodePath("../../Targets/MovingTarget7")
+num__segments = 26
+max_length = 200.0
+wave_speed = 1.1
+light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
+dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
+emerge_height = 50.0
+
+[node name="Tentacle8" parent="Shop/Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+position = Vector2(235, 346)
+target = NodePath("../../Targets/MovingTarget8")
+num__segments = 26
+max_length = 210.0
+wave_speed = 1.1
+light_color = Color(1, 0.36862746, 0.3764706, 1)
+dark_color = Color(0.9415628, 0, 0.19590142, 1)
+emerge_height = 50.0
+
+[node name="Tentacle9" parent="Shop/Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+position = Vector2(219, 339)
+target = NodePath("../../Targets/MovingTarget9")
+num__segments = 26
+max_length = 225.0
+wave_speed = 0.9
+light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
+dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
+emerge_height = 35.0
+
+[node name="Tentacle10" parent="Shop/Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+position = Vector2(236, 353)
+target = NodePath("../../Targets/MovingTarget10")
+num__segments = 26
+max_length = 245.0
+wave_speed = 0.7
+light_color = Color(0.8063605, 0.49320686, 1, 1)
+dark_color = Color(0.74219275, 0.22175905, 0.99999565, 1)
+emerge_height = 30.0
+
+[node name="Tentacle11" parent="Shop/Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+position = Vector2(251, 349)
+target = NodePath("../../Targets/MovingTarget11")
+num__segments = 26
+max_length = 256.0
+light_color = Color(1, 0.36862746, 0.3764706, 1)
+dark_color = Color(0.9415628, 0, 0.19590142, 1)
+emerge_height = 25.0
+
+[node name="Tentacle12" parent="Shop/Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+position = Vector2(270, 353)
+target = NodePath("../../Targets/MovingTarget12")
+num__segments = 26
+max_length = 256.0
+wave_speed = 0.7
+light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
+dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
+emerge_height = 30.0
+
+[node name="Tentacle13" parent="Shop/Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+position = Vector2(289, 351)
+target = NodePath("../../Targets/MovingTarget13")
+num__segments = 26
+max_length = 240.0
+wave_amplitude = 0.5
+wave_speed = 0.9
+light_color = Color(0.8063605, 0.49320686, 1, 1)
+dark_color = Color(0.74219275, 0.22175905, 0.99999565, 1)
+
+[node name="Tentacle14" parent="Shop/Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+position = Vector2(305, 342)
+target = NodePath("../../Targets/MovingTarget14")
+num__segments = 26
+max_length = 190.0
+wave_speed = 1.1
+light_color = Color(1, 0.36862746, 0.3764706, 1)
+dark_color = Color(0.9415628, 0, 0.19590142, 1)
+emerge_height = 60.0
+
+[node name="Tentacle_Vision" parent="Shop/Tentacles" node_paths=PackedStringArray("target") instance=ExtResource("19_tqkqi")]
+position = Vector2(263, 384)
+target = NodePath("../../VisionNPC/Feet")
+num__segments = 26
+max_length = 150.0
+wave_amplitude = 0.5
+line_width = 30.0
+light_color = Color(0.1764706, 0.3137255, 0.85882354, 1)
+dark_color = Color(0.16078432, 0.2, 0.88235295, 1)
+
+[node name="Targets" type="Node2D" parent="Shop"]
+position = Vector2(24, -13)
+
+[node name="MovingTarget1" parent="Shop/Targets" instance=ExtResource("20_wkhqg")]
+position = Vector2(-185, -7)
+range = 12.0
+speed = 12.0
+
+[node name="MovingTarget8" parent="Shop/Targets" instance=ExtResource("20_wkhqg")]
+position = Vector2(-171, -39)
+range = 12.0
+speed = 12.0
+
+[node name="MovingTarget2" parent="Shop/Targets" instance=ExtResource("20_wkhqg")]
+position = Vector2(-156, -66)
+range = 10.0
+speed = 10.0
+
+[node name="MovingTarget9" parent="Shop/Targets" instance=ExtResource("20_wkhqg")]
+position = Vector2(-133, -91)
+range = 10.0
+speed = 10.0
+
+[node name="MovingTarget3" parent="Shop/Targets" instance=ExtResource("20_wkhqg")]
+position = Vector2(-109, -114)
+range = 8.0
+speed = 8.0
+
+[node name="MovingTarget10" parent="Shop/Targets" instance=ExtResource("20_wkhqg")]
+position = Vector2(-75, -126)
+range = 8.0
+speed = 8.0
+
+[node name="MovingTarget4" parent="Shop/Targets" instance=ExtResource("20_wkhqg")]
+position = Vector2(-43, -137)
+range = 6.0
+speed = 6.0
+
+[node name="MovingTarget11" parent="Shop/Targets" instance=ExtResource("20_wkhqg")]
+position = Vector2(6, -137)
+range = 6.0
+speed = 6.0
+
+[node name="MovingTarget5" parent="Shop/Targets" instance=ExtResource("20_wkhqg")]
+position = Vector2(49, -131)
+range = 8.0
+speed = 8.0
+
+[node name="MovingTarget12" parent="Shop/Targets" instance=ExtResource("20_wkhqg")]
+position = Vector2(77, -121)
+range = 8.0
+speed = 8.0
+
+[node name="MovingTarget6" parent="Shop/Targets" instance=ExtResource("20_wkhqg")]
+position = Vector2(98, -97)
+range = 10.0
+speed = 10.0
+
+[node name="MovingTarget13" parent="Shop/Targets" instance=ExtResource("20_wkhqg")]
+position = Vector2(118, -67)
+range = 10.0
+speed = 10.0
+
+[node name="MovingTarget7" parent="Shop/Targets" instance=ExtResource("20_wkhqg")]
+position = Vector2(129, -38)
+range = 12.0
+speed = 12.0
+
+[node name="MovingTarget14" parent="Shop/Targets" instance=ExtResource("20_wkhqg")]
+position = Vector2(138, -7)
+range = 12.0
+speed = 12.0
+
+[node name="VisionNPC" type="Area2D" parent="Shop"]
+z_index = 31
+y_sort_enabled = true
+position = Vector2(6, 19)
+collision_mask = 3
+script = ExtResource("21_lxjrb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/VisionNPC"]
+shape = SubResource("CircleShape2D_douwh")
+
+[node name="Art" type="Sprite2D" parent="Shop/VisionNPC"]
+position = Vector2(2, -2)
+texture = ExtResource("22_ier7o")
+
+[node name="Feet" type="Node2D" parent="Shop/VisionNPC"]
+position = Vector2(0, 10)
+
+[node name="Cracks" type="TileMapLayer" parent="Shop"]
+z_index = -1
+tile_map_data = PackedByteArray("AAAAAAIAAAAPAA4AAAA=")
+tile_set = ExtResource("13_1kcvy")
+
+[node name="DeleteToFinishRoom" type="Node2D" parent="." groups=["enemy"]]
+position = Vector2(-342, 370)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeleteToFinishRoom"]
+shape = SubResource("CircleShape2D_douwh")

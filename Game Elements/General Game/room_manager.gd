@@ -63,22 +63,23 @@ var sci_fi_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/s
 var testing_room : Room = preload("res://Game Elements/Rooms/resources/testing_room.tres")
 #preload("res://Game Elements/Rooms/resources/testing_room.tres")
 var bosses : Array[Room] = [preload("res://Game Elements/Rooms/resources/medieval_boss.tres"),
-	preload("res://Game Elements/Rooms/resources/scifi_boss.tres"),
 						preload("res://Game Elements/Rooms/resources/scifi_boss.tres"),
-						preload("res://Game Elements/Rooms/resources/scifi_boss.tres")
+						preload("res://Game Elements/Rooms/resources/scifi_boss.tres"),
+						preload("res://Game Elements/Rooms/resources/limbo_boss.tres")
 						]
 
 var cached_scenes : Dictionary = {}
 
 var replacement_enemies : Array[PackedScene] = [
-		preload("res://Game Elements/Characters/tentacle1.tscn"),
-		preload("res://Game Elements/Characters/tentacle2.tscn"),
-		preload("res://Game Elements/Characters/tentacle3.tscn"),
+		load("res://Game Elements/Characters/tentacle1.tscn"),
+		load("res://Game Elements/Characters/tentacle2.tscn"),
+		load("res://Game Elements/Characters/tentacle3.tscn"),
 	]
 var normal_rooms : Array = []
 var shop_rooms : Array = []
 
 func get_room(room : Room):
+	return bosses[3]
 	var index = int(current_progress) if room.roomtype != Globals.RoomType.Boss else int(current_progress+1.0)
 	if index >= 3:
 		index = randi() % 3
@@ -89,7 +90,7 @@ func get_room(room : Room):
 	var base = T + (T - float(layer_ai[8]) / max(layer_ai[0],1))
 	var prob = base + P * layer_ai[13]
 	var shop_override = clamp(prob, 0.0, 1.0)
-	if shop_override > randf() and layer_ai[0] > 3 and room.roomtype != Globals.RoomType.Shop:
+	if shop_override > randf() and layer_ai[0] > 3 and room.roomtype != Globals.RoomType.Shop and current_progress < 3.0:
 		var shop_index = clamp(int(randf()*shop_rooms[index].size()),0,shop_rooms[index].size()-1)
 		return shop_rooms[index][shop_index]
 	if get_boss_chance() > randf()+.01:

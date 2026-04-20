@@ -1154,32 +1154,33 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	var shido2 = 0.0
 	var player1_ranked_up : Array[String] = []
 	var player2_ranked_up : Array[String] = []
-	if transitioning:
-		return
-	#Transition
-	var pathway =  room_instance.get_node(pathway_id)
-	pathway.get_node("Prompt1").visible = false
-	pathway.get_node("Prompt2").visible = false
-	pathway.get_node("Icons").visible = false
-	player1.disabled = true
-	if is_multiplayer:
-		player2.disabled = true
-		
-	var particles = load("res://Game Elements/Particles/pathway_particles.tscn").instantiate()
-	PathwayTransition.global_position = pathway.global_position
-	PathwayViewport.add_child(particles)
-	particles.position = Vector2(1024,1024)
-	transitioning = true
-	await get_tree().create_timer(2,false).timeout
-	player1.disabled = false
-	if is_multiplayer:
-		player2.disabled = false
+	if generated_room_metadata[pathway_id].roomtype != Globals.RoomType.Boss:
+		if transitioning:
+			return
+		#Transition
+		var pathway =  room_instance.get_node(pathway_id)
+		pathway.get_node("Prompt1").visible = false
+		pathway.get_node("Prompt2").visible = false
+		pathway.get_node("Icons").visible = false
+		player1.disabled = true
+		if is_multiplayer:
+			player2.disabled = true
+			
+		var particles = load("res://Game Elements/Particles/pathway_particles.tscn").instantiate()
+		PathwayTransition.global_position = pathway.global_position
+		PathwayViewport.add_child(particles)
+		particles.position = Vector2(1024,1024)
+		transitioning = true
+		await get_tree().create_timer(2,false).timeout
+		player1.disabled = false
+		if is_multiplayer:
+			player2.disabled = false
 
-	transitioning = false
-	if is_wave_room_p:
-		total_waves = 2 #TODO make dynamic
-		current_wave = 1
-		delay_wave_notification("Wave "+str(current_wave)+" / "+str(total_waves),4.0)
+		transitioning = false
+		if is_wave_room_p:
+			total_waves = 2 #TODO make dynamic
+			current_wave = 1
+			delay_wave_notification("Wave "+str(current_wave)+" / "+str(total_waves),4.0)
 	
 	
 	for rem in player_1_remnants:
@@ -1341,10 +1342,12 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	reward_claimed = false
 	
 	var enemies : Array[Node]= []
-	for child in room_instance.get_children():
-		if child.is_in_group("enemy"):
-			enemies.append(child)
-			child.process_mode = Node.PROCESS_MODE_DISABLED
+	
+	if room_instance_data.roomtype != Globals.RoomType.Boss:
+		for child in room_instance.get_children():
+			if child.is_in_group("enemy"):
+				enemies.append(child)
+				child.process_mode = Node.PROCESS_MODE_DISABLED
 	awareness_display.set_array(enemies.duplicate(),0)
 	
 	if room_instance_data.roomtype == Globals.RoomType.Boss:
@@ -1362,10 +1365,11 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	create_new_rooms()
 	
 	
-	await get_tree().create_timer(2.0,false).timeout
-	for child in enemies:
-		if child:
-			child.process_mode = Node.PROCESS_MODE_PAUSABLE
+	if room_instance_data.roomtype != Globals.RoomType.Boss:
+		await get_tree().create_timer(2.0,false).timeout
+		for child in enemies:
+			if child:
+				child.process_mode = Node.PROCESS_MODE_PAUSABLE
 	
 
 func delay_wave_notification(message : String, delay : float):
@@ -1587,7 +1591,7 @@ func _on_activate(player_node : Node):
 	if room_instance:
 		if check_reward(room_instance, room_instance_data,player_node):
 			return
-		if room_instance.get_node_or_null("Shop") and room_instance.get_node("Shop").check_rewards(player_node):
+		if room_instance_data.roomtype == Globals.RoomType.Shop and room_instance.get_node("Shop").check_rewards(player_node):
 			return
 		if reward_claimed and room_cleared:
 			check_pathways(room_instance, room_instance_data,player_node,false)
