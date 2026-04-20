@@ -70,7 +70,11 @@ var bosses : Array[Room] = [preload("res://Game Elements/Rooms/resources/medieva
 
 var cached_scenes : Dictionary = {}
 
-
+var replacement_enemies : Array[PackedScene] = [
+		preload("res://Game Elements/Characters/tentacle1.tscn"),
+		preload("res://Game Elements/Characters/tentacle2.tscn"),
+		preload("res://Game Elements/Characters/tentacle3.tscn"),
+	]
 var normal_rooms : Array = []
 var shop_rooms : Array = []
 

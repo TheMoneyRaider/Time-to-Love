@@ -195,8 +195,6 @@ func _process(delta: float) -> void:
 			room_reward(this_room_reward1)
 			if is_wave_room:
 				room_reward(this_room_reward2)
-			
-			_enable_letters()
 		room_cleared= true
 		
 		await get_tree().process_frame
@@ -215,7 +213,6 @@ func _process(delta: float) -> void:
 					await get_tree().process_frame
 			if !reward_claimed:
 				_enable_pathways()
-				_enable_letters()
 				reward_claimed=true
 				
 				var pathways : Array[Node]= []
@@ -483,8 +480,8 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 			"Health":
 				if player_reference in node.tracked_bodies:
 					if is_multiplayer:
-						player2.change_health(5.0)
-					player1.change_health(5.0)
+						player2.change_health(player2.max_health- player2.current_health)
+					player1.change_health(player1.max_health- player1.current_health)
 					var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 					particle.position = node.position
 					generated_room.add_child(particle)
@@ -505,6 +502,12 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 		if node.is_in_group("letter"):
 			if player_reference in node.tracked_bodies:
 				node.spawn_letter()
+				if is_multiplayer:
+					player2.change_health(player2.max_health / 10.0)
+				player1.change_health(player1.max_health / 10.0)
+				var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+				particle.position = node.position
+				generated_room.add_child(particle)
 				return true
 	return false
 
@@ -1581,12 +1584,12 @@ func _on_timefabric_absorbed(timefabric_node : Node):
 	timefabric_node.queue_free()
 	
 func _on_activate(player_node : Node):
-	if room_instance and room_cleared:
+	if room_instance:
 		if check_reward(room_instance, room_instance_data,player_node):
 			return
 		if room_instance.get_node_or_null("Shop") and room_instance.get_node("Shop").check_rewards(player_node):
 			return
-		if reward_claimed:
+		if reward_claimed and room_cleared:
 			check_pathways(room_instance, room_instance_data,player_node,false)
 	
 func _on_special(player_node : Node):
@@ -1647,11 +1650,6 @@ func _placable_locations():
 		if c not in global_conflict_cells:
 			temp_placable_locations.append(c)
 	placable_cells = temp_placable_locations
-
-func _enable_letters():
-	for node in room_instance.get_children():
-		if node.is_in_group("letter"):
-			node.enable()
 
 func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , attack_body: Node = null, c_owner : Node = null,override_color : Color = Color(0.267, 0.394, 0.394, 1.0)):
 	var instance = preload("res://Game Elements/Objects/damage_indicator.tscn").instantiate()

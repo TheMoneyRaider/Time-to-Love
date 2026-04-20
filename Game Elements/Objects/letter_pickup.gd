@@ -1,6 +1,5 @@
 extends Node2D
 
-@export var active := true
 
 @export var interact_key := "activate"
 @onready var prompt1 := $Prompt1
@@ -16,7 +15,6 @@ func _ready():
 
 
 func disable(variant : Globals.RoomVariant):
-	active = false
 	match variant:
 		Globals.RoomVariant.MedOut:
 			choose_random("res://art/objects/letter_fragments/MedOut")
@@ -47,8 +45,6 @@ func choose_random(path : String):
 	randomize()
 	$PathwayIcon1.texture = art_pool[int(randf()*art_pool.size())]
 	
-func enable():
-	active = true
 
 
 func spawn_letter():
@@ -66,15 +62,11 @@ func spawn_letter():
 
 
 func _on_body_entered(body):
-	if !active:
-		return
 	if body.is_in_group("player"):
 		tracked_bodies.append(body)
 		prompt1.visible = true
 		_set_display(tracked_bodies[0])
 func _on_body_exited(body):
-	if !active:
-		return
 	if body in tracked_bodies:
 		tracked_bodies.erase(body)
 	if len(tracked_bodies) == 0:

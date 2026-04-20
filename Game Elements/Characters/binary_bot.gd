@@ -94,6 +94,7 @@ func _process(delta):
 	var board = bt_player.blackboard
 	if board:
 		var attack_mode = board.get_var("attack_mode")
+		print(attack_mode)
 		if attack_mode == "SPAWNING":
 			if !tracked_wave:
 				board.set_var("attack_mode","CHASE")
@@ -114,12 +115,12 @@ func _process(delta):
 						})
 
 		var attack_status = board.get_var("attack_status")
-		if attack_status == " STARTING" and attack_mode == "MELEE":
+		if attack_status == " STARTING" and attack_mode == "CHASE":
 			board.set_var("attack_status"," RUNNING")
 			_start_melee_attack()
 		if melee_phase != MeleePhase.NONE:
 			_process_melee_attack(delta)
-			if attack_mode != "MELEE":
+			if attack_mode != "CHASE":
 				melee_phase=MeleePhase.NONE
 		
 	attack_cooldown = max(0.0, attack_cooldown - delta)

@@ -266,20 +266,14 @@ static func _cells_needed(half_extents: Vector2) -> Vector2i:
 		ceil(half_extents.x / cell_world_size),
 		ceil(half_extents.y / cell_world_size)
 	)
-static var replacement_enemies : Array[PackedScene] = []
-func _ready() -> void:
-	replacement_enemies = [
-		load("res://Game Elements/Characters/tentacle1.tscn"),
-		load("res://Game Elements/Characters/tentacle2.tscn"),
-		load("res://Game Elements/Characters/tentacle3.tscn"),
-	]
+
 
 ###SPAWNING
 static func _spawn_enemy(cell: Vector2i, scene: Node, enemy: PackedScene, layer_manager: Node,is_natural_spawn : bool) -> void:
 	var inst
 	var replacevar : int = replace()
 	if is_natural_spawn and replacevar > -1:
-		inst = replacement_enemies[replacevar].instantiate()
+		inst = RoomManager.replacement_enemies[replacevar].instantiate()
 	else:
 		inst = enemy.instantiate()
 	inst.global_position = cell * cell_world_size
