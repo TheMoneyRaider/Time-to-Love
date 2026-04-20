@@ -7,7 +7,6 @@ var gravity_strength := 80.0
 var is_heal := false
 
 var _start_position: Vector2
-var _start_rotation: float = 0.0
 var _target_rotation: float
 var _duration: float
 

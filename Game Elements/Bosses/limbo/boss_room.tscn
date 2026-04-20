@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=4 uid="uid://d3ln1dkv7my03"]
+[gd_scene load_steps=33 format=4 uid="uid://d3ln1dkv7my03"]
 
 [ext_resource type="Script" uid="uid://bt8feidnt38e0" path="res://Game Elements/Bosses/limbo/limbo_boss_room.gd" id="1_igt57"]
 [ext_resource type="Texture2D" uid="uid://bi8ihiw4mjsuc" path="res://art/characters/vision/vision_splash2.png" id="2_5rr6x"]
@@ -19,6 +19,7 @@
 [ext_resource type="Shader" uid="uid://38vxobsuweed" path="res://Game Elements/General Game/limbo/limbo_effect.gdshader" id="18_igt57"]
 [ext_resource type="Script" uid="uid://b56ruwgbi1lqa" path="res://Game Elements/Rooms/sci_fi/cyber_background.gd" id="18_u2s2s"]
 [ext_resource type="PackedScene" uid="uid://cryh3p532bi7" path="res://Game Elements/Objects/tentacle.tscn" id="19_tqkqi"]
+[ext_resource type="Script" uid="uid://bfwek77nx6bfl" path="res://Game Elements/Bosses/limbo/shop2.gd" id="19_wkhqg"]
 [ext_resource type="PackedScene" uid="uid://nnb0fsf5jvvd" path="res://Game Elements/Objects/moving_target.tscn" id="20_wkhqg"]
 [ext_resource type="Script" uid="uid://br2t8al7u1a0m" path="res://Game Elements/Rooms/vision_npc.gd" id="21_lxjrb"]
 [ext_resource type="Texture2D" uid="uid://b8xv6nl2ivrdf" path="res://art/characters/vision/vision_character.png" id="22_ier7o"]
@@ -205,19 +206,25 @@ tile_set = ExtResource("15_wm7l5")
 [node name="Shop" type="Node2D" parent="."]
 z_index = 20
 position = Vector2(-348, 351)
+script = ExtResource("19_wkhqg")
+
+[node name="Cracks" type="TileMapLayer" parent="Shop"]
+z_index = -1
+tile_map_data = PackedByteArray("AAAAAAIAAAAPAA4AAAA=")
+tile_set = ExtResource("13_1kcvy")
 
 [node name="Tentacles" type="Node2D" parent="Shop"]
 position = Vector2(-256, -250)
 
 [node name="Tentacle1" parent="Shop/Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
-position = Vector2(236, 332)
+position = Vector2(236, 333)
 target = NodePath("../../Targets/MovingTarget1")
 num__segments = 26
 max_length = 190.0
 wave_speed = 1.1
 light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
 dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
-emerge_height = 60.0
+emerge_height = 30.0
 
 [node name="Tentacle2" parent="Shop/Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
 position = Vector2(220, 325)
@@ -445,11 +452,6 @@ texture = ExtResource("22_ier7o")
 
 [node name="Feet" type="Node2D" parent="Shop/VisionNPC"]
 position = Vector2(0, 10)
-
-[node name="Cracks" type="TileMapLayer" parent="Shop"]
-z_index = -1
-tile_map_data = PackedByteArray("AAAAAAIAAAAPAA4AAAA=")
-tile_set = ExtResource("13_1kcvy")
 
 [node name="DeleteToFinishRoom" type="Node2D" parent="." groups=["enemy"]]
 position = Vector2(-342, 370)

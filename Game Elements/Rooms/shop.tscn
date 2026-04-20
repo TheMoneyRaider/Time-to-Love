@@ -39,7 +39,7 @@ max_length = 190.0
 wave_speed = 1.1
 light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
 dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
-emerge_height = 60.0
+emerge_height = 30.0
 
 [node name="Tentacle2" parent="Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("6_voql5")]
 position = Vector2(220, 325)

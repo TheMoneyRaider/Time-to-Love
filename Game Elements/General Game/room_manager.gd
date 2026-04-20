@@ -93,7 +93,7 @@ func get_room(room : Room):
 	if shop_override > randf() and layer_ai[0] > 3 and room.roomtype != Globals.RoomType.Shop and current_progress < 3.0:
 		var shop_index = clamp(int(randf()*shop_rooms[index].size()),0,shop_rooms[index].size()-1)
 		return shop_rooms[index][shop_index]
-	if get_boss_chance() > randf()+.01:
+	if get_boss_chance() > randf()+.01 and room.roomtype != Globals.RoomType.Boss:
 		return bosses[index]
 
 	var normal_index = clamp(int(randf()*normal_rooms[index].size()),0,normal_rooms[index].size()-1)

@@ -32,12 +32,14 @@ var animation : String = ""
 func _ready() -> void:
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	is_multiplayer = Globals.is_multiplayer
-	for node in get_node("Shop/Tentacles").get_children():
-		if node.is_in_group("tentacle"):
-			node.set_hole($Shop/Cracks.global_position+Vector2(8,32))
-		if node.is_in_group("holds_reward"):
-			node.shrink(.88)
-	$Shop/Cracks.enabled = false
+	#var offset = get_node("Shop/Cracks").global_position+Vector2(8,32)
+	#print(offset)
+	#for node in get_node("Shop/Tentacles").get_children():
+		#if node.is_in_group("tentacle"):
+			#node.set_hole(offset)
+		#if node.is_in_group("holds_reward"):
+			#node.shrink(.88)
+	#$Shop/Cracks.enabled = false
 
 
 
@@ -48,8 +50,14 @@ var animation_time = 7.0
 var fade_time = .75
 var camera_move_time = 3.0
 func _process(delta: float) -> void:
-	if lifetime >= 2.0 and !$Shop/Cracks.enabled:
-		$Shop/Cracks.enabled = true
+	#var curr_pos = Vector2(0,0)
+	#if lifetime >= 2.0 and !$Shop/Cracks.enabled:
+		#$Shop/Cracks.enabled = true
+	#if curr_pos != position:
+		#curr_pos= position
+		#for node in get_node("Shop/Tentacles").get_children():
+			#if node.is_in_group("tentacle"):
+				#node.get_node("SubViewportContainer").material.set_shader_parameter("node_offset",position)
 	if !active:
 		return
 	lifetime+=delta
