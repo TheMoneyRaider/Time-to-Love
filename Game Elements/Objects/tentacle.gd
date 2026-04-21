@@ -71,6 +71,7 @@ var hole_size: Vector2 = Vector2(128,128)
 @export var hole_source : String = "shop_tentacles_sdf"
 @export var uses_sdf : bool = true
 @export var collision_enabled : bool = false
+@export var Shop : Node2D = null
 
 # --- Collision ---
 var _hit_segments: Array[CollisionShape2D] = []
@@ -159,7 +160,7 @@ var root_offset
 func _physics_process(delta: float) -> void:
 	if total_length < .05:
 		return
-	root_offset = get_parent().get_parent().get_parent().position
+	root_offset = Shop.get_parent().position if Shop else Vector2(0,0)
 	var target_pos: Vector2 = to_local(target.global_position)-root_offset if target else to_local(get_global_mouse_position())
 	solve_ik(target_pos)
 	apply_wave_motion(delta)

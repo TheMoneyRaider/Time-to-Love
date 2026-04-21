@@ -5,6 +5,8 @@ var killed : bool = false
 @export var attack : Node
 @export var particles : Node
 @export var is_purple : bool = false
+@export var is_boss_tent : bool = false
+var active = false
 func kill(dmg_owner : Node, damage : float, current_health : float, direction : Vector2):
 	if killed:
 		return
@@ -43,16 +45,17 @@ var LayerManager: Node
 var length
 @export var Tween_Target : Node
 func _process(delta: float) -> void:
-	cooldown -= delta
 	var bt_player = get_node_or_null("../BTPlayer")
-	if bt_player:
-		var board = bt_player.blackboard
-		var attack_mode = board.get_var("attack_mode")
-		var attack_status = board.get_var("attack_status")
-		if attack_status == "STARTING" and attack_mode == "NONE":
-			print("start growth/ RUNNING")
-			board.set_var("attack_status","RUNNING")
-			grow()
+	if !is_boss_tent:
+		cooldown -= delta
+		if bt_player:
+			var board = bt_player.blackboard
+			var attack_mode = board.get_var("attack_mode")
+			var attack_status = board.get_var("attack_status")
+			if attack_status == "STARTING" and attack_mode == "NONE":
+				print("start growth/ RUNNING")
+				board.set_var("attack_status","RUNNING")
+				grow()
 	var ratio = LayerManager.player1.global_position.distance_to(global_position) / (length*1.1)
 	if ratio < 1.0:
 		target_tween(LayerManager.player1,ratio)
@@ -62,7 +65,7 @@ func _process(delta: float) -> void:
 		if ratio < 1.0:
 			target_tween(LayerManager.player2,ratio)
 			return
-	if cooldown < 0.0:
+	if !is_boss_tent and cooldown < 0.0:
 		bt_player = get_node_or_null("../BTPlayer")
 		if bt_player:
 			var board = bt_player.blackboard
@@ -80,6 +83,8 @@ func target_tween(player : Node, ratio : float, ignore_player : bool = false):
 	#if Tween_Target.global_position.distance_to(global_position) > length * 2.0:
 		#Tween_Target.global_position = global_position
 	var cur_pos = Tween_Target.global_position
+	if is_boss_tent and !active:
+		ignore_player = true
 	if is_purple:
 		Tween_Target.global_position = lerp(cur_pos,((player.global_position - global_position)*(min(player.global_position.distance_to(global_position),length))*1.5/length +global_position),.1)
 		return
@@ -93,6 +98,11 @@ func target_tween(player : Node, ratio : float, ignore_player : bool = false):
 
 func _ready() -> void:
 	LayerManager = get_tree().get_root().get_node("LayerManager")
+	if is_boss_tent:
+		target = tentacle.target
+		tentacle.target = Tween_Target
+		length = tentacle.max_length
+		return
 	grow()
 	if is_purple:
 		var L = 32

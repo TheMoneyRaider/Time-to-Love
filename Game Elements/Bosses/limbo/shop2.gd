@@ -6,13 +6,18 @@ var time_passed = 0.0
 func _ready() -> void:
 	var offset = $Cracks.global_position+Vector2(8,32)
 	print(offset)
-	for node in get_node("Tentacles").get_children():
-		if node.is_in_group("tentacle"):
-			node.set_hole(offset)
-		if node.is_in_group("holds_reward"):
-			node.shrink(.88)
+	setup(get_node("Tentacles"),offset)
 	$Cracks.enabled = false
-			
+
+
+func setup(node : Node, offset : Vector2):
+	for child in node.get_children():
+		if child.is_in_group("tentacle"):
+			child.set_hole(offset)
+		else:
+			setup(child,offset)
+
+
 func _process(delta: float) -> void:
 	if time_passed >= 2.0:
 		$Cracks.enabled = true
