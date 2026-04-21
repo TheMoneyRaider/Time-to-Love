@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cryh3p532bi7" path="res://Game Elements/Objects/tentacle.tscn" id="3_ciyr3"]
 [ext_resource type="Script" uid="uid://bup57y8xaqkcl" path="res://Game Elements/Characters/tentacle.gd" id="3_tns6v"]
 [ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="5_387ia"]
-[ext_resource type="PackedScene" uid="uid://b4dph7ijgkng5" path="res://Game Elements/particles/tentacle_particles.tscn" id="5_ew5iw"]
+[ext_resource type="PackedScene" uid="uid://b4dph7ijgkng5" path="res://Game Elements/Particles/tentacle_particles.tscn" id="5_ew5iw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hq7sw"]
 radius = 5.0

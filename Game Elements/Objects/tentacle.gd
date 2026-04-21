@@ -150,7 +150,12 @@ func shrink(shrink_amount : float, change_length : bool = true):
 	var from_hole : Vector2 = target.origin - hole_global_position
 	target.origin = hole_global_position + from_hole * shrink_amount
 	target.global_position = target.origin
-	_initialize_segments()
+	
+	var target_len = max_length
+	var per_segment = target_len / num__segments
+	for i in range(_segment_lengths.size()):
+		_segment_lengths[i] = per_segment
+	total_length = target_len
 
 
 func set_hole(hole_position : Vector2):

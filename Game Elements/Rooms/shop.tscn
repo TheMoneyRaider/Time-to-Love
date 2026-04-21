@@ -34,7 +34,7 @@ position = Vector2(-256, -250)
 [node name="Tentacle1" parent="Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("6_voql5")]
 position = Vector2(236, 332)
 target = NodePath("../../Targets/MovingTarget1")
-num__segments = 26
+num__segments = 14
 max_length = 190.0
 wave_speed = 1.1
 light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
@@ -44,7 +44,7 @@ emerge_height = 30.0
 [node name="Tentacle2" parent="Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("6_voql5")]
 position = Vector2(220, 325)
 target = NodePath("../../Targets/MovingTarget2")
-num__segments = 26
+num__segments = 14
 max_length = 210.0
 wave_speed = 0.9
 light_color = Color(0.8063605, 0.49320686, 1, 1)
@@ -53,7 +53,7 @@ dark_color = Color(0.74219275, 0.22175905, 0.99999565, 1)
 [node name="Tentacle3" parent="Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("6_voql5")]
 position = Vector2(237, 339)
 target = NodePath("../../Targets/MovingTarget3")
-num__segments = 26
+num__segments = 14
 max_length = 225.0
 wave_speed = 0.7
 light_color = Color(1, 0.36862746, 0.3764706, 1)
@@ -63,7 +63,7 @@ emerge_height = 30.0
 [node name="Tentacle4" parent="Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("6_voql5")]
 position = Vector2(252, 335)
 target = NodePath("../../Targets/MovingTarget4")
-num__segments = 26
+num__segments = 14
 max_length = 240.0
 light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
 dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
@@ -72,7 +72,7 @@ emerge_height = 25.0
 [node name="Tentacle5" parent="Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("6_voql5")]
 position = Vector2(271, 339)
 target = NodePath("../../Targets/MovingTarget5")
-num__segments = 26
+num__segments = 14
 max_length = 245.0
 wave_speed = 0.7
 light_color = Color(0.8063605, 0.49320686, 1, 1)
@@ -82,7 +82,7 @@ emerge_height = 30.0
 [node name="Tentacle6" parent="Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("6_voql5")]
 position = Vector2(290, 337)
 target = NodePath("../../Targets/MovingTarget6")
-num__segments = 26
+num__segments = 14
 max_length = 230.0
 wave_speed = 0.9
 light_color = Color(1, 0.36862746, 0.3764706, 1)
@@ -92,17 +92,16 @@ emerge_height = 35.0
 [node name="Tentacle7" parent="Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("6_voql5")]
 position = Vector2(306, 328)
 target = NodePath("../../Targets/MovingTarget7")
-num__segments = 26
+num__segments = 14
 max_length = 200.0
 wave_speed = 1.1
 light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
 dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
-emerge_height = 50.0
 
 [node name="Tentacle8" parent="Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("6_voql5")]
 position = Vector2(235, 346)
 target = NodePath("../../Targets/MovingTarget8")
-num__segments = 26
+num__segments = 14
 max_length = 210.0
 wave_speed = 1.1
 light_color = Color(1, 0.36862746, 0.3764706, 1)
@@ -112,7 +111,7 @@ emerge_height = 50.0
 [node name="Tentacle9" parent="Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("6_voql5")]
 position = Vector2(219, 339)
 target = NodePath("../../Targets/MovingTarget9")
-num__segments = 26
+num__segments = 14
 max_length = 225.0
 wave_speed = 0.9
 light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
@@ -122,7 +121,7 @@ emerge_height = 35.0
 [node name="Tentacle10" parent="Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("6_voql5")]
 position = Vector2(236, 353)
 target = NodePath("../../Targets/MovingTarget10")
-num__segments = 26
+num__segments = 14
 max_length = 245.0
 wave_speed = 0.7
 light_color = Color(0.8063605, 0.49320686, 1, 1)
@@ -132,7 +131,7 @@ emerge_height = 30.0
 [node name="Tentacle11" parent="Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("6_voql5")]
 position = Vector2(251, 349)
 target = NodePath("../../Targets/MovingTarget11")
-num__segments = 26
+num__segments = 14
 max_length = 256.0
 light_color = Color(1, 0.36862746, 0.3764706, 1)
 dark_color = Color(0.9415628, 0, 0.19590142, 1)
@@ -141,7 +140,7 @@ emerge_height = 25.0
 [node name="Tentacle12" parent="Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("6_voql5")]
 position = Vector2(270, 353)
 target = NodePath("../../Targets/MovingTarget12")
-num__segments = 26
+num__segments = 14
 max_length = 256.0
 wave_speed = 0.7
 light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
@@ -151,7 +150,7 @@ emerge_height = 30.0
 [node name="Tentacle13" parent="Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("6_voql5")]
 position = Vector2(289, 351)
 target = NodePath("../../Targets/MovingTarget13")
-num__segments = 26
+num__segments = 14
 max_length = 240.0
 wave_amplitude = 0.5
 wave_speed = 0.9
@@ -161,17 +160,16 @@ dark_color = Color(0.74219275, 0.22175905, 0.99999565, 1)
 [node name="Tentacle14" parent="Tentacles" node_paths=PackedStringArray("target") groups=["holds_reward"] instance=ExtResource("6_voql5")]
 position = Vector2(305, 342)
 target = NodePath("../../Targets/MovingTarget14")
-num__segments = 26
+num__segments = 14
 max_length = 190.0
 wave_speed = 1.1
 light_color = Color(1, 0.36862746, 0.3764706, 1)
 dark_color = Color(0.9415628, 0, 0.19590142, 1)
-emerge_height = 60.0
 
 [node name="Tentacle_Vision" parent="Tentacles" node_paths=PackedStringArray("target") instance=ExtResource("6_voql5")]
 position = Vector2(263, 384)
 target = NodePath("../../VisionNPC/Feet")
-num__segments = 26
+num__segments = 14
 max_length = 150.0
 wave_amplitude = 0.5
 line_width = 30.0
