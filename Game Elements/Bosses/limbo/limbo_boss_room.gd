@@ -75,7 +75,7 @@ func _process(delta: float) -> void:
 		if !(active_tentacle and is_instance_valid(active_tentacle)):
 			var tentacles : Array[Node] = []
 			for child in $Shop/Tentacles.get_children():
-				if child and is_instance_valid(child) and child.get_node("Brain"):
+				if child and is_instance_valid(child) and child.get_node_or_null("Brain"):
 					tentacles.append(child.get_node("Brain"))
 			var index = int(tentacles.size() * randf())
 			active_tentacle = tentacles[index]

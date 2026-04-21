@@ -77,6 +77,16 @@ func _process(delta: float) -> void:
 	
 	
 	
+func spawn_enemies(value1, value2):
+	if LayerManager.is_multiplayer:
+		Spawner.spawn_enemies([LayerManager.player1,LayerManager.player2], LayerManager.room_instance, LayerManager.placable_cells.duplicate(),LayerManager.room_instance_data,LayerManager,true,value1,value2)
+	else:
+		Spawner.spawn_enemies([LayerManager.player1], LayerManager.room_instance, LayerManager.placable_cells.duplicate(),LayerManager.room_instance_data,LayerManager,true,value1,value2)
+	var enemies : Array[Node]= []
+	for child in LayerManager.room_instance.get_children():
+		if child.is_in_group("enemy"):
+			enemies.append(child)
+	LayerManager.awareness_display.enemies = enemies.duplicate()
 	
 func activate():
 	active = true
@@ -100,7 +110,14 @@ func activate():
 		col2B,
 		.6
 	)
-	
+	await tween.finished
+	print(tentacle.light_color)
+	if tentacle.light_color.r == 1.0:
+		spawn_enemies(int(randf()*16+16),"res://Game Elements/Characters/tentacle1.tscn")
+	if tentacle.light_color.g == 1.0:
+		spawn_enemies(int(randf()*16+16),"res://Game Elements/Characters/tentacle2.tscn")
+	if tentacle.light_color.b == 1.0:
+		spawn_enemies(int(randf()*16+16),"res://Game Elements/Characters/tentacle3.tscn")
 	
 
 
