@@ -34,7 +34,6 @@ func _ready():
 	if Globals.cinematic_viewed:
 		paused = false
 		$Intro.visible = false
-		$Intro.queue_free()
 	else:
 		$Intro/AnimationPlayer.play("main")
 	Title.texture = title_textures[Globals.menu]
@@ -99,7 +98,6 @@ func _process(delta):
 			return
 		else:
 			$Intro.visible = false
-			$Intro.queue_free()
 			Globals.cinematic_viewed = true
 			paused=false
 	if !fragmenting:
@@ -191,7 +189,6 @@ func _input(event):
 		if is_button and event.pressed:
 			if get_node("Intro"):
 				$Intro.visible = false
-				$Intro.queue_free()
 			Globals.cinematic_viewed = true
 			paused=false
 		return

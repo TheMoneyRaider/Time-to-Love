@@ -222,7 +222,7 @@ tile_set = ExtResource("13_1kcvy")
 [node name="Tentacles" type="Node2D" parent="Shop"]
 position = Vector2(-256, -250)
 
-[node name="Tentacle" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
+[node name="Tentacle1" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
 position = Vector2(236, 333)
 collision_layer = 4
 collision_mask = 7
@@ -232,18 +232,18 @@ enemy_type = "tentacle"
 move_speed = 0.0
 knockback_decay = 0.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Tentacles/Tentacle"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Tentacles/Tentacle1"]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_2xyam")
 
-[node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
+[node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle1" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
 script = ExtResource("23_pwnbc")
 tentacle = NodePath("../Tentacle1")
 attack = NodePath("../Attack")
 is_boss_tent = true
 Tween_Target = NodePath("../Tween_target")
 
-[node name="Attack" type="Area2D" parent="Shop/Tentacles/Tentacle" node_paths=PackedStringArray("c_owner")]
+[node name="Attack" type="Area2D" parent="Shop/Tentacles/Tentacle1" node_paths=PackedStringArray("c_owner")]
 collision_layer = 8
 collision_mask = 39
 script = ExtResource("21_br3ub")
@@ -255,7 +255,9 @@ wall_collision = false
 attack_type = "tentacle"
 c_owner = NodePath("..")
 
-[node name="Tentacle1" parent="Shop/Tentacles/Tentacle" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+[node name="Tween_target" type="Node2D" parent="Shop/Tentacles/Tentacle1"]
+
+[node name="Tentacle1" parent="Shop/Tentacles/Tentacle1" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
 target = NodePath("../../../Targets/MovingTarget8")
 num__segments = 26
 max_length = 167.0
@@ -266,163 +268,589 @@ emerge_height = 30.0
 collision_enabled = true
 Shop = NodePath("../../..")
 
-[node name="Tween_target" type="Node2D" parent="Shop/Tentacles/Tentacle"]
-
-[node name="Tentacle2" parent="Shop/Tentacles" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
-visible = false
+[node name="Tentacle2" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
 position = Vector2(220, 325)
-target = NodePath("../../Targets/MovingTarget2")
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("20_2xyam")
+max_health = 100.0
+enemy_type = "tentacle"
+move_speed = 0.0
+knockback_decay = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Tentacles/Tentacle2"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_2xyam")
+
+[node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle2" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
+script = ExtResource("23_pwnbc")
+tentacle = NodePath("")
+attack = NodePath("../Attack")
+is_boss_tent = true
+Tween_Target = NodePath("../Tween_target")
+
+[node name="Attack" type="Area2D" parent="Shop/Tentacles/Tentacle2" node_paths=PackedStringArray("c_owner")]
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("21_br3ub")
+speed = 0.0
+lifespan = 1000000000.0
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "tentacle"
+c_owner = NodePath("..")
+
+[node name="Tween_target" type="Node2D" parent="Shop/Tentacles/Tentacle2"]
+
+[node name="Tentacle2" parent="Shop/Tentacles/Tentacle2" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+target = NodePath("../../../Targets/MovingTarget2")
 num__segments = 26
 max_length = 185.0
 wave_speed = 0.9
 light_color = Color(0.8063605, 0.49320686, 1, 1)
 dark_color = Color(0.74219275, 0.22175905, 0.99999565, 1)
-Shop = NodePath("../..")
+Shop = NodePath("../../..")
 
-[node name="Tentacle3" parent="Shop/Tentacles" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
-visible = false
+[node name="Tentacle3" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
 position = Vector2(237, 339)
-target = NodePath("../../Targets/MovingTarget3")
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("20_2xyam")
+max_health = 100.0
+enemy_type = "tentacle"
+move_speed = 0.0
+knockback_decay = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Tentacles/Tentacle3"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_2xyam")
+
+[node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle3" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
+script = ExtResource("23_pwnbc")
+tentacle = NodePath("")
+attack = NodePath("../Attack")
+is_boss_tent = true
+Tween_Target = NodePath("../Tween_target")
+
+[node name="Attack" type="Area2D" parent="Shop/Tentacles/Tentacle3" node_paths=PackedStringArray("c_owner")]
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("21_br3ub")
+speed = 0.0
+lifespan = 1000000000.0
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "tentacle"
+c_owner = NodePath("..")
+
+[node name="Tween_target" type="Node2D" parent="Shop/Tentacles/Tentacle3"]
+
+[node name="Tentacle3" parent="Shop/Tentacles/Tentacle3" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+target = NodePath("../../../Targets/MovingTarget3")
 num__segments = 26
 max_length = 198.0
 wave_speed = 0.7
 light_color = Color(1, 0.36862746, 0.3764706, 1)
 dark_color = Color(0.9415628, 0, 0.19590142, 1)
 emerge_height = 30.0
-Shop = NodePath("../..")
+Shop = NodePath("../../..")
 
-[node name="Tentacle4" parent="Shop/Tentacles" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
-visible = false
+[node name="Tentacle4" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
 position = Vector2(252, 335)
-target = NodePath("../../Targets/MovingTarget4")
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("20_2xyam")
+max_health = 100.0
+enemy_type = "tentacle"
+move_speed = 0.0
+knockback_decay = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Tentacles/Tentacle4"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_2xyam")
+
+[node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle4" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
+script = ExtResource("23_pwnbc")
+tentacle = NodePath("")
+attack = NodePath("../Attack")
+is_boss_tent = true
+Tween_Target = NodePath("../Tween_target")
+
+[node name="Attack" type="Area2D" parent="Shop/Tentacles/Tentacle4" node_paths=PackedStringArray("c_owner")]
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("21_br3ub")
+speed = 0.0
+lifespan = 1000000000.0
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "tentacle"
+c_owner = NodePath("..")
+
+[node name="Tween_target" type="Node2D" parent="Shop/Tentacles/Tentacle4"]
+
+[node name="Tentacle4" parent="Shop/Tentacles/Tentacle4" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+target = NodePath("../../../Targets/MovingTarget4")
 num__segments = 26
 max_length = 211.0
 light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
 dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
 emerge_height = 25.0
-Shop = NodePath("../..")
+Shop = NodePath("../../..")
 
-[node name="Tentacle5" parent="Shop/Tentacles" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
-visible = false
+[node name="Tentacle5" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
 position = Vector2(271, 339)
-target = NodePath("../../Targets/MovingTarget5")
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("20_2xyam")
+max_health = 100.0
+enemy_type = "tentacle"
+move_speed = 0.0
+knockback_decay = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Tentacles/Tentacle5"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_2xyam")
+
+[node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle5" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
+script = ExtResource("23_pwnbc")
+tentacle = NodePath("")
+attack = NodePath("../Attack")
+is_boss_tent = true
+Tween_Target = NodePath("../Tween_target")
+
+[node name="Attack" type="Area2D" parent="Shop/Tentacles/Tentacle5" node_paths=PackedStringArray("c_owner")]
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("21_br3ub")
+speed = 0.0
+lifespan = 1000000000.0
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "tentacle"
+c_owner = NodePath("..")
+
+[node name="Tween_target" type="Node2D" parent="Shop/Tentacles/Tentacle5"]
+
+[node name="Tentacle5" parent="Shop/Tentacles/Tentacle5" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+target = NodePath("../../../Targets/MovingTarget5")
 num__segments = 26
 max_length = 216.0
 wave_speed = 0.7
 light_color = Color(0.8063605, 0.49320686, 1, 1)
 dark_color = Color(0.74219275, 0.22175905, 0.99999565, 1)
 emerge_height = 30.0
-Shop = NodePath("../..")
+Shop = NodePath("../../..")
 
-[node name="Tentacle6" parent="Shop/Tentacles" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
-visible = false
+[node name="Tentacle6" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
 position = Vector2(290, 337)
-target = NodePath("../../Targets/MovingTarget6")
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("20_2xyam")
+max_health = 100.0
+enemy_type = "tentacle"
+move_speed = 0.0
+knockback_decay = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Tentacles/Tentacle6"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_2xyam")
+
+[node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle6" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
+script = ExtResource("23_pwnbc")
+tentacle = NodePath("")
+attack = NodePath("../Attack")
+is_boss_tent = true
+Tween_Target = NodePath("../Tween_target")
+
+[node name="Attack" type="Area2D" parent="Shop/Tentacles/Tentacle6" node_paths=PackedStringArray("c_owner")]
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("21_br3ub")
+speed = 0.0
+lifespan = 1000000000.0
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "tentacle"
+c_owner = NodePath("..")
+
+[node name="Tween_target" type="Node2D" parent="Shop/Tentacles/Tentacle6"]
+
+[node name="Tentacle6" parent="Shop/Tentacles/Tentacle6" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+target = NodePath("../../../Targets/MovingTarget6")
 num__segments = 26
 max_length = 202.0
 wave_speed = 0.9
 light_color = Color(1, 0.36862746, 0.3764706, 1)
 dark_color = Color(0.9415628, 0, 0.19590142, 1)
 emerge_height = 35.0
-Shop = NodePath("../..")
+Shop = NodePath("../../..")
 
-[node name="Tentacle7" parent="Shop/Tentacles" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
-visible = false
+[node name="Tentacle7" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
 position = Vector2(306, 328)
-target = NodePath("../../Targets/MovingTarget7")
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("20_2xyam")
+max_health = 100.0
+enemy_type = "tentacle"
+move_speed = 0.0
+knockback_decay = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Tentacles/Tentacle7"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_2xyam")
+
+[node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle7" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
+script = ExtResource("23_pwnbc")
+tentacle = NodePath("")
+attack = NodePath("../Attack")
+is_boss_tent = true
+Tween_Target = NodePath("../Tween_target")
+
+[node name="Attack" type="Area2D" parent="Shop/Tentacles/Tentacle7" node_paths=PackedStringArray("c_owner")]
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("21_br3ub")
+speed = 0.0
+lifespan = 1000000000.0
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "tentacle"
+c_owner = NodePath("..")
+
+[node name="Tween_target" type="Node2D" parent="Shop/Tentacles/Tentacle7"]
+
+[node name="Tentacle7" parent="Shop/Tentacles/Tentacle7" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+target = NodePath("../../../Targets/MovingTarget7")
 num__segments = 26
 max_length = 176.0
 wave_speed = 1.1
 light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
 dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
 emerge_height = 50.0
-Shop = NodePath("../..")
+Shop = NodePath("../../..")
 
-[node name="Tentacle8" parent="Shop/Tentacles" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
-visible = false
+[node name="Tentacle8" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
 position = Vector2(235, 346)
-target = NodePath("../../Targets/MovingTarget1")
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("20_2xyam")
+max_health = 100.0
+enemy_type = "tentacle"
+move_speed = 0.0
+knockback_decay = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Tentacles/Tentacle8"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_2xyam")
+
+[node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle8" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
+script = ExtResource("23_pwnbc")
+tentacle = NodePath("")
+attack = NodePath("../Attack")
+is_boss_tent = true
+Tween_Target = NodePath("../Tween_target")
+
+[node name="Attack" type="Area2D" parent="Shop/Tentacles/Tentacle8" node_paths=PackedStringArray("c_owner")]
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("21_br3ub")
+speed = 0.0
+lifespan = 1000000000.0
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "tentacle"
+c_owner = NodePath("..")
+
+[node name="Tween_target" type="Node2D" parent="Shop/Tentacles/Tentacle8"]
+
+[node name="Tentacle8" parent="Shop/Tentacles/Tentacle8" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+target = NodePath("../../../Targets/MovingTarget1")
 num__segments = 26
 max_length = 185.0
 wave_speed = 1.1
 light_color = Color(1, 0.36862746, 0.3764706, 1)
 dark_color = Color(0.9415628, 0, 0.19590142, 1)
 emerge_height = 50.0
-Shop = NodePath("../..")
+Shop = NodePath("../../..")
 
-[node name="Tentacle9" parent="Shop/Tentacles" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
-visible = false
+[node name="Tentacle9" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
 position = Vector2(219, 339)
-target = NodePath("../../Targets/MovingTarget9")
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("20_2xyam")
+max_health = 100.0
+enemy_type = "tentacle"
+move_speed = 0.0
+knockback_decay = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Tentacles/Tentacle9"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_2xyam")
+
+[node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle9" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
+script = ExtResource("23_pwnbc")
+tentacle = NodePath("")
+attack = NodePath("../Attack")
+is_boss_tent = true
+Tween_Target = NodePath("../Tween_target")
+
+[node name="Attack" type="Area2D" parent="Shop/Tentacles/Tentacle9" node_paths=PackedStringArray("c_owner")]
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("21_br3ub")
+speed = 0.0
+lifespan = 1000000000.0
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "tentacle"
+c_owner = NodePath("..")
+
+[node name="Tween_target" type="Node2D" parent="Shop/Tentacles/Tentacle9"]
+
+[node name="Tentacle9" parent="Shop/Tentacles/Tentacle9" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+target = NodePath("../../../Targets/MovingTarget9")
 num__segments = 26
 max_length = 198.0
 wave_speed = 0.9
 light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
 dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
 emerge_height = 35.0
-Shop = NodePath("../..")
+Shop = NodePath("../../..")
 
-[node name="Tentacle10" parent="Shop/Tentacles" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
-visible = false
+[node name="Tentacle10" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
 position = Vector2(236, 353)
-target = NodePath("../../Targets/MovingTarget10")
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("20_2xyam")
+max_health = 100.0
+enemy_type = "tentacle"
+move_speed = 0.0
+knockback_decay = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Tentacles/Tentacle10"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_2xyam")
+
+[node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle10" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
+script = ExtResource("23_pwnbc")
+tentacle = NodePath("")
+attack = NodePath("../Attack")
+is_boss_tent = true
+Tween_Target = NodePath("../Tween_target")
+
+[node name="Attack" type="Area2D" parent="Shop/Tentacles/Tentacle10" node_paths=PackedStringArray("c_owner")]
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("21_br3ub")
+speed = 0.0
+lifespan = 1000000000.0
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "tentacle"
+c_owner = NodePath("..")
+
+[node name="Tween_target" type="Node2D" parent="Shop/Tentacles/Tentacle10"]
+
+[node name="Tentacle10" parent="Shop/Tentacles/Tentacle10" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+target = NodePath("../../../Targets/MovingTarget10")
 num__segments = 26
 max_length = 216.0
 wave_speed = 0.7
 light_color = Color(0.8063605, 0.49320686, 1, 1)
 dark_color = Color(0.74219275, 0.22175905, 0.99999565, 1)
 emerge_height = 30.0
-Shop = NodePath("../..")
+Shop = NodePath("../../..")
 
-[node name="Tentacle11" parent="Shop/Tentacles" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
-visible = false
+[node name="Tentacle11" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
 position = Vector2(251, 349)
-target = NodePath("../../Targets/MovingTarget11")
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("20_2xyam")
+max_health = 100.0
+enemy_type = "tentacle"
+move_speed = 0.0
+knockback_decay = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Tentacles/Tentacle11"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_2xyam")
+
+[node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle11" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
+script = ExtResource("23_pwnbc")
+tentacle = NodePath("")
+attack = NodePath("../Attack")
+is_boss_tent = true
+Tween_Target = NodePath("../Tween_target")
+
+[node name="Attack" type="Area2D" parent="Shop/Tentacles/Tentacle11" node_paths=PackedStringArray("c_owner")]
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("21_br3ub")
+speed = 0.0
+lifespan = 1000000000.0
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "tentacle"
+c_owner = NodePath("..")
+
+[node name="Tween_target" type="Node2D" parent="Shop/Tentacles/Tentacle11"]
+
+[node name="Tentacle11" parent="Shop/Tentacles/Tentacle11" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+target = NodePath("../../../Targets/MovingTarget11")
 num__segments = 26
 max_length = 225.0
 light_color = Color(1, 0.36862746, 0.3764706, 1)
 dark_color = Color(0.9415628, 0, 0.19590142, 1)
 emerge_height = 25.0
-Shop = NodePath("../..")
+Shop = NodePath("../../..")
 
-[node name="Tentacle12" parent="Shop/Tentacles" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
-visible = false
+[node name="Tentacle12" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
 position = Vector2(270, 353)
-target = NodePath("../../Targets/MovingTarget12")
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("20_2xyam")
+max_health = 100.0
+enemy_type = "tentacle"
+move_speed = 0.0
+knockback_decay = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Tentacles/Tentacle12"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_2xyam")
+
+[node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle12" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
+script = ExtResource("23_pwnbc")
+tentacle = NodePath("")
+attack = NodePath("../Attack")
+is_boss_tent = true
+Tween_Target = NodePath("../Tween_target")
+
+[node name="Attack" type="Area2D" parent="Shop/Tentacles/Tentacle12" node_paths=PackedStringArray("c_owner")]
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("21_br3ub")
+speed = 0.0
+lifespan = 1000000000.0
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "tentacle"
+c_owner = NodePath("..")
+
+[node name="Tween_target" type="Node2D" parent="Shop/Tentacles/Tentacle12"]
+
+[node name="Tentacle12" parent="Shop/Tentacles/Tentacle12" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+target = NodePath("../../../Targets/MovingTarget12")
 num__segments = 26
 max_length = 225.0
 wave_speed = 0.7
 light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
 dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
 emerge_height = 30.0
-Shop = NodePath("../..")
+Shop = NodePath("../../..")
 
-[node name="Tentacle13" parent="Shop/Tentacles" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
-visible = false
+[node name="Tentacle13" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
 position = Vector2(289, 351)
-target = NodePath("../../Targets/MovingTarget13")
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("20_2xyam")
+max_health = 100.0
+enemy_type = "tentacle"
+move_speed = 0.0
+knockback_decay = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Tentacles/Tentacle13"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_2xyam")
+
+[node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle13" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
+script = ExtResource("23_pwnbc")
+tentacle = NodePath("")
+attack = NodePath("../Attack")
+is_boss_tent = true
+Tween_Target = NodePath("../Tween_target")
+
+[node name="Attack" type="Area2D" parent="Shop/Tentacles/Tentacle13" node_paths=PackedStringArray("c_owner")]
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("21_br3ub")
+speed = 0.0
+lifespan = 1000000000.0
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "tentacle"
+c_owner = NodePath("..")
+
+[node name="Tween_target" type="Node2D" parent="Shop/Tentacles/Tentacle13"]
+
+[node name="Tentacle13" parent="Shop/Tentacles/Tentacle13" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+target = NodePath("../../../Targets/MovingTarget13")
 num__segments = 26
 max_length = 211.0
 wave_amplitude = 0.5
 wave_speed = 0.9
 light_color = Color(0.8063605, 0.49320686, 1, 1)
 dark_color = Color(0.74219275, 0.22175905, 0.99999565, 1)
-Shop = NodePath("../..")
+Shop = NodePath("../../..")
 
-[node name="Tentacle14" parent="Shop/Tentacles" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
-visible = false
+[node name="Tentacle14" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
 position = Vector2(305, 342)
-target = NodePath("../../Targets/MovingTarget14")
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("20_2xyam")
+max_health = 100.0
+enemy_type = "tentacle"
+move_speed = 0.0
+knockback_decay = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Tentacles/Tentacle14"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_2xyam")
+
+[node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle14" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
+script = ExtResource("23_pwnbc")
+tentacle = NodePath("../Tentacle14")
+attack = NodePath("../Attack")
+is_boss_tent = true
+Tween_Target = NodePath("../Tween_target")
+
+[node name="Attack" type="Area2D" parent="Shop/Tentacles/Tentacle14" node_paths=PackedStringArray("c_owner")]
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("21_br3ub")
+speed = 0.0
+lifespan = 1000000000.0
+cooldown = 0.0
+pierce = -2.0
+wall_collision = false
+attack_type = "tentacle"
+c_owner = NodePath("..")
+
+[node name="Tween_target" type="Node2D" parent="Shop/Tentacles/Tentacle14"]
+
+[node name="Tentacle14" parent="Shop/Tentacles/Tentacle14" node_paths=PackedStringArray("target", "Shop") groups=["holds_reward"] instance=ExtResource("19_tqkqi")]
+target = NodePath("../../../Targets/MovingTarget14")
 num__segments = 26
 max_length = 167.0
 wave_speed = 1.1
 light_color = Color(1, 0.36862746, 0.3764706, 1)
 dark_color = Color(0.9415628, 0, 0.19590142, 1)
 emerge_height = 60.0
-Shop = NodePath("../..")
+Shop = NodePath("../../..")
 
 [node name="Tentacle_Vision" parent="Shop/Tentacles" node_paths=PackedStringArray("target", "Shop") instance=ExtResource("19_tqkqi")]
-visible = false
 position = Vector2(263, 384)
 target = NodePath("../../VisionNPC/Feet")
 num__segments = 26
@@ -529,5 +957,31 @@ position = Vector2(-342, 370)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeleteToFinishRoom"]
 shape = SubResource("CircleShape2D_douwh")
 
-[connection signal="area_entered" from="Shop/Tentacles/Tentacle/Attack" to="Shop/Tentacles/Tentacle/Attack" method="_on_area_entered"]
-[connection signal="body_entered" from="Shop/Tentacles/Tentacle/Attack" to="Shop/Tentacles/Tentacle/Attack" method="_on_body_entered"]
+[connection signal="area_entered" from="Shop/Tentacles/Tentacle1/Attack" to="Shop/Tentacles/Tentacle1/Attack" method="_on_area_entered"]
+[connection signal="body_entered" from="Shop/Tentacles/Tentacle1/Attack" to="Shop/Tentacles/Tentacle1/Attack" method="_on_body_entered"]
+[connection signal="area_entered" from="Shop/Tentacles/Tentacle2/Attack" to="Shop/Tentacles/Tentacle2/Attack" method="_on_area_entered"]
+[connection signal="body_entered" from="Shop/Tentacles/Tentacle2/Attack" to="Shop/Tentacles/Tentacle2/Attack" method="_on_body_entered"]
+[connection signal="area_entered" from="Shop/Tentacles/Tentacle3/Attack" to="Shop/Tentacles/Tentacle3/Attack" method="_on_area_entered"]
+[connection signal="body_entered" from="Shop/Tentacles/Tentacle3/Attack" to="Shop/Tentacles/Tentacle3/Attack" method="_on_body_entered"]
+[connection signal="area_entered" from="Shop/Tentacles/Tentacle4/Attack" to="Shop/Tentacles/Tentacle4/Attack" method="_on_area_entered"]
+[connection signal="body_entered" from="Shop/Tentacles/Tentacle4/Attack" to="Shop/Tentacles/Tentacle4/Attack" method="_on_body_entered"]
+[connection signal="area_entered" from="Shop/Tentacles/Tentacle5/Attack" to="Shop/Tentacles/Tentacle5/Attack" method="_on_area_entered"]
+[connection signal="body_entered" from="Shop/Tentacles/Tentacle5/Attack" to="Shop/Tentacles/Tentacle5/Attack" method="_on_body_entered"]
+[connection signal="area_entered" from="Shop/Tentacles/Tentacle6/Attack" to="Shop/Tentacles/Tentacle6/Attack" method="_on_area_entered"]
+[connection signal="body_entered" from="Shop/Tentacles/Tentacle6/Attack" to="Shop/Tentacles/Tentacle6/Attack" method="_on_body_entered"]
+[connection signal="area_entered" from="Shop/Tentacles/Tentacle7/Attack" to="Shop/Tentacles/Tentacle7/Attack" method="_on_area_entered"]
+[connection signal="body_entered" from="Shop/Tentacles/Tentacle7/Attack" to="Shop/Tentacles/Tentacle7/Attack" method="_on_body_entered"]
+[connection signal="area_entered" from="Shop/Tentacles/Tentacle8/Attack" to="Shop/Tentacles/Tentacle8/Attack" method="_on_area_entered"]
+[connection signal="body_entered" from="Shop/Tentacles/Tentacle8/Attack" to="Shop/Tentacles/Tentacle8/Attack" method="_on_body_entered"]
+[connection signal="area_entered" from="Shop/Tentacles/Tentacle9/Attack" to="Shop/Tentacles/Tentacle9/Attack" method="_on_area_entered"]
+[connection signal="body_entered" from="Shop/Tentacles/Tentacle9/Attack" to="Shop/Tentacles/Tentacle9/Attack" method="_on_body_entered"]
+[connection signal="area_entered" from="Shop/Tentacles/Tentacle10/Attack" to="Shop/Tentacles/Tentacle10/Attack" method="_on_area_entered"]
+[connection signal="body_entered" from="Shop/Tentacles/Tentacle10/Attack" to="Shop/Tentacles/Tentacle10/Attack" method="_on_body_entered"]
+[connection signal="area_entered" from="Shop/Tentacles/Tentacle11/Attack" to="Shop/Tentacles/Tentacle11/Attack" method="_on_area_entered"]
+[connection signal="body_entered" from="Shop/Tentacles/Tentacle11/Attack" to="Shop/Tentacles/Tentacle11/Attack" method="_on_body_entered"]
+[connection signal="area_entered" from="Shop/Tentacles/Tentacle12/Attack" to="Shop/Tentacles/Tentacle12/Attack" method="_on_area_entered"]
+[connection signal="body_entered" from="Shop/Tentacles/Tentacle12/Attack" to="Shop/Tentacles/Tentacle12/Attack" method="_on_body_entered"]
+[connection signal="area_entered" from="Shop/Tentacles/Tentacle13/Attack" to="Shop/Tentacles/Tentacle13/Attack" method="_on_area_entered"]
+[connection signal="body_entered" from="Shop/Tentacles/Tentacle13/Attack" to="Shop/Tentacles/Tentacle13/Attack" method="_on_body_entered"]
+[connection signal="area_entered" from="Shop/Tentacles/Tentacle14/Attack" to="Shop/Tentacles/Tentacle14/Attack" method="_on_area_entered"]
+[connection signal="body_entered" from="Shop/Tentacles/Tentacle14/Attack" to="Shop/Tentacles/Tentacle14/Attack" method="_on_body_entered"]
