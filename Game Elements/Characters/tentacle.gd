@@ -90,6 +90,7 @@ func spawn_enemies(value1, value2):
 	
 func activate():
 	active = true
+	get_parent().hitable = true
 	var tween = create_tween()
 	var mat0 = tentacle.get_node("SubViewportContainer/SubViewport/TwoToneCanvasGroup").material
 	var mat = mat0.duplicate(true)
@@ -112,12 +113,12 @@ func activate():
 	)
 	await tween.finished
 	print(tentacle.light_color)
-	if tentacle.light_color.r == 1.0:
-		spawn_enemies(int(randf()*16+16),"res://Game Elements/Characters/tentacle1.tscn")
-	if tentacle.light_color.g == 1.0:
-		spawn_enemies(int(randf()*16+16),"res://Game Elements/Characters/tentacle2.tscn")
-	if tentacle.light_color.b == 1.0:
-		spawn_enemies(int(randf()*16+16),"res://Game Elements/Characters/tentacle3.tscn")
+	if abs(tentacle.light_color.r - 1.0) < .01:
+		spawn_enemies(int(randf()*8+16),"res://Game Elements/Characters/tentacle1.tscn")
+	if abs(tentacle.light_color.g - 1.0) < .01:
+		spawn_enemies(int(randf()*8+16),"res://Game Elements/Characters/tentacle2.tscn")
+	if abs(tentacle.light_color.b - 1.0) < .01:
+		spawn_enemies(int(randf()*8+16),"res://Game Elements/Characters/tentacle3.tscn")
 	
 
 
@@ -148,6 +149,7 @@ func _ready() -> void:
 		target = tentacle.target
 		tentacle.target = Tween_Target
 		length = tentacle.max_length
+		get_parent().hitable = false
 		return
 	grow()
 	if is_purple:
@@ -155,7 +157,7 @@ func _ready() -> void:
 		var X = 48
 		length = randf() * X + L
 		tentacle.max_length = length
-		tentacle.num__segments = int(length / 5.33)
+		tentacle.num__segments = int(length / 10)
 		tentacle._initialize_segments()
 		tentacle.set_length_scale(0.0)
 		# Fade in
@@ -211,14 +213,14 @@ func grow():
 	var X = 48
 	length = randf() * X + L
 	tentacle.max_length = length
-	tentacle.num__segments = int(length / 5.33)
+	tentacle.num__segments = int(length / 10)
 
 	target = preload("res://Game Elements/Objects/moving_target.tscn").instantiate()
 	target.range = 32.0
 	target.speed = 32.0
 	target.wander_strength = 6
 	target.center_pull = 2.0
-	target.position = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized() * length * (4/3.0 + randf() * 1/3.0)
+	target.position = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized() * length * 2.0
 	get_parent().add_child.call_deferred(target)
 
 	tentacle._initialize_segments()

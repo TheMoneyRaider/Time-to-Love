@@ -80,7 +80,7 @@ var shop_rooms : Array = []
 
 func get_room(room : Room):
 	if room.roomtype != Globals.RoomType.Boss:
-		return shop_rooms[0][0]
+		return bosses[3]
 	var index = int(current_progress) if room.roomtype != Globals.RoomType.Boss else int(current_progress+1.0)
 	if index >= 3:
 		index = randi() % 3
