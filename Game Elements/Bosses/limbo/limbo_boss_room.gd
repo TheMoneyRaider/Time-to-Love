@@ -49,15 +49,8 @@ var lifetime = 0.0
 var animation_time = 7.0
 var fade_time = .75
 var camera_move_time = 3.0
+var active_tentacle : Node = null
 func _process(delta: float) -> void:
-	#var curr_pos = Vector2(0,0)
-	#if lifetime >= 2.0 and !$Shop/Cracks.enabled:
-		#$Shop/Cracks.enabled = true
-	#if curr_pos != position:
-		#curr_pos= position
-		#for node in get_node("Shop/Tentacles").get_children():
-			#if node.is_in_group("tentacle"):
-				#node.get_node("SubViewportContainer").material.set_shader_parameter("node_offset",position)
 	if !active:
 		return
 	lifetime+=delta
@@ -75,7 +68,18 @@ func _process(delta: float) -> void:
 		finish_intro()		
 	if !boss or !is_instance_valid(boss):
 		deactivate()
-
+	
+	
+	
+	if lifetime>= animation_time+fade_time+camera_move_time+camera_move_time:
+		if !(active_tentacle and is_instance_valid(active_tentacle)):
+			var tentacles : Array[Node] = []
+			for child in $Shop/Tentacles.get_children():
+				if child and is_instance_valid(child) and child.get_node("Brain"):
+					tentacles.append(child.get_node("Brain"))
+			var index = int(tentacles.size() * randf())
+			active_tentacle = tentacles[index]
+			active_tentacle.activate()
 func finish_intro():
 	player1.disabled = false
 	if is_multiplayer:

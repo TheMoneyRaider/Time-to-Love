@@ -71,6 +71,7 @@ var hole_size: Vector2 = Vector2(128,128)
 @export var hole_source : String = "shop_tentacles_sdf"
 @export var uses_sdf : bool = true
 @export var collision_enabled : bool = false
+@export var is_shop : bool = false
 @export var Shop : Node2D = null
 
 # --- Collision ---
@@ -103,8 +104,8 @@ func _ready() -> void:
 	$SubViewportContainer.material.set_shader_parameter("emerge_height",emerge_height)
 	if collision_enabled:
 		_setup_hit_segments()   # <-- add this after _initialize_segments
-
-
+	
+var _hit_segment_start: int = 1  # track where hit segments begin
 # Call this from _ready() AFTER _initialize_segments()
 func _setup_hit_segments() -> void:
 	# Clean up any old ones (useful if called again on reinit)
@@ -115,8 +116,8 @@ func _setup_hit_segments() -> void:
 		node.queue_free()
 	_hit_segments2.clear()
 
-	# Skip index 0
-	for i in range(1, _segments.size()):
+	_hit_segment_start = int(_segments.size() /2.0) if is_shop else 1
+	for i in range(_hit_segment_start, _segments.size()):
 		var shape := CollisionShape2D.new()
 		var circle := CircleShape2D.new()
 		# get_segment_half_width already samples width_curve * line_width * 0.5
@@ -134,7 +135,7 @@ func _setup_hit_segments() -> void:
 func _update_hit_segments() -> void:
 	# _segments[0] is the anchor, _hit_segments[0] corresponds to _segments[1]
 	for i in range(_hit_segments.size()):
-		var seg_index := i + 1
+		var seg_index := _hit_segment_start + i
 		if seg_index >= _segments.size():
 			break
 		# _segments are in local space of the Arm node, Area2Ds are children so position is also local

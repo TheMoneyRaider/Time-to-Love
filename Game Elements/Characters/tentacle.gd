@@ -1,7 +1,7 @@
 extends Node2D
 
 var killed : bool = false
-@export var tentacle : Node
+@export var tentacle : Arm
 @export var attack : Node
 @export var particles : Node
 @export var is_purple : bool = false
@@ -11,9 +11,9 @@ func kill(dmg_owner : Node, damage : float, current_health : float, direction : 
 	if killed:
 		return
 	killed = true
-	var mat0 = get_parent().get_node("Tentacle/SubViewportContainer/SubViewport/TwoToneCanvasGroup").material
+	var mat0 = tentacle.get_node("SubViewportContainer/SubViewport/TwoToneCanvasGroup").material
 	var mat = mat0.duplicate(true)
-	get_parent().get_node("Tentacle/SubViewportContainer/SubViewport/TwoToneCanvasGroup").material = mat
+	tentacle.get_node("SubViewportContainer/SubViewport/TwoToneCanvasGroup").material = mat
 	var tween = create_tween()
 	var col1 = mat.get_shader_parameter("light_color")
 	var col2 = mat.get_shader_parameter("dark_color")
@@ -29,17 +29,19 @@ func kill(dmg_owner : Node, damage : float, current_health : float, direction : 
 		Color(0.0, 0.0, 0.0, 0.15),
 		1.4
 	)
-	tween.parallel().tween_method(
-		func(value: Color): particles.modulate = value,
-		Color(1.0, 1.0, 1.0, 1.0),
-		Color(0.0, 0.0, 0.0, 0.0),
-		1.4
-	)
+	if particles:
+		tween.parallel().tween_method(
+			func(value: Color): particles.modulate = value,
+			Color(1.0, 1.0, 1.0, 1.0),
+			Color(0.0, 0.0, 0.0, 0.0),
+			1.4
+		)
 	await tween.finished
 	
 	if dmg_owner != null && dmg_owner.is_in_group("player"):
 		dmg_owner.kill_enemy(get_parent())
 	get_parent().emit_signal("enemy_took_damage",damage,current_health,get_parent(),direction)
+	
 var target : Node
 var LayerManager: Node
 var length
@@ -76,6 +78,29 @@ func _process(delta: float) -> void:
 	
 	
 	
+func activate():
+	active = true
+	var tween = create_tween()
+	var mat0 = tentacle.get_node("SubViewportContainer/SubViewport/TwoToneCanvasGroup").material
+	var mat = mat0.duplicate(true)
+	tentacle.get_node("SubViewportContainer/SubViewport/TwoToneCanvasGroup").material = mat
+	var col1 = mat.get_shader_parameter("light_color")
+	var col2 = mat.get_shader_parameter("dark_color")
+	var col1B = lerp(col1,Color(1.0, 1.0, 1.0, 1.0),.85)
+	var col2B = lerp(col2,Color(0.712, 0.712, 0.712, 1.0),.85)
+	tween.tween_method(
+		func(value: Color): mat.set_shader_parameter("light_color", value),
+		col1,
+		col1B,
+		.6
+	)
+	tween.parallel().tween_method(
+		func(value: Color): mat.set_shader_parameter("dark_color", value),
+		col2,
+		col2B,
+		.6
+	)
+	
 	
 
 
@@ -86,7 +111,7 @@ func target_tween(player : Node, ratio : float, ignore_player : bool = false):
 	var player_lerp_factor = .005
 	if is_boss_tent:
 		player_lerp_factor = .05
-	if is_boss_tent and !active:
+	if is_boss_tent and player.global_position.y >= global_position.y-50 or !active:
 		ignore_player = true
 	if is_purple:
 		Tween_Target.global_position = lerp(cur_pos,((player.global_position - global_position)*(min(player.global_position.distance_to(global_position),length))*1.5/length +global_position),.1)
@@ -102,6 +127,7 @@ func target_tween(player : Node, ratio : float, ignore_player : bool = false):
 func _ready() -> void:
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	if is_boss_tent:
+		get_parent().enemy_took_damage.connect(LayerManager._on_enemy_take_damage)
 		target = tentacle.target
 		tentacle.target = Tween_Target
 		length = tentacle.max_length

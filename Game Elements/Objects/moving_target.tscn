@@ -9,5 +9,6 @@ y_sort_enabled = true
 script = ExtResource("1_xivx2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 scale = Vector2(0.03, 0.03)
 texture = ExtResource("2_ml7jn")

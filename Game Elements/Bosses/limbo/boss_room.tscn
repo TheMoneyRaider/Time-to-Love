@@ -266,6 +266,7 @@ light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
 dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
 emerge_height = 30.0
 collision_enabled = true
+is_shop = true
 Shop = NodePath("../../..")
 
 [node name="Tentacle2" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
@@ -284,7 +285,7 @@ shape = SubResource("CircleShape2D_2xyam")
 
 [node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle2" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
 script = ExtResource("23_pwnbc")
-tentacle = NodePath("")
+tentacle = NodePath("../Tentacle2")
 attack = NodePath("../Attack")
 is_boss_tent = true
 Tween_Target = NodePath("../Tween_target")
@@ -310,6 +311,8 @@ max_length = 185.0
 wave_speed = 0.9
 light_color = Color(0.8063605, 0.49320686, 1, 1)
 dark_color = Color(0.74219275, 0.22175905, 0.99999565, 1)
+collision_enabled = true
+is_shop = true
 Shop = NodePath("../../..")
 
 [node name="Tentacle3" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
@@ -328,7 +331,7 @@ shape = SubResource("CircleShape2D_2xyam")
 
 [node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle3" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
 script = ExtResource("23_pwnbc")
-tentacle = NodePath("")
+tentacle = NodePath("../Tentacle3")
 attack = NodePath("../Attack")
 is_boss_tent = true
 Tween_Target = NodePath("../Tween_target")
@@ -355,6 +358,8 @@ wave_speed = 0.7
 light_color = Color(1, 0.36862746, 0.3764706, 1)
 dark_color = Color(0.9415628, 0, 0.19590142, 1)
 emerge_height = 30.0
+collision_enabled = true
+is_shop = true
 Shop = NodePath("../../..")
 
 [node name="Tentacle4" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
@@ -373,7 +378,7 @@ shape = SubResource("CircleShape2D_2xyam")
 
 [node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle4" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
 script = ExtResource("23_pwnbc")
-tentacle = NodePath("")
+tentacle = NodePath("../Tentacle4")
 attack = NodePath("../Attack")
 is_boss_tent = true
 Tween_Target = NodePath("../Tween_target")
@@ -399,6 +404,8 @@ max_length = 211.0
 light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
 dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
 emerge_height = 25.0
+collision_enabled = true
+is_shop = true
 Shop = NodePath("../../..")
 
 [node name="Tentacle5" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
@@ -417,7 +424,7 @@ shape = SubResource("CircleShape2D_2xyam")
 
 [node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle5" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
 script = ExtResource("23_pwnbc")
-tentacle = NodePath("")
+tentacle = NodePath("../Tentacle5")
 attack = NodePath("../Attack")
 is_boss_tent = true
 Tween_Target = NodePath("../Tween_target")
@@ -444,6 +451,8 @@ wave_speed = 0.7
 light_color = Color(0.8063605, 0.49320686, 1, 1)
 dark_color = Color(0.74219275, 0.22175905, 0.99999565, 1)
 emerge_height = 30.0
+collision_enabled = true
+is_shop = true
 Shop = NodePath("../../..")
 
 [node name="Tentacle6" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
@@ -462,7 +471,7 @@ shape = SubResource("CircleShape2D_2xyam")
 
 [node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle6" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
 script = ExtResource("23_pwnbc")
-tentacle = NodePath("")
+tentacle = NodePath("../Tentacle6")
 attack = NodePath("../Attack")
 is_boss_tent = true
 Tween_Target = NodePath("../Tween_target")
@@ -489,6 +498,8 @@ wave_speed = 0.9
 light_color = Color(1, 0.36862746, 0.3764706, 1)
 dark_color = Color(0.9415628, 0, 0.19590142, 1)
 emerge_height = 35.0
+collision_enabled = true
+is_shop = true
 Shop = NodePath("../../..")
 
 [node name="Tentacle7" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
@@ -507,7 +518,7 @@ shape = SubResource("CircleShape2D_2xyam")
 
 [node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle7" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
 script = ExtResource("23_pwnbc")
-tentacle = NodePath("")
+tentacle = NodePath("../Tentacle7")
 attack = NodePath("../Attack")
 is_boss_tent = true
 Tween_Target = NodePath("../Tween_target")
@@ -534,6 +545,8 @@ wave_speed = 1.1
 light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
 dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
 emerge_height = 50.0
+collision_enabled = true
+is_shop = true
 Shop = NodePath("../../..")
 
 [node name="Tentacle8" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
@@ -552,7 +565,7 @@ shape = SubResource("CircleShape2D_2xyam")
 
 [node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle8" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
 script = ExtResource("23_pwnbc")
-tentacle = NodePath("")
+tentacle = NodePath("../Tentacle8")
 attack = NodePath("../Attack")
 is_boss_tent = true
 Tween_Target = NodePath("../Tween_target")
@@ -579,6 +592,8 @@ wave_speed = 1.1
 light_color = Color(1, 0.36862746, 0.3764706, 1)
 dark_color = Color(0.9415628, 0, 0.19590142, 1)
 emerge_height = 50.0
+collision_enabled = true
+is_shop = true
 Shop = NodePath("../../..")
 
 [node name="Tentacle9" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
@@ -597,7 +612,7 @@ shape = SubResource("CircleShape2D_2xyam")
 
 [node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle9" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
 script = ExtResource("23_pwnbc")
-tentacle = NodePath("")
+tentacle = NodePath("../Tentacle9")
 attack = NodePath("../Attack")
 is_boss_tent = true
 Tween_Target = NodePath("../Tween_target")
@@ -624,6 +639,8 @@ wave_speed = 0.9
 light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
 dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
 emerge_height = 35.0
+collision_enabled = true
+is_shop = true
 Shop = NodePath("../../..")
 
 [node name="Tentacle10" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
@@ -642,7 +659,7 @@ shape = SubResource("CircleShape2D_2xyam")
 
 [node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle10" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
 script = ExtResource("23_pwnbc")
-tentacle = NodePath("")
+tentacle = NodePath("../Tentacle10")
 attack = NodePath("../Attack")
 is_boss_tent = true
 Tween_Target = NodePath("../Tween_target")
@@ -669,6 +686,8 @@ wave_speed = 0.7
 light_color = Color(0.8063605, 0.49320686, 1, 1)
 dark_color = Color(0.74219275, 0.22175905, 0.99999565, 1)
 emerge_height = 30.0
+collision_enabled = true
+is_shop = true
 Shop = NodePath("../../..")
 
 [node name="Tentacle11" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
@@ -687,7 +706,7 @@ shape = SubResource("CircleShape2D_2xyam")
 
 [node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle11" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
 script = ExtResource("23_pwnbc")
-tentacle = NodePath("")
+tentacle = NodePath("../Tentacle11")
 attack = NodePath("../Attack")
 is_boss_tent = true
 Tween_Target = NodePath("../Tween_target")
@@ -713,6 +732,8 @@ max_length = 225.0
 light_color = Color(1, 0.36862746, 0.3764706, 1)
 dark_color = Color(0.9415628, 0, 0.19590142, 1)
 emerge_height = 25.0
+collision_enabled = true
+is_shop = true
 Shop = NodePath("../../..")
 
 [node name="Tentacle12" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
@@ -731,7 +752,7 @@ shape = SubResource("CircleShape2D_2xyam")
 
 [node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle12" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
 script = ExtResource("23_pwnbc")
-tentacle = NodePath("")
+tentacle = NodePath("../Tentacle12")
 attack = NodePath("../Attack")
 is_boss_tent = true
 Tween_Target = NodePath("../Tween_target")
@@ -758,6 +779,8 @@ wave_speed = 0.7
 light_color = Color(0.53862005, 0.9999998, 0.6630365, 1)
 dark_color = Color(3.080368e-06, 0.6494347, 0.31226474, 1)
 emerge_height = 30.0
+collision_enabled = true
+is_shop = true
 Shop = NodePath("../../..")
 
 [node name="Tentacle13" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
@@ -776,7 +799,7 @@ shape = SubResource("CircleShape2D_2xyam")
 
 [node name="Brain" type="Node2D" parent="Shop/Tentacles/Tentacle13" node_paths=PackedStringArray("tentacle", "attack", "Tween_Target")]
 script = ExtResource("23_pwnbc")
-tentacle = NodePath("")
+tentacle = NodePath("../Tentacle13")
 attack = NodePath("../Attack")
 is_boss_tent = true
 Tween_Target = NodePath("../Tween_target")
@@ -803,6 +826,8 @@ wave_amplitude = 0.5
 wave_speed = 0.9
 light_color = Color(0.8063605, 0.49320686, 1, 1)
 dark_color = Color(0.74219275, 0.22175905, 0.99999565, 1)
+collision_enabled = true
+is_shop = true
 Shop = NodePath("../../..")
 
 [node name="Tentacle14" type="CharacterBody2D" parent="Shop/Tentacles" groups=["enemy"]]
@@ -848,6 +873,8 @@ wave_speed = 1.1
 light_color = Color(1, 0.36862746, 0.3764706, 1)
 dark_color = Color(0.9415628, 0, 0.19590142, 1)
 emerge_height = 60.0
+collision_enabled = true
+is_shop = true
 Shop = NodePath("../../..")
 
 [node name="Tentacle_Vision" parent="Shop/Tentacles" node_paths=PackedStringArray("target", "Shop") instance=ExtResource("19_tqkqi")]
