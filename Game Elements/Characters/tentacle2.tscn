@@ -76,6 +76,7 @@ blackboard_plan = SubResource("BlackboardPlan_j34xe")
 
 [node name="TentParticles" parent="." instance=ExtResource("7_j34xe")]
 scale = Vector2(0.125, 0.125)
+amount = 60
 
 [node name="MovingTarget" parent="." instance=ExtResource("7_k12bn")]
 range = 32.0

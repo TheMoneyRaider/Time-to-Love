@@ -102,8 +102,6 @@ func _ready() -> void:
 	$SubViewportContainer/SubViewport/TwoToneCanvasGroup.material.set_shader_parameter("light_color",light_color)
 	$SubViewportContainer/SubViewport/TwoToneCanvasGroup.material.set_shader_parameter("dark_color",dark_color)
 	$SubViewportContainer.material.set_shader_parameter("emerge_height",emerge_height)
-	if collision_enabled:
-		_setup_hit_segments()   # <-- add this after _initialize_segments
 	
 var _hit_segment_start: int = 1  # track where hit segments begin
 # Call this from _ready() AFTER _initialize_segments()
@@ -302,6 +300,8 @@ func _initialize_segments() -> void:
 	# Update visual immediately for editor feedback
 	update_line2d()
 	total_length = max_length
+	if collision_enabled:
+		_setup_hit_segments()   # <-- add this after _initialize_segments
 
 func set_length_scale(f_scale: float) -> void:
 	var target_len = max_length * f_scale

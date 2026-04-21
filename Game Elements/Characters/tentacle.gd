@@ -129,18 +129,17 @@ func target_tween(player : Node, ratio : float, ignore_player : bool = false):
 	var player_lerp_factor = .005
 	if is_boss_tent:
 		player_lerp_factor = .05
-	if is_boss_tent and player.global_position.y >= global_position.y-50 or !active:
+	if is_boss_tent and (player.global_position.y >= global_position.y-50 or !active):
 		ignore_player = true
 	if is_purple:
-		Tween_Target.global_position = lerp(cur_pos,((player.global_position - global_position)*(min(player.global_position.distance_to(global_position),length))*1.5/length +global_position),.1)
+		Tween_Target.global_position = lerp(cur_pos,((player.global_position - global_position)*1.5 +global_position),.1)
 		return
 	if !target:
 		return
 	if ignore_player:
 		Tween_Target.global_position = lerp(cur_pos,target.global_position,.1) if is_boss_tent else lerp(cur_pos,target.global_position,.01)
-		return
 	else:
-		Tween_Target.global_position = lerp(cur_pos,(player.global_position - global_position)*1.5 +global_position ,player_lerp_factor+.1 * (1.0-ratio))
+		Tween_Target.global_position = lerp(cur_pos,((player.global_position - global_position)*1.5 +global_position),.1)
 
 func _ready() -> void:
 	LayerManager = get_tree().get_root().get_node("LayerManager")
