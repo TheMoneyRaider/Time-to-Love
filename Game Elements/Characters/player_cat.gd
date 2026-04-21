@@ -91,7 +91,7 @@ func _ready():
 	_initialize_state_machine()
 	update_animation_parameters(starting_direction)
 	add_to_group("player")
-	load_settings()
+	debug_menu = Globals.config.get_value("debug", "enabled", false)
 	set_weapon_sprite(weapons[is_purple as int],weapon_node)
 	if is_multiplayer:
 		tether_gradient = tether_line.gradient
@@ -124,10 +124,6 @@ func update_input_device(in_dev : String):
 	input_device = in_dev
 	crosshair.player_input_device = input_device
 
-func load_settings():
-	var config = ConfigFile.new()
-	if config.load("user://settings.cfg") == OK:
-		debug_menu = config.get_value("debug", "enabled", false)
 
 func _initialize_state_machine():
 	#Define State transitions

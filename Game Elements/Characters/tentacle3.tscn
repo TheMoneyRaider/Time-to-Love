@@ -70,8 +70,8 @@ shape = SubResource("CircleShape2D_hq7sw")
 [node name="Tentacle" parent="." node_paths=PackedStringArray("target") instance=ExtResource("2_6j0uc")]
 z_index = 35
 target = NodePath("../Tween_target")
-num__segments = 18
-max_length = 96.0
+num__segments = 0
+max_length = 0.0
 wave_speed = 3.0
 light_color = Color(0.80784315, 0.49411765, 1, 1)
 dark_color = Color(0.7411765, 0.22352941, 1, 1)

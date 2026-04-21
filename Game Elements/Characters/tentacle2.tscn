@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://crlrj2kwclvap"]
+[gd_scene load_steps=10 format=3 uid="uid://crlrj2kwclvap"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_gfybd"]
 [ext_resource type="PackedScene" uid="uid://cryh3p532bi7" path="res://Game Elements/Objects/tentacle.tscn" id="2_6q507"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="5_isrlk"]
 [ext_resource type="BehaviorTree" uid="uid://u43doxw6b1xg" path="res://ai/trees/tentacle.tres" id="6_6q507"]
 [ext_resource type="PackedScene" uid="uid://b4dph7ijgkng5" path="res://Game Elements/Particles/tentacle_particles.tscn" id="7_j34xe"]
+[ext_resource type="PackedScene" uid="uid://nnb0fsf5jvvd" path="res://Game Elements/Objects/moving_target.tscn" id="7_k12bn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hq7sw"]
 radius = 5.0
@@ -38,8 +39,8 @@ shape = SubResource("CircleShape2D_hq7sw")
 [node name="Tentacle" parent="." node_paths=PackedStringArray("target") instance=ExtResource("2_6q507")]
 z_index = 35
 target = NodePath("../Tween_target")
-num__segments = 18
-max_length = 96.0
+num__segments = 0
+max_length = 0.0
 wave_speed = 3.0
 light_color = Color(0.5372549, 1, 0.6627451, 1)
 dark_color = Color(0, 0.6509804, 0.3137255, 1)
@@ -47,12 +48,13 @@ hole_source = ""
 uses_sdf = false
 collision_enabled = true
 
-[node name="Brain" type="Node2D" parent="." node_paths=PackedStringArray("tentacle", "attack", "particles", "Tween_Target")]
+[node name="Brain" type="Node2D" parent="." node_paths=PackedStringArray("tentacle", "attack", "particles", "Tween_Target", "target")]
 script = ExtResource("3_j34xe")
 tentacle = NodePath("../Tentacle")
 attack = NodePath("../Attack")
 particles = NodePath("../TentParticles")
 Tween_Target = NodePath("../Tween_target")
+target = NodePath("../MovingTarget")
 
 [node name="Attack" type="Area2D" parent="." node_paths=PackedStringArray("c_owner")]
 collision_layer = 8
@@ -74,6 +76,12 @@ blackboard_plan = SubResource("BlackboardPlan_j34xe")
 
 [node name="TentParticles" parent="." instance=ExtResource("7_j34xe")]
 scale = Vector2(0.125, 0.125)
+
+[node name="MovingTarget" parent="." instance=ExtResource("7_k12bn")]
+range = 32.0
+speed = 32.0
+wander_strength = 6
+center_pull = 2.0
 
 [connection signal="area_entered" from="Attack" to="Attack" method="_on_area_entered"]
 [connection signal="body_entered" from="Attack" to="Attack" method="_on_body_entered"]

@@ -21,10 +21,10 @@ class_name Arm extends Node2D
 @export_group("IK Configuration")
 ## More _segments = smoother curves but higher computation cost. Start low, increase if jerky.
 ## The setter rebuilds the segment arrays so you can see changes immediately in the editor.
-@export_range(3, 50, 1) var num__segments: int = 24
+@export_range(0, 50, 1) var num__segments: int = 24
 ## Total arm length. IK will compress the arm when target is closer than this distance.
 ## The setter recalculates segment lengths for immediate visual feedback in the editor.
-@export_range(10.0, 256.0, 1.0) var max_length: float = 128.0
+@export_range(0.0, 256.0, 1.0) var max_length: float = 128.0
 ## Higher iterations = more accurate target tracking but diminishing returns after 3-4.
 @export_range(1, 10, 1) var ik_iterations: int = 2
 ## Higher iterations = more rigid _segments. Too low and the arm will stretch/compress.

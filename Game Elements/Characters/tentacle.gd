@@ -42,10 +42,10 @@ func kill(dmg_owner : Node, damage : float, current_health : float, direction : 
 		dmg_owner.kill_enemy(get_parent())
 	get_parent().emit_signal("enemy_took_damage",damage,current_health,get_parent(),direction)
 	
-var target : Node
 var LayerManager: Node
 var length
 @export var Tween_Target : Node
+@export var target : Node
 func _process(delta: float) -> void:
 	var bt_player = get_node_or_null("../BTPlayer")
 	if !is_boss_tent:
@@ -193,7 +193,6 @@ func shrink():
 		# Fade out (timed to finish with the shrink)
 		tween2.parallel().tween_property(tentacle, "modulate:a", 0.0, 0.2)
 		await tween2.finished
-		target.queue_free()
 	
 	
 	
@@ -215,13 +214,9 @@ func grow():
 	tentacle.max_length = length
 	tentacle.num__segments = int(length / 10)
 
-	target = preload("res://Game Elements/Objects/moving_target.tscn").instantiate()
-	target.range = 32.0
-	target.speed = 32.0
-	target.wander_strength = 6
-	target.center_pull = 2.0
 	target.position = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized() * length * 2.0
-	get_parent().add_child.call_deferred(target)
+	target.origin = target.global_position
+	Tween_Target.position = target.position
 
 	tentacle._initialize_segments()
 	tentacle.set_length_scale(0.0)
