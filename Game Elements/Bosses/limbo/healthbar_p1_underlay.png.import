@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxo6xg810tg3h"
-path="res://.godot/imported/healthbar_phase1_underlay.png-c18f85288ee205d1792b181a758b788c.ctex"
+uid="uid://dpbtylqlfwc5d"
+path="res://.godot/imported/healthbar_p1_underlay.png-499a204aeb4bad59f067ef931d789704.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Game Elements/Bosses/limbo/healthbar_phase1_underlay.png"
-dest_files=["res://.godot/imported/healthbar_phase1_underlay.png-c18f85288ee205d1792b181a758b788c.ctex"]
+source_file="res://Game Elements/Bosses/limbo/healthbar_p1_underlay.png"
+dest_files=["res://.godot/imported/healthbar_p1_underlay.png-499a204aeb4bad59f067ef931d789704.ctex"]
 
 [params]
 

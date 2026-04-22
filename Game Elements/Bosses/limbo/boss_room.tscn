@@ -1,13 +1,9 @@
-[gd_scene load_steps=36 format=4 uid="uid://d3ln1dkv7my03"]
+[gd_scene load_steps=32 format=4 uid="uid://d3ln1dkv7my03"]
 
 [ext_resource type="Script" uid="uid://bt8feidnt38e0" path="res://Game Elements/Bosses/limbo/limbo_boss_room.gd" id="1_igt57"]
 [ext_resource type="Texture2D" uid="uid://bi8ihiw4mjsuc" path="res://art/characters/vision/vision_splash2.png" id="2_5rr6x"]
-[ext_resource type="Texture2D" uid="uid://bxo6xg810tg3h" path="res://Game Elements/Bosses/limbo/healthbar_phase1_underlay.png" id="3_tqkqi"]
-[ext_resource type="Texture2D" uid="uid://bt0arshcvc3av" path="res://Game Elements/Bosses/limbo/healthbar_phase2_underlay.png" id="4_wkhqg"]
-[ext_resource type="Texture2D" uid="uid://coik5t2l6pq0s" path="res://Game Elements/Bosses/limbo/healthbar_phase3_underlay.png" id="5_lxjrb"]
-[ext_resource type="Texture2D" uid="uid://dacej8dpxr0hg" path="res://Game Elements/Bosses/limbo/healthbar_phase1_overlay.png" id="6_ier7o"]
-[ext_resource type="Texture2D" uid="uid://c8gnvn3xehnvf" path="res://Game Elements/Bosses/limbo/healthbar_phase2_overlay.png" id="7_douwh"]
-[ext_resource type="Texture2D" uid="uid://csd240ycln4py" path="res://Game Elements/Bosses/limbo/healthbar_phase3_overlay.png" id="8_2xyam"]
+[ext_resource type="Texture2D" uid="uid://dpbtylqlfwc5d" path="res://Game Elements/Bosses/limbo/healthbar_p1_underlay.png" id="3_p54wv"]
+[ext_resource type="Texture2D" uid="uid://b2gg8vldi026v" path="res://Game Elements/Bosses/limbo/healthbar_p1_overlay.png" id="4_tqkqi"]
 [ext_resource type="FontFile" uid="uid://d366m5nnnpg1f" path="res://fonts/Orbitron-Bold.ttf" id="9_br3ub"]
 [ext_resource type="PackedScene" uid="uid://ccwiql3bybf2p" path="res://Game Elements/Objects/pathway.tscn" id="12_tsg4b"]
 [ext_resource type="TileSet" uid="uid://b7rsdis0l1f8d" path="res://Game Elements/tilesets/medival_tileset.tres" id="13_1kcvy"]
@@ -121,8 +117,8 @@ radius = 10.12
 process_mode = 1
 script = ExtResource("1_igt57")
 boss_splash_art = ExtResource("2_5rr6x")
-healthbar_underlays = Array[Texture2D]([ExtResource("3_tqkqi"), ExtResource("4_wkhqg"), ExtResource("5_lxjrb")])
-healthbar_overlays = Array[Texture2D]([ExtResource("6_ier7o"), ExtResource("7_douwh"), ExtResource("8_2xyam")])
+healthbar_underlays = Array[Texture2D]([ExtResource("3_p54wv")])
+healthbar_overlays = Array[Texture2D]([ExtResource("4_tqkqi")])
 boss_names = Array[String](["Vision, The Merchant", "Vision of True Majesty"])
 boss_name_settings = Array[LabelSettings]([SubResource("LabelSettings_ier7o"), SubResource("LabelSettings_douwh")])
 boss = NodePath("Shop/VisionNPC")
