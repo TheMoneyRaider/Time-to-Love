@@ -1299,7 +1299,9 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	# Teleport player to the entrance of the next room
 	player1.global_position =  generated_room_entrance[next_room.name]
 	player1.disabled_countdown=3
+	player1.current_room = next_room_data.roomtype
 	if(is_multiplayer):
+		player2.current_room = next_room_data.roomtype
 		player2.global_position = generated_room_entrance[next_room.name] + Vector2(16,0)
 		player2.disabled_countdown=3
 		player1.global_position -= Vector2(16,0)

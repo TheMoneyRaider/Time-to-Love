@@ -11,29 +11,19 @@ func kill(dmg_owner : Node, damage : float, current_health : float, direction : 
 	if killed:
 		return
 	killed = true
-	var mat0 = tentacle.get_node("SubViewportContainer/SubViewport/TwoToneCanvasGroup").material
-	var mat = mat0.duplicate(true)
-	tentacle.get_node("SubViewportContainer/SubViewport/TwoToneCanvasGroup").material = mat
+	
 	var tween = create_tween()
-	var col1 = mat.get_shader_parameter("light_color")
-	var col2 = mat.get_shader_parameter("dark_color")
 	tween.tween_method(
-		func(value: Color): mat.set_shader_parameter("light_color", value),
-		col1,
-		Color(1.0,1.0,1.0,0.25),
-		1.4
-	)
-	tween.parallel().tween_method(
-		func(value: Color): mat.set_shader_parameter("dark_color", value),
-		col2,
-		Color(0.0, 0.0, 0.0, 0.15),
+		func(value: Color): tentacle.modulate = value,
+			Color(1.0, 1.0, 1.0, 1.0),
+			Color(1.0, 1.0, 1.0, 0.0),
 		1.4
 	)
 	if particles:
 		tween.parallel().tween_method(
 			func(value: Color): particles.modulate = value,
 			Color(1.0, 1.0, 1.0, 1.0),
-			Color(0.0, 0.0, 0.0, 0.0),
+			Color(1.0, 1.0, 1.0, 0.0),
 			1.4
 		)
 	await tween.finished
@@ -60,12 +50,12 @@ func _process(delta: float) -> void:
 				grow()
 	var ratio = LayerManager.player1.global_position.distance_to(global_position) / (length*1.1)
 	if ratio < 1.0:
-		target_tween(LayerManager.player1,ratio)
+		target_tween(LayerManager.player1)
 		return
 	if LayerManager.is_multiplayer:
 		ratio = LayerManager.player2.global_position.distance_to(global_position) / (length*1.1)
 		if ratio < 1.0:
-			target_tween(LayerManager.player2,ratio)
+			target_tween(LayerManager.player2)
 			return
 	if !is_boss_tent and cooldown < 0.0:
 		bt_player = get_node_or_null("../BTPlayer")
@@ -73,7 +63,7 @@ func _process(delta: float) -> void:
 			var board = bt_player.blackboard
 			if board.get_var("attack_status") == "RUNNING":
 				shrink()
-	target_tween(LayerManager.player1,ratio,true)
+	target_tween(LayerManager.player1,true)
 	
 	
 	
@@ -92,8 +82,7 @@ func activate():
 	active = true
 	get_parent().hitable = true
 	var tween = create_tween()
-	var mat0 = tentacle.get_node("SubViewportContainer/SubViewport/TwoToneCanvasGroup").material
-	var mat = mat0.duplicate(true)
+	var mat = tentacle.get_node("SubViewportContainer/SubViewport/TwoToneCanvasGroup").material
 	tentacle.get_node("SubViewportContainer/SubViewport/TwoToneCanvasGroup").material = mat
 	var col1 = mat.get_shader_parameter("light_color")
 	var col2 = mat.get_shader_parameter("dark_color")
@@ -122,13 +111,10 @@ func activate():
 	
 
 
-func target_tween(player : Node, ratio : float, ignore_player : bool = false):
+func target_tween(player : Node, ignore_player : bool = false):
 	#if Tween_Target.global_position.distance_to(global_position) > length * 2.0:
 		#Tween_Target.global_position = global_position
 	var cur_pos = Tween_Target.global_position
-	var player_lerp_factor = .005
-	if is_boss_tent:
-		player_lerp_factor = .05
 	if is_boss_tent and (player.global_position.y >= global_position.y-50 or !active):
 		ignore_player = true
 	if is_purple:

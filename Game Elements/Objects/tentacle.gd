@@ -28,7 +28,7 @@ class_name Arm extends Node2D
 ## Higher iterations = more accurate target tracking but diminishing returns after 3-4.
 @export_range(1, 10, 1) var ik_iterations: int = 2
 ## Higher iterations = more rigid _segments. Too low and the arm will stretch/compress.
-@export_range(1, 20, 1) var constraint_iterations: int = 10
+@export_range(1, 20, 1) var constraint_iterations: int = 5
 ## Enable or disable constraints
 @export var enable_contraint: bool = true
 
@@ -161,18 +161,22 @@ func set_hole(hole_position : Vector2):
 var total_length
 var root_offset
 ## Runs each physics frame applying IK, constraints, wave motion, then constraints again.
+var counter = 0
 func _physics_process(delta: float) -> void:
+	counter+=1
 	if total_length < .05:
 		return
-	root_offset = Shop.get_parent().position if Shop else Vector2(0,0)
-	var target_pos: Vector2 = to_local(target.global_position)-root_offset if target else to_local(get_global_mouse_position())
-	solve_ik(target_pos)
-	apply_wave_motion(delta)
-	apply_constraints()
+	if counter % 2 == 0:  # run every other frame
+		root_offset = Shop.get_parent().position if Shop else Vector2(0,0)
+		var target_pos: Vector2 = to_local(target.global_position)-root_offset if target else to_local(get_global_mouse_position())
+		
+		solve_ik(target_pos)
+		apply_wave_motion(delta)
+		apply_constraints()
 
-	update_line2d()
-	if collision_enabled:
-		_update_hit_segments()
+		update_line2d()
+		if collision_enabled:
+			_update_hit_segments()
 
 
 ## Two-pass FABRIK IK: backward pass pulls tip to target, forward pass anchors base.
@@ -271,9 +275,12 @@ func apply_wave_motion(delta: float) -> void:
 ## Updates Line2D points
 ## Shadow offset interpolates from small (base) to large (tip) for depth trick.
 func update_line2d() -> void:
-	base_node.clear_points()
+	var _segments2 = _segments.duplicate(true)
+	var i = 0
 	for pos in _segments:
-		base_node.add_point(pos-viewport_offset) #Offset due to viewport
+		_segments2[i] = pos -viewport_offset
+		i+=1
+	base_node.points = _segments2
 
 
 ## Rebuilds segment arrays when num__segments or max_length change.
