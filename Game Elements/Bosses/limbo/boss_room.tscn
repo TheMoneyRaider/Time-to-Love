@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=4 uid="uid://d3ln1dkv7my03"]
+[gd_scene load_steps=36 format=4 uid="uid://d3ln1dkv7my03"]
 
 [ext_resource type="Script" uid="uid://bt8feidnt38e0" path="res://Game Elements/Bosses/limbo/limbo_boss_room.gd" id="1_igt57"]
 [ext_resource type="Texture2D" uid="uid://bi8ihiw4mjsuc" path="res://art/characters/vision/vision_splash2.png" id="2_5rr6x"]
@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://dacej8dpxr0hg" path="res://Game Elements/Bosses/limbo/healthbar_phase1_overlay.png" id="6_ier7o"]
 [ext_resource type="Texture2D" uid="uid://c8gnvn3xehnvf" path="res://Game Elements/Bosses/limbo/healthbar_phase2_overlay.png" id="7_douwh"]
 [ext_resource type="Texture2D" uid="uid://csd240ycln4py" path="res://Game Elements/Bosses/limbo/healthbar_phase3_overlay.png" id="8_2xyam"]
-[ext_resource type="FontFile" uid="uid://uwli4o3ns4pq" path="res://fonts/OldEnglishFive.ttf" id="9_a4mop"]
 [ext_resource type="FontFile" uid="uid://d366m5nnnpg1f" path="res://fonts/Orbitron-Bold.ttf" id="9_br3ub"]
 [ext_resource type="PackedScene" uid="uid://ccwiql3bybf2p" path="res://Game Elements/Objects/pathway.tscn" id="12_tsg4b"]
 [ext_resource type="TileSet" uid="uid://b7rsdis0l1f8d" path="res://Game Elements/tilesets/medival_tileset.tres" id="13_1kcvy"]
@@ -27,26 +26,36 @@
 [ext_resource type="Texture2D" uid="uid://b8xv6nl2ivrdf" path="res://art/characters/vision/vision_character.png" id="22_ier7o"]
 [ext_resource type="Script" uid="uid://bup57y8xaqkcl" path="res://Game Elements/Characters/tentacle.gd" id="23_pwnbc"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_jgoy3"]
+[sub_resource type="LabelSettings" id="LabelSettings_ier7o"]
 font_size = 64
-font_color = Color(0, 0, 0, 1)
+font_color = Color(0.029695326, 0, 0.8477219, 1)
 outline_size = 6
+outline_color = Color(2.368033e-05, 0.32978046, 0.91051424, 1)
 stacked_shadow_count = 4
-stacked_shadow_0/offset = Vector2(8, 8)
-stacked_shadow_0/color = Color(0, 0, 0, 0.5019608)
-stacked_shadow_1/offset = Vector2(-8, -8)
-stacked_shadow_1/color = Color(0, 0, 0, 0.43529412)
-stacked_shadow_2/offset = Vector2(-8, 8)
-stacked_shadow_2/color = Color(0, 0, 0, 0.4862745)
-stacked_shadow_3/offset = Vector2(8, -8)
-stacked_shadow_3/color = Color(0, 0, 0, 0.4862745)
+stacked_shadow_0/offset = Vector2(4, 4)
+stacked_shadow_0/color = Color(4.0911136e-06, 0.6567327, 0.26385835, 0.5019608)
+stacked_shadow_1/offset = Vector2(-4, -4)
+stacked_shadow_1/color = Color(0.8424253, 0, 0.2007946, 0.43529412)
+stacked_shadow_2/offset = Vector2(-4, 4)
+stacked_shadow_2/color = Color(0.7312674, 0.0024870122, 0.9457776, 0.4862745)
+stacked_shadow_3/offset = Vector2(4, -4)
+stacked_shadow_3/color = Color(0.9379482, 0.4171933, 1, 0.4862745)
 
-[sub_resource type="LabelSettings" id="LabelSettings_agmvj"]
-font = ExtResource("9_a4mop")
+[sub_resource type="LabelSettings" id="LabelSettings_douwh"]
 font_size = 64
-outline_size = 6
-shadow_color = Color(0, 0, 0, 0.6745098)
-shadow_offset = Vector2(8, 8)
+stacked_outline_count = 6
+stacked_outline_0/size = 6
+stacked_outline_0/color = Color(0.9340807, 0.93408036, 0.93408036, 1)
+stacked_outline_1/size = 6
+stacked_outline_1/color = Color(0.6955031, 0.6955032, 0.6955029, 1)
+stacked_outline_2/size = 6
+stacked_outline_2/color = Color(0.585062, 0.585062, 0.58506197, 1)
+stacked_outline_3/size = 6
+stacked_outline_3/color = Color(0.4506483, 0.4506483, 0.45064825, 1)
+stacked_outline_4/size = 6
+stacked_outline_4/color = Color(0.34407577, 0.34407574, 0.34407574, 1)
+stacked_outline_5/size = 24
+stacked_outline_5/color = Color(0.24115604, 0.24115604, 0.24115604, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p54wv"]
 shader = ExtResource("16_kxx4x")
@@ -115,7 +124,7 @@ boss_splash_art = ExtResource("2_5rr6x")
 healthbar_underlays = Array[Texture2D]([ExtResource("3_tqkqi"), ExtResource("4_wkhqg"), ExtResource("5_lxjrb")])
 healthbar_overlays = Array[Texture2D]([ExtResource("6_ier7o"), ExtResource("7_douwh"), ExtResource("8_2xyam")])
 boss_names = Array[String](["Vision, The Merchant", "Vision of True Majesty"])
-boss_name_settings = Array[LabelSettings]([SubResource("LabelSettings_jgoy3"), SubResource("LabelSettings_agmvj")])
+boss_name_settings = Array[LabelSettings]([SubResource("LabelSettings_ier7o"), SubResource("LabelSettings_douwh")])
 boss = NodePath("Shop/VisionNPC")
 boss_name = "Vision"
 boss_font = ExtResource("9_br3ub")
