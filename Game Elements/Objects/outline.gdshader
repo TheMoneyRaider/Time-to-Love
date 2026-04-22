@@ -37,46 +37,46 @@ void vertex() {
 // === Main Fragment ===
 
 void fragment() {
+	vec2 uv = (world_pos - hole_center) / 128.0 + vec2(0.5);
 	if (enabled_hole){
-		vec2 uv = (world_pos - hole_center) / 128.0 + vec2(0.5);
 		if (texture(hole_mask, uv).r < 0.5 && world_pos.y >= emerge_height){
 			discard;
 		}
-
-		vec4 tex = texture(TEXTURE, UV);
-		float alpha = tex.a;
-
-		 // Skip fully transparent pixel with no outline
-		if (alpha <= 0.0 && outline_size <= 0.0) discard;
-
-		bool solid = alpha > alpha_threshold;
-		bool semi  = (alpha > 0.0) && !solid;
-		vec4 out_color = tex;
-
-		// Blend solid pixels toward the shade_color based on its alpha
-		if (solid && shade_color.a > 0.0) {
-			out_color.rgb = mix(tex.rgb, shade_color.rgb, shade_color.a);
-			out_color.a   = alpha;
 		}
 
-		bool found = false;
+	vec4 tex = texture(TEXTURE, UV);
+	float alpha = tex.a;
 
-		// If not solid, check surrounding pixels for solid neighbors
-		if (!solid && outline_size > 0.0) {
-			vec2 offset = TEXTURE_PIXEL_SIZE * outline_size;
-			for (int i = 0; i < outline_samples; i++) {
-				if (texture(TEXTURE, UV + DIRS[i] * offset).a > alpha_threshold) {
-					found = true;
-					break;
-				}
+	 // Skip fully transparent pixel with no outline
+	if (alpha <= 0.0 && outline_size <= 0.0) discard;
+
+	bool solid = alpha > alpha_threshold;
+	bool semi  = (alpha > 0.0) && !solid;
+	vec4 out_color = tex;
+
+	// Blend solid pixels toward the shade_color based on its alpha
+	if (solid && shade_color.a > 0.0) {
+		out_color.rgb = mix(tex.rgb, shade_color.rgb, shade_color.a);
+		out_color.a   = alpha;
+	}
+
+	bool found = false;
+
+	// If not solid, check surrounding pixels for solid neighbors
+	if (!solid && outline_size > 0.0) {
+		vec2 offset = TEXTURE_PIXEL_SIZE * outline_size;
+		for (int i = 0; i < outline_samples; i++) {
+			if (texture(TEXTURE, UV + DIRS[i] * offset).a > alpha_threshold) {
+				found = true;
+				break;
 			}
 		}
-
-		// Set final pixel color
-		if      (solid) COLOR = out_color;
-		else if (found) COLOR = outline_color;
-		else if (semi)  COLOR = tex;
-		else            discard;
-		
 	}
+
+	// Set final pixel color
+	if      (solid) COLOR = out_color;
+	else if (found) COLOR = outline_color;
+	else if (semi)  COLOR = tex;
+	else            discard;
+		
 }
