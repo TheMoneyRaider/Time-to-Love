@@ -78,6 +78,8 @@ func _process(delta: float) -> void:
 				if child and is_instance_valid(child) and child.get_node_or_null("Brain"):
 					tentacles.append(child.get_node("Brain"))
 			var index = int(tentacles.size() * randf())
+			
+			LayerManager.hud.update_bossbar(tentacles.size()/14.0)
 			active_tentacle = tentacles[index]
 			active_tentacle.activate()
 func finish_intro():

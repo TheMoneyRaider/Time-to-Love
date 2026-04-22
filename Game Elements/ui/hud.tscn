@@ -114,6 +114,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="BossBar" type="Control" parent="RootControl/VBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(0, 180)
 layout_mode = 2
 

@@ -72,6 +72,7 @@ value = SubResource("BBVariant_sdpef")
 [sub_resource type="BTAction" id="BTAction_w0000"]
 custom_name = "InnerRange"
 script = ExtResource("3_50yrk")
+hit_range = 64
 
 [sub_resource type="BTAction" id="BTAction_hr0tp"]
 custom_name = "MoveToPlayer"
