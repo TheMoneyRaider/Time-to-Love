@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=27 format=3 uid="uid://u43doxw6b1xg"]
+[gd_resource type="BehaviorTree" load_steps=28 format=3 uid="uid://u43doxw6b1xg"]
 
 [ext_resource type="Script" uid="uid://dr4vkyorjqaqn" path="res://ai/tasks/getPlayerPos.gd" id="1_7nths"]
 [ext_resource type="Script" uid="uid://clsympdov604o" path="res://ai/tasks/checkAgro.gd" id="2_hr0tp"]
@@ -77,12 +77,17 @@ script = ExtResource("3_50yrk")
 custom_name = "MoveToPlayer"
 script = ExtResource("4_0rv7m")
 
+[sub_resource type="BTAction" id="BTAction_50yrk"]
+custom_name = "InnerRange"
+script = ExtResource("3_50yrk")
+hit_range = 16
+
 [sub_resource type="BTAction" id="BTAction_7nths"]
 script = ExtResource("4_64agr")
 
 [sub_resource type="BTSequence" id="BTSequence_2ycj8"]
 custom_name = "Attack"
-children = [SubResource("BTAction_w0000"), SubResource("BTAction_hr0tp"), SubResource("BTAction_7nths")]
+children = [SubResource("BTAction_w0000"), SubResource("BTAction_hr0tp"), SubResource("BTAction_50yrk"), SubResource("BTAction_7nths")]
 
 [sub_resource type="BBVariant" id="BBVariant_iowe0"]
 type = 4

@@ -11,10 +11,10 @@ func kill(dmg_owner : Node, damage : float, current_health : float, direction : 
 	if killed:
 		return
 	killed = true
-	
+	var node = tentacle.get_node("SubViewportContainer/SubViewport/TwoToneCanvasGroup")
 	var tween = create_tween()
 	tween.tween_method(
-		func(value: Color): tentacle.modulate = value,
+		func(value: Color): node.modulate = value,
 			Color(1.0, 1.0, 1.0, 1.0),
 			Color(1.0, 1.0, 1.0, 0.0),
 		1.4
@@ -152,7 +152,7 @@ func _ready() -> void:
 		var tween = create_tween()
 		tween.tween_method(
 			tentacle.set_length_scale,
-			0.0, 1.0, 1.2
+			0.0, 1.0, 1.5 +.9*randf()
 		).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	
 
@@ -170,7 +170,7 @@ func shrink():
 		var tween = create_tween()
 		tween.tween_method(
 			tentacle.set_length_scale,
-			1.0, 0.0, 0.4
+			1.0, 0.0, .3 +.6*randf()
 		).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 
 		await tween.finished
@@ -213,7 +213,7 @@ func grow():
 	var tween = create_tween()
 	tween.tween_method(
 		tentacle.set_length_scale,
-		0.0, 1.0, 1.2
+		0.0, 1.0, 1.5 +.9*randf()
 	).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	await tween.finished
 	get_parent().hitable = true

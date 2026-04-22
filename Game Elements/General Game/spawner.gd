@@ -282,6 +282,25 @@ static func _spawn_enemy(cell: Vector2i, scene: Node, enemy: PackedScene, layer_
 	if scene.has_method("_on_enemy_take_damage"):
 		inst.enemy_took_damage.connect(scene._on_enemy_take_damage)
 		
+		
+		
+	if layer_manager.room_instance_data.roomtype == Globals.RoomType.Boss:
+		await inst.get_tree().process_frame
+		await inst.get_tree().process_frame
+		if inst.get_node_or_null("BTPlayer") == null:
+			return
+		var board = inst.get_node("BTPlayer").blackboard
+		var positions = board.get_var("player_positions")
+		var distances_squared = []
+		for pos in positions: 
+			distances_squared.append(inst.global_position.distance_squared_to(pos))
+		var i = 0
+		if distances_squared.size()>1 and distances_squared[1]<distances_squared[0]:
+			i= 1
+		board.set_var("target_pos", positions[i])
+		board.set_var("player_idx", i)
+		board.set_var("state", "agro")
+		
 static func replace() -> int:
 	if RoomManager.current_progress < 3.0:
 		return -1
