@@ -455,10 +455,12 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 						return true
 					node.queue_free()
 					_open_remnant_popup()
+					base_reward_probabilities[0] *= .9
 					return true
 			"TimeFabricOrb":
 				if player_reference in node.tracked_bodies:
 					timefabric_rewarded = 200 #TODO change this to by dynamic(ish)
+					base_reward_probabilities[0] *= .8
 					return true
 			"UpgradeOrb":
 				if player_reference in node.tracked_bodies:
@@ -468,6 +470,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 						return true
 					node.queue_free()
 					_open_upgrade_popup()
+					base_reward_probabilities[0] *= .9
 					return true
 			"HealthUpgrade":
 				if player_reference in node.tracked_bodies:
@@ -478,6 +481,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					particle.position = node.position
 					generated_room.add_child(particle)
 					node.queue_free()
+					base_reward_probabilities[0] *= .8
 					return true
 			"Health":
 				if player_reference in node.tracked_bodies:
@@ -1631,10 +1635,12 @@ func reward_modifier(idx : int) -> float:
 	
 func calculate_reward(reward_probability : Array) -> int:
 	var total = 0.0
-	for val in reward_probability:
-		total+= val
-	var float_point = randf() * total
 	var idx=0
+	for val in reward_probability:
+		total+= val * reward_modifier(idx)
+		idx += 1
+	idx = 0
+	var float_point = randf() * total
 	var running_weight = 0.0
 	while idx < reward_probability.size():
 		running_weight+=reward_probability[idx] * reward_modifier(idx)
