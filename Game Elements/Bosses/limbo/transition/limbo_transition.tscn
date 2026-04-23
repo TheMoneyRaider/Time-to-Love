@@ -39,6 +39,3 @@ label_settings = SubResource("LabelSettings_d5ygv")
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
-
-[node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(4, 4)

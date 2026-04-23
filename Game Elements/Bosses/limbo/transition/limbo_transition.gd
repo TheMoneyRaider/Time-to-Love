@@ -65,35 +65,27 @@ func _spawn_arms() -> void:
 		var outward: Vector2 = edge["normal"]
 		var inward: Vector2 = -outward
 
-		# --- Spawn the Marker2D target ---
 		var target_marker = Marker2D.new()
-		# Start position: outside the screen along the outward normal
-		target_marker.global_position = edge_pos + outward * OVERSHOOT
+		# Use position (local) instead of global_position
+		target_marker.position = edge_pos + outward * OVERSHOOT
 		add_child(target_marker)
 		targets.append(target_marker)
 
-		# --- Spawn the Arm ---
 		var arm: Node2D = ARM_SCENE.instantiate()
-		arm.uses_sdf=false
-		# Assign colors cycling through 3 sets
+		arm.uses_sdf = false
 		var colors = COLOR_SETS[i % COLOR_SETS.size()]
 		arm.light_color = colors["light"]
 		arm.dark_color  = colors["dark"]
-		arm.max_length = (128.0+64.0*randf()) * edge_pos.length() / 160.0
-		arm.num__segments = int(arm.max_length /128.0 *24.0)
+		arm.max_length = (128.0 + 64.0 * randf()) * edge_pos.length() / 160.0
+		arm.num__segments = int(arm.max_length / 128.0 * 24.0)
 		$ArmContainer.add_child(arm)
 
-		# Base is pushed offscreen along the outward normal
-		arm.global_position = edge_pos + outward * BASE_OFFSCREEN
-
-		# Rotate arm so its local X axis points inward
+		# Use position (local) instead of global_position
+		arm.position = edge_pos + outward * BASE_OFFSCREEN
 		arm.rotation = inward.angle()
-
-		#arm.get_node("SubViewportContainer").material.enabled_hole = false
-
-		# Assign the live target — IK will track it every physics frame
 		arm.target = target_marker
 		arms.append(arm)
+		arm.visible = false
 
 
 func _run_sequence() -> void:
@@ -176,27 +168,31 @@ const TIMING_VARIANCE: float = 1.0  # max random delay in seconds
 func _animate_targets_to_center(duration: float) -> void:
 	for i in range(targets.size()):
 		var target_marker = targets[i]
-		var start: Vector2 = target_marker.global_position
+		var start: Vector2 = target_marker.position  # local
 
-		# Perpendicular to the inward direction — alternates left/right per arm
-		# so adjacent arms arc in opposite directions, creating a swirl
 		var edge = get_perimeter_point(float(i) / float(ARM_COUNT))
 		var outward: Vector2 = edge["normal"]
 		var perp: Vector2 = outward.orthogonal()
-		# Control point sits halfway along the path, offset sideways
-		# Tweak arc_strength to taste — larger = more dramatic curve
 		var arc_strength: float = 350.0
 		var mid: Vector2 = start.lerp(screen_center, 0.5) + perp * arc_strength
 		var delay: float = randf() * TIMING_VARIANCE
+
 		var t = create_tween()
 		t.tween_interval(delay)
 		t.tween_method(
 			func(f: float) -> void:
-				# Quadratic bezier: B(t) = (1-t)²·P0 + 2(1-t)t·P1 + t²·P2
 				var u = 1.0 - f
-				target_marker.global_position = u*u*start + 2.0*u*f*mid + f*f*screen_center,
+				target_marker.position = u*u*start + 2.0*u*f*mid + f*f*screen_center,
 			0.0, 1.0, duration
 		).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+		
+		
+		
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await get_tree().process_frame
+	for i in range(arms.size()):
+		arms[i].visible = true
 
 
 func _animate_targets_outward(duration: float) -> void:
@@ -208,11 +204,9 @@ func _animate_targets_outward(duration: float) -> void:
 		var outward: Vector2 = edge_data[i]["normal"]
 		var edge_pos: Vector2 = edge_data[i]["pos"]
 		var end_pos: Vector2 = edge_pos + outward * OVERSHOOT
-		var start: Vector2 = targets[i].global_position
+		var start: Vector2 = targets[i].position  # local
 
-		# Same perp as the inward version for visual consistency
 		var perp: Vector2 = outward.orthogonal()
-
 		var arc_strength: float = 350.0
 		var mid: Vector2 = start.lerp(end_pos, 0.5) + perp * arc_strength
 
@@ -223,6 +217,6 @@ func _animate_targets_outward(duration: float) -> void:
 		t.tween_method(
 			func(f: float) -> void:
 				var u = 1.0 - f
-				marker.global_position = u*u*start + 2.0*u*f*mid + f*f*end_pos,
+				marker.position = u*u*start + 2.0*u*f*mid + f*f*end_pos,
 			0.0, 1.0, duration
 		).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)

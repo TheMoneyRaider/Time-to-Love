@@ -494,6 +494,14 @@ pivot_offset = Vector2(150, 174.5)
 text = "VS"
 label_settings = SubResource("LabelSettings_fpruh")
 
+[node name="LimboTransition" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="LimboTransition" parent="LimboTransition" instance=ExtResource("22_lojdy")]
+z_index = 80
+position = Vector2(960, 500)
+scale = Vector2(4, 4)
+
 [node name="game_container" type="SubViewportContainer" parent="."]
 texture_filter = 1
 material = SubResource("ShaderMaterial_754yq")
@@ -534,8 +542,6 @@ texture = ExtResource("14_sf3i7")
 z_index = 50
 material = SubResource("ShaderMaterial_jceoj")
 texture = SubResource("ViewportTexture_lsyjg")
-
-[node name="LimboTransition" parent="game_container/game_viewport/game_root/Camera2D" instance=ExtResource("22_lojdy")]
 
 [node name="PathwayViewport" type="SubViewport" parent="."]
 disable_3d = true
