@@ -45,24 +45,23 @@ material = SubResource("ShaderMaterial_djn6u")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -512.0
-offset_top = -512.0
-offset_right = 512.0
-offset_bottom = 512.0
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(1024, 1024)
 render_target_update_mode = 4
 
 [node name="TwoToneCanvasGroup" type="CanvasGroup" parent="SubViewportContainer/SubViewport"]
 material = SubResource("ShaderMaterial_rt1qa")
 
 [node name="Line2D" type="Line2D" parent="SubViewportContainer/SubViewport/TwoToneCanvasGroup"]
-position = Vector2(519, 533)
+position = Vector2(263, 277)
 points = PackedVector2Array(-7, -21, -7, -38)
 width = 24.0
 width_curve = SubResource("Curve_qdj6u")

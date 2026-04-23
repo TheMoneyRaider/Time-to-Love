@@ -25,9 +25,13 @@ RoomManager="*res://Game Elements/General Game/room_manager.gd"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1000
-window/size/transparent=true
 window/stretch/mode="viewport"
 window/stretch/aspect="ignore"
+
+[editor]
+
+movie_writer/movie_file="C:/Users/Griffin/Documents/Game-Dev-Team-1/transition.ogv"
+movie_writer/disable_vsync=true
 
 [global_group]
 
@@ -351,7 +355,6 @@ move_to_pathway={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-environment/defaults/default_clear_color=Color(0, 0, 0, 0)
 2d/snap/snap_2d_transforms_to_pixel=true
 
 [shader_globals]

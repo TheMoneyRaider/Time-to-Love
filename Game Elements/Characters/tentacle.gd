@@ -129,6 +129,7 @@ func target_tween(player : Node, ignore_player : bool = false):
 
 func _ready() -> void:
 	LayerManager = get_tree().get_root().get_node("LayerManager")
+	tentacle.modulate.a = 0.0
 	if is_boss_tent:
 		get_parent().enemy_took_damage.connect(LayerManager._on_enemy_take_damage)
 		target = tentacle.target
@@ -146,7 +147,6 @@ func _ready() -> void:
 		tentacle._initialize_segments()
 		tentacle.set_length_scale(0.0)
 		# Fade in
-		tentacle.modulate.a = 0.0
 		var fade_tween = create_tween()
 		fade_tween.tween_property(tentacle, "modulate:a", 1.0, 0.4)
 		var tween = create_tween()
@@ -206,7 +206,6 @@ func grow():
 	tentacle._initialize_segments()
 	tentacle.set_length_scale(0.0)
 	# Fade in
-	tentacle.modulate.a = 0.0
 	var fade_tween = create_tween()
 	fade_tween.tween_property(tentacle, "modulate:a", 1.0, 0.4)
 	

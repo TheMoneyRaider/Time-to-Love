@@ -42,7 +42,7 @@ void fragment() {
 		if (texture(hole_mask, uv).r < 0.5 && world_pos.y >= emerge_height){
 			discard;
 		}
-		}
+	}
 
 	vec4 tex = texture(TEXTURE, UV);
 	float alpha = tex.a;

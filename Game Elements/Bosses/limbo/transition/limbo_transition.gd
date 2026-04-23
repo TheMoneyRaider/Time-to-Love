@@ -1,6 +1,6 @@
 extends Node2D
 
-const ARM_SCENE = preload("res://Game Elements/Objects/tentacle.tscn")
+const ARM_SCENE = preload("res://Game Elements/Objects/tentacle2.tscn")
 
 # 3 color pairs matching Arm's light_color / dark_color exports
 const COLOR_SETS = [
@@ -15,20 +15,21 @@ var arms: Array[Node2D] = []
 var targets: Array[Marker2D] = []
 var screen_center: Vector2
 var vp_size: Vector2
-var output_dir: String = "res://transition_frames/"
 var frame_count: int = 0
-var recording: bool = false
+var playing: bool = false
 
 func _ready() -> void:
-	Engine.max_fps = 60
-	Engine.physics_ticks_per_second = 60
 	vp_size = Vector2(480,270)
 	screen_center = Vector2.ZERO
-	DirAccess.make_dir_absolute(output_dir)
-	recording = true
+func play() -> void:
+	playing = true
 	_spawn_arms()
 	_run_sequence()
-
+	
+func _stop_playing():
+	playing = false
+	queue_free()
+	
 func get_perimeter_point(t: float) -> Dictionary:
 	var W = vp_size.x
 	var H = vp_size.y
@@ -121,6 +122,7 @@ func _run_sequence() -> void:
 	# Phase 6 — targets pull back out, arms retract
 	tween.tween_callback(_animate_targets_outward.bind(2.0))
 	tween.tween_interval(3.2)
+	tween.tween_callback(_stop_playing)
 	
 # --- Fade to white: modulate the Line2D color + shader params ---
 func _fade_arms_to_white(duration: float) -> void:
