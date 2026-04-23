@@ -10,16 +10,22 @@ const COLOR_SETS = [
 ]
 
 const ARM_COUNT = 128          # total arms around the perimeter
-const OVERSHOOT = 200.0       # how far outside screen targets start
 
 var arms: Array[Node2D] = []
 var targets: Array[Marker2D] = []
 var screen_center: Vector2
 var vp_size: Vector2
+var output_dir: String = "res://transition_frames/"
+var frame_count: int = 0
+var recording: bool = false
 
 func _ready() -> void:
-	vp_size = Vector2(1920/4,1080/4)
+	Engine.max_fps = 60
+	Engine.physics_ticks_per_second = 60
+	vp_size = Vector2(480,270)
 	screen_center = Vector2.ZERO
+	DirAccess.make_dir_absolute(output_dir)
+	recording = true
 	_spawn_arms()
 	_run_sequence()
 
@@ -30,27 +36,24 @@ func get_perimeter_point(t: float) -> Dictionary:
 	var dist = t * perimeter
 
 	var pos: Vector2
-	var normal: Vector2  # points OUTWARD from screen
 
 	if dist < W:
 		# Top edge, left to right
 		pos = Vector2(dist, 0)
-		normal = Vector2(0, -1)
 	elif dist < W + H:
 		# Right edge, top to bottom
 		pos = Vector2(W, dist - W)
-		normal = Vector2(1, 0)
 	elif dist < 2.0 * W + H:
 		# Bottom edge, right to left
 		pos = Vector2(W - (dist - W - H), H)
-		normal = Vector2(0, 1)
 	else:
 		# Left edge, bottom to top
 		pos = Vector2(0, H - (dist - 2.0 * W - H))
-		normal = Vector2(-1, 0)
 
-	return { "pos": pos-vp_size/2.0, "normal": normal }
+	return { "pos": pos-vp_size/2.0, "normal": (pos-vp_size/2.0).normalized() }
 
+const BASE_OFFSCREEN: float = 32.0  # how far the arm base sits outside the edge
+const OVERSHOOT = 256.0+128.0       # how far outside screen targets start
 
 func _spawn_arms() -> void:
 	for i in range(ARM_COUNT):
@@ -75,9 +78,12 @@ func _spawn_arms() -> void:
 		var colors = COLOR_SETS[i % COLOR_SETS.size()]
 		arm.light_color = colors["light"]
 		arm.dark_color  = colors["dark"]
+		arm.max_length = (128.0+64.0*randf()) * edge_pos.length() / 160.0
+		arm.num__segments = int(arm.max_length /128.0 *24.0)
 		$ArmContainer.add_child(arm)
 
-		arm.global_position = edge_pos
+		# Base is pushed offscreen along the outward normal
+		arm.global_position = edge_pos + outward * BASE_OFFSCREEN
 
 		# Rotate arm so its local X axis points inward
 		arm.rotation = inward.angle()
@@ -93,55 +99,60 @@ func _run_sequence() -> void:
 	var tween = create_tween().set_parallel(false)
 
 	# Phase 1 — arms reach inward (targets move to center)
-	tween.tween_callback(_animate_targets_to_center.bind(1.4))
-	tween.tween_interval(1.6)   # wait for IK to fully converge
+	tween.tween_callback(_animate_targets_to_center.bind(2.0))
+	tween.tween_interval(3.5)   # wait for IK to fully converge
 
-	# Phase 2 — fade everything to white
-	tween.tween_callback(_fade_to_white.bind(0.6))
-	tween.tween_interval(0.7)
-
+	# Phase 1.5 — fade everything to white
+	tween.tween_callback(_fade_arms_to_white.bind(1.0))
+	tween.tween_interval(2.2)
+	
 	# Phase 3 — text appears
-	tween.tween_callback(_show_text.bind(0.4))
+	tween.tween_callback(_show_text.bind(0.01))
 	tween.tween_interval(2.5)
-
+#
 	# Phase 4 — text fades
 	tween.tween_callback(_fade_text_out.bind(0.4))
 	tween.tween_interval(0.5)
-
+#
 	# Phase 5 — outlines reappear
 	tween.tween_callback(_restore_outlines.bind(0.3))
 	tween.tween_interval(0.4)
-
+#
 	# Phase 6 — targets pull back out, arms retract
-	tween.tween_callback(_animate_targets_outward.bind(1.0))
-	tween.tween_interval(1.2)
+	tween.tween_callback(_animate_targets_outward.bind(2.0))
+	tween.tween_interval(3.2)
 	
-	
-
 # --- Fade to white: modulate the Line2D color + shader params ---
-func _fade_to_white(duration: float) -> void:
+func _fade_arms_to_white(duration: float) -> void:
 	var ft = create_tween()
-	ft.tween_property($WhiteFlash, "modulate:a", 1.0, duration).set_ease(Tween.EASE_IN_OUT)
-
-	# Fade each arm's Line2D to white
+	ft.tween_property($WhiteFlash, "modulate:a", 1.0, duration*5.0/6.0).set_ease(Tween.EASE_IN_OUT)
+	var at = create_tween()
 	for arm in arms:
-		var line: Line2D = arm.base_node
-		var at = create_tween()
-		at.tween_property(line, "default_color", Color.WHITE, duration)
-
+		var mat = arm.get_node("SubViewportContainer/SubViewport/TwoToneCanvasGroup").material
+		var cur_colA = mat.get_shader_parameter("light_color")
+		var cur_colB = mat.get_shader_parameter("dark_color")
+		var new_duration = duration *randf() * 2.0/3.0 + duration * 1.0/3.0
+		at.parallel().tween_method(
+			func(value: Color): mat.set_shader_parameter("light_color", value),
+			cur_colA,
+			Color(1.0,1.0,1.0,1.0),
+			new_duration
+		)
+		at.parallel().tween_method(
+			func(value: Color): mat.set_shader_parameter("dark_color", value),
+			cur_colB,
+			Color(1.0,1.0,1.0,1.0),
+			new_duration
+		)
 
 # --- Text ---
 func _show_text(duration: float) -> void:
-	var label = $Label
-	label.modulate.a = 0.0
-	label.visible = true
 	var t = create_tween()
-	t.tween_property(label, "modulate:a", 1.0, duration).set_ease(Tween.EASE_OUT)
+	t.tween_property($Label, "modulate:a", 1.0, duration).set_ease(Tween.EASE_OUT)
 
 func _fade_text_out(duration: float) -> void:
-	var label = $TextLayer/Label
 	var t = create_tween()
-	t.tween_property(label, "modulate:a", 0.0, duration)
+	t.tween_property($Label, "modulate:a", 0.0, duration)
 
 
 # --- Restore outlines only (keep fill white) ---
@@ -149,7 +160,7 @@ func _restore_outlines(duration: float) -> void:
 	# Lower the white flash so arm outlines show through
 	var flash = $WhiteFlash
 	var ft = create_tween()
-	ft.tween_property(flash, "color:a", 0.0, duration)
+	ft.tween_property(flash, "modulate:a", 0.0, duration)
 
 
 # --- Open rotation ---
@@ -159,16 +170,30 @@ func _start_open_rotation(angle: float, duration: float) -> void:
 		var t = create_tween()
 		t.tween_property(arm, "rotation", target_rot, duration).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 
-
+const TIMING_VARIANCE: float = 1.0  # max random delay in seconds
 func _animate_targets_to_center(duration: float) -> void:
 	for i in range(targets.size()):
 		var target_marker = targets[i]
+		var start: Vector2 = target_marker.global_position
+
+		# Perpendicular to the inward direction — alternates left/right per arm
+		# so adjacent arms arc in opposite directions, creating a swirl
+		var edge = get_perimeter_point(float(i) / float(ARM_COUNT))
+		var outward: Vector2 = edge["normal"]
+		var perp: Vector2 = outward.orthogonal()
+		# Control point sits halfway along the path, offset sideways
+		# Tweak arc_strength to taste — larger = more dramatic curve
+		var arc_strength: float = 350.0
+		var mid: Vector2 = start.lerp(screen_center, 0.5) + perp * arc_strength
+		var delay: float = randf() * TIMING_VARIANCE
 		var t = create_tween()
-		t.tween_property(
-			target_marker,
-			"global_position",
-			screen_center,
-			duration
+		t.tween_interval(delay)
+		t.tween_method(
+			func(f: float) -> void:
+				# Quadratic bezier: B(t) = (1-t)²·P0 + 2(1-t)t·P1 + t²·P2
+				var u = 1.0 - f
+				target_marker.global_position = u*u*start + 2.0*u*f*mid + f*f*screen_center,
+			0.0, 1.0, duration
 		).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 
 
@@ -180,12 +205,22 @@ func _animate_targets_outward(duration: float) -> void:
 	for i in range(targets.size()):
 		var outward: Vector2 = edge_data[i]["normal"]
 		var edge_pos: Vector2 = edge_data[i]["pos"]
-		var end_pos = edge_pos + outward * OVERSHOOT
+		var end_pos: Vector2 = edge_pos + outward * OVERSHOOT
+		var start: Vector2 = targets[i].global_position
 
+		# Same perp as the inward version for visual consistency
+		var perp: Vector2 = outward.orthogonal()
+
+		var arc_strength: float = 350.0
+		var mid: Vector2 = start.lerp(end_pos, 0.5) + perp * arc_strength
+
+		var marker = targets[i]
+		var delay: float = randf() * TIMING_VARIANCE
 		var t = create_tween()
-		t.tween_property(
-			targets[i],
-			"global_position",
-			end_pos,
-			duration
+		t.tween_interval(delay)
+		t.tween_method(
+			func(f: float) -> void:
+				var u = 1.0 - f
+				marker.global_position = u*u*start + 2.0*u*f*mid + f*f*end_pos,
+			0.0, 1.0, duration
 		).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
