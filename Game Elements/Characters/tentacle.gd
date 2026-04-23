@@ -81,20 +81,19 @@ func activate():
 	active = true
 	get_parent().hitable = true
 	var tween = create_tween()
-	var mat = tentacle_display.material
-	tentacle_display.material = mat.duplicate(true)
-	var col1 = mat.get_shader_parameter("light_color")
-	var col2 = mat.get_shader_parameter("dark_color")
+	tentacle_display.material = tentacle_display.material.duplicate(true)
+	var col1 = tentacle_display.material.get_shader_parameter("light_color")
+	var col2 = tentacle_display.material.get_shader_parameter("dark_color")
 	var col1B = lerp(col1,Color(1.0, 1.0, 1.0, 1.0),.85)
 	var col2B = lerp(col2,Color(0.712, 0.712, 0.712, 1.0),.85)
 	tween.tween_method(
-		func(value: Color): mat.set_shader_parameter("light_color", value),
+		func(value: Color): tentacle_display.material.set_shader_parameter("light_color", value),
 		col1,
 		col1B,
 		.6
 	)
 	tween.parallel().tween_method(
-		func(value: Color): mat.set_shader_parameter("dark_color", value),
+		func(value: Color): tentacle_display.material.set_shader_parameter("dark_color", value),
 		col2,
 		col2B,
 		.6
@@ -213,9 +212,9 @@ func grow():
 	var tween = create_tween()
 	attack.monitoring = true
 	attack.monitorable = true
+	get_parent().hitable = true
 	tween.tween_method(
 		tentacle.set_length_scale,
 		0.0, 1.0, duration
 	).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	await tween.finished
-	get_parent().hitable = true

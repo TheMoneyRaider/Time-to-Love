@@ -65,22 +65,13 @@ func setup_from_room(ground_layer: TileMapLayer, blocked_cells: Array, trap_cell
 		if not blocked_dict.has(cell):
 			walkable_cells.append(cell)
 			var id = pos_to_id(cell)
-			
-			var weight = 0
+			var weight = 1
 			if trap_dict.has(cell):
 				weight = 100
-			
+			if is_near_wall(cell, blocked_dict):
+				weight = 3.0
 			astar.add_point(id, Vector2(cell.x * cell_size, cell.y * cell_size), weight)
-			
-	var is_near_wall = func(cell: Vector2i) -> bool:
-		var check_dirs = [
-			Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1),
-			Vector2i(1, 1), Vector2i(-1, -1), Vector2i(1, -1), Vector2i(-1, 1)  # Diagonals too
-		]
-		for dir in check_dirs:
-			if blocked_dict.has(cell + dir):
-				return true 
-		return false
+
 	
 	# find neighboring walkable cells
 	var directions = [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]
@@ -88,21 +79,25 @@ func setup_from_room(ground_layer: TileMapLayer, blocked_cells: Array, trap_cell
 	# adds walkable neighbor cells to astar, mapping the bounding box
 	for cell in walkable_cells:
 		var id = pos_to_id(cell)
-	
 		for dir in directions: 
 			var neighbor = cell + dir
 			if neighbor in walkable_cells: 
 				var neighbor_id = pos_to_id(neighbor)
 				if not astar.are_points_connected(id, neighbor_id): 
-					var weight = 1.0
-					
-					if is_near_wall.call(cell) or is_near_wall.call(neighbor):
-						weight = 3.0
 					astar.connect_points(id,neighbor_id)
-					astar.set_point_weight_scale(id, weight)
 					
 	# derive path from world pos to world pos 
+	
 
+func is_near_wall(cell: Vector2i,blocked_dict : Dictionary) -> bool:
+	var check_dirs = [
+		Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1),
+		Vector2i(1, 1), Vector2i(-1, -1), Vector2i(1, -1), Vector2i(-1, 1)  # Diagonals too
+	]			
+	for dir in check_dirs:
+		if blocked_dict.has(cell + dir):
+			return true 
+	return false
 
 func world_to_cell_clamped(world_pos: Vector2) -> Vector2i:
 	var cell = Vector2i(floor(world_pos.x / cell_size), floor(world_pos.y / cell_size))
