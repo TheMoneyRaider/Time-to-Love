@@ -258,7 +258,10 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 		return 0
 	if n_owner.is_in_group("player") and body.is_in_group("player") and !hits_all:
 		return 0
-	if !n_owner.is_in_group("player") and !body.is_in_group("player") and !hits_all:
+	if n_owner.is_in_group("enemy"): 
+		if body.is_in_group("enemy") and !hits_all:
+			return 0
+	elif !n_owner.is_in_group("player") and !body.is_in_group("player") and !hits_all:
 		return 0
 	if body.has_method("take_damage"):
 		if attack_type=="scifi_wave":

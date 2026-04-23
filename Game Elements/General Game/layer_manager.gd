@@ -1,6 +1,7 @@
 extends Node2D
 @onready var timefabric = preload("res://Game Elements/Objects/time_fabric.tscn")
-@onready var reward_num : Array = [1.0,1.0,1.0,1.0,1.0,1.0]
+@onready var reward_num : Array = [2.0,1.0,1.5,1.0,1.0,1.0]
+@onready var base_reward_probabilities : Array = [2.0,1.0,1.5,1.0,1.0,1.0]
 ### Temp Multiplayer Fix
 var player1 = null
 var player2 = null
@@ -734,20 +735,20 @@ func _choose_reward(pathway_name : String) -> void:
 				0:
 					if !RemnantManager.will_softlock(player_1_remnants,player_2_remnants,false):
 						reward_type1 = Globals.Reward.Remnant
-						reward_num[reward_value] = reward_num[reward_value]/2.0
+						reward_num[reward_value] = reward_num[reward_value] * .5
 
 				1:
 					reward_type1 = Globals.Reward.TimeFabric
-					reward_num[reward_value] = reward_num[reward_value]/2.0
+					reward_num[reward_value] = reward_num[reward_value] * .5
 
 				2:
 					if !RemnantManager.will_softlock(player_1_remnants,player_2_remnants,true):
 						if _upgradable_remnants():
 							reward_type1 = Globals.Reward.RemnantUpgrade
-							reward_num[reward_value] = reward_num[reward_value]/2.0
+							reward_num[reward_value] = reward_num[reward_value] * .5
 				3:
 					reward_type1 = Globals.Reward.HealthUpgrade
-					reward_num[reward_value] = reward_num[reward_value]/2.0
+					reward_num[reward_value] = reward_num[reward_value] * .5
 				4:
 					reward_type1 = Globals.Reward.Health
 					if is_multiplayer:
@@ -756,10 +757,10 @@ func _choose_reward(pathway_name : String) -> void:
 					elif player1.current_health == player1.max_health:
 						reward_type1 = null
 					if reward_type1!= null:
-						reward_num[reward_value] = reward_num[reward_value]/2.0
+						reward_num[reward_value] = reward_num[reward_value] * .5 #Maybe not necessary?
 				5:
 					wave = true
-					reward_num[reward_value] = reward_num[reward_value]/2.0
+					reward_num[reward_value] = reward_num[reward_value] * .5
 				#6:
 				#	reward_type1 = Globals.Reward.NewWeapon
 				#	reward_num[reward_value] = reward_num[reward_value]/2.0
@@ -1279,7 +1280,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	generated_rooms.clear()
 	generated_room_metadata.clear()
 	generated_room_conflict.clear()
-	reward_num = [1.0,1.0,1.0,1.0,1.0,1.0]
+	reward_num = base_reward_probabilities
 	
 	# Delete the current room
 	if is_instance_valid(room_instance):
@@ -1617,6 +1618,17 @@ func _debug_tiles(array_of_tiles) -> void:
 		debug.position = tile*16
 		room_instance.add_child(debug)
 
+func reward_modifier(idx : int) -> float:
+	match idx:
+		4:
+			var percentage_health_missing = 0.0
+			if is_multiplayer:
+				percentage_health_missing = ((player1.max_health - player1.current_health) + (player2.max_health - player2.current_health)) / (player1.max_health + player2.max_health)
+			elif player1.current_health == player1.max_health:
+				percentage_health_missing = (player1.max_health - player1.current_health) / (player1.max_health)
+			return percentage_health_missing * 2
+	return 1.0		
+	
 func calculate_reward(reward_probability : Array) -> int:
 	var total = 0.0
 	for val in reward_probability:
@@ -1625,7 +1637,7 @@ func calculate_reward(reward_probability : Array) -> int:
 	var idx=0
 	var running_weight = 0.0
 	while idx < reward_probability.size():
-		running_weight+=reward_probability[idx]
+		running_weight+=reward_probability[idx] * reward_modifier(idx)
 		if running_weight >= float_point:
 			return idx
 		idx+=1
