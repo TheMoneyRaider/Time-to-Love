@@ -9,7 +9,7 @@ uniform vec4 outline_color    : source_color = vec4(1.0);
 // How far to search around a pixel for solid neighbors (in texels)
 uniform float outline_size    : hint_range(0.0, 16.0, 0.1) = 1.0;
 // Minimum alpha for a pixel to be considered solid
-uniform float alpha_threshold : hint_range(0.0, 1.0, 0.01) = 0.0;
+uniform float alpha_threshold : hint_range(0.0, 1.0, 0.01) = 0.5;
 // Number of directions to sample from (max 8)
 uniform int outline_samples   : hint_range(4, 8) = 4;
 // Color to blend with solid pixels (alpha is blend strength)

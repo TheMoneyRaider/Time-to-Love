@@ -121,8 +121,10 @@ func _setup_hit_segments() -> void:
 		# get_segment_half_width already samples width_curve * line_width * 0.5
 		circle.radius = get_segment_half_width(i) * line_width
 		shape.shape = circle
-		get_parent().add_child.call_deferred(shape)
 		var shape2 = shape.duplicate(true)
+		shape.shape = circle.duplicate(true)
+		shape.shape.radius /= 1.5
+		get_parent().add_child.call_deferred(shape)
 		get_parent().get_node("Attack").add_child.call_deferred(shape2)
 		_hit_segments.append(shape)
 		_hit_segments2.append(shape2)

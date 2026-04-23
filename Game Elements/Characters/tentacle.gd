@@ -11,10 +11,9 @@ func kill(dmg_owner : Node, damage : float, current_health : float, direction : 
 	if killed:
 		return
 	killed = true
-	var node = tentacle.get_node("SubViewportContainer/SubViewport/TwoToneCanvasGroup")
 	var tween = create_tween()
 	tween.tween_method(
-		func(value: Color): node.modulate = value,
+		func(value: Color): tentacle_display.modulate = value,
 			Color(1.0, 1.0, 1.0, 1.0),
 			Color(1.0, 1.0, 1.0, 0.0),
 		1.4
@@ -126,10 +125,11 @@ func target_tween(player : Node, ignore_player : bool = false):
 		Tween_Target.global_position = lerp(cur_pos,target.global_position,.1) if is_boss_tent else lerp(cur_pos,target.global_position,.01)
 	else:
 		Tween_Target.global_position = lerp(cur_pos,((player.global_position - global_position)*1.5 +global_position),.1)
-
+var tentacle_display : Node
 func _ready() -> void:
 	LayerManager = get_tree().get_root().get_node("LayerManager")
-	tentacle.modulate.a = 0.0
+	tentacle_display=tentacle.get_node("SubViewportContainer/SubViewport/TwoToneCanvasGroup")
+	tentacle_display.modulate.a = 0.0
 	if is_boss_tent:
 		get_parent().enemy_took_damage.connect(LayerManager._on_enemy_take_damage)
 		target = tentacle.target
@@ -145,10 +145,10 @@ func _ready() -> void:
 		tentacle.max_length = length
 		tentacle.num__segments = int(length / 10)
 		tentacle._initialize_segments()
-		tentacle.set_length_scale(0.0)
+		tentacle.set_length_scale(0.1)
 		# Fade in
 		var fade_tween = create_tween()
-		fade_tween.tween_property(tentacle, "modulate:a", 1.0, 0.4)
+		fade_tween.tween_property(tentacle_display, "modulate:a", 1.0, 0.4)
 		var tween = create_tween()
 		tween.tween_method(
 			tentacle.set_length_scale,
@@ -168,15 +168,16 @@ func shrink():
 			var board = bt_player.blackboard
 			board.set_var("attack_status","FINISHING")
 		var tween = create_tween()
+		var duration = .3 +.6*randf()
 		tween.tween_method(
 			tentacle.set_length_scale,
-			1.0, 0.0, .3 +.6*randf()
+			1.0, 0.0, duration
 		).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 
 		await tween.finished
 		var tween2 = create_tween()
 		# Fade out (timed to finish with the shrink)
-		tween2.parallel().tween_property(tentacle, "modulate:a", 0.0, 0.2)
+		tween2.parallel().tween_property(tentacle_display, "modulate:a", 0.0, 0.2)
 		await tween2.finished
 	
 	
@@ -204,17 +205,17 @@ func grow():
 	Tween_Target.position = target.position
 
 	tentacle._initialize_segments()
-	tentacle.set_length_scale(0.0)
+	tentacle.set_length_scale(0.1)
 	# Fade in
 	var fade_tween = create_tween()
-	fade_tween.tween_property(tentacle, "modulate:a", 1.0, 0.4)
-	
+	fade_tween.tween_property(tentacle_display, "modulate:a", 1.0, 0.4)
+	var duration = 1.5 +.9*randf()
 	var tween = create_tween()
+	attack.monitoring = true
+	attack.monitorable = true
 	tween.tween_method(
 		tentacle.set_length_scale,
-		0.0, 1.0, 1.5 +.9*randf()
+		0.0, 1.0, duration
 	).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	await tween.finished
 	get_parent().hitable = true
-	attack.monitoring = true
-	attack.monitorable = true

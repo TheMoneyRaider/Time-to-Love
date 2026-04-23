@@ -25,7 +25,7 @@ var/attack_mode/hint_string = "NONE,MELEE,SPAWNING"
 
 [node name="Tentacle" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 4
-collision_mask = 7
+collision_mask = 0
 script = ExtResource("1_gfybd")
 max_health = 30.0
 enemy_type = "tentacle"
@@ -58,7 +58,7 @@ target = NodePath("../MovingTarget")
 
 [node name="Attack" type="Area2D" parent="." node_paths=PackedStringArray("c_owner")]
 collision_layer = 8
-collision_mask = 39
+collision_mask = 6
 script = ExtResource("5_isrlk")
 speed = 0.0
 lifespan = 1000000000.0
@@ -67,6 +67,7 @@ pierce = -2.0
 wall_collision = false
 attack_type = "tentacle"
 c_owner = NodePath("..")
+repeat_hits = true
 
 [node name="Tween_target" type="Node2D" parent="."]
 
