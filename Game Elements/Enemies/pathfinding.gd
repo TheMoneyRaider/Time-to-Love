@@ -31,7 +31,7 @@ func id_to_pos(id: int) -> Vector2i:
 	return Vector2i(local_x + grid_bounds.position.x, local_y + grid_bounds.position.y)
 
 # orgonises all the data from the layer_manager, 
-func setup_from_room(ground_layer: TileMapLayer, blocked_cells: Array, trap_cells: Array):
+func setup_from_room(ground_layer: TileMapLayer, blocked_cells: Array, trap_cells: Array, liquid_cells: Array):
 	clear()
 	
 	# no used cells, return, nothing to do
@@ -102,22 +102,32 @@ func setup_from_room(ground_layer: TileMapLayer, blocked_cells: Array, trap_cell
 					astar.set_point_weight_scale(id, weight)
 					
 	# derive path from world pos to world pos 
-func find_path(from_world: Vector2, to_world: Vector2) -> Array: 
-	
-	var from_cell = Vector2i(floor(from_world.x / cell_size), floor(from_world.y / cell_size))
-	var to_cell = Vector2i(floor(to_world.x / cell_size), floor(to_world.y / cell_size))
-	
-	# check if start and end pos are walkable
+
+
+func world_to_cell_clamped(world_pos: Vector2) -> Vector2i:
+	var cell = Vector2i(floor(world_pos.x / cell_size), floor(world_pos.y / cell_size))
+	# If the exact cell isn't walkable, search nearby walkable cells
+	if cell in walkable_cells:
+		return cell
+	var search_dirs = [
+		Vector2i(0, 1), Vector2i(0, -1), Vector2i(1, 0), Vector2i(-1, 0)
+	]
+	for dir in search_dirs:
+		var neighbor = cell + dir
+		if neighbor in walkable_cells:
+			return neighbor
+	return cell  # fallback
+
+func find_path(from_world: Vector2, to_world: Vector2) -> Array:
+	var from_cell = world_to_cell_clamped(from_world)
+	var to_cell = world_to_cell_clamped(to_world)
+
 	if not from_cell in walkable_cells or not to_cell in walkable_cells:
 		return []
-	
+
 	var from_id = pos_to_id(from_cell)
 	var to_id = pos_to_id(to_cell)
-	
-	# Get path from A* (returns Vector2 array in world space)
-	var path = astar.get_point_path(from_id, to_id)
-	
-	return path
+	return astar.get_point_path(from_id, to_id)
 	
 	
 func smooth_path(path: Array, ) -> Array: 

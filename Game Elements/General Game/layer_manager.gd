@@ -121,7 +121,7 @@ func _ready() -> void:
 	else:
 		camera.get_node("GrassTexture").visible = false
 	create_new_rooms()
-	pathfinding.setup_from_room(room_instance.get_node("Ground"), room_instance.blocked_cells, room_instance.trap_cells)
+	pathfinding.setup_from_room(room_instance.get_node("Ground"), room_instance.blocked_cells, room_instance.trap_cells,room_instance.liquid_cells)
 	_prepare_timefabric()
 	PathwayTransition.material.set_shader_parameter("mask_texture", PathwayTransition.get_texture())
 
@@ -1336,7 +1336,8 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	
 	pathfinding.setup_from_room(room_instance.get_node("Ground"), 
 		room_instance.blocked_cells,
-		room_instance.trap_cells
+		room_instance.trap_cells,
+		room_instance.liquid_cells
 		)
 	
 	
