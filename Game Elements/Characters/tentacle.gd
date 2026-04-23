@@ -81,8 +81,8 @@ func activate():
 	active = true
 	get_parent().hitable = true
 	var tween = create_tween()
-	var mat = tentacle.get_node("SubViewportContainer/SubViewport/TwoToneCanvasGroup").material
-	tentacle.get_node("SubViewportContainer/SubViewport/TwoToneCanvasGroup").material = mat
+	var mat = tentacle_display.material
+	tentacle_display.material = mat.duplicate(true)
 	var col1 = mat.get_shader_parameter("light_color")
 	var col2 = mat.get_shader_parameter("dark_color")
 	var col1B = lerp(col1,Color(1.0, 1.0, 1.0, 1.0),.85)
@@ -102,11 +102,11 @@ func activate():
 	await tween.finished
 	print(tentacle.light_color)
 	if abs(tentacle.light_color.r - 1.0) < .01:
-		spawn_enemies(int(randf()*4+8),"res://Game Elements/Characters/tentacle1.tscn")
+		spawn_enemies(int(randf()*8+8),"res://Game Elements/Characters/tentacle1.tscn")
 	if abs(tentacle.light_color.g - 1.0) < .01:
-		spawn_enemies(int(randf()*4+12),"res://Game Elements/Characters/tentacle2.tscn")
+		spawn_enemies(int(randf()*4+8),"res://Game Elements/Characters/tentacle2.tscn")
 	if abs(tentacle.light_color.b - 1.0) < .01:
-		spawn_enemies(int(randf()*8+16),"res://Game Elements/Characters/tentacle3.tscn")
+		spawn_enemies(int(randf()*8+12),"res://Game Elements/Characters/tentacle3.tscn")
 	
 
 
@@ -129,7 +129,6 @@ var tentacle_display : Node
 func _ready() -> void:
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	tentacle_display=tentacle.get_node("SubViewportContainer/SubViewport/TwoToneCanvasGroup")
-	tentacle_display.modulate.a = 0.0
 	if is_boss_tent:
 		get_parent().enemy_took_damage.connect(LayerManager._on_enemy_take_damage)
 		target = tentacle.target
@@ -137,6 +136,7 @@ func _ready() -> void:
 		length = tentacle.max_length
 		get_parent().hitable = false
 		return
+	tentacle_display.modulate.a = 0.0
 	grow()
 	if is_purple:
 		var L = 32
