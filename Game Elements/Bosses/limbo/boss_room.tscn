@@ -161,10 +161,10 @@ tile_set = ExtResource("13_1kcvy")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -1
-offset_left = -904.0
-offset_top = -204.0
-offset_right = 312.0
-offset_bottom = 919.0
+offset_left = -1102.0
+offset_top = -232.0
+offset_right = 463.0
+offset_bottom = 961.0
 color = Color(0, 0, 0, 1)
 script = ExtResource("18_u2s2s")
 num_strings = 200

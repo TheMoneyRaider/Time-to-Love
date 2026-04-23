@@ -4,7 +4,7 @@ extends Node2D
 ### Temp Multiplayer Fix
 var player1 = null
 var player2 = null
-var weapon1 = "res://Game Elements/Weapons/Railgun.tres"
+var weapon1 = "res://Game Elements/Weapons/Crossbow.tres"
 var weapon2 = "res://Game Elements/Weapons/Crowbar.tres"
 var undiscovered_weapons = []
 var possible_weapon = ""#undiscovered_weapons.pick_random()
@@ -1837,3 +1837,51 @@ func dev_remnants():
 	
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
 	timefabric_collected = 0
+	
+	
+func move_to_limbo_phase_2():
+	get_node("LimboTransition/LimboTransition").play()
+
+	var next_room_data = load("res://Game Elements/Rooms/resources/limbo_boss2.tres")
+	global_conflict_cells = []
+	var next_room = load("res://Game Elements/Bosses/limbo/boss_room2.tscn").instantiate()
+	game_root.add_child(next_room)
+
+	# Delete all other generated rooms
+	for key in generated_rooms.keys():
+		if is_instance_valid(generated_rooms[key]):
+			generated_rooms[key].queue_free()
+	generated_rooms.clear()
+	generated_room_metadata.clear()
+	generated_room_conflict.clear()
+	
+	# Delete the current room
+	if is_instance_valid(room_instance):
+		room_instance.queue_free()
+
+	room_instance = next_room
+	_placable_locations()
+	apply_shared_noise_offset(room_instance)
+	
+	# Teleport player to the entrance of the next room
+	player1.global_position =  Vector2.ZERO
+	player1.disabled_countdown=3
+	if(is_multiplayer):
+		player2.global_position = Vector2(16,0)
+		player2.disabled_countdown=3
+		player1.global_position = Vector2(16,0)
+
+	room_instance.name = "Root"
+	room_instance.y_sort_enabled = true
+
+	# Assign a new generated_room_data definition for metadata
+	room_instance_data = next_room_data
+
+	pathfinding.setup_from_room(room_instance.get_node("Ground"), 
+		[],
+		[],
+		[]
+		)
+	room_cleared= false
+	reward_claimed = false
+	#room_instance.activate(camera,player1,player2)

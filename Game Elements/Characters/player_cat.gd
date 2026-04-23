@@ -500,7 +500,6 @@ func swap_color():
 	if LayerManager.room_instance:
 		reset_special()
 	emit_signal("swapped_color", self)
-	#LayerManager.get_node("LimboTransition/LimboTransition").play()
 	if(is_purple):
 		is_purple = false
 		_check_giant()
