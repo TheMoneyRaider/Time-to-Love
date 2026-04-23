@@ -89,12 +89,6 @@ color = Color(0, 0, 0, 1)
 script = ExtResource("3_siiqp")
 num_strings = 200
 
-[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
-z_index = -1
-position = Vector2(-376, 469)
-scale = Vector2(1.4749999, 1)
-copy_mode = 2
-
 [node name="Ground" type="TileMapLayer" parent="."]
 y_sort_enabled = true
 material = ExtResource("4_vcj3n")

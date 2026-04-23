@@ -219,7 +219,7 @@ func _process(delta):
 	if frozen:
 		return
 	if attack_type == "laser" or attack_type == "scifi_laser" or attack_type == "tentacle":
-		if has_method("get_overlapping_bodies"):
+		if has_method("get_overlapping_bodies") and monitoring:
 			for body in get_overlapping_bodies():
 				intersection(body)
 	if attack_type != "slug":
@@ -335,7 +335,7 @@ func deflect(hit_direction, hit_speed, deflection_area):
 		
 
 func _on_area_entered(area: Area2D) -> void:
-	if area.is_in_group("attack") and area.deflectable == true and deflects and is_instance_valid(area.c_owner):
+	if area.is_in_group("attack") and area.deflectable == true and deflects and is_instance_valid(area.c_owner) and is_instance_valid(c_owner) and area.c_owner != c_owner:
 		if area.attack_type =="laser":
 			if area.life > .5:
 				return

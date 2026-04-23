@@ -21,14 +21,14 @@ class_name Arm extends Node2D
 @export_group("IK Configuration")
 ## More _segments = smoother curves but higher computation cost. Start low, increase if jerky.
 ## The setter rebuilds the segment arrays so you can see changes immediately in the editor.
-@export_range(3, 50, 1) var num__segments: int = 24
+@export_range(0, 50, 1) var num__segments: int = 24
 ## Total arm length. IK will compress the arm when target is closer than this distance.
 ## The setter recalculates segment lengths for immediate visual feedback in the editor.
-@export_range(10.0, 256.0, 1.0) var max_length: float = 128.0
+@export_range(0.0, 512.0, 1.0) var max_length: float = 128.0
 ## Higher iterations = more accurate target tracking but diminishing returns after 3-4.
 @export_range(1, 10, 1) var ik_iterations: int = 2
 ## Higher iterations = more rigid _segments. Too low and the arm will stretch/compress.
-@export_range(1, 20, 1) var constraint_iterations: int = 10
+@export_range(1, 20, 1) var constraint_iterations: int = 5
 ## Enable or disable constraints
 @export var enable_contraint: bool = true
 
@@ -71,6 +71,8 @@ var hole_size: Vector2 = Vector2(128,128)
 @export var hole_source : String = "shop_tentacles_sdf"
 @export var uses_sdf : bool = true
 @export var collision_enabled : bool = false
+@export var is_shop : bool = false
+@export var Shop : Node2D = null
 
 # --- Collision ---
 var _hit_segments: Array[CollisionShape2D] = []
@@ -100,10 +102,8 @@ func _ready() -> void:
 	$SubViewportContainer/SubViewport/TwoToneCanvasGroup.material.set_shader_parameter("light_color",light_color)
 	$SubViewportContainer/SubViewport/TwoToneCanvasGroup.material.set_shader_parameter("dark_color",dark_color)
 	$SubViewportContainer.material.set_shader_parameter("emerge_height",emerge_height)
-	if collision_enabled:
-		_setup_hit_segments()   # <-- add this after _initialize_segments
-
-
+	
+var _hit_segment_start: int = 1  # track where hit segments begin
 # Call this from _ready() AFTER _initialize_segments()
 func _setup_hit_segments() -> void:
 	# Clean up any old ones (useful if called again on reinit)
@@ -114,15 +114,15 @@ func _setup_hit_segments() -> void:
 		node.queue_free()
 	_hit_segments2.clear()
 
-	# Skip index 0
-	for i in range(1, _segments.size()):
+	_hit_segment_start = int(_segments.size() /2.0) if is_shop else 1
+	for i in range(_hit_segment_start, _segments.size()):
 		var shape := CollisionShape2D.new()
 		var circle := CircleShape2D.new()
 		# get_segment_half_width already samples width_curve * line_width * 0.5
 		circle.radius = get_segment_half_width(i) * line_width
 		shape.shape = circle
-		get_parent().add_child.call_deferred(shape)
 		var shape2 = shape.duplicate(true)
+		get_parent().add_child.call_deferred(shape)
 		get_parent().get_node("Attack").add_child.call_deferred(shape2)
 		_hit_segments.append(shape)
 		_hit_segments2.append(shape2)
@@ -133,7 +133,7 @@ func _setup_hit_segments() -> void:
 func _update_hit_segments() -> void:
 	# _segments[0] is the anchor, _hit_segments[0] corresponds to _segments[1]
 	for i in range(_hit_segments.size()):
-		var seg_index := i + 1
+		var seg_index := _hit_segment_start + i
 		if seg_index >= _segments.size():
 			break
 		# _segments are in local space of the Arm node, Area2Ds are children so position is also local
@@ -148,7 +148,12 @@ func shrink(shrink_amount : float, change_length : bool = true):
 	var from_hole : Vector2 = target.origin - hole_global_position
 	target.origin = hole_global_position + from_hole * shrink_amount
 	target.global_position = target.origin
-	_initialize_segments()
+	
+	var target_len = max_length
+	var per_segment = target_len / num__segments
+	for i in range(_segment_lengths.size()):
+		_segment_lengths[i] = per_segment
+	total_length = target_len
 
 
 func set_hole(hole_position : Vector2):
@@ -156,16 +161,22 @@ func set_hole(hole_position : Vector2):
 var total_length
 var root_offset
 ## Runs each physics frame applying IK, constraints, wave motion, then constraints again.
+var counter = 0
 func _physics_process(delta: float) -> void:
-	root_offset = get_parent().get_parent().get_parent().position
-	var target_pos: Vector2 = to_local(target.global_position)-root_offset if target else to_local(get_global_mouse_position())
-	solve_ik(target_pos)
-	apply_wave_motion(delta)
-	apply_constraints()
+	counter+=1
+	if total_length < .05:
+		return
+	if counter % 2 == 0:  # run every other frame
+		root_offset = Shop.get_parent().position if Shop else Vector2(0,0)
+		var target_pos: Vector2 = to_local(target.global_position)-root_offset if target else to_local(get_global_mouse_position())
+		
+		solve_ik(target_pos)
+		apply_wave_motion(delta)
+		apply_constraints()
 
-	update_line2d()
-	if collision_enabled:
-		_update_hit_segments()
+		update_line2d()
+		if collision_enabled:
+			_update_hit_segments()
 
 
 ## Two-pass FABRIK IK: backward pass pulls tip to target, forward pass anchors base.
@@ -264,9 +275,12 @@ func apply_wave_motion(delta: float) -> void:
 ## Updates Line2D points
 ## Shadow offset interpolates from small (base) to large (tip) for depth trick.
 func update_line2d() -> void:
-	base_node.clear_points()
+	var _segments2 = _segments.duplicate(true)
+	var i = 0
 	for pos in _segments:
-		base_node.add_point(pos-viewport_offset) #Offset due to viewport
+		_segments2[i] = pos -viewport_offset
+		i+=1
+	base_node.points = _segments2
 
 
 ## Rebuilds segment arrays when num__segments or max_length change.
@@ -293,8 +307,15 @@ func _initialize_segments() -> void:
 	# Update visual immediately for editor feedback
 	update_line2d()
 	total_length = max_length
+	if collision_enabled:
+		_setup_hit_segments()   # <-- add this after _initialize_segments
 
-
+func set_length_scale(f_scale: float) -> void:
+	var target_len = max_length * f_scale
+	var per_segment = target_len / num__segments
+	for i in range(_segment_lengths.size()):
+		_segment_lengths[i] = per_segment
+	total_length = target_len
 
 
 

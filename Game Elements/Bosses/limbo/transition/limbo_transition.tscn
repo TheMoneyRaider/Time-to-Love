@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://d4mlvdb3rgf07"]
+
+[ext_resource type="Script" uid="uid://l2bobm8kjbei" path="res://Game Elements/Bosses/limbo/transition/limbo_transition.gd" id="1_howeb"]
+[ext_resource type="Texture2D" uid="uid://cggx60a5l71t7" path="res://art/white_square2.png" id="2_vbvgt"]
+[ext_resource type="FontFile" uid="uid://lot7rgmpubs3" path="res://fonts/International.ttf" id="3_8u0qj"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_d5ygv"]
+font = ExtResource("3_8u0qj")
+font_size = 256
+font_color = Color(0, 0, 0, 1)
+outline_size = 16
+outline_color = Color(0, 0, 0, 1)
+
+[node name="LimboTransition" type="Node2D"]
+script = ExtResource("1_howeb")
+
+[node name="ArmContainer" type="Node2D" parent="."]
+z_index = 40
+
+[node name="WhiteFlash" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+z_index = 29
+offset_left = -899.0
+offset_top = -479.0
+offset_right = 1105.0
+offset_bottom = 628.0
+mouse_filter = 2
+texture = ExtResource("2_vbvgt")
+
+[node name="Label" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0)
+z_index = 60
+offset_left = -242.0
+offset_top = -127.0
+offset_right = 1679.0
+offset_bottom = 872.0
+scale = Vector2(0.25, 0.25)
+text = "Vision of True Majesty"
+label_settings = SubResource("LabelSettings_d5ygv")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
