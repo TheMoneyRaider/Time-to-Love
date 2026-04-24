@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=4 uid="uid://d3ln1dkv7my03"]
+[gd_scene load_steps=31 format=4 uid="uid://d3ln1dkv7my03"]
 
 [ext_resource type="Script" uid="uid://bt8feidnt38e0" path="res://Game Elements/Bosses/limbo/limbo_boss_room.gd" id="1_igt57"]
 [ext_resource type="Texture2D" uid="uid://bi8ihiw4mjsuc" path="res://art/characters/vision/vision_splash2.png" id="2_5rr6x"]
@@ -36,22 +36,6 @@ stacked_shadow_2/offset = Vector2(-4, 4)
 stacked_shadow_2/color = Color(0.7312674, 0.0024870122, 0.9457776, 0.4862745)
 stacked_shadow_3/offset = Vector2(4, -4)
 stacked_shadow_3/color = Color(0.9379482, 0.4171933, 1, 0.4862745)
-
-[sub_resource type="LabelSettings" id="LabelSettings_douwh"]
-font_size = 64
-stacked_outline_count = 6
-stacked_outline_0/size = 6
-stacked_outline_0/color = Color(0.9340807, 0.93408036, 0.93408036, 1)
-stacked_outline_1/size = 6
-stacked_outline_1/color = Color(0.6955031, 0.6955032, 0.6955029, 1)
-stacked_outline_2/size = 6
-stacked_outline_2/color = Color(0.585062, 0.585062, 0.58506197, 1)
-stacked_outline_3/size = 6
-stacked_outline_3/color = Color(0.4506483, 0.4506483, 0.45064825, 1)
-stacked_outline_4/size = 6
-stacked_outline_4/color = Color(0.34407577, 0.34407574, 0.34407574, 1)
-stacked_outline_5/size = 24
-stacked_outline_5/color = Color(0.24115604, 0.24115604, 0.24115604, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p54wv"]
 shader = ExtResource("16_kxx4x")
@@ -119,12 +103,12 @@ script = ExtResource("1_igt57")
 boss_splash_art = ExtResource("2_5rr6x")
 healthbar_underlays = Array[Texture2D]([ExtResource("3_p54wv")])
 healthbar_overlays = Array[Texture2D]([ExtResource("4_tqkqi")])
-boss_names = Array[String](["Vision, The Merchant", "Vision of True Majesty"])
-boss_name_settings = Array[LabelSettings]([SubResource("LabelSettings_ier7o"), SubResource("LabelSettings_douwh")])
+boss_names = Array[String](["Vision, The Merchant"])
+boss_name_settings = Array[LabelSettings]([SubResource("LabelSettings_ier7o")])
 boss = NodePath("Shop/VisionNPC")
 boss_name = "Vision"
 boss_font = ExtResource("9_br3ub")
-phase_overlay_index = Array[int]([10, 11])
+phase_overlay_index = Array[int]([10])
 boss_type = "limbo"
 
 [node name="PathwayU1_Detect" parent="." instance=ExtResource("12_tsg4b")]

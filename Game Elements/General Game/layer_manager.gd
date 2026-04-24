@@ -1838,10 +1838,22 @@ func dev_remnants():
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
 	timefabric_collected = 0
 	
-	
+var limboing : bool = false
 func move_to_limbo_phase_2():
+	if limboing:
+		return
+	limboing = true
+	
+	for child in room_instance.get_children():
+		if child.is_in_group("enemy") and child is DynamEnemy:
+			child.current_health = -1.0
+			child.emit_signal("enemy_took_damage",100.0,child.current_health,child,Vector2(0,-1))
+	player1.disabled = true
+	if is_multiplayer:
+		player2.disabled = true
 	get_node("LimboTransition/LimboTransition").play()
-
+	await get_tree().create_timer(4.0, false).timeout
+	camera.zoom = Vector2(2.0,2.0)
 	var next_room_data = load("res://Game Elements/Rooms/resources/limbo_boss2.tres")
 	global_conflict_cells = []
 	var next_room = load("res://Game Elements/Bosses/limbo/boss_room2.tscn").instantiate()
@@ -1873,6 +1885,9 @@ func move_to_limbo_phase_2():
 
 	room_instance.name = "Root"
 	room_instance.y_sort_enabled = true
+	liquid_cells = [[],[],[],[],[],[],[],[],[],[]]
+	trap_cells = []
+	blocked_cells = []
 
 	# Assign a new generated_room_data definition for metadata
 	room_instance_data = next_room_data
@@ -1884,4 +1899,9 @@ func move_to_limbo_phase_2():
 		)
 	room_cleared= false
 	reward_claimed = false
-	#room_instance.activate(camera,player1,player2)
+	room_instance.activate()
+	await get_tree().create_timer(4.0, false).timeout
+	player1.disabled = false
+	
+	if is_multiplayer:
+		player2.disabled = false

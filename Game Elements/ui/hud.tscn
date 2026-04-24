@@ -1,12 +1,12 @@
-[gd_scene load_steps=22 format=3 uid="uid://0hahdiffjt61"]
+[gd_scene load_steps=23 format=3 uid="uid://0hahdiffjt61"]
 
 [ext_resource type="Script" uid="uid://ttvprfi61vn4" path="res://Game Elements/ui/hud.gd" id="1_6fbih"]
 [ext_resource type="Script" uid="uid://bs428146shl5s" path="res://Game Elements/ui/time_fabric_animation.gd" id="2_bjfho"]
 [ext_resource type="Texture2D" uid="uid://bxmiq87nvpvj8" path="res://art/notification.png" id="2_gp50j"]
-[ext_resource type="Texture2D" uid="uid://dpbtylqlfwc5d" path="res://Game Elements/Bosses/limbo/healthbar_p1_underlay.png" id="2_m7god"]
+[ext_resource type="Texture2D" uid="uid://bjttiaoaq2xk1" path="res://Game Elements/Bosses/limbo/healthbar_p2_underlay.png" id="2_m7god"]
 [ext_resource type="Texture2D" uid="uid://ch4g2j4jycixb" path="res://art/time_fabric.png" id="3_6fbih"]
 [ext_resource type="Shader" uid="uid://cweesrh2cbhg6" path="res://Game Elements/ui/boss_healthbar.gdshader" id="3_8prbk"]
-[ext_resource type="Texture2D" uid="uid://b2gg8vldi026v" path="res://Game Elements/Bosses/limbo/healthbar_p1_overlay.png" id="4_8prbk"]
+[ext_resource type="Texture2D" uid="uid://8clo10stsmun" path="res://Game Elements/Bosses/limbo/healthbar_p2_overlay.png" id="4_8prbk"]
 [ext_resource type="Script" uid="uid://d36yo1gmy8tkb" path="res://Game Elements/ui/cooldown_bar_1.gd" id="5_kgqo6"]
 [ext_resource type="Texture2D" uid="uid://dj6erg8qveqb0" path="res://art/ninja_2.png" id="5_p8pfh"]
 [ext_resource type="Texture2D" uid="uid://ds6fo2yfcafce" path="res://art/ninja_1.png" id="6_gp50j"]
@@ -16,8 +16,9 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5ho0i"]
 shader = ExtResource("3_8prbk")
-shader_parameter/effect_index = 10
+shader_parameter/effect_index = 11
 shader_parameter/progress = 1.0
+shader_parameter/progress2 = 1.0
 shader_parameter/image_size = Vector2(715, 41)
 shader_parameter/P1_u_speed = 0.125
 shader_parameter/P1_u_color_low = Color(0, 0, 0, 1)
@@ -41,9 +42,31 @@ shader_parameter/P4_u_color_high = Color(0.855, 0.447, 0.89, 1)
 shader_parameter/P4_scale = 16.0
 shader_parameter/P10_u_speed = 0.25
 shader_parameter/P10_u_color_low = Color(0, 0, 0, 1)
-shader_parameter/P10_u_color_mid = Color(0.00025008738, 0.28442785, 0.87153184, 1)
-shader_parameter/P10_u_color_high = Color(3.657937e-06, 0.69445723, 0.9032935, 1)
+shader_parameter/P10_u_color_mid = Color(0, 0.286, 0.871, 1)
+shader_parameter/P10_u_color_high = Color(0, 0.694, 0.904, 1)
 shader_parameter/P10_scale = 32.0
+shader_parameter/P11_u_speed = 0.05
+shader_parameter/P11_u_color_low = Color(0, 0, 0, 1)
+shader_parameter/P11_u_color_mid = Color(0.784, 0.475, 0, 1)
+shader_parameter/P11_u_color_high = Color(1, 1, 1, 1)
+shader_parameter/P11_u_color_mid2 = Color(1, 0.824, 0.655, 1)
+shader_parameter/P11_scale = 64.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_5ho0i"]
+font_size = 64
+stacked_outline_count = 6
+stacked_outline_0/size = 6
+stacked_outline_0/color = Color(0.9999998, 0.9162768, 0.8571202, 1)
+stacked_outline_1/size = 6
+stacked_outline_1/color = Color(0.84, 0.65968, 0.45359996, 0.8666667)
+stacked_outline_2/size = 6
+stacked_outline_2/color = Color(0.67, 0.5605667, 0.4355, 0.7764706)
+stacked_outline_3/size = 6
+stacked_outline_3/color = Color(0.55, 0.42240003, 0.28599998, 0.6509804)
+stacked_outline_4/size = 6
+stacked_outline_4/color = Color(0.42, 0.31766, 0.23939998, 0.46666667)
+stacked_outline_5/size = 12
+stacked_outline_5/color = Color(0.3, 0.22440001, 0.11100001, 0.28627452)
 
 [sub_resource type="LabelSettings" id="LabelSettings_t1xeu"]
 font_size = 35
@@ -114,8 +137,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="BossBar" type="Control" parent="RootControl/VBoxContainer"]
-visible = false
-custom_minimum_size = Vector2(0, 180)
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 
 [node name="Underlay" type="TextureRect" parent="RootControl/VBoxContainer/BossBar"]
@@ -152,6 +174,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+text = "Vision Of True Majesty"
+label_settings = SubResource("LabelSettings_5ho0i")
 horizontal_alignment = 1
 vertical_alignment = 2
 
