@@ -590,23 +590,30 @@ func _check_giant():
 		if rem.remnant_name == giant.remnant_name:
 			orange_giant_rank = rem.rank		
 	if is_purple:
-		if(purple_giant_rank != 0 && orange_giant_rank != 0):
-			change_health(purple_giant_rank * 5 - orange_giant_rank * 5, purple_giant_rank * 5 - orange_giant_rank * 5)
-		elif(orange_giant_rank != 0):
+		#GIANT CHANGE TEST
+		var purple_max = max_health + (purple_giant_rank * 5) - (orange_giant_rank * 5)
+		var orange_max = max_health
+		change_health((-1 + purple_max / orange_max) * current_health, purple_max - orange_max)
+		#if(purple_giant_rank != 0 && orange_giant_rank != 0):
+		#	change_health(purple_max / orange_max * current_health, purple_max - orange_max)
+		if(orange_giant_rank != 0):
 			scale = scale / 1.5
-			change_health(-orange_giant_rank * 5, - orange_giant_rank * 5)
+			#change_health(-orange_giant_rank * 5, - orange_giant_rank * 5)
 		elif(purple_giant_rank != 0):
 			scale = scale * 1.5
-			change_health(purple_giant_rank * 5, purple_giant_rank * 5)
+			#change_health(purple_giant_rank * 5, purple_giant_rank * 5)
 	else:
-		if(purple_giant_rank != 0 && orange_giant_rank != 0):
-			change_health(orange_giant_rank * 5 - purple_giant_rank * 5, orange_giant_rank * 5 - purple_giant_rank * 5)
-		elif(purple_giant_rank != 0):
+		var purple_max = max_health 
+		var orange_max = max_health - (purple_giant_rank * 5) + (orange_giant_rank * 5)
+		change_health((-1 + orange_max / purple_max) * current_health, orange_max - purple_max)
+		#if(purple_giant_rank != 0 && orange_giant_rank != 0):
+		#	change_health(orange_giant_rank * 5 - purple_giant_rank * 5, orange_giant_rank * 5 - purple_giant_rank * 5)
+		if(purple_giant_rank != 0):
 			scale = scale / 1.5
-			change_health(-purple_giant_rank * 5, - purple_giant_rank * 5)
+			#change_health(-purple_giant_rank * 5, - purple_giant_rank * 5)
 		elif(orange_giant_rank != 0):
 			scale = scale * 1.5
-			change_health(orange_giant_rank * 5, orange_giant_rank * 5)
+			#change_health(orange_giant_rank * 5, orange_giant_rank * 5)
 	
 
 func tether(delta : float):
