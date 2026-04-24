@@ -44,6 +44,7 @@ var is_tethered = false
 var tether_gradient
 var tether_width_curve
 
+var damage_resistance : float = 0.0
 var is_multiplayer = false
 var input_device = "-1"
 var input_direction : Vector2 = Vector2.ZERO
@@ -92,6 +93,7 @@ func _ready():
 	update_animation_parameters(starting_direction)
 	add_to_group("player")
 	load_settings()
+	set_weapon_dr(weapons[is_purple as int])
 	set_weapon_sprite(weapons[is_purple as int],weapon_node)
 	if is_multiplayer:
 		tether_gradient = tether_line.gradient
@@ -368,7 +370,7 @@ func _physics_process(delta):
 			handle_attack()
 	if Input.is_action_just_pressed("activate_" + input_device):
 		emit_signal("activate",self)
-	if Input.is_action_pressed("special_" + input_device):
+	if Input.is_action_just_pressed("special_" + input_device):
 		effects += weapons[is_purple as int].use_special(delta,false, Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
 		emit_signal("special",self)
 	elif Input.is_action_just_released("special_" + input_device):
@@ -504,6 +506,7 @@ func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0
 	if(bulwark == false || i_frames <= 0 && !invulnerable):
 		time_since_last_hit = 0
 		i_frames = attack_i_frames
+		damage_amount = damage_amount * (1 - damage_resistance)
 		damage_amount = _check_bulwark(damage_amount, _dmg_owner, bulwark)
 		if check_drones():
 			LayerManager._damage_indicator(0, _dmg_owner,_direction, attack_body,self,Color(0.0, 0.666, 0.85, 1.0))
@@ -521,6 +524,19 @@ func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0
 				LayerManager.room_instance.call_deferred("add_child",instance)
 				emit_signal("attack_requested",revive, position, Vector2.ZERO, 0)
 		post_damage_trigger(damage_amount,_dmg_owner)
+
+func set_weapon_dr(weapon : Weapon):
+	damage_resistance = 0.0
+	match weapon.type:
+		"Mace":
+			damage_resistance = .1
+		"Laser_Sword":
+			damage_resistance = .1
+		"Crowbar":
+			damage_resistance = .1
+		"Shovel":
+			damage_resistance = .1
+	
 
 func set_weapon_sprite(weapon : Weapon, f_weapon_node : Node):
 	var w_sprite = f_weapon_node.get_node("Sprite2D")
@@ -547,6 +563,7 @@ func swap_color():
 		_check_giant()
 		sprite.texture = orange_texture
 		crosshair_sprite.texture = orange_crosshair
+		set_weapon_dr(weapons[0])
 		set_weapon_sprite(weapons[0],weapon_node)
 		tether_line.default_color = Color("Orange")
 		weapons[1].special_time_elapsed = 0.0
@@ -560,6 +577,7 @@ func swap_color():
 		_check_giant()
 		sprite.texture = purple_texture
 		crosshair_sprite.texture = purple_crosshair
+		set_weapon_dr(weapons[1])
 		set_weapon_sprite(weapons[1],weapon_node)
 		tether_line.default_color = Color("Purple")
 		weapons[0].special_time_elapsed = 0.0
@@ -926,6 +944,7 @@ func set_weapon(purple : bool, resource_loc : String):
 func update_weapon(resource_name : String):
 	var resource_loc = "res://Game Elements/Weapons/" + resource_name + ".tres"
 	weapons[is_purple as int] = Weapon.create_weapon(resource_loc,self)
+	set_weapon_dr(weapons[is_purple as int])
 	set_weapon_sprite(weapons[is_purple as int],weapon_node)
 	
 
