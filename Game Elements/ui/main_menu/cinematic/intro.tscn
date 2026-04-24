@@ -1,6 +1,7 @@
-[gd_scene load_steps=24 format=3 uid="uid://djqkn1bomolv2"]
+[gd_scene load_steps=25 format=3 uid="uid://djqkn1bomolv2"]
 
 [ext_resource type="Texture2D" uid="uid://cxqlrcr4x3v2p" path="res://art/white_square.png" id="1_03pb0"]
+[ext_resource type="Script" uid="uid://b7n0k0rwl2ql5" path="res://Game Elements/ui/main_menu/cinematic/intro.gd" id="1_ih4a6"]
 [ext_resource type="Texture2D" uid="uid://b1wgfe5lex54a" path="res://art/intro_animation/IMG_0754.jpg" id="2_4aqe0"]
 [ext_resource type="Texture2D" uid="uid://cbkxecyteep1j" path="res://art/intro_animation/IMG_0756.jpg" id="3_iart7"]
 [ext_resource type="Texture2D" uid="uid://b1oriy3piffg2" path="res://art/intro_animation/IMG_0757.jpg" id="4_u4j5q"]
@@ -1023,6 +1024,21 @@ tracks/38/keys = {
 "update": 0,
 "values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
 }
+tracks/39/type = "audio"
+tracks/39/imported = false
+tracks/39/enabled = true
+tracks/39/path = NodePath("AudioStreamPlayer")
+tracks/39/interp = 1
+tracks/39/loop_wrap = true
+tracks/39/keys = {
+"clips": [{
+"end_offset": 14.863159,
+"start_offset": 0.0,
+"stream": ExtResource("20_884a8")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/39/use_blend = true
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_00unw"]
 _data = {
@@ -1032,6 +1048,7 @@ _data = {
 
 [node name="Intro" type="CanvasLayer"]
 layer = 2
+script = ExtResource("1_ih4a6")
 
 [node name="B-F01" type="TextureRect" parent="."]
 visible = false
@@ -1354,4 +1371,3 @@ libraries = {
 }
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("20_884a8")
