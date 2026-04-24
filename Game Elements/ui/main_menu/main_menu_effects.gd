@@ -36,6 +36,7 @@ func _ready():
 		$Intro.visible = false
 	else:
 		$Intro/AnimationPlayer.play("main")
+		$Intro/AudioStreamPlayer.play()
 	Title.texture = title_textures[Globals.menu]
 	fragmenting = Globals.config.get_value("fragmentation", "enabled", true)
 	if capture_all_states:
@@ -189,6 +190,7 @@ func _input(event):
 		if is_button and event.pressed:
 			if get_node("Intro"):
 				$Intro.visible = false
+				$Intro/AudioStreamPlayer.stop()
 			Globals.cinematic_viewed = true
 			paused=false
 		return
