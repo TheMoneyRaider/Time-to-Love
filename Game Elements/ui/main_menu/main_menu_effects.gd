@@ -98,6 +98,7 @@ func _process(delta):
 			return
 		else:
 			$Intro.visible = false
+			$Intro/AnimationPlayer.stop()
 			Globals.cinematic_viewed = true
 			paused=false
 	if !fragmenting:
@@ -189,6 +190,7 @@ func _input(event):
 		if is_button and event.pressed:
 			if get_node("Intro"):
 				$Intro.visible = false
+				$Intro/AnimationPlayer.stop()
 			Globals.cinematic_viewed = true
 			paused=false
 		return

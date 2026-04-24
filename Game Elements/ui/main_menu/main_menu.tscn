@@ -259,7 +259,6 @@ text = "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_space[/font]
 horizontal_alignment = 2
 
 [node name="Intro" parent="." instance=ExtResource("14_xx3pa")]
-script = null
 
 [connection signal="pressed" from="SubViewportContainer/SubViewport/UI_Group/VBoxContainer/StartMPlayer" to="SubViewportContainer/SubViewport/UI_Group" method="_on_start_m_button_pressed"]
 [connection signal="pressed" from="SubViewportContainer/SubViewport/UI_Group/VBoxContainer/StartSinglePlayer" to="SubViewportContainer/SubViewport/UI_Group" method="_on_start_button_pressed"]

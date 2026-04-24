@@ -11,25 +11,13 @@ func load_settings():
 	mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
 	debug_mode = Globals.config.get_value("debug", "enabled", false)
 	frag_mode = Globals.config.get_value("fragmentation", "enabled", true)
-	$MarginContainer/VBoxContainer/Volume/Volume.value = Globals.config.get_value("audio", "master", 100)
+	$MarginContainer/VBoxContainer/Volume/Volume.value = db_to_percent(Globals.config.get_value("audio", "master", 0))
+	update_label($MarginContainer/VBoxContainer/Volume/Volume.value)
 	Globals.player1_input = Globals.config.get_value("inputs","player1_input", "key")
 	Globals.player2_input = Globals.config.get_value("inputs","player2_input", "0")
 	mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
-	print(Globals.config.get_value("debug", "enabled", false))
 	debug_mode = Globals.config.get_value("debug", "enabled", false)
-	$MarginContainer/VBoxContainer/Volume/Volume.value = Globals.config.get_value("audio", "master", 100)
 		
-func save_settings():
-	var config = ConfigFile.new()
-	
-	var volslider = $MarginContainer/VBoxContainer/Volume/Volume
-	config.set_value("audio", "master", volslider.value)
-	config.set_value("controls", "mouse_sensitivity", mouse_sensitivity)
-	config.set_value("debug", "enabled", debug_mode)
-	config.set_value("debug", "display_pathways", display_pathways)
-	config.set_value("debug", "mouse_clamping", mouse_clamping)
-	config.set_value("debug", "toggle_invulnerability", toggle_invulnerability)
-	config.save(SETTINGS_FILE)
 var frag_mode: bool = false
 var devices : Array[Array]=[[],[]]
 func _on_back_pressed() -> void:
@@ -40,11 +28,11 @@ func _on_back_pressed() -> void:
 	else:
 		get_tree().call_deferred("change_scene_to_file", "res://Game Elements/ui/main_menu/main_menu.tscn")
 
-
+#
 func _on_apply_settings()-> void:
 	
 	var volslider = $MarginContainer/VBoxContainer/Volume/Volume
-	Globals.config.set_value("audio", "master", volslider.value)
+	Globals.config.set_value("audio", "master", percent_to_db(volslider.value))
 	Globals.config.set_value("controls", "mouse_sensitivity", mouse_sensitivity)
 	Globals.config.set_value("debug", "enabled", debug_mode)
 	Globals.config.set_value("fragmentation", "enabled", frag_mode)
@@ -57,10 +45,7 @@ func _on_apply_settings()-> void:
 @export var bus_name: String = "Master"
 
 func _ready() -> void:
-	var bus_index = AudioServer.get_bus_index(bus_name)
-	var value = AudioServer.get_bus_volume_db(bus_index)
 		
-	_on_volume_value_changed(value)
 	load_settings()
 
 	$MarginContainer/VBoxContainer/Mouse/MouseSensitivity.value = mouse_sensitivity
@@ -87,7 +72,6 @@ func _on_volume_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(bus_index, percent_to_db(value))
 	
 	update_label(value)
-	pass # Replace with function body.
 
 func update_label(v: float) -> void:
 	label.text = str(int(v)) + "%"
@@ -99,8 +83,13 @@ func percent_to_db(percent: float) -> int:
 		return -40
 	# Convert dB → linear gain (0.0–1.0)
 	var db := log(per) / log(10)
+	print(int(round(db)))
 	return int(round(db))
-
+	
+func db_to_percent(db: int) -> float:
+	if db <= -40:
+		return 0.0
+	return pow(10.0, db) * 100.0
 
 func set_mouse_sensitivity(value: float): 
 	mouse_sensitivity = clamp(value, .1, 2.0)
