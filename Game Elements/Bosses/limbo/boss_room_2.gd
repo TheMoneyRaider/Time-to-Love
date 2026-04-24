@@ -26,6 +26,7 @@ var is_multiplayer : bool = false
 @export var boss_type : String =""
 var animation : String = ""
 
+@export var rocks : Array[Node]
 
 func activate():
 	LayerManager = get_tree().get_root().get_node("LayerManager")
