@@ -95,6 +95,7 @@ collision_layer = 4
 collision_mask = 9
 script = ExtResource("1_8cul8")
 max_health = 5.0
+agro_distance = 300.0
 enemy_type = "skeleton"
 displays = Array[NodePath]([NodePath("Sprite2D")])
 min_timefabric = 7

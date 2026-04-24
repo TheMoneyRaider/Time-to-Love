@@ -118,6 +118,7 @@ collision_layer = 4
 collision_mask = 9
 script = ExtResource("1_w832q")
 hit_range = 75
+agro_distance = 300.0
 enemy_type = "archer"
 displays = Array[NodePath]([NodePath("Sprite2D")])
 min_timefabric = 15

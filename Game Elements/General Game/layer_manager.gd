@@ -486,8 +486,8 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 			"Health":
 				if player_reference in node.tracked_bodies:
 					if is_multiplayer:
-						player2.change_health(5.0)
-					player1.change_health(5.0)
+						player2.change_health(player2.max_health * .75)
+					player1.change_health(player1.max_health * .75)
 					var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 					particle.position = node.position
 					generated_room.add_child(particle)
@@ -1628,7 +1628,7 @@ func reward_modifier(idx : int) -> float:
 			var percentage_health_missing = 0.0
 			if is_multiplayer:
 				percentage_health_missing = ((player1.max_health - player1.current_health) + (player2.max_health - player2.current_health)) / (player1.max_health + player2.max_health)
-			elif player1.current_health == player1.max_health:
+			else:
 				percentage_health_missing = (player1.max_health - player1.current_health) / (player1.max_health)
 			return percentage_health_missing * 2
 	return 1.0		
