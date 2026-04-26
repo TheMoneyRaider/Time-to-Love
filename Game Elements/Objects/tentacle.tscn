@@ -13,7 +13,7 @@ point_count = 2
 shader = ExtResource("2_e712x")
 shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/outline_size = 1.0
-shader_parameter/alpha_threshold = 0.77999998256544
+shader_parameter/alpha_threshold = 0.5
 shader_parameter/outline_samples = 4
 shader_parameter/shade_color = Color(1, 1, 1, 0)
 shader_parameter/enabled_hole = true
@@ -46,9 +46,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -256.0
-offset_top = -384.0
+offset_top = -256.0
 offset_right = 256.0
-offset_bottom = 128.0
+offset_bottom = 256.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -61,7 +61,7 @@ render_target_update_mode = 4
 material = SubResource("ShaderMaterial_rt1qa")
 
 [node name="Line2D" type="Line2D" parent="SubViewportContainer/SubViewport/TwoToneCanvasGroup"]
-position = Vector2(263, 405)
+position = Vector2(263, 277)
 points = PackedVector2Array(-7, -21, -7, -38)
 width = 24.0
 width_curve = SubResource("Curve_qdj6u")

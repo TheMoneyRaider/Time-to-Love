@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("1_e1pt5")
-remnant_name = "Remnant of the Crafter"
+remnant_name = "Remnant of the Archmage"
 description = "Traps have a $X% chance to not deal damage to you."
 icon = ExtResource("2_q28od")
 art = ExtResource("1_fmtod")

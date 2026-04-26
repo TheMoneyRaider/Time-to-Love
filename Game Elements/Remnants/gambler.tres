@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://cp2pmk5qd1eiv"]
+
+[ext_resource type="Texture2D" uid="uid://8x2jh0iflyvt" path="res://art/remnants/gambler.png" id="1_uht33"]
+[ext_resource type="Texture2D" uid="uid://cur2b573omc66" path="res://art/remnants/gambler_icon.png" id="2_omsgd"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_02elh"]
+
+[resource]
+script = ExtResource("3_02elh")
+remnant_name = "Remnant of a Gambler"
+description = "Weapon Spread set to $X degrees. Weapon triggers increased by $Y."
+icon = ExtResource("2_omsgd")
+art = ExtResource("1_uht33")
+progress_required = 1.0
+variable_names = Array[String](["$X", "$Y"])
+variable_1_values = [270, 225, 180, 135, 90]
+variable_2_values = [1, 1, 2, 2, 3]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

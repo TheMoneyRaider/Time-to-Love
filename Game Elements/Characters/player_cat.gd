@@ -35,6 +35,7 @@ var move_speed: float
 @onready var orange_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/Basic Orange Spritesheet-export.png")
 var other_player
 var disabled = false
+var current_room : Globals.RoomType
 
 var in_combat = 0
 var time_since_last_hit = 0
@@ -92,8 +93,8 @@ func _ready():
 	_initialize_state_machine()
 	update_animation_parameters(starting_direction)
 	add_to_group("player")
-	load_settings()
-	set_weapon_dr(weapons[is_purple as int])
+	debug_menu = Globals.config.get_value("debug", "enabled", false)
+  set_weapon_dr(weapons[is_purple as int])
 	set_weapon_sprite(weapons[is_purple as int],weapon_node)
 	if is_multiplayer:
 		tether_gradient = tether_line.gradient
@@ -126,10 +127,6 @@ func update_input_device(in_dev : String):
 	input_device = in_dev
 	crosshair.player_input_device = input_device
 
-func load_settings():
-	var config = ConfigFile.new()
-	if config.load("user://settings.cfg") == OK:
-		debug_menu = config.get_value("debug", "enabled", false)
 
 func _initialize_state_machine():
 	#Define State transitions
@@ -170,137 +167,99 @@ func _draw() -> void:
 
 var debug_angles : bool = false
 func smooth_aim_assist() -> Array[Vector2]:
-
-	var enemies : Array[Node] = []
-	for child in LayerManager.room_instance.get_children():
-		if child.is_in_group("enemy"):
-			enemies.append(child)
-	var angles : Array[Vector2]= []
+	var enemies: Array[Node] = get_tree().get_nodes_in_group("enemy")
+	var angles: Array[Vector2] = []
+	var is_boss_room := current_room == Globals.RoomType.Boss
 	for enemy in enemies:
 		var band = angular_band_circle(global_position, enemy.get_node("CollisionShape2D"))
-		var ray_length = (enemy.global_position - global_position).length()
-
-		var left_ray = Vector2(cos(band.x), sin(band.x))
-		var right_ray = Vector2(cos(band.y), sin(band.y))
-
-		var ray1 = cast_ray(global_position, left_ray, ray_length, self)
-		var ray2 = cast_ray(global_position, right_ray, ray_length, self)
-
-		var left_point = ray1.position if ray1 else global_position + left_ray * ray_length
-		var right_point = ray2.position if ray2 else global_position + right_ray * ray_length
-
 		var blocked = false
-		if ray1 and ((global_position - ray1.position).length() - ray_length) < 4:
-			blocked = true
-		if ray2 and ((global_position - ray2.position).length() - ray_length) < 4:
-			blocked = true
-		if debug_angles:
-			_debug_wedges.append({
-				"from": global_position,
-				"left": left_point,
-				"right": right_point,
-				"blocked": blocked
-			})
+		if !is_boss_room:
+			var to_enemy : Vector2= enemy.global_position - global_position
+			var ray_length : float= to_enemy.length()
+			var left_ray := Vector2(cos(band.x), sin(band.x))
+			var right_ray := Vector2(cos(band.y), sin(band.y))
+
+			var ray1 := cast_ray(global_position, left_ray, ray_length, self)
+			var ray2 := cast_ray(global_position, right_ray, ray_length, self)
+
+			if ray1 and (global_position - ray1.position).length_squared() <= (ray_length + 4) * (ray_length + 4):
+				blocked = true
+			if !blocked and ray2 and (global_position - ray2.position).length_squared() <= (ray_length + 4) * (ray_length + 4):
+				blocked = true
+
+			if debug_angles:
+				_debug_wedges.append({
+					"from": global_position,
+					"left": ray1.position if ray1 else global_position + left_ray * ray_length,
+					"right": ray2.position if ray2 else global_position + right_ray * ray_length,
+					"blocked": blocked
+				})
+
 		if !blocked:
 			angles.append(band)
+
 	return angles
 
 
 func cast_ray(origin: Vector2, direction: Vector2, distance: float, player_node : Node) -> Dictionary:
-	var space = player_node.get_world_2d().direct_space_state
 	var query = PhysicsRayQueryParameters2D.create(origin, origin + direction * distance)
 	query.collide_with_areas = false
 	query.collide_with_bodies = true
 	query.collision_mask = 1 << 0
-	return space.intersect_ray(query)
+	return player_node.get_world_2d().direct_space_state.intersect_ray(query)
 
 
 func angular_band_circle(player_pos: Vector2, collision_shape: CollisionShape2D) -> Vector2:
-	var shape_pos = collision_shape.global_position
-	var to_shape = shape_pos - player_pos
-	if collision_shape.shape is CircleShape2D:
-		var radius = collision_shape.shape.radius
+	var to_shape := collision_shape.global_position - player_pos
+	var center_angle := to_shape.angle()
+	var shape := collision_shape.shape
 
-		var distance = to_shape.length()
-
-		# Handle case if player is inside the shape
-		if distance < radius:
+	if shape is CircleShape2D:
+		var distance := to_shape.length()
+		if distance < shape.radius:
 			return Vector2(-PI, PI)
-
-		# Angular half-width
-		var half_angle = asin(radius / distance)
-
-		var center_angle = to_shape.angle()
+		var half_angle := asin(shape.radius / distance)
 		return Vector2(center_angle - half_angle, center_angle + half_angle)
-	if collision_shape.shape is RectangleShape2D:
-			var extents = collision_shape.shape.extents
-			var corners = [
-				Vector2(-extents.x, -extents.y),
-				Vector2(extents.x, -extents.y),
-				Vector2(extents.x, extents.y),
-				Vector2(-extents.x, extents.y)
-			]
 
-			var angles = []
-			for corner in corners:
-				var global_corner = collision_shape.to_global(corner)
-				var dir = global_corner - player_pos
-				angles.append(dir.angle())
-
-			# Handle -π/π wrapping
-			var min_angle = angles[0]
-			var max_angle = angles[0]
-			for a in angles:
-				var diff = wrapf(a - min_angle, -PI, PI)
-				if diff < 0:
-					min_angle = a
-				diff = wrapf(a - max_angle, -PI, PI)
-				if diff > 0:
-					max_angle = a
-			return Vector2(min_angle, max_angle)
-	if collision_shape.shape is CapsuleShape2D:
-		var radius =collision_shape.shape.radius + collision_shape.shape.height/2.0
-
-		var distance = to_shape.length()
-
-		# Handle case if player is inside the shape
-		if distance < radius:
+	if shape is CapsuleShape2D:
+		# radius + half-height gives the bounding reach along the capsule's axis
+		var reach : float= shape.radius + shape.height * 0.5
+		var distance := to_shape.length()
+		if distance < reach:
 			return Vector2(-PI, PI)
-
-		# Angular half-width
-		var half_angle = asin(radius / distance)
-
-		var center_angle = to_shape.angle()
+		var half_angle := asin(reach / distance)
 		return Vector2(center_angle - half_angle, center_angle + half_angle)
-	
-	
-	
-	return Vector2(to_shape.angle(),to_shape.angle())
+
+	if shape is RectangleShape2D:
+		var extents : Vector2= shape.extents
+		var min_angle := INF
+		var max_angle := -INF
+		for corner in [
+			Vector2(-extents.x, -extents.y),
+			Vector2( extents.x, -extents.y),
+			Vector2( extents.x,  extents.y),
+			Vector2(-extents.x,  extents.y)
+		]:
+			var a := (collision_shape.to_global(corner) - player_pos).angle()
+			var diff_min := wrapf(a - min_angle, -PI, PI)
+			var diff_max := wrapf(a - max_angle, -PI, PI)
+			if diff_min < 0: min_angle = a
+			if diff_max > 0: max_angle = a
+
+		return Vector2(min_angle, max_angle)
+
+	return Vector2(center_angle, center_angle)
 
 func compute_assist_angle(player_angle: float, enemy_angles: Array, band_size: float = deg_to_rad(45)) -> float:
-	var new_angle = player_angle
+	var half_band := band_size * 0.5
+	var new_angle := player_angle
+
 	for v in enemy_angles:
-		var center = (v.x + v.y) / 2
-		var diff = circular_diff(center, new_angle)
-		if abs(diff) <= band_size/2:
-			# move along the circular difference, weighted by triangle shape
-			var t = 1.0 - abs(diff)/(band_size/2)
-			new_angle += diff * t
-			#TODO KABIR
-			#new_angle += diff * -0.5
-			new_angle = wrap_angle(new_angle)
+		var diff := wrapf(((v.x + v.y) * 0.5) - new_angle, -PI, PI)
+		if abs(diff) < half_band:
+			new_angle = wrapf(new_angle + diff * (1.0 - abs(diff) / half_band), -PI, PI)
+
 	return new_angle
-
-func circular_diff(a: float, b: float) -> float:
-	var d = a - b
-	while d > PI: d -= TAU
-	while d < -PI: d += TAU
-	return d
-
-func wrap_angle(angle: float) -> float:
-	while angle > PI: angle -= TAU
-	while angle < -PI: angle += TAU
-	return angle
 
 
 
@@ -558,6 +517,7 @@ func swap_color():
 	if LayerManager.room_instance:
 		reset_special()
 	emit_signal("swapped_color", self)
+	#LayerManager.get_node("LimboTransition/LimboTransition").play()
 	if(is_purple):
 		is_purple = false
 		_check_giant()

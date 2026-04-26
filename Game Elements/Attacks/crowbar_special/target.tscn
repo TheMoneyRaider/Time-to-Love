@@ -4,6 +4,6 @@
 
 [node name="Target" type="Sprite2D"]
 modulate = Color(1, 1, 1, 0)
-z_index = 1
+z_index = 2
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_us2y1")

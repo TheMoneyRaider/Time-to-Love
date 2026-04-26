@@ -70,6 +70,19 @@ static func create_weapon(resource_location : String, current_owner : Node2D):
 	return new_weapon
 
 func request_attacks(direction : Vector2, char_position : Vector2, node_attacking : Node, flip : int = 1):
+	#GAMBLER
+	var temp_spread = attack_spread
+	var temp_random = random_spread
+	if node_attacking.is_in_group("player"):
+		var remnants  = node_attacking.LayerManager.player_1_remnants if node_attacking.is_purple else node_attacking.LayerManager.player_2_remnants
+		var gambler = preload("res://Game Elements/Remnants/gambler.tres")
+		for rem in remnants:
+			if rem.remnant_name == gambler.remnant_name:
+				attack_spread = rem.variable_1_values[rem.rank-1]
+				random_spread = true
+				num_attacks += rem.variable_2_values[rem.rank-1]
+				
+	
 	
 	var attack_direction
 	if(!split_attacks):
@@ -99,6 +112,15 @@ func request_attacks(direction : Vector2, char_position : Vector2, node_attackin
 	else:
 		var attack_position = attack_direction * spawn_distance + char_position
 		spawn_attack(attack_direction,attack_position,node_attacking,"",flip)
+	
+	if node_attacking.is_in_group("player"):
+		var remnants  = node_attacking.LayerManager.player_1_remnants if node_attacking.is_purple else node_attacking.LayerManager.player_2_remnants
+		var gambler = preload("res://Game Elements/Remnants/gambler.tres")
+		for rem in remnants:
+			if rem.remnant_name == gambler.remnant_name:
+				attack_spread = temp_spread
+				random_spread = temp_random
+				num_attacks -= rem.variable_2_values[rem.rank-1]
 
 func spawn_attack(attack_direction : Vector2, attack_position : Vector2, node_attacking : Node = null,particle_effect : String = "", flip : int = 1, variant : bool = false):
 	if !c_owner:
@@ -210,6 +232,7 @@ func start_special(special_direction : Vector2, node_attacking : Node):
 			node_attacking.LayerManager.room_instance.add_child(setup)
 
 			special_nodes.append(setup)
+			use_normal_attack(special_direction, setup.global_position,node_attacking)
 		_ :
 			pass
 

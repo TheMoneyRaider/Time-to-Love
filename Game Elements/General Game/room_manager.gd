@@ -25,7 +25,7 @@ var layer_ai := [
 	0	#Rooms since shop room 			13
 	]
 #the root node of each room MUST BE NAMED Root
-@onready var current_progress = 0.0 #TEST 3.0
+@onready var current_progress = 3.0 #TEST 3.0
 var medieval_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/cave1.tres"),
 								preload("res://Game Elements/Rooms/resources/cave2.tres"),
 								preload("res://Game Elements/Rooms/resources/cave3.tres"),
@@ -63,18 +63,24 @@ var sci_fi_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/s
 var testing_room : Room = preload("res://Game Elements/Rooms/resources/weapon_room.tres")
 #preload("res://Game Elements/Rooms/resources/testing_room.tres")
 var bosses : Array[Room] = [preload("res://Game Elements/Rooms/resources/medieval_boss.tres"),
-	preload("res://Game Elements/Rooms/resources/scifi_boss.tres"),
 						preload("res://Game Elements/Rooms/resources/scifi_boss.tres"),
-						preload("res://Game Elements/Rooms/resources/scifi_boss.tres")
+						preload("res://Game Elements/Rooms/resources/scifi_boss.tres"),
+						preload("res://Game Elements/Rooms/resources/limbo_boss.tres")
 						]
 
 var cached_scenes : Dictionary = {}
 
-
+var replacement_enemies : Array[PackedScene] = [
+		load("res://Game Elements/Characters/tentacle1.tscn"),
+		load("res://Game Elements/Characters/tentacle2.tscn"),
+		load("res://Game Elements/Characters/tentacle3.tscn"),
+	]
 var normal_rooms : Array = []
 var shop_rooms : Array = []
 
 func get_room(room : Room):
+	if room.roomtype != Globals.RoomType.Boss:
+		return bosses[3]
 	var index = int(current_progress) if room.roomtype != Globals.RoomType.Boss else int(current_progress+1.0)
 	if index >= 3:
 		index = randi() % 3
@@ -85,11 +91,11 @@ func get_room(room : Room):
 	var base = T + (T - float(layer_ai[8]) / max(layer_ai[0],1))
 	var prob = base + P * layer_ai[13]
 	var shop_override = clamp(prob, 0.0, 1.0)
-	if shop_override > randf() and layer_ai[0] > 3 and room.roomtype != Globals.RoomType.Shop:
+	if shop_override > randf() and layer_ai[0] > 3 and room.roomtype != Globals.RoomType.Shop and current_progress < 3.0:
 		var shop_index = clamp(int(randf()*shop_rooms[index].size()),0,shop_rooms[index].size()-1)
 		return shop_rooms[index][shop_index]
 	#Removed a  +.01, don't know why that was needed.
-	if get_boss_chance() > randf():
+	if get_boss_chance() > randf() and room.roomtype != Globals.RoomType.Boss:
 		return bosses[index]
 
 	var normal_index = clamp(int(randf()*normal_rooms[index].size()),0,normal_rooms[index].size()-1)
@@ -150,10 +156,10 @@ func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerM
 				layer_ai[10] += 1   #Trap room
 				break
 	
-	current_progress = floor(current_progress)+1-exp(-0.1386*layer_ai[0])
+	current_progress = floor(current_progress)+1-exp(-0.25*layer_ai[0])
 	if generated_room_data.roomtype == Globals.RoomType.Boss:
 		current_progress = floor(current_progress)+1.0
-	#current_progress = max(3.0,current_progress)#TEST
+	current_progress = max(3.0,current_progress)#TEST
 
 func get_boss_chance() -> float:
 	if layer_ai[0] >= 13:

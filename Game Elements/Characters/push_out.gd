@@ -14,7 +14,7 @@ func _physics_process(delta):
 			do_push = false
 	if(do_push == false):
 		var dir = (last_locations[0] - global_position)
-		parent.global_position += dir * delta * push_strength * 5
+		call_deferred("delay_trigger",(dir * delta * push_strength * 5))
 	for body in bodies:
 		if body is TileMapLayer:
 			continue
@@ -30,5 +30,9 @@ func _physics_process(delta):
 		if distance > 0:
 			dir = dir.normalized()
 			# Stronger push near the center				
+			call_deferred("delay_trigger",-(dir * distance * delta * push_strength))
 			
-			parent.global_position -= dir * distance * delta * push_strength
+			
+func delay_trigger(movement : Vector2):
+	#await get_tree().process_frame
+	parent.global_position += movement

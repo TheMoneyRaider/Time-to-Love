@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cm0566hmbjgdg"
-path="res://.godot/imported/teramancer.png-b31d28c22c2a261898a20c953745fcbd.ctex"
+uid="uid://lxky0g53u5tv"
+path="res://.godot/imported/crack2.png-50b112a290329e28a24c19efb78ed086.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/remnants/teramancer.png"
-dest_files=["res://.godot/imported/teramancer.png-b31d28c22c2a261898a20c953745fcbd.ctex"]
+source_file="res://art/weapons/crowbar/crack2.png"
+dest_files=["res://.godot/imported/crack2.png-50b112a290329e28a24c19efb78ed086.ctex"]
 
 [params]
 

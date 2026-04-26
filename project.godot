@@ -28,6 +28,11 @@ window/size/viewport_height=1000
 window/stretch/mode="viewport"
 window/stretch/aspect="ignore"
 
+[editor]
+
+movie_writer/movie_file="C:/Users/Griffin/Documents/Game-Dev-Team-1/transition.ogv"
+movie_writer/disable_vsync=true
+
 [global_group]
 
 reward=""
