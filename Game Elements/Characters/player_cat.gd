@@ -94,7 +94,7 @@ func _ready():
 	update_animation_parameters(starting_direction)
 	add_to_group("player")
 	debug_menu = Globals.config.get_value("debug", "enabled", false)
-  set_weapon_dr(weapons[is_purple as int])
+	set_weapon_dr(weapons[is_purple as int])
 	set_weapon_sprite(weapons[is_purple as int],weapon_node)
 	if is_multiplayer:
 		tether_gradient = tether_line.gradient
