@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("3_djx3u")
 remnant_name = "Remnant of the Barbarian"
-description = "Deal $X% damage for $Y seconds after taking damage"
+description = "Deal $X% additional damage for $Y seconds after taking damage"
 icon = ExtResource("2_v0lw1")
 art = ExtResource("1_syxu3")
 variable_names = Array[String](["$X", "$Y"])

@@ -1,11 +1,12 @@
 extends Node2D
 @onready var timefabric = preload("res://Game Elements/Objects/time_fabric.tscn")
-@onready var reward_num : Array = [1.0,1.0,1.0,1.0,1.0,1.0]
+@onready var reward_num : Array = [2.0,1.0,1.5,1.0,1.0,1.0]
+@onready var base_reward_probabilities : Array = [2.0,1.0,1.5,1.0,1.0,1.0]
 ### Temp Multiplayer Fix
 var player1 = null
 var player2 = null
-var weapon1 = "res://Game Elements/Weapons/Railgun.tres"
-var weapon2 = "res://Game Elements/Weapons/Crowbar.tres"
+var weapon1 = "res://Game Elements/Weapons/Shotgun.tres"
+var weapon2 = "res://Game Elements/Weapons/LaserSword.tres"
 var undiscovered_weapons = []
 var possible_weapon = ""#undiscovered_weapons.pick_random()
 ###
@@ -435,8 +436,6 @@ func calculate_cell_arrays(generated_room : Node2D, generated_room_data : Room) 
 	generated_room.blocked_cells = _remove_duplicates(generated_room.blocked_cells)
 	generated_room.liquid_cells[0] = _amalgamate_liquids(generated_room.liquid_cells)
 
-
-
 func check_reward(generated_room : Node2D, _generated_room_data : Room, player_reference : Node) -> bool:
 	for node in generated_room.get_children():
 		match node.name:
@@ -453,10 +452,12 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 						return true
 					node.queue_free()
 					_open_remnant_popup()
+					base_reward_probabilities[0] *= .9
 					return true
 			"TimeFabricOrb":
 				if player_reference in node.tracked_bodies:
 					timefabric_rewarded = 200 #TODO change this to by dynamic(ish)
+					base_reward_probabilities[0] *= .8
 					return true
 			"UpgradeOrb":
 				if player_reference in node.tracked_bodies:
@@ -466,6 +467,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 						return true
 					node.queue_free()
 					_open_upgrade_popup()
+					base_reward_probabilities[0] *= .9
 					return true
 			"HealthUpgrade":
 				if player_reference in node.tracked_bodies:
@@ -476,29 +478,36 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					particle.position = node.position
 					generated_room.add_child(particle)
 					node.queue_free()
+					base_reward_probabilities[0] *= .8
 					return true
 			"Health":
 				if player_reference in node.tracked_bodies:
 					if is_multiplayer:
-						player2.change_health(player2.max_health- player2.current_health)
-					player1.change_health(player1.max_health- player1.current_health)
+						player2.change_health(player2.max_health * .75)
+					player1.change_health(player1.max_health * .75)
 					var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 					particle.position = node.position
 					generated_room.add_child(particle)
 					node.queue_free()
 					return true
-			"NewWeapon":
-				if player_reference in node.tracked_bodies:
-					player_reference.update_weapon(node.weapon_type)
-					undiscovered_weapons.erase(possible_weapon)
-					if(undiscovered_weapons.size() == 0):
-						reward_num[6] = 0.0
-						possible_weapon = ""
-					else:
-						possible_weapon = undiscovered_weapons.pick_random()
-					hud.set_cooldown_icons()
-					node.queue_free()
-					return true
+			#"NewWeapon":
+				#if player_reference in node.tracked_bodies:
+					#player_reference.update_weapon(node.weapon_type)
+					##undiscovered_weapons.erase(possible_weapon)
+					##if(undiscovered_weapons.size() == 0):
+					##	reward_num[6] = 0.0
+					##	possible_weapon = ""
+					##else:
+					##	possible_weapon = undiscovered_weapons.pick_random()
+					#hud.set_cooldown_icons()
+					#node.queue_free()
+					#return true
+		if node.is_in_group("weapon_select"):
+			if player_reference in node.tracked_bodies:
+				player_reference.update_weapon(node.weapon_type)
+				hud.set_cooldown_icons()
+				#node.queue_free()
+				return true
 		if node.is_in_group("letter"):
 			if player_reference in node.tracked_bodies:
 				node.spawn_letter()
@@ -733,20 +742,20 @@ func _choose_reward(pathway_name : String) -> void:
 				0:
 					if !RemnantManager.will_softlock(player_1_remnants,player_2_remnants,false):
 						reward_type1 = Globals.Reward.Remnant
-						reward_num[reward_value] = reward_num[reward_value]/2.0
+						reward_num[reward_value] = reward_num[reward_value] * .5
 
 				1:
 					reward_type1 = Globals.Reward.TimeFabric
-					reward_num[reward_value] = reward_num[reward_value]/2.0
+					reward_num[reward_value] = reward_num[reward_value] * .5
 
 				2:
 					if !RemnantManager.will_softlock(player_1_remnants,player_2_remnants,true):
 						if _upgradable_remnants():
 							reward_type1 = Globals.Reward.RemnantUpgrade
-							reward_num[reward_value] = reward_num[reward_value]/2.0
+							reward_num[reward_value] = reward_num[reward_value] * .5
 				3:
 					reward_type1 = Globals.Reward.HealthUpgrade
-					reward_num[reward_value] = reward_num[reward_value]/2.0
+					reward_num[reward_value] = reward_num[reward_value] * .5
 				4:
 					reward_type1 = Globals.Reward.Health
 					if is_multiplayer:
@@ -755,10 +764,10 @@ func _choose_reward(pathway_name : String) -> void:
 					elif player1.current_health == player1.max_health:
 						reward_type1 = null
 					if reward_type1!= null:
-						reward_num[reward_value] = reward_num[reward_value]/2.0
+						reward_num[reward_value] = reward_num[reward_value] * .5 #Maybe not necessary?
 				5:
 					wave = true
-					reward_num[reward_value] = reward_num[reward_value]/2.0
+					reward_num[reward_value] = reward_num[reward_value] * .5
 				#6:
 				#	reward_type1 = Globals.Reward.NewWeapon
 				#	reward_num[reward_value] = reward_num[reward_value]/2.0
@@ -1279,7 +1288,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	generated_rooms.clear()
 	generated_room_metadata.clear()
 	generated_room_conflict.clear()
-	reward_num = [1.0,1.0,1.0,1.0,1.0,1.0]
+	reward_num = base_reward_probabilities
 	
 	# Delete the current room
 	if is_instance_valid(room_instance):
@@ -1623,15 +1632,28 @@ func _debug_tiles(array_of_tiles) -> void:
 		debug.position = tile*16
 		room_instance.add_child(debug)
 
+func reward_modifier(idx : int) -> float:
+	match idx:
+		4:
+			var percentage_health_missing = 0.0
+			if is_multiplayer:
+				percentage_health_missing = ((player1.max_health - player1.current_health) + (player2.max_health - player2.current_health)) / (player1.max_health + player2.max_health)
+			else:
+				percentage_health_missing = (player1.max_health - player1.current_health) / (player1.max_health)
+			return percentage_health_missing * 2
+	return 1.0		
+	
 func calculate_reward(reward_probability : Array) -> int:
 	var total = 0.0
-	for val in reward_probability:
-		total+= val
-	var float_point = randf() * total
 	var idx=0
+	for val in reward_probability:
+		total+= val * reward_modifier(idx)
+		idx += 1
+	idx = 0
+	var float_point = randf() * total
 	var running_weight = 0.0
 	while idx < reward_probability.size():
-		running_weight+=reward_probability[idx]
+		running_weight+=reward_probability[idx] * reward_modifier(idx)
 		if running_weight >= float_point:
 			return idx
 		idx+=1
