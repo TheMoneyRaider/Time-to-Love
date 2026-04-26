@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Room" load_steps=2 format=3 uid="uid://dwkbfpck0qcjy"]
+
+[ext_resource type="Script" uid="uid://boljl4yehg187" path="res://Game Elements/Rooms/room.gd" id="1_16bdp"]
+
+[resource]
+script = ExtResource("1_16bdp")
+scene_location = "res://Game Elements/Rooms/weapon_room.tscn"
+noise_seed = null
+num_pathways = 2
+pathway_direction = Array[int]([0, 3])
+num_enemy_goal = 0
+roomtype = 4
+wave_segment = 0.0
+metadata/_custom_type_script = "uid://boljl4yehg187"

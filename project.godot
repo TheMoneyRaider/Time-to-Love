@@ -45,6 +45,7 @@ timefabric=""
 drones=""
 pathway=""
 letter=""
+weapon_select=""
 
 [input]
 

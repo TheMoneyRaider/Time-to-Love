@@ -45,6 +45,7 @@ var is_tethered = false
 var tether_gradient
 var tether_width_curve
 
+var damage_resistance : float = 0.0
 var is_multiplayer = false
 var input_device = "-1"
 var input_direction : Vector2 = Vector2.ZERO
@@ -93,6 +94,7 @@ func _ready():
 	update_animation_parameters(starting_direction)
 	add_to_group("player")
 	debug_menu = Globals.config.get_value("debug", "enabled", false)
+  set_weapon_dr(weapons[is_purple as int])
 	set_weapon_sprite(weapons[is_purple as int],weapon_node)
 	if is_multiplayer:
 		tether_gradient = tether_line.gradient
@@ -327,7 +329,7 @@ func _physics_process(delta):
 			handle_attack()
 	if Input.is_action_just_pressed("activate_" + input_device):
 		emit_signal("activate",self)
-	if Input.is_action_pressed("special_" + input_device):
+	if Input.is_action_just_pressed("special_" + input_device):
 		effects += weapons[is_purple as int].use_special(delta,false, Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
 		emit_signal("special",self)
 	elif Input.is_action_just_released("special_" + input_device):
@@ -463,6 +465,7 @@ func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0
 	if(bulwark == false || i_frames <= 0 && !invulnerable):
 		time_since_last_hit = 0
 		i_frames = attack_i_frames
+		damage_amount = damage_amount * (1 - damage_resistance)
 		damage_amount = _check_bulwark(damage_amount, _dmg_owner, bulwark)
 		if check_drones():
 			LayerManager._damage_indicator(0, _dmg_owner,_direction, attack_body,self,Color(0.0, 0.666, 0.85, 1.0))
@@ -481,6 +484,19 @@ func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0
 				emit_signal("attack_requested",revive, position, Vector2.ZERO, 0)
 		post_damage_trigger(damage_amount,_dmg_owner)
 
+func set_weapon_dr(weapon : Weapon):
+	damage_resistance = 0.0
+	match weapon.type:
+		"Mace":
+			damage_resistance = .1
+		"Laser_Sword":
+			damage_resistance = .1
+		"Crowbar":
+			damage_resistance = .1
+		"Shovel":
+			damage_resistance = .1
+	
+
 func set_weapon_sprite(weapon : Weapon, f_weapon_node : Node):
 	var w_sprite = f_weapon_node.get_node("Sprite2D")
 	w_sprite.texture = weapon.weapon_sprite
@@ -493,8 +509,9 @@ func set_weapon_sprite(weapon : Weapon, f_weapon_node : Node):
 		f_weapon_node.get_node("AnimationPlayer").play("RESET")
 	
 func reset_special():
-	var delta = get_process_delta_time()
-	effects += weapons[is_purple as int].use_special(delta, true, Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
+	#var delta = get_process_delta_time()
+	#effects += weapons[is_purple as int].use_special(delta, true, Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
+	weapons[is_purple as int].special_cleanup()
 
 func swap_color():
 	if LayerManager.room_instance:
@@ -505,6 +522,7 @@ func swap_color():
 		_check_giant()
 		sprite.texture = orange_texture
 		crosshair_sprite.texture = orange_crosshair
+		set_weapon_dr(weapons[0])
 		set_weapon_sprite(weapons[0],weapon_node)
 		tether_line.default_color = Color("Orange")
 		weapons[1].special_time_elapsed = 0.0
@@ -518,6 +536,7 @@ func swap_color():
 		_check_giant()
 		sprite.texture = purple_texture
 		crosshair_sprite.texture = purple_crosshair
+		set_weapon_dr(weapons[1])
 		set_weapon_sprite(weapons[1],weapon_node)
 		tether_line.default_color = Color("Purple")
 		weapons[0].special_time_elapsed = 0.0
@@ -548,23 +567,30 @@ func _check_giant():
 		if rem.remnant_name == giant.remnant_name:
 			orange_giant_rank = rem.rank		
 	if is_purple:
-		if(purple_giant_rank != 0 && orange_giant_rank != 0):
-			change_health(purple_giant_rank * 5 - orange_giant_rank * 5, purple_giant_rank * 5 - orange_giant_rank * 5)
-		elif(orange_giant_rank != 0):
+		#GIANT CHANGE TEST
+		var purple_max = max_health + (purple_giant_rank * 5) - (orange_giant_rank * 5)
+		var orange_max = max_health
+		change_health((-1 + purple_max / orange_max) * current_health, purple_max - orange_max)
+		#if(purple_giant_rank != 0 && orange_giant_rank != 0):
+		#	change_health(purple_max / orange_max * current_health, purple_max - orange_max)
+		if(orange_giant_rank != 0):
 			scale = scale / 1.5
-			change_health(-orange_giant_rank * 5, - orange_giant_rank * 5)
+			#change_health(-orange_giant_rank * 5, - orange_giant_rank * 5)
 		elif(purple_giant_rank != 0):
 			scale = scale * 1.5
-			change_health(purple_giant_rank * 5, purple_giant_rank * 5)
+			#change_health(purple_giant_rank * 5, purple_giant_rank * 5)
 	else:
-		if(purple_giant_rank != 0 && orange_giant_rank != 0):
-			change_health(orange_giant_rank * 5 - purple_giant_rank * 5, orange_giant_rank * 5 - purple_giant_rank * 5)
-		elif(purple_giant_rank != 0):
+		var purple_max = max_health 
+		var orange_max = max_health - (purple_giant_rank * 5) + (orange_giant_rank * 5)
+		change_health((-1 + orange_max / purple_max) * current_health, orange_max - purple_max)
+		#if(purple_giant_rank != 0 && orange_giant_rank != 0):
+		#	change_health(orange_giant_rank * 5 - purple_giant_rank * 5, orange_giant_rank * 5 - purple_giant_rank * 5)
+		if(purple_giant_rank != 0):
 			scale = scale / 1.5
-			change_health(-purple_giant_rank * 5, - purple_giant_rank * 5)
+			#change_health(-purple_giant_rank * 5, - purple_giant_rank * 5)
 		elif(orange_giant_rank != 0):
 			scale = scale * 1.5
-			change_health(orange_giant_rank * 5, orange_giant_rank * 5)
+			#change_health(orange_giant_rank * 5, orange_giant_rank * 5)
 	
 
 func tether(delta : float):
@@ -580,6 +606,21 @@ func tether(delta : float):
 			update_animation_parameters(direct)
 	if !Input.is_action_pressed("swap_" + input_device):
 		single_toggle = false
+	if Input.is_action_just_released("swap_" + input_device):
+		if(!is_multiplayer and single_swap_duration <= .15 and single_swap_duration != 0):
+			swap_color()
+			single_toggle = true
+			if !is_multiplayer:
+				other_player.disable()
+			if tether_line.visible == true:
+				tether_line.visible = false
+				is_tethered = false
+			if(abs(tether_momentum.length_squared()) <  .1):
+				tether_momentum = Vector2.ZERO
+			else:
+				tether_momentum *= .92
+			single_swap_duration = 0.0
+		print(single_swap_duration)
 	if !single_toggle and Input.is_action_pressed("swap_" + input_device) and (is_multiplayer or (global_position-other_player.global_position).length() >=6 or single_swap_duration <.25):
 		if single_swap_duration+delta >=.25 and single_swap_duration <.25:
 			is_tethered = true
@@ -862,6 +903,7 @@ func set_weapon(purple : bool, resource_loc : String):
 func update_weapon(resource_name : String):
 	var resource_loc = "res://Game Elements/Weapons/" + resource_name + ".tres"
 	weapons[is_purple as int] = Weapon.create_weapon(resource_loc,self)
+	set_weapon_dr(weapons[is_purple as int])
 	set_weapon_sprite(weapons[is_purple as int],weapon_node)
 	
 

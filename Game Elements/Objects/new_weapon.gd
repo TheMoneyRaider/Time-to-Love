@@ -2,7 +2,7 @@ extends Area2D
 
 @export var interact_key := "activate"
 @onready var prompt1 := $Prompt1
-var weapon_type = ""
+@export var weapon_type = ""
 var tracked_bodies: Array = []
 var cost : int = 0
 var enabled : bool = true
@@ -17,7 +17,15 @@ func set_cost(in_cost : int):
 func _ready():
 	prompt1.visible = false
 	var weapon_resource = load("res://Game Elements/Weapons/" + weapon_type + ".tres")
-	$Image.texture = weapon_resource.weapon_sprite
+	var sprite = weapon_resource.weapon_sprite
+	if weapon_type == "Railgun":
+		var atlas = AtlasTexture.new()
+		atlas.atlas = sprite
+		atlas.region = Rect2(0, 0, 16, 48)  # x, y, width, height of the first frame
+		$Image.texture = atlas
+		scale = scale * .75
+	else:
+		$Image.texture = sprite
 	self.connect("body_entered", Callable(self, "_on_body_entered"))
 	self.connect("body_exited", Callable(self, "_on_body_exited"))
 	if cost!= 0:
