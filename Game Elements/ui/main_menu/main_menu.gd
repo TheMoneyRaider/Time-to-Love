@@ -5,8 +5,9 @@ func _ready() -> void:
 	var err = config.load("user://settings.cfg")
 	
 	if err == OK:
-		var volume = config.get_value("audio", "master")
+		var volume = config.get_value("audio", "master", 0)
 		var bus_index = AudioServer.get_bus_index("Master")
+		print(volume)
 		AudioServer.set_bus_volume_db(bus_index, volume)
 
 func _on_start_button_pressed() -> void:

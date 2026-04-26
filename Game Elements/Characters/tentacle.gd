@@ -136,14 +136,14 @@ func _ready() -> void:
 		get_parent().hitable = false
 		return
 	tentacle_display.modulate.a = 0.0
+	var L = 32
+	var X = 48
+	length = randf() * X + L
+	tentacle.max_length = length
+	tentacle.num__segments = int(length / 10)
+	tentacle._initialize_segments()
 	grow()
 	if is_purple:
-		var L = 32
-		var X = 48
-		length = randf() * X + L
-		tentacle.max_length = length
-		tentacle.num__segments = int(length / 10)
-		tentacle._initialize_segments()
 		tentacle.set_length_scale(0.1)
 		# Fade in
 		var fade_tween = create_tween()
@@ -189,21 +189,14 @@ func shrink():
 		board.set_var("attack_status","DONE")
 		
 var cooldown : float = 0.0
+var has_grown : bool = false
 func grow():
 	cooldown = randf() * 3.0 +2.0
 	if is_purple:
 		return
-	var L = 32
-	var X = 48
-	length = randf() * X + L
-	tentacle.max_length = length
-	tentacle.num__segments = int(length / 10)
-
 	target.position = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized() * length * 2.0
 	target.origin = target.global_position
 	Tween_Target.position = target.position
-
-	tentacle._initialize_segments()
 	tentacle.set_length_scale(0.1)
 	# Fade in
 	var fade_tween = create_tween()

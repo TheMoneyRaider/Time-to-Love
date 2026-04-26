@@ -428,6 +428,10 @@ func move_to_pathway():
 
 func kill_enemies():
 	var LayerManager =  get_parent()
+	if LayerManager.room_instance_data.roomtype==Globals.RoomType.Boss and RoomManager.current_progress >=3.0:
+		for tent in LayerManager.room_instance.get_node("Shop/Tentacles").get_children():
+			tent.queue_free()
+		return
 	for node in LayerManager.room_instance.get_children():
 		if node.is_in_group("enemy"):
 			node.current_health = -1.0
@@ -545,6 +549,8 @@ func hide_boss_bar():
 
 func update_bossbar(prog : float):
 	$RootControl/VBoxContainer/BossBar/Overlay.material.set_shader_parameter("progress",prog)
+func update_bossbar2(prog : float):
+	$RootControl/VBoxContainer/BossBar/Overlay.material.set_shader_parameter("progress2",prog)
 
 func show_boss_bar(underlay : Texture2D = null,overlay : Texture2D = null, boss_string : String = "", settings : LabelSettings = null,index : int = -1, prog : float = 1.0):
 	var bossbar = $RootControl/VBoxContainer/BossBar
