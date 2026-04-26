@@ -30,10 +30,17 @@ var UI: UIState = UIState.new()
 @onready var prev_state = null
 var paused : bool = true
 
+var songs = [
+	preload("res://Game Elements/Music/western.wav"),
+	preload("res://Game Elements/Music/sci-fi.wav"),
+	preload("res://Game Elements/Music/medieval.wav")
+]
+
 func _ready():
 	if Globals.cinematic_viewed:
 		paused = false
 		$Intro.visible = false
+		start_menu_music()
 	else:
 		$Intro/AnimationPlayer.play("main")
 	Title.texture = title_textures[Globals.menu]
@@ -90,7 +97,13 @@ func _begin_explosion_cooldown():
 
 			
 
-
+func start_menu_music():
+	$AudioStreamPlayer.stream = songs[Globals.menu]
+	$AudioStreamPlayer.volume_db = -80.0
+	$AudioStreamPlayer.play()
+	var tween = create_tween()
+	tween.tween_property($AudioStreamPlayer, "volume_db", 0.0, 6.0)
+	
 func _process(delta):
 	$ColorRect.material.set_shader_parameter("time", $ColorRect.material.get_shader_parameter("time")+delta)
 	if paused:
@@ -101,6 +114,7 @@ func _process(delta):
 			$Intro/AnimationPlayer.stop()
 			Globals.cinematic_viewed = true
 			paused=false
+			start_menu_music()
 	if !fragmenting:
 		return
 	if Globals.player1_input:
@@ -191,6 +205,7 @@ func _input(event):
 			if get_node("Intro"):
 				$Intro.visible = false
 				$Intro/AnimationPlayer.stop()
+				start_menu_music()
 			Globals.cinematic_viewed = true
 			paused=false
 		return
