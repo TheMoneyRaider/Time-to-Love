@@ -99,6 +99,7 @@ func _process(delta):
 		else:
 			$Intro.visible = false
 			$Intro/AnimationPlayer.stop()
+			$Intro/AudioStreamPlayer.stop()
 			Globals.cinematic_viewed = true
 			paused=false
 	if !fragmenting:
@@ -191,6 +192,7 @@ func _input(event):
 			if get_node("Intro"):
 				$Intro.visible = false
 				$Intro/AnimationPlayer.stop()
+				$Intro/AudioStreamPlayer.stop()
 			Globals.cinematic_viewed = true
 			paused=false
 		return
