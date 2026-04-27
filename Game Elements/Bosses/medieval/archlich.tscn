@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://duc06hbrv3lwj"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_q5hl3"]
-[ext_resource type="PackedScene" uid="uid://xvgc7jxjo4ip" path="res://Game Elements/Attacks/bolt.tscn" id="2_5dlb8"]
+[ext_resource type="PackedScene" uid="uid://cu73mawav6818" path="res://Game Elements/Attacks/magic_bolt.tscn" id="2_gtjjd"]
 [ext_resource type="Texture2D" uid="uid://djg54tsh7xiow" path="res://art/characters/lich/wizard_less_fire-export.png" id="4_jercr"]
 [ext_resource type="BehaviorTree" uid="uid://cvov2hu7nu1qy" path="res://ai/trees/archlich.tres" id="5_mov0j"]
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="6_05idx"]
@@ -153,7 +153,7 @@ move_speed = 60.0
 is_boss = true
 boss_phases = 1
 boss_healthpools = Array[float]([100.0])
-attacks = [ExtResource("2_5dlb8")]
+attacks = [ExtResource("2_gtjjd")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 y_sort_enabled = true
