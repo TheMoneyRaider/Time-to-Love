@@ -113,11 +113,11 @@ func lich_signal(sig :String, value1, value2, value3, value4):
 								child.attacks[0] = attack_scene
 							skel_type.YELLOW:
 								child.modulate = Color("Yellow")
-								child.move_speed = 200.0
+								child.move_speed = 250.0
 							skel_type.BLUE:
 								child.modulate = Color("Blue")
-								child.max_health = 10
-								child.current_health = 10
+								child.max_health = 12
+								child.current_health = 12
 							skel_type.PURPLE:
 								child.modulate = Color("Purple")
 								child.purple_explode = true

@@ -467,25 +467,24 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 			"Crossbow":
 				if(special_time_elapsed >= 3.0):
 					damage += (special_start_damage / 2)
-				if(special_time_elapsed >= 1.0):
 					
-					node_attacking.player_special_reset()
-					pierce = pierce + 2
-					scale = scale * 1.2
-					speed = speed - 100
-					var temp_attack_scene = attack_scene
-					attack_scene = "res://Game Elements/Attacks/giant_bolt.tscn"
-					spawn_attack(special_direction,special_position, node_attacking,"burn_particles")
-					current_special_hits = 0
-					scale = scale / 1.2
-					speed = speed + 100
-					damage = special_start_damage
-					attack_scene = temp_attack_scene
-					pierce = pierce - 2
-					if node_attacking.weapons[0] == self:
-						node_attacking.emit_signal("special_changed",false,0.0)
-					else:
-						node_attacking.emit_signal("special_changed",true,0.0)
+				node_attacking.player_special_reset()
+				pierce = pierce + 2
+				scale = scale * 1.2
+				speed = speed - 100
+				var temp_attack_scene = attack_scene
+				attack_scene = "res://Game Elements/Attacks/giant_bolt.tscn"
+				spawn_attack(special_direction,special_position, node_attacking,"burn_particles")
+				current_special_hits = 0
+				scale = scale / 1.2
+				speed = speed + 100
+				damage = special_start_damage
+				attack_scene = temp_attack_scene
+				pierce = pierce - 2
+				if node_attacking.weapons[0] == self:
+					node_attacking.emit_signal("special_changed",false,0.0)
+				else:
+					node_attacking.emit_signal("special_changed",true,0.0)
 			"Railgun":
 				node_attacking.create_tween().tween_property(node_attacking.weapon_node.get_node("Sprite2D"),"modulate",Color(1.0, 1.0, 1.0, 1.0),1.0)
 				if(special_time_elapsed > 1.0):
