@@ -34,7 +34,7 @@ var animation : String = ""
 func _ready() -> void:
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	is_multiplayer = Globals.is_multiplayer
-	#boss.enemy_took_damage.connect(LayerManager._on_enemy_take_damage)
+	boss.enemy_took_damage.connect(LayerManager._on_enemy_take_damage)
 			
 	
 
@@ -82,7 +82,6 @@ func get_cells_in_radius(center : Vector2, radius : float):
 	return spawn_cells
 
 func lich_signal(sig :String, value1, value2, value3, value4):
-	print("sig called")
 	match sig:
 		"spawn_enemies":
 			var attack_instance = load("res://Game Elements/Attacks/summoning_circle.tscn").instantiate()

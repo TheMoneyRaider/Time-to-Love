@@ -1696,10 +1696,6 @@ func _remnant_of_hospital_heal(player:Node, remnants) -> void:
 			break
 
 func dev_remnants():
-	var rem = load("res://Game Elements/Remnants/gambler.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
 	#rem = load("res://Game Elements/Remnants/thorns.tres")
 	#rem.rank = 5
 	#player_1_remnants.append(rem.duplicate(true))

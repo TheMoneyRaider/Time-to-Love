@@ -176,7 +176,6 @@ func _process(delta):
 		i_frames -= 1
 	for i in range(weapon_cooldowns.size()):
 		weapon_cooldowns[i]-=delta
-		
 	#Trap stuff
 	check_traps(delta)
 	
@@ -222,6 +221,15 @@ func _robot_process():
 			offset += 5
 	$RobotBrain.set_frame(block + offset)
 
+func damage_flash() -> void:
+	if(has_node("Sprite2D")):
+		if(has_node("AnimationPlayer")):
+			if($AnimationPlayer.has_animation("hit")):
+				$AnimationPlayer.play("hit")
+				return
+		$Sprite2D.self_modulate = Color(1.0, 0.378, 0.31, 1.0)
+		await get_tree().create_timer(.20).timeout		
+		$Sprite2D.self_modulate = Color(1.0, 1.0, 1.0)
 
 func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0,creates_indicators : bool = true, unstoppable : bool = false):
 
@@ -238,6 +246,7 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 		$Core.damage_glyphs()
 	if current_health >= 0.0 and display_damage and creates_indicators:
 		LayerManager._damage_indicator(damage, dmg_owner,direction, attack_body,self)
+		damage_flash()
 	if dmg_owner != null:
 		last_hitter = dmg_owner
 		if dmg_owner.is_in_group("player"):
