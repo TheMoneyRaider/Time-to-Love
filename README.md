@@ -21,8 +21,9 @@ Ryan Shepard
 Zachary Etterson
 ## Art Team
 Gabrielle Sterbank  
-Emily Zach's roommate  
-Ally Zach's coworker
+Emily Brown
+Lana ???
+Sophia Annikin
 ## Story Team
 Bella La Boy  
 Duncan Paris
