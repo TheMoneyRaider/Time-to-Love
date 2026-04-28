@@ -6,7 +6,7 @@ extends CanvasLayer
 @export var longterm_fps : float = 8.0
 @export var min_shader_intensity = 0.1
 @export	var max_shader_intensity = 1.25
-@export	var longterm_buffer_size := 10000
+@export	var longterm_buffer_size := 128
 
 var initial_replay_fps = 12
 
@@ -115,6 +115,7 @@ func _on_replay_pressed():
 	play_replay_reverse()
 
 func play_replay_reverse():
+	var reusable_texture := ImageTexture.new()
 	#Variables
 	var elapsed = 0.0
 	var recent_len = recent_buffer.size()
@@ -140,7 +141,8 @@ func play_replay_reverse():
 			idx = min(longterm_len,floori(idx))
 			print("got frame %f from the longterm buffer" % idx)
 			idx = longterm_len - idx
-			replay_texture.texture = ImageTexture.create_from_image(longterm_buffer[idx])
+			reusable_texture.set_image(longterm_buffer[idx])
+			replay_texture.texture = reusable_texture	
 			if cur_fps < longterm_fps:
 				cur_fps = longterm_fps
 		else:
@@ -149,9 +151,10 @@ func play_replay_reverse():
 			idx = recent_len - idx
 			if longterm_len > 8 or idx > 3:
 				print("got frame %f from the recent buffer, %f" % [idx, portion])
-				replay_texture.texture = ImageTexture.create_from_image(recent_buffer[idx])
+				reusable_texture.set_image(recent_buffer[idx])
 			else:
-				replay_texture.texture = ImageTexture.create_from_image(final_frame)
+				reusable_texture.set_image(final_frame)
+			replay_texture.texture = reusable_texture	
 			if cur_fps < recent_fps:
 				cur_fps = recent_fps
 		
@@ -182,6 +185,7 @@ func end_replay():
 	var overlay = preload("res://Game Elements/ui/transition_texture.tscn").instantiate()
 	overlay.get_node("TextureRect").texture = ImageTexture.create_from_image(final_frame)
 	overlay.get_properties(replay_texture)
+	final_frame = null
 	get_tree().get_root().add_child(overlay)
 	get_tree().paused = false
 	# Load the next scene deferred, the overlay keeps the last frame visible
