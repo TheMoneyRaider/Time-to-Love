@@ -1,6 +1,7 @@
 [gd_resource type="BehaviorTree" load_steps=36 format=3 uid="uid://dl0t1gf8o8xok"]
 
 [ext_resource type="Script" uid="uid://7jhqrxgbl3q" path="res://ai/tasks/adjustTargetPos.gd" id="1_wtpi0"]
+[ext_resource type="Script" uid="uid://clsympdov604o" path="res://ai/tasks/checkAgro.gd" id="2_y227b"]
 [ext_resource type="Script" uid="uid://yu3fkdlxtfbv" path="res://ai/tasks/calcPath.gd" id="3_hnhrx"]
 [ext_resource type="Script" uid="uid://dko7uh5a2dm00" path="res://ai/tasks/moveToPos.gd" id="4_gohqa"]
 [ext_resource type="Script" uid="uid://c0bvdm1o3wjaq" path="res://ai/tasks/random_cooldown.gd" id="6_dhfyg"]
@@ -44,31 +45,19 @@ var/player_idx/hint_string = ""
 [sub_resource type="BTAction" id="BTAction_76wjc"]
 custom_name = "AdjustedPlayerPos"
 script = ExtResource("1_wtpi0")
+dist_to_player = 160.0
+
+[sub_resource type="BTAction" id="BTAction_wtpi0"]
+script = ExtResource("2_y227b")
 
 [sub_resource type="BTSequence" id="BTSequence_4evon"]
 custom_name = "Constants"
-children = [SubResource("BTAction_76wjc")]
+children = [SubResource("BTAction_76wjc"), SubResource("BTAction_wtpi0")]
 
 [sub_resource type="BTAction" id="BTAction_n3kfh"]
 custom_name = "Check if Close Enough"
 script = ExtResource("7_fwus7")
 hit_range = 96
-
-[sub_resource type="BTAction" id="BTAction_wtpi0"]
-script = ExtResource("3_hnhrx")
-
-[sub_resource type="BTAction" id="BTAction_y227b"]
-script = ExtResource("4_gohqa")
-
-[sub_resource type="BTAction" id="BTAction_hnhrx"]
-script = ExtResource("6_dhfyg")
-min_time = 0.5
-max_time = 2.0
-
-[sub_resource type="BTAction" id="BTAction_gohqa"]
-custom_name = "OuterRange"
-script = ExtResource("7_fwus7")
-hit_range = 64
 
 [sub_resource type="BTAction" id="BTAction_uyool"]
 custom_name = "MoveToPlayer"
@@ -79,25 +68,31 @@ custom_name = "InnerRange"
 script = ExtResource("7_fwus7")
 hit_range = 48
 
+[sub_resource type="BTAction" id="BTAction_hnhrx"]
+script = ExtResource("6_dhfyg")
+min_time = 0.5
+max_time = 2.0
+
 [sub_resource type="BTAction" id="BTAction_mucp1"]
 script = ExtResource("9_vdd1i")
 attack_index = 1
 
-[sub_resource type="BTDelay" id="BTDelay_haapa"]
-seconds = 0.2
-children = [SubResource("BTAction_mucp1")]
-
 [sub_resource type="BTSequence" id="BTSequence_cj585"]
 custom_name = "Attack if in Range"
-children = [SubResource("BTAction_hnhrx"), SubResource("BTAction_gohqa"), SubResource("BTAction_uyool"), SubResource("BTAction_dhfyg"), SubResource("BTDelay_haapa")]
+children = [SubResource("BTAction_hnhrx"), SubResource("BTAction_mucp1")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_okg5b"]
 duration = 1.0
 children = [SubResource("BTSequence_cj585")]
 
+[sub_resource type="BTAlwaysSucceed" id="BTAlwaysSucceed_n3kfh"]
+
+[sub_resource type="BTSelector" id="BTSelector_wtpi0"]
+children = [SubResource("BTCooldown_okg5b"), SubResource("BTAlwaysSucceed_n3kfh")]
+
 [sub_resource type="BTSequence" id="BTSequence_aw6cb"]
 custom_name = "Melee Attack"
-children = [SubResource("BTAction_n3kfh"), SubResource("BTAction_wtpi0"), SubResource("BTAction_y227b"), SubResource("BTCooldown_okg5b")]
+children = [SubResource("BTAction_n3kfh"), SubResource("BTAction_uyool"), SubResource("BTAction_dhfyg"), SubResource("BTSelector_wtpi0")]
 
 [sub_resource type="BTAction" id="BTAction_xsft4"]
 script = ExtResource("3_hnhrx")

@@ -72,7 +72,7 @@ func handle_attack(target_position: Vector2,attack_index: int = 0):
 				attack_position = get_node("Attack_Point").global_position+attack_direction*16.0
 				attack_direction = (target_position - attack_position).normalized()
 		if attack_index == 1:
-			attack_position = global_position+attack_direction*32.0
+			attack_position = global_position+attack_direction*48.0
 		request_attack(attacks[attack_index], attack_position, attack_direction)
 		return
 		
