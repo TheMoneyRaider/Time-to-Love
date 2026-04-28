@@ -31,7 +31,7 @@ var attracted = false
 var lifetime = 5.0
 var flash_timer = 0.0
 
-signal absorbed_by_player(timefabric : Node)
+signal absorbed_by_player(player : Node, timefabric : Node)
 
 func _ready() -> void:
 	randomize()
@@ -60,7 +60,7 @@ func _process(delta: float) -> void:
 		
 	if not grounded:
 		# Rotate sprite while in air
-		sprite.rotation += deg_to_rad(rotation_speed * delta)
+		#sprite.rotation += deg_to_rad(rotation_speed * delta)
 
 		# Wall collision
 		_check_if_hitting_wall(delta)
@@ -98,9 +98,7 @@ func flash_expire(delta : float, max_lifetime: float) -> void:
 		flash_timer = 0.0
 	
 	var flash = (flash_timer < flash_interval * 0.5)
-	print(flash_interval)
 	sprite.self_modulate = Color.WHITE if flash else Color(0.393, 0.393, 0.393, 1.0)
-
 
 func in_liquid(delta):
 	var cell := Vector2i(floor((position.x)/16), floor(position.y/16))
@@ -160,13 +158,13 @@ func move_towards_player():
 func check_player(player : Node):
 	var dir = (player.position - position)
 	var distance = dir.length()
-	var attraction_radius = 60.0
+	var attraction_radius = 30.0
 	if distance < attraction_radius or attracted:
-		var new_vel = dir.normalized() * (100.0 + abs(attraction_radius - distance) * 5.0)
+		var new_vel = dir.normalized() * (50.0 + abs(attraction_radius - distance) * 2.5)
 		velocity = Vector3(new_vel.x, new_vel.y, 0)
 		attracted = true
 	if distance < 5:
-		emit_signal("absorbed_by_player", self)
+		emit_signal("absorbed_by_player", player, self)
 
 func set_arrays(layer_manager : Node) -> void:
 	liquid_cells = layer_manager.liquid_cells

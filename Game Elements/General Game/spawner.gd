@@ -287,7 +287,9 @@ static func _spawn_enemy(cell: Vector2i, scene: Node, enemy: PackedScene, layer_
 	if layer_manager.room_instance_data.roomtype == Globals.RoomType.Boss:
 		await inst.get_tree().process_frame
 		await inst.get_tree().process_frame
-		if inst.get_node_or_null("BTPlayer") == null:
+		if !inst:
+			return
+		if inst.call_deferred("get_node_or_null","BTPlayer") == null:
 			return
 		var board = inst.get_node("BTPlayer").blackboard
 		var positions = board.get_var("player_positions")

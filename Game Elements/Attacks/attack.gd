@@ -103,6 +103,8 @@ func _ready():
 			$Sprite2D.texture = load("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_orange.png")
 	if attack_type!="scifi_laser":
 		rotation = direction.angle() + PI/2
+	if attack_type=="magic_bolt":
+		rotation = direction.angle()
 	if attack_type == "explosion" or attack_type=="tentacle":
 		rotation = 0
 	if attack_type == "slug":

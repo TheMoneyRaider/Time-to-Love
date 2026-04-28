@@ -7,10 +7,11 @@
 [resource]
 script = ExtResource("3_grgpq")
 remnant_name = "Remnant of the Healer"
-description = "At the start of each room gain $X max health"
+description = "At the start of each room gain $Z max health"
 icon = ExtResource("2_6pry1")
 art = ExtResource("1_pwamh")
 progress_required = 1.0
-variable_names = Array[String](["$X"])
+variable_names = Array[String](["$X", "$Z"])
 variable_1_values = [1, 2, 3, 4, 5]
+variable_2_values = [10, 20, 30, 40, 50]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

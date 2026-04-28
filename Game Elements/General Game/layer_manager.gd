@@ -1,5 +1,6 @@
 extends Node2D
 @onready var timefabric = preload("res://Game Elements/Objects/time_fabric.tscn")
+@onready var health_pickup = preload("res://Game Elements/Objects/health_pickup.tscn")
 @onready var reward_num : Array = [2.0,1.0,1.5,1.0,1.0,1.0]
 @onready var base_reward_probabilities : Array = [2.0,1.0,1.5,1.0,1.0,1.0]
 ### Temp Multiplayer Fix
@@ -914,6 +915,16 @@ func _sprite_to_timefabric(sprite : Node,direction : Vector2, amount_range : Vec
 		else:
 			_place_timefabric(fabric[0],fabric[1],current_position,direction)
 
+func _place_health_up(offset : Vector2i, current_position : Vector2, direction : Vector2) -> void:
+	var health_instance = health_pickup.instantiate()
+	room_instance.add_child(health_instance)
+	health_instance.global_position = current_position + Vector2(offset) +Vector2(8,8)
+	health_instance.set_arrays(self)
+	health_instance.set_direction(direction)
+	health_instance.set_process(true)
+	health_instance.absorbed_by_player.connect(_on_healthpickup_absorbed)
+	return
+
 func _place_timefabric(time_idx : int, offset : Vector2i, current_position : Vector2, direction : Vector2) -> void:
 	var timefabric_instance = timefabric.instantiate()
 	room_instance.add_child(timefabric_instance)
@@ -1508,6 +1519,15 @@ func _on_enemy_take_damage(damage : float,current_health : int,enemy : Node, dir
 			attack_instance.global_position = enemy.global_position
 			room_instance.call_deferred("add_child",attack_instance)
 		enemy.clear_effects()
+		var health_chance = randf()
+		var percentage_health_missing
+		if(enemy.max_timefabric != 0):
+			if is_multiplayer:
+				percentage_health_missing = ((player1.max_health - player1.current_health) + (player2.max_health - player2.current_health)) / (player1.max_health + player2.max_health)
+			else:
+				percentage_health_missing = (player1.max_health - player1.current_health) / (player1.max_health)
+			if(100 * health_chance <= (percentage_health_missing * 4)):
+				_place_health_up(Vector2i.ZERO,enemy.global_position,direction)
 		_enemy_to_timefabric(enemy,direction,Vector2(enemy.min_timefabric,enemy.max_timefabric))
 		enemy.visible=false
 		enemy.queue_free()
@@ -1593,6 +1613,13 @@ func _on_remnant_upgraded(remnant1 : Resource, remnant2 : Resource):
 	if Globals.is_multiplayer:
 		player2.display_combo()
 		
+
+func _on_healthpickup_absorbed(player_node : Node, health_node : Node):
+	var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+	particle.global_position = player_node.global_position
+	room_instance.add_child(particle)
+	player_node.change_health(2)
+	health_node.queue_free()
 
 func _on_timefabric_absorbed(timefabric_node : Node):
 	timefabric_collected+=1
@@ -1696,10 +1723,6 @@ func _remnant_of_hospital_heal(player:Node, remnants) -> void:
 			break
 
 func dev_remnants():
-	var rem = load("res://Game Elements/Remnants/gambler.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
 	#rem = load("res://Game Elements/Remnants/thorns.tres")
 	#rem.rank = 5
 	#player_1_remnants.append(rem.duplicate(true))
