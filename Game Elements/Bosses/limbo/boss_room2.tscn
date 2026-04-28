@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://d3e2fks1miba5"]
+[gd_scene load_steps=15 format=4 uid="uid://d3e2fks1miba5"]
 
 [ext_resource type="Script" uid="uid://bhm7xgaa8bbcs" path="res://Game Elements/Bosses/limbo/boss_room_2.gd" id="1_1w61e"]
 [ext_resource type="Shader" uid="uid://djb6fots67ufy" path="res://Game Elements/Rooms/sci_fi/glitch_liquid.gdshader" id="1_ovdh3"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://cjhuioedmefx8" path="res://Game Elements/Bosses/limbo/rock.gd" id="5_1w61e"]
 [ext_resource type="Shader" uid="uid://38vxobsuweed" path="res://Game Elements/General Game/limbo/limbo_effect.gdshader" id="5_qs7x3"]
 [ext_resource type="Texture2D" uid="uid://n0bko3km56nl" path="res://Game Elements/General Game/limbo/limbo_noise.tres" id="6_muauc"]
+[ext_resource type="PackedScene" uid="uid://qws83iandf8h" path="res://Game Elements/Bosses/limbo/vision_p2.tscn" id="10_ynmca"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_muauc"]
 font_size = 64
@@ -54,12 +55,13 @@ shader_parameter/fog_density = 1.0
 shader_parameter/fog_height = 0.6900000802749999
 shader_parameter/fog_softness = 0.94600004423648
 
-[node name="BossRoom2" type="Node2D" node_paths=PackedStringArray("rocks")]
+[node name="BossRoom2" type="Node2D" node_paths=PackedStringArray("boss", "rocks")]
 script = ExtResource("1_1w61e")
 healthbar_underlays = Array[Texture2D]([ExtResource("2_muauc")])
 healthbar_overlays = Array[Texture2D]([ExtResource("3_ynmca")])
 boss_names = Array[String](["Vision of True Majesty"])
 boss_name_settings = Array[LabelSettings]([SubResource("LabelSettings_muauc")])
+boss = NodePath("Vision")
 phase_overlay_index = Array[int]([11])
 rocks = [NodePath("Island1"), NodePath("Island2"), NodePath("Island3"), NodePath("Island4"), NodePath("Island5")]
 
@@ -153,7 +155,7 @@ material = SubResource("ShaderMaterial_ynmca")
 tile_set = ExtResource("3_54x08")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-z_index = 30
+z_index = 35
 material = SubResource("ShaderMaterial_muauc")
 offset_left = -1707.0
 offset_top = -862.0
@@ -161,7 +163,12 @@ offset_right = 1736.0
 offset_bottom = 1047.0
 
 [node name="Area2D" type="StaticBody2D" parent="."]
+collision_layer = 64
+collision_mask = 64
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="Area2D"]
 build_mode = 1
 polygon = PackedVector2Array(-74, -311, 15, -307, 30, -291, 63, -288, 82, -275, 94, -274, 111, -257, 125, -256, 136, -250, 147, -243, 162, -242, 236, -169, 237, -148, 280, -107, 284, -95, 285, -66, 300, -52, 305, -35, 314, -24, 311, 132, 296, 143, 293, 212, 283, 216, 280, 242, 207, 246, 205, 262, 187, 264, 180, 276, 169, 281, 163, 293, 13, 291, 3, 277, -35, 274, -45, 261, -85, 260, -94, 244, -195, 244, -201, 214, -225, 211, -238, 197, -291, 197, -299, 180, -323, 180, -331, 165, -355, 164, -361, 136, -388, 133, -391, 90, -406, 88, -407, -27, -397, -36, -397, -55, -386, -68, -384, -102, -313, -175, -303, -181, -288, -177, -238, -232, -224, -244, -207, -243, -189, -270, -235, -302, -301, -242, -400, -170, -470, -24, -447, 171, -294, 278, 31, 356, 228, 312, 342, 218, 368, 85, 385, 6, 312, -106, 197, -236, 141, -277, 81, -317, -100, -345, -235, -302, -189, -270, -157, -269, -157, -286, -140, -292, -100, -290, -94, -304)
+
+[node name="Vision" parent="." instance=ExtResource("10_ynmca")]
+position = Vector2(-36, -130)

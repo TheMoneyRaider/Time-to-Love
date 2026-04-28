@@ -1904,6 +1904,8 @@ func move_to_limbo_phase_2():
 	var next_room = load("res://Game Elements/Bosses/limbo/boss_room2.tscn").instantiate()
 	game_root.add_child(next_room)
 
+	var boss= next_room.boss
+	boss.process_mode = Node.PROCESS_MODE_DISABLED
 	# Delete all other generated rooms
 	for key in generated_rooms.keys():
 		if is_instance_valid(generated_rooms[key]):
@@ -1950,3 +1952,6 @@ func move_to_limbo_phase_2():
 	
 	if is_multiplayer:
 		player2.disabled = false
+	
+	await get_tree().create_timer(3.0, false).timeout
+	boss.process_mode = Node.PROCESS_MODE_PAUSABLE

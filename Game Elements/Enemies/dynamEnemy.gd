@@ -59,14 +59,24 @@ func _input(event):
 	if debug_menu and event.is_action_pressed("display_paths"):
 		display_pathways = !display_pathways
 
-func handle_attack(target_position: Vector2):
-	var attack_direction = (target_position - global_position).normalized()
-	var attack_position = attack_direction * 0		 + global_position
+func handle_attack(target_position: Vector2,attack_index: int = 0):
+	var attack_position = global_position
+	var attack_direction = (target_position - attack_position).normalized()
 	if enemy_type=="robot":
 		if self and !self.is_queued_for_deletion():
 			weapon.request_attacks(attack_direction,global_position,self)
 		return
-	request_attack(attacks[0], attack_position, attack_direction)
+	if enemy_type=="vision":
+		if attack_index == 0:
+			for i in range(0,4):
+				attack_position = get_node("Attack_Point").global_position+attack_direction*16.0
+				attack_direction = (target_position - attack_position).normalized()
+		if attack_index == 1:
+			attack_position = global_position+attack_direction*48.0
+		request_attack(attacks[attack_index], attack_position, attack_direction)
+		return
+		
+	request_attack(attacks[attack_index], attack_position, attack_direction)
 
 func request_attack(t_attack: PackedScene, attack_position: Vector2, attack_direction: Vector2):
 	var instance = t_attack.instantiate()

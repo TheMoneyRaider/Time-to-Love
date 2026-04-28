@@ -117,6 +117,8 @@ func _ready():
 		_wave_attack_setup()
 	if attack_type == "scifi_laser":
 		_laser_attack_setup()
+	if attack_type=="light_beam":
+		rotation = direction.angle()
 	
 
 func drag():
@@ -334,6 +336,8 @@ func deflect(hit_direction, hit_speed, deflection_area):
 		return
 	direction = hit_direction
 	rotation = direction.angle() + PI/2
+	if attack_type == "light_beam":
+		rotation = direction.angle()
 	damage = round(damage * ((hit_speed + speed) / speed))
 	speed = speed + hit_speed
 	

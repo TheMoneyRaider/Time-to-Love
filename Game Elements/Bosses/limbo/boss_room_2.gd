@@ -38,8 +38,20 @@ func activate():
 	is_multiplayer = LayerManager.is_multiplayer
 	Hud =LayerManager.hud
 	print("boss room activate")
-	active = true
 	Hud.show_boss_bar(healthbar_underlays[0],healthbar_overlays[0],boss_names[0],boss_name_settings[0],phase_overlay_index[0])
 	Hud.update_bossbar(1.0)
 	Hud.update_bossbar2(0.0)
 	Hud.get_node("RootControl/VBoxContainer/HorizontalSlice/TimeFabric").visible = false
+	
+	await get_tree().create_timer(7.0, false).timeout
+	active = true
+	
+var ability_progress = 0.0
+func _process(delta: float) -> void:
+	if !active:
+		return
+	if ability_progress < 1.0:
+		ability_progress+=delta/32.0
+	Hud.update_bossbar2(ability_progress)
+	
+	
