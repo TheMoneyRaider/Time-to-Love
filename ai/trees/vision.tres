@@ -57,7 +57,7 @@ children = [SubResource("BTAction_76wjc"), SubResource("BTAction_wtpi0")]
 [sub_resource type="BTAction" id="BTAction_n3kfh"]
 custom_name = "Check if Close Enough"
 script = ExtResource("7_fwus7")
-hit_range = 96
+hit_range = 128
 
 [sub_resource type="BTAction" id="BTAction_uyool"]
 custom_name = "MoveToPlayer"
@@ -99,6 +99,7 @@ script = ExtResource("3_hnhrx")
 
 [sub_resource type="BTAction" id="BTAction_1kwu6"]
 script = ExtResource("4_gohqa")
+target_to_player = 160.0
 
 [sub_resource type="BTAction" id="BTAction_v4ajl"]
 script = ExtResource("6_dhfyg")
@@ -108,7 +109,7 @@ max_time = 0.3
 [sub_resource type="BTAction" id="BTAction_yg7nc"]
 custom_name = "OuterRange"
 script = ExtResource("7_fwus7")
-hit_range = 150
+hit_range = 200
 
 [sub_resource type="BTAction" id="BTAction_1ufl2"]
 script = ExtResource("8_vpu6k")
