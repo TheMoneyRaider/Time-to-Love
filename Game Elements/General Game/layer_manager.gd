@@ -1615,6 +1615,9 @@ func _on_remnant_upgraded(remnant1 : Resource, remnant2 : Resource):
 		
 
 func _on_healthpickup_absorbed(player_node : Node, health_node : Node):
+	var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+	particle.global_position = player_node.global_position
+	room_instance.add_child(particle)
 	player_node.change_health(2)
 	health_node.queue_free()
 

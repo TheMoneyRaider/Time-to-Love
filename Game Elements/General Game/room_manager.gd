@@ -79,8 +79,8 @@ var normal_rooms : Array = []
 var shop_rooms : Array = []
 
 func get_room(room : Room):
-	if room.roomtype != Globals.RoomType.Boss:
-		return bosses[0]
+	#if room.roomtype != Globals.RoomType.Boss:
+	#	return bosses[0]
 	var index = int(current_progress) if room.roomtype != Globals.RoomType.Boss else int(current_progress+1.0)
 	if index >= 3:
 		index = randi() % 3
@@ -159,12 +159,12 @@ func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerM
 	current_progress = floor(current_progress)+1-exp(-0.25*layer_ai[0])
 	if generated_room_data.roomtype == Globals.RoomType.Boss:
 		current_progress = floor(current_progress)+1.0
-	current_progress = max(3.0,current_progress)#TEST
+	#current_progress = max(3.0,current_progress)#TEST
 
 func get_boss_chance() -> float:
-	if layer_ai[0] - (int(current_progress) * 8) >= 13:
+	if layer_ai[0] - (int(current_progress) * 8) >= 8:
 		return 1.0
-	return 1.0 / (1 + exp(-.8 * ((layer_ai[0] - 7) - (int(current_progress) * 8)))) if layer_ai[0] - (int(current_progress) * 8) >= 5 else 0.0
+	return 1.0 / (1 + exp(-.8 * ((layer_ai[0] - 5) - (int(current_progress) * 8)))) if layer_ai[0] - (int(current_progress) * 8) >= 5 else 0.0
 	#return pow((layer_ai[0]-10),2)/200 if current_progress-int(current_progress) > .85 else 0.0
 	#WE NEED THIS TO BE QUICKER
 	
