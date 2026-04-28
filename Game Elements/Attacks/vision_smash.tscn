@@ -1,0 +1,92 @@
+[gd_scene load_steps=12 format=3 uid="uid://cy1g16g23yxj5"]
+
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_h2oh3"]
+[ext_resource type="Texture2D" uid="uid://tkos0whwop" path="res://art/characters/vision/light_attack.png" id="2_h2oh3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oynju"]
+radius = 8.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rwbty"]
+atlas = ExtResource("2_h2oh3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_owdyu"]
+atlas = ExtResource("2_h2oh3")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nhk67"]
+atlas = ExtResource("2_h2oh3")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2tdcx"]
+atlas = ExtResource("2_h2oh3")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_venp4"]
+atlas = ExtResource("2_h2oh3")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qplx1"]
+atlas = ExtResource("2_h2oh3")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7wqyt"]
+atlas = ExtResource("2_h2oh3")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mwahq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rwbty")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_owdyu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nhk67")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2tdcx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_venp4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qplx1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7wqyt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.0
+}]
+
+[node name="Smash" type="Area2D" groups=["attack"]]
+z_index = 19
+y_sort_enabled = true
+scale = Vector2(2, 2)
+collision_layer = 8
+collision_mask = 47
+script = ExtResource("1_h2oh3")
+speed = 0.0
+damage = 5.0
+lifespan = 0.8
+hit_force = 100.0
+knockback_force = 200.0
+start_lag = 0.05
+pierce = 10000.0
+wall_collision = false
+attack_type = "smash"
+deflects = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_oynju")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_mwahq")
+frame_progress = 0.91080934
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

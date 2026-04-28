@@ -55,12 +55,13 @@ shader_parameter/fog_density = 1.0
 shader_parameter/fog_height = 0.6900000802749999
 shader_parameter/fog_softness = 0.94600004423648
 
-[node name="BossRoom2" type="Node2D" node_paths=PackedStringArray("rocks")]
+[node name="BossRoom2" type="Node2D" node_paths=PackedStringArray("boss", "rocks")]
 script = ExtResource("1_1w61e")
 healthbar_underlays = Array[Texture2D]([ExtResource("2_muauc")])
 healthbar_overlays = Array[Texture2D]([ExtResource("3_ynmca")])
 boss_names = Array[String](["Vision of True Majesty"])
 boss_name_settings = Array[LabelSettings]([SubResource("LabelSettings_muauc")])
+boss = NodePath("Vision")
 phase_overlay_index = Array[int]([11])
 rocks = [NodePath("Island1"), NodePath("Island2"), NodePath("Island3"), NodePath("Island4"), NodePath("Island5")]
 
@@ -162,6 +163,8 @@ offset_right = 1736.0
 offset_bottom = 1047.0
 
 [node name="Area2D" type="StaticBody2D" parent="."]
+collision_layer = 64
+collision_mask = 64
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="Area2D"]
 build_mode = 1
