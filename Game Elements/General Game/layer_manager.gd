@@ -125,6 +125,8 @@ func _ready() -> void:
 	pathfinding.setup_from_room(room_instance.get_node("Ground"), room_instance.blocked_cells, room_instance.trap_cells,room_instance.liquid_cells)
 	_prepare_timefabric()
 	PathwayTransition.material.set_shader_parameter("mask_texture", PathwayTransition.get_texture())
+	#TEST
+	move_to_limbo_phase_2()
 
 func _process(delta: float) -> void:
 	if PathwayViewport.get_children().size() > 0: 
@@ -1671,6 +1673,7 @@ func check_node(n: Node,shared_offset : Vector2):
 
 	for child in n.get_children():
 		check_node(child,shared_offset)
+var _placable_cell_set : Dictionary = {}
 
 func _placable_locations():
 	var temp_placable_locations : Array[Vector2i]
@@ -1679,6 +1682,8 @@ func _placable_locations():
 		if c not in global_conflict_cells:
 			temp_placable_locations.append(c)
 	placable_cells = temp_placable_locations
+	for c in placable_cells:
+		_placable_cell_set[c] = true
 
 func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , attack_body: Node = null, c_owner : Node = null,override_color : Color = Color(0.267, 0.394, 0.394, 1.0)):
 	var instance = preload("res://Game Elements/Objects/damage_indicator.tscn").instantiate()
@@ -1897,6 +1902,7 @@ func move_to_limbo_phase_2():
 
 	room_instance = next_room
 	_placable_locations()
+	print(placable_cells.size())
 	apply_shared_noise_offset(room_instance)
 	
 	# Teleport player to the entrance of the next room

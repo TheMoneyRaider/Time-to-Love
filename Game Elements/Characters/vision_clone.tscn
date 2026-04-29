@@ -1,0 +1,91 @@
+[gd_scene load_steps=15 format=3 uid="uid://cwtn5yxq6rcnw"]
+
+[ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_3yqr6"]
+[ext_resource type="Texture2D" uid="uid://cs8tphhehohan" path="res://art/characters/vision/vision_character2.png" id="3_3yqr6"]
+[ext_resource type="Texture2D" uid="uid://b4xlvfuql5dtd" path="res://art/characters/vision/vision_overlay_master.png" id="4_3yqr6"]
+[ext_resource type="BehaviorTree" uid="uid://bws82cxtrvfuw" path="res://ai/trees/vclone.tres" id="4_achu3"]
+[ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="5_oabdt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_phyc7"]
+size = Vector2(12, 23)
+
+[sub_resource type="Animation" id="Animation_8s1eb"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_uhxym"]
+resource_name = "attack_forward"
+length = 0.5
+loop_mode = 2
+
+[sub_resource type="Animation" id="Animation_phyc7"]
+resource_name = "idle_forward"
+length = 0.4
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_12o7h"]
+resource_name = "move_forward"
+length = 0.4
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_llnr1"]
+resource_name = "sprint_forward"
+length = 0.24
+loop_mode = 1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8s1eb"]
+_data = {
+&"RESET": SubResource("Animation_8s1eb"),
+&"attack": SubResource("Animation_uhxym"),
+&"idle": SubResource("Animation_phyc7"),
+&"move": SubResource("Animation_12o7h"),
+&"sprint": SubResource("Animation_llnr1")
+}
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_8s1eb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uhxym"]
+radius = 7.0
+
+[node name="VisionClone" type="CharacterBody2D" groups=["enemy"]]
+z_index = 20
+y_sort_enabled = true
+collision_layer = 4
+collision_mask = 9
+script = ExtResource("1_3yqr6")
+max_health = 0.1
+enemy_type = "v_clone"
+move_speed = 20.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+position = Vector2(2, -16)
+texture = ExtResource("3_3yqr6")
+
+[node name="Sprite2D" type="Sprite2D" parent="Sprite2D"]
+texture = ExtResource("4_3yqr6")
+hframes = 3
+frame = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -13)
+shape = SubResource("RectangleShape2D_phyc7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_8s1eb")
+}
+
+[node name="BTPlayer" type="BTPlayer" parent="."]
+behavior_tree = ExtResource("4_achu3")
+blackboard_plan = SubResource("BlackboardPlan_8s1eb")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(1, 6)
+collision_layer = 4
+collision_mask = 7
+linear_damp = 0.0
+script = ExtResource("5_oabdt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, -14)
+shape = SubResource("CircleShape2D_uhxym")

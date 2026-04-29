@@ -111,6 +111,12 @@ func update_flip():
 	var sprite2d=get_node_or_null("Sprite2D")
 	if sprite2d: 
 		sprite2d.flip_h = look_direction.x < 0
+		if enemy_type == "vision" and sprite2d.flip_h:
+			sprite2d.position = Vector2(-6,-44)
+		if enemy_type =="v_clone":
+			sprite2d.flip_h = velocity.x < 0
+			sprite2d.get_node("Sprite2D").flip_h = sprite2d.flip_h
+			
 
 func check_stuck(_delta: float):
 	if(position.distance_to(last_pos) <= 20):
