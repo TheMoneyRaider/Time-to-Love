@@ -59,6 +59,8 @@ func _process(delta: float) -> void:
 	if hiding:
 		if !Hiding_Node:
 			reveal_boss()
+		else:
+			hiding_node_position = Hiding_Node.global_position
 		ability_progress-=delta/4.0
 	ability_progress = clamp(ability_progress,0.0,1.0)
 	Hud.update_bossbar2(ability_progress)
@@ -141,90 +143,92 @@ const TENTACLE_COLORS := [
 const TENTACLE_FRAMES := [0, 1, 2]
 
 func _set_clone_visage(nodes: Array[Node]) -> void:
-	# --- Determine which axes are locked based on complexity ---
-	# Axes unlock in reverse as complexity grows:
-	#   body color locks at 2+, tentacle color locks at 4+, frame locks at 6+
-	var lock_tent_frame   := complexity_level >= 2
-	var lock_tent_color   := complexity_level >= 4
-	var lock_body_color   := complexity_level >= 6
+	# Chaos shrinks from 1.0 → 0.0 as complexity rises.
+	# Each trait axis has a threshold below which it locks.
+	# Frame locks first (cheapest), then tent color, then body color.
+	var chaos : float= 1.0 - clamp(complexity_level / 10.0, 0.0, 1.0)
+	var frame_free  := chaos > 0.15
+	var tent_free   := chaos > 0.40
+	var body_free   := chaos > 0.65
 
-	# --- Reserve one exclusive trait for the hiding node ---
-	# We always reserve from the first axis that is still free,
-	# falling back down the chain so the hiding node always has something.
-	# At max complexity (all locked), body color is still the tell —
-	# the hiding node gets a different shared color than the decoys.
-	var hiding_body_color:   Color
-	var hiding_tent_color:   Color
-	var hiding_tent_frame:   int
-	var decoy_body_colors:   Array
-	var decoy_tent_colors:   Array
-	var decoy_tent_frames:   Array
+	# Build the pool of axes that are still free.
+	# The hiding node's distinguishing axis is picked from free axes,
+	# weighted toward whichever is cheapest (frame > tent > body).
+	# If nothing is free, body color is always the fallback.
+	var free_axes: Array[String] = []
+	if frame_free: free_axes.append("frame")
+	if tent_free:  free_axes.append("tent")
+	if body_free:  free_axes.append("body")
 
-	if !lock_tent_frame:
-		# Pick hiding body color, give decoys the remaining pool
-		hiding_body_color = BODY_COLORS[randi() % BODY_COLORS.size()]
-		decoy_body_colors = BODY_COLORS.filter(func(c): return c != hiding_body_color)
-		hiding_tent_color = TENTACLE_COLORS[randi() % TENTACLE_COLORS.size()]
-		decoy_tent_colors = TENTACLE_COLORS.duplicate()
-		hiding_tent_frame = TENTACLE_FRAMES[randi() % TENTACLE_FRAMES.size()]
-		decoy_tent_frames = TENTACLE_FRAMES.duplicate()
-	elif !lock_tent_color:
-		# Tent frame is shared — reserve a tentacle color for hiding node
-		hiding_body_color = BODY_COLORS[randi() % BODY_COLORS.size()]
-		decoy_body_colors = BODY_COLORS.duplicate()
-		hiding_tent_color = TENTACLE_COLORS[randi() % TENTACLE_COLORS.size()]
-		decoy_tent_colors = TENTACLE_COLORS.filter(func(c): return c != hiding_tent_color)
-		var shared_tent_frame = TENTACLE_FRAMES[randi() % TENTACLE_FRAMES.size()]
-		hiding_tent_frame = shared_tent_frame
-		decoy_tent_frames = [shared_tent_frame]
-	elif !lock_body_color:
-		#  tentacle color + tent frame both shared — reserve a body color for the hiding node
-		hiding_body_color = BODY_COLORS[randi() % BODY_COLORS.size()]
-		decoy_body_colors = BODY_COLORS.filter(func(c): return c != hiding_body_color)
-		var shared_tent = TENTACLE_COLORS[randi() % TENTACLE_COLORS.size()]
-		hiding_tent_color = shared_tent
-		decoy_tent_colors = [shared_tent]
-		var shared_tent_frame = TENTACLE_FRAMES[randi() % TENTACLE_FRAMES.size()]
-		hiding_tent_frame = shared_tent_frame
-		decoy_tent_frames = [shared_tent_frame]
+	var distinct_axis: String
+	if free_axes.is_empty():
+		# All locked — pick randomly among all three so body isn't always the tell
+		var all_axes: Array[String] = ["frame", "tent", "body"]
+		distinct_axis = all_axes[randi() % all_axes.size()]
 	else:
-		# Everything locked — hiding node gets a different shared body color
-		var decoy_body = BODY_COLORS[randi() % BODY_COLORS.size()]
-		var remaining = BODY_COLORS.filter(func(c): return c != decoy_body)
-		hiding_body_color = remaining[randi() % remaining.size()]
-		decoy_body_colors = [decoy_body]
-		var shared_tent = TENTACLE_COLORS[randi() % TENTACLE_COLORS.size()]
-		hiding_tent_color = shared_tent
-		decoy_tent_colors = [shared_tent]
-		var shared_frame = TENTACLE_FRAMES[randi() % TENTACLE_FRAMES.size()]
-		hiding_tent_frame = shared_frame
-		decoy_tent_frames = [shared_frame]
+		# Weight toward cheapest free axis: frame=3, tent=2, body=1
+		var weights := {"frame": 3, "tent": 2, "body": 1}
+		var pool: Array[String] = []
+		for axis in free_axes:
+			for _w in range(weights[axis]):
+				pool.append(axis)
+		distinct_axis = pool[randi() % pool.size()]
 
-	# --- Set hiding node values ---
-	_apply_visage(Hiding_Node, hiding_body_color, hiding_tent_color, hiding_tent_frame)
+	# --- Pick shared/decoy values for each axis ---
+	var shared_body  : Color= BODY_COLORS[randi() % BODY_COLORS.size()]
+	var shared_tent  : Color= TENTACLE_COLORS[randi() % TENTACLE_COLORS.size()]
+	var shared_frame : int= TENTACLE_FRAMES[randi() % TENTACLE_FRAMES.size()]
 
-	# --- Set decoy clone values ---
+	# --- Derive hiding node's exclusive value on the distinct axis ---
+	var hiding_body  := shared_body
+	var hiding_tent  := shared_tent
+	var hiding_frame := shared_frame
+	var decoy_bodies := [shared_body] if !body_free else BODY_COLORS.duplicate()
+	var decoy_tents  := [shared_tent] if !tent_free else TENTACLE_COLORS.duplicate()
+	var decoy_frames := [shared_frame] if !frame_free else TENTACLE_FRAMES.duplicate()
+
+	match distinct_axis:
+		"body":
+			var remaining_bodies := BODY_COLORS.filter(func(c): return c != shared_body)
+			hiding_body = remaining_bodies[randi() % remaining_bodies.size()]
+			# Decoys cannot use hiding_body
+			decoy_bodies = BODY_COLORS.filter(func(c): return c != hiding_body) if body_free else [shared_body]
+		"tent":
+			var remaining_tents := TENTACLE_COLORS.filter(func(c): return c != shared_tent)
+			hiding_tent = remaining_tents[randi() % remaining_tents.size()]
+			decoy_tents = TENTACLE_COLORS.filter(func(c): return c != hiding_tent) if tent_free else [shared_tent]
+		"frame":
+			var remaining_frames := TENTACLE_FRAMES.filter(func(f): return f != shared_frame)
+			hiding_frame = remaining_frames[randi() % remaining_frames.size()]
+			decoy_frames = TENTACLE_FRAMES.filter(func(f): return f != hiding_frame) if frame_free else [shared_frame]
+
+	# --- Apply to hiding node ---
+	_apply_visage(Hiding_Node, hiding_body, hiding_tent, hiding_frame)
+
+	# --- Apply to decoys with per-axis chaos roll ---
 	for node in nodes:
-		var b_color: Color
-		var t_color: Color
-		var t_frame: int
+		# Each axis independently rolls whether it uses its shared value
+		# or picks freely from the decoy pool. Higher chaos = more variance.
+		var b: Color
+		var t: Color
+		var f: int
 
-		if lock_body_color:
-			b_color = decoy_body_colors[0]
+		if body_free and randf() < chaos:
+			b = decoy_bodies[randi() % decoy_bodies.size()]
 		else:
-			b_color = decoy_body_colors[randi() % decoy_body_colors.size()]
+			b = decoy_bodies[0]
 
-		if lock_tent_color:
-			t_color = decoy_tent_colors[0]
+		if tent_free and randf() < chaos:
+			t = decoy_tents[randi() % decoy_tents.size()]
 		else:
-			t_color = decoy_tent_colors[randi() % decoy_tent_colors.size()]
+			t = decoy_tents[0]
 
-		if lock_tent_frame:
-			t_frame = decoy_tent_frames[0]
+		if frame_free and randf() < chaos:
+			f = decoy_frames[randi() % decoy_frames.size()]
 		else:
-			t_frame = decoy_tent_frames[randi() % decoy_tent_frames.size()]
+			f = decoy_frames[0]
 
-		_apply_visage(node, b_color, t_color, t_frame)
+		_apply_visage(node, b, t, f)
 
 
 func _apply_visage(node: Node, body_color: Color, tent_color: Color, tent_frame: int) -> void:
