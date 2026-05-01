@@ -178,32 +178,33 @@ func apply_remnants(attack_instance):
 			mancer_value = c_owner.mancermancer_values[1]
 		attack_instance.intelligence = null
 		for rem in remnants:
-			match rem.remnant_name:
-				terramancer.remnant_name:
-					if c_owner.velocity.length() <= .1:
-						attack_instance.scale = attack_instance.scale * (1 + (mancer_value / 4) + rem.variable_2_values[rem.rank-1] / 4)
-						attack_instance.hit_force = attack_instance.hit_force * (1 + mancer_value + rem.variable_2_values[rem.rank-1] / 4)
-						attack_instance.knockback_force = attack_instance.knockback_force * (1 + (mancer_value / 2) + rem.variable_2_values[rem.rank-1] / 4)
-				aeromancer.remnant_name:
-					var similarity = attack_instance.direction.normalized().dot(c_owner.velocity.normalized())
-					if(attack_instance.speed != 0):
-						#Possibly add a min so it can't go lower than base damage? 
-						#Nah thats lame
-						attack_instance.damage = abs(attack_instance.damage * (((similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed) /  attack_instance.speed))
-						attack_instance.speed = ((similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed)
-					else:
-						attack_instance.damage = abs(attack_instance.damage * ((similarity * (.005) * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100) + 1))
-						attack_instance.speed = (.5 * similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100)
-				hydromancer.remnant_name:
-					attack_instance.last_liquid = c_owner.last_liquid
-					c_owner.last_liquid = Globals.Liquid.Buffer
-				intelligence.remnant_name:
-					attack_instance.intelligence = rem.duplicate(true)
-				longshot.remnant_name:
-					if(pierce >= 0):
-						attack_instance.pierce += rem.rank
-				_:
-					pass
+			if rem.active:
+				match rem.remnant_name:
+					terramancer.remnant_name:
+						if c_owner.velocity.length() <= .1:
+							attack_instance.scale = attack_instance.scale * (1 + (mancer_value / 4) + rem.variable_2_values[rem.rank-1] / 4)
+							attack_instance.hit_force = attack_instance.hit_force * (1 + mancer_value + rem.variable_2_values[rem.rank-1] / 4)
+							attack_instance.knockback_force = attack_instance.knockback_force * (1 + (mancer_value / 2) + rem.variable_2_values[rem.rank-1] / 4)
+					aeromancer.remnant_name:
+						var similarity = attack_instance.direction.normalized().dot(c_owner.velocity.normalized())
+						if(attack_instance.speed != 0):
+							#Possibly add a min so it can't go lower than base damage? 
+							#Nah thats lame
+							attack_instance.damage = abs(attack_instance.damage * (((similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed) /  attack_instance.speed))
+							attack_instance.speed = ((similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed)
+						else:
+							attack_instance.damage = abs(attack_instance.damage * ((similarity * (.005) * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100) + 1))
+							attack_instance.speed = (.5 * similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100)
+					hydromancer.remnant_name:
+						attack_instance.last_liquid = c_owner.last_liquid
+						c_owner.last_liquid = Globals.Liquid.Buffer
+					intelligence.remnant_name:
+						attack_instance.intelligence = rem.duplicate(true)
+					longshot.remnant_name:
+						if(pierce >= 0):
+							attack_instance.pierce += rem.rank
+					_:
+						pass
 
 
 var laser_camera_distancex = 240

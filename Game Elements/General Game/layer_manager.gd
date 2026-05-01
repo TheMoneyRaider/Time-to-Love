@@ -1195,20 +1195,20 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	
 	
 	for rem in player_1_remnants:
-		if rem.remnant_name == "Remnant of Shido":
+		if rem.remnant_name == "Remnant of Shido" and rem.active:
 			shido1 = rem.variable_1_values[rem.rank-1]/100.0
 			break
 	for rem in player_2_remnants:
-		if rem.remnant_name == "Remnant of Shido":
+		if rem.remnant_name == "Remnant of Shido" and rem.active:
 			shido2 = rem.variable_1_values[rem.rank-1]/100.0
 			break
 	if shido1!=0.0:
 		for rem in player_1_remnants:
 			if randf() < shido1 and rem.rank <= 4:
 				rem.rank +=1
-				if(rem.remnant_name == "Remnant of the Mancermancer"):
+				if(rem.remnant_name == "Remnant of the Mancermancer") and rem.active:
 					player1.mancermancer_values[0] = rem.rank
-				if(rem.remnant_name == "Remnant of the Giant"):
+				if(rem.remnant_name == "Remnant of the Giant") and rem.active:
 					if(!is_multiplayer):
 						if(player1.is_purple):
 							player1.change_health(5, 5)
@@ -1220,12 +1220,12 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 		for rem in player_2_remnants:
 			if randf() < shido2 and rem.rank <= 4:
 				rem.rank +=1
-				if(rem.remnant_name == "Remnant of the Mancermancer"):
+				if(rem.remnant_name == "Remnant of the Mancermancer") and rem.active:
 					if(is_multiplayer):
 						player2.mancermancer_values[1] = rem.rank
 					else:
 						player1.mancermancer_values[1] = rem.rank
-				if(rem.remnant_name == "Remnant of the Giant"):
+				if(rem.remnant_name == "Remnant of the Giant") and rem.active:
 					if(is_multiplayer):
 						player2.change_health(5, 5)
 						player2.weapons[0].damage = player2.weapons[0].damage + (rem.rank % 2)
@@ -1240,12 +1240,12 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	var hare = preload("res://Game Elements/Remnants/hare.tres")
 	if is_multiplayer or player1.is_purple:
 		for rem in player_1_remnants:
-			if rem.remnant_name == healer.remnant_name:
+			if rem.remnant_name == healer.remnant_name and rem.active:
 				var amnt = rem.variable_1_values[rem.rank - 1]
 				player1.change_health(0, amnt)
 				_remnant_of_hospital_heal(player1, player_1_remnants)
 				
-			if rem.remnant_name == hare.remnant_name:
+			if rem.remnant_name == hare.remnant_name and rem.active:
 				var effect = preload("res://Game Elements/Effects/speed.tres")
 				effect.cooldown = 15
 				effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
@@ -1253,7 +1253,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 				player1.effects.append(effect)
 	if is_multiplayer or not player1.is_purple:
 		for rem in player_2_remnants:
-			if rem.remnant_name == healer.remnant_name:
+			if rem.remnant_name == healer.remnant_name and rem.active:
 				var amnt = rem.variable_1_values[rem.rank - 1]
 				if is_multiplayer:
 					player2.change_health(0, amnt)
@@ -1262,7 +1262,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 					player1.change_health(0, amnt)
 					_remnant_of_hospital_heal(player1, player_1_remnants)
 				
-			if rem.remnant_name == hare.remnant_name:
+			if rem.remnant_name == hare.remnant_name and rem.active:
 				var effect = preload("res://Game Elements/Effects/speed.tres")
 				effect.cooldown = 15
 				effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
@@ -1330,7 +1330,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	if room_instance_data.roomtype == Globals.RoomType.Combat:
 		var investment = preload("res://Game Elements/Remnants/investment.tres")
 		for rem in player_1_remnants:
-			if rem.remnant_name == investment.remnant_name:
+			if rem.remnant_name == investment.remnant_name and rem.active:
 				timefabric_collected+= timefabric_collected * (rem.variable_1_values[rem.rank-1])/100.0
 
 	# Update layers and other arrays
@@ -1519,14 +1519,14 @@ func _on_remnant_chosen(remnant1 : Resource, remnant2 : Resource):
 	var mancermancer = preload("res://Game Elements/Remnants/mancermancer.tres")
 	player_1_remnants.append(remnant1.duplicate(true))
 	player_2_remnants.append(remnant2.duplicate(true))
-	if(remnant1.remnant_name == mancermancer.remnant_name):
+	if(remnant1.remnant_name == mancermancer.remnant_name) and remnant1.active:
 		player1.mancermancer_values[0] = remnant1.rank
-	elif(remnant2.remnant_name == mancermancer.remnant_name):
+	elif(remnant2.remnant_name == mancermancer.remnant_name) and remnant2.active:
 		if(is_multiplayer):
 			player2.mancermancer_values[1] = remnant2.rank
 		else:
 			player1.mancermancer_values[1] = remnant2.rank
-	if(remnant1.remnant_name == "Remnant of the Giant"):
+	if(remnant1.remnant_name == "Remnant of the Giant") and remnant1.active:
 		if(!is_multiplayer):
 			if(player1.is_purple):
 				player1.scale = player1.scale * 1.5
@@ -1535,7 +1535,7 @@ func _on_remnant_chosen(remnant1 : Resource, remnant2 : Resource):
 			player1.scale = player1.scale * 1.5
 			player1.change_health(remnant1.variable_1_values[remnant1.rank - 1], remnant1.variable_1_values[remnant1.rank - 1])
 		player1.weapons[1].damage = player1.weapons[1].damage + remnant1.variable_2_values[remnant1.rank - 1]
-	elif(remnant2.remnant_name == "Remnant of the Giant"):
+	elif(remnant2.remnant_name == "Remnant of the Giant") and remnant2.active:
 		if(is_multiplayer):
 			player2.scale = player2.scale * 1.5
 			player2.change_health(remnant2.variable_1_values[remnant2.rank - 1], remnant2.variable_1_values[remnant2.rank - 1])
@@ -1563,21 +1563,21 @@ func _on_remnant_upgraded(remnant1 : Resource, remnant2 : Resource):
 	for i in range(player_2_remnants.size()):
 		if player_2_remnants[i] == remnant2:
 			player_2_remnants[i].rank +=1
-	if(remnant1.remnant_name == mancermancer.remnant_name):
+	if(remnant1.remnant_name == mancermancer.remnant_name and remnant1.active):
 		player1.mancermancer_values[0] = remnant1.rank
-	elif(remnant2.remnant_name == mancermancer.remnant_name):
+	elif(remnant2.remnant_name == mancermancer.remnant_name and remnant2.active):
 		if(is_multiplayer):
 			player2.mancermancer_values[1] = remnant2.rank
 		else:
 			player1.mancermancer_values[1] = remnant2.rank
-	if(remnant1.remnant_name == "Remnant of the Giant"):
+	if(remnant1.remnant_name == "Remnant of the Giant" and remnant1.active):
 		if(!is_multiplayer):
 			if(player1.is_purple):
 				player1.change_health(5, 5)
 		else:
 			player1.change_health(5, 5)
 		player1.weapons[1].damage = player1.weapons[1].damage + (remnant1.rank % 2)
-	elif(remnant2.remnant_name == "Remnant of the Giant"):
+	elif(remnant2.remnant_name == "Remnant of the Giant" and remnant2.active):
 		if(is_multiplayer):
 			player2.change_health(5, 5)
 			player2.weapons[0].damage = player2.weapons[0].damage + (remnant2.rank % 2)
@@ -1618,7 +1618,7 @@ func _on_special(player_node : Node):
 		remnants = get_tree().get_root().get_node("LayerManager").player_2_remnants
 	var trickster = preload("res://Game Elements/Remnants/trickster.tres")
 	for rem in remnants:
-		if rem.remnant_name == trickster.remnant_name:
+		if rem.remnant_name == trickster.remnant_name and rem.active:
 			if timefabric_collected >= int(rem.variable_1_values[rem.rank-1]):
 				if check_pathways(room_instance, room_instance_data,player_node,true) == -1:
 					timefabric_collected-=int(rem.variable_1_values[rem.rank-1])
@@ -1694,7 +1694,7 @@ func _remnant_of_hospital_heal(player:Node, remnants) -> void:
 	var hospital = preload("res://Game Elements/Remnants/hospital.tres")
 	for rem in remnants:
 		print(rem.remnant_name)
-		if rem.remnant_name == hospital.remnant_name:
+		if rem.remnant_name == hospital.remnant_name and rem.active:
 			var amnt = rem.variable_1_values[rem.rank - 1] / 100.0
 			amnt *= player.current_health
 			player.change_health(amnt)

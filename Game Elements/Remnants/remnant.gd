@@ -18,3 +18,4 @@ class_name Remnant
 @export var variable_6_values: Array
 @export var variable_7_values: Array
 @export var rank: int
+@export var active: bool = true
