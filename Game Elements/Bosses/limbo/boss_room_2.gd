@@ -72,9 +72,10 @@ func _process(delta: float) -> void:
 		last_clones = heal_amount
 		boss.current_health = clamp(boss.current_health+heal_amount*delta*boss.max_health/(20*hide_time*5),0,boss.max_health)
 		Hud.update_bossbar(boss.current_health/boss.max_health)
-		if !Hiding_Node:
+		if !Hiding_Node and !revealing:
+			_remove_remnants()
 			reveal_boss()
-		else:
+		if Hiding_Node:
 			hiding_node_position = Hiding_Node.global_position
 		ability_progress-=delta/hide_time
 	ability_progress = clamp(ability_progress,0.0,1.0)
@@ -135,7 +136,7 @@ func hide_boss():
 				on_clone_arrived.call(arrived_inst)
 		)
 	
-	boss_tween = boss.create_tween()
+	boss_tween = create_tween()
 	boss_tween.parallel().tween_property(boss, "modulate:a", 0.0, 2.0)
 	boss_tween.parallel().tween_property(boss, "scale", Vector2(.5, .5), 2.0)
 	complexity_level+=1
@@ -261,9 +262,39 @@ func on_clone_arrived(clone: Node):
 	await get_tree().create_timer(randf() * float(randi() % 3)).timeout
 	if clone:
 		clone.get_node("BTPlayer").active = true
-	clone.hitable = true
+		clone.hitable = true
 
+func _remove_remnants():
+	var rem1_idx = randi() % LayerManager.player_1_remnants.size()
+	var rem2_idx = randi() % LayerManager.player_2_remnants.size()
+	var s = 0
+	while !LayerManager.player_1_remnants[rem1_idx].active and s < LayerManager.player_1_remnants.size():
+		rem1_idx=(rem1_idx+1)% LayerManager.player_1_remnants.size()
+		s+=1
+	if s >=LayerManager.player_1_remnants.size():
+		rem1_idx=-1
+	s = 0
+	while !LayerManager.player_2_remnants[rem2_idx].active and s < LayerManager.player_2_remnants.size():
+		rem1_idx=(rem2_idx+1)% LayerManager.player_2_remnants.size()
+		s+=1
+	if s >=LayerManager.player_2_remnants.size():
+		rem2_idx=-1
+	
+	if rem1_idx >=0:
+		LayerManager.player_1_remnants[rem1_idx].active = false
+		
+		
+	if rem2_idx >=0:
+		LayerManager.player_2_remnants[rem2_idx].active = false
+		
+		
+	Hud.set_remnant_icons(LayerManager.player_1_remnants,LayerManager.player_2_remnants)
+	
+var revealing :bool = false
 func reveal_boss():
+	if revealing:
+		return
+	revealing = true
 	if boss_tween and is_instance_valid(boss_tween):
 		boss_tween.stop()
 	boss_tween = create_tween()
@@ -283,6 +314,7 @@ func reveal_boss():
 		if "is_boss" in enemy and !enemy.is_boss:
 			enemy.queue_free()
 	hiding = false
+	revealing = false
 	boss.process_mode = Node.PROCESS_MODE_PAUSABLE
 	ability_progress = 0.0
 			

@@ -13,7 +13,6 @@ var enemy_angles : bool = false
 @onready var LeftCooldownBar = $RootControl/Left_Bottom_Corner/CooldownBar
 @onready var RightCooldownBar = $RootControl/Right_Bottom_Corner/CooldownBar
 @onready var IconSlotScene = preload("res://Game Elements/ui/remnant_icon.tscn")
-const HIGHLIGHT_SHADER := preload("res://Game Elements/ui/highlight.gdshader")
 @onready var combo1 = $RootControl/Left_Bottom_Corner/Combo
 @onready var combo2 = $RootControl/Right_Bottom_Corner/Combo
 var pause_menu : Node = null
@@ -109,13 +108,13 @@ func _add_slot(grid: Node, remnant: Resource, has_ranked : bool = false, is_purp
 		label.text = _num_to_roman(remnant.rank)
 	grid.add_child(slot)
 	slot.setup(remnant,is_purple_icon)
+	slot.get_node("TextureRect").material.set_shader_parameter("active", remnant.active)
 	if has_ranked:
-		var mat := ShaderMaterial.new()
-		mat.shader = HIGHLIGHT_SHADER
-		mat.set_shader_parameter("start_time", Time.get_ticks_msec() / 1000.0)
-		slot.get_node("TextureRect").material = mat
+		slot.get_node("TextureRect").material.set_shader_parameter("start_time", Time.get_ticks_msec() / 1000.0)
 		await get_tree().create_timer(.5, false).timeout
 		label.text = _num_to_roman(remnant.rank)
+	else:
+		slot.get_node("TextureRect").material.set_shader_parameter("start_time", (Time.get_ticks_msec() - 3000.0) / 1000.0)
 
 func _setup_focus_connections():
 	var left_grid = $RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/LeftRemnants
