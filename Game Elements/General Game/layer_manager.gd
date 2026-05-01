@@ -1513,44 +1513,57 @@ func _on_enemy_take_damage(damage : float,current_health : int,enemy : Node, dir
 		RoomManager.layer_ai[7]+=1
 
 func _on_remnant_chosen(remnant1 : Resource, remnant2 : Resource):
-	var mancermancer = preload("res://Game Elements/Remnants/mancermancer.tres")
 	player_1_remnants.append(remnant1.duplicate(true))
 	player_2_remnants.append(remnant2.duplicate(true))
-	if(remnant1.remnant_name == mancermancer.remnant_name) and remnant1.active:
-		player1.mancermancer_values[0] = remnant1.rank
-	elif(remnant2.remnant_name == mancermancer.remnant_name) and remnant2.active:
-		if(is_multiplayer):
-			player2.mancermancer_values[1] = remnant2.rank
-		else:
-			player1.mancermancer_values[1] = remnant2.rank
-	if(remnant1.remnant_name == "Remnant of the Giant") and remnant1.active:
-		if(!is_multiplayer):
-			if(player1.is_purple):
-				player1.scale = player1.scale * 1.5
-				player1.change_health(remnant1.variable_1_values[remnant1.rank - 1], remnant1.variable_1_values[remnant1.rank - 1])
-		else:
-			player1.scale = player1.scale * 1.5
-			player1.change_health(remnant1.variable_1_values[remnant1.rank - 1], remnant1.variable_1_values[remnant1.rank - 1])
-		player1.weapons[1].damage = player1.weapons[1].damage + remnant1.variable_2_values[remnant1.rank - 1]
-	elif(remnant2.remnant_name == "Remnant of the Giant") and remnant2.active:
-		if(is_multiplayer):
-			player2.scale = player2.scale * 1.5
-			player2.change_health(remnant2.variable_1_values[remnant2.rank - 1], remnant2.variable_1_values[remnant2.rank - 1])
-			player2.weapons[0].damage = player2.weapons[0].damage + remnant2.variable_2_values[remnant2.rank - 1]
-		else:
-			if(player1.is_purple == false):
-				player1.scale = player1.scale * 1.5
-				player1.change_health(remnant2.variable_1_values[remnant2.rank - 1], remnant2.variable_1_values[remnant2.rank - 1])
-			player1.weapons[0].damage = player1.weapons[0].damage + remnant2.variable_2_values[remnant2.rank - 1]
+	remnant_update(remnant1,player1,true)
+	if is_multiplayer:
+		remnant_update(remnant2,player2,false)
+	else:
+		remnant_update(remnant2,player1, false)
+		
 	remnant_offer_popup.queue_free()
 	player1.get_node("Crosshair").visible = true
 	if is_multiplayer:
 		player2.get_node("Crosshair").visible = true
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
 	
-	player1.display_combo()
-	if Globals.is_multiplayer:
-		player2.display_combo()
+
+func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : bool = true):
+	var mancermancer = preload("res://Game Elements/Remnants/mancermancer.tres")
+	var giant = preload("res://Game Elements/Remnants/giant.tres")
+	if gained:
+		if(remnant.remnant_name == mancermancer.remnant_name) and remnant.active:
+			if is_purple:
+				player.mancermancer_values[0] = remnant.rank
+			else:
+				player.mancermancer_values[1] = remnant.rank
+		if(remnant.remnant_name == giant.remnant_name) and remnant.active:
+			if(player.is_purple == is_purple):
+				player.scale = player.scale * 1.5
+				player.change_health(remnant.variable_1_values[remnant.rank - 1], remnant.variable_1_values[remnant.rank - 1])
+			if is_purple:
+				player.weapons[1].damage = player.weapons[1].damage + remnant.variable_2_values[remnant.rank - 1]
+			else:
+				player.weapons[0].damage = player.weapons[0].damage + remnant.variable_2_values[remnant.rank - 1]
+	else:
+		if(remnant.remnant_name == mancermancer.remnant_name):
+			if is_purple:
+				player.mancermancer_values[0] = 0
+			else:
+				player.mancermancer_values[1] = 0
+		if(remnant.remnant_name == giant.remnant_name):
+			if(player.is_purple == is_purple):
+				player.scale = player.scale / 1.5
+				player.change_health(-remnant.variable_1_values[remnant.rank - 1], -remnant.variable_1_values[remnant.rank - 1])
+			if is_purple:
+				player.weapons[1].damage = player.weapons[1].damage - remnant.variable_2_values[remnant.rank - 1]
+			else:
+				player.weapons[0].damage = player.weapons[0].damage - remnant.variable_2_values[remnant.rank - 1]
+		
+	player.display_combo()
+	
+
+
 
 func _on_remnant_upgraded(remnant1 : Resource, remnant2 : Resource):
 	var mancermancer = preload("res://Game Elements/Remnants/mancermancer.tres")
@@ -1693,6 +1706,14 @@ func dev_remnants():
 	rem.rank = 5
 	player_1_remnants.append(rem.duplicate(true))
 	player_2_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/giant.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	remnant_update(rem,player1,true)
+	rem = load("res://Game Elements/Remnants/mancermancer.tres")
+	rem.rank = 5
+	player_2_remnants.append(rem.duplicate(true))
+	remnant_update(rem,player1,false)
 	#rem = load("res://Game Elements/Remnants/thorns.tres")
 	#rem.rank = 5
 	#player_1_remnants.append(rem.duplicate(true))

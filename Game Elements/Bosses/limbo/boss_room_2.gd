@@ -279,13 +279,18 @@ func _remove_remnants():
 		s+=1
 	if s >=LayerManager.player_2_remnants.size():
 		rem2_idx=-1
-	var changed_remnants = []
+	var changed_remnants : Array[Remnant]= []
 	if rem1_idx >=0:
 		LayerManager.player_1_remnants[rem1_idx].active = false
 		changed_remnants.append(LayerManager.player_1_remnants[rem1_idx])
+		LayerManager.remnant_update(LayerManager.player_1_remnants[rem1_idx], player1, true, false)
 	if rem2_idx >=0:
 		LayerManager.player_2_remnants[rem2_idx].active = false
 		changed_remnants.append(LayerManager.player_2_remnants[rem2_idx])
+		if is_multiplayer:
+			LayerManager.remnant_update(LayerManager.player_2_remnants[rem2_idx], player2, false, false)
+		else:
+			LayerManager.remnant_update(LayerManager.player_2_remnants[rem2_idx], player1, false, false)
 	Hud.set_remnant_icons(LayerManager.player_1_remnants,LayerManager.player_2_remnants,[], [], changed_remnants)
 	
 var revealing :bool = false

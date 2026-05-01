@@ -42,7 +42,7 @@ func _ready():
 func set_timefabric_amount(timefabric_collected : int):
 	$RootControl/VBoxContainer/HorizontalSlice/TimeFabric/HBoxContainer/Label.text = str(timefabric_collected)
 
-func set_remnant_icons(player1_remnants: Array, player2_remnants: Array, ranked_up1: Array[String] = [], ranked_up2: Array[String] = [], deactived_remnants : Array[Remnant] = []):
+func set_remnant_icons(player1_remnants: Array, player2_remnants: Array, ranked_up1: Array = [], ranked_up2: Array = [], deactived_remnants : Array[Remnant] = []):
 	
 	for rem in player1_remnants:
 		Globals.record_remnant(rem.remnant_name, rem.rank)
