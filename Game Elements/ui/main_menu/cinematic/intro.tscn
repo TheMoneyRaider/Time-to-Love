@@ -1072,6 +1072,7 @@ texture = ExtResource("5_6p0l6")
 expand_mode = 1
 
 [node name="B-F05" type="TextureRect" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -1200,6 +1201,7 @@ texture = ExtResource("12_ih4a6")
 expand_mode = 1
 
 [node name="F-F05" type="TextureRect" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cwtn5yxq6rcnw"]
+[gd_scene load_steps=19 format=3 uid="uid://cwtn5yxq6rcnw"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_3yqr6"]
 [ext_resource type="Texture2D" uid="uid://cs8tphhehohan" path="res://art/characters/vision/vision_character2.png" id="3_3yqr6"]
@@ -46,6 +46,47 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_uhxym"]
 radius = 7.0
 
+[sub_resource type="Curve" id="Curve_achu3"]
+_data = [Vector2(0, 0), 0.0, 6.7659764, 0, 0, Vector2(0.2385321, 1), 0.0, 0.0, 0, 0, Vector2(0.5168196, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_3yqr6"]
+curve = SubResource("Curve_achu3")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2488m"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 32.0
+emission_ring_inner_radius = 24.0
+emission_ring_cone_angle = 90.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -64.0
+radial_accel_max = -32.0
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_3yqr6")
+color = Color(1, 0.7899187, 0.5800093, 1)
+hue_variation_min = -0.100000024
+hue_variation_max = 0.09999997
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_achu3"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 48.0
+emission_ring_inner_radius = 32.0
+emission_ring_cone_angle = 90.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -64.0
+radial_accel_max = -32.0
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_3yqr6")
+color = Color(1, 0.7899187, 0.5800093, 1)
+hue_variation_min = -0.100000024
+hue_variation_max = 0.09999997
+
 [node name="VisionClone" type="CharacterBody2D" groups=["enemy"]]
 z_index = 20
 y_sort_enabled = true
@@ -89,3 +130,18 @@ script = ExtResource("5_oabdt")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(-1, -14)
 shape = SubResource("CircleShape2D_uhxym")
+
+[node name="BurnParticles" type="GPUParticles2D" parent="."]
+z_index = 21
+position = Vector2(0, -15)
+amount = 100
+amount_ratio = 0.5
+process_material = SubResource("ParticleProcessMaterial_2488m")
+
+[node name="BurnParticles2" type="GPUParticles2D" parent="."]
+z_index = 21
+position = Vector2(0, -15)
+amount = 50
+amount_ratio = 0.5
+lifetime = 1.5
+process_material = SubResource("ParticleProcessMaterial_achu3")

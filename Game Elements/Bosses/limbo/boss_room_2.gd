@@ -32,6 +32,10 @@ var Hiding_Node : Node = null
 var hiding_node_position : Vector2
 var hiding : bool = false
 
+var hide_time =4.0
+var reveal_time = 4.0
+
+
 func activate():
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	player1 = LayerManager.player1
@@ -51,17 +55,28 @@ func activate():
 	active = true
 	
 var ability_progress = 0.0
+var clones : Array[Node]= []
+var last_clones : int = 0
 func _process(delta: float) -> void:
 	if !active:
 		return
 	if !hiding:
-		ability_progress+=delta/4.0
+		ability_progress+=delta/reveal_time
 	if hiding:
+		var heal_amount = 0
+		for c in clones:
+			if c and is_instance_valid(c):
+				heal_amount+=1
+		if last_clones > heal_amount:
+			boss.current_health = clamp(boss.current_health-(last_clones-heal_amount)*boss.max_health/(20*hide_time*1),0,boss.max_health)
+		last_clones = heal_amount
+		boss.current_health = clamp(boss.current_health+heal_amount*delta*boss.max_health/(20*hide_time*5),0,boss.max_health)
+		Hud.update_bossbar(boss.current_health/boss.max_health)
 		if !Hiding_Node:
 			reveal_boss()
 		else:
 			hiding_node_position = Hiding_Node.global_position
-		ability_progress-=delta/4.0
+		ability_progress-=delta/hide_time
 	ability_progress = clamp(ability_progress,0.0,1.0)
 	Hud.update_bossbar2(ability_progress)
 	
@@ -73,7 +88,7 @@ func _process(delta: float) -> void:
 	
 
 var complexity_level : int = 0
-
+var boss_tween
 func hide_boss():
 	hiding = true
 	var inst
@@ -86,6 +101,7 @@ func hide_boss():
 	# Pre-calculate targets and distances
 	var targets = []
 	var travel_times = []
+	clones = []
 	for i in range(0, 21):
 		var target = Vector2(tiles[randi() % tiles.size()]) * Vector2(16.0, 16.0)
 		targets.append(target)
@@ -94,7 +110,6 @@ func hide_boss():
 	
 	# Find the longest travel time so all clones arrive together
 	var max_travel_time = travel_times.max()
-	var clones : Array[Node]= []
 	for i in range(0, 21):
 		inst = load("res://Game Elements/Characters/vision_clone.tscn").instantiate()
 		inst.global_position = boss.global_position
@@ -103,6 +118,7 @@ func hide_boss():
 			Hiding_Node = inst
 		else:
 			clones.append(inst)
+			inst.hitable = false
 		
 		add_child(inst)
 		
@@ -119,9 +135,9 @@ func hide_boss():
 				on_clone_arrived.call(arrived_inst)
 		)
 	
-	var tween2 = create_tween()
-	tween2.parallel().tween_property(boss, "modulate:a", 0.0, 2.0)
-	tween2.parallel().tween_property(boss, "scale", Vector2(.5, .5), 2.0)
+	boss_tween = boss.create_tween()
+	boss_tween.parallel().tween_property(boss, "modulate:a", 0.0, 2.0)
+	boss_tween.parallel().tween_property(boss, "scale", Vector2(.5, .5), 2.0)
 	complexity_level+=1
 	_set_clone_visage(clones)
 
@@ -245,11 +261,14 @@ func on_clone_arrived(clone: Node):
 	await get_tree().create_timer(randf() * float(randi() % 3)).timeout
 	if clone:
 		clone.get_node("BTPlayer").active = true
+	clone.hitable = true
 
 func reveal_boss():
-	var tween = create_tween()
-	tween.parallel().tween_property(boss, "modulate:a", 1.0, .5)
-	tween.parallel().tween_property(boss, "scale", Vector2(1.0,1.0), .5)
+	if boss_tween and is_instance_valid(boss_tween):
+		boss_tween.stop()
+	boss_tween = create_tween()
+	boss_tween.parallel().tween_property(boss, "modulate:a", 1.0, .5)
+	boss_tween.parallel().tween_property(boss, "scale", Vector2(1.0,1.0), .5)
 	boss.hitable = true
 	boss.get_node("Area2D").push_strength = 1.0
 	boss.global_position = hiding_node_position
@@ -265,4 +284,5 @@ func reveal_boss():
 			enemy.queue_free()
 	hiding = false
 	boss.process_mode = Node.PROCESS_MODE_PAUSABLE
+	ability_progress = 0.0
 			
