@@ -156,7 +156,7 @@ func _process(delta: float) -> void:
 				
 	hud.set_timefabric_amount(timefabric_collected)
 	hud.set_cooldowns()
-	if Input.is_action_just_pressed("pause") and !camera_override and hud.get_node("../PauseMenu").pause_cooldown == 0:
+	if Input.is_action_just_pressed("pause") and !camera_override and !remnant_offer_popup and !remnant_upgrade_popup and hud.get_node("../PauseMenu").pause_cooldown == 0:
 		if pause.active:
 			pause._on_return_pressed()
 		else:
@@ -1389,7 +1389,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	
 	
 	if room_instance_data.roomtype != Globals.RoomType.Boss:
-		await get_tree().create_timer(2.0,false).timeout
+		await get_tree().create_timer(1.25,false).timeout
 		for child in enemies:
 			if child:
 				child.process_mode = Node.PROCESS_MODE_PAUSABLE

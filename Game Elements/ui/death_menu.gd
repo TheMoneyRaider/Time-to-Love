@@ -132,7 +132,7 @@ func play_replay_reverse():
 		var portion = elapsed / rewind_time
 		var to_disp = desc * portion * portion + initial_replay_fps * portion # this gives the time stamp of the frame that needs to be displayed
 		var cur_fps = 2 * desc * portion + initial_replay_fps
-		print(to_disp)
+		#print(to_disp)
 		
 		# to get frame from timestamp, need to check whether it's in the long term buffer or short term buffer
 		if to_disp > recent_seconds:

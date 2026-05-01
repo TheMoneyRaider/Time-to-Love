@@ -159,7 +159,7 @@ func _on_tentacle_reached_hole(tentacle: Node) -> void:
 				elif layer_manager.player1.current_health == layer_manager.player1.max_health:
 					reward_type = null
 				if reward_type!= null:
-					ten_reward_num[reward_value] = ten_reward_num[reward_value]/2.0
+					ten_reward_num[reward_value] = ten_reward_num[reward_value]/5.0
 	match reward_type:
 		Globals.Reward.Remnant:
 			reward = preload("res://Game Elements/Objects/remnant_orb.tscn").instantiate()
@@ -184,7 +184,18 @@ func _on_tentacle_reached_hole(tentacle: Node) -> void:
 	var feet = reward.get_node_or_null("Feet")
 	if feet !=null:
 		feet.queue_free()
-	reward.set_cost(200)
+	match reward.get_meta("reward_type"):
+		"remnant":
+			reward.set_cost(300)
+		"healthupgrade":
+			reward.set_cost(200)
+		"health":
+			reward.set_cos(150)
+		"remnantupgrade":
+			reward.set_cost(300)
+		_:
+			reward.set_cost(250)
+	#reward.set_cost(200)
 
 func quadratic_bezier(p0: Vector2, p1: Vector2, p2: Vector2, t: float) -> Vector2:
 	var q0 := p0.lerp(p1, t)
