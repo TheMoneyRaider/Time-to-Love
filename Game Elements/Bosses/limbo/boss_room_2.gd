@@ -279,16 +279,14 @@ func _remove_remnants():
 		s+=1
 	if s >=LayerManager.player_2_remnants.size():
 		rem2_idx=-1
-	
+	var changed_remnants = []
 	if rem1_idx >=0:
 		LayerManager.player_1_remnants[rem1_idx].active = false
-		
-		
+		changed_remnants.append(LayerManager.player_1_remnants[rem1_idx])
 	if rem2_idx >=0:
 		LayerManager.player_2_remnants[rem2_idx].active = false
-		
-		
-	Hud.set_remnant_icons(LayerManager.player_1_remnants,LayerManager.player_2_remnants)
+		changed_remnants.append(LayerManager.player_2_remnants[rem2_idx])
+	Hud.set_remnant_icons(LayerManager.player_1_remnants,LayerManager.player_2_remnants,[], [], changed_remnants)
 	
 var revealing :bool = false
 func reveal_boss():

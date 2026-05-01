@@ -890,8 +890,22 @@ func damage_boost() -> float:
 func change_health(add_to_current : float, add_to_max : float = 0):
 	current_health+=add_to_current
 	max_health+=add_to_max
+	if add_to_current > 0.0:
+		var hospital = preload("res://Game Elements/Remnants/hospital.tres")
+		var remnants = []
+		if is_purple:
+			remnants = LayerManager.player_1_remnants
+		else:
+			remnants = LayerManager.player_2_remnants
+		for rem in remnants:
+			if rem.remnant_name == hospital.remnant_name and rem.active:
+				var amnt = rem.variable_1_values[rem.rank - 1] / 100.0
+				amnt *= add_to_current
+				current_health+=amnt
+				break
 	current_health = clamp(current_health,0.0,max_health)
 	emit_signal("max_health_changed",max_health,current_health,self)
+	
 
 func red_flash() -> void:
 	if(i_frames > 0) and not invulnerable:

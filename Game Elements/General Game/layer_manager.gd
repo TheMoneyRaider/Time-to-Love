@@ -1243,7 +1243,6 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 			if rem.remnant_name == healer.remnant_name and rem.active:
 				var amnt = rem.variable_1_values[rem.rank - 1]
 				player1.change_health(0, amnt)
-				_remnant_of_hospital_heal(player1, player_1_remnants)
 				
 			if rem.remnant_name == hare.remnant_name and rem.active:
 				var effect = preload("res://Game Elements/Effects/speed.tres")
@@ -1257,10 +1256,8 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 				var amnt = rem.variable_1_values[rem.rank - 1]
 				if is_multiplayer:
 					player2.change_health(0, amnt)
-					_remnant_of_hospital_heal(player2, player_2_remnants)
 				else:
 					player1.change_health(0, amnt)
-					_remnant_of_hospital_heal(player1, player_1_remnants)
 				
 			if rem.remnant_name == hare.remnant_name and rem.active:
 				var effect = preload("res://Game Elements/Effects/speed.tres")
@@ -1690,15 +1687,6 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 	room_instance.add_child(instance)
 	instance.set_values(c_owner, attack_body, dmg_owner, damage, direction,64, override_color)
 
-func _remnant_of_hospital_heal(player:Node, remnants) -> void:
-	var hospital = preload("res://Game Elements/Remnants/hospital.tres")
-	for rem in remnants:
-		print(rem.remnant_name)
-		if rem.remnant_name == hospital.remnant_name and rem.active:
-			var amnt = rem.variable_1_values[rem.rank - 1] / 100.0
-			amnt *= player.current_health
-			player.change_health(amnt)
-			break
 
 func dev_remnants():
 	var rem = load("res://Game Elements/Remnants/gambler.tres")

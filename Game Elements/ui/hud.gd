@@ -42,7 +42,7 @@ func _ready():
 func set_timefabric_amount(timefabric_collected : int):
 	$RootControl/VBoxContainer/HorizontalSlice/TimeFabric/HBoxContainer/Label.text = str(timefabric_collected)
 
-func set_remnant_icons(player1_remnants: Array, player2_remnants: Array, ranked_up1: Array[String] = [], ranked_up2: Array[String] = []):
+func set_remnant_icons(player1_remnants: Array, player2_remnants: Array, ranked_up1: Array[String] = [], ranked_up2: Array[String] = [], deactived_remnants : Array[Remnant] = []):
 	
 	for rem in player1_remnants:
 		Globals.record_remnant(rem.remnant_name, rem.rank)
@@ -56,9 +56,9 @@ func set_remnant_icons(player1_remnants: Array, player2_remnants: Array, ranked_
 	await get_tree().process_frame
 	for remnant in player1_remnants:
 		if ranked_up1.has(remnant.remnant_name):
-			_add_slot($RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/LeftRemnants, remnant,true,true)
+			_add_slot($RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/LeftRemnants, remnant,true,true,deactived_remnants)
 		else:
-			_add_slot($RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/LeftRemnants, remnant,false,true)
+			_add_slot($RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/LeftRemnants, remnant,false,true,deactived_remnants)
 			
 	# --- Populate RIGHT (R->L per row with padding) ---
 	var right_grid = $RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/RightRemnants
@@ -83,9 +83,9 @@ func set_remnant_icons(player1_remnants: Array, player2_remnants: Array, ranked_
 		for item in visual_row:
 			if item is Remnant:  # normal remnant
 				if ranked_up2.has(item.remnant_name):
-					_add_slot(right_grid, item,true,false)
+					_add_slot(right_grid, item,true,false,deactived_remnants)
 				else:
-					_add_slot(right_grid, item,false,false)
+					_add_slot(right_grid, item,false,false,deactived_remnants)
 			else:  # dummy Control
 				right_grid.add_child(item)
 
@@ -99,7 +99,7 @@ func set_remnant_icons(player1_remnants: Array, player2_remnants: Array, ranked_
 	if pause_menu:
 		_setup_focus_connections()
 	
-func _add_slot(grid: Node, remnant: Resource, has_ranked : bool = false, is_purple_icon : bool = false):
+func _add_slot(grid: Node, remnant: Resource, has_ranked : bool = false, is_purple_icon : bool = false,deactived_remnants : Array[Remnant] = []):
 	var slot := IconSlotScene.instantiate()
 	var label := slot.get_node("Label")
 	if has_ranked:
@@ -109,6 +109,9 @@ func _add_slot(grid: Node, remnant: Resource, has_ranked : bool = false, is_purp
 	grid.add_child(slot)
 	slot.setup(remnant,is_purple_icon)
 	slot.get_node("TextureRect").material.set_shader_parameter("active", remnant.active)
+	if remnant in deactived_remnants:
+		var particles = load("res://Game Elements/Particles/steal_particles.tscn").instantiate()
+		slot.add_child(particles)
 	if has_ranked:
 		slot.get_node("TextureRect").material.set_shader_parameter("start_time", Time.get_ticks_msec() / 1000.0)
 		await get_tree().create_timer(.5, false).timeout
