@@ -190,7 +190,7 @@ func _on_tentacle_reached_hole(tentacle: Node) -> void:
 		"healthupgrade":
 			reward.set_cost(200)
 		"health":
-			reward.set_cos(150)
+			reward.set_cost(150)
 		"remnantupgrade":
 			reward.set_cost(300)
 		_:
