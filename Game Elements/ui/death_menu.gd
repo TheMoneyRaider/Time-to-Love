@@ -7,6 +7,7 @@ extends CanvasLayer
 @export var min_shader_intensity = 0.1
 @export	var max_shader_intensity = 1.25
 @export	var longterm_buffer_size := 128
+var longterm_seconds := longterm_buffer_size / longterm_fps
 
 var initial_replay_fps = 12
 
@@ -120,6 +121,8 @@ func play_replay_reverse():
 	var elapsed = 0.0
 	var recent_len = recent_buffer.size()
 	var longterm_len = longterm_buffer.size()
+	var longterm_time = longterm_len / longterm_fps
+	var total_time = longterm_time + recent_seconds
 	var desc = total_time - initial_replay_fps
 
 	#Change rewind time if total time is too low
