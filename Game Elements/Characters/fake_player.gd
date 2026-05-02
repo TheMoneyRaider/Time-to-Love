@@ -9,7 +9,7 @@ var input_direction : Vector2 = Vector2.ZERO
 @onready var move_state = $LimboHSM/Move
 @onready var attack_state = $LimboHSM/Attack
 @onready var swap_state = $LimboHSM/Swap
-@onready var purple_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/Basic Purple Spritesheet-export.png")
+@onready var purple_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/purple_spritesheet.png")
 @onready var orange_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/Basic Orange Spritesheet-export.png")
 
 

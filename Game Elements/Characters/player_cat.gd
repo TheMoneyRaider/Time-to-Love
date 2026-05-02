@@ -31,7 +31,7 @@ var move_speed: float
 @onready var sprite = $Sprite2D
 @onready var purple_crosshair = preload("res://art/purple_crosshair.png")
 @onready var orange_crosshair = preload("res://art/orange_crosshair.png")
-@onready var purple_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/Basic Purple Spritesheet-export.png")
+@onready var purple_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/purple_spritesheet.png")
 @onready var orange_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/Basic Orange Spritesheet-export.png")
 var other_player
 var disabled = false
