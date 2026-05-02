@@ -18,7 +18,7 @@ lifespan = 2.0
 hit_force = 50.0
 cooldown = 0.75
 pierce = 1.0
-attack_type = "ball"
+attack_type = "slime_ball"
 deflectable = true
 deflects = true
 

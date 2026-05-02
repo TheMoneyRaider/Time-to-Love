@@ -81,7 +81,7 @@ func handle_attack(target_position: Vector2,attack_index: int = 0):
 				request_attack(attacks[1], attack_position, attack_direction.rotated(i * 2 * PI / 12) )
 			return
 		else:
-			request_attack(attacks[0], attack_position + Vector2(0,25), attack_direction)
+			request_attack(attacks[0], attack_position + Vector2(0,20), attack_direction)
 			return
 	request_attack(attacks[attack_index], attack_position, attack_direction)
 
