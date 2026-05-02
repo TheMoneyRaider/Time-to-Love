@@ -1,7 +1,7 @@
 [gd_scene load_steps=30 format=3 uid="uid://bgysbj2623d8d"]
 
 [ext_resource type="Script" uid="uid://dpumkeekpn38k" path="res://Game Elements/Characters/player_cat.gd" id="1_u0lhy"]
-[ext_resource type="Texture2D" uid="uid://bse7gaxbkiksd" path="res://art/Sprout Lands - Sprites - Basic pack/Characters/Basic Purple Spritesheet-export.png" id="2_qmbn4"]
+[ext_resource type="Texture2D" uid="uid://dj72ghb0k7x4n" path="res://art/Sprout Lands - Sprites - Basic pack/Characters/purple_spritesheet.png" id="2_nxfgs"]
 [ext_resource type="PackedScene" uid="uid://wymaxwjxh1tp" path="res://Game Elements/Weapons/Weapon_sprite.tscn" id="4_etjf5"]
 [ext_resource type="Script" uid="uid://dcpvhpj3f8luc" path="res://Game Elements/States/idle.gd" id="5_gr630"]
 [ext_resource type="PackedScene" uid="uid://dhidnnukydkmw" path="res://Game Elements/General Game/crosshair.tscn" id="5_q2fti"]
@@ -241,7 +241,7 @@ state_machine = NodePath("LimboHSM")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 y_sort_enabled = true
-texture = ExtResource("2_qmbn4")
+texture = ExtResource("2_nxfgs")
 hframes = 4
 vframes = 4
 
