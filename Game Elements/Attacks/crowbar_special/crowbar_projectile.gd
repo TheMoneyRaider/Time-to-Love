@@ -5,6 +5,7 @@ var viewport_size = Vector2(64,64)
 @onready var vp = $SubViewport
 var created : bool =false
 @onready var sprites = [$Sprite1,$Sprite2,$Sprite3,$Sprite4,$Sprite5]
+@onready var shadow : Sprite2D = $Sprite6  # Shadow sprite
 
 var target : Node
 
@@ -19,12 +20,17 @@ var overshoot_height = 48.0
 var start_position : Vector2
 var disabled = false
 
+# Shadow movement
+var shadow_active = false
 
 func _ready() -> void:
 	original_position= position
 	var tex =await flatten_nodes_to_sprite(room_root,19)
 	for sp in sprites:
 		sp.texture = tex
+	# Set up shadow appearance
+	shadow.texture = tex
+	shadow.modulate = Color(0, 0, 0, 0.45)
 
 func _process(delta: float) -> void:
 	if disabled:
@@ -34,7 +40,8 @@ func _process(delta: float) -> void:
 			sp.material = sp.material.duplicate(true)
 			sp.material.set_shader_parameter("mask",mask.get_whole_image())
 			sp.material.set_shader_parameter("mask_offset",global_position+sp.material.get_shader_parameter("mask_offset"))
-			
+		shadow.material.set_shader_parameter("mask",mask.get_whole_image())
+		shadow.material.set_shader_parameter("mask_offset",global_position+shadow.material.get_shader_parameter("mask_offset"))
 		created=true
 		velocity = Vector2(0,-100)
 	if !created:
@@ -44,6 +51,14 @@ func _process(delta: float) -> void:
 		velocity += gravity * delta
 		position += velocity * delta
 
+		# Move shadow in a straight line, independently of parent position
+		if shadow_active:
+			shadow.global_position.x = global_position.x
+			shadow.global_position.y = lerp(start_position.y,target.global_position.y,((global_position.x - start_position.x)/(target.global_position.x - start_position.x)))
+			var y_diff = global_position.y - shadow.global_position.y
+			var t = clamp(-y_diff / overshoot_height, 0.0, 1.0)
+			shadow.scale = Vector2.ONE * lerp(1.0, 1.35, t)
+			shadow.modulate.a = lerp(0.45, 0.15, t)
 		# Check if passed target
 		var reached_x = (velocity.x > 0 and position.x >= target.global_position.x) or (velocity.x < 0 and position.x <= target.global_position.x)
 		var reached_y = (velocity.y > 0 and position.y >= target.global_position.y)
@@ -80,9 +95,6 @@ func flatten_nodes_to_sprite(root: Node, z_limit: int) -> Texture:
 	_copy_below_z(root,z_limit)
 	copy_texture_rect_to_viewport()
 	
-	
-	
-
 	# Force one frame update (optional)
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -116,6 +128,7 @@ func activate(input: Node, player : Node):
 	player_owner = player
 	for sp in sprites:
 		sp.material.set_shader_parameter("masking_enabled", false)
+	shadow.material.set_shader_parameter("masking_enabled", false)
 	target = input
 	active = true
 	start_position = global_position
@@ -148,6 +161,11 @@ func activate(input: Node, player : Node):
 	# Horizontal velocity to reach target X in that time
 	var delta_x = target.global_position.x - start_position.x
 	velocity.x = delta_x / t_total
+	
+	# Shadow travels the straight-line distance in the same total time
+	shadow.global_position = start_position
+	shadow_active = true
+
 
 func _copy_below_z(node: Node2D, z_limit: int):
 	if node.z_index <= z_limit and node is TileMapLayer:
