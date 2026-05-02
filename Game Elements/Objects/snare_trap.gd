@@ -4,7 +4,6 @@ extends Area2D
 @onready var hitbox: CollisionShape2D = $CollisionShape2D
 
 var active: bool = false
-var running: bool = false
 var tracked_bodies: Array = []
 
 func _ready():
@@ -33,12 +32,40 @@ func activate():
 	active = false
 	await anim.animation_finished
 
+var time = 0.0
+func _process(delta: float) -> void:
+	if !active:
+		return
+	time-=delta
+	if time <= 0.0:
+		for body in tracked_bodies:
+			if _crafter_chance(body):
+				var do_effect = true
+				for effect in body.effects:
+					if effect.type == "speed":
+						do_effect = false
+				if do_effect:
+					var new_effect = preload("res://Game Elements/Effects/speed.tres").duplicate(true)
+					new_effect.cooldown = .2
+					new_effect.value1 = -.8
+					new_effect.gained(body)
+					body.effects.append(new_effect)
+		if !tracked_bodies.is_empty():
+			time=.21
+		else:
+			time = 0.0
+			active = false
+
+
+
+
+
 func _on_body_entered(body):
 	if body.has_method("take_damage"):
 		tracked_bodies.append(body)
 	if !active:
-		if !running and body.has_method("take_damage"):
-			activate()
+		if body.has_method("take_damage") and !active:
+			active = true
 			return
 	elif body.has_method("take_damage"):
 		if _crafter_chance(body):
