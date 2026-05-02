@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3 uid="uid://3pusk1742ies"]
+
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_mfo0f"]
+[ext_resource type="Texture2D" uid="uid://c1ujnqhxa5iwj" path="res://art/slime_ball.png" id="2_mfo0f"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mfo0f"]
+radius = 7.017834
+
+[node name="SlimeBall" type="Area2D" groups=["attack"]]
+z_index = 20
+y_sort_enabled = true
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("1_mfo0f")
+speed = 150.0
+damage = 4.0
+lifespan = 2.0
+hit_force = 50.0
+cooldown = 0.75
+pierce = 1.0
+attack_type = "ball"
+deflectable = true
+deflects = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("CircleShape2D_mfo0f")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 4.7683716e-07)
+texture = ExtResource("2_mfo0f")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

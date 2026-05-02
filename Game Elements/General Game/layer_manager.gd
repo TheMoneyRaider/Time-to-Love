@@ -6,8 +6,8 @@ extends Node2D
 ### Temp Multiplayer Fix
 var player1 = null
 var player2 = null
-var weapon1 = "res://Game Elements/Weapons/Shotgun.tres"
-var weapon2 = "res://Game Elements/Weapons/LaserSword.tres"
+var weapon1 = "res://Game Elements/Weapons/Mace.tres"
+var weapon2 = "res://Game Elements/Weapons/Crossbow.tres"
 var undiscovered_weapons = []
 var possible_weapon = ""#undiscovered_weapons.pick_random()
 ###

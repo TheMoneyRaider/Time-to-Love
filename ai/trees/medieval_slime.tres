@@ -1,0 +1,275 @@
+[gd_resource type="BehaviorTree" load_steps=71 format=3 uid="uid://dm8x65ame440a"]
+
+[ext_resource type="Script" uid="uid://7jhqrxgbl3q" path="res://ai/tasks/adjustTargetPos.gd" id="1_oo5ba"]
+[ext_resource type="Script" uid="uid://clsympdov604o" path="res://ai/tasks/checkAgro.gd" id="2_oo5ba"]
+[ext_resource type="Script" uid="uid://yu3fkdlxtfbv" path="res://ai/tasks/calcPath.gd" id="3_8nx5v"]
+[ext_resource type="Script" uid="uid://dko7uh5a2dm00" path="res://ai/tasks/moveToPos.gd" id="4_kx3c3"]
+[ext_resource type="Script" uid="uid://b7mqxkcvqcrar" path="res://ai/tasks/check_if_moving.gd" id="5_8nx5v"]
+[ext_resource type="Script" uid="uid://c0bvdm1o3wjaq" path="res://ai/tasks/random_cooldown.gd" id="5_q6hn4"]
+[ext_resource type="Script" uid="uid://c7b86gm25q0p3" path="res://ai/tasks/player_in_range.gd" id="6_3hg6a"]
+[ext_resource type="Script" uid="uid://ravfjih580jj" path="res://ai/tasks/moveToPlayer.gd" id="7_brb8l"]
+[ext_resource type="Script" uid="uid://rvfhx3hd7gln" path="res://ai/tasks/attacks.gd" id="8_nrr3i"]
+[ext_resource type="Script" uid="uid://danrund51c7i6" path="res://ai/tasks/chooseRandomPos.gd" id="9_lyn0b"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_ua8f2"]
+var/state/name = &"state"
+var/state/type = 4
+var/state/value = ""
+var/state/hint = 0
+var/state/hint_string = ""
+var/agro_dist/name = &"agro_dist"
+var/agro_dist/type = 3
+var/agro_dist/value = 0.0
+var/agro_dist/hint = 0
+var/agro_dist/hint_string = ""
+var/deagro_dist/name = &"deagro_dist"
+var/deagro_dist/type = 3
+var/deagro_dist/value = 0.0
+var/deagro_dist/hint = 0
+var/deagro_dist/hint_string = ""
+var/hit_range/name = &"hit_range"
+var/hit_range/type = 3
+var/hit_range/value = 0.0
+var/hit_range/hint = 0
+var/hit_range/hint_string = ""
+var/target_pos/name = &"target_pos"
+var/target_pos/type = 5
+var/target_pos/value = Vector2(0, 0)
+var/target_pos/hint = 0
+var/target_pos/hint_string = ""
+var/player_idx/name = &"player_idx"
+var/player_idx/type = 2
+var/player_idx/value = 0
+var/player_idx/hint = 0
+var/player_idx/hint_string = ""
+
+[sub_resource type="BTAction" id="BTAction_76wjc"]
+custom_name = "AdjustedPlayerPos"
+script = ExtResource("1_oo5ba")
+dist_to_player = 120.0
+
+[sub_resource type="BTAction" id="BTAction_3ccgm"]
+script = ExtResource("2_oo5ba")
+
+[sub_resource type="BTSequence" id="BTSequence_4evon"]
+custom_name = "Constants"
+children = [SubResource("BTAction_76wjc"), SubResource("BTAction_3ccgm")]
+
+[sub_resource type="BBVariant" id="BBVariant_3c6mk"]
+type = 4
+saved_value = "agro"
+resource_name = "agro"
+
+[sub_resource type="BTCheckVar" id="BTCheckVar_nufqr"]
+variable = &"state"
+value = SubResource("BBVariant_3c6mk")
+
+[sub_resource type="BBNode" id="BBNode_k4yq3"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_861og"]
+animation_player = SubResource("BBNode_k4yq3")
+animation_name = &"move"
+
+[sub_resource type="BTRunLimit" id="BTRunLimit_76wjc"]
+children = [SubResource("BTPlayAnimation_861og")]
+
+[sub_resource type="BTAction" id="BTAction_xsft4"]
+script = ExtResource("3_8nx5v")
+
+[sub_resource type="BTAction" id="BTAction_1kwu6"]
+script = ExtResource("4_kx3c3")
+target_to_player = 120.0
+
+[sub_resource type="BTAction" id="BTAction_ppdyw"]
+script = ExtResource("5_8nx5v")
+
+[sub_resource type="BBNode" id="BBNode_1ufl2"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_yry68"]
+animation_player = SubResource("BBNode_1ufl2")
+animation_name = &"move"
+
+[sub_resource type="BTSelector" id="BTSelector_3pddk"]
+children = [SubResource("BTAction_ppdyw"), SubResource("BTPlayAnimation_yry68")]
+
+[sub_resource type="BTAction" id="BTAction_8nx5v"]
+custom_name = "OuterRange"
+script = ExtResource("6_3hg6a")
+hit_range = 150
+
+[sub_resource type="BTAction" id="BTAction_v4ajl"]
+script = ExtResource("5_q6hn4")
+min_time = 0.5
+max_time = 2.0
+
+[sub_resource type="BTAction" id="BTAction_yg7nc"]
+custom_name = "OuterRange"
+script = ExtResource("6_3hg6a")
+hit_range = 90
+
+[sub_resource type="BBNode" id="BBNode_oo5ba"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_8nx5v"]
+animation_player = SubResource("BBNode_oo5ba")
+animation_name = &"attack"
+
+[sub_resource type="BTAction" id="BTAction_kx3c3"]
+script = ExtResource("8_nrr3i")
+
+[sub_resource type="BTDelay" id="BTDelay_q6hn4"]
+seconds = 0.1
+children = [SubResource("BTAction_kx3c3")]
+
+[sub_resource type="BBNode" id="BBNode_3hg6a"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_brb8l"]
+animation_player = SubResource("BBNode_3hg6a")
+animation_name = &"idle"
+
+[sub_resource type="BTDelay" id="BTDelay_nrr3i"]
+seconds = 0.3
+children = [SubResource("BTPlayAnimation_brb8l")]
+
+[sub_resource type="BTFail" id="BTFail_oo5ba"]
+
+[sub_resource type="BTDelay" id="BTDelay_oo5ba"]
+children = [SubResource("BTFail_oo5ba")]
+
+[sub_resource type="BTSequence" id="BTSequence_8nx5v"]
+children = [SubResource("BTPlayAnimation_8nx5v"), SubResource("BTDelay_q6hn4"), SubResource("BTDelay_nrr3i"), SubResource("BTDelay_oo5ba")]
+
+[sub_resource type="BTSelector" id="BTSelector_lyn0b"]
+custom_name = "RangedAttack"
+children = [SubResource("BTAction_yg7nc"), SubResource("BTSequence_8nx5v")]
+
+[sub_resource type="BTAction" id="BTAction_oo5ba"]
+script = ExtResource("7_brb8l")
+
+[sub_resource type="BTAction" id="BTAction_h7qfk"]
+custom_name = "InnerRange"
+script = ExtResource("6_3hg6a")
+hit_range = 40
+
+[sub_resource type="BBNode" id="BBNode_1kwu6"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTStopAnimation" id="BTStopAnimation_3ccgm"]
+animation_player = SubResource("BBNode_1kwu6")
+animation_name = &"move"
+
+[sub_resource type="BBNode" id="BBNode_6xbjc"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_4evon"]
+animation_player = SubResource("BBNode_6xbjc")
+animation_name = &"attack"
+
+[sub_resource type="BTAction" id="BTAction_861og"]
+script = ExtResource("8_nrr3i")
+
+[sub_resource type="BTDelay" id="BTDelay_arvq5"]
+seconds = 0.2
+children = [SubResource("BTAction_861og")]
+
+[sub_resource type="BBNode" id="BBNode_76wjc"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_ppdyw"]
+animation_player = SubResource("BBNode_76wjc")
+animation_name = &"idle"
+
+[sub_resource type="BTDelay" id="BTDelay_1ufl2"]
+seconds = 0.3
+children = [SubResource("BTPlayAnimation_ppdyw")]
+
+[sub_resource type="BTSequence" id="BTSequence_v4ajl"]
+custom_name = "Attack if in Range"
+children = [SubResource("BTAction_8nx5v"), SubResource("BTAction_v4ajl"), SubResource("BTSelector_lyn0b"), SubResource("BTAction_oo5ba"), SubResource("BTAction_h7qfk"), SubResource("BTStopAnimation_3ccgm"), SubResource("BTPlayAnimation_4evon"), SubResource("BTDelay_arvq5"), SubResource("BTDelay_1ufl2")]
+
+[sub_resource type="BTCooldown" id="BTCooldown_33y05"]
+duration = 1.0
+children = [SubResource("BTSequence_v4ajl")]
+
+[sub_resource type="BTSequence" id="BTSequence_yg7nc"]
+custom_name = "Attack"
+children = [SubResource("BTAction_xsft4"), SubResource("BTAction_1kwu6"), SubResource("BTSelector_3pddk"), SubResource("BTCooldown_33y05")]
+
+[sub_resource type="BTDynamicSelector" id="BTDynamicSelector_k4yq3"]
+custom_name = "Animate or Not"
+children = [SubResource("BTRunLimit_76wjc"), SubResource("BTSequence_yg7nc")]
+
+[sub_resource type="BTSequence" id="BTSequence_ecge8"]
+custom_name = "Attack"
+children = [SubResource("BTCheckVar_nufqr"), SubResource("BTDynamicSelector_k4yq3")]
+
+[sub_resource type="BBVariant" id="BBVariant_jodhf"]
+type = 4
+saved_value = "agro"
+resource_name = "agro"
+
+[sub_resource type="BTCheckVar" id="BTCheckVar_hsdvk"]
+variable = &"state"
+check_type = 5
+value = SubResource("BBVariant_jodhf")
+
+[sub_resource type="BTAction" id="BTAction_arvq5"]
+script = ExtResource("5_q6hn4")
+
+[sub_resource type="BBNode" id="BBNode_arvq5"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_yg7nc"]
+animation_player = SubResource("BBNode_arvq5")
+animation_name = &"move"
+
+[sub_resource type="BTAction" id="BTAction_nufqr"]
+script = ExtResource("9_lyn0b")
+
+[sub_resource type="BTAction" id="BTAction_3jwwk"]
+script = ExtResource("3_8nx5v")
+
+[sub_resource type="BTAction" id="BTAction_hnqba"]
+custom_name = "moveToPos"
+script = ExtResource("4_kx3c3")
+
+[sub_resource type="BBNode" id="BBNode_2flr3"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_h7qfk"]
+animation_player = SubResource("BBNode_2flr3")
+animation_name = &"idle"
+
+[sub_resource type="BTSequence" id="BTSequence_arvq5"]
+children = [SubResource("BTAction_arvq5"), SubResource("BTPlayAnimation_yg7nc"), SubResource("BTAction_nufqr"), SubResource("BTAction_3jwwk"), SubResource("BTAction_hnqba"), SubResource("BTPlayAnimation_h7qfk")]
+
+[sub_resource type="BTCooldown" id="BTCooldown_y6dfc"]
+duration = 3.0
+children = [SubResource("BTSequence_arvq5")]
+
+[sub_resource type="BTSequence" id="BTSequence_3c6mk"]
+custom_name = "Patrol"
+children = [SubResource("BTCheckVar_hsdvk"), SubResource("BTCooldown_y6dfc")]
+
+[sub_resource type="BTSelector" id="BTSelector_h7qfk"]
+children = [SubResource("BTSequence_ecge8"), SubResource("BTSequence_3c6mk")]
+
+[sub_resource type="BTSequence" id="BTSequence_6xbjc"]
+custom_name = "Overall Tree"
+children = [SubResource("BTSequence_4evon"), SubResource("BTSelector_h7qfk")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_ua8f2")
+root_task = SubResource("BTSequence_6xbjc")
