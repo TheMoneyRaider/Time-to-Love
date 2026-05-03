@@ -20,7 +20,7 @@ var velocity: Vector2 = Vector2.ZERO
 var gravity: Vector2 = Vector2(0, 150)
 var overshoot_height: float = 48.0
 var start_position: Vector2
-var target: Node
+var target_position: Vector2
 
 @export var shadow: Node2D
 
@@ -73,37 +73,37 @@ func _process_throw(delta):
 		shadow.global_position.x = global_position.x
 		shadow.global_position.y = lerp(
 			start_position.y,
-			target.global_position.y,
-			(global_position.x - start_position.x) / (target.global_position.x - start_position.x)
+			target_position.y,
+			(global_position.x - start_position.x) / (target_position.x - start_position.x)
 		)
 		var y_diff = global_position.y - shadow.global_position.y
 		var t = clamp(-y_diff / overshoot_height, 0.0, 1.0)
 		shadow.scale = Vector2.ONE * lerp(1.0, 1.35, t)
 		shadow.modulate.a = lerp(0.45, 0.15, t)
 
-	var reached_x = (velocity.x > 0 and position.x >= target.global_position.x) \
-				 or (velocity.x < 0 and position.x <= target.global_position.x)
-	var reached_y = (velocity.y > 0 and position.y >= target.global_position.y)
+	var reached_x = (velocity.x > 0 and position.x >= target_position.x) \
+				 or (velocity.x < 0 and position.x <= target_position.x)
+	var reached_y = (velocity.y > 0 and position.y >= target_position.y)
 
 	if reached_x and reached_y:
-		global_position = target.global_position
+		global_position = target_position
 		velocity = Vector2.ZERO
 		_on_land()
 
 		
 func activate(input: Node):
-	target = input
+	target_position = input.global_position
 	active = true
 	start_position = global_position
 
-	var peak_y = min(start_position.y, target.global_position.y) - overshoot_height
+	var peak_y = min(start_position.y, target_position.y) - overshoot_height
 	var delta_y = start_position.y - peak_y
 	var g = gravity.y
 	var vy0 = -sqrt(2 * g * delta_y)
 	velocity.y = vy0
 
 	var y0 = start_position.y
-	var y_target = target.global_position.y
+	var y_target = target_position.y
 	var a = 0.5 * g
 	var b = vy0
 	var c = y0 - y_target
@@ -112,7 +112,7 @@ func activate(input: Node):
 	if t_total <= 0.01:
 		t_total = 0.1
 
-	velocity.x = (target.global_position.x - start_position.x) / t_total
+	velocity.x = (target_position.x - start_position.x) / t_total
 
 	if shadow:
 		shadow.global_position = start_position

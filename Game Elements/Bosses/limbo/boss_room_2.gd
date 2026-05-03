@@ -270,14 +270,14 @@ func _remove_remnants():
 	var rem1_idx = randi() % LayerManager.player_1_remnants.size()
 	var rem2_idx = randi() % LayerManager.player_2_remnants.size()
 	var s = 0
-	while !LayerManager.player_1_remnants[rem1_idx].active and s < LayerManager.player_1_remnants.size():
+	while LayerManager.player_1_remnants[rem1_idx].active and s < LayerManager.player_1_remnants.size()+2:
 		rem1_idx=(rem1_idx+1)% LayerManager.player_1_remnants.size()
 		s+=1
 	if s >=LayerManager.player_1_remnants.size():
 		rem1_idx=-1
 	s = 0
-	while !LayerManager.player_2_remnants[rem2_idx].active and s < LayerManager.player_2_remnants.size():
-		rem1_idx=(rem2_idx+1)% LayerManager.player_2_remnants.size()
+	while LayerManager.player_2_remnants[rem2_idx].active and s < LayerManager.player_2_remnants.size()+2:
+		rem2_idx=(rem2_idx+1)% LayerManager.player_2_remnants.size()
 		s+=1
 	if s >=LayerManager.player_2_remnants.size():
 		rem2_idx=-1
@@ -294,6 +294,7 @@ func _remove_remnants():
 		else:
 			LayerManager.remnant_update(LayerManager.player_2_remnants[rem2_idx], player1, false, false)
 	Hud.set_remnant_icons(LayerManager.player_1_remnants,LayerManager.player_2_remnants,[], [], changed_remnants)
+	print("YOINK")
 	
 var revealing :bool = false
 func reveal_boss():
