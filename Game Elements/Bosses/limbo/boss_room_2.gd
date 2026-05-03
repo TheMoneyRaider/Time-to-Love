@@ -325,6 +325,16 @@ func reveal_boss():
 			
 func island_attack():
 	island_attack_num-=1
-	clamp(island_attack_num,0,10)
-	print("ISLAND")
+	island_attack_num = clamp(island_attack_num,0,10)
+	if rocks.is_empty():
+		return
+	
+	var rock = rocks[randi() % rocks.size()]
+	rocks.erase(rock)
+
+	# Activate it toward a random player
+	if is_multiplayer:
+		rock.activate(player1) if randf() > .5 else rock.activate(player2)
+	else:
+		rock.activate(player1)
 	return
