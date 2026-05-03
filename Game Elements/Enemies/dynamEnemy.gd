@@ -47,6 +47,8 @@ var knockback_velocity : Vector2 = Vector2.ZERO
 @export var knockback_decay : float = .90
 var LayerManager : Node
 
+var parent_node = null
+
 
 @export var attacks = [preload("res://Game Elements/Attacks/bad_bolt.tscn"),preload("res://Game Elements/Attacks/robot_melee.tscn")]
 signal attack_requested(new_attack : PackedScene, t_position : Vector2, t_direction : Vector2, damage_boost : float)
@@ -92,6 +94,7 @@ func load_settings():
 	
 
 func _ready():
+	parent_node = get_parent()
 	if is_boss:
 		current_health = boss_healthpools[phase]
 		max_health = boss_healthpools[phase]

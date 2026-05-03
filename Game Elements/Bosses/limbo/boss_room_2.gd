@@ -35,6 +35,7 @@ var hiding : bool = false
 var hide_time =4.0
 var reveal_time = 4.0
 
+var island_attack_num = 5
 
 func activate():
 	LayerManager = get_tree().get_root().get_node("LayerManager")
@@ -73,6 +74,7 @@ func _process(delta: float) -> void:
 		boss.current_health = clamp(boss.current_health+heal_amount*delta*boss.max_health/(20*hide_time*5),0,boss.max_health)
 		Hud.update_bossbar(boss.current_health/boss.max_health)
 		if !Hiding_Node and !revealing:
+			boss.current_health = clamp(boss.current_health+heal_amount*delta*boss.max_health/(20*5)*ability_progress,0,boss.max_health)
 			_remove_remnants()
 			reveal_boss()
 		if Hiding_Node:
@@ -321,3 +323,8 @@ func reveal_boss():
 	boss.process_mode = Node.PROCESS_MODE_PAUSABLE
 	ability_progress = 0.0
 			
+func island_attack():
+	island_attack_num-=1
+	clamp(island_attack_num,0,10)
+	print("ISLAND")
+	return
