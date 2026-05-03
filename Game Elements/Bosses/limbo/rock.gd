@@ -120,9 +120,15 @@ func activate(input: Node):
 
 func _on_land():
 	disabled = true
-	# TODO: put your impact logic here (spawn effect, deal damage, etc.)
-	if shadow:
-		shadow.queue_free()
+	var attack_inst = load("res://Game Elements/Attacks/rock_final.tscn").instantiate()
+	attack_inst.global_position = global_position
+	attack_inst.c_owner = get_parent().boss
+	attack_inst.direction = Vector2.UP
+	get_parent().add_child(attack_inst)
+	get_parent().LayerManager.camera.shake(20)
+	var tween = create_tween()
+	tween.tween_property(self, "modulate:a", 0.0, 0.125)
+	await tween.finished   # wait until tween actually finishes
 	queue_free()
 
 # --- Bezier easing ---
