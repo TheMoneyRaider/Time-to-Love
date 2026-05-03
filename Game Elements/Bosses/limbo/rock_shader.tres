@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://u3rvhvwhiope"]
+
+[ext_resource type="Shader" uid="uid://lue5cc00oml7" path="res://Game Elements/Bosses/limbo/rock_mask.gdshader" id="1_pmn3d"]
+[ext_resource type="Texture2D" uid="uid://boaxkfxjhb0hq" path="res://art/characters/vision/shadow_mask2.png" id="2_efpni"]
+
+[resource]
+shader = ExtResource("1_pmn3d")
+shader_parameter/mask_texture = ExtResource("2_efpni")
+shader_parameter/mask_offset = Vector2(0, 0)
+shader_parameter/mask_scale = Vector2(1, 1)
