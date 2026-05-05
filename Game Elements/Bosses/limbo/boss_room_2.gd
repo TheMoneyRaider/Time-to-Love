@@ -32,8 +32,8 @@ var Hiding_Node : Node = null
 var hiding_node_position : Vector2
 var hiding : bool = false
 
-var hide_time =20.0
-var reveal_time = 60.0
+var hide_time =10.0
+var reveal_time = 40.0
 
 var island_attack_num = 5
 
@@ -267,20 +267,8 @@ func on_clone_arrived(clone: Node):
 		clone.hitable = true
 
 func _remove_remnants():
-	var rem1_idx = randi() % LayerManager.player_1_remnants.size()
-	var rem2_idx = randi() % LayerManager.player_2_remnants.size()
-	var s = 0
-	while LayerManager.player_1_remnants[rem1_idx].active and s < LayerManager.player_1_remnants.size()+2:
-		rem1_idx=(rem1_idx+1)% LayerManager.player_1_remnants.size()
-		s+=1
-	if s >=LayerManager.player_1_remnants.size():
-		rem1_idx=-1
-	s = 0
-	while LayerManager.player_2_remnants[rem2_idx].active and s < LayerManager.player_2_remnants.size()+2:
-		rem2_idx=(rem2_idx+1)% LayerManager.player_2_remnants.size()
-		s+=1
-	if s >=LayerManager.player_2_remnants.size():
-		rem2_idx=-1
+	var rem1_idx = _find_active_remnant(LayerManager.player_1_remnants)
+	var rem2_idx = _find_active_remnant(LayerManager.player_2_remnants)
 	var changed_remnants : Array[Remnant]= []
 	if rem1_idx >=0:
 		LayerManager.player_1_remnants[rem1_idx].active = false
@@ -295,7 +283,19 @@ func _remove_remnants():
 			LayerManager.remnant_update(LayerManager.player_2_remnants[rem2_idx], player1, false, false)
 	Hud.set_remnant_icons(LayerManager.player_1_remnants,LayerManager.player_2_remnants,[], [], changed_remnants)
 	print("YOINK")
-	
+
+func _find_active_remnant(remnants: Array) -> int:
+	var start_idx = randi() % remnants.size()
+	var idx = start_idx
+	var s = 0
+	while !remnants[idx].active and s < remnants.size():
+		idx = (idx + 1) % remnants.size()
+		s += 1
+	if s >= remnants.size() or !remnants[idx].active:
+		return -1
+	return idx
+
+
 var revealing :bool = false
 func reveal_boss():
 	if revealing:
