@@ -38,7 +38,7 @@ static func spawn_enemies(
 	layer_manager: Node,
 	is_wave: bool,
 	override_enemy_count : int = -1,
-	override_enemy_type : String = "", is_natural_spawn : bool = false
+	override_enemy_type : String = "", is_natural_spawn : bool = false, edge_penalty : bool = true
 ) -> void:
 	if room_data.num_enemy_goal <= 0 and override_enemy_count == -1:
 		return
@@ -70,7 +70,8 @@ static func spawn_enemies(
 	for _i in enemy_goal:
 		var best := _choose_best_cell(
 			cell_set,
-			cells_needed
+			cells_needed,
+			edge_penalty
 		)
 
 		if best == Vector2i(-999,-999):
@@ -106,7 +107,8 @@ static func choose_enemy(room_data: Room) -> String:
 ###CELL SELECTION
 static func _choose_best_cell(
 	cell_set: Dictionary,
-	cells_needed: Vector2i
+	cells_needed: Vector2i,
+	edge_penalty: bool = true
 ) -> Vector2i:
 	var total_weight := 0.0
 	var chosen: Vector2i = Vector2(-999,-999)
@@ -117,7 +119,8 @@ static func _choose_best_cell(
 
 		var score := 1.0
 		score -= player_penalty_field.get(cell, 0.0)
-		score -= edge_penalty_field.get(cell, 0.0)
+		if(edge_penalty):
+			score -= edge_penalty_field.get(cell, 0.0)
 		score -= enemy_penalty_field.get(cell, 0.0)
 		score = clamp(score, 0.0, 1.0)
 

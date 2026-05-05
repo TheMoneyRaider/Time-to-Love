@@ -27,7 +27,7 @@ func activate():
 				new_effect.gained(body)
 				body.effects.append(new_effect)
 	while !tracked_bodies.is_empty():
-		await get_tree().create_timer(.21).timeout
+		await get_tree().create_timer(.21,false).timeout
 		activate()
 	anim.play("Retract")
 	active = false

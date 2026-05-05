@@ -241,7 +241,7 @@ func _process(delta):
 		c_owner.die(true,true)
 	if attack_type == "shatter":
 		var tween = create_tween()
-		tween.tween_property(self, "modulate:a", 0.0, 1.0)
+		tween.tween_property(self, "modulate:a", 0.0, .25)
 		await tween.finished
 	for node in special_nodes:
 		node.queue_free()
@@ -267,6 +267,13 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 			return 0
 	elif !n_owner.is_in_group("player") and !body.is_in_group("player") and !hits_all:
 		return 0
+	if body.get("enemy_type") == "medieval_slime":
+		if(deflectable && attack_type != "slime_ball"):
+			if(randf() > .5):
+				deflect(-1 * direction, 100, null)
+				self.c_owner = body
+				hit_nodes = {}
+				return 0
 	if body.has_method("take_damage"):
 		if attack_type=="scifi_wave":
 			var direct = (body.global_position-global_position)

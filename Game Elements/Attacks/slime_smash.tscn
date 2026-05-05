@@ -1,37 +1,37 @@
-[gd_scene load_steps=12 format=3 uid="uid://nb76n4rdxccq"]
+[gd_scene load_steps=12 format=3 uid="uid://dgnx324s1nx05"]
 
-[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_oynju"]
-[ext_resource type="Texture2D" uid="uid://nthwo8m1cl45" path="res://art/smash_attempt2.png" id="2_oynju"]
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_lj10v"]
+[ext_resource type="Texture2D" uid="uid://nthwo8m1cl45" path="res://art/smash_attempt2.png" id="2_uqnay"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oynju"]
 radius = 8.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1ebm2"]
-atlas = ExtResource("2_oynju")
+atlas = ExtResource("2_uqnay")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qox8m"]
-atlas = ExtResource("2_oynju")
+atlas = ExtResource("2_uqnay")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d3rgv"]
-atlas = ExtResource("2_oynju")
+atlas = ExtResource("2_uqnay")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_upl13"]
-atlas = ExtResource("2_oynju")
+atlas = ExtResource("2_uqnay")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jnp85"]
-atlas = ExtResource("2_oynju")
+atlas = ExtResource("2_uqnay")
 region = Rect2(128, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_582jg"]
-atlas = ExtResource("2_oynju")
+atlas = ExtResource("2_uqnay")
 region = Rect2(160, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qidom"]
-atlas = ExtResource("2_oynju")
+atlas = ExtResource("2_uqnay")
 region = Rect2(192, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kdnw2"]
@@ -66,16 +66,16 @@ animations = [{
 [node name="Smash" type="Area2D" groups=["attack"]]
 z_index = 19
 y_sort_enabled = true
+scale = Vector2(3, 3)
 collision_layer = 8
 collision_mask = 47
-script = ExtResource("1_oynju")
+script = ExtResource("1_lj10v")
 speed = 0.0
-damage = 5.0
+damage = 2.0
 lifespan = 0.4
 hit_force = 100.0
 knockback_force = 200.0
 start_lag = 0.05
-cooldown = 0.4
 pierce = 10000.0
 wall_collision = false
 attack_type = "smash"
@@ -85,6 +85,7 @@ deflects = true
 shape = SubResource("CircleShape2D_oynju")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(0.32941177, 1, 0.21176471, 1)
 sprite_frames = SubResource("SpriteFrames_kdnw2")
 autoplay = "default"
 frame = 6

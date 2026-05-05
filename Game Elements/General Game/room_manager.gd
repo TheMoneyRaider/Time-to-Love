@@ -62,6 +62,8 @@ var sci_fi_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/s
 								
 var testing_room : Room = preload("res://Game Elements/Rooms/resources/weapon_room.tres")
 #preload("res://Game Elements/Rooms/resources/testing_room.tres")
+
+
 var bosses : Array[Room] = [preload("res://Game Elements/Rooms/resources/medieval_boss.tres"),
 						preload("res://Game Elements/Rooms/resources/scifi_boss.tres"),
 						preload("res://Game Elements/Rooms/resources/scifi_boss.tres"),

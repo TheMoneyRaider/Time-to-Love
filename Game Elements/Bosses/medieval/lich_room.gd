@@ -92,9 +92,9 @@ func lich_signal(sig :String, value1, value2, value3, value4):
 			await get_tree().create_timer(1.0).timeout
 			for i in range(value1 / 3):
 				if is_multiplayer:
-					Spawner.spawn_enemies([player1,player2], self, get_cells_in_radius(value3,value4).duplicate(),LayerManager.room_instance_data,LayerManager,true,value1,value2)
+					Spawner.spawn_enemies([player1,player2], self, get_cells_in_radius(value3,value4).duplicate(),LayerManager.room_instance_data,LayerManager,true,value1,value2, false, true)
 				else:
-					Spawner.spawn_enemies([player1], self, get_cells_in_radius(value3,value4).duplicate(),LayerManager.room_instance_data,LayerManager,true,value1,value2)
+					Spawner.spawn_enemies([player1], self, get_cells_in_radius(value3,value4).duplicate(),LayerManager.room_instance_data,LayerManager,true,value1,value2, false, true)
 			var color = (randi() % 4) + 1
 			var enemies : Array[Node]= []
 			var positions : Array[Vector2] = []
