@@ -232,7 +232,7 @@ func collect_leaf_children(node: Node, bounds: Dictionary) -> void:
 
 func explode_ui():
 	# If saved fragments exist, load them
-	if FileAccess.file_exists(saved_fragments_paths[Globals.menu]):
+	if ResourceLoader.exists(saved_fragments_paths[Globals.menu]):
 		load_fragments(saved_fragments_paths[Globals.menu])
 		update_ui_display()
 		return
@@ -416,12 +416,13 @@ func preload_all_textures():
 	for state in states:
 		var fname = generate_filename(state)
 		var path = "res://ui_captures/" + fname + ".png"
-		if FileAccess.file_exists(path):
+		if ResourceLoader.exists(path):
 			ui_textures[fname] = load(path)
 		else:
 			fname = generate_filename(state, true)
 			path = "res://ui_captures/" + fname + ".png"
-			ui_textures[fname] = load(path)
+			if ResourceLoader.exists(path):
+				ui_textures[fname] = ResourceLoader.load(path)
 		
 
 func generate_all_valid_ui_states(buttons: Array) -> Array:
