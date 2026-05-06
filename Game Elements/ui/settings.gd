@@ -19,7 +19,14 @@ func load_settings():
 	
 	# audio settings 
 	$MarginContainer/VBoxContainer/Volume/Volume.value = db_to_percent(Globals.config.get_value("audio", "master", 0))
+	$MarginContainer/VBoxContainer/Music/Music.value   = db_to_percent(Globals.config.get_value("audio", "music", 0))   
+	$MarginContainer/VBoxContainer/SFX/SFX.value       = db_to_percent(Globals.config.get_value("audio", "sfx", 0))     
+	$MarginContainer/VBoxContainer/UI/UI.value         = db_to_percent(Globals.config.get_value("audio", "ui", 0))
+	
 	update_label($MarginContainer/VBoxContainer/Volume/Volume.value, $MarginContainer/VBoxContainer/Volume/VolVal)
+	update_label($MarginContainer/VBoxContainer/Music/Music.value,   $MarginContainer/VBoxContainer/Music/MusicVal)     
+	update_label($MarginContainer/VBoxContainer/SFX/SFX.value,       $MarginContainer/VBoxContainer/SFX/SFXVal)         
+	update_label($MarginContainer/VBoxContainer/UI/UI.value,         $MarginContainer/VBoxContainer/UI/UIVal)           
 		
 var frag_mode: bool = false
 var devices : Array[Array]=[[],[]]

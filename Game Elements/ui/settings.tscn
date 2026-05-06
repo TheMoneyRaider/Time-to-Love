@@ -50,6 +50,37 @@ grow_vertical = 2
 texture = ExtResource("7_5x5iw")
 expand_mode = 1
 
+[node name="ColorRect" type="ColorRect" parent="Control"]
+z_index = -1
+material = SubResource("ShaderMaterial_3n0va")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Light_texture" type="TextureRect" parent="Control"]
+modulate = Color(0.52135843, 0.0013825077, 0.6983415, 1)
+z_index = -1
+layout_mode = 0
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+texture = ExtResource("9_xt5ys")
+
+[node name="Light_texture2" type="TextureRect" parent="Control"]
+modulate = Color(0.52135843, 0.0013825077, 0.6983415, 1)
+z_index = -1
+layout_mode = 0
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+texture = ExtResource("9_xt5ys")
+
 [node name="MarginContainer" type="MarginContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 15
@@ -275,37 +306,6 @@ theme_override_styles/pressed = ExtResource("5_r7s23")
 theme_override_styles/hover = ExtResource("8_xt5ys")
 theme_override_styles/hover_pressed = ExtResource("5_r7s23")
 text = "Apply"
-
-[node name="ColorRect" type="ColorRect" parent="Control"]
-z_index = -1
-material = SubResource("ShaderMaterial_3n0va")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="Light_texture" type="TextureRect" parent="Control"]
-modulate = Color(0.52135843, 0.0013825077, 0.6983415, 1)
-z_index = -1
-layout_mode = 0
-offset_left = -256.0
-offset_top = -256.0
-offset_right = 256.0
-offset_bottom = 256.0
-texture = ExtResource("9_xt5ys")
-
-[node name="Light_texture2" type="TextureRect" parent="Control"]
-modulate = Color(0.52135843, 0.0013825077, 0.6983415, 1)
-z_index = -1
-layout_mode = 0
-offset_left = -256.0
-offset_top = -256.0
-offset_right = 256.0
-offset_bottom = 256.0
-texture = ExtResource("9_xt5ys")
 
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Volume/Volume" to="Control" method="_on_volume_value_changed"]
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Music/Music" to="Control" method="_on_music_value_changed"]

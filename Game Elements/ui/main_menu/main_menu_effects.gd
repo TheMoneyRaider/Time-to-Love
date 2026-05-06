@@ -98,6 +98,7 @@ func _begin_explosion_cooldown():
 			
 
 func start_menu_music():
+	$AudioStreamPlayer.bus = "Music"
 	$AudioStreamPlayer.stream = songs[Globals.menu]
 	$AudioStreamPlayer.volume_db = -80.0
 	$AudioStreamPlayer.play()
