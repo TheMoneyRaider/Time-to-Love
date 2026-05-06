@@ -28,17 +28,24 @@ var time_passed := 0.0
 var freeze_time := 0.0
 var bob_offset := 0.0
 var attracted = false
+var lifetime = 5.0
+var flash_timer = 0.0
 
 signal absorbed_by_player(timefabric : Node)
 
 func _ready() -> void:
 	randomize()
+	lifetime = randf_range(lifetime - 1, lifetime + 1)
 	time_passed = randf() * 5
 	bob_offset = randf() * 5
 	position_z = 0.0
 	grounded = false
 
 func _process(delta: float) -> void:
+	lifetime -= delta
+	flash_expire(delta,5)
+	if(lifetime <= 0.0):
+		self.queue_free()
 	time_passed += delta
 	freeze_time += delta
 	if freeze_time < 0.2:
@@ -77,6 +84,22 @@ func _process(delta: float) -> void:
 			jump_cooldown -= delta
 			if jump_cooldown <= 0.0:
 				perform_random_hop()
+
+
+func flash_expire(delta : float, max_lifetime: float) -> void:
+	var t = lifetime / max_lifetime  # 1.0 = fresh, 0.0 = about to die
+	if(t > .5):
+		return
+	var t_curved = ease(t,2.0)
+	var flash_interval = lerp(0.15, 1.0, t_curved)  # fast when low, slow when high
+	# Use a sine wave timed to the interval to create the flash
+	flash_timer += delta
+	if flash_timer >= flash_interval:
+		flash_timer = 0.0
+	
+	var flash = (flash_timer < flash_interval * 0.5)
+	print(flash_interval)
+	sprite.self_modulate = Color.WHITE if flash else Color(0.393, 0.393, 0.393, 1.0)
 
 
 func in_liquid(delta):

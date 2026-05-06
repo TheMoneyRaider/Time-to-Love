@@ -77,7 +77,14 @@ func handle_attack(target_position: Vector2,attack_index: int = 0):
 			attack_position = global_position+attack_direction*48.0
 		request_attack(attacks[attack_index], attack_position, attack_direction)
 		return
-		
+	if enemy_type=="medieval_slime":
+		if( target_position.distance_to(global_position) >= 60):
+			for i in range(0,12):
+				request_attack(attacks[1], attack_position, attack_direction.rotated(i * 2 * PI / 12) )
+			return
+		else:
+			request_attack(attacks[0], attack_position + Vector2(0,20), attack_direction)
+			return
 	request_attack(attacks[attack_index], attack_position, attack_direction)
 
 func request_attack(t_attack: PackedScene, attack_position: Vector2, attack_direction: Vector2):
@@ -109,7 +116,7 @@ func _ready():
 
 #need this for flipping the sprite movement
 func update_flip():
-	if enemy_type=="robot":
+	if enemy_type=="robot" or enemy_type=="medieval_slime":
 		return
 	var sprite2d=get_node_or_null("Sprite2D")
 	if sprite2d: 
@@ -191,11 +198,12 @@ func _process(delta):
 		_robot_process()
 	if enemy_type=="skeleton":
 		_skeleton_process()
+	if enemy_type=="medieval_slime":
+		_slime_process()
 	if(i_frames > 0):
 		i_frames -= 1
 	for i in range(weapon_cooldowns.size()):
 		weapon_cooldowns[i]-=delta
-		
 	#Trap stuff
 	check_traps(delta)
 	
@@ -225,6 +233,22 @@ func _skeleton_process():
 		if dir.x < 0:
 			$SkeletonBrain.sprite.flip_h = true
 	$SkeletonBrain.set_frame(block + offset)
+	
+func _slime_process():
+	var dir = look_direction
+	var block : int = $SlimeBrain.anim_frame / 10 * 10
+	var offset : int = $SlimeBrain.anim_frame % 10
+	if abs(dir.y) > abs(dir.x): # Vertical
+		if dir.y < 0:
+			offset += 4
+	else:# Horizontal)
+		block += 10
+		if dir.x < 0:
+			if(block == 50):
+				offset += 5
+			else:
+				offset += 4
+	$SlimeBrain.set_frame(block + offset)
 
 func _robot_process():
 	var dir = look_direction
@@ -241,6 +265,15 @@ func _robot_process():
 			offset += 5
 	$RobotBrain.set_frame(block + offset)
 
+func damage_flash() -> void:
+	if(has_node("Sprite2D")):
+		if(has_node("AnimationPlayer")):
+			if($AnimationPlayer.has_animation("hit")):
+				$AnimationPlayer.play("hit")
+				return
+		$Sprite2D.self_modulate = Color(1.0, 0.378, 0.31, 1.0)
+		await get_tree().create_timer(.20).timeout		
+		$Sprite2D.self_modulate = Color(1.0, 1.0, 1.0)
 
 func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0,creates_indicators : bool = true, unstoppable : bool = false):
 
@@ -257,6 +290,7 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 		$Core.damage_glyphs()
 	if current_health >= 0.0 and display_damage and creates_indicators:
 		LayerManager._damage_indicator(damage, dmg_owner,direction, attack_body,self)
+		damage_flash()
 	if dmg_owner != null:
 		last_hitter = dmg_owner
 		if dmg_owner.is_in_group("player"):

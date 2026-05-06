@@ -5,6 +5,9 @@
 [resource]
 script = ExtResource("1_icks3")
 scene_location = "res://Game Elements/Bosses/medieval/lich_room.tscn"
+num_liquid = 2
+liquid_types = Array[int]([2, 1])
+liquid_chances = Array[float]([1.0, 1.0])
 noise_seed = null
 num_trap = 1
 trap_chances = Array[float]([1.0])
