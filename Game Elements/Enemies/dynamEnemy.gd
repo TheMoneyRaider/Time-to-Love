@@ -47,6 +47,8 @@ var knockback_velocity : Vector2 = Vector2.ZERO
 @export var knockback_decay : float = .90
 var LayerManager : Node
 
+var parent_node = null
+
 
 @export var attacks = [preload("res://Game Elements/Attacks/bad_bolt.tscn"),preload("res://Game Elements/Attacks/robot_melee.tscn")]
 signal attack_requested(new_attack : PackedScene, t_position : Vector2, t_direction : Vector2, damage_boost : float)
@@ -99,6 +101,7 @@ func load_settings():
 	
 
 func _ready():
+	parent_node = get_parent()
 	if is_boss:
 		current_health = boss_healthpools[phase]
 		max_health = boss_healthpools[phase]
@@ -118,6 +121,12 @@ func update_flip():
 	var sprite2d=get_node_or_null("Sprite2D")
 	if sprite2d: 
 		sprite2d.flip_h = look_direction.x < 0
+		if enemy_type == "vision" and sprite2d.flip_h:
+			sprite2d.position = Vector2(-6,-44)
+		if enemy_type =="v_clone":
+			sprite2d.flip_h = velocity.x < 0
+			sprite2d.get_node("Sprite2D").flip_h = sprite2d.flip_h
+			
 
 func check_stuck(_delta: float):
 	if(position.distance_to(last_pos) <= 20):
@@ -377,22 +386,23 @@ func _check_on_hit_remnants(dmg_owner: Node, attack_body: Node):
 		var effect : Effect
 		exploded = 0
 		for rem in remnants:
-			match rem.remnant_name:
-				winter.remnant_name:
-					effect = preload("res://Game Elements/Effects/winter_freeze.tres").duplicate(true)
-					effect.cooldown = rem.variable_2_values[rem.rank-1]
-					effect.value1 =  rem.variable_1_values[rem.rank-1]
-					effect.gained(self)
-					effects.append(effect)
-				pyromancer.remnant_name:
-					exploded = rem.variable_2_values[rem.rank-1] + mancer_value
-				hydromancer.remnant_name:
-					apply_hydromancer(rem, attack_body, mancer_value)
-				longshot.remnant_name:
-					if attack_body and (attack_body.speed != 0):
-						attack_body.damage = attack_body.damage * (1 + rem.variable_1_values[rem.rank - 1] / 100.0)
-				_:
-					pass
+			if rem.active:
+				match rem.remnant_name:
+					winter.remnant_name:
+						effect = preload("res://Game Elements/Effects/winter_freeze.tres").duplicate(true)
+						effect.cooldown = rem.variable_2_values[rem.rank-1]
+						effect.value1 =  rem.variable_1_values[rem.rank-1]
+						effect.gained(self)
+						effects.append(effect)
+					pyromancer.remnant_name:
+						exploded = rem.variable_2_values[rem.rank-1] + mancer_value
+					hydromancer.remnant_name:
+						apply_hydromancer(rem, attack_body, mancer_value)
+					longshot.remnant_name:
+						if attack_body and (attack_body.speed != 0):
+							attack_body.damage = attack_body.damage * (1 + rem.variable_1_values[rem.rank - 1] / 100.0)
+					_:
+						pass
 
 func apply_hydromancer(rem : Remnant, attack_body : Node, mancer_value : int):
 	if !attack_body:

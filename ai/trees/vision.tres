@@ -1,8 +1,9 @@
-[gd_resource type="BehaviorTree" load_steps=36 format=3 uid="uid://dl0t1gf8o8xok"]
+[gd_resource type="BehaviorTree" load_steps=40 format=3 uid="uid://dl0t1gf8o8xok"]
 
 [ext_resource type="Script" uid="uid://7jhqrxgbl3q" path="res://ai/tasks/adjustTargetPos.gd" id="1_wtpi0"]
 [ext_resource type="Script" uid="uid://clsympdov604o" path="res://ai/tasks/checkAgro.gd" id="2_y227b"]
 [ext_resource type="Script" uid="uid://yu3fkdlxtfbv" path="res://ai/tasks/calcPath.gd" id="3_hnhrx"]
+[ext_resource type="Script" uid="uid://b3ewx1wfu2tp0" path="res://ai/tasks/check_vision_island.gd" id="3_wtpi0"]
 [ext_resource type="Script" uid="uid://dko7uh5a2dm00" path="res://ai/tasks/moveToPos.gd" id="4_gohqa"]
 [ext_resource type="Script" uid="uid://c0bvdm1o3wjaq" path="res://ai/tasks/random_cooldown.gd" id="6_dhfyg"]
 [ext_resource type="Script" uid="uid://ravfjih580jj" path="res://ai/tasks/moveToPlayer.gd" id="6_ektr1"]
@@ -53,6 +54,17 @@ script = ExtResource("2_y227b")
 [sub_resource type="BTSequence" id="BTSequence_4evon"]
 custom_name = "Constants"
 children = [SubResource("BTAction_76wjc"), SubResource("BTAction_wtpi0")]
+
+[sub_resource type="BTDelay" id="BTDelay_y227b"]
+seconds = 2.5
+
+[sub_resource type="BTAction" id="BTAction_gohqa"]
+children = [SubResource("BTDelay_y227b")]
+script = ExtResource("3_wtpi0")
+
+[sub_resource type="BTSequence" id="BTSequence_n3kfh"]
+custom_name = "Island Attack"
+children = [SubResource("BTAction_gohqa")]
 
 [sub_resource type="BTAction" id="BTAction_n3kfh"]
 custom_name = "Check if Close Enough"
@@ -137,7 +149,7 @@ custom_name = "Ranged Attack"
 children = [SubResource("BTAction_xsft4"), SubResource("BTAction_1kwu6"), SubResource("BTCooldown_33y05")]
 
 [sub_resource type="BTSelector" id="BTSelector_h7qfk"]
-children = [SubResource("BTSequence_aw6cb"), SubResource("BTSequence_yg7nc")]
+children = [SubResource("BTSequence_n3kfh"), SubResource("BTSequence_aw6cb"), SubResource("BTSequence_yg7nc")]
 
 [sub_resource type="BTSequence" id="BTSequence_6xbjc"]
 custom_name = "Overall Tree"

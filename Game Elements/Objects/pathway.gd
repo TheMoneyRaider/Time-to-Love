@@ -239,7 +239,7 @@ func _has_trickster(body : Node, is_switched : bool = false) -> int:
 		remnants = get_tree().get_root().get_node("LayerManager").player_2_remnants
 	var trickster = load("res://Game Elements/Remnants/trickster.tres")
 	for rem in remnants:
-		if rem.remnant_name == trickster.remnant_name:
+		if rem.remnant_name == trickster.remnant_name and rem.active:
 			return int(rem.variable_1_values[rem.rank-1])
 	return -1
 

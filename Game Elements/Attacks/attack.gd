@@ -68,11 +68,11 @@ func set_values(attack_speed = self.attack_speed, attack_damage = self.damage, a
 func ready_hacks():
 	var hack = preload("res://Game Elements/Remnants/hack.tres")
 	for rem in LayerManager.player_1_remnants:
-		if rem.remnant_name == hack.remnant_name:
+		if rem.remnant_name == hack.remnant_name and rem.active:
 			hack1=rem.duplicate(true)
 			break
 	for rem in LayerManager.player_2_remnants:
-		if rem.remnant_name == hack.remnant_name:
+		if rem.remnant_name == hack.remnant_name and rem.active:
 			hack2=rem.duplicate(true)
 			break
 			

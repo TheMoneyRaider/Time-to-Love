@@ -42,7 +42,7 @@ func set_remnant(remnant_in: Resource, is_upgrade : bool) -> void:
 	else:
 		art.texture = null
 	rank_label.text = "Rank " + _num_to_roman(remnant_in.rank) if !is_upgrade else "Rank " + _num_to_roman(remnant_in.rank) +"->" + _num_to_roman(remnant_in.rank+1)
-	
+	art.material.set_shader_parameter("grayscale",!remnant_in.active)
 	_update_description(remnant_in, desc_label, remnant_in.rank, is_upgrade)
 
 func outline_remnant(color: Color = Color.ORANGE, alpha : float = 0.0):

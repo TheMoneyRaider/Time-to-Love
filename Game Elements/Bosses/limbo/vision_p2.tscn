@@ -1,24 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://qws83iandf8h"]
+[gd_scene load_steps=10 format=3 uid="uid://qws83iandf8h"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_5f7q4"]
 [ext_resource type="PackedScene" uid="uid://bi5xl1q1huh1x" path="res://Game Elements/Attacks/light_beam.tscn" id="2_jln5g"]
 [ext_resource type="PackedScene" uid="uid://cy1g16g23yxj5" path="res://Game Elements/Attacks/vision_smash.tscn" id="3_fyc65"]
-[ext_resource type="Shader" uid="uid://jwdy7amsrtqm" path="res://Game Elements/Characters/spawn_transition.gdshader" id="3_wgn5r"]
 [ext_resource type="Texture2D" uid="uid://bi8ihiw4mjsuc" path="res://art/characters/vision/vision_splash2.png" id="4_jln5g"]
 [ext_resource type="BehaviorTree" uid="uid://dl0t1gf8o8xok" path="res://ai/trees/vision.tres" id="5_jln5g"]
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="6_fqyt6"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_llnr1"]
-shader = ExtResource("3_wgn5r")
-shader_parameter/progress = 1.0
-shader_parameter/noise_density = 60.0
-shader_parameter/beam_size = 0.10000000405148
-shader_parameter/color = Color(0, 1, 1, 1)
-shader_parameter/hframes = 10
-shader_parameter/vframes = 44
-shader_parameter/frame = 1
-shader_parameter/quantized = false
-shader_parameter/wipe = true
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fyc65"]
 radius = 19.0
@@ -54,10 +41,10 @@ attacks = [ExtResource("2_jln5g"), ExtResource("3_fyc65")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_llnr1")
-position = Vector2(5, -43.999996)
+position = Vector2(-5.999999, -44.000004)
 scale = Vector2(0.6842106, 0.6842106)
 texture = ExtResource("4_jln5g")
+flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1, -34)
