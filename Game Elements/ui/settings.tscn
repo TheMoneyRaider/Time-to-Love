@@ -20,7 +20,7 @@ shader_parameter/tendril_thickness = 20.0
 shader_parameter/tendril_waviness = 18.206000627285
 shader_parameter/tendril_speed = 1.5
 shader_parameter/view_offset = Vector2(0, 0)
-shader_parameter/range_start = 1.5000000712500001
+shader_parameter/range_start = 1.50000007125
 shader_parameter/range_end = 2.50000011875
 
 [node name="Settings" type="Node2D"]
@@ -72,7 +72,7 @@ size_flags_horizontal = 0
 [node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/Volume"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Volume"
+text = "Master"
 
 [node name="Volume" type="HSlider" parent="Control/MarginContainer/VBoxContainer/Volume"]
 custom_minimum_size = Vector2(200, 60)
@@ -84,6 +84,72 @@ value = 100.0
 script = ExtResource("2_r7s23")
 
 [node name="VolVal" type="Label" parent="Control/MarginContainer/VBoxContainer/Volume"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="Music" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/Music"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Music"
+
+[node name="Music" type="HSlider" parent="Control/MarginContainer/VBoxContainer/Music"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+size_flags_horizontal = 8
+focus_neighbor_bottom = NodePath("../../Mouse/MouseSensitivity")
+step = 0.5
+value = 100.0
+script = ExtResource("2_r7s23")
+
+[node name="MusicVal" type="Label" parent="Control/MarginContainer/VBoxContainer/Music"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="SFX" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/SFX"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "SFX"
+
+[node name="SFX" type="HSlider" parent="Control/MarginContainer/VBoxContainer/SFX"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+size_flags_horizontal = 8
+focus_neighbor_bottom = NodePath("../../Mouse/MouseSensitivity")
+step = 0.5
+value = 100.0
+script = ExtResource("2_r7s23")
+
+[node name="SFXVal" type="Label" parent="Control/MarginContainer/VBoxContainer/SFX"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="UI" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/UI"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "UI"
+
+[node name="UI" type="HSlider" parent="Control/MarginContainer/VBoxContainer/UI"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+size_flags_horizontal = 8
+focus_neighbor_bottom = NodePath("../../Mouse/MouseSensitivity")
+step = 0.5
+value = 100.0
+script = ExtResource("2_r7s23")
+
+[node name="UIVal" type="Label" parent="Control/MarginContainer/VBoxContainer/UI"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 
@@ -242,6 +308,9 @@ offset_bottom = 256.0
 texture = ExtResource("9_xt5ys")
 
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Volume/Volume" to="Control" method="_on_volume_value_changed"]
+[connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Music/Music" to="Control" method="_on_music_value_changed"]
+[connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/SFX/SFX" to="Control" method="_on_sfx_value_changed"]
+[connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/UI/UI" to="Control" method="_on_ui_value_changed"]
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Mouse/MouseSensitivity" to="Control" method="_on_mouse_sensitivity_value_changed"]
 [connection signal="toggled" from="Control/MarginContainer/VBoxContainer/Fragmenting/FragMode" to="Control" method="_on_frag_mode_toggled"]
 [connection signal="toggled" from="Control/MarginContainer/VBoxContainer/Debug/DebugMode" to="Control" method="_on_debug_mode_toggled"]

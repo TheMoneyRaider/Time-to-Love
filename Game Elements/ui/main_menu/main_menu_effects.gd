@@ -101,6 +101,8 @@ func start_menu_music():
 	$AudioStreamPlayer.stream = songs[Globals.menu]
 	$AudioStreamPlayer.volume_db = -80.0
 	$AudioStreamPlayer.play()
+	var song_types = ["western", "sci-fi", "midieval"]
+	print("Playing: " + song_types[Globals.menu] + "\n" + str(songs[Globals.menu]))
 	var tween = create_tween()
 	tween.tween_property($AudioStreamPlayer, "volume_db", 0.0, 6.0)
 	
