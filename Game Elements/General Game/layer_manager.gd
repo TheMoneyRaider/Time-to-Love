@@ -75,7 +75,7 @@ func _ready() -> void:
 	hud.connect_signals(player1)
 	hud.set_cross_position()
 	
-	dev_remnants()
+	#dev_remnants()
 	
 	
 	
@@ -126,7 +126,7 @@ func _ready() -> void:
 	_prepare_timefabric()
 	PathwayTransition.material.set_shader_parameter("mask_texture", PathwayTransition.get_texture())
 	#TEST
-	move_to_limbo_phase_2()
+	#move_to_limbo_phase_2()
 
 func _process(delta: float) -> void:
 	if PathwayViewport.get_children().size() > 0: 

@@ -18,7 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://15cq3dppbuwd" path="res://art/intro_animation/IMG_0763.png" id="16_iutgx"]
 [ext_resource type="Texture2D" uid="uid://dl0m6b1cwules" path="res://art/intro_animation/IMG_0762.png" id="17_6luvr"]
 [ext_resource type="Texture2D" uid="uid://caxoud0uejbsi" path="res://art/intro_animation/IMG_0762j.png" id="18_uphxn"]
-[ext_resource type="AudioStream" uid="uid://e8lk3spjbg3c" path="res://Game Elements/ui/main_menu/cinematic/TTL cinematic demo 12.wav" id="20_884a8"]
+[ext_resource type="AudioStream" uid="uid://c68c8b3v7e713" path="res://Game Elements/ui/main_menu/cinematic/TTL cinematic demo to final.wav" id="19_wuh6q"]
 
 [sub_resource type="Animation" id="Animation_ar3fp"]
 length = 0.001
@@ -975,7 +975,7 @@ tracks/37/keys = {
 "clips": [{
 "end_offset": 0.0,
 "start_offset": 0.0,
-"stream": ExtResource("20_884a8")
+"stream": ExtResource("19_wuh6q")
 }],
 "times": PackedFloat32Array(0)
 }
