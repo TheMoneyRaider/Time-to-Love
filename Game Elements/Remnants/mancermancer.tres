@@ -1,8 +1,12 @@
-[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://1ql60crc2rhq"]
+[gd_resource type="Resource" script_class="Remnant" load_steps=8 format=3 uid="uid://1ql60crc2rhq"]
 
 [ext_resource type="Texture2D" uid="uid://bckulw863be5a" path="res://art/remnants/mancermancer.png" id="1_efflo"]
 [ext_resource type="Texture2D" uid="uid://doompcr5phafi" path="res://art/remnants/mancermancer_orb.png" id="2_mfaam"]
 [ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_g0b75"]
+[ext_resource type="Resource" uid="uid://8au2lqvnboiw" path="res://Game Elements/Remnants/aeromancer.tres" id="4_3722g"]
+[ext_resource type="Resource" uid="uid://b3tfx4ec2844u" path="res://Game Elements/Remnants/hydromancer.tres" id="5_d6hi8"]
+[ext_resource type="Resource" uid="uid://b4sycfpxwgw32" path="res://Game Elements/Remnants/terramancer.tres" id="6_w3de1"]
+[ext_resource type="Resource" uid="uid://64doserwe5pm" path="res://Game Elements/Remnants/pyromancer.tres" id="7_tc13b"]
 
 [resource]
 script = ExtResource("3_g0b75")
@@ -10,6 +14,8 @@ remnant_name = "Remnant of the Mancermancer"
 description = "$X increase to all -mancer remnants."
 icon = ExtResource("2_mfaam")
 art = ExtResource("1_efflo")
+required_remnants = Array[ExtResource("3_g0b75")]([ExtResource("4_3722g"), ExtResource("5_d6hi8"), ExtResource("6_w3de1"), ExtResource("7_tc13b")])
+num_rem_required = 3
 variable_names = Array[String](["$X"])
 variable_1_values = ["Small", "Medium", "Large", "Giant", "Gargantuan"]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

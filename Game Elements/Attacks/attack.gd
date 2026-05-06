@@ -57,7 +57,7 @@ func mult(speed_mult, damage_mult = 1, lifespan_mult = 1, hit_force_mult = 1):
 	self.speed = self.speed * speed_mult
 	self.damage = self.damage * damage_mult
 	self.lifespan = self.lifespan * lifespan_mult
-	self.hit_force = self.hit_force * hit_force_mult 
+	self.hit_force = self.hit_force * hit_force_mult
 
 func set_values(attack_speed = self.attack_speed, attack_damage = self.damage, attack_lifespan = self.lifespan, attack_hit_force = self.hit_force):
 	self.speed = attack_speed
@@ -262,7 +262,7 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 		return 0
 	if n_owner.is_in_group("player") and body.is_in_group("player") and !hits_all:
 		return 0
-	if n_owner.is_in_group("enemy"): 
+	if n_owner.is_in_group("enemy"):
 		if body.is_in_group("enemy") and !hits_all:
 			return 0
 	elif !n_owner.is_in_group("player") and !body.is_in_group("player") and !hits_all:
@@ -362,7 +362,10 @@ func _on_area_entered(area: Area2D) -> void:
 			area.c_owner.take_damage(self.damage,c_owner,direction,self,creates_indicators)
 			area.c_owner.take_damage(self.damage,c_owner,direction,self,creates_indicators)
 			return
-		area.deflect(direction, hit_force,self)
+		if(attack_type == "ls_melee"):
+			area.deflect(-area.direction, hit_force,self)
+		else:
+			area.deflect(direction, hit_force,self)
 		area.c_owner = c_owner
 		area.is_purple = is_purple
 		area.hit_nodes = {}
