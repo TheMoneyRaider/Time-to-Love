@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://chesckmpd2y4x"
-path="res://.godot/imported/sci-fi.wav-60684b2a6e00666d8c82e7fb9ff18a3d.sample"
+uid="uid://bglva1c2i0wwf"
+path="res://.godot/imported/main.wav-4c6c851eadd660106da70520060bd765.sample"
 
 [deps]
 
-source_file="res://Game Elements/Music/sci-fi.wav"
-dest_files=["res://.godot/imported/sci-fi.wav-60684b2a6e00666d8c82e7fb9ff18a3d.sample"]
+source_file="res://Game Elements/Music/main.wav"
+dest_files=["res://.godot/imported/main.wav-4c6c851eadd660106da70520060bd765.sample"]
 
 [params]
 

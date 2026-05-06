@@ -33,9 +33,9 @@ var paused : bool = true
 var hover_cooldown: float = 0.0
 
 var songs = [
-	preload("res://Game Elements/Music/western.wav"),
-	preload("res://Game Elements/Music/sci-fi.wav"),
-	preload("res://Game Elements/Music/medieval.wav")
+	preload("res://Game Elements/Music/main.wav"),
+	preload("res://Game Elements/Music/main.wav"),
+	preload("res://Game Elements/Music/main.wav")
 ]
 
 func _ready():
