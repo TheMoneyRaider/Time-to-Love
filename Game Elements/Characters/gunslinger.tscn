@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_b5bue"]
 [ext_resource type="PackedScene" uid="uid://xvgc7jxjo4ip" path="res://Game Elements/Attacks/bolt.tscn" id="2_uu4xw"]
 [ext_resource type="Shader" uid="uid://jwdy7amsrtqm" path="res://Game Elements/Characters/spawn_transition.gdshader" id="3_matp1"]
-[ext_resource type="Texture2D" uid="uid://dkny6pxafuoa2" path="res://art/characters/gunslinger/idle/cowboy_spritesheet.png" id="4_b5bue"]
-[ext_resource type="BehaviorTree" uid="uid://bpsmxbgw60kcj" path="res://ai/trees/archer.tres" id="5_hjhff"]
+[ext_resource type="Texture2D" uid="uid://brb4wlo0tvyss" path="res://art/characters/gunslinger/cowboy_spritesheet.png" id="4_b5bue"]
+[ext_resource type="BehaviorTree" uid="uid://cdbmhpx3cvk6m" path="res://ai/trees/skeleton.tres" id="5_uu4xw"]
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="6_k8604"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_llnr1"]
@@ -133,7 +133,8 @@ material = SubResource("ShaderMaterial_llnr1")
 position = Vector2(3, 2)
 scale = Vector2(0.6842106, 0.6842106)
 texture = ExtResource("4_b5bue")
-hframes = 3
+hframes = 17
+vframes = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(2, 4)
@@ -145,7 +146,7 @@ libraries = {
 }
 
 [node name="BTPlayer" type="BTPlayer" parent="."]
-behavior_tree = ExtResource("5_hjhff")
+behavior_tree = ExtResource("5_uu4xw")
 blackboard_plan = SubResource("BlackboardPlan_8s1eb")
 
 [node name="Area2D" type="Area2D" parent="."]

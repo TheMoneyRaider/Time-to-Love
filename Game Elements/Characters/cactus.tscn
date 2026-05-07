@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_05s5w"]
 [ext_resource type="PackedScene" uid="uid://2wtbpyvtwqe1" path="res://Game Elements/Attacks/skeleton_swipe.tscn" id="2_0qywo"]
-[ext_resource type="Texture2D" uid="uid://uobn6k3tyy6d" path="res://art/characters/skeleton/skeleton.png" id="3_w0nav"]
-[ext_resource type="BehaviorTree" uid="uid://cdbmhpx3cvk6m" path="res://ai/trees/skeleton.tres" id="4_yyyyo"]
+[ext_resource type="Texture2D" uid="uid://wbb7ipv57seb" path="res://art/characters/cactus/cacto.png" id="3_05s5w"]
+[ext_resource type="BehaviorTree" uid="uid://c66gfnd02w2yj" path="res://ai/trees/cactus.tres" id="4_0qywo"]
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="5_i2jaq"]
 [ext_resource type="Script" uid="uid://c3pbso7ixhp7h" path="res://Game Elements/Characters/skeleton.gd" id="6_k4vdj"]
 
@@ -110,9 +110,9 @@ attacks = [ExtResource("2_0qywo")]
 y_sort_enabled = true
 position = Vector2(4.7683716e-07, 4.7683716e-07)
 scale = Vector2(0.6842106, 0.6842106)
-texture = ExtResource("3_w0nav")
+texture = ExtResource("3_05s5w")
 hframes = 4
-vframes = 12
+vframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_phyc7")
@@ -123,7 +123,7 @@ libraries = {
 }
 
 [node name="BTPlayer" type="BTPlayer" parent="."]
-behavior_tree = ExtResource("4_yyyyo")
+behavior_tree = ExtResource("4_0qywo")
 blackboard_plan = SubResource("BlackboardPlan_8s1eb")
 
 [node name="Area2D" type="Area2D" parent="."]
