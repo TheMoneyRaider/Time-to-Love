@@ -89,6 +89,7 @@ func _on_quit_pressed():
 	if rewinding:
 		return
 	get_tree().paused = false
+	Globals.save_config()
 	get_tree().quit()
 func _on_menu_pressed():
 	if rewinding:
