@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="5_i2jaq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_phyc7"]
-size = Vector2(9, 10)
+size = Vector2(9.166667, 12)
 
 [sub_resource type="Animation" id="Animation_8s1eb"]
 length = 0.001
@@ -89,7 +89,7 @@ radius = 4.0
 [node name="Cactus" type="CharacterBody2D" groups=["enemy"]]
 z_index = 20
 y_sort_enabled = true
-scale = Vector2(1.5, 1.5)
+scale = Vector2(2.6, 2.6)
 collision_layer = 4
 collision_mask = 9
 script = ExtResource("1_05s5w")
@@ -114,6 +114,7 @@ hframes = 4
 vframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.08333349, 0)
 shape = SubResource("RectangleShape2D_phyc7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

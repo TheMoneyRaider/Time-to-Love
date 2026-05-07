@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="5_shmfs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_phyc7"]
-size = Vector2(9.833334, 10)
+size = Vector2(8.333334, 8.333334)
 
 [sub_resource type="Animation" id="Animation_8s1eb"]
 length = 0.001
@@ -99,7 +99,7 @@ radius = 4.0
 [node name="Scorpion" type="CharacterBody2D" groups=["enemy"]]
 z_index = 20
 y_sort_enabled = true
-scale = Vector2(1.5, 1.5)
+scale = Vector2(1.6, 1.6)
 collision_layer = 4
 collision_mask = 9
 script = ExtResource("1_6l5bn")
@@ -124,7 +124,7 @@ hframes = 3
 vframes = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.41666675, 0)
+position = Vector2(-0.8333334, 0.2777778)
 shape = SubResource("RectangleShape2D_phyc7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
