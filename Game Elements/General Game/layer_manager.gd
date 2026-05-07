@@ -504,11 +504,12 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					#node.queue_free()
 					#return true
 		if node.is_in_group("weapon_select"):
-			if player_reference in node.tracked_bodies:
-				player_reference.update_weapon(node.weapon_type)
-				hud.set_cooldown_icons()
-				#node.queue_free()
-				return true
+			if(node.enabled == true):
+				if player_reference in node.tracked_bodies:
+					player_reference.update_weapon(node.weapon_type)
+					hud.set_cooldown_icons()
+					#node.queue_free()
+					return true
 		if node.is_in_group("letter"):
 			if player_reference in node.tracked_bodies:
 				node.spawn_letter()

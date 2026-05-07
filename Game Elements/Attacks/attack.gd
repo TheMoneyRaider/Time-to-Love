@@ -328,7 +328,8 @@ func _on_body_entered(body):
 		special_nodes[-1].queue_free()
 		queue_free()
 		return
-	intersection(body)
+	if(!("attack_type" in body)):
+		intersection(body)
 
 func deflect(hit_direction, hit_speed, deflection_area):
 	if attack_type=="laser":
@@ -363,7 +364,7 @@ func _on_area_entered(area: Area2D) -> void:
 			area.c_owner.take_damage(self.damage,c_owner,direction,self,creates_indicators)
 			return
 		if(attack_type == "ls_melee"):
-			area.deflect(-area.direction, hit_force,self)
+			area.deflect((area.global_position - global_position).normalized(), hit_force,self)
 		else:
 			area.deflect(direction, hit_force,self)
 		area.c_owner = c_owner
