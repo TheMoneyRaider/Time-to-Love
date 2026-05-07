@@ -1,11 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://8otwdidvs0pe"]
+[gd_scene load_steps=15 format=3 uid="uid://8otwdidvs0pe"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_05s5w"]
 [ext_resource type="PackedScene" uid="uid://2wtbpyvtwqe1" path="res://Game Elements/Attacks/skeleton_swipe.tscn" id="2_0qywo"]
 [ext_resource type="Texture2D" uid="uid://wbb7ipv57seb" path="res://art/characters/cactus/cacto.png" id="3_05s5w"]
 [ext_resource type="BehaviorTree" uid="uid://c66gfnd02w2yj" path="res://ai/trees/cactus.tres" id="4_0qywo"]
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="5_i2jaq"]
-[ext_resource type="Script" uid="uid://c3pbso7ixhp7h" path="res://Game Elements/Characters/skeleton.gd" id="6_k4vdj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_phyc7"]
 size = Vector2(9, 10)
@@ -15,14 +14,14 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("SkeletonBrain:anim_frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [1]
+"values": [0]
 }
 
 [sub_resource type="Animation" id="Animation_uhxym"]
@@ -31,19 +30,19 @@ length = 0.5
 
 [sub_resource type="Animation" id="Animation_phyc7"]
 resource_name = "idle_forward"
-length = 0.4
+length = 0.80000335
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("SkeletonBrain:anim_frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.06666667, 0.13333334),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [0, 1, 2, 3]
+"values": [0, 1, 2]
 }
 
 [sub_resource type="Animation" id="Animation_12o7h"]
@@ -53,14 +52,14 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("SkeletonBrain:anim_frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [12, 13, 14, 15]
+"values": [4, 5, 6, 7]
 }
 
 [sub_resource type="Animation" id="Animation_llnr1"]
@@ -87,7 +86,7 @@ var/state/hint_string = ""
 [sub_resource type="CircleShape2D" id="CircleShape2D_w832q"]
 radius = 4.0
 
-[node name="Skeleton" type="CharacterBody2D" groups=["enemy"]]
+[node name="Cactus" type="CharacterBody2D" groups=["enemy"]]
 z_index = 20
 y_sort_enabled = true
 scale = Vector2(1.5, 1.5)
@@ -95,7 +94,7 @@ collision_layer = 4
 collision_mask = 9
 script = ExtResource("1_05s5w")
 max_health = 5.0
-enemy_type = "skeleton"
+enemy_type = "cactus"
 displays = Array[NodePath]([NodePath("Sprite2D")])
 min_timefabric = 7
 max_timefabric = 15
@@ -136,7 +135,3 @@ script = ExtResource("5_i2jaq")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(-1, -6)
 shape = SubResource("CircleShape2D_w832q")
-
-[node name="SkeletonBrain" type="Node2D" parent="."]
-script = ExtResource("6_k4vdj")
-anim_frame = 1
