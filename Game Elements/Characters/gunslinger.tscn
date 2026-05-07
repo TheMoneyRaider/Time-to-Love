@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_b5bue"]
 [ext_resource type="PackedScene" uid="uid://xvgc7jxjo4ip" path="res://Game Elements/Attacks/bolt.tscn" id="2_uu4xw"]
 [ext_resource type="Shader" uid="uid://jwdy7amsrtqm" path="res://Game Elements/Characters/spawn_transition.gdshader" id="3_matp1"]
-[ext_resource type="Texture2D" uid="uid://pjw0msy2kxfl" path="res://art/characters/archer/Archers.png" id="4_716d6"]
+[ext_resource type="Texture2D" uid="uid://dkny6pxafuoa2" path="res://art/characters/gunslinger/idle/cowboy_spritesheet.png" id="4_b5bue"]
 [ext_resource type="BehaviorTree" uid="uid://bpsmxbgw60kcj" path="res://ai/trees/archer.tres" id="5_hjhff"]
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="6_k8604"]
 
@@ -132,8 +132,8 @@ y_sort_enabled = true
 material = SubResource("ShaderMaterial_llnr1")
 position = Vector2(3, 2)
 scale = Vector2(0.6842106, 0.6842106)
-texture = ExtResource("4_716d6")
-hframes = 32
+texture = ExtResource("4_b5bue")
+hframes = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(2, 4)
