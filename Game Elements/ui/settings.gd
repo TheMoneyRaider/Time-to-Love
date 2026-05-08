@@ -12,11 +12,21 @@ func load_settings():
 	debug_mode = Globals.config.get_value("debug", "enabled", false)
 	frag_mode = Globals.config.get_value("fragmentation", "enabled", true)
 	$MarginContainer/VBoxContainer/Volume/Volume.value = db_to_percent(Globals.config.get_value("audio", "master", 0))
-	update_label($MarginContainer/VBoxContainer/Volume/Volume.value)
 	Globals.player1_input = Globals.config.get_value("inputs","player1_input", "key")
 	Globals.player2_input = Globals.config.get_value("inputs","player2_input", "0")
 	mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
 	debug_mode = Globals.config.get_value("debug", "enabled", false)
+	
+	# audio settings 
+	$MarginContainer/VBoxContainer/Volume/Volume.value = db_to_percent(Globals.config.get_value("audio", "master", 0))
+	$MarginContainer/VBoxContainer/Music/Music.value   = db_to_percent(Globals.config.get_value("audio", "music", 0))   
+	$MarginContainer/VBoxContainer/SFX/SFX.value       = db_to_percent(Globals.config.get_value("audio", "sfx", 0))     
+	$MarginContainer/VBoxContainer/UI/UI.value         = db_to_percent(Globals.config.get_value("audio", "ui", 0))
+	
+	update_label($MarginContainer/VBoxContainer/Volume/Volume.value, $MarginContainer/VBoxContainer/Volume/VolVal)
+	update_label($MarginContainer/VBoxContainer/Music/Music.value,   $MarginContainer/VBoxContainer/Music/MusicVal)     
+	update_label($MarginContainer/VBoxContainer/SFX/SFX.value,       $MarginContainer/VBoxContainer/SFX/SFXVal)         
+	update_label($MarginContainer/VBoxContainer/UI/UI.value,         $MarginContainer/VBoxContainer/UI/UIVal)           
 		
 var frag_mode: bool = false
 var devices : Array[Array]=[[],[]]
@@ -32,17 +42,21 @@ func _on_back_pressed() -> void:
 func _on_apply_settings()-> void:
 	
 	var volslider = $MarginContainer/VBoxContainer/Volume/Volume
-	Globals.config.set_value("audio", "master", percent_to_db(volslider.value))
 	Globals.config.set_value("controls", "mouse_sensitivity", mouse_sensitivity)
 	Globals.config.set_value("debug", "enabled", debug_mode)
 	Globals.config.set_value("fragmentation", "enabled", frag_mode)
 	Globals.config.set_value("inputs","player1_input", Globals.player1_input)
 	Globals.config.set_value("inputs","player2_input", Globals.player2_input)
+	
+	Globals.config.set_value("audio", "master",percent_to_db(volslider.value))
+	Globals.config.set_value("audio", "music", percent_to_db($MarginContainer/VBoxContainer/Music/Music.value))
+	Globals.config.set_value("audio", "sfx",   percent_to_db($MarginContainer/VBoxContainer/SFX/SFX.value))
+	Globals.config.set_value("audio", "ui",    percent_to_db($MarginContainer/VBoxContainer/UI/UI.value))
 	Globals.save_config()
 	
 
 @onready var label := $MarginContainer/VBoxContainer/Volume/VolVal
-@export var bus_name: String = "Master"
+# @export var bus_name: String = "Master"
 
 func _ready() -> void:
 		
@@ -68,28 +82,51 @@ func _process(delta):
 		refresh_devices(false)
 	
 func _on_volume_value_changed(value: float) -> void:
-	var bus_index = AudioServer.get_bus_index(bus_name)
-	AudioServer.set_bus_volume_db(bus_index, percent_to_db(value))
+	set_bus_volume("Master", value)
+	update_label(value, $MarginContainer/VBoxContainer/Volume/VolVal)
 	
-	update_label(value)
+	#var bus_index = AudioServer.get_bus_index(bus_name)
+	#AudioServer.set_bus_volume_db(bus_index, percent_to_db(value))
 
-func update_label(v: float) -> void:
-	label.text = str(int(v)) + "%"
+func _on_music_value_changed(value: float) -> void:
+	set_bus_volume("Music", value)
+	update_label(value, $MarginContainer/VBoxContainer/Music/MusicVal)
+
+func _on_sfx_value_changed(value: float) -> void:
+	set_bus_volume("SFX", value)
+	update_label(value, $MarginContainer/VBoxContainer/SFX/SFXVal)
+
+func _on_ui_value_changed(value: float) -> void:
+	set_bus_volume("UI", value)
+	update_label(value, $MarginContainer/VBoxContainer/UI/UIVal)
+
+func update_label(v: float, lbl: Label) -> void:
+	lbl.text = str(int(v)) + "%"
+	
+func set_bus_volume(bus_name: String, percent: float) -> void:
+	var idx = AudioServer.get_bus_index(bus_name)
+	AudioServer.set_bus_volume_db(idx, percent_to_db(percent))
+	AudioServer.set_bus_mute(idx, percent <= 0.0)
 	
 func percent_to_db(percent: float) -> int:
 	# Clamp to avoid weird negative values
-	var per = percent / 100
-	if per <= 0.0:
-		return -40
-	# Convert dB → linear gain (0.0–1.0)
-	var db := log(per) / log(10)
-	print(int(round(db)))
-	return int(round(db))
+	#var per = percent / 100
+	#if per <= 0.0:
+	#	return -40
+	## Convert dB → linear gain (0.0–1.0)
+	#var db := log(per) / log(10)
+	#print(int(round(db)))
+	#return int(round(db))
+	
+	var linear = percent / 100.00
+	if linear <= 0.0:
+		return -80.0
+	return 20.0 * log(linear) / log(10)
 	
 func db_to_percent(db: int) -> float:
-	if db <= -40:
+	if db <= -80:
 		return 0.0
-	return pow(10.0, db) * 100.0
+	return pow(10.0, db / 20.0) * 100.0
 
 func set_mouse_sensitivity(value: float): 
 	mouse_sensitivity = clamp(value, .1, 2.0)

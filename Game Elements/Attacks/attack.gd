@@ -321,15 +321,13 @@ func intersection(body):
 			0:
 				pass
 			-1:
-				if (attack_type == "bolt"):
-					print("attack hit wall?")
 				if bounces > 0:
 					bounces -= 1
 					# Cast a short ray forward to get the wall's surface normal
 					var space = get_world_2d().direct_space_state
 					var query = PhysicsRayQueryParameters2D.create(
 						global_position,
-						global_position + direction.normalized() * 32
+						global_position + direction.normalized() * 64
 					)
 					query.collide_with_areas = false
 					query.collide_with_bodies = true

@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=54 format=3 uid="uid://c66gfnd02w2yj"]
+[gd_resource type="BehaviorTree" load_steps=56 format=3 uid="uid://c66gfnd02w2yj"]
 
 [ext_resource type="Script" uid="uid://dr4vkyorjqaqn" path="res://ai/tasks/getPlayerPos.gd" id="1_jt60d"]
 [ext_resource type="Script" uid="uid://clsympdov604o" path="res://ai/tasks/checkAgro.gd" id="2_7we6b"]
@@ -112,6 +112,14 @@ resource_name = "AnimationPlayer"
 animation_player = SubResource("BBNode_6xbjc")
 animation_name = &"idle"
 
+[sub_resource type="BBNode" id="BBNode_jt60d"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_7we6b"]
+animation_player = SubResource("BBNode_jt60d")
+animation_name = &"attack"
+
 [sub_resource type="BTAction" id="BTAction_4evon"]
 script = ExtResource("8_04u2j")
 
@@ -133,7 +141,7 @@ children = [SubResource("BTPlayAnimation_2flr3")]
 
 [sub_resource type="BTSequence" id="BTSequence_v4ajl"]
 custom_name = "Attack if in Range"
-children = [SubResource("BTAction_v4ajl"), SubResource("BTAction_yg7nc"), SubResource("BTAction_2flr3"), SubResource("BTAction_h7qfk"), SubResource("BTStopAnimation_3ccgm"), SubResource("BTPlayAnimation_4evon"), SubResource("BTDelay_1kwu6"), SubResource("BTDelay_arvq5")]
+children = [SubResource("BTAction_v4ajl"), SubResource("BTAction_yg7nc"), SubResource("BTAction_2flr3"), SubResource("BTAction_h7qfk"), SubResource("BTStopAnimation_3ccgm"), SubResource("BTPlayAnimation_4evon"), SubResource("BTPlayAnimation_7we6b"), SubResource("BTDelay_1kwu6"), SubResource("BTDelay_arvq5")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_33y05"]
 duration = 1.0

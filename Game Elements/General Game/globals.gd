@@ -35,6 +35,7 @@ var num_letters_collected : int = 0
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	load_config()
+	#apply_audio_settings()
 	player1_input = config.get_value("inputs","player1_input", "key")
 	player2_input = config.get_value("inputs","player2_input", "0")
 	randomize()
@@ -106,3 +107,4 @@ func invert_direction(direct : Direction) -> Direction:
 		Direction.Down:
 			return Direction.Up
 	return Direction.Error
+	

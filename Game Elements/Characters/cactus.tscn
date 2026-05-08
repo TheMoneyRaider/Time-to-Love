@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://8otwdidvs0pe"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_05s5w"]
-[ext_resource type="PackedScene" uid="uid://2wtbpyvtwqe1" path="res://Game Elements/Attacks/skeleton_swipe.tscn" id="2_0qywo"]
+[ext_resource type="PackedScene" uid="uid://qmvamdcsqp5m" path="res://Game Elements/Attacks/cactus_swipe.tscn" id="2_qi7pl"]
 [ext_resource type="Texture2D" uid="uid://wbb7ipv57seb" path="res://art/characters/cactus/cacto.png" id="3_05s5w"]
 [ext_resource type="BehaviorTree" uid="uid://c66gfnd02w2yj" path="res://ai/trees/cactus.tres" id="4_0qywo"]
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="5_i2jaq"]
@@ -27,6 +27,19 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_uhxym"]
 resource_name = "attack_forward"
 length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06666666, 0.13333333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [8, 9, 10, 11]
+}
 
 [sub_resource type="Animation" id="Animation_phyc7"]
 resource_name = "idle_forward"
@@ -104,7 +117,8 @@ min_sprint_time = 0.5
 max_sprint_time = 1.0
 max_sprint_cooldown = 4.0
 move_speed = 100.0
-attacks = [ExtResource("2_0qywo")]
+cactus_explode = true
+attacks = [ExtResource("2_qi7pl")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 y_sort_enabled = true
@@ -112,7 +126,7 @@ position = Vector2(4.7683716e-07, 4.7683716e-07)
 scale = Vector2(0.6842106, 0.6842106)
 texture = ExtResource("3_05s5w")
 hframes = 4
-vframes = 2
+vframes = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.08333349, 0)

@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://3c8xosoihgtb"]
+
+[ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/Particles/effect_particles.gd" id="1_514pk"]
+
+[sub_resource type="Gradient" id="Gradient_04ah2"]
+offsets = PackedFloat32Array(0.18584071, 0.40117994, 0.7463127, 1)
+colors = PackedColorArray(0.8632458, 0.7487874, 0.05517889, 1, 0.9999998, 0.35659012, 0.16000822, 1, 0.7137255, 0, 0.14117648, 1, 0.7137255, 0, 0.14117648, 0.3529412)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4vynf"]
+gradient = SubResource("Gradient_04ah2")
+
+[sub_resource type="Curve" id="Curve_hpnf6"]
+_data = [Vector2(0, 0.31102782), 0.0, 0.0, 0, 0, Vector2(0.32054794, 1), 0.0, 0.0, 0, 0, Vector2(0.8054795, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.053533196), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_avrv5"]
+curve = SubResource("Curve_hpnf6")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_04ah2"]
+lifetime_randomness = 0.67
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 0.0
+emission_ring_radius = 8.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+direction = Vector3(0, -1, 0)
+spread = 20.0
+initial_velocity_min = 25.0
+initial_velocity_max = 50.0
+angular_velocity_min = -45.000015
+angular_velocity_max = 44.999985
+gravity = Vector3(0, 30, 0)
+scale_min = 0.19999999
+scale_curve = SubResource("CurveTexture_avrv5")
+color_ramp = SubResource("GradientTexture1D_4vynf")
+hue_variation_min = -0.100000024
+hue_variation_max = 0.09999997
+
+[node name="FireDamage" type="GPUParticles2D"]
+z_index = 20
+y_sort_enabled = true
+emitting = false
+amount = 100
+lifetime = 1.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_04ah2")
+script = ExtResource("1_514pk")

@@ -30,10 +30,19 @@ var UI: UIState = UIState.new()
 @onready var prev_state = null
 var paused : bool = true
 
+var hover_cooldown: float = 0.0
+
+var songs = [
+	preload("res://Game Elements/Music/main.wav"),
+	preload("res://Game Elements/Music/main.wav"),
+	preload("res://Game Elements/Music/main.wav")
+]
+
 func _ready():
 	if Globals.cinematic_viewed:
 		paused = false
 		$Intro.visible = false
+		start_menu_music()
 	else:
 		$Intro/AnimationPlayer.play("main")
 	Title.texture = title_textures[Globals.menu]
@@ -45,6 +54,11 @@ func _ready():
 		UI_Group.get_node("VBoxContainer").get_child(2).grab_focus()
 		UI_Group.visible = true
 		Title.visible = true
+		
+		for button in $SubViewportContainer/SubViewport/UI_Group/VBoxContainer.get_children():
+			if button is Button:
+				button.mouse_entered.connect(_on_focus_entered)  # ← mouse hover
+				button.focus_entered.connect(_on_focus_entered)  # ← keyboard/controller
 	else:
 		if !capture_all_states:
 			preload_all_textures()
@@ -90,8 +104,18 @@ func _begin_explosion_cooldown():
 
 			
 
-
+func start_menu_music():
+	$AudioStreamPlayer.bus = "Music"
+	$AudioStreamPlayer.stream = songs[Globals.menu]
+	$AudioStreamPlayer.volume_db = -80.0
+	$AudioStreamPlayer.play()
+	var song_types = ["western", "sci-fi", "midieval"]
+	print("Playing: " + song_types[Globals.menu] + "\n" + str(songs[Globals.menu]))
+	var tween = create_tween()
+	tween.tween_property($AudioStreamPlayer, "volume_db", 0.0, 2.0)
+	
 func _process(delta):
+	hover_cooldown -=delta
 	$ColorRect.material.set_shader_parameter("time", $ColorRect.material.get_shader_parameter("time")+delta)
 	if paused:
 		if $Intro/AnimationPlayer.is_playing():
@@ -102,6 +126,7 @@ func _process(delta):
 			$Intro/AudioStreamPlayer.stop()
 			Globals.cinematic_viewed = true
 			paused=false
+			start_menu_music()
 	if !fragmenting:
 		return
 	if Globals.player1_input:
@@ -141,6 +166,9 @@ func _process(delta):
 		exploaded = false
 		cooldown = 1
 		rewind_ui(cooldown)
+		
+	
+	
 
 func fragment_disruption():
 	if get_viewport() and last_mouse_pos.distance_to(get_viewport().get_mouse_position()) >10:
@@ -192,7 +220,7 @@ func _input(event):
 			if get_node("Intro"):
 				$Intro.visible = false
 				$Intro/AnimationPlayer.stop()
-				$Intro/AudioStreamPlayer.stop()
+				start_menu_music()
 			Globals.cinematic_viewed = true
 			paused=false
 		return
@@ -397,6 +425,12 @@ func update_prompt():
 		text += button_state(Globals.player2_input,disruptive2)
 		$RichTextLabel.bbcode_text = text+": Toggle Fracturing "
 
+func _on_focus_entered() -> void:
+	print("focus entered")
+	if hover_cooldown <= 0.0:
+		print("playing audio")
+		$UIHover.play()
+		hover_cooldown = 0.1
 
 func button_state(input_type : String, active : bool):
 	if input_type == "key":
@@ -455,6 +489,15 @@ func update_ui_display():
 		"p2_press": UI.player2.pressing
 	})
 	if !prev_state or state!=prev_state:
+		
+		# handles UI sfx
+		if prev_state and (state["p1_hover"] != prev_state["p1_hover"] \
+		or state["p2_hover"] != prev_state["p2_hover"]):
+			if hover_cooldown <= 0.0:
+				print("playing hover sound")
+				$UIHover.play()
+				hover_cooldown = 0.1
+		
 		prev_state=state
 		var fname = generate_filename(prev_state)
 		if !ui_textures.has(fname):

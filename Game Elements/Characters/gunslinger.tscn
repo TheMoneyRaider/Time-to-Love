@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_b5bue"]
 [ext_resource type="PackedScene" uid="uid://bautao6qqc1ur" path="res://Game Elements/Attacks/cowboy_bullet.tscn" id="2_l3ar2"]
 [ext_resource type="Texture2D" uid="uid://brb4wlo0tvyss" path="res://art/characters/gunslinger/cowboy_spritesheet.png" id="4_b5bue"]
-[ext_resource type="BehaviorTree" uid="uid://cdbmhpx3cvk6m" path="res://ai/trees/skeleton.tres" id="5_uu4xw"]
+[ext_resource type="BehaviorTree" uid="uid://ddgbrhr8sil1l" path="res://ai/trees/gunslinger.tres" id="4_l3ar2"]
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="6_k8604"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_phyc7"]
@@ -106,8 +106,8 @@ collision_layer = 4
 collision_mask = 9
 script = ExtResource("1_b5bue")
 max_health = 15.0
-hit_range = 75
-agro_distance = 200.0
+hit_range = 300
+agro_distance = 500.0
 enemy_type = "archer"
 displays = Array[NodePath]([NodePath("Sprite2D")])
 min_timefabric = 15
@@ -134,7 +134,7 @@ libraries = {
 }
 
 [node name="BTPlayer" type="BTPlayer" parent="."]
-behavior_tree = ExtResource("5_uu4xw")
+behavior_tree = ExtResource("4_l3ar2")
 blackboard_plan = SubResource("BlackboardPlan_8s1eb")
 
 [node name="Area2D" type="Area2D" parent="."]
