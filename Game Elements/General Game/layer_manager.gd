@@ -68,6 +68,13 @@ var is_multiplayer = Globals.is_multiplayer
 @onready var PathwayViewport =  $PathwayViewport
 @onready var PathwayTransition =  $game_container/game_viewport/game_root/Camera2D/PathwayTransition
 
+var songs = [
+	preload("res://Game Elements/Music/western.wav"),
+	preload("res://Game Elements/Music/sci-fi.wav"),
+	preload("res://Game Elements/Music/medieval.wav"),
+]
+var current_song_idx: int = -1
+
 func _ready() -> void:
 	$game_container.material = $game_container.material.duplicate(true)
 	var conflict_cells : Array[Vector2i] = []
@@ -126,8 +133,17 @@ func _ready() -> void:
 	pathfinding.setup_from_room(room_instance.get_node("Ground"), room_instance.blocked_cells, room_instance.trap_cells,room_instance.liquid_cells)
 	_prepare_timefabric()
 	PathwayTransition.material.set_shader_parameter("mask_texture", PathwayTransition.get_texture())
-	#TEST
-	#move_to_limbo_phase_2()
+	
+	music_player_a = AudioStreamPlayer.new()
+	music_player_a.bus = "Music"
+	add_child(music_player_a)
+	music_player_b = AudioStreamPlayer.new()
+	music_player_b.bus = "Music"
+	add_child(music_player_b)
+	active_player = music_player_a
+	inactive_player = music_player_b
+	
+	play_random_music(2.0)
 
 func _process(delta: float) -> void:
 	if PathwayViewport.get_children().size() > 0: 
@@ -224,6 +240,36 @@ func _process(delta: float) -> void:
 					if child.is_in_group("pathway") and !child.used and child.active:
 						pathways.append(child)
 				awareness_display.set_array(pathways.duplicate(),2)
+
+var music_player_a: AudioStreamPlayer
+var music_player_b: AudioStreamPlayer
+var active_player: AudioStreamPlayer
+var inactive_player: AudioStreamPlayer
+
+# In _ready(), replace the music player creation with:
+
+func play_random_music(fade_time: float = 2.0) -> void:
+	var new_idx = current_song_idx
+	while new_idx == current_song_idx:
+		new_idx = randi() % songs.size()
+	current_song_idx = new_idx
+
+	# Fade out active player
+	var tween_out = create_tween()
+	tween_out.tween_property(active_player, "volume_db", -80.0, fade_time)
+	tween_out.tween_callback(active_player.stop)
+
+	# Fade in on inactive player
+	inactive_player.stream = songs[current_song_idx]
+	inactive_player.volume_db = -80.0
+	inactive_player.play()
+	var tween_in = create_tween()
+	tween_in.tween_property(inactive_player, "volume_db", 0.0, fade_time)
+
+	# Swap so next call knows which is active
+	var tmp = active_player
+	active_player = inactive_player
+	inactive_player = tmp
 
 func create_new_rooms() -> void:
 	if thread_running:
@@ -1363,6 +1409,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	
 	room_cleared= false
 	reward_claimed = false
+	play_random_music(2.0)
 	
 	var enemies : Array[Node]= []
 	
