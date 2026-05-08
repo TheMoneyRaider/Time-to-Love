@@ -391,7 +391,7 @@ func _check_on_hit_remnants(dmg_owner: Node, attack_body: Node):
 					winter.remnant_name:
 						effect = preload("res://Game Elements/Effects/winter_freeze.tres").duplicate(true)
 						effect.cooldown = rem.variable_2_values[rem.rank-1] + .25 * mancer_value
-					  effect.value1 =  rem.variable_1_values[rem.rank-1] + 10 * mancer_value
+						effect.value1 =  rem.variable_1_values[rem.rank-1] + 10 * mancer_value
 						effect.gained(self)
 						effects.append(effect)
 					pyromancer.remnant_name:
