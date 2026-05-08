@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://cbpewiw81kxc0"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_b5bue"]
-[ext_resource type="PackedScene" uid="uid://xvgc7jxjo4ip" path="res://Game Elements/Attacks/bolt.tscn" id="2_uu4xw"]
+[ext_resource type="PackedScene" uid="uid://bautao6qqc1ur" path="res://Game Elements/Attacks/cowboy_bullet.tscn" id="2_l3ar2"]
 [ext_resource type="Texture2D" uid="uid://brb4wlo0tvyss" path="res://art/characters/gunslinger/cowboy_spritesheet.png" id="4_b5bue"]
 [ext_resource type="BehaviorTree" uid="uid://cdbmhpx3cvk6m" path="res://ai/trees/skeleton.tres" id="5_uu4xw"]
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="6_k8604"]
@@ -105,7 +105,9 @@ scale = Vector2(1.2, 1.2)
 collision_layer = 4
 collision_mask = 9
 script = ExtResource("1_b5bue")
+max_health = 15.0
 hit_range = 75
+agro_distance = 200.0
 enemy_type = "archer"
 displays = Array[NodePath]([NodePath("Sprite2D")])
 min_timefabric = 15
@@ -113,7 +115,7 @@ max_timefabric = 25
 max_sprint_cooldown = 4.0
 sprint_multiplier = 3.0
 move_speed = 60.0
-attacks = [ExtResource("2_uu4xw")]
+attacks = [ExtResource("2_l3ar2")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 y_sort_enabled = true

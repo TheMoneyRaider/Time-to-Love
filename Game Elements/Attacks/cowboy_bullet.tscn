@@ -1,18 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://cfjcqrd47c0fu"]
+[gd_scene load_steps=4 format=3 uid="uid://bautao6qqc1ur"]
 
-[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_7y327"]
-[ext_resource type="Texture2D" uid="uid://cq8xe14aoqrs2" path="res://art/bullet.png" id="2_7y327"]
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_w43ds"]
+[ext_resource type="Texture2D" uid="uid://cq8xe14aoqrs2" path="res://art/bullet.png" id="2_esi6w"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e1io4"]
 size = Vector2(10, 13)
 
-[node name="Bullet" type="Area2D" groups=["attack"]]
+[node name="Cowboy_Bullet" type="Area2D" groups=["attack"]]
 collision_mask = 33
-script = ExtResource("1_7y327")
+script = ExtResource("1_w43ds")
 speed = 300.0
-damage = 3.0
-lifespan = 5.0
+lifespan = 0.75
 hit_force = 10.0
+bounces = 2
 attack_type = "bolt"
 deflectable = true
 
@@ -23,6 +23,6 @@ shape = SubResource("RectangleShape2D_e1io4")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, 4.7683716e-07)
 scale = Vector2(1, 1.25)
-texture = ExtResource("2_7y327")
+texture = ExtResource("2_esi6w")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
