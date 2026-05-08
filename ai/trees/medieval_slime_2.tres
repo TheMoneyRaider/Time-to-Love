@@ -221,8 +221,8 @@ children = [SubResource("BTAction_h0qi8"), SubResource("BTPlayAnimation_3l8d3")]
 
 [sub_resource type="BTAction" id="BTAction_3gtnp"]
 script = ExtResource("7_b2ykk")
-min_time = 0.5
-max_time = 2.0
+min_time = 0.25
+max_time = 1.0
 
 [sub_resource type="BTAction" id="BTAction_2rvo0"]
 custom_name = "OuterRange"
@@ -277,7 +277,7 @@ custom_name = "Attack if in Range"
 children = [SubResource("BTAction_3gtnp"), SubResource("BTAction_2rvo0"), SubResource("BTAction_wlgbv"), SubResource("BTAction_3rr5j"), SubResource("BTStopAnimation_fryb7"), SubResource("BTPlayAnimation_5trbw"), SubResource("BTDelay_0101k"), SubResource("BTDelay_xthto")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_hiekd"]
-duration = 1.0
+duration = 0.5
 children = [SubResource("BTSequence_mw5qn")]
 
 [sub_resource type="BTSequence" id="BTSequence_qpfcu"]

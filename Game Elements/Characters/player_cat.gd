@@ -976,14 +976,14 @@ func hit_enemy(attack_body : Node, enemy : Node):
 	else:
 		remnants = get_tree().get_root().get_node("LayerManager").player_2_remnants
 		
-	var winter = preload("res://Game Elements/Remnants/winters_embrace.tres")
-	for rem in remnants:
-		if rem.remnant_name == winter.remnant_name:
-			effect = preload("res://Game Elements/Effects/winter_freeze.tres").duplicate(true)
-			effect.cooldown = rem.variable_2_values[rem.rank-1]
-			effect.value1 =  rem.variable_1_values[rem.rank-1]
-			effect.gained(enemy)
-			enemy.effects.append(effect)
+	#var winter = preload("res://Game Elements/Remnants/winters_embrace.tres")
+	#for rem in remnants:
+		#if rem.remnant_name == winter.remnant_name:
+			#effect = preload("res://Game Elements/Effects/winter_freeze.tres").duplicate(true)
+			#effect.cooldown = rem.variable_2_values[rem.rank-1]
+			#effect.value1 =  rem.variable_1_values[rem.rank-1]
+			#effect.gained(enemy)
+			#enemy.effects.append(effect)
 
 
 func check_drones():
