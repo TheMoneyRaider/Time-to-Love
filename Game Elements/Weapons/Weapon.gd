@@ -197,7 +197,7 @@ func apply_remnants(attack_instance):
 							attack_instance.speed = (.5 * similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100)
 					hydromancer.remnant_name:
 						attack_instance.last_liquid = c_owner.last_liquid
-						c_owner.last_liquid = Globals.Liquid.Buffer
+						#c_owner.last_liquid = Globals.Liquid.Buffer
 					intelligence.remnant_name:
 						attack_instance.intelligence = rem.duplicate(true)
 					longshot.remnant_name:

@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://caky05nchgxcp" path="res://art/attacks/scorpion_sting.png" id="2_bhlv8"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_184y7"]
-radius = 4.000001
+radius = 2.2269454
 height = 18.22431
 
 [sub_resource type="Animation" id="Animation_vvhmo"]
@@ -52,8 +52,9 @@ collision_mask = 47
 angular_damp = 48.586
 script = ExtResource("1_bhlv8")
 speed = 0.0
-damage = 10.0
+damage = 4.0
 lifespan = 0.2
+start_lag = 0.1
 cooldown = 0.3
 pierce = -2.0
 wall_collision = false
@@ -61,7 +62,7 @@ attack_type = "sting"
 animation = "stab"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-3.7500005, -17.499998)
+position = Vector2(-2.5000005, -16.25)
 rotation = -3.3580134
 scale = Vector2(1.25, 1.25)
 shape = SubResource("CapsuleShape2D_184y7")

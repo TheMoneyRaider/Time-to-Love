@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=59 format=3 uid="uid://ddgbrhr8sil1l"]
+[gd_resource type="BehaviorTree" load_steps=62 format=3 uid="uid://ddgbrhr8sil1l"]
 
 [ext_resource type="Script" uid="uid://7jhqrxgbl3q" path="res://ai/tasks/adjustTargetPos.gd" id="1_6c74n"]
 [ext_resource type="Script" uid="uid://clsympdov604o" path="res://ai/tasks/checkAgro.gd" id="2_ttuuy"]
@@ -131,12 +131,22 @@ resource_name = "AnimationPlayer"
 animation_player = SubResource("BBNode_6xbjc")
 animation_name = &"attack"
 
+[sub_resource type="BTAction" id="BTAction_6c74n"]
+script = ExtResource("9_83bh8")
+
 [sub_resource type="BTAction" id="BTAction_861og"]
 script = ExtResource("9_83bh8")
 
+[sub_resource type="BTDelay" id="BTDelay_ttuuy"]
+seconds = 0.05
+children = [SubResource("BTAction_861og")]
+
+[sub_resource type="BTSequence" id="BTSequence_sangl"]
+children = [SubResource("BTAction_6c74n"), SubResource("BTDelay_ttuuy")]
+
 [sub_resource type="BTDelay" id="BTDelay_arvq5"]
 seconds = 0.2
-children = [SubResource("BTAction_861og")]
+children = [SubResource("BTSequence_sangl")]
 
 [sub_resource type="BBNode" id="BBNode_76wjc"]
 saved_value = NodePath("AnimationPlayer")

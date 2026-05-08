@@ -136,7 +136,7 @@ animation = "swing"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -19)
 rotation = 1.5707964
-scale = Vector2(1.25, 1.25)
+scale = Vector2(1.5, 1.5)
 shape = SubResource("CapsuleShape2D_184y7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

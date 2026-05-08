@@ -1,12 +1,10 @@
-[gd_scene load_steps=44 format=4 uid="uid://bx56vrdpe0y2r"]
+[gd_scene load_steps=19 format=4 uid="uid://bx56vrdpe0y2r"]
 
 [ext_resource type="Script" uid="uid://dfi5qi6whea7i" path="res://Game Elements/Rooms/western/canyon_4.gd" id="1_hcrw6"]
 [ext_resource type="PackedScene" uid="uid://ccwiql3bybf2p" path="res://Game Elements/Objects/pathway.tscn" id="1_hh3l0"]
 [ext_resource type="TileSet" uid="uid://c1hs512jrffba" path="res://art/western_pack/Tilesets/western_tiles_1.tres" id="2_hcrw6"]
-[ext_resource type="Shader" uid="uid://38vxobsuweed" path="res://Game Elements/General Game/limbo/limbo_effect.gdshader" id="3_olmff"]
 [ext_resource type="Texture2D" uid="uid://n0bko3km56nl" path="res://Game Elements/General Game/limbo/limbo_noise.tres" id="2_vuvng"]
-
-
+[ext_resource type="Shader" uid="uid://38vxobsuweed" path="res://Game Elements/General Game/limbo/limbo_effect.gdshader" id="3_olmff"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cvkcn"]
 shader = ExtResource("3_olmff")
@@ -16,8 +14,6 @@ shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
-
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kf7ry"]
 shader = ExtResource("3_olmff")
 shader_parameter/inverse_output = true
@@ -25,8 +21,6 @@ shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
-
-
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dmi0r"]
 shader = ExtResource("3_olmff")
@@ -36,8 +30,6 @@ shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
-
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xv0ju"]
 shader = ExtResource("3_olmff")
 shader_parameter/inverse_output = true
@@ -45,7 +37,6 @@ shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
-
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hhuvx"]
 shader = ExtResource("3_olmff")
@@ -55,8 +46,6 @@ shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
-
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oaqag"]
 shader = ExtResource("3_olmff")
 shader_parameter/inverse_output = true
@@ -64,8 +53,6 @@ shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
-
-
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v1j01"]
 shader = ExtResource("3_olmff")
@@ -75,7 +62,6 @@ shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mg7ip"]
 shader = ExtResource("3_olmff")
 shader_parameter/inverse_output = true
@@ -83,8 +69,6 @@ shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
-
-
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hh535"]
 shader = ExtResource("3_olmff")
@@ -94,8 +78,6 @@ shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
-
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ptdlu"]
 shader = ExtResource("3_olmff")
 shader_parameter/inverse_output = true
@@ -103,8 +85,6 @@ shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
-
-
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3nth6"]
 shader = ExtResource("3_olmff")
@@ -114,8 +94,6 @@ shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
-
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6f63u"]
 shader = ExtResource("3_olmff")
 shader_parameter/inverse_output = true
@@ -123,8 +101,6 @@ shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
-
-
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3j6xv"]
 shader = ExtResource("3_olmff")

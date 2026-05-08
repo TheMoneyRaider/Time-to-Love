@@ -23,7 +23,9 @@ func _tick(_delta: float) -> Status:
 	
 	var agro_dist = agent.agro_distance
 	# looks for either enemy, and checks if they are in range, sends that position if they are
-	for i in range(distances_squared.size()): 
+	var indices = range(distances_squared.size())
+	indices.shuffle()
+	for i in indices: 
 		var pos = positions[i]
 		if healths[i] <= 0:
 			continue

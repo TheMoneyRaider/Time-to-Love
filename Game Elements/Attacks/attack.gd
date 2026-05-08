@@ -299,7 +299,7 @@ func intersection(body):
 	if c_owner == null:
 		return
 	if "current_health" not in c_owner or c_owner.current_health <= 0.0:
-		if(c_owner.hitable == true):
+		if(("hitable" in c_owner) and c_owner.hitable == true):
 			return
 	if body.get("c_owner") != null and !is_instance_valid(body.c_owner):
 		return
@@ -308,6 +308,7 @@ func intersection(body):
 	if attack_type == "death mark":
 		if body != c_owner and body.is_in_group("player"):
 			c_owner.die(false)
+			queue_free()
 		return
 	
 	if(!hit_nodes.has(body)):

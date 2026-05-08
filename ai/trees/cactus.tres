@@ -86,6 +86,7 @@ max_time = 2.0
 [sub_resource type="BTAction" id="BTAction_yg7nc"]
 custom_name = "OuterRange"
 script = ExtResource("6_2civ0")
+hit_range = 64
 
 [sub_resource type="BTAction" id="BTAction_2flr3"]
 custom_name = "MoveToPlayer"
@@ -94,7 +95,7 @@ script = ExtResource("7_217x6")
 [sub_resource type="BTAction" id="BTAction_h7qfk"]
 custom_name = "InnerRange"
 script = ExtResource("6_2civ0")
-hit_range = 16
+hit_range = 24
 
 [sub_resource type="BBNode" id="BBNode_1kwu6"]
 saved_value = NodePath("AnimationPlayer")

@@ -3,8 +3,8 @@ var mouse_sensitivity: float = 1.0
 
 @export var base_move_speed: float = 100
 var move_speed: float
-@export var max_health: float = 10.0
-@export var current_health: float = 10.0
+@export var max_health: float = 20.0 #TEST
+@export var current_health: float = 20.0 #TEST
 @onready var current_dmg_time: float = 0.0
 @onready var current_liquid_time: float = 0.0
 @onready var in_instant_trap: bool = false
@@ -311,7 +311,7 @@ func _physics_process(delta):
 	tether(delta)
 	if is_tethered:
 		if is_multiplayer:
-			input_direction += (tether_momentum / move_speed)
+			input_direction += (tether_momentum / move_speed) * 2.0
 		else:
 			input_direction += (tether_momentum / move_speed) * 5.0
 	weapon_node.weapon_direction = (crosshair.position).normalized()
@@ -357,6 +357,21 @@ func request_attack(t_weapon : Weapon) -> float:
 	var attack_direction = Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles))
 	t_weapon.request_attacks(attack_direction,global_position,self,weapon_node.flip)
 	return t_weapon.cooldown
+
+func _check_reduction_remnants(damage_amount : float, _dmg_owner : Node):
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var terramancer = preload("res://Game Elements/Remnants/terramancer.tres")
+	for rem in remnants:
+		if rem.active:
+			match rem.remnant_name:
+				terramancer.remnant_name:
+					if velocity.length() <= .1:
+						damage_amount = damage_amount * (1 - rem.rank * .1)
+	return damage_amount
 
 func _check_bulwark(damage_amount : float, _dmg_owner : Node, send_damage: bool):
 	var remnants_purple : Array[Remnant]
@@ -470,6 +485,7 @@ func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0
 		time_since_last_hit = 0
 		i_frames = attack_i_frames
 		damage_amount = damage_amount * (1 - damage_resistance)
+		damage_amount = _check_reduction_remnants(damage_amount,_dmg_owner)
 		damage_amount = _check_bulwark(damage_amount, _dmg_owner, bulwark)
 		if check_drones():
 			LayerManager._damage_indicator(0, _dmg_owner,_direction, attack_body,self,Color(0.0, 0.666, 0.85, 1.0))
@@ -577,7 +593,9 @@ func _check_giant():
 		change_health((-1 + purple_max / orange_max) * current_health, purple_max - orange_max)
 		#if(purple_giant_rank != 0 && orange_giant_rank != 0):
 		#	change_health(purple_max / orange_max * current_health, purple_max - orange_max)
-		if(orange_giant_rank != 0):
+		if(orange_giant_rank != 0 and purple_giant_rank !=0):
+			pass
+		elif(orange_giant_rank != 0):
 			scale = scale / 1.5
 			#change_health(-orange_giant_rank * 5, - orange_giant_rank * 5)
 		elif(purple_giant_rank != 0):
@@ -589,7 +607,9 @@ func _check_giant():
 		change_health((-1 + orange_max / purple_max) * current_health, orange_max - purple_max)
 		#if(purple_giant_rank != 0 && orange_giant_rank != 0):
 		#	change_health(orange_giant_rank * 5 - purple_giant_rank * 5, orange_giant_rank * 5 - purple_giant_rank * 5)
-		if(purple_giant_rank != 0):
+		if(orange_giant_rank != 0 and purple_giant_rank !=0):
+			pass
+		elif(purple_giant_rank != 0):
 			scale = scale / 1.5
 			#change_health(-purple_giant_rank * 5, - purple_giant_rank * 5)
 		elif(orange_giant_rank != 0):
@@ -607,6 +627,19 @@ func tether(delta : float):
 			var direct = (crosshair.position).normalized()
 			tether_momentum = direct*32
 			other_player.enable(self,direct,!is_purple)
+			var remnants : Array[Remnant]
+			if(!is_purple):
+				remnants = LayerManager.player_1_remnants
+			else:
+				remnants = LayerManager.player_2_remnants
+			var giant_rank = 0
+			var giant = preload("res://Game Elements/Remnants/giant.tres")
+			for rem in remnants:
+				if rem.remnant_name == giant.remnant_name and rem.active:
+					giant_rank = rem.rank
+			if(giant_rank != 0):
+				other_player.collision_shape.scale = other_player.collision_shape.scale * 1.5
+				other_player.sprite_2d.scale = other_player.sprite_2d.scale * 1.5
 			update_animation_parameters(direct)
 	if !Input.is_action_pressed("swap_" + input_device):
 		single_toggle = false
@@ -615,6 +648,8 @@ func tether(delta : float):
 			swap_color()
 			single_toggle = true
 			if !is_multiplayer:
+				other_player.collision_shape.scale = Vector2(1,1)
+				other_player.sprite_2d.scale = Vector2(1,1)
 				other_player.disable()
 			if tether_line.visible == true:
 				tether_line.visible = false
@@ -660,6 +695,8 @@ func tether(delta : float):
 			swap_color()
 			single_toggle = true
 		if !is_multiplayer:
+			other_player.collision_shape.scale = Vector2(1,1)
+			other_player.sprite_2d.scale = Vector2(1,1)
 			other_player.disable()
 		if tether_line.visible == true:
 			tether_line.visible = false

@@ -6,9 +6,9 @@
 script = ExtResource("1_8uosx")
 scene_location = "res://Game Elements/Rooms/western/canyon3.tscn"
 noise_seed = null
-num_enemy_goal = 5
+num_enemy_goal = 15
 roomvariant = 2
 enemy_pool = Array[String](["res://Game Elements/Characters/gunslinger.tscn", "res://Game Elements/Characters/cactus.tscn", "res://Game Elements/Characters/scorpion.tscn"])
-enemy_chances = Array[float]([1.0, 1.0, 1.0])
+enemy_chances = Array[float]([0.5, 1.0, 2.0])
 wave_segment = 0.25
 metadata/_custom_type_script = "uid://boljl4yehg187"
