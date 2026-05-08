@@ -1518,6 +1518,13 @@ func _on_enemy_take_damage(damage : float,current_health : int,enemy : Node, dir
 			attack_instance.c_owner = enemy
 			attack_instance.global_position = enemy.global_position
 			room_instance.call_deferred("add_child",attack_instance)
+		if(enemy.cactus_explode):
+			var attack_instance = preload("res://Game Elements/Attacks/explosion.tscn").instantiate()
+			attack_instance.damage = enemy.exploded
+			attack_instance.scale = attack_instance.scale * ((enemy.exploded) / 4)
+			attack_instance.c_owner = enemy.last_hitter
+			attack_instance.global_position = enemy.global_position
+			room_instance.call_deferred("add_child",attack_instance)
 		enemy.clear_effects()
 		var health_chance = randf()
 		var percentage_health_missing

@@ -28,6 +28,7 @@ var look_direction : Vector2 = Vector2(0,1)
 @export var weapon_cooldowns : Array[float] = []
 var last_hitter : Node = null
 var exploded : float = 0
+@export var cactus_explode : bool = false
 var purple_explode : bool = false
 
 var last_pos:Vector2 = Vector2(0,0)
