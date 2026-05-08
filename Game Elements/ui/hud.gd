@@ -434,8 +434,16 @@ func kill_enemies():
 		for tent in LayerManager.room_instance.get_node("Shop/Tentacles").get_children():
 			tent.queue_free()
 		return
+	if LayerManager.room_instance_data.roomtype==Globals.RoomType.Boss:
+		if LayerManager.room_instance.get_node_or_null("Shop/Tentacles"):
+			for node in LayerManager.room_instance.get_node("Shop/Tentacles").get_children():
+				if node.is_in_group("enemy") and "current_health" in node:
+					node.current_health = -1.0
+					node.emit_signal("enemy_took_damage",100.0,node.current_health,node,Vector2(0,-1))
+				if node.is_in_group("attack"):
+					node.queue_free()
 	for node in LayerManager.room_instance.get_children():
-		if node.is_in_group("enemy"):
+		if node.is_in_group("enemy") and "current_health" in node:
 			node.current_health = -1.0
 			node.emit_signal("enemy_took_damage",100.0,node.current_health,node,Vector2(0,-1))
 		if node.is_in_group("attack"):
