@@ -125,7 +125,7 @@ script = ExtResource("8_04u2j")
 
 [sub_resource type="BTDelay" id="BTDelay_1kwu6"]
 seconds = 0.2
-children = [SubResource("BTPlayAnimation_7we6b"), SubResource("BTAction_4evon")]
+children = [SubResource("BTAction_4evon")]
 
 [sub_resource type="BBNode" id="BBNode_yg7nc"]
 saved_value = NodePath("AnimationPlayer")
@@ -141,7 +141,7 @@ children = [SubResource("BTPlayAnimation_2flr3")]
 
 [sub_resource type="BTSequence" id="BTSequence_v4ajl"]
 custom_name = "Attack if in Range"
-children = [SubResource("BTAction_v4ajl"), SubResource("BTAction_yg7nc"), SubResource("BTAction_2flr3"), SubResource("BTAction_h7qfk"), SubResource("BTStopAnimation_3ccgm"), SubResource("BTPlayAnimation_4evon"), SubResource("BTDelay_1kwu6"), SubResource("BTDelay_arvq5")]
+children = [SubResource("BTAction_v4ajl"), SubResource("BTAction_yg7nc"), SubResource("BTAction_2flr3"), SubResource("BTAction_h7qfk"), SubResource("BTStopAnimation_3ccgm"), SubResource("BTPlayAnimation_4evon"), SubResource("BTPlayAnimation_7we6b"), SubResource("BTDelay_1kwu6"), SubResource("BTDelay_arvq5")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_33y05"]
 duration = 1.0
