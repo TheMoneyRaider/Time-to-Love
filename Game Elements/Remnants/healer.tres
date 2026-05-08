@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("3_grgpq")
-remnant_name = "Remnant of the Healer"
+remnant_name = "Remnant of The Healer"
 description = "At the start of each room gain $Y max health"
 icon = ExtResource("2_6pry1")
 art = ExtResource("1_pwamh")

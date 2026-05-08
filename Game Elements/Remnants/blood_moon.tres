@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("3_tfben")
-remnant_name = "Remnant of the Blood Moon"
+remnant_name = "Remnant of The Vampire"
 description = "$X% Chance to heal $Y% of your health after killing an enemy"
 icon = ExtResource("2_j8ex2")
 art = ExtResource("1_rwqum")

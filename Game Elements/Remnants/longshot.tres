@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("3_karch")
-remnant_name = "Remnant of the Longshot"
+remnant_name = "Remnant of The Archer"
 description = "Ranged attacks have $Y more pierce and deal $X% more damage for every enemy hit"
 icon = ExtResource("2_xsrs2")
 art = ExtResource("1_qyqfm")

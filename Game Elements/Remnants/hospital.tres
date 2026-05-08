@@ -9,7 +9,7 @@
 
 [resource]
 script = ExtResource("3_sjfgh")
-remnant_name = "Remnant of the Hospital"
+remnant_name = "Remnant of The Doctor"
 description = "Whenever you heal, heal for $X% more."
 icon = ExtResource("2_tgoow")
 art = ExtResource("1_waxin")

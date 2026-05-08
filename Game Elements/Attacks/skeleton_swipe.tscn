@@ -125,6 +125,7 @@ collision_mask = 47
 script = ExtResource("1_tmhp4")
 speed = 0.0
 lifespan = 0.2
+start_lag = 0.1
 cooldown = 0.3
 pierce = -2.0
 wall_collision = false

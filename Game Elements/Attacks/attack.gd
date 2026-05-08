@@ -34,7 +34,7 @@ var hit_nodes = {}
 @export var animation : String = ""
 @export var hits_owner : bool = false
 @export var hits_all : bool = false
-
+var start_scale = scale
 var combod : bool = false
 var is_purple : bool = false
 
@@ -81,6 +81,7 @@ func ready_hacks():
 func _ready():
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	ready_hacks()
+	start_scale = scale
 	frozen = true
 	if start_lag > 0.0:
 		await get_tree().create_timer(start_lag, false).timeout
@@ -219,6 +220,8 @@ func _process(delta):
 	drag()
 	if attack_type == "ls_melee":
 		global_position = c_owner.global_position
+	if attack_type == "bullet":
+		scale = start_scale * .2 * lerp(5,3,(life)/(lifespan))
 	if intelligence and speed > 0 and attack_type != "slug":
 		change_direction()
 	if frozen:

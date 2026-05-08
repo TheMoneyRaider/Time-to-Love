@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("3_71ycc")
-remnant_name = "Remnant of the Hare"
+remnant_name = "Remnant of The Hare"
 description = "$X% speed boost for the first 15 seconds of each room"
 icon = ExtResource("2_6ti52")
 art = ExtResource("1_8rr8o")
