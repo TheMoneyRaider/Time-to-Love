@@ -299,7 +299,8 @@ func intersection(body):
 	if c_owner == null:
 		return
 	if "current_health" not in c_owner or c_owner.current_health <= 0.0:
-		return
+		if(c_owner.hitable == true):
+			return
 	if body.get("c_owner") != null and !is_instance_valid(body.c_owner):
 		return
 	if attack_type == "laser" and life < .5:
