@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://802n21nh8nwf"]
+
+[ext_resource type="Texture2D" uid="uid://cugblfkxmtvhu" path="res://art/particles/spark.png" id="1_8ajem"]
+[ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/Particles/effect_particles.gd" id="2_j41f2"]
+
+[sub_resource type="Curve" id="Curve_8ajem"]
+_data = [Vector2(0, 0), 0.0, 3.9192986, 0, 0, Vector2(0.22304833, 0.9295665), -4.687694e-07, -4.687694e-07, 0, 0, Vector2(0.8698885, 0.85913306), -1.2302982, -1.2302982, 0, 0, Vector2(1, 0), -12.986733, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_j41f2"]
+curve = SubResource("Curve_8ajem")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_w0x6l"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 9.68
+spread = 180.0
+initial_velocity_min = 40.0
+initial_velocity_max = 40.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -2.2351742e-06
+radial_accel_max = 200.0
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_j41f2")
+
+[node name="GPUParticles2D" type="GPUParticles2D"]
+z_index = 34
+rotation = -1.5707964
+emitting = false
+amount = 120
+texture = ExtResource("1_8ajem")
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_w0x6l")
+script = ExtResource("2_j41f2")

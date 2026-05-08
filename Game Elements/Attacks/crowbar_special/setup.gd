@@ -11,12 +11,14 @@ extends Node2D
 
 
 @onready var sprite = $Sprite2D
+@onready var sprite2 = $Sprite2D2
 
 var noise := FastNoiseLite.new()
 var outline_points: PackedVector2Array = []
 @export var width: int = 64
 @export var height: int = 64
 var image = Image.create_empty(width, height, false, Image.FORMAT_RGBA8)
+var image2 = Image.create_empty(width, height, false, Image.FORMAT_RGBA8)
 var last_position :Vector2
 var time = 0.0
 var mask_texture : Texture2D
@@ -92,6 +94,7 @@ func generate_outline(edge_only : bool = true):
 			var val = values[x][y]
 			if val < threshold:
 				image.set_pixel(x, y, Color(0,0,0,0))
+				image2.set_pixel(x, y, Color(0,0,0,0))
 				continue
 				
 			var is_edge = false
@@ -112,14 +115,18 @@ func generate_outline(edge_only : bool = true):
 
 			if is_edge:
 				image.set_pixel(x, y, Color(1,1,1,1))
+				image2.set_pixel(x, y, Color(0,0,0,0))
 			else:
 				if edge_only:
 					image.set_pixel(x, y, Color(0,0,0,0))
+					image2.set_pixel(x, y, Color(0,0,0,0))
 				else:
 					image.set_pixel(x, y, Color(0,0,0,1))
+					image2.set_pixel(x, y, Color(0,0,0,1))
 	if !edge_only:
 		mask_texture= ImageTexture.create_from_image(image)
 	sprite.texture = ImageTexture.create_from_image(image)
+	sprite2.texture = ImageTexture.create_from_image(image2)
 	
 func passify(player : Node):
 	player_owner = player

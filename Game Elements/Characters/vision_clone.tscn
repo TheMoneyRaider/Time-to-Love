@@ -1,0 +1,147 @@
+[gd_scene load_steps=19 format=3 uid="uid://cwtn5yxq6rcnw"]
+
+[ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_3yqr6"]
+[ext_resource type="Texture2D" uid="uid://cs8tphhehohan" path="res://art/characters/vision/vision_character2.png" id="3_3yqr6"]
+[ext_resource type="Texture2D" uid="uid://b4xlvfuql5dtd" path="res://art/characters/vision/vision_overlay_master.png" id="4_3yqr6"]
+[ext_resource type="BehaviorTree" uid="uid://bws82cxtrvfuw" path="res://ai/trees/vclone.tres" id="4_achu3"]
+[ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="5_oabdt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_phyc7"]
+size = Vector2(12, 23)
+
+[sub_resource type="Animation" id="Animation_8s1eb"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_uhxym"]
+resource_name = "attack_forward"
+length = 0.5
+loop_mode = 2
+
+[sub_resource type="Animation" id="Animation_phyc7"]
+resource_name = "idle_forward"
+length = 0.4
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_12o7h"]
+resource_name = "move_forward"
+length = 0.4
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_llnr1"]
+resource_name = "sprint_forward"
+length = 0.24
+loop_mode = 1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8s1eb"]
+_data = {
+&"RESET": SubResource("Animation_8s1eb"),
+&"attack": SubResource("Animation_uhxym"),
+&"idle": SubResource("Animation_phyc7"),
+&"move": SubResource("Animation_12o7h"),
+&"sprint": SubResource("Animation_llnr1")
+}
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_8s1eb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uhxym"]
+radius = 7.0
+
+[sub_resource type="Curve" id="Curve_achu3"]
+_data = [Vector2(0, 0), 0.0, 6.7659764, 0, 0, Vector2(0.2385321, 1), 0.0, 0.0, 0, 0, Vector2(0.5168196, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_3yqr6"]
+curve = SubResource("Curve_achu3")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2488m"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 32.0
+emission_ring_inner_radius = 24.0
+emission_ring_cone_angle = 90.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -64.0
+radial_accel_max = -32.0
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_3yqr6")
+color = Color(1, 0.7899187, 0.5800093, 1)
+hue_variation_min = -0.100000024
+hue_variation_max = 0.09999997
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_achu3"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 48.0
+emission_ring_inner_radius = 32.0
+emission_ring_cone_angle = 90.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -64.0
+radial_accel_max = -32.0
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_3yqr6")
+color = Color(1, 0.7899187, 0.5800093, 1)
+hue_variation_min = -0.100000024
+hue_variation_max = 0.09999997
+
+[node name="VisionClone" type="CharacterBody2D" groups=["enemy"]]
+z_index = 20
+y_sort_enabled = true
+collision_layer = 4
+collision_mask = 9
+script = ExtResource("1_3yqr6")
+max_health = 0.1
+enemy_type = "v_clone"
+move_speed = 20.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+position = Vector2(2, -16)
+texture = ExtResource("3_3yqr6")
+
+[node name="Sprite2D" type="Sprite2D" parent="Sprite2D"]
+texture = ExtResource("4_3yqr6")
+hframes = 3
+frame = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -13)
+shape = SubResource("RectangleShape2D_phyc7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_8s1eb")
+}
+
+[node name="BTPlayer" type="BTPlayer" parent="."]
+behavior_tree = ExtResource("4_achu3")
+blackboard_plan = SubResource("BlackboardPlan_8s1eb")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(1, 6)
+collision_layer = 4
+collision_mask = 7
+linear_damp = 0.0
+script = ExtResource("5_oabdt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, -14)
+shape = SubResource("CircleShape2D_uhxym")
+
+[node name="BurnParticles" type="GPUParticles2D" parent="."]
+z_index = 21
+position = Vector2(0, -15)
+amount = 100
+amount_ratio = 0.5
+process_material = SubResource("ParticleProcessMaterial_2488m")
+
+[node name="BurnParticles2" type="GPUParticles2D" parent="."]
+z_index = 21
+position = Vector2(0, -15)
+amount = 50
+amount_ratio = 0.5
+lifetime = 1.5
+process_material = SubResource("ParticleProcessMaterial_achu3")

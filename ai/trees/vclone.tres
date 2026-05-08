@@ -1,0 +1,80 @@
+[gd_resource type="BehaviorTree" load_steps=18 format=3 uid="uid://bws82cxtrvfuw"]
+
+[ext_resource type="Script" uid="uid://dr4vkyorjqaqn" path="res://ai/tasks/getPlayerPos.gd" id="1_vxh7u"]
+[ext_resource type="Script" uid="uid://clsympdov604o" path="res://ai/tasks/checkAgro.gd" id="2_v34e4"]
+[ext_resource type="Script" uid="uid://yu3fkdlxtfbv" path="res://ai/tasks/calcPath.gd" id="3_4kvyf"]
+[ext_resource type="Script" uid="uid://dko7uh5a2dm00" path="res://ai/tasks/moveToPos.gd" id="4_vyf40"]
+[ext_resource type="Script" uid="uid://c0bvdm1o3wjaq" path="res://ai/tasks/random_cooldown.gd" id="5_nwnsh"]
+[ext_resource type="Script" uid="uid://danrund51c7i6" path="res://ai/tasks/chooseRandomPos.gd" id="9_mi6k0"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_ua8f2"]
+var/state/name = &"state"
+var/state/type = 4
+var/state/value = ""
+var/state/hint = 0
+var/state/hint_string = ""
+var/agro_dist/name = &"agro_dist"
+var/agro_dist/type = 3
+var/agro_dist/value = 0.0
+var/agro_dist/hint = 0
+var/agro_dist/hint_string = ""
+var/deagro_dist/name = &"deagro_dist"
+var/deagro_dist/type = 3
+var/deagro_dist/value = 0.0
+var/deagro_dist/hint = 0
+var/deagro_dist/hint_string = ""
+var/hit_range/name = &"hit_range"
+var/hit_range/type = 3
+var/hit_range/value = 0.0
+var/hit_range/hint = 0
+var/hit_range/hint_string = ""
+var/target_pos/name = &"target_pos"
+var/target_pos/type = 5
+var/target_pos/value = Vector2(0, 0)
+var/target_pos/hint = 0
+var/target_pos/hint_string = ""
+var/player_idx/name = &"player_idx"
+var/player_idx/type = 2
+var/player_idx/value = 0
+var/player_idx/hint = 0
+var/player_idx/hint_string = ""
+
+[sub_resource type="BTAction" id="BTAction_tqs8k"]
+script = ExtResource("1_vxh7u")
+
+[sub_resource type="BTAction" id="BTAction_3ccgm"]
+script = ExtResource("2_v34e4")
+
+[sub_resource type="BTSequence" id="BTSequence_4evon"]
+custom_name = "Constants"
+children = [SubResource("BTAction_tqs8k"), SubResource("BTAction_3ccgm")]
+
+[sub_resource type="BTAction" id="BTAction_arvq5"]
+script = ExtResource("5_nwnsh")
+
+[sub_resource type="BTAction" id="BTAction_nufqr"]
+script = ExtResource("9_mi6k0")
+
+[sub_resource type="BTAction" id="BTAction_3jwwk"]
+script = ExtResource("3_4kvyf")
+
+[sub_resource type="BTAction" id="BTAction_hnqba"]
+custom_name = "moveToPos"
+script = ExtResource("4_vyf40")
+target_to_player = 32.0
+ignore_players = true
+
+[sub_resource type="BTSequence" id="BTSequence_arvq5"]
+children = [SubResource("BTAction_arvq5"), SubResource("BTAction_nufqr"), SubResource("BTAction_3jwwk"), SubResource("BTAction_hnqba")]
+
+[sub_resource type="BTCooldown" id="BTCooldown_y6dfc"]
+duration = 3.0
+children = [SubResource("BTSequence_arvq5")]
+
+[sub_resource type="BTSequence" id="BTSequence_6xbjc"]
+custom_name = "Overall Tree"
+children = [SubResource("BTSequence_4evon"), SubResource("BTCooldown_y6dfc")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_ua8f2")
+root_task = SubResource("BTSequence_6xbjc")

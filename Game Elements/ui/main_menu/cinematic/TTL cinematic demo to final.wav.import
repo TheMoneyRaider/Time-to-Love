@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c68c8b3v7e713"
+path="res://.godot/imported/TTL cinematic demo to final.wav-ddf47d0dc8a70e083eee122517fd900b.sample"
+
+[deps]
+
+source_file="res://Game Elements/ui/main_menu/cinematic/TTL cinematic demo to final.wav"
+dest_files=["res://.godot/imported/TTL cinematic demo to final.wav-ddf47d0dc8a70e083eee122517fd900b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

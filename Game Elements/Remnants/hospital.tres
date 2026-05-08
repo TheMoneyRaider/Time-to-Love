@@ -10,7 +10,7 @@
 [resource]
 script = ExtResource("3_sjfgh")
 remnant_name = "Remnant of the Hospital"
-description = "Whenever you heal, heal an additionall $X% of your max health"
+description = "Whenever you heal, heal for $X% more."
 icon = ExtResource("2_tgoow")
 art = ExtResource("1_waxin")
 progress_required = 1.0
