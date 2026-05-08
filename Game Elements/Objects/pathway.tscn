@@ -80,7 +80,7 @@ radius = 32.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hgkmx"]
 shader = ExtResource("6_x3etk")
-shader_parameter/aberration_strength = 1.5000000712500001
+shader_parameter/aberration_strength = 1.50000007125
 shader_parameter/mask_intensity = 1.0
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_dp20r"]
