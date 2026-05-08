@@ -72,11 +72,13 @@ var start_tracks = [
 	preload("res://Game Elements/Music/western_start.wav"),
 	preload("res://Game Elements/Music/sci-fi_start.wav"),
 	preload("res://Game Elements/Music/medieval.wav"),
+	preload("res://Game Elements/Music/shopkeeper.wav")
 ]
 var loop_tracks = [
 	preload("res://Game Elements/Music/western_loop.wav"),
 	preload("res://Game Elements/Music/sci-fi_loop.wav"),
 	preload("res://Game Elements/Music/medieval.wav"),
+	preload("res://Game Elements/Music/shopkeeper.wav")
 ]
 
 var current_song_idx: int = -1
@@ -256,15 +258,16 @@ var inactive_player: AudioStreamPlayer
 
 func play_timline_music() -> void:
 	var new_idx: int
-	var progress = RoomManager.current_progress
-	if progress < 1.0:
-		new_idx = 2  # medieval
-	elif progress < 2.0:
-		new_idx = 0  # western
+	if room_instance_data.roomtype == Globals.RoomType.Shop:
+		new_idx = 3  # ← shop track index
 	else:
-		new_idx = 1  # sci	
-	if new_idx == current_song_idx:
-		return
+		var progress = RoomManager.current_progress
+		if progress < 1.0:
+			new_idx = 2  # medieval
+		elif progress < 2.0:
+			new_idx = 0  # western
+		else:
+			new_idx = 1  # sci-fi
 	current_song_idx = new_idx
 	active_player.stop()
 	inactive_player.stream = start_tracks[current_song_idx]
