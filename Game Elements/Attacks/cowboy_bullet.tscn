@@ -7,12 +7,14 @@
 size = Vector2(10, 13)
 
 [node name="Cowboy_Bullet" type="Area2D" groups=["attack"]]
-collision_mask = 33
+collision_layer = 8
+collision_mask = 47
 script = ExtResource("1_w43ds")
 speed = 550.0
 damage = 4.0
 lifespan = 10.0
 hit_force = 10.0
+pierce = 3.0
 bounces = 5
 attack_type = "bolt"
 deflectable = true

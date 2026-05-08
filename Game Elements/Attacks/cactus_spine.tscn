@@ -7,9 +7,10 @@
 size = Vector2(10, 14)
 
 [node name="Cactus_spine" type="Area2D" groups=["attack"]]
-collision_mask = 33
+collision_layer = 8
+collision_mask = 47
 script = ExtResource("1_5rn17")
-speed = 300.0
+speed = 100.0
 damage = 1.5
 lifespan = 10.0
 hit_force = 10.0
