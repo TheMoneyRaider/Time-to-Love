@@ -1,12 +1,11 @@
-[gd_scene load_steps=27 format=4 uid="uid://jk8t645y2wdy"]
+[gd_scene load_steps=14 format=4 uid="uid://jk8t645y2wdy"]
 
 [ext_resource type="TileSet" uid="uid://c1hs512jrffba" path="res://art/western_pack/Tilesets/western_tiles_1.tres" id="1_psktt"]
 [ext_resource type="Script" uid="uid://bnd3mcg05byuy" path="res://Game Elements/Rooms/western/canyon_1.gd" id="1_ugvu6"]
 [ext_resource type="PackedScene" uid="uid://ccwiql3bybf2p" path="res://Game Elements/Objects/pathway.tscn" id="2_1mswl"]
+[ext_resource type="Texture2D" uid="uid://n0bko3km56nl" path="res://Game Elements/General Game/limbo/limbo_noise.tres" id="2_vuvng"]
 [ext_resource type="Shader" uid="uid://38vxobsuweed" path="res://Game Elements/General Game/limbo/limbo_effect.gdshader" id="3_ftekm"]
 [ext_resource type="TileSet" uid="uid://du2dmgjlmgair" path="res://Game Elements/tilesets/sci_fi2.tres" id="3_gm26b"]
-[ext_resource type="Texture2D" uid="uid://n0bko3km56nl" path="res://Game Elements/General Game/limbo/limbo_noise.tres" id="2_vuvng"]
-
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_x04l8"]
 shader = ExtResource("3_ftekm")
@@ -16,7 +15,6 @@ shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_84jl1"]
 shader = ExtResource("3_ftekm")
 shader_parameter/inverse_output = true
@@ -25,7 +23,6 @@ shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1av8f"]
 shader = ExtResource("3_ftekm")
 shader_parameter/inverse_output = true
@@ -33,7 +30,6 @@ shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
-
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0qt1v"]
 shader = ExtResource("3_ftekm")
@@ -51,7 +47,6 @@ shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vsu1k"]
 shader = ExtResource("3_ftekm")
 shader_parameter/inverse_output = true
@@ -59,7 +54,6 @@ shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
-
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yyis2"]
 shader = ExtResource("3_ftekm")

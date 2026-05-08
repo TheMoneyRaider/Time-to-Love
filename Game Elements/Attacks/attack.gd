@@ -317,8 +317,6 @@ func intersection(body):
 			0:
 				pass
 			-1:
-				if (attack_type == "bolt"):
-					print("attack hit wall?")
 				if bounces > 0:
 					bounces -= 1
 					# Cast a short ray forward to get the wall's surface normal
