@@ -125,7 +125,7 @@ animation_name = &"attack"
 script = ExtResource("8_04u2j")
 
 [sub_resource type="BTDelay" id="BTDelay_1kwu6"]
-seconds = 0.2
+seconds = 0.1
 children = [SubResource("BTAction_4evon")]
 
 [sub_resource type="BBNode" id="BBNode_yg7nc"]

@@ -721,7 +721,8 @@ func die(death : bool , insta_die : bool = false) -> bool:
 			LayerManager.open_death_menu()
 			return false
 		if death:
-			max_health = max_health/2.0 if max_health > 40 else max_health-2.0
+			max_health = min(max_health * .8, max_health - 2.0)
+			#max_health/2.0 if max_health > 40 else max_health-2.0
 			emit_signal("max_health_changed",max_health,current_health, self)
 			self.process_mode = PROCESS_MODE_DISABLED
 			visible = false
@@ -1111,4 +1112,7 @@ func kill_enemy(enemy: Node):
 		if rem.remnant_name == blood_moon.remnant_name:
 			var heal_chance = rem.variable_1_values[rem.rank-1]
 			if(randf() * 100 <= heal_chance):
+				var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+				particle.position = self.position
+				get_parent().add_child(particle)
 				change_health(rem.variable_2_values[rem.rank-1] * .01 * max_health)

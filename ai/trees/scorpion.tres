@@ -77,15 +77,17 @@ script = ExtResource("3_vgbcq")
 
 [sub_resource type="BTAction" id="BTAction_1kwu6"]
 script = ExtResource("4_g4lci")
+target_to_player = 0.0
 
 [sub_resource type="BTAction" id="BTAction_v4ajl"]
 script = ExtResource("5_dbhim")
 min_time = 0.5
-max_time = 2.0
+max_time = 1.0
 
 [sub_resource type="BTAction" id="BTAction_yg7nc"]
 custom_name = "OuterRange"
 script = ExtResource("6_md62u")
+hit_range = 40
 
 [sub_resource type="BTAction" id="BTAction_2flr3"]
 custom_name = "MoveToPlayer"

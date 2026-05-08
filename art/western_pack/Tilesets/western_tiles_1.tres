@@ -663,8 +663,6 @@ texture = ExtResource("1_t0chf")
 8:10/0 = 0
 9:10/0 = 0
 9:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
-10:10/0 = 0
-10:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 11:10/0 = 0
 11:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 12:10/0 = 0
@@ -737,6 +735,7 @@ texture = ExtResource("1_t0chf")
 4:11/0/custom_data_0 = 1
 4:10/0 = 0
 4:10/0/custom_data_0 = 1
+10:10/0 = 0
 
 [resource]
 physics_layer_0/collision_layer = 1
