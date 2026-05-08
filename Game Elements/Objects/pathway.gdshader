@@ -1,5 +1,6 @@
 shader_type canvas_item;
 
+uniform float desaturate : hint_range(0.0, 1.0) = 0.0;
 uniform bool upper_left = true;
 uniform bool split = false;
 uniform float x_y_ratio = 1.0;
@@ -39,4 +40,6 @@ void fragment() {
 	    }
 	}
     COLOR = tex_col;
+	float gray = dot(COLOR.rgb, vec3(0.299, 0.587, 0.114));
+    COLOR.rgb = mix(COLOR.rgb, vec3(gray), desaturate);
 }

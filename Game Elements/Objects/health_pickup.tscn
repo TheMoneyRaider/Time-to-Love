@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://dyll53rc5imt1"]
+
+[ext_resource type="Script" uid="uid://c05eb81rcn831" path="res://Game Elements/Objects/health_pickup.gd" id="1_wijic"]
+[ext_resource type="Texture2D" uid="uid://b1ipxaqma0gme" path="res://art/objects/letter_fragments/MedIn/large_full_flask.png" id="2_ve1iw"]
+
+[node name="HealthPickup" type="Node2D" groups=["timefabric"]]
+z_index = 20
+y_sort_enabled = true
+script = ExtResource("1_wijic")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ve1iw")

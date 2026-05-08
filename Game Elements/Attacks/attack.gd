@@ -20,6 +20,7 @@ var direction = Vector2.RIGHT
 @export var wall_collision = true
 #If the attack damages walls
 @export var wall_damage = false
+@export var bounces = 0
 var hit_nodes = {}
 #The attack type
 @export var attack_type : String = ""
@@ -57,7 +58,7 @@ func mult(speed_mult, damage_mult = 1, lifespan_mult = 1, hit_force_mult = 1):
 	self.speed = self.speed * speed_mult
 	self.damage = self.damage * damage_mult
 	self.lifespan = self.lifespan * lifespan_mult
-	self.hit_force = self.hit_force * hit_force_mult 
+	self.hit_force = self.hit_force * hit_force_mult
 
 func set_values(attack_speed = self.attack_speed, attack_damage = self.damage, attack_lifespan = self.lifespan, attack_hit_force = self.hit_force):
 	self.speed = attack_speed
@@ -68,11 +69,11 @@ func set_values(attack_speed = self.attack_speed, attack_damage = self.damage, a
 func ready_hacks():
 	var hack = preload("res://Game Elements/Remnants/hack.tres")
 	for rem in LayerManager.player_1_remnants:
-		if rem.remnant_name == hack.remnant_name:
+		if rem.remnant_name == hack.remnant_name and rem.active:
 			hack1=rem.duplicate(true)
 			break
 	for rem in LayerManager.player_2_remnants:
-		if rem.remnant_name == hack.remnant_name:
+		if rem.remnant_name == hack.remnant_name and rem.active:
 			hack2=rem.duplicate(true)
 			break
 			
@@ -103,6 +104,8 @@ func _ready():
 			$Sprite2D.texture = load("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_orange.png")
 	if attack_type!="scifi_laser":
 		rotation = direction.angle() + PI/2
+	if attack_type=="magic_bolt":
+		rotation = direction.angle()
 	if attack_type == "explosion" or attack_type=="tentacle":
 		rotation = 0
 	if attack_type == "slug":
@@ -115,6 +118,8 @@ func _ready():
 		_wave_attack_setup()
 	if attack_type == "scifi_laser":
 		_laser_attack_setup()
+	if attack_type=="light_beam":
+		rotation = direction.angle()
 	
 
 func drag():
@@ -237,7 +242,7 @@ func _process(delta):
 		c_owner.die(true,true)
 	if attack_type == "shatter":
 		var tween = create_tween()
-		tween.tween_property(self, "modulate:a", 0.0, 1.0)
+		tween.tween_property(self, "modulate:a", 0.0, .25)
 		await tween.finished
 	for node in special_nodes:
 		node.queue_free()
@@ -258,11 +263,18 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 		return 0
 	if n_owner.is_in_group("player") and body.is_in_group("player") and !hits_all:
 		return 0
-	if n_owner.is_in_group("enemy"): 
+	if n_owner.is_in_group("enemy"):
 		if body.is_in_group("enemy") and !hits_all:
 			return 0
 	elif !n_owner.is_in_group("player") and !body.is_in_group("player") and !hits_all:
 		return 0
+	if body.get("enemy_type") == "medieval_slime":
+		if(deflectable && attack_type != "slime_ball"):
+			if(randf() > .5):
+				deflect(-1 * direction, 100, null)
+				self.c_owner = body
+				hit_nodes = {}
+				return 0
 	if body.has_method("take_damage"):
 		if attack_type=="scifi_wave":
 			var direct = (body.global_position-global_position)
@@ -274,6 +286,7 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 				return 0
 		body.take_damage(damage_dealt,n_owner,a_direction,self, i_frames,creates_indicators)
 		return 1
+	
 	if wall_damage:
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(0, n_owner,a_direction, self,null)
 	return -1
@@ -304,9 +317,26 @@ func intersection(body):
 			0:
 				pass
 			-1:
-				pierce -= 1
-				if(wall_collision):
-					queue_free()
+				if bounces > 0:
+					bounces -= 1
+					# Cast a short ray forward to get the wall's surface normal
+					var space = get_world_2d().direct_space_state
+					var query = PhysicsRayQueryParameters2D.create(
+						global_position,
+						global_position + direction.normalized() * 32
+					)
+					query.collide_with_areas = false
+					query.collide_with_bodies = true
+					query.collision_mask = 1 << 0
+					var result = space.intersect_ray(query)
+					if result:
+						direction = direction.bounce(result.normal)
+						rotation = direction.angle() + PI/2
+						hit_nodes.clear()  # allow re-hitting after bounce
+				else:
+					pierce -= 1
+					if wall_collision:
+						queue_free()
 	if pierce == -1:
 		queue_free()
 
@@ -317,7 +347,8 @@ func _on_body_entered(body):
 		special_nodes[-1].queue_free()
 		queue_free()
 		return
-	intersection(body)
+	if(!("attack_type" in body)):
+		intersection(body)
 
 func deflect(hit_direction, hit_speed, deflection_area):
 	if attack_type=="laser":
@@ -332,6 +363,8 @@ func deflect(hit_direction, hit_speed, deflection_area):
 		return
 	direction = hit_direction
 	rotation = direction.angle() + PI/2
+	if attack_type == "light_beam":
+		rotation = direction.angle()
 	damage = round(damage * ((hit_speed + speed) / speed))
 	speed = speed + hit_speed
 	
@@ -349,7 +382,10 @@ func _on_area_entered(area: Area2D) -> void:
 			area.c_owner.take_damage(self.damage,c_owner,direction,self,creates_indicators)
 			area.c_owner.take_damage(self.damage,c_owner,direction,self,creates_indicators)
 			return
-		area.deflect(direction, hit_force,self)
+		if(attack_type == "ls_melee"):
+			area.deflect((area.global_position - global_position).normalized(), hit_force,self)
+		else:
+			area.deflect(direction, hit_force,self)
 		area.c_owner = c_owner
 		area.is_purple = is_purple
 		area.hit_nodes = {}

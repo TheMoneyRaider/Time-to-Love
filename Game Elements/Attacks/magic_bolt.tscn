@@ -1,0 +1,83 @@
+[gd_scene load_steps=11 format=3 uid="uid://cu73mawav6818"]
+
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_fgd2a"]
+[ext_resource type="Texture2D" uid="uid://cwc1dqvjvaibv" path="res://art/magic_bolt_2.png" id="2_fgd2a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e1io4"]
+size = Vector2(15, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_agfqf"]
+atlas = ExtResource("2_fgd2a")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jgfbf"]
+atlas = ExtResource("2_fgd2a")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f8a5x"]
+atlas = ExtResource("2_fgd2a")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ag30"]
+atlas = ExtResource("2_fgd2a")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ymcpa"]
+atlas = ExtResource("2_fgd2a")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epacw"]
+atlas = ExtResource("2_fgd2a")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_io37s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_agfqf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jgfbf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f8a5x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ag30")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ymcpa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_epacw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.0
+}]
+
+[node name="Magic_Bolt" type="Area2D" groups=["attack"]]
+z_index = 20
+y_sort_enabled = true
+scale = Vector2(2, 2)
+collision_layer = 8
+collision_mask = 39
+script = ExtResource("1_fgd2a")
+speed = 150.0
+damage = 5.0
+cooldown = 0.75
+pierce = 1.0
+attack_type = "magic_bolt"
+deflectable = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_e1io4")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_io37s")
+autoplay = "default"
+frame_progress = 0.5227507
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

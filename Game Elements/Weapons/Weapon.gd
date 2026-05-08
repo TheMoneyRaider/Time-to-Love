@@ -178,32 +178,33 @@ func apply_remnants(attack_instance):
 			mancer_value = c_owner.mancermancer_values[1]
 		attack_instance.intelligence = null
 		for rem in remnants:
-			match rem.remnant_name:
-				terramancer.remnant_name:
-					if c_owner.velocity.length() <= .1:
-						attack_instance.scale = attack_instance.scale * (1 + (mancer_value / 4) + rem.variable_2_values[rem.rank-1] / 4)
-						attack_instance.hit_force = attack_instance.hit_force * (1 + mancer_value + rem.variable_2_values[rem.rank-1] / 4)
-						attack_instance.knockback_force = attack_instance.knockback_force * (1 + (mancer_value / 2) + rem.variable_2_values[rem.rank-1] / 4)
-				aeromancer.remnant_name:
-					var similarity = attack_instance.direction.normalized().dot(c_owner.velocity.normalized())
-					if(attack_instance.speed != 0):
-						#Possibly add a min so it can't go lower than base damage? 
-						#Nah thats lame
-						attack_instance.damage = abs(attack_instance.damage * (((similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed) /  attack_instance.speed))
-						attack_instance.speed = ((similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed)
-					else:
-						attack_instance.damage = abs(attack_instance.damage * ((similarity * (.005) * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100) + 1))
-						attack_instance.speed = (.5 * similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100)
-				hydromancer.remnant_name:
-					attack_instance.last_liquid = c_owner.last_liquid
-					c_owner.last_liquid = Globals.Liquid.Buffer
-				intelligence.remnant_name:
-					attack_instance.intelligence = rem.duplicate(true)
-				longshot.remnant_name:
-					if(pierce >= 0):
-						attack_instance.pierce += rem.rank
-				_:
-					pass
+			if rem.active:
+				match rem.remnant_name:
+					terramancer.remnant_name:
+						if c_owner.velocity.length() <= .1:
+							attack_instance.scale = attack_instance.scale * (1 + (mancer_value / 4) + rem.variable_2_values[rem.rank-1] / 4)
+							attack_instance.hit_force = attack_instance.hit_force * (1 + mancer_value + rem.variable_2_values[rem.rank-1] / 4)
+							attack_instance.knockback_force = attack_instance.knockback_force * (1 + (mancer_value / 2) + rem.variable_2_values[rem.rank-1] / 4)
+					aeromancer.remnant_name:
+						var similarity = attack_instance.direction.normalized().dot(c_owner.velocity.normalized())
+						if(attack_instance.speed != 0):
+							#Possibly add a min so it can't go lower than base damage? 
+							#Nah thats lame
+							attack_instance.damage = abs(attack_instance.damage * (((similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed) /  attack_instance.speed))
+							attack_instance.speed = ((similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed)
+						else:
+							attack_instance.damage = abs(attack_instance.damage * ((similarity * (.005) * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100) + 1))
+							attack_instance.speed = (.5 * similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100)
+					hydromancer.remnant_name:
+						attack_instance.last_liquid = c_owner.last_liquid
+						c_owner.last_liquid = Globals.Liquid.Buffer
+					intelligence.remnant_name:
+						attack_instance.intelligence = rem.duplicate(true)
+					longshot.remnant_name:
+						if(pierce >= 0):
+							attack_instance.pierce += rem.rank
+					_:
+						pass
 
 
 var laser_camera_distancex = 240
@@ -467,25 +468,24 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 			"Crossbow":
 				if(special_time_elapsed >= 3.0):
 					damage += (special_start_damage / 2)
-				if(special_time_elapsed >= 1.0):
 					
-					node_attacking.player_special_reset()
-					pierce = pierce + 2
-					scale = scale * 1.2
-					speed = speed - 100
-					var temp_attack_scene = attack_scene
-					attack_scene = "res://Game Elements/Attacks/giant_bolt.tscn"
-					spawn_attack(special_direction,special_position, node_attacking,"burn_particles")
-					current_special_hits = 0
-					scale = scale / 1.2
-					speed = speed + 100
-					damage = special_start_damage
-					attack_scene = temp_attack_scene
-					pierce = pierce - 2
-					if node_attacking.weapons[0] == self:
-						node_attacking.emit_signal("special_changed",false,0.0)
-					else:
-						node_attacking.emit_signal("special_changed",true,0.0)
+				node_attacking.player_special_reset()
+				pierce = pierce + 2
+				scale = scale * 1.2
+				speed = speed - 100
+				var temp_attack_scene = attack_scene
+				attack_scene = "res://Game Elements/Attacks/giant_bolt.tscn"
+				spawn_attack(special_direction,special_position, node_attacking,"burn_particles")
+				current_special_hits = 0
+				scale = scale / 1.2
+				speed = speed + 100
+				damage = special_start_damage
+				attack_scene = temp_attack_scene
+				pierce = pierce - 2
+				if node_attacking.weapons[0] == self:
+					node_attacking.emit_signal("special_changed",false,0.0)
+				else:
+					node_attacking.emit_signal("special_changed",true,0.0)
 			"Railgun":
 				node_attacking.create_tween().tween_property(node_attacking.weapon_node.get_node("Sprite2D"),"modulate",Color(1.0, 1.0, 1.0, 1.0),1.0)
 				if(special_time_elapsed > 1.0):

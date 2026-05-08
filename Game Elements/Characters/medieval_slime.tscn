@@ -1,0 +1,156 @@
+[gd_scene load_steps=17 format=3 uid="uid://7jqr3q1tksw"]
+
+[ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_6v6ri"]
+[ext_resource type="PackedScene" uid="uid://dgnx324s1nx05" path="res://Game Elements/Attacks/slime_smash.tscn" id="2_1vtjt"]
+[ext_resource type="PackedScene" uid="uid://3pusk1742ies" path="res://Game Elements/Attacks/slime_ball.tscn" id="2_dvaya"]
+[ext_resource type="Texture2D" uid="uid://w6l2dcnr4y3n" path="res://art/characters/slime/Slime_creature_adjusted.png" id="3_l23uv"]
+[ext_resource type="BehaviorTree" uid="uid://c65118xndrqme" path="res://ai/trees/medieval_slime_2.tres" id="5_dvaya"]
+[ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="6_bjx6h"]
+[ext_resource type="Script" uid="uid://br2otlbqdfw6t" path="res://Game Elements/Characters/medieval_slime.gd" id="6_l23uv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_phyc7"]
+size = Vector2(15, 17.5)
+
+[sub_resource type="Animation" id="Animation_8s1eb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SlimeBrain:anim_frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_uhxym"]
+resource_name = "attack_forward"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SlimeBrain:anim_frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.19999999, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [40, 41, 42, 43]
+}
+
+[sub_resource type="Animation" id="Animation_phyc7"]
+resource_name = "idle_forward"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SlimeBrain:anim_frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [20, 21, 22, 23]
+}
+
+[sub_resource type="Animation" id="Animation_12o7h"]
+resource_name = "move_forward"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SlimeBrain:anim_frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_llnr1"]
+resource_name = "sprint_forward"
+length = 0.24
+loop_mode = 1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8s1eb"]
+_data = {
+&"RESET": SubResource("Animation_8s1eb"),
+&"attack": SubResource("Animation_uhxym"),
+&"idle": SubResource("Animation_phyc7"),
+&"move": SubResource("Animation_12o7h"),
+&"sprint": SubResource("Animation_llnr1")
+}
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_8s1eb"]
+var/state/name = &"state"
+var/state/type = 4
+var/state/value = "spawning"
+var/state/hint = 0
+var/state/hint_string = ""
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w832q"]
+radius = 12.018504
+
+[node name="Slime" type="CharacterBody2D" groups=["enemy"]]
+z_index = 20
+y_sort_enabled = true
+scale = Vector2(1.2, 1.2)
+collision_layer = 4
+collision_mask = 9
+script = ExtResource("1_6v6ri")
+max_health = 30.0
+agro_distance = 300.0
+enemy_type = "medieval_slime"
+displays = Array[NodePath]([NodePath("Sprite2D")])
+min_timefabric = 15
+min_sprint_time = 0.5
+max_sprint_time = 1.0
+max_sprint_cooldown = 4.0
+move_speed = 25.0
+attacks = [ExtResource("2_1vtjt"), ExtResource("2_dvaya")]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+position = Vector2(4.7683716e-07, 4.7683716e-07)
+scale = Vector2(0.6842106, 0.6842106)
+texture = ExtResource("3_l23uv")
+hframes = 10
+vframes = 6
+frame = 14
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.8333335, 2.9166677)
+shape = SubResource("RectangleShape2D_phyc7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_8s1eb")
+}
+
+[node name="BTPlayer" type="BTPlayer" parent="."]
+behavior_tree = ExtResource("5_dvaya")
+blackboard_plan = SubResource("BlackboardPlan_8s1eb")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(1, 6)
+collision_layer = 4
+collision_mask = 7
+linear_damp = 0.0
+script = ExtResource("6_bjx6h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, -4)
+shape = SubResource("CircleShape2D_w832q")
+
+[node name="SlimeBrain" type="Node2D" parent="."]
+script = ExtResource("6_l23uv")
+anim_frame = 1

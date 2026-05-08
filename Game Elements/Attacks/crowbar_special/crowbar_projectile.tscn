@@ -4,10 +4,11 @@
 [ext_resource type="Shader" uid="uid://3gge73khn6k3" path="res://Game Elements/Attacks/crowbar_special/crowbar_projectile.gdshader" id="2_g03fd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ty6tl"]
+resource_local_to_scene = true
 shader = ExtResource("2_g03fd")
 shader_parameter/sprite_width_px = 64
-shader_parameter/edges = true
-shader_parameter/mask_offset = Vector2(0, 0)
+shader_parameter/edges = false
+shader_parameter/mask_offset = Vector2(0, -8)
 shader_parameter/mask_midpoint_y = 0.5
 shader_parameter/masking_enabled = true
 
@@ -77,7 +78,7 @@ position = Vector2(0, 6)
 scale = Vector2(0.94, 0.94)
 
 [node name="Sprite5" type="Sprite2D" parent="."]
-self_modulate = Color(0.08468998, 0.08468992, 0.08468989, 1)
+self_modulate = Color(0.09, 0.09, 0.09, 1)
 z_index = -4
 texture_filter = 1
 material = SubResource("ShaderMaterial_g03fd")
@@ -85,6 +86,11 @@ position = Vector2(0, 8)
 scale = Vector2(0.92, 0.92)
 
 [node name="Sprite1" type="Sprite2D" parent="Sprite5"]
+texture_filter = 1
+material = SubResource("ShaderMaterial_ty6tl")
+
+[node name="Sprite6" type="Sprite2D" parent="."]
+z_index = -1
 texture_filter = 1
 material = SubResource("ShaderMaterial_ty6tl")
 

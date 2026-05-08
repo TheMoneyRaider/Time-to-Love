@@ -73,6 +73,8 @@ func popup_offer(player1_remnants_in : Array, player2_remnants_in : Array, rank_
 	for i in range(slot_nodes.size()):
 		if i < offered_remnants.size():
 			var temp_rank = weighted_random_index(rank_weights)
+			if(offered_remnants[i].remnant_name == "Remnant of the Mancermancer"):
+				temp_rank = max(3, temp_rank)
 			offered_remnants[i].rank = int(RoomManager.current_progress)+temp_rank
 			slot_nodes[i].set_remnant(offered_remnants[i],false)
 		else:

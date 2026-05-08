@@ -1,0 +1,68 @@
+[gd_scene load_steps=10 format=3 uid="uid://qws83iandf8h"]
+
+[ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_5f7q4"]
+[ext_resource type="PackedScene" uid="uid://bi5xl1q1huh1x" path="res://Game Elements/Attacks/light_beam.tscn" id="2_jln5g"]
+[ext_resource type="PackedScene" uid="uid://cy1g16g23yxj5" path="res://Game Elements/Attacks/vision_smash.tscn" id="3_fyc65"]
+[ext_resource type="Texture2D" uid="uid://bi8ihiw4mjsuc" path="res://art/characters/vision/vision_splash2.png" id="4_jln5g"]
+[ext_resource type="BehaviorTree" uid="uid://dl0t1gf8o8xok" path="res://ai/trees/vision.tres" id="5_jln5g"]
+[ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="6_fqyt6"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fyc65"]
+radius = 19.0
+height = 72.0
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_8s1eb"]
+var/state/name = &"state"
+var/state/type = 4
+var/state/value = "spawning"
+var/state/hint = 0
+var/state/hint_string = ""
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w832q"]
+radius = 18.0
+
+[node name="Vision" type="CharacterBody2D" groups=["enemy"]]
+z_index = 20
+y_sort_enabled = true
+collision_layer = 4
+collision_mask = 73
+script = ExtResource("1_5f7q4")
+max_health = 500.0
+hit_range = 75
+agro_distance = 3000.0
+enemy_type = "vision"
+displays = Array[NodePath]([NodePath("Sprite2D")])
+min_timefabric = 8
+max_timefabric = 14
+move_speed = 80.0
+is_boss = true
+boss_healthpools = Array[float]([500.0])
+attacks = [ExtResource("2_jln5g"), ExtResource("3_fyc65")]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+position = Vector2(-5.999999, -44.000004)
+scale = Vector2(0.6842106, 0.6842106)
+texture = ExtResource("4_jln5g")
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -34)
+shape = SubResource("CapsuleShape2D_fyc65")
+
+[node name="BTPlayer" type="BTPlayer" parent="."]
+behavior_tree = ExtResource("5_jln5g")
+blackboard_plan = SubResource("BlackboardPlan_8s1eb")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 7
+linear_damp = 0.0
+script = ExtResource("6_fqyt6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_w832q")
+
+[node name="Attack_Point" type="Node2D" parent="."]
+position = Vector2(0, -57)

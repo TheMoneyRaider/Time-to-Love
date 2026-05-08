@@ -7,13 +7,17 @@
 size = Vector2(10, 13)
 
 [node name="Bullet" type="Area2D" groups=["attack"]]
-collision_mask = 33
+z_index = 20
+collision_layer = 8
+collision_mask = 37
 script = ExtResource("1_7y327")
 speed = 300.0
-lifespan = 0.75
+damage = 3.0
+lifespan = 5.0
 hit_force = 10.0
 attack_type = "bolt"
 deflectable = true
+i_frames = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -1.5)

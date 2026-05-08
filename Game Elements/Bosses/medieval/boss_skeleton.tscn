@@ -94,7 +94,7 @@ scale = Vector2(1.5, 1.5)
 collision_layer = 4
 collision_mask = 9
 script = ExtResource("1_u8kq3")
-max_health = 5.0
+max_health = 6.0
 enemy_type = "skeleton"
 displays = Array[NodePath]([NodePath("Sprite2D")])
 min_timefabric = 0
@@ -103,7 +103,7 @@ can_sprint = true
 min_sprint_time = 0.5
 max_sprint_time = 1.0
 max_sprint_cooldown = 4.0
-move_speed = 100.0
+move_speed = 150.0
 attacks = [ExtResource("2_qvviv")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

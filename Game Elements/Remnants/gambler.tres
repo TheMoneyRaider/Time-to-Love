@@ -7,11 +7,11 @@
 [resource]
 script = ExtResource("3_02elh")
 remnant_name = "Remnant of a Gambler"
-description = "Weapon Spread set to $X degrees. Weapon triggers increased by $Y."
+description = "Weapon Spread set to $X degrees. Number of attacks increased by $Y."
 icon = ExtResource("2_omsgd")
 art = ExtResource("1_uht33")
 progress_required = 1.0
 variable_names = Array[String](["$X", "$Y"])
-variable_1_values = [270, 225, 180, 135, 90]
+variable_1_values = [70, 60, 90, 80, 100]
 variable_2_values = [1, 1, 2, 2, 3]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

@@ -123,6 +123,7 @@ func _process(delta):
 		else:
 			$Intro.visible = false
 			$Intro/AnimationPlayer.stop()
+			$Intro/AudioStreamPlayer.stop()
 			Globals.cinematic_viewed = true
 			paused=false
 			start_menu_music()
@@ -259,7 +260,7 @@ func collect_leaf_children(node: Node, bounds: Dictionary) -> void:
 
 func explode_ui():
 	# If saved fragments exist, load them
-	if FileAccess.file_exists(saved_fragments_paths[Globals.menu]):
+	if ResourceLoader.exists(saved_fragments_paths[Globals.menu]):
 		load_fragments(saved_fragments_paths[Globals.menu])
 		update_ui_display()
 		return
@@ -303,16 +304,16 @@ func explode_ui():
 			frag.queue_free()
 
 		# Save all fragments to resource
-		var container = FragmentsContainer.new()
-		container.fragments = fragment_resources
-		ResourceSaver.save(container, saved_fragments_paths[state])
-		fragment_resources.clear()
-		print("Saved fragments of menu "+str(state))
+		#var container = FragmentsContainer.new()
+		#container.fragments = fragment_resources
+		#ResourceSaver.save(container, saved_fragments_paths[state])
+		#fragment_resources.clear()
+		#print("Saved fragments of menu "+str(state))
 		
-	print("All fragment data saved!")
+	#print("All fragment data saved!")
 
 func load_fragments(path: String) -> void:
-	if not FileAccess.file_exists(path):
+	if not ResourceLoader.exists(path):
 		return
 	UI_Group.visible = true
 	var container: FragmentsContainer = load(path)
@@ -449,12 +450,13 @@ func preload_all_textures():
 	for state in states:
 		var fname = generate_filename(state)
 		var path = "res://ui_captures/" + fname + ".png"
-		if FileAccess.file_exists(path):
+		if ResourceLoader.exists(path):
 			ui_textures[fname] = load(path)
 		else:
 			fname = generate_filename(state, true)
 			path = "res://ui_captures/" + fname + ".png"
-			ui_textures[fname] = load(path)
+			if ResourceLoader.exists(path):
+				ui_textures[fname] = ResourceLoader.load(path)
 		
 
 func generate_all_valid_ui_states(buttons: Array) -> Array:

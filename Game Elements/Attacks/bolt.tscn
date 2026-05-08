@@ -13,11 +13,12 @@ collision_layer = 8
 collision_mask = 39
 script = ExtResource("1_hjuet")
 speed = 300.0
-damage = 5.0
+damage = 4.0
 cooldown = 0.75
 pierce = 1.0
 attack_type = "bolt"
 deflectable = true
+i_frames = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_e1io4")
