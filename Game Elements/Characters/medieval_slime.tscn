@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dgnx324s1nx05" path="res://Game Elements/Attacks/slime_smash.tscn" id="2_1vtjt"]
 [ext_resource type="PackedScene" uid="uid://3pusk1742ies" path="res://Game Elements/Attacks/slime_ball.tscn" id="2_dvaya"]
 [ext_resource type="Texture2D" uid="uid://w6l2dcnr4y3n" path="res://art/characters/slime/Slime_creature_adjusted.png" id="3_l23uv"]
-[ext_resource type="BehaviorTree" uid="uid://dm8x65ame440a" path="res://ai/trees/medieval_slime.tres" id="4_l23uv"]
+[ext_resource type="BehaviorTree" uid="uid://c65118xndrqme" path="res://ai/trees/medieval_slime_2.tres" id="5_dvaya"]
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="6_bjx6h"]
 [ext_resource type="Script" uid="uid://br2otlbqdfw6t" path="res://Game Elements/Characters/medieval_slime.gd" id="6_l23uv"]
 
@@ -137,7 +137,7 @@ libraries = {
 }
 
 [node name="BTPlayer" type="BTPlayer" parent="."]
-behavior_tree = ExtResource("4_l23uv")
+behavior_tree = ExtResource("5_dvaya")
 blackboard_plan = SubResource("BlackboardPlan_8s1eb")
 
 [node name="Area2D" type="Area2D" parent="."]

@@ -17,7 +17,7 @@ lifespan = 5.0
 hit_force = 10.0
 attack_type = "bolt"
 deflectable = true
-i_frames = 4
+i_frames = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -1.5)

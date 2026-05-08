@@ -994,14 +994,14 @@ func hit_enemy(attack_body : Node, enemy : Node):
 	else:
 		remnants = get_tree().get_root().get_node("LayerManager").player_2_remnants
 		
-	var winter = preload("res://Game Elements/Remnants/winters_embrace.tres")
-	for rem in remnants:
-		if rem.remnant_name == winter.remnant_name and rem.active:
-			effect = preload("res://Game Elements/Effects/winter_freeze.tres").duplicate(true)
-			effect.cooldown = rem.variable_2_values[rem.rank-1]
-			effect.value1 =  rem.variable_1_values[rem.rank-1]
-			effect.gained(enemy)
-			enemy.effects.append(effect)
+	#var winter = preload("res://Game Elements/Remnants/winters_embrace.tres")
+	#for rem in remnants:
+		#if rem.remnant_name == winter.remnant_name:
+			#effect = preload("res://Game Elements/Effects/winter_freeze.tres").duplicate(true)
+			#effect.cooldown = rem.variable_2_values[rem.rank-1]
+			#effect.value1 =  rem.variable_1_values[rem.rank-1]
+			#effect.gained(enemy)
+			#enemy.effects.append(effect)
 
 
 func check_drones():
@@ -1048,6 +1048,7 @@ func kill_enemy(enemy: Node):
 		remnants = LayerManager.player_2_remnants
 	var adrenal = preload("res://Game Elements/Remnants/adrenal_injector.tres")
 	var drone = preload("res://Game Elements/Remnants/drone.tres")
+	var blood_moon = preload("res://Game Elements/Remnants/blood_moon.tres")
 	for rem in remnants:
 		if rem.remnant_name == adrenal.remnant_name and rem.active:
 			if move_speed < 3*base_move_speed:
@@ -1070,3 +1071,7 @@ func kill_enemy(enemy: Node):
 			LayerManager.room_instance.add_child(dr_inst)
 			dr_inst.global_position = enemy.global_position
 			dr_inst.prep(self, rem.variable_1_values[rem.rank-1])
+		if rem.remnant_name == blood_moon.remnant_name:
+			var heal_chance = rem.variable_1_values[rem.rank-1]
+			if(randf() * 100 <= heal_chance):
+				change_health(rem.variable_2_values[rem.rank-1] * .01 * max_health)

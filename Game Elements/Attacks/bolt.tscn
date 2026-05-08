@@ -18,6 +18,7 @@ cooldown = 0.75
 pierce = 1.0
 attack_type = "bolt"
 deflectable = true
+i_frames = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_e1io4")

@@ -276,16 +276,16 @@ func explode_ui():
 			frag.queue_free()
 
 		# Save all fragments to resource
-		var container = FragmentsContainer.new()
-		container.fragments = fragment_resources
-		ResourceSaver.save(container, saved_fragments_paths[state])
-		fragment_resources.clear()
-		print("Saved fragments of menu "+str(state))
+		#var container = FragmentsContainer.new()
+		#container.fragments = fragment_resources
+		#ResourceSaver.save(container, saved_fragments_paths[state])
+		#fragment_resources.clear()
+		#print("Saved fragments of menu "+str(state))
 		
-	print("All fragment data saved!")
+	#print("All fragment data saved!")
 
 func load_fragments(path: String) -> void:
-	if not FileAccess.file_exists(path):
+	if not ResourceLoader.exists(path):
 		return
 	UI_Group.visible = true
 	var container: FragmentsContainer = load(path)

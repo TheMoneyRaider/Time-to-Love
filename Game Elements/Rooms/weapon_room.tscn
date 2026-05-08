@@ -51,18 +51,22 @@ weapon_type = "Crossbow"
 z_index = 30
 position = Vector2(-98, 116)
 weapon_type = "Crowbar"
+required_progress = 1.0
 
 [node name="RailgunPickup" parent="." instance=ExtResource("4_cvdxx")]
 z_index = 30
 position = Vector2(111, 252)
 weapon_type = "Railgun"
+required_progress = 2.0
 
 [node name="ShotgunPickup" parent="." instance=ExtResource("4_cvdxx")]
 z_index = 30
 position = Vector2(111, 180)
 weapon_type = "Shotgun"
+required_progress = 1.0
 
 [node name="LaserSword" parent="." instance=ExtResource("4_cvdxx")]
 z_index = 30
 position = Vector2(111, 106)
 weapon_type = "LaserSword"
+required_progress = 2.0
