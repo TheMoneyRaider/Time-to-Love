@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("1_361eo")
-remnant_name = "Remnant of a Wager"
+remnant_name = "Remnant of The Drifter"
 description = "Reroll a room reward for $X Time Fabric."
 icon = ExtResource("2_xhiqs")
 art = ExtResource("1_igbyo")

@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("3_pgsoo")
-remnant_name = "Remnant of the Pyromancer"
+remnant_name = "Remnant of The Pyromancer"
 description = "Enemies create a $X explosion on death, dealing $Y damage"
 icon = ExtResource("2_rvhv7")
 art = ExtResource("1_3pdxi")

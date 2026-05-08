@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("3_77bkw")
-remnant_name = "Remnant of Dragon's Greed"
+remnant_name = "Remnant of the Dragon"
 description = "Deal $X% more damage for every 50 time fragments. "
 icon = ExtResource("2_g2o71")
 art = ExtResource("1_2fy13")

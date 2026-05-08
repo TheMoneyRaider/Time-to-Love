@@ -1545,6 +1545,7 @@ func _on_player_take_damage(damage_amount : float,_current_health : float,_playe
 func _on_enemy_take_damage(damage : float,current_health : int,enemy : Node, direction = Vector2(0,-1)) -> void:
 	RoomManager.layer_ai[5]+=damage
 	if current_health <= 0.0:
+		var has_death_attack = false
 		for node in get_tree().get_nodes_in_group("attack"):
 			if node.c_owner == enemy:
 				if node.has_method("clear_effects"):
@@ -1558,13 +1559,14 @@ func _on_enemy_take_damage(damage : float,current_health : int,enemy : Node, dir
 			attack_instance.global_position = enemy.global_position
 			room_instance.call_deferred("add_child",attack_instance)
 		if(enemy.purple_explode):
-			var attack_instance = load("res://Game Elements/Attacks/explosion.tscn").instantiate()
+			var attack_instance = load("res://Game Elements/Attacks/enemy_explosion.tscn").instantiate()
 			attack_instance.modulate = Color("bb20ff")
 			attack_instance.scale = attack_instance.scale * 2
 			attack_instance.damage = 5
 			attack_instance.c_owner = enemy
 			attack_instance.global_position = enemy.global_position
 			room_instance.call_deferred("add_child",attack_instance)
+			has_death_attack = true
 		if(enemy.cactus_explode):
 			for i in range(0,12):
 				var attack_instance = preload("res://Game Elements/Attacks/cactus_spine.tscn").instantiate()
@@ -1585,8 +1587,14 @@ func _on_enemy_take_damage(damage : float,current_health : int,enemy : Node, dir
 				_place_health_up(Vector2i.ZERO,enemy.global_position,direction)
 		_enemy_to_timefabric(enemy,direction,Vector2(enemy.min_timefabric,enemy.max_timefabric))
 		enemy.visible=false
-		enemy.queue_free()
-		RoomManager.layer_ai[7]+=1
+		if(has_death_attack == true):
+			enemy.hitable = false
+			await get_tree().create_timer(2).timeout
+			enemy.queue_free()
+			RoomManager.layer_ai[7]+=1
+		else:
+			enemy.queue_free()
+			RoomManager.layer_ai[7]+=1
 
 func _on_remnant_chosen(remnant1 : Resource, remnant2 : Resource):
 	player_1_remnants.append(remnant1.duplicate(true))

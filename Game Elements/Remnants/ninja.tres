@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("1_2kwc0")
-remnant_name = "Remnant of the Ninja"
+remnant_name = "Remnant of The Ninja"
 description = "Each successful hit you make increases your damage by $X% up to $Y%. This boost reduces if you don’t make another hit within $Z seconds."
 icon = ExtResource("2_stv83")
 art = ExtResource("1_81ul4")
