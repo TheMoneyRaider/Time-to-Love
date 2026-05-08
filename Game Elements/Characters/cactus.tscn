@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://8otwdidvs0pe"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_05s5w"]
-[ext_resource type="PackedScene" uid="uid://b03b0v8m4ewk1" path="res://Game Elements/Attacks/scorpion_sting.tscn" id="2_qi7pl"]
+[ext_resource type="PackedScene" uid="uid://qmvamdcsqp5m" path="res://Game Elements/Attacks/cactus_swipe.tscn" id="2_qi7pl"]
 [ext_resource type="Texture2D" uid="uid://wbb7ipv57seb" path="res://art/characters/cactus/cacto.png" id="3_05s5w"]
 [ext_resource type="BehaviorTree" uid="uid://c66gfnd02w2yj" path="res://ai/trees/cactus.tres" id="4_0qywo"]
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="5_i2jaq"]

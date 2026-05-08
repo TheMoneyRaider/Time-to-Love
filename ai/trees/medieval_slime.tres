@@ -77,6 +77,10 @@ children = [SubResource("BTPlayAnimation_861og")]
 
 [sub_resource type="BTAction" id="BTAction_xsft4"]
 script = ExtResource("3_8nx5v")
+target_position_var = null
+path_output_var = null
+current_waypoint_var = null
+recalculated_bool = null
 
 [sub_resource type="BTAction" id="BTAction_1kwu6"]
 script = ExtResource("4_kx3c3")
@@ -239,6 +243,10 @@ script = ExtResource("9_lyn0b")
 
 [sub_resource type="BTAction" id="BTAction_3jwwk"]
 script = ExtResource("3_8nx5v")
+target_position_var = null
+path_output_var = null
+current_waypoint_var = null
+recalculated_bool = null
 
 [sub_resource type="BTAction" id="BTAction_hnqba"]
 custom_name = "moveToPos"
