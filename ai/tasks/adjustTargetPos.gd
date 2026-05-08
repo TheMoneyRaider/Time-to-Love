@@ -4,6 +4,7 @@ extends BTAction
 @export var player_positions: String = "player_positions"
 @export var player_idx: String = "player_idx"
 @export var player_healths: String = "player_healths"
+@export var dist_to_player: float = 90.0
 
 func _tick(_delta : float) -> Status:
 	var players = agent.get_tree().get_nodes_in_group("player")
@@ -18,9 +19,9 @@ func _tick(_delta : float) -> Status:
 	for player in players: 
 		var direction = player.global_position - agent.global_position
 		direction = direction.normalized() * -1
-		var ray = cast_ray(player.global_position, direction, 90, player)
+		var ray = cast_ray(player.global_position, direction, dist_to_player, player)
 		if(ray == { }):
-			ray["position"] = player.global_position + (direction * 70)
+			ray["position"] = player.global_position + (direction * (dist_to_player - 20))
 		else:
 			ray.position  = ray.position - direction * 20
 		positions_array.append(ray.position)

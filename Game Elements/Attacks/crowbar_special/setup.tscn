@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://jfly4tbcg2de"]
+[gd_scene load_steps=5 format=3 uid="uid://jfly4tbcg2de"]
 
 [ext_resource type="Script" uid="uid://qpurqdqiy5ur" path="res://Game Elements/Attacks/crowbar_special/setup.gd" id="1_3b1ln"]
 [ext_resource type="Shader" uid="uid://djb6fots67ufy" path="res://Game Elements/Rooms/sci_fi/glitch_liquid.gdshader" id="2_ro8lb"]
@@ -11,12 +11,23 @@ shader_parameter/u_color_mid_red = Color(5.5350364e-07, 0.31907272, 0.42991516, 
 shader_parameter/u_color_high = Color(0, 0.95969886, 0.9369168, 1)
 shader_parameter/scale = 24.0
 shader_parameter/enabled = false
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ro8lb"]
 
 [node name="Setup" type="Node2D"]
-z_index = 19
+z_index = 18
 y_sort_enabled = true
 script = ExtResource("1_3b1ln")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 material = SubResource("ShaderMaterial_c8la7")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+z_index = 1
+texture_filter = 1
+material = SubResource("ShaderMaterial_ro8lb")

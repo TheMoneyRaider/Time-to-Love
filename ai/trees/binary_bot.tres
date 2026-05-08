@@ -75,21 +75,21 @@ children = [SubResource("BTCheckVar_tojib")]
 
 [sub_resource type="BBVariant" id="BBVariant_sdpef"]
 type = 4
-saved_value = "MELEE"
-resource_name = "MELEE"
+saved_value = "CHASE"
+resource_name = "CHASE"
 
 [sub_resource type="BTCheckVar" id="BTCheckVar_38pnp"]
 variable = &"attack_mode"
 value = SubResource("BBVariant_sdpef")
 
+[sub_resource type="BTAction" id="BTAction_eo4y3"]
+custom_name = "MoveToPlayer"
+script = ExtResource("4_1ipxq")
+
 [sub_resource type="BTAction" id="BTAction_1fl3p"]
 custom_name = "OuterRange"
 script = ExtResource("4_38pnp")
 hit_range = 64
-
-[sub_resource type="BTAction" id="BTAction_eo4y3"]
-custom_name = "MoveToPlayer"
-script = ExtResource("4_1ipxq")
 
 [sub_resource type="BTAction" id="BTAction_w0000"]
 custom_name = "InnerRange"
@@ -101,7 +101,7 @@ script = ExtResource("4_pmm7h")
 
 [sub_resource type="BTSequence" id="BTSequence_2ycj8"]
 custom_name = "Attack if in Range"
-children = [SubResource("BTAction_1fl3p"), SubResource("BTAction_eo4y3"), SubResource("BTAction_w0000"), SubResource("BTAction_v8hg1")]
+children = [SubResource("BTAction_eo4y3"), SubResource("BTAction_1fl3p"), SubResource("BTAction_w0000"), SubResource("BTAction_v8hg1")]
 
 [sub_resource type="BBVariant" id="BBVariant_iowe0"]
 type = 4

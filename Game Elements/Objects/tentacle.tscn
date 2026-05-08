@@ -6,16 +6,17 @@
 [ext_resource type="Shader" uid="uid://5p6gpotop3c4" path="res://Game Elements/Objects/canvas_group_two_tone.gdshader" id="3_viu4x"]
 
 [sub_resource type="Curve" id="Curve_djn6u"]
-_data = [Vector2(0, 0.7186568), 0.0, 0.0, 0, 0, Vector2(1, 0.33059704), -0.30850744, 0.0, 0, 0]
+_data = [Vector2(0, 0.7186568), 0.0, 0.0, 0, 0, Vector2(0.9963303, 0.31207597), -0.30850744, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_djn6u"]
 shader = ExtResource("2_e712x")
 shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/outline_size = 1.0
-shader_parameter/alpha_threshold = 0.77999998256544
+shader_parameter/alpha_threshold = 0.5
 shader_parameter/outline_samples = 4
 shader_parameter/shade_color = Color(1, 1, 1, 0)
+shader_parameter/enabled_hole = true
 shader_parameter/hole_mask = ExtResource("3_rt1qa")
 shader_parameter/hole_center = Vector2(8, 40)
 shader_parameter/node_offset = Vector2(0, 0)
@@ -45,9 +46,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -256.0
-offset_top = -384.0
+offset_top = -256.0
 offset_right = 256.0
-offset_bottom = 128.0
+offset_bottom = 256.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -60,7 +61,7 @@ render_target_update_mode = 4
 material = SubResource("ShaderMaterial_rt1qa")
 
 [node name="Line2D" type="Line2D" parent="SubViewportContainer/SubViewport/TwoToneCanvasGroup"]
-position = Vector2(263, 405)
+position = Vector2(263, 277)
 points = PackedVector2Array(-7, -21, -7, -38)
 width = 24.0
 width_curve = SubResource("Curve_qdj6u")

@@ -19,20 +19,27 @@ class UIState:
 @onready var exploaded: bool = false
 @onready var fragmenting: bool = true
 @onready var prepared = false
-@export var capture_all_states: bool = false
-@export var saved_fragments_paths: Array[String] = ["res://Game Elements/ui/main_menu/BreakFXSavedWestern.tres","res://Game Elements/ui/main_menu/BreakFXSavedSpace.tres","res://Game Elements/ui/main_menu/BreakFXSavedHorror.tres","res://Game Elements/ui/main_menu/BreakFXSavedMedieval.tres"]
+var capture_all_states: bool = false
+@export var saved_fragments_paths: Array[String] = ["res://Game Elements/ui/main_menu/BreakFXSavedWestern.tres","res://Game Elements/ui/main_menu/BreakFXSavedSpace.tres","res://Game Elements/ui/main_menu/BreakFXSavedMedieval.tres"]
 
 var last_mouse_pos : Vector2
 var ui_textures: Dictionary = {}
 var last_devices : Array = []
-var title_textures : Array = [load("res://art/title_assets/title_variants/western.png"),load("res://art/title_assets/title_variants/space.png"),load("res://art/title_assets/title_variants/horror.png"),load("res://art/title_assets/title_variants/medieval.png")]
+var title_textures : Array = [preload("res://art/title_assets/title_variants/western.png"),preload("res://art/title_assets/title_variants/space.png"),preload("res://art/title_assets/title_variants/medieval.png")]
 var UI: UIState = UIState.new()
 @onready var prev_state = null
-
+var paused : bool = true
 
 func _ready():
+	if Globals.cinematic_viewed:
+		paused = false
+		$Intro.visible = false
+	else:
+		$Intro/AnimationPlayer.play("main")
 	Title.texture = title_textures[Globals.menu]
 	fragmenting = Globals.config.get_value("fragmentation", "enabled", true)
+	if capture_all_states:
+		fragmenting = true
 	if !fragmenting:
 		$RichTextLabel.visible = false
 		UI_Group.get_node("VBoxContainer").get_child(2).grab_focus()
@@ -57,14 +64,44 @@ func _ready():
 			cooldown = -1
 		if capture_all_states:
 			capture_all_ui_states()
+			
+			
+	if Globals.total_progress < 1.0:
+		$ColorRect.material.set_shader_parameter("tendril_count", 30)
+		$ColorRect.material.set_shader_parameter("range_start", 1.5)
+		$ColorRect.material.set_shader_parameter("range_end", 2.5)
+	elif Globals.total_progress < 2.0:
+		$ColorRect.material.set_shader_parameter("tendril_count", 20)
+		$ColorRect.material.set_shader_parameter("range_start", 1.625)
+		$ColorRect.material.set_shader_parameter("range_end", 2.375)
+	elif Globals.total_progress < 3.0:
+		$ColorRect.material.set_shader_parameter("tendril_count", 10)
+		$ColorRect.material.set_shader_parameter("range_start", 1.75)
+		$ColorRect.material.set_shader_parameter("range_end", 2.25)
+	elif Globals.total_progress < 4.0:
+		$ColorRect.material.set_shader_parameter("tendril_count", 2)
+		$ColorRect.material.set_shader_parameter("range_start", 2)
+		$ColorRect.material.set_shader_parameter("range_end", 2)
 		
 func _begin_explosion_cooldown():
 	if cooldown < 0:
 		cooldown = randf_range(2,4)
 		exploaded = true
 
+			
+
+
 func _process(delta):
 	$ColorRect.material.set_shader_parameter("time", $ColorRect.material.get_shader_parameter("time")+delta)
+	if paused:
+		if $Intro/AnimationPlayer.is_playing():
+			return
+		else:
+			$Intro.visible = false
+			$Intro/AnimationPlayer.stop()
+			$Intro/AudioStreamPlayer.stop()
+			Globals.cinematic_viewed = true
+			paused=false
 	if !fragmenting:
 		return
 	if Globals.player1_input:
@@ -146,6 +183,19 @@ func mouse_over(button: Button):
 		UI.player2.hover_button = button
 
 func _input(event):
+	if !Globals.cinematic_viewed:
+		var is_button = event is InputEventKey \
+			or event is InputEventMouseButton \
+			or event is InputEventJoypadButton
+
+		if is_button and event.pressed:
+			if get_node("Intro"):
+				$Intro.visible = false
+				$Intro/AnimationPlayer.stop()
+				$Intro/AudioStreamPlayer.stop()
+			Globals.cinematic_viewed = true
+			paused=false
+		return
 	if !fragmenting:
 		return
 	if event is InputEventMouseButton:
@@ -182,14 +232,14 @@ func collect_leaf_children(node: Node, bounds: Dictionary) -> void:
 
 func explode_ui():
 	# If saved fragments exist, load them
-	if FileAccess.file_exists(saved_fragments_paths[Globals.menu]):
+	if ResourceLoader.exists(saved_fragments_paths[Globals.menu]):
 		load_fragments(saved_fragments_paths[Globals.menu])
 		update_ui_display()
 		return
 
 	# --- Otherwise, generate fragments ---
 	print("start saving fragments")
-	for state in [Globals.MenuState.Western,Globals.MenuState.Space,Globals.MenuState.Horror,Globals.MenuState.Medieval]:
+	for state in [Globals.MenuState.Western,Globals.MenuState.Space,Globals.MenuState.Medieval]:
 		Title.texture = title_textures[state]
 		await get_tree().process_frame
 		var vp_tex = $SubViewportContainer/SubViewport.get_texture()
@@ -207,7 +257,7 @@ func explode_ui():
 
 		for frag_poly in fragments_data:
 
-			var frag = load("res://Game Elements/ui/main_menu/break_frag.tscn").instantiate()
+			var frag = preload("res://Game Elements/ui/main_menu/break_frag.tscn").instantiate()
 			$BreakFX.add_child(frag)
 
 			# Assign polygon & texture
@@ -240,7 +290,7 @@ func load_fragments(path: String) -> void:
 	UI_Group.visible = true
 	var container: FragmentsContainer = load(path)
 	for fdata in container.fragments:
-		var frag = load("res://Game Elements/ui/main_menu/break_frag.tscn").instantiate()
+		var frag = preload("res://Game Elements/ui/main_menu/break_frag.tscn").instantiate()
 		$BreakFX.add_child(frag)
 		frag.global_position = fdata.position
 		var button_bounds = {}
@@ -366,12 +416,13 @@ func preload_all_textures():
 	for state in states:
 		var fname = generate_filename(state)
 		var path = "res://ui_captures/" + fname + ".png"
-		if FileAccess.file_exists(path):
+		if ResourceLoader.exists(path):
 			ui_textures[fname] = load(path)
 		else:
 			fname = generate_filename(state, true)
 			path = "res://ui_captures/" + fname + ".png"
-			ui_textures[fname] = load(path)
+			if ResourceLoader.exists(path):
+				ui_textures[fname] = ResourceLoader.load(path)
 		
 
 func generate_all_valid_ui_states(buttons: Array) -> Array:
@@ -413,6 +464,7 @@ func update_ui_display():
 				frag.set_display_texture(ui_textures[fname])
 	
 func capture_all_ui_states():		
+	print("capturing")
 	var buttons = []
 	for button in $SubViewportContainer/SubViewport/UI_Group/VBoxContainer.get_children():
 		if button is Button:

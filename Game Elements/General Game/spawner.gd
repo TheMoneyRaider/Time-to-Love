@@ -22,6 +22,13 @@ static var edge_penalty_field := {}
 static var enemy_penalty_field := {}
 static var letter_penalty_field := {}
 
+
+
+
+
+
+
+
 ###PUBLIC API
 static func spawn_enemies(
 	players: Array[Node],
@@ -31,7 +38,7 @@ static func spawn_enemies(
 	layer_manager: Node,
 	is_wave: bool,
 	override_enemy_count : int = -1,
-	override_enemy_type : String = ""
+	override_enemy_type : String = "", is_natural_spawn : bool = false, edge_penalty : bool = true
 ) -> void:
 	if room_data.num_enemy_goal <= 0 and override_enemy_count == -1:
 		return
@@ -63,7 +70,8 @@ static func spawn_enemies(
 	for _i in enemy_goal:
 		var best := _choose_best_cell(
 			cell_set,
-			cells_needed
+			cells_needed,
+			edge_penalty
 		)
 
 		if best == Vector2i(-999,-999):
@@ -72,7 +80,7 @@ static func spawn_enemies(
 
 		cell_set.erase(best)
 		chosen_positions.append(best)
-		_spawn_enemy(best, scene, enemy_scene, layer_manager)
+		_spawn_enemy(best, scene, enemy_scene, layer_manager,is_natural_spawn)
 
 		if rechoose_enemy:
 			enemy_path = choose_enemy(room_data)
@@ -99,7 +107,8 @@ static func choose_enemy(room_data: Room) -> String:
 ###CELL SELECTION
 static func _choose_best_cell(
 	cell_set: Dictionary,
-	cells_needed: Vector2i
+	cells_needed: Vector2i,
+	edge_penalty: bool = true
 ) -> Vector2i:
 	var total_weight := 0.0
 	var chosen: Vector2i = Vector2(-999,-999)
@@ -110,7 +119,8 @@ static func _choose_best_cell(
 
 		var score := 1.0
 		score -= player_penalty_field.get(cell, 0.0)
-		score -= edge_penalty_field.get(cell, 0.0)
+		if(edge_penalty):
+			score -= edge_penalty_field.get(cell, 0.0)
 		score -= enemy_penalty_field.get(cell, 0.0)
 		score = clamp(score, 0.0, 1.0)
 
@@ -260,19 +270,64 @@ static func _cells_needed(half_extents: Vector2) -> Vector2i:
 		ceil(half_extents.y / cell_world_size)
 	)
 
+
 ###SPAWNING
-static func _spawn_enemy(cell: Vector2i, scene: Node, enemy: PackedScene, layer_manager: Node) -> void:
-	var inst := enemy.instantiate()
+static func _spawn_enemy(cell: Vector2i, scene: Node, enemy: PackedScene, layer_manager: Node,is_natural_spawn : bool) -> void:
+	var inst
+	var replacevar : int = replace()
+	if is_natural_spawn and replacevar > -1:
+		inst = RoomManager.replacement_enemies[replacevar].instantiate()
+	else:
+		inst = enemy.instantiate()
 	inst.global_position = cell * cell_world_size
 	scene.add_child(inst)
 	inst.enemy_took_damage.connect(layer_manager._on_enemy_take_damage)
 	if scene.has_method("_on_enemy_take_damage"):
 		inst.enemy_took_damage.connect(scene._on_enemy_take_damage)
-	
+		
+		
+		
+	if layer_manager.room_instance_data.roomtype == Globals.RoomType.Boss:
+		await inst.get_tree().process_frame
+		await inst.get_tree().process_frame
+		if !inst:
+			return
+		if inst.call_deferred("get_node_or_null","BTPlayer") == null:
+			return
+		var board = inst.get_node("BTPlayer").blackboard
+		var positions = board.get_var("player_positions")
+		var distances_squared = []
+		for pos in positions: 
+			distances_squared.append(inst.global_position.distance_squared_to(pos))
+		var i = 0
+		if distances_squared.size()>1 and distances_squared[1]<distances_squared[0]:
+			i= 1
+		board.set_var("target_pos", positions[i])
+		board.set_var("player_idx", i)
+		board.set_var("state", "agro")
+		
+static func replace() -> int:
+	if RoomManager.current_progress < 3.0:
+		return -1
+	var progress = pow(RoomManager.current_progress - floor(RoomManager.current_progress),2)
+	var tentacles : Array[float] = [pow((1-progress),2)*progress,2*progress*(1-progress)*progress,pow(progress,2)*progress]
+	print(tentacles)
+	var value = randf()
+	print(value)
+	if value <= tentacles[0]:
+		return 0
+	value -= tentacles[0]
+	if value <= tentacles[1]:
+		return 1
+	value -= tentacles[1]
+	if value <= tentacles[2]:
+		return 2
+	return -1
+
 static func spawn_after_image(entity : Node, layer_manager : Node, start_color : Color = Color(1,1,1,1), end_color : Color = Color(1,1,1,1),start_color_strength : float = 1.0, end_color_strength : float = 1.0, lifetime : float = 2.0, start_alpha : float  = 1, mono : bool = false, position_override : Vector2 = Vector2(-999,-999)):
 	
 	# Instance the after image
-	var after_image = load("res://Game Elements/Objects/after_image.tscn").instantiate()
+	var after_image = preload("res://Game Elements/Objects/after_image.tscn").instantiate()
 
 	# Match position and rotation
 	if position_override != Vector2(-999,-999):

@@ -17,8 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-RemnantManager="*res://Game Elements/General Game/remnant_manager.gd"
 Globals="*res://Game Elements/General Game/globals.gd"
+RemnantManager="*res://Game Elements/General Game/remnant_manager.gd"
 RoomManager="*res://Game Elements/General Game/room_manager.gd"
 
 [display]
@@ -27,6 +27,11 @@ window/size/viewport_width=1920
 window/size/viewport_height=1000
 window/stretch/mode="viewport"
 window/stretch/aspect="ignore"
+
+[editor]
+
+movie_writer/movie_file="C:/Users/Griffin/Documents/Game-Dev-Team-1/transition.ogv"
+movie_writer/disable_vsync=true
 
 [global_group]
 
@@ -40,6 +45,7 @@ timefabric=""
 drones=""
 pathway=""
 letter=""
+weapon_select=""
 
 [input]
 
@@ -346,6 +352,7 @@ move_to_pathway={
 2d_physics/layer_4="Attack Layer"
 2d_physics/layer_5="Invisible Enemy Layer"
 2d_physics/layer_6="Invisible Enemy (Hitable)"
+2d_physics/layer_7="Special Enviornment"
 
 [rendering]
 

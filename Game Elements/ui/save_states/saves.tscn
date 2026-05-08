@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://rawhoxpikpyp" path="res://art/title_assets/grainy_background_visual.png" id="2_ve1wb"]
 [ext_resource type="Texture2D" uid="uid://deoucqhlm12h1" path="res://art/UI Package/Frames/1-6.png" id="3_1gek7"]
 [ext_resource type="StyleBox" uid="uid://dobyvfqwbwfh0" path="res://Game Elements/ui/resources/7-1_button.tres" id="3_hd51q"]
-[ext_resource type="Texture2D" uid="uid://cbpax2vcj4q0n" path="res://ui_captures/p1_none_hover_p2_none_hover.png" id="3_ve1wb"]
+[ext_resource type="Texture2D" uid="uid://crip0tmxr6xkq" path="res://ui_captures/p1_none_hover_p2_none_hover.png" id="3_ve1wb"]
 [ext_resource type="StyleBox" uid="uid://gpahke45chv" path="res://Game Elements/ui/resources/7-3_button.tres" id="4_1gek7"]
 [ext_resource type="StyleBox" uid="uid://7c2wqv48pg7x" path="res://Game Elements/ui/resources/7-2_button.tres" id="5_4jdg4"]
 [ext_resource type="Shader" uid="uid://df6is5vss0kty" path="res://Game Elements/ui/resources/timelines.gdshader" id="6_ct800"]
@@ -23,9 +23,9 @@ shader_parameter/tendril_count = 30
 shader_parameter/tendril_thickness = 20.0
 shader_parameter/tendril_waviness = 18.206000627285
 shader_parameter/tendril_speed = 1.5
-shader_parameter/view_offset = Vector2(0, 0)
-shader_parameter/range_start = 1.50000007125
-shader_parameter/range_end = 2.50000011875
+shader_parameter/view_offset = Vector2(1, 0)
+shader_parameter/range_start = 1.0000000475
+shader_parameter/range_end = 2.000000095
 
 [node name="Saves" type="Node2D"]
 z_index = 1000
@@ -352,7 +352,6 @@ theme_override_styles/hover_pressed = ExtResource("4_1gek7")
 text = "Return"
 
 [node name="ColorRect" type="ColorRect" parent="Control"]
-visible = false
 z_index = -1
 material = SubResource("ShaderMaterial_3n0va")
 layout_mode = 1
@@ -364,7 +363,6 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="Light_texture" type="TextureRect" parent="Control"]
-visible = false
 modulate = Color(0.52135843, 0.0013825077, 0.6983415, 1)
 z_index = -1
 layout_mode = 0
@@ -375,7 +373,6 @@ offset_bottom = 256.0
 texture = ExtResource("7_gonnx")
 
 [node name="Light_texture2" type="TextureRect" parent="Control"]
-visible = false
 modulate = Color(0.52135843, 0.0013825077, 0.6983415, 1)
 z_index = -1
 layout_mode = 0

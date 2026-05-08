@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_8r1te"]
 [ext_resource type="BehaviorTree" uid="uid://dlq43y0e0i6on" path="res://ai/trees/laser.tres" id="2_6wupc"]
 [ext_resource type="Texture2D" uid="uid://d0ylh7xfvci7q" path="res://art/characters/laser/wall_laser.png" id="3_8r1te"]
-[ext_resource type="Script" uid="uid://bg5lcpq1r3aa3" path="res://Game Elements/Characters/laser_segment.gd" id="3_m6xb1"]
+[ext_resource type="Script" uid="uid://bg5lcpq1r3aa3" path="res://Game Elements/Characters/segment.gd" id="3_m6xb1"]
 [ext_resource type="Script" uid="uid://g72k7lhd0tbx" path="res://Game Elements/Characters/laser_beam.gd" id="4_h87mk"]
 [ext_resource type="Shader" uid="uid://corxu8ees2ktr" path="res://Game Elements/Attacks/laser_shader.gdshader" id="5_dqm1i"]
 

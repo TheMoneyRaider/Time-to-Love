@@ -72,7 +72,8 @@ func popup_offer(player1_remnants_in : Array, player2_remnants_in : Array, rank_
 	#populate UI
 	for i in range(slot_nodes.size()):
 		if i < offered_remnants.size():
-			offered_remnants[i].rank = clamp(int(RoomManager.current_progress)+weighted_random_index(rank_weights),1,5)
+			var temp_rank = weighted_random_index(rank_weights)
+			offered_remnants[i].rank = int(RoomManager.current_progress)+temp_rank
 			slot_nodes[i].set_remnant(offered_remnants[i],false)
 		else:
 			slot_nodes[i].queue_free()
@@ -121,7 +122,7 @@ func _place_purple_selectable(slot : Node ,remnant : Resource):
 	for r in player1_remnants:
 		rem_names.append(r.remnant_name)
 	if remnant.remnant_name not in rem_names and meets_requirements(remnant,rem_names):
-		var particle = load("res://Game Elements/ui/purple_selectable.tscn").instantiate()
+		var particle = preload("res://Game Elements/ui/purple_selectable.tscn").instantiate()
 		particle.position = slot.position+slot.size+$MarginContainer/slots_hbox.position
 		particle.position.x -= slot.size.x/2
 		add_child(particle)
@@ -131,7 +132,7 @@ func _place_orange_selectable(slot : Node ,remnant : Resource):
 	for r in player2_remnants:
 		rem_names.append(r.remnant_name)
 	if remnant.remnant_name not in rem_names and meets_requirements(remnant,rem_names):
-		var particle = load("res://Game Elements/ui/orange_selectable.tscn").instantiate()
+		var particle = preload("res://Game Elements/ui/orange_selectable.tscn").instantiate()
 		particle.position = slot.position+slot.size+$MarginContainer/slots_hbox.position
 		particle.position.x -= slot.size.x/2
 		particle.position.y -= slot.size.y

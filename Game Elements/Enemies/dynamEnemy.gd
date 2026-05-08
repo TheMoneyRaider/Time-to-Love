@@ -28,6 +28,7 @@ var look_direction : Vector2 = Vector2(0,1)
 @export var weapon_cooldowns : Array[float] = []
 var last_hitter : Node = null
 var exploded : float = 0
+var purple_explode : bool = false
 
 var last_pos:Vector2 = Vector2(0,0)
 var time_stuck: float = 0
@@ -46,6 +47,8 @@ var knockback_velocity : Vector2 = Vector2.ZERO
 @export var knockback_decay : float = .90
 var LayerManager : Node
 
+var parent_node = null
+
 
 @export var attacks = [preload("res://Game Elements/Attacks/bad_bolt.tscn"),preload("res://Game Elements/Attacks/robot_melee.tscn")]
 signal attack_requested(new_attack : PackedScene, t_position : Vector2, t_direction : Vector2, damage_boost : float)
@@ -58,14 +61,31 @@ func _input(event):
 	if debug_menu and event.is_action_pressed("display_paths"):
 		display_pathways = !display_pathways
 
-func handle_attack(target_position: Vector2):
-	var attack_direction = (target_position - global_position).normalized()
-	var attack_position = attack_direction * 0		 + global_position
+func handle_attack(target_position: Vector2,attack_index: int = 0):
+	var attack_position = global_position
+	var attack_direction = (target_position - attack_position).normalized()
 	if enemy_type=="robot":
 		if self and !self.is_queued_for_deletion():
 			weapon.request_attacks(attack_direction,global_position,self)
 		return
-	request_attack(attacks[0], attack_position, attack_direction)
+	if enemy_type=="vision":
+		if attack_index == 0:
+			for i in range(0,4):
+				attack_position = get_node("Attack_Point").global_position+attack_direction*16.0
+				attack_direction = (target_position - attack_position).normalized()
+		if attack_index == 1:
+			attack_position = global_position+attack_direction*48.0
+		request_attack(attacks[attack_index], attack_position, attack_direction)
+		return
+	if enemy_type=="medieval_slime":
+		if( target_position.distance_to(global_position) >= 60):
+			for i in range(0,12):
+				request_attack(attacks[1], attack_position, attack_direction.rotated(i * 2 * PI / 12) )
+			return
+		else:
+			request_attack(attacks[0], attack_position + Vector2(0,20), attack_direction)
+			return
+	request_attack(attacks[attack_index], attack_position, attack_direction)
 
 func request_attack(t_attack: PackedScene, attack_position: Vector2, attack_direction: Vector2):
 	var instance = t_attack.instantiate()
@@ -81,6 +101,7 @@ func load_settings():
 	
 
 func _ready():
+	parent_node = get_parent()
 	if is_boss:
 		current_health = boss_healthpools[phase]
 		max_health = boss_healthpools[phase]
@@ -95,11 +116,17 @@ func _ready():
 
 #need this for flipping the sprite movement
 func update_flip():
-	if enemy_type=="robot":
+	if enemy_type=="robot" or enemy_type=="medieval_slime":
 		return
 	var sprite2d=get_node_or_null("Sprite2D")
 	if sprite2d: 
 		sprite2d.flip_h = look_direction.x < 0
+		if enemy_type == "vision" and sprite2d.flip_h:
+			sprite2d.position = Vector2(-6,-44)
+		if enemy_type =="v_clone":
+			sprite2d.flip_h = velocity.x < 0
+			sprite2d.get_node("Sprite2D").flip_h = sprite2d.flip_h
+			
 
 func check_stuck(_delta: float):
 	if(position.distance_to(last_pos) <= 20):
@@ -171,11 +198,12 @@ func _process(delta):
 		_robot_process()
 	if enemy_type=="skeleton":
 		_skeleton_process()
+	if enemy_type=="medieval_slime":
+		_slime_process()
 	if(i_frames > 0):
 		i_frames -= 1
 	for i in range(weapon_cooldowns.size()):
 		weapon_cooldowns[i]-=delta
-		
 	#Trap stuff
 	check_traps(delta)
 	
@@ -205,6 +233,22 @@ func _skeleton_process():
 		if dir.x < 0:
 			$SkeletonBrain.sprite.flip_h = true
 	$SkeletonBrain.set_frame(block + offset)
+	
+func _slime_process():
+	var dir = look_direction
+	var block : int = $SlimeBrain.anim_frame / 10 * 10
+	var offset : int = $SlimeBrain.anim_frame % 10
+	if abs(dir.y) > abs(dir.x): # Vertical
+		if dir.y < 0:
+			offset += 4
+	else:# Horizontal)
+		block += 10
+		if dir.x < 0:
+			if(block == 50):
+				offset += 5
+			else:
+				offset += 4
+	$SlimeBrain.set_frame(block + offset)
 
 func _robot_process():
 	var dir = look_direction
@@ -221,6 +265,15 @@ func _robot_process():
 			offset += 5
 	$RobotBrain.set_frame(block + offset)
 
+func damage_flash() -> void:
+	if(has_node("Sprite2D")):
+		if(has_node("AnimationPlayer")):
+			if($AnimationPlayer.has_animation("hit")):
+				$AnimationPlayer.play("hit")
+				return
+		$Sprite2D.self_modulate = Color(1.0, 0.378, 0.31, 1.0)
+		await get_tree().create_timer(.20).timeout		
+		$Sprite2D.self_modulate = Color(1.0, 1.0, 1.0)
 
 func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0,creates_indicators : bool = true, unstoppable : bool = false):
 
@@ -237,6 +290,7 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 		$Core.damage_glyphs()
 	if current_health >= 0.0 and display_damage and creates_indicators:
 		LayerManager._damage_indicator(damage, dmg_owner,direction, attack_body,self)
+		damage_flash()
 	if dmg_owner != null:
 		last_hitter = dmg_owner
 		if dmg_owner.is_in_group("player"):
@@ -276,11 +330,14 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 					child.current_health = -1.0
 					child.emit_signal("enemy_took_damage",100.0,child.current_health,child,Vector2(0,-1))
 				
-	if current_health < 0.0:
+	if current_health <= 0.0:
 			
 		for effect in effects:
 			effect.lost(self)
-		
+		if enemy_type == "tentacle":
+			var brain = get_node("Brain")
+			brain.kill(dmg_owner,damage,current_health,direction)
+			return
 		if  enemy_type == "laser_e":
 			var bt_player = get_node("BTPlayer")
 			var board = bt_player.blackboard
@@ -322,29 +379,30 @@ func _check_on_hit_remnants(dmg_owner: Node, attack_body: Node):
 		else:
 			remnants = get_tree().get_root().get_node("LayerManager").player_2_remnants
 			mancer_value = dmg_owner.mancermancer_values[1]
-		var pyromancer = load("res://Game Elements/Remnants/pyromancer.tres")
-		var winter = load("res://Game Elements/Remnants/winters_embrace.tres")
-		var hydromancer = load("res://Game Elements/Remnants/hydromancer.tres")
-		var longshot = load("res://Game Elements/Remnants/longshot.tres")
+		var pyromancer = preload("res://Game Elements/Remnants/pyromancer.tres")
+		var winter = preload("res://Game Elements/Remnants/winters_embrace.tres")
+		var hydromancer = preload("res://Game Elements/Remnants/hydromancer.tres")
+		var longshot = preload("res://Game Elements/Remnants/longshot.tres")
 		var effect : Effect
 		exploded = 0
 		for rem in remnants:
-			match rem.remnant_name:
-				winter.remnant_name:
-					effect = load("res://Game Elements/Effects/winter_freeze.tres").duplicate(true)
-					effect.cooldown = rem.variable_2_values[rem.rank-1]
-					effect.value1 =  rem.variable_1_values[rem.rank-1]
-					effect.gained(self)
-					effects.append(effect)
-				pyromancer.remnant_name:
-					exploded = rem.variable_2_values[rem.rank-1] + mancer_value
-				hydromancer.remnant_name:
-					apply_hydromancer(rem, attack_body, mancer_value)
-				longshot.remnant_name:
-					if attack_body and (attack_body.speed != 0):
-						attack_body.damage = attack_body.damage * (1 + rem.variable_1_values[rem.rank - 1] / 100.0)
-				_:
-					pass
+			if rem.active:
+				match rem.remnant_name:
+					winter.remnant_name:
+						effect = preload("res://Game Elements/Effects/winter_freeze.tres").duplicate(true)
+						effect.cooldown = rem.variable_2_values[rem.rank-1]
+						effect.value1 =  rem.variable_1_values[rem.rank-1]
+						effect.gained(self)
+						effects.append(effect)
+					pyromancer.remnant_name:
+						exploded = rem.variable_2_values[rem.rank-1] + mancer_value
+					hydromancer.remnant_name:
+						apply_hydromancer(rem, attack_body, mancer_value)
+					longshot.remnant_name:
+						if attack_body and (attack_body.speed != 0):
+							attack_body.damage = attack_body.damage * (1 + rem.variable_1_values[rem.rank - 1] / 100.0)
+					_:
+						pass
 
 func apply_hydromancer(rem : Remnant, attack_body : Node, mancer_value : int):
 	if !attack_body:
@@ -354,7 +412,7 @@ func apply_hydromancer(rem : Remnant, attack_body : Node, mancer_value : int):
 		Globals.Liquid.Water:
 			@warning_ignore("integer_division")
 			for i in range((rem.rank + (mancer_value / 2)) * 8):
-				effect = load("res://Game Elements/Effects/slow_down.tres").duplicate()
+				effect = preload("res://Game Elements/Effects/slow_down.tres").duplicate()
 				effect.cooldown = rem.rank
 				effect.value1 = 0.023
 				effect.gained(self)
@@ -362,7 +420,7 @@ func apply_hydromancer(rem : Remnant, attack_body : Node, mancer_value : int):
 		Globals.Liquid.Lava:
 			@warning_ignore("integer_division")
 			for i in range(1, rem.rank + (mancer_value / 2) + 1):
-				effect = load("res://Game Elements/Effects/burn.tres").duplicate()
+				effect = preload("res://Game Elements/Effects/burn.tres").duplicate()
 				effect.cooldown = i
 				effect.value1 = 2
 				effect.gained(self)
@@ -371,7 +429,7 @@ func apply_hydromancer(rem : Remnant, attack_body : Node, mancer_value : int):
 			var glitch_dir = attack_body.direction
 			glitch_dir.rotated(randf_range(-15,15))
 			_glitch_move(glitch_dir.normalized() * 160)
-			effect = load("res://Game Elements/Effects/stun.tres").duplicate()
+			effect = preload("res://Game Elements/Effects/stun.tres").duplicate()
 			@warning_ignore("integer_division")
 			effect.cooldown = rem.rank + (mancer_value / 2) / 2.5
 			effect.gained(self)
@@ -417,7 +475,7 @@ func check_liquids(delta):
 			var type = tile_data.get_custom_data("liquid")
 			match type:
 				Globals.Liquid.Water:
-					var effect = load("res://Game Elements/Effects/slow_down.tres").duplicate(true)
+					var effect = preload("res://Game Elements/Effects/slow_down.tres").duplicate(true)
 					effect.cooldown = 20*delta
 					effect.value1 = 0.023
 					effect.gained(self)
@@ -477,7 +535,9 @@ func shift_hue(color: Color, amount: float) -> Color:
 	h = fposmod(h, 1.0) # wrap hue to 0–1
 	return Color.from_hsv(h, color.s, color.v, color.a)
 
-
+func lich_signal(sig :String, value1, value2, value3, value4):
+	if is_boss:
+		get_parent().lich_signal(sig,value1,value2,value3,value4)
 
 func boss_signal(sig :String, value1, value2):
 	if is_boss:

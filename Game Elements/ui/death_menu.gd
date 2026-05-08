@@ -1,20 +1,20 @@
 extends CanvasLayer
 
-@export var recent_seconds := 6
+
+
+@export var time_per_buffer := 10 # hard cap on time will be this * 6
 @export var rewind_time := 10 #can't be smaller than recent_seconds. also the actual rewind time is generally 3 seconds or so greater.
-@export var recent_fps : float = 32.0
-@export var longterm_fps : float = 8.0
+
 @export var min_shader_intensity = 0.1
 @export	var max_shader_intensity = 1.25
-@export	var longterm_buffer_size := 10000
 
 var initial_replay_fps = 12
 
 @onready var replay_texture: TextureRect = $Control/Replay
 @onready var death_box: VBoxContainer = $Control/VBoxContainer
 
-var recent_buffer := []
-var longterm_buffer := []
+var buffer_fps := [32,16,8,4,2,1]
+var buffers := [[],[],[],[],[],[]]
 var capture_timer: Timer
 var capturing := true
 var rewinding := false
@@ -30,7 +30,7 @@ func _ready():
 		if button is Button:
 			button.disabled = true
 	capture_timer = Timer.new()
-	capture_timer.wait_time = 1.0 / recent_fps
+	capture_timer.wait_time = 1.0 / buffer_fps[0]
 	capture_timer.one_shot = false
 	add_child(capture_timer)
 	capture_timer.timeout.connect(_capture_frame)
@@ -43,12 +43,10 @@ func _process(delta):
 func state_change():
 	Globals.save_state.time_spent+=total_time
 	
-	if recent_buffer.size() > 0:
-		var img = recent_buffer[0]
+	if buffers[0].size() > 0:
+		var img = buffers[0][0]
 		if img is Image and not img.is_empty():
 			Globals.save_state.picture = ImageTexture.create_from_image(img)
-	
-	Globals.save_config()
 
 
 func activate():
@@ -79,14 +77,13 @@ func _capture_frame():
 	if frame_amount == 3:
 		final_frame = img.duplicate(true)
 	#Add to recent buffer (rotating)
-	recent_buffer.append(img)
-	if recent_buffer.size() > recent_seconds * recent_fps:
-		var oldest = recent_buffer.pop_front()
-		#Push oldest to long-term buffer
-		if frame_amount % int(recent_fps/longterm_fps) == 0:
-			longterm_buffer.append(oldest)
-			if longterm_buffer.size() > longterm_buffer_size:
-				longterm_buffer.pop_front()
+	buffers[0].append(img)
+	for i in range(6):
+		if buffers[i].size() > buffer_fps[i] * time_per_buffer:
+			var oldest = buffers[i].pop_front()
+			
+			if i < 5 and (frame_amount % (2 << i)) == 0:
+				buffers[i+1].append(oldest)
 
 func _on_quit_pressed():
 	if rewinding:
@@ -97,6 +94,7 @@ func _on_menu_pressed():
 	if rewinding:
 		return
 	get_tree().paused = false
+	Globals.save_config()
 	get_tree().call_deferred("change_scene_to_file", "res://Game Elements/ui/main_menu/main_menu.tscn")
 
 func _on_replay_pressed():
@@ -116,10 +114,12 @@ func _on_replay_pressed():
 	play_replay_reverse()
 
 func play_replay_reverse():
+	var reusable_texture := ImageTexture.new()
 	#Variables
 	var elapsed = 0.0
-	var recent_len = recent_buffer.size()
-	var longterm_len = longterm_buffer.size()
+	var total_time = 0.0
+	for i in range(6):
+		total_time += buffers[i].size() / buffer_fps[i]
 	var desc = total_time - initial_replay_fps
 
 	#Change rewind time if total time is too low
@@ -128,33 +128,30 @@ func play_replay_reverse():
 	
 	while elapsed < rewind_time:
 		elapsed += get_process_delta_time()
-		print("calcing frame and dur at %f out of %f" % [elapsed, rewind_time])
+		#print("calcing frame and dur at %f out of %f" % [elapsed, rewind_time])
 		var portion = elapsed / rewind_time
 		var to_disp = desc * portion * portion + initial_replay_fps * portion # this gives the time stamp of the frame that needs to be displayed
-		var cur_fps = 2 * desc * portion + initial_replay_fps
-		print(to_disp)
+		
+		#print(to_disp)
 		
 		# to get frame from timestamp, need to check whether it's in the long term buffer or short term buffer
-		if to_disp > recent_seconds:
-			var time_through = to_disp - recent_seconds
-			var idx = time_through * longterm_fps + 1
-			idx = min(longterm_len,floori(idx))
-			print("got frame %f from the longterm buffer" % idx)
-			idx = longterm_len - idx
-			replay_texture.texture = ImageTexture.create_from_image(longterm_buffer[idx])
-			if cur_fps < longterm_fps:
-				cur_fps = longterm_fps
-		else:
-			var idx = to_disp * recent_fps + 1
-			idx = min(recent_len,floori(idx))
-			idx = recent_len - idx
-			if longterm_len > 8 or idx > 3:
-				print("got frame %f from the recent buffer, %f" % [idx, portion])
-				replay_texture.texture = ImageTexture.create_from_image(recent_buffer[idx])
-			else:
-				replay_texture.texture = ImageTexture.create_from_image(final_frame)
-			if cur_fps < recent_fps:
-				cur_fps = recent_fps
+		var which_buffer = int(to_disp / time_per_buffer)
+		var time_through = to_disp
+		while time_through > time_per_buffer:
+			time_through -= time_per_buffer
+		if which_buffer > 5:
+			which_buffer = 5
+			time_through = time_per_buffer
+		#print("Need to print the frame that is %f seconds through buffer %d" % [time_through, which_buffer])
+		var buffer_len = buffers[which_buffer].size()
+		var idx = time_through * buffer_fps[which_buffer] + 1
+		idx = min(buffer_len, floori(idx))
+		#print("getting the %dth frame" % [idx])
+		idx = buffer_len - idx
+		
+		
+		reusable_texture.set_image(buffers[which_buffer][idx])
+		replay_texture.texture = reusable_texture
 		
 		replay_texture.material.set_shader_parameter("intensity", get_shader_intensity(elapsed, rewind_time, min_shader_intensity, max_shader_intensity))
 		replay_texture.material.set_shader_parameter("time", elapsed)
@@ -175,14 +172,16 @@ func end_replay():
 	var now := Time.get_time_dict_from_system()
 	print(now.second)
 	capturing = false
-	recent_buffer.clear()
-	longterm_buffer.clear()
+	for i in range(6):
+		buffers[i].clear()
+		
 	frame_amount = 0
 
 	# Create a full-screen overlay with the last frame
-	var overlay = load("res://Game Elements/ui/transition_texture.tscn").instantiate()
+	var overlay = preload("res://Game Elements/ui/transition_texture.tscn").instantiate()
 	overlay.get_node("TextureRect").texture = ImageTexture.create_from_image(final_frame)
 	overlay.get_properties(replay_texture)
+	final_frame = null
 	get_tree().get_root().add_child(overlay)
 	get_tree().paused = false
 	# Load the next scene deferred, the overlay keeps the last frame visible

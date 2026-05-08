@@ -1,7 +1,7 @@
 [gd_scene load_steps=33 format=4 uid="uid://ciut2jg3urwer"]
 
 [ext_resource type="Script" uid="uid://bqbfmcnnhox8b" path="res://Game Elements/Bosses/scifi/boss_room.gd" id="1_r7kch"]
-[ext_resource type="Texture2D" uid="uid://1po7p0hcmfk" path="res://Game Elements/Bosses/scifi/scifi_splash.png" id="2_ar3fp"]
+[ext_resource type="Texture2D" uid="uid://d3hvxaxwy516s" path="res://Game Elements/Bosses/scifi/signul_art.png" id="2_jgoy3"]
 [ext_resource type="TileSet" uid="uid://b7rsdis0l1f8d" path="res://Game Elements/tilesets/medival_tileset.tres" id="2_n58sc"]
 [ext_resource type="PackedScene" uid="uid://ccwiql3bybf2p" path="res://Game Elements/Objects/pathway.tscn" id="3_6uq0m"]
 [ext_resource type="Texture2D" uid="uid://bw4uqdt1s2rcv" path="res://Game Elements/Bosses/scifi/healthbar_phase1_underlay.png" id="3_k3f2u"]
@@ -97,7 +97,7 @@ shader_parameter/cutoff_max = 0.88
 [node name="BossRoom" type="Node2D" node_paths=PackedStringArray("boss")]
 process_mode = 1
 script = ExtResource("1_r7kch")
-boss_splash_art = ExtResource("2_ar3fp")
+boss_splash_art = ExtResource("2_jgoy3")
 healthbar_underlays = Array[Texture2D]([ExtResource("3_k3f2u"), ExtResource("4_at31b"), ExtResource("5_agmvj")])
 healthbar_overlays = Array[Texture2D]([ExtResource("5_m16xs"), ExtResource("6_k0ndm"), ExtResource("8_jgoy3")])
 boss_names = Array[String](["Singul, Chained Intelligence", "Singul, Benevolent Ruler", "Singul, God of Cyberspace"])

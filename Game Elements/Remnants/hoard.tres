@@ -11,5 +11,5 @@ description = "Deal $X% more damage for every 50 time fragments. "
 icon = ExtResource("2_g2o71")
 art = ExtResource("1_2fy13")
 variable_names = Array[String](["$X"])
-variable_1_values = [2.5, 5.0, 7.5, 10.0, 15.0]
+variable_1_values = [1.0, 2.0, 3.0, 4.0, 5.0]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

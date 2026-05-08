@@ -5,17 +5,16 @@ extends BTAction
 @export var random_extra_distance := 32.0
 @export var cell_size := 16
 
-var _layer_manager: Node
+var LayerManager: Node
 var _placable_cell_set := {}
-
+var readied : bool = false
 func _ready():
-	_layer_manager = agent.get_tree().get_root().get_node("LayerManager")
-
-	# Convert to hash set once
-	for c in _layer_manager.placable_cells:
-		_placable_cell_set[c] = true
+	LayerManager = agent.get_tree().get_root().get_node("LayerManager")
 
 func _tick(_delta: float) -> Status:
+	if !readied:
+		_ready()
+		readied = true
 	var base_pos: Vector2 = agent.global_position
 	var base_cell := Vector2i(base_pos / cell_size)
 
@@ -35,9 +34,8 @@ func _tick(_delta: float) -> Status:
 
 		var target_cell := base_cell + cell_offset
 
-		if _placable_cell_set.has(target_cell):
+		if LayerManager._placable_cell_set.has(target_cell):
 			chosen_pos = target_cell * cell_size
 			break
-
 	blackboard.set_var(target_position_var, chosen_pos)
 	return SUCCESS

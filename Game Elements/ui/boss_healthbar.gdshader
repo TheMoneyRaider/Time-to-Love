@@ -2,6 +2,7 @@ shader_type canvas_item;
 
 uniform int effect_index = -1;
 uniform float progress : hint_range(0.0,1.0)= 1.0;
+uniform float progress2 : hint_range(0.0,1.0)= 1.0;
 uniform vec2 image_size = vec2(0, 0);
 
 uniform float P1_u_speed = .125;
@@ -20,7 +21,26 @@ uniform float P3_u_speed = 1.0;
 uniform vec4 P3_u_color_low : source_color = vec4(0, 0, 0, 1);
 uniform vec4 P3_u_color_mid : source_color = vec4(0, 0.443, 0.2078, 1.0);
 uniform vec4 P3_u_color_high : source_color = vec4(0.329, 0.917, 0.0, 1.0);
-uniform float P3_scale = 8.0;
+uniform float P3_scale = 2.0;
+
+uniform float P4_u_speed = 1.0;
+uniform vec4 P4_u_color_low : source_color = vec4(0, 0, 0, 1);
+uniform vec4 P4_u_color_mid : source_color = vec4(0.478, 0.004, 0.824, 1.0);
+uniform vec4 P4_u_color_high : source_color = vec4(0.855, 0.447, 0.89, 1.0);
+uniform float P4_scale = 16.0;
+
+uniform float P10_u_speed = 1.0;
+uniform vec4 P10_u_color_low : source_color = vec4(0, 0, 0, 1);
+uniform vec4 P10_u_color_mid : source_color = vec4(0.0, 0.286, 0.871, 1.0);
+uniform vec4 P10_u_color_high : source_color = vec4(0.0, 0.694, 0.904, 1.0);
+uniform float P10_scale = 32.0;
+
+uniform float P11_u_speed = 1.0;
+uniform vec4 P11_u_color_low : source_color = vec4(0, 0, 0, 1);
+uniform vec4 P11_u_color_mid : source_color = vec4(0.784, 0.475, 0.0, 1.0);
+uniform vec4 P11_u_color_high : source_color = vec4(1, 1, 1, 1.0);
+uniform vec4 P11_u_color_mid2 : source_color = vec4(1, 0.824, 0.655, 1.0);
+uniform float P11_scale = 8.0;
 
 
 
@@ -28,6 +48,9 @@ uniform float P3_scale = 8.0;
 #define P1_iTime (TIME * P1_u_speed)
 #define P2_iTime (TIME * P2_u_speed)
 #define P3_iTime (TIME * P3_u_speed)
+#define P4_iTime (TIME * P4_u_speed)
+#define P10_iTime (TIME * P10_u_speed)
+#define P11_iTime (TIME * P11_u_speed)
 
 const mat2 mtx = mat2( vec2(0.80, -0.60), vec2(0.60, 0.80) );
 
@@ -76,20 +99,25 @@ vec4 colormap(float x, vec4 color_low, vec4 color_mid, vec4 color_high) {
 
 
 bool health_edge(sampler2D text, vec2 uv){
-	if (effect_index == -1) {
-		if(uv.x > progress)
-			return true;
-	} else if (effect_index == 0) {
-		if(uv.x > progress)
-			return true;
-	} else if (effect_index == 1) {
-		if(uv.x > progress)
-			return true;
-	} else if (effect_index == 2) {
-		if(uv.x > progress)
-			return true;
-	} else {
+	float value = floor(uv.y * image_size.y) / image_size.y;
+	float value2 = floor(uv.x * image_size.x) / image_size.x;
+	float time =P10_iTime;
+	if(effect_index==10){
+		float n1 = sin(time*3.0      + value * 5.0) / 10000.0 * 42.0;
+		float n2 = sin(time*15.0 + value * 11.0) / 10000.0 * 64.0;
+		if (value2 + n1 +n2 > progress) return true;
+		return false;
+
 	}
+	if(effect_index==11 && uv.y < .33){
+		float n1 = sin(time*3.0      + value * 5.0) / 10000.0 * 42.0;
+		float n2 = sin(time*15.0 + value * 11.0) / 10000.0 * 64.0;
+		if (value2 + n1 +n2 > progress2) return true;
+		return false;
+
+	}
+	if(uv.x> progress)
+		return true;
 	return false;
 }
 
@@ -111,6 +139,22 @@ vec4 health_color(sampler2D text, vec2 uv, vec2 pixel_size, vec4 fragment_coord,
 		vec2 uv2 = floor(uv*image_size);
 		uv2 /= P3_scale;
 		return colormap(pattern(uv2,P3_iTime),P3_u_color_low,P3_u_color_mid,P3_u_color_high);
+	} else if (effect_index == 3) {
+		vec2 uv2 = floor(uv*image_size);
+		uv2 /= P4_scale;
+		return colormap(pattern(uv2,P4_iTime),P4_u_color_low,P4_u_color_mid,P4_u_color_high);
+	} else if (effect_index == 10) {
+		vec2 uv2 = floor(uv*image_size);
+		uv2 /= P10_scale;
+		return colormap(pattern(uv2,P10_iTime),P10_u_color_low,P10_u_color_mid,P10_u_color_high);
+	} else if (effect_index == 11) {
+		vec2 uv2 = floor(uv*image_size);
+		uv2 /= P11_scale;
+		if (uv.y > .33){
+			uv2 /= 2.0;
+			return colormap(pattern(uv2,P11_iTime*2.0),P11_u_color_low,P11_u_color_mid2,P11_u_color_high);
+		}
+		return colormap(pattern(uv2,P11_iTime),P11_u_color_low,P11_u_color_mid,P11_u_color_high);
 	}
 	return vec4(0.0,0.0,0.0,0.0);
 }

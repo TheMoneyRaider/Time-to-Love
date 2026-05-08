@@ -9,11 +9,13 @@ uniform vec4 outline_color    : source_color = vec4(1.0);
 // How far to search around a pixel for solid neighbors (in texels)
 uniform float outline_size    : hint_range(0.0, 16.0, 0.1) = 1.0;
 // Minimum alpha for a pixel to be considered solid
-uniform float alpha_threshold : hint_range(0.0, 1.0, 0.01) = 0.0;
+uniform float alpha_threshold : hint_range(0.0, 1.0, 0.01) = 0.5;
 // Number of directions to sample from (max 8)
 uniform int outline_samples   : hint_range(4, 8) = 4;
 // Color to blend with solid pixels (alpha is blend strength)
 uniform vec4 shade_color      : source_color = vec4(1.0, 1.0, 1.0, 0.5);
+
+uniform bool enabled_hole = true;
 
 // === Outline Sampling Directions ===
 
@@ -36,8 +38,10 @@ void vertex() {
 
 void fragment() {
 	vec2 uv = (world_pos - hole_center) / 128.0 + vec2(0.5);
-	if (texture(hole_mask, uv).r < 0.5 && world_pos.y >= emerge_height){
-		discard;
+	if (enabled_hole){
+		if (texture(hole_mask, uv).r < 0.5 && world_pos.y >= emerge_height){
+			discard;
+		}
 	}
 
 	vec4 tex = texture(TEXTURE, UV);
@@ -74,4 +78,5 @@ void fragment() {
 	else if (found) COLOR = outline_color;
 	else if (semi)  COLOR = tex;
 	else            discard;
+		
 }

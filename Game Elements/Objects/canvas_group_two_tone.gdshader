@@ -57,9 +57,9 @@ void fragment() {
 
 		// Apply the two-tone coloring
 		if (is_bottom) {
-			c.rgb = dark_color.rgb; // Bottom pixels are dark
+			c = dark_color; // Bottom pixels are dark
 		} else {
-			c.rgb = light_color.rgb; // Top pixels are light
+			c = light_color; // Top pixels are light
 		}
 	}
 

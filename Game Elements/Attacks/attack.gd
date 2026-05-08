@@ -47,6 +47,7 @@ var intelligence : Remnant = null
 var LayerManager : Node = null
 
 var special_nodes : Array[Node] = []
+var drag_along : Array[Node] = []
 
 #Special Variables
 var life = 0.0
@@ -66,13 +67,13 @@ func set_values(attack_speed = self.attack_speed, attack_damage = self.damage, a
 	self.hit_force = attack_hit_force
 
 func ready_hacks():
-	var hack = load("res://Game Elements/Remnants/hack.tres")
+	var hack = preload("res://Game Elements/Remnants/hack.tres")
 	for rem in LayerManager.player_1_remnants:
-		if rem.remnant_name == hack.remnant_name:
+		if rem.remnant_name == hack.remnant_name and rem.active:
 			hack1=rem.duplicate(true)
 			break
 	for rem in LayerManager.player_2_remnants:
-		if rem.remnant_name == hack.remnant_name:
+		if rem.remnant_name == hack.remnant_name and rem.active:
 			hack2=rem.duplicate(true)
 			break
 			
@@ -92,14 +93,20 @@ func _ready():
 		get_parent().add_child(inst)
 	if animation!= "" and $AnimationPlayer:
 		$AnimationPlayer.play(animation)
+	if attack_type == "summon circle":
+		modulate.a = 0
+		var tween = self.create_tween()
+		tween.tween_property(self,"modulate:a",1,1)
 	if attack_type == "death mark":
 		if c_owner.is_purple:
-			$Sprite2D.texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_purple.png")
+			$Sprite2D.texture = load("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_purple.png")
 		else:
-			$Sprite2D.texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_orange.png")
+			$Sprite2D.texture = load("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_orange.png")
 	if attack_type!="scifi_laser":
 		rotation = direction.angle() + PI/2
-	if attack_type == "explosion":
+	if attack_type=="magic_bolt":
+		rotation = direction.angle()
+	if attack_type == "explosion" or attack_type=="tentacle":
 		rotation = 0
 	if attack_type == "slug":
 		special_nodes.append(load("res://Game Elements/Attacks/slug_seperate.tscn").instantiate())
@@ -111,9 +118,15 @@ func _ready():
 		_wave_attack_setup()
 	if attack_type == "scifi_laser":
 		_laser_attack_setup()
+	if attack_type=="light_beam":
+		rotation = direction.angle()
 	
 
-
+func drag():
+	if(attack_type == "giant_bolt"):
+		for x in drag_along:
+			if(x):
+				x.global_position = global_position - direction
 
 func change_direction():
 	if debug_draw_detection:
@@ -203,14 +216,15 @@ func _draw() -> void:
 	
 
 func _process(delta):
+	drag()
 	if attack_type == "ls_melee":
 		global_position = c_owner.global_position
 	if intelligence and speed > 0 and attack_type != "slug":
 		change_direction()
 	if frozen:
 		return
-	if attack_type == "laser" or attack_type == "scifi_laser":
-		if has_method("get_overlapping_bodies"):
+	if attack_type == "laser" or attack_type == "scifi_laser" or attack_type == "tentacle":
+		if has_method("get_overlapping_bodies") and monitoring:
 			for body in get_overlapping_bodies():
 				intersection(body)
 	if attack_type != "slug":
@@ -228,7 +242,7 @@ func _process(delta):
 		c_owner.die(true,true)
 	if attack_type == "shatter":
 		var tween = create_tween()
-		tween.tween_property(self, "modulate:a", 0.0, 1.0)
+		tween.tween_property(self, "modulate:a", 0.0, .25)
 		await tween.finished
 	for node in special_nodes:
 		node.queue_free()
@@ -249,8 +263,18 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 		return 0
 	if n_owner.is_in_group("player") and body.is_in_group("player") and !hits_all:
 		return 0
-	if !n_owner.is_in_group("player") and !body.is_in_group("player") and !hits_all:
+	if n_owner.is_in_group("enemy"): 
+		if body.is_in_group("enemy") and !hits_all:
+			return 0
+	elif !n_owner.is_in_group("player") and !body.is_in_group("player") and !hits_all:
 		return 0
+	if body.get("enemy_type") == "medieval_slime":
+		if(deflectable && attack_type != "slime_ball"):
+			if(randf() > .5):
+				deflect(-1 * direction, 100, null)
+				self.c_owner = body
+				hit_nodes = {}
+				return 0
 	if body.has_method("take_damage"):
 		if attack_type=="scifi_wave":
 			var direct = (body.global_position-global_position)
@@ -271,6 +295,8 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 func intersection(body):
 	if c_owner == null:
 		return
+	if "current_health" not in c_owner or c_owner.current_health <= 0.0:
+		return
 	if body.get("c_owner") != null and !is_instance_valid(body.c_owner):
 		return
 	if attack_type == "laser" and life < .5:
@@ -284,8 +310,10 @@ func intersection(body):
 		match apply_damage(body,c_owner,damage,direction):
 			1:
 				pierce -= 1
-				if attack_type!= "laser" and attack_type!= "scifi_laser" and attack_type!= "binary_melee":
+				if attack_type!= "laser" and attack_type!= "scifi_laser" and attack_type!= "binary_melee" and attack_type!= "tentacle":
 					hit_nodes[body] = null
+				if(attack_type == "giant_bolt"):
+					drag_along.append(body)
 			0:
 				pass
 			-1:
@@ -336,13 +364,15 @@ func deflect(hit_direction, hit_speed, deflection_area):
 		return
 	direction = hit_direction
 	rotation = direction.angle() + PI/2
+	if attack_type == "light_beam":
+		rotation = direction.angle()
 	damage = round(damage * ((hit_speed + speed) / speed))
 	speed = speed + hit_speed
 	
 		
 
 func _on_area_entered(area: Area2D) -> void:
-	if area.is_in_group("attack") and area.deflectable == true and deflects and is_instance_valid(area.c_owner):
+	if area.is_in_group("attack") and area.deflectable == true and deflects and is_instance_valid(area.c_owner) and is_instance_valid(c_owner) and area.c_owner != c_owner:
 		if area.attack_type =="laser":
 			if area.life > .5:
 				return
@@ -364,6 +394,8 @@ func _on_area_entered(area: Area2D) -> void:
 
 
 func _on_body_exited(body: Node2D) -> void:
+	if(attack_type == "giant_bolt"):
+		body.velocity = direction * speed
 	if repeat_hits:
 		hit_nodes.erase(body)
 

@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://dc615m8r6verx" path="res://art/remnants/remnant_orb_feet.png" id="1_cb1ol"]
 [ext_resource type="Texture2D" uid="uid://cmy65xxww7lkp" path="res://art/remnants/remnant_orb.png" id="1_d3rxk"]
 [ext_resource type="Script" uid="uid://bn7wc23ktk2ry" path="res://Game Elements/Objects/orb.gd" id="1_v3beo"]
-[ext_resource type="Texture2D" uid="uid://jauot8cjpgbk" path="res://art/white_dot.png" id="2_itn33"]
+[ext_resource type="Texture2D" uid="uid://jauot8cjpgbk" path="res://art/particles/white_dot.png" id="2_itn33"]
 [ext_resource type="Shader" uid="uid://bcbula2hj7vua" path="res://Game Elements/Objects/remnant_orb.gdshader" id="2_wxssq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p07o2"]

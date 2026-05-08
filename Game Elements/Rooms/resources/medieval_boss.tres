@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Room" load_steps=2 format=3 uid="uid://b3bwesxfq4ief"]
+
+[ext_resource type="Script" uid="uid://boljl4yehg187" path="res://Game Elements/Rooms/room.gd" id="1_icks3"]
+
+[resource]
+script = ExtResource("1_icks3")
+scene_location = "res://Game Elements/Bosses/medieval/lich_room.tscn"
+num_liquid = 2
+liquid_types = Array[int]([2, 1])
+liquid_chances = Array[float]([1.0, 1.0])
+noise_seed = null
+num_trap = 1
+trap_chances = Array[float]([1.0])
+trap_types = Array[int]([4])
+num_enemy_goal = 0
+roomtype = 3
+roomvariant = 1
+letter_goal = 0
+metadata/_custom_type_script = "uid://boljl4yehg187"

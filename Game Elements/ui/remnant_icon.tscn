@@ -1,8 +1,25 @@
-[gd_scene load_steps=9 format=3 uid="uid://whwenrbf4lw8"]
+[gd_scene load_steps=11 format=3 uid="uid://whwenrbf4lw8"]
 
 [ext_resource type="Texture2D" uid="uid://21s1bbewu58o" path="res://art/remnants/hunter_icon.png" id="1_2lyub"]
 [ext_resource type="Script" uid="uid://bdarb5v6mg88f" path="res://Game Elements/ui/remnant_icon.gd" id="1_nncub"]
+[ext_resource type="Shader" uid="uid://na5vrkd3gf2n" path="res://Game Elements/ui/highlight.gdshader" id="2_ayhuk"]
 [ext_resource type="Texture2D" uid="uid://dnysvj1fsgjrx" path="res://art/remnants/icon_template_white.png" id="2_qatju"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dp3pg"]
+resource_local_to_scene = true
+shader = ExtResource("2_ayhuk")
+shader_parameter/start_time = 0.0
+shader_parameter/Line_Smoothness = 0.0
+shader_parameter/Line_Width = 0.2
+shader_parameter/Brightness = 3.0
+shader_parameter/Rotation_deg = 30.0
+shader_parameter/Distortion = 1.8
+shader_parameter/Speed = 0.4
+shader_parameter/Position = 0.0
+shader_parameter/Position_Min = 0.25
+shader_parameter/Position_Max = 0.5
+shader_parameter/Alpha = 1.0
+shader_parameter/active = true
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nncub"]
 
@@ -34,6 +51,7 @@ script = ExtResource("1_nncub")
 button = NodePath("Button")
 
 [node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_dp3pg")
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 0
 offset_right = 64.0

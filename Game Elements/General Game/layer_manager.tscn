@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bjlqt0ad4do23"]
+[gd_scene load_steps=33 format=3 uid="uid://bjlqt0ad4do23"]
 
 [ext_resource type="Script" uid="uid://by1wxpi7fijx5" path="res://Game Elements/General Game/layer_manager.gd" id="1_gynnh"]
 [ext_resource type="PackedScene" uid="uid://0hahdiffjt61" path="res://Game Elements/ui/hud.tscn" id="2_4xk7e"]
@@ -15,10 +15,13 @@
 [ext_resource type="Script" uid="uid://bu61ndyofnbda" path="res://Game Elements/General Game/camera.gd" id="9_n317s"]
 [ext_resource type="Texture2D" uid="uid://1c47fiseukev" path="res://Game Elements/Bosses/purple.png" id="11_arwbq"]
 [ext_resource type="Texture2D" uid="uid://nljj8bohfllh" path="res://Game Elements/Bosses/orange.png" id="12_nt7kn"]
-[ext_resource type="Texture2D" uid="uid://1po7p0hcmfk" path="res://Game Elements/Bosses/scifi/scifi_splash.png" id="13_vxirk"]
+[ext_resource type="Texture2D" uid="uid://d3hvxaxwy516s" path="res://Game Elements/Bosses/scifi/signul_art.png" id="13_x2m3a"]
 [ext_resource type="Texture2D" uid="uid://cggx60a5l71t7" path="res://art/white_square2.png" id="14_sf3i7"]
 [ext_resource type="FontFile" uid="uid://d366m5nnnpg1f" path="res://fonts/Orbitron-Bold.ttf" id="15_l10hl"]
-[ext_resource type="Shader" path="res://Game Elements/General Game/grass_cull.gdshader" id="16_nt7kn"]
+[ext_resource type="Shader" uid="uid://bxe3oguf2lb6m" path="res://Game Elements/General Game/grass_cull.gdshader" id="16_nt7kn"]
+[ext_resource type="Texture2D" uid="uid://n0bko3km56nl" path="res://Game Elements/General Game/limbo/limbo_noise.tres" id="20_fpruh"]
+[ext_resource type="Shader" uid="uid://c7aprdgds5kpc" path="res://Game Elements/Shaders/chromatic_abberation.gdshader" id="21_x2m3a"]
+[ext_resource type="PackedScene" uid="uid://d4mlvdb3rgf07" path="res://Game Elements/Bosses/limbo/transition/limbo_transition.tscn" id="22_lojdy"]
 
 [sub_resource type="Shader" id="Shader_alv7a"]
 code = "shader_type canvas_item;
@@ -346,6 +349,19 @@ shader_parameter/laser_rotation = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vxirk"]
 shader = ExtResource("16_nt7kn")
+shader_parameter/inverse_output = true
+shader_parameter/edge_color = Vector3(1, 1, 1)
+shader_parameter/z_order = 0
+shader_parameter/progress = 0.0
+shader_parameter/sob_noise = ExtResource("20_fpruh")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jceoj"]
+shader = ExtResource("21_x2m3a")
+shader_parameter/aberration_strength = 2.000000095
+shader_parameter/mask_intensity = 0.400000019
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_lsyjg"]
+viewport_path = NodePath("PathwayViewport")
 
 [node name="LayerManager" type="Node2D"]
 process_mode = 3
@@ -406,7 +422,7 @@ texture = ExtResource("2_248xd")
 offset_left = -970.0
 offset_top = 1263.0
 offset_right = 110.0
-offset_bottom = 3183.0034
+offset_bottom = 3183.0054
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("11_arwbq")
 
@@ -414,21 +430,22 @@ texture = ExtResource("11_arwbq")
 offset_left = 322.0
 offset_top = 1456.0
 offset_right = 1442.0
-offset_bottom = 3049.4336
+offset_bottom = 3049.4324
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("12_nt7kn")
 
 [node name="Boss" type="TextureRect" parent="BossIntro"]
 offset_left = 1262.0
 offset_top = 1387.0
-offset_right = 1773.9988
-offset_bottom = 1898.9995
-texture = ExtResource("13_vxirk")
+offset_right = 1750.9999
+offset_bottom = 1909.1779
+texture = ExtResource("13_x2m3a")
+expand_mode = 1
 
 [node name="UpperDivided" type="TextureRect" parent="BossIntro"]
 offset_left = 768.0
 offset_top = -1437.0
-offset_right = 799.9989
+offset_right = 799.99866
 offset_bottom = -436.99915
 pivot_offset = Vector2(16, 1000)
 texture = ExtResource("14_sf3i7")
@@ -459,7 +476,7 @@ text = "[color=orange]Orange[/color][color=purple][font=\"res://fonts/OldEnglish
 [node name="BossName" type="RichTextLabel" parent="BossIntro"]
 offset_left = 929.0
 offset_top = -871.0
-offset_right = 2047.0032
+offset_right = 2047.0027
 offset_bottom = -459.0
 theme_override_fonts/normal_font = ExtResource("15_l10hl")
 theme_override_font_sizes/normal_font_size = 128
@@ -476,6 +493,14 @@ scale = Vector2(0.75, 0.75)
 pivot_offset = Vector2(150, 174.5)
 text = "VS"
 label_settings = SubResource("LabelSettings_fpruh")
+
+[node name="LimboTransition" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="LimboTransition" parent="LimboTransition" instance=ExtResource("22_lojdy")]
+z_index = 80
+position = Vector2(960, 500)
+scale = Vector2(4, 4)
 
 [node name="game_container" type="SubViewportContainer" parent="."]
 texture_filter = 1
@@ -512,3 +537,15 @@ offset_right = 1680.0
 offset_bottom = 875.0
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("14_sf3i7")
+
+[node name="PathwayTransition" type="Sprite2D" parent="game_container/game_viewport/game_root/Camera2D"]
+z_index = 50
+material = SubResource("ShaderMaterial_jceoj")
+texture = SubResource("ViewportTexture_lsyjg")
+
+[node name="PathwayViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(2048, 2048)
+render_target_update_mode = 4

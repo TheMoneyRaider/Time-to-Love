@@ -4,7 +4,6 @@ extends Area2D
 @onready var hitbox: CollisionShape2D = $CollisionShape2D
 
 var active: bool = false
-var running: bool = false
 var tracked_bodies: Array = []
 
 func _ready():
@@ -21,28 +20,56 @@ func activate():
 				if effect.type == "speed":
 					do_effect = false
 			if do_effect:
-				var new_effect = load("res://Game Elements/Effects/speed.tres").duplicate(true)
+				var new_effect = preload("res://Game Elements/Effects/speed.tres").duplicate(true)
 				new_effect.cooldown = .2
 				new_effect.value1 = -.8
 				new_effect.gained(body)
 				body.effects.append(new_effect)
 	while !tracked_bodies.is_empty():
-		await get_tree().create_timer(.21).timeout
+		await get_tree().create_timer(.21,false).timeout
 		activate()
 	anim.play("Retract")
 	active = false
 	await anim.animation_finished
 
+var time = 0.0
+func _process(delta: float) -> void:
+	if !active:
+		return
+	time-=delta
+	if time <= 0.0:
+		for body in tracked_bodies:
+			if _crafter_chance(body):
+				var do_effect = true
+				for effect in body.effects:
+					if effect.type == "speed":
+						do_effect = false
+				if do_effect:
+					var new_effect = preload("res://Game Elements/Effects/speed.tres").duplicate(true)
+					new_effect.cooldown = .2
+					new_effect.value1 = -.8
+					new_effect.gained(body)
+					body.effects.append(new_effect)
+		if !tracked_bodies.is_empty():
+			time=.21
+		else:
+			time = 0.0
+			active = false
+
+
+
+
+
 func _on_body_entered(body):
 	if body.has_method("take_damage"):
 		tracked_bodies.append(body)
 	if !active:
-		if !running and body.has_method("take_damage"):
-			activate()
+		if body.has_method("take_damage") and !active:
+			active = true
 			return
 	elif body.has_method("take_damage"):
 		if _crafter_chance(body):
-			var effect = load("res://Game Elements/Effects/speed.tres").duplicate(true)
+			var effect = preload("res://Game Elements/Effects/speed.tres").duplicate(true)
 			effect.cooldown = 1
 			effect.value1 = -.8
 			effect.gained(body)
@@ -61,11 +88,11 @@ func _crafter_chance(node_to_damage : Node) -> bool:
 		remnants = get_tree().get_root().get_node("LayerManager").player_1_remnants
 	else:
 		remnants = get_tree().get_root().get_node("LayerManager").player_2_remnants
-	var crafter = load("res://Game Elements/Remnants/crafter.tres")
+	var crafter = preload("res://Game Elements/Remnants/crafter.tres")
 	for rem in remnants:
-		if rem.remnant_name == crafter.remnant_name:
+		if rem.remnant_name == crafter.remnant_name and rem.active:
 			if rem.variable_1_values[rem.rank-1] > randf()*100:
-				var particle =  load("res://Game Elements/Particles/crafter_particles.tscn").instantiate()
+				var particle =  preload("res://Game Elements/Particles/crafter_particles.tscn").instantiate()
 				particle.position = self.position
 				get_parent().add_child(particle)
 				return false

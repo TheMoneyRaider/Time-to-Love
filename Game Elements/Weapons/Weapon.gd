@@ -70,6 +70,19 @@ static func create_weapon(resource_location : String, current_owner : Node2D):
 	return new_weapon
 
 func request_attacks(direction : Vector2, char_position : Vector2, node_attacking : Node, flip : int = 1):
+	#GAMBLER
+	var temp_spread = attack_spread
+	var temp_random = random_spread
+	if node_attacking.is_in_group("player"):
+		var remnants  = node_attacking.LayerManager.player_1_remnants if node_attacking.is_purple else node_attacking.LayerManager.player_2_remnants
+		var gambler = preload("res://Game Elements/Remnants/gambler.tres")
+		for rem in remnants:
+			if rem.remnant_name == gambler.remnant_name:
+				attack_spread = rem.variable_1_values[rem.rank-1]
+				random_spread = true
+				num_attacks += rem.variable_2_values[rem.rank-1]
+				
+	
 	
 	var attack_direction
 	if(!split_attacks):
@@ -99,6 +112,15 @@ func request_attacks(direction : Vector2, char_position : Vector2, node_attackin
 	else:
 		var attack_position = attack_direction * spawn_distance + char_position
 		spawn_attack(attack_direction,attack_position,node_attacking,"",flip)
+	
+	if node_attacking.is_in_group("player"):
+		var remnants  = node_attacking.LayerManager.player_1_remnants if node_attacking.is_purple else node_attacking.LayerManager.player_2_remnants
+		var gambler = preload("res://Game Elements/Remnants/gambler.tres")
+		for rem in remnants:
+			if rem.remnant_name == gambler.remnant_name:
+				attack_spread = temp_spread
+				random_spread = temp_random
+				num_attacks -= rem.variable_2_values[rem.rank-1]
 
 func spawn_attack(attack_direction : Vector2, attack_position : Vector2, node_attacking : Node = null,particle_effect : String = "", flip : int = 1, variant : bool = false):
 	if !c_owner:
@@ -143,10 +165,11 @@ func apply_remnants(attack_instance):
 	var remnants : Array[Remnant]
 	if c_owner != null && c_owner.is_in_group("player"):
 		var mancer_value = 0
-		var terramancer = load("res://Game Elements/Remnants/terramancer.tres")
-		var aeromancer = load("res://Game Elements/Remnants/aeromancer.tres")
-		var hydromancer = load("res://Game Elements/Remnants/hydromancer.tres")
-		var intelligence = load("res://Game Elements/Remnants/intelligence.tres")
+		var terramancer = preload("res://Game Elements/Remnants/terramancer.tres")
+		var aeromancer = preload("res://Game Elements/Remnants/aeromancer.tres")
+		var hydromancer = preload("res://Game Elements/Remnants/hydromancer.tres")
+		var intelligence = preload("res://Game Elements/Remnants/intelligence.tres")
+		var longshot = preload("res://Game Elements/Remnants/longshot.tres")
 		if c_owner.is_purple:
 			remnants = c_owner.get_tree().get_root().get_node("LayerManager").player_1_remnants
 			mancer_value = c_owner.mancermancer_values[0]
@@ -155,29 +178,33 @@ func apply_remnants(attack_instance):
 			mancer_value = c_owner.mancermancer_values[1]
 		attack_instance.intelligence = null
 		for rem in remnants:
-			match rem.remnant_name:
-				terramancer.remnant_name:
-					if c_owner.velocity.length() <= .1:
-						attack_instance.scale = attack_instance.scale * (1 + (mancer_value / 4) + rem.variable_2_values[rem.rank-1] / 4)
-						attack_instance.hit_force = attack_instance.hit_force * (1 + mancer_value + rem.variable_2_values[rem.rank-1] / 4)
-						attack_instance.knockback_force = attack_instance.knockback_force * (1 + (mancer_value / 2) + rem.variable_2_values[rem.rank-1] / 4)
-				aeromancer.remnant_name:
-					var similarity = attack_instance.direction.normalized().dot(c_owner.velocity.normalized())
-					if(attack_instance.speed != 0):
-						#Possibly add a min so it can't go lower than base damage? 
-						#Nah thats lame
-						attack_instance.damage = abs(attack_instance.damage * (((similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed) /  attack_instance.speed))
-						attack_instance.speed = ((similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed)
-					else:
-						attack_instance.damage = abs(attack_instance.damage * ((similarity * (.005) * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100) + 1))
-						attack_instance.speed = (.5 * similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100)
-				hydromancer.remnant_name:
-					attack_instance.last_liquid = c_owner.last_liquid
-					c_owner.last_liquid = Globals.Liquid.Buffer
-				intelligence.remnant_name:
-					attack_instance.intelligence = rem.duplicate(true)
-				_:
-					pass
+			if rem.active:
+				match rem.remnant_name:
+					terramancer.remnant_name:
+						if c_owner.velocity.length() <= .1:
+							attack_instance.scale = attack_instance.scale * (1 + (mancer_value / 4) + rem.variable_2_values[rem.rank-1] / 4)
+							attack_instance.hit_force = attack_instance.hit_force * (1 + mancer_value + rem.variable_2_values[rem.rank-1] / 4)
+							attack_instance.knockback_force = attack_instance.knockback_force * (1 + (mancer_value / 2) + rem.variable_2_values[rem.rank-1] / 4)
+					aeromancer.remnant_name:
+						var similarity = attack_instance.direction.normalized().dot(c_owner.velocity.normalized())
+						if(attack_instance.speed != 0):
+							#Possibly add a min so it can't go lower than base damage? 
+							#Nah thats lame
+							attack_instance.damage = abs(attack_instance.damage * (((similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed) /  attack_instance.speed))
+							attack_instance.speed = ((similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed)
+						else:
+							attack_instance.damage = abs(attack_instance.damage * ((similarity * (.005) * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100) + 1))
+							attack_instance.speed = (.5 * similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100)
+					hydromancer.remnant_name:
+						attack_instance.last_liquid = c_owner.last_liquid
+						c_owner.last_liquid = Globals.Liquid.Buffer
+					intelligence.remnant_name:
+						attack_instance.intelligence = rem.duplicate(true)
+					longshot.remnant_name:
+						if(pierce >= 0):
+							attack_instance.pierce += rem.rank
+					_:
+						pass
 
 
 var laser_camera_distancex = 240
@@ -185,7 +212,7 @@ var laser_camera_distancey = 128
 func start_special(special_direction : Vector2, node_attacking : Node):
 	match type:
 		"Laser_Sword":
-			var mesh_inst = load("res://Game Elements/Attacks/sword_special.tscn").instantiate()
+			var mesh_inst = preload("res://Game Elements/Attacks/sword_special.tscn").instantiate()
 			node_attacking.LayerManager.room_instance.add_child(mesh_inst)
 
 			special_nodes.append(mesh_inst)
@@ -199,13 +226,14 @@ func start_special(special_direction : Vector2, node_attacking : Node):
 			
 		"Crowbar":
 			print("Start Crowbar")
-			var setup = load("res://Game Elements/Attacks/crowbar_special/setup.tscn").instantiate()
+			var setup = preload("res://Game Elements/Attacks/crowbar_special/setup.tscn").instantiate()
 			setup.tilemaplayer = node_attacking.LayerManager.room_instance.get_node("Ground")
 			setup.available_tiles = node_attacking.LayerManager.placable_cells
 			setup.global_position = node_attacking.global_position+special_direction*48
 			node_attacking.LayerManager.room_instance.add_child(setup)
 
 			special_nodes.append(setup)
+			use_normal_attack(special_direction, setup.global_position,node_attacking)
 		_ :
 			pass
 
@@ -306,20 +334,20 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 					special_start_damage = damage
 				if(special_time_elapsed <= 3.0):
 					damage += (special_start_damage / 1.2) * time_elapsed
-				var effect = load("res://Game Elements/Effects/max_charge.tres").duplicate(true)
+				var effect = preload("res://Game Elements/Effects/max_charge.tres").duplicate(true)
 				effect.cooldown = 20*time_elapsed
 				effect.value1 = 0.15
 				effect.gained(c_owner)
 				Effects.append(effect)
 				if(special_time_elapsed >= 2.0):
-					effect = load("res://Game Elements/Effects/slow_down.tres").duplicate(true)
+					effect = preload("res://Game Elements/Effects/slow_down.tres").duplicate(true)
 					effect.cooldown = 1*time_elapsed
 					effect.value1 = 0.0
 					effect.gained(c_owner)
 					Effects.append(effect)
 			"Railgun":
 				if(special_time_elapsed <= 1.0):
-					var effect = load("res://Game Elements/Effects/rail_charge.tres").duplicate(true)
+					var effect = preload("res://Game Elements/Effects/rail_charge.tres").duplicate(true)
 					effect.cooldown = 20*time_elapsed
 					effect.value1 = 0.04
 					effect.gained(c_owner)
@@ -328,7 +356,7 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 					var check_forward
 					if special_nodes.size() < 1:
 						node_attacking.create_tween().tween_property(node_attacking.weapon_node.get_node("Sprite2D"),"modulate",Color(1.0, 0.0, 0.0, 1.0),1.0)
-						var inst = load("res://Game Elements/Attacks/railgun_laser.tscn").instantiate()
+						var inst = preload("res://Game Elements/Attacks/railgun_laser.tscn").instantiate()
 						special_nodes.append(inst)
 						inst.global_position = node_attacking.global_position + inst.size/-2.0 + special_direction*spawn_distance
 						check_forward = cast_ray(node_attacking.global_position, special_direction, 1600,node_attacking)
@@ -339,7 +367,7 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 					check_forward = cast_ray(node_attacking.global_position, special_direction, 1600,node_attacking)
 					special_nodes[0].update_points(node_attacking.global_position+special_direction*spawn_distance,check_forward.position)
 					
-					var effect = load("res://Game Elements/Effects/tether.tres").duplicate(true)
+					var effect = preload("res://Game Elements/Effects/tether.tres").duplicate(true)
 					effect.cooldown = 20*time_elapsed
 					effect.value1 = 0.02
 					effect.gained(c_owner)
@@ -415,7 +443,7 @@ func use_normal_attack(special_direction : Vector2, special_position : Vector2, 
 					
 				else:
 					print("Punt")
-					var attack = load("res://Game Elements/Attacks/crowbar_special/crowbar_projectile.tscn").instantiate()
+					var attack = preload("res://Game Elements/Attacks/crowbar_special/crowbar_projectile.tscn").instantiate()
 					attack.room_root = node_attacking.LayerManager.room_instance
 					attack.mask = special_nodes[0]
 					attack.global_position = special_nodes[0].global_position
@@ -438,22 +466,26 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 			"Laser_Sword":
 				sword_special_attack(special_direction,node_attacking)
 			"Crossbow":
-				if(special_time_elapsed >= 5.0):
+				if(special_time_elapsed >= 3.0):
 					damage += (special_start_damage / 2)
-				if(special_time_elapsed >= 1.0):
 					
-					node_attacking.player_special_reset()
-					pierce = pierce + 1
-					scale = scale * 1.2
-					spawn_attack(special_direction,special_position, node_attacking,"burn_particles")
-					current_special_hits = 0
-					scale = scale / 1.2
-					damage = special_start_damage
-					pierce = pierce - 1
-					if node_attacking.weapons[0] == self:
-						node_attacking.emit_signal("special_changed",false,0.0)
-					else:
-						node_attacking.emit_signal("special_changed",true,0.0)
+				node_attacking.player_special_reset()
+				pierce = pierce + 2
+				scale = scale * 1.2
+				speed = speed - 100
+				var temp_attack_scene = attack_scene
+				attack_scene = "res://Game Elements/Attacks/giant_bolt.tscn"
+				spawn_attack(special_direction,special_position, node_attacking,"burn_particles")
+				current_special_hits = 0
+				scale = scale / 1.2
+				speed = speed + 100
+				damage = special_start_damage
+				attack_scene = temp_attack_scene
+				pierce = pierce - 2
+				if node_attacking.weapons[0] == self:
+					node_attacking.emit_signal("special_changed",false,0.0)
+				else:
+					node_attacking.emit_signal("special_changed",true,0.0)
 			"Railgun":
 				node_attacking.create_tween().tween_property(node_attacking.weapon_node.get_node("Sprite2D"),"modulate",Color(1.0, 1.0, 1.0, 1.0),1.0)
 				if(special_time_elapsed > 1.0):
@@ -477,7 +509,7 @@ func cast_ray(origin: Vector2, direction: Vector2, distance: float, player_node 
 	return space.intersect_ray(query)
 
 func mace_special_attack(attack_direction : Vector2, attack_position : Vector2):
-	var instance = load("res://Game Elements/Attacks/mace_special.tscn").instantiate()
+	var instance = preload("res://Game Elements/Attacks/mace_special.tscn").instantiate()
 	attack_position = attack_position + (attack_direction * 30)
 	instance.direction = attack_direction
 	instance.global_position = attack_position

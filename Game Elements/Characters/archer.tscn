@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://bky5i1giu1st8"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_w832q"]
-[ext_resource type="PackedScene" uid="uid://xvgc7jxjo4ip" path="res://Game Elements/Attacks/bolt.tscn" id="2_djlis"]
+[ext_resource type="PackedScene" uid="uid://dqdvwpir6b8oo" path="res://Game Elements/Attacks/archer_bolt.tscn" id="2_3tt6f"]
 [ext_resource type="Shader" uid="uid://jwdy7amsrtqm" path="res://Game Elements/Characters/spawn_transition.gdshader" id="2_dm2ew"]
 [ext_resource type="BehaviorTree" uid="uid://bpsmxbgw60kcj" path="res://ai/trees/archer.tres" id="4_w832q"]
 [ext_resource type="Texture2D" uid="uid://pjw0msy2kxfl" path="res://art/characters/archer/Archers.png" id="5_djlis"]
@@ -117,15 +117,17 @@ y_sort_enabled = true
 collision_layer = 4
 collision_mask = 9
 script = ExtResource("1_w832q")
+max_health = 8.0
 hit_range = 75
+agro_distance = 300.0
 enemy_type = "archer"
 displays = Array[NodePath]([NodePath("Sprite2D")])
-min_timefabric = 15
-max_timefabric = 25
+min_timefabric = 6
+max_timefabric = 12
 max_sprint_cooldown = 4.0
 sprint_multiplier = 3.0
 move_speed = 60.0
-attacks = [ExtResource("2_djlis")]
+attacks = [ExtResource("2_3tt6f")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 y_sort_enabled = true

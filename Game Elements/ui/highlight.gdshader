@@ -12,6 +12,7 @@ uniform float Position : hint_range(0, 1) = 0;
 uniform float Position_Min = 0.25;
 uniform float Position_Max = 0.5;
 uniform float Alpha : hint_range(0, 1) = 1;
+uniform bool active = true;
 
 vec2 rotate_uv(vec2 uv, vec2 center, float rotation, bool use_degrees){
 		float _angle = rotation;
@@ -27,52 +28,60 @@ vec2 rotate_uv(vec2 uv, vec2 center, float rotation, bool use_degrees){
 		return _delta + center;
 	}
 
+
+
 void fragment() {
+	if(active){
+		vec2 center_uv = UV - vec2(0.5, 0.5);
+		float gradient_to_edge = max(abs(center_uv.x), abs(center_uv.y));
+		gradient_to_edge = gradient_to_edge * Distortion;
+		gradient_to_edge = 1.0 - gradient_to_edge;
+		vec2 rotaded_uv = rotate_uv(UV, vec2(0.5, 0.5), Rotation_deg, true);
 
-	vec2 center_uv = UV - vec2(0.5, 0.5);
-	float gradient_to_edge = max(abs(center_uv.x), abs(center_uv.y));
-	gradient_to_edge = gradient_to_edge * Distortion;
-	gradient_to_edge = 1.0 - gradient_to_edge;
-	vec2 rotaded_uv = rotate_uv(UV, vec2(0.5, 0.5), Rotation_deg, true);
-
-	float remapped_position;
-	{
-		float output_range = Position_Max - Position_Min;
-		remapped_position = Position_Min + output_range * Position;
-	}
-
-	float remapped_time = (TIME - start_time) * Speed + remapped_position;
-	remapped_time = clamp(remapped_time, 0.0, 1.0);
-	{
-		float output_range = 2.0 - (-2.0);
-		remapped_time = -2.0 + output_range * remapped_time;
-	}
-
-	vec2 offset_uv = vec2(rotaded_uv.xy) + vec2(remapped_time, 0.0);
-	float line = vec3(offset_uv, 0.0).x;
-	line = abs(line);
-	line = gradient_to_edge * line;
-	line = sqrt(line);
-
-	float line_smoothness = clamp(Line_Smoothness, 0.001, 1.0);
-	float offset_plus = Line_Width + line_smoothness;
-	float offset_minus = Line_Width - line_smoothness;
-
-	float remapped_line;
-	{
-		float input_range = offset_minus - offset_plus;
-		remapped_line = (line - offset_plus) / input_range;
-	}
-	remapped_line = remapped_line * Brightness;
-	remapped_line = min(remapped_line, Alpha);
-	if (remapped_line >0.0){
-		vec4 new_col;
-		new_col.a = 0.0;
-		new_col.rgb = vec3(1.0,1.0,1.0) * vec3(1.0-remapped_line);
-		new_col.rgb = 1.0 - new_col.rgb;
-		if(COLOR.a >0.0){
-			new_col.a = remapped_line;
-			COLOR = new_col;
+		float remapped_position;
+		{
+			float output_range = Position_Max - Position_Min;
+			remapped_position = Position_Min + output_range * Position;
 		}
+
+		float remapped_time = (TIME - start_time) * Speed + remapped_position;
+		remapped_time = clamp(remapped_time, 0.0, 1.0);
+		{
+			float output_range = 2.0 - (-2.0);
+			remapped_time = -2.0 + output_range * remapped_time;
+		}
+
+		vec2 offset_uv = vec2(rotaded_uv.xy) + vec2(remapped_time, 0.0);
+		float line = vec3(offset_uv, 0.0).x;
+		line = abs(line);
+		line = gradient_to_edge * line;
+		line = sqrt(line);
+
+		float line_smoothness = clamp(Line_Smoothness, 0.001, 1.0);
+		float offset_plus = Line_Width + line_smoothness;
+		float offset_minus = Line_Width - line_smoothness;
+
+		float remapped_line;
+		{
+			float input_range = offset_minus - offset_plus;
+			remapped_line = (line - offset_plus) / input_range;
+		}
+		remapped_line = remapped_line * Brightness;
+		remapped_line = min(remapped_line, Alpha);
+		if (remapped_line >0.0){
+			vec4 new_col;
+			new_col.a = 0.0;
+			new_col.rgb = vec3(1.0,1.0,1.0) * vec3(1.0-remapped_line);
+			new_col.rgb = 1.0 - new_col.rgb;
+			if(COLOR.a >0.0){
+				new_col.a = remapped_line;
+				COLOR = new_col;
+			}
+		}
+	}else{
+		vec4 col = texture(TEXTURE,UV);
+		float lum = dot(col.rgb, vec3(0.299, 0.587, 0.114));
+		vec3 gray_col = vec3(lum);
+		COLOR = vec4(gray_col,col.a);
 	}
 }

@@ -8,9 +8,11 @@ var ten_reward_num
 var time_passed = 0.0
 
 func _ready() -> void:
+	var offset = $Cracks.global_position+Vector2(8,32)
+	print(offset)
 	for node in get_node("Tentacles").get_children():
 		if node.is_in_group("tentacle"):
-			node.set_hole($Cracks.global_position+Vector2(8,32))
+			node.set_hole(offset)
 		if node.is_in_group("holds_reward"):
 			node.shrink(.88)
 	$Cracks.enabled = false
@@ -52,7 +54,7 @@ func check_rewards(player_node : Node) -> bool:
 						if layer_manager.is_multiplayer:
 							layer_manager.player2.change_health(5.0,5.0)
 						layer_manager.player1.change_health(5.0,5.0)
-						var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+						var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 						particle.global_position = item.global_position
 						layer_manager.room_instance.add_child(particle)
 						item.queue_free()
@@ -61,7 +63,7 @@ func check_rewards(player_node : Node) -> bool:
 						if layer_manager.is_multiplayer:
 							layer_manager.player2.change_health(5.0)
 						layer_manager.player1.change_health(5.0)
-						var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+						var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 						particle.global_position = item.global_position
 						layer_manager.room_instance.add_child(particle)
 						item.queue_free()
@@ -157,19 +159,19 @@ func _on_tentacle_reached_hole(tentacle: Node) -> void:
 				elif layer_manager.player1.current_health == layer_manager.player1.max_health:
 					reward_type = null
 				if reward_type!= null:
-					ten_reward_num[reward_value] = ten_reward_num[reward_value]/2.0
+					ten_reward_num[reward_value] = ten_reward_num[reward_value]/5.0
 	match reward_type:
 		Globals.Reward.Remnant:
-			reward = load("res://Game Elements/Objects/remnant_orb.tscn").instantiate()
+			reward = preload("res://Game Elements/Objects/remnant_orb.tscn").instantiate()
 			reward.set_meta("reward_type", "remnant")
 		Globals.Reward.RemnantUpgrade:
-			reward = load("res://Game Elements/Objects/upgrade_orb.tscn").instantiate()
+			reward = preload("res://Game Elements/Objects/upgrade_orb.tscn").instantiate()
 			reward.set_meta("reward_type", "remnantupgrade")
 		Globals.Reward.HealthUpgrade:
-			reward = load("res://Game Elements/Objects/health_upgrade.tscn").instantiate()
+			reward = preload("res://Game Elements/Objects/health_upgrade.tscn").instantiate()
 			reward.set_meta("reward_type", "healthupgrade")
 		Globals.Reward.Health:
-			reward = load("res://Game Elements/Objects/health.tscn").instantiate()
+			reward = preload("res://Game Elements/Objects/health.tscn").instantiate()
 			reward.set_meta("reward_type", "health")
 	
 	get_node("Items").add_child(reward)
@@ -182,7 +184,18 @@ func _on_tentacle_reached_hole(tentacle: Node) -> void:
 	var feet = reward.get_node_or_null("Feet")
 	if feet !=null:
 		feet.queue_free()
-	reward.set_cost(200)
+	match reward.get_meta("reward_type"):
+		"remnant":
+			reward.set_cost(300)
+		"healthupgrade":
+			reward.set_cost(200)
+		"health":
+			reward.set_cost(150)
+		"remnantupgrade":
+			reward.set_cost(300)
+		_:
+			reward.set_cost(250)
+	#reward.set_cost(200)
 
 func quadratic_bezier(p0: Vector2, p1: Vector2, p2: Vector2, t: float) -> Vector2:
 	var q0 := p0.lerp(p1, t)

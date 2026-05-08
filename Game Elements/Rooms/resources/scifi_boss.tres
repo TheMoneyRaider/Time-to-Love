@@ -6,6 +6,7 @@
 script = ExtResource("1_0e604")
 scene_location = "res://Game Elements/Bosses/scifi/boss_room.tscn"
 noise_seed = null
+trap_types = Array[int]([1])
 num_enemy_goal = 0
 roomtype = 3
 letter_goal = 0

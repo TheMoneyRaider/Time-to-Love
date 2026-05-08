@@ -20,7 +20,7 @@ shader_parameter/tendril_thickness = 20.0
 shader_parameter/tendril_waviness = 18.206000627285
 shader_parameter/tendril_speed = 1.5
 shader_parameter/view_offset = Vector2(0, 0)
-shader_parameter/range_start = 1.50000007125
+shader_parameter/range_start = 1.5000000712500001
 shader_parameter/range_end = 2.50000011875
 
 [node name="Settings" type="Node2D"]

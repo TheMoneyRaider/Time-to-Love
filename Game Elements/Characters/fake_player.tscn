@@ -1,7 +1,7 @@
 [gd_scene load_steps=18 format=3 uid="uid://ing4lokwwifl"]
 
 [ext_resource type="Script" uid="uid://dmm75b80hjtpr" path="res://Game Elements/Characters/fake_player.gd" id="1_dwurg"]
-[ext_resource type="Texture2D" uid="uid://bse7gaxbkiksd" path="res://art/Sprout Lands - Sprites - Basic pack/Characters/Basic Purple Spritesheet-export.png" id="2_lpbgk"]
+[ext_resource type="Texture2D" uid="uid://dj72ghb0k7x4n" path="res://art/Sprout Lands - Sprites - Basic pack/Characters/purple_spritesheet.png" id="2_levjs"]
 [ext_resource type="Script" uid="uid://dcpvhpj3f8luc" path="res://Game Elements/States/idle.gd" id="3_levjs"]
 [ext_resource type="Script" uid="uid://dwkcar82gxuft" path="res://Game Elements/States/move.gd" id="4_ckvp8"]
 [ext_resource type="Script" uid="uid://btup6tc7rnbka" path="res://Game Elements/States/attack.gd" id="5_ke8d0"]
@@ -191,7 +191,7 @@ shape = SubResource("RectangleShape2D_k8dsg")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 y_sort_enabled = true
-texture = ExtResource("2_lpbgk")
+texture = ExtResource("2_levjs")
 hframes = 4
 vframes = 4
 

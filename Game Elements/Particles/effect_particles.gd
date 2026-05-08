@@ -20,7 +20,8 @@ func _ready() -> void:
 			process_material.color_ramp = color_range3
 		_:
 			pass
-	emitting = true
+	if one_shot:
+		emitting = true
 var duration =0.0
 func _process(delta: float) -> void:
 	if one_shot:

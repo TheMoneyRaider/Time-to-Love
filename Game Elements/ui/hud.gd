@@ -13,7 +13,6 @@ var enemy_angles : bool = false
 @onready var LeftCooldownBar = $RootControl/Left_Bottom_Corner/CooldownBar
 @onready var RightCooldownBar = $RootControl/Right_Bottom_Corner/CooldownBar
 @onready var IconSlotScene = preload("res://Game Elements/ui/remnant_icon.tscn")
-const HIGHLIGHT_SHADER := preload("res://Game Elements/ui/highlight.gdshader")
 @onready var combo1 = $RootControl/Left_Bottom_Corner/Combo
 @onready var combo2 = $RootControl/Right_Bottom_Corner/Combo
 var pause_menu : Node = null
@@ -43,7 +42,7 @@ func _ready():
 func set_timefabric_amount(timefabric_collected : int):
 	$RootControl/VBoxContainer/HorizontalSlice/TimeFabric/HBoxContainer/Label.text = str(timefabric_collected)
 
-func set_remnant_icons(player1_remnants: Array, player2_remnants: Array, ranked_up1: Array[String] = [], ranked_up2: Array[String] = []):
+func set_remnant_icons(player1_remnants: Array, player2_remnants: Array, ranked_up1: Array = [], ranked_up2: Array = [], deactived_remnants : Array[Remnant] = []):
 	
 	for rem in player1_remnants:
 		Globals.record_remnant(rem.remnant_name, rem.rank)
@@ -57,9 +56,9 @@ func set_remnant_icons(player1_remnants: Array, player2_remnants: Array, ranked_
 	await get_tree().process_frame
 	for remnant in player1_remnants:
 		if ranked_up1.has(remnant.remnant_name):
-			_add_slot($RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/LeftRemnants, remnant,true,true)
+			_add_slot($RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/LeftRemnants, remnant,true,true,deactived_remnants)
 		else:
-			_add_slot($RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/LeftRemnants, remnant,false,true)
+			_add_slot($RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/LeftRemnants, remnant,false,true,deactived_remnants)
 			
 	# --- Populate RIGHT (R->L per row with padding) ---
 	var right_grid = $RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/RightRemnants
@@ -84,9 +83,9 @@ func set_remnant_icons(player1_remnants: Array, player2_remnants: Array, ranked_
 		for item in visual_row:
 			if item is Remnant:  # normal remnant
 				if ranked_up2.has(item.remnant_name):
-					_add_slot(right_grid, item,true,false)
+					_add_slot(right_grid, item,true,false,deactived_remnants)
 				else:
-					_add_slot(right_grid, item,false,false)
+					_add_slot(right_grid, item,false,false,deactived_remnants)
 			else:  # dummy Control
 				right_grid.add_child(item)
 
@@ -100,7 +99,7 @@ func set_remnant_icons(player1_remnants: Array, player2_remnants: Array, ranked_
 	if pause_menu:
 		_setup_focus_connections()
 	
-func _add_slot(grid: Node, remnant: Resource, has_ranked : bool = false, is_purple_icon : bool = false):
+func _add_slot(grid: Node, remnant: Resource, has_ranked : bool = false, is_purple_icon : bool = false,deactived_remnants : Array[Remnant] = []):
 	var slot := IconSlotScene.instantiate()
 	var label := slot.get_node("Label")
 	if has_ranked:
@@ -109,13 +108,16 @@ func _add_slot(grid: Node, remnant: Resource, has_ranked : bool = false, is_purp
 		label.text = _num_to_roman(remnant.rank)
 	grid.add_child(slot)
 	slot.setup(remnant,is_purple_icon)
+	slot.get_node("TextureRect").material.set_shader_parameter("active", remnant.active)
+	if remnant in deactived_remnants:
+		var particles = load("res://Game Elements/Particles/steal_particles.tscn").instantiate()
+		slot.add_child(particles)
 	if has_ranked:
-		var mat := ShaderMaterial.new()
-		mat.shader = HIGHLIGHT_SHADER
-		mat.set_shader_parameter("start_time", Time.get_ticks_msec() / 1000.0)
-		slot.get_node("TextureRect").material = mat
+		slot.get_node("TextureRect").material.set_shader_parameter("start_time", Time.get_ticks_msec() / 1000.0)
 		await get_tree().create_timer(.5, false).timeout
 		label.text = _num_to_roman(remnant.rank)
+	else:
+		slot.get_node("TextureRect").material.set_shader_parameter("start_time", (Time.get_ticks_msec() - 3000.0) / 1000.0)
 
 func _setup_focus_connections():
 	var left_grid = $RootControl/VBoxContainer/HorizontalSlice/RemnantIcons/LeftRemnants
@@ -428,6 +430,10 @@ func move_to_pathway():
 
 func kill_enemies():
 	var LayerManager =  get_parent()
+	if LayerManager.room_instance_data.roomtype==Globals.RoomType.Boss and RoomManager.current_progress >=3.0:
+		for tent in LayerManager.room_instance.get_node("Shop/Tentacles").get_children():
+			tent.queue_free()
+		return
 	for node in LayerManager.room_instance.get_children():
 		if node.is_in_group("enemy"):
 			node.current_health = -1.0
@@ -545,6 +551,8 @@ func hide_boss_bar():
 
 func update_bossbar(prog : float):
 	$RootControl/VBoxContainer/BossBar/Overlay.material.set_shader_parameter("progress",prog)
+func update_bossbar2(prog : float):
+	$RootControl/VBoxContainer/BossBar/Overlay.material.set_shader_parameter("progress2",prog)
 
 func show_boss_bar(underlay : Texture2D = null,overlay : Texture2D = null, boss_string : String = "", settings : LabelSettings = null,index : int = -1, prog : float = 1.0):
 	var bossbar = $RootControl/VBoxContainer/BossBar
