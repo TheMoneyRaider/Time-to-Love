@@ -46,6 +46,7 @@ var/player_idx/hint_string = ""
 [sub_resource type="BTAction" id="BTAction_76wjc"]
 custom_name = "AdjustedPlayerPos"
 script = ExtResource("1_6c74n")
+dist_to_player = 150.0
 
 [sub_resource type="BTAction" id="BTAction_3ccgm"]
 script = ExtResource("2_ttuuy")
@@ -79,6 +80,7 @@ script = ExtResource("3_sangl")
 
 [sub_resource type="BTAction" id="BTAction_1kwu6"]
 script = ExtResource("4_igs55")
+target_to_player = 150.0
 
 [sub_resource type="BTAction" id="BTAction_ppdyw"]
 script = ExtResource("5_e13xs")
@@ -102,7 +104,7 @@ max_time = 2.0
 [sub_resource type="BTAction" id="BTAction_yg7nc"]
 custom_name = "OuterRange"
 script = ExtResource("7_j6oj5")
-hit_range = 120
+hit_range = 10000
 
 [sub_resource type="BTAction" id="BTAction_2flr3"]
 custom_name = "MoveToPlayer"
@@ -111,7 +113,7 @@ script = ExtResource("8_3h7x8")
 [sub_resource type="BTAction" id="BTAction_h7qfk"]
 custom_name = "InnerRange"
 script = ExtResource("7_j6oj5")
-hit_range = 50
+hit_range = 2000
 
 [sub_resource type="BBNode" id="BBNode_1kwu6"]
 saved_value = NodePath("AnimationPlayer")
