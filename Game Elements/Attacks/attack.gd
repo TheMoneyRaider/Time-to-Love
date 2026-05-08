@@ -20,6 +20,7 @@ var direction = Vector2.RIGHT
 @export var wall_collision = true
 #If the attack damages walls
 @export var wall_damage = false
+@export var bounces = 0
 var hit_nodes = {}
 #The attack type
 @export var attack_type : String = ""
@@ -285,6 +286,7 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 				return 0
 		body.take_damage(damage_dealt,n_owner,a_direction,self, i_frames,creates_indicators)
 		return 1
+	
 	if wall_damage:
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(0, n_owner,a_direction, self,null)
 	return -1
@@ -315,9 +317,28 @@ func intersection(body):
 			0:
 				pass
 			-1:
-				pierce -= 1
-				if(wall_collision):
-					queue_free()
+				if (attack_type == "bolt"):
+					print("attack hit wall?")
+				if bounces > 0:
+					bounces -= 1
+					# Cast a short ray forward to get the wall's surface normal
+					var space = get_world_2d().direct_space_state
+					var query = PhysicsRayQueryParameters2D.create(
+						global_position,
+						global_position + direction.normalized() * 32
+					)
+					query.collide_with_areas = false
+					query.collide_with_bodies = true
+					query.collision_mask = 1 << 0
+					var result = space.intersect_ray(query)
+					if result:
+						direction = direction.bounce(result.normal)
+						rotation = direction.angle() + PI/2
+						hit_nodes.clear()  # allow re-hitting after bounce
+				else:
+					pierce -= 1
+					if wall_collision:
+						queue_free()
 	if pierce == -1:
 		queue_free()
 
