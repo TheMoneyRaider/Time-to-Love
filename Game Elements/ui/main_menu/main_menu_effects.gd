@@ -32,12 +32,6 @@ var paused : bool = true
 
 var hover_cooldown: float = 0.0
 
-var songs = [
-	preload("res://Game Elements/Music/main.wav"),
-	preload("res://Game Elements/Music/main.wav"),
-	preload("res://Game Elements/Music/main.wav")
-]
-
 func _ready():
 	if Globals.cinematic_viewed:
 		paused = false
@@ -102,17 +96,16 @@ func _begin_explosion_cooldown():
 		cooldown = randf_range(2,4)
 		exploaded = true
 
-			
-
 func start_menu_music():
 	$AudioStreamPlayer.bus = "Music"
-	$AudioStreamPlayer.stream = songs[Globals.menu]
-	$AudioStreamPlayer.volume_db = -80.0
+	$AudioStreamPlayer.stream = preload("res://Game Elements/Music/main_start.wav")
+	$AudioStreamPlayer.volume_db = 0.0  # ← was -80.0
 	$AudioStreamPlayer.play()
-	var song_types = ["western", "sci-fi", "midieval"]
-	print("Playing: " + song_types[Globals.menu] + "\n" + str(songs[Globals.menu]))
-	var tween = create_tween()
-	tween.tween_property($AudioStreamPlayer, "volume_db", 0.0, 2.0)
+
+	$AudioStreamPlayer.finished.connect(func():
+		$AudioStreamPlayer.stream = preload("res://Game Elements/Music/main_loop.wav")
+		$AudioStreamPlayer.play()
+	, CONNECT_ONE_SHOT)
 	
 func _process(delta):
 	hover_cooldown -=delta
