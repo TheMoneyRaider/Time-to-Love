@@ -109,15 +109,7 @@ func _begin_explosion_cooldown():
 		exploaded = true
 
 func start_menu_music():
-	$AudioStreamPlayer.bus = "Music"
-	$AudioStreamPlayer.stream = preload("res://Game Elements/Music/main_start.wav")
-	$AudioStreamPlayer.volume_db = 0.0
-	$AudioStreamPlayer.play()
-
-	$AudioStreamPlayer.finished.connect(func():
-		$AudioStreamPlayer.stream = preload("res://Game Elements/Music/main_loop.wav")
-		$AudioStreamPlayer.play()
-	, CONNECT_ONE_SHOT)
+	music_manager.play_theme("main")
 	
 	
 func _process(delta):
