@@ -35,15 +35,22 @@ var paused : bool = true
 var hover_cooldown: float = 0.0
 
 func _ready():
-	print("cinematic_viewed: ", Globals.cinematic_viewed)
 	if Globals.cinematic_viewed:
 		paused = false
 		$Intro.visible = false
-		print("calling start_menu_music from _ready")
 		start_menu_music()
 	else:
-		print("starting animation")
 		$Intro/AnimationPlayer.play("main")
+		# After 60 seconds, skip to end and start music
+		get_tree().create_timer(65.0).timeout.connect(func():
+			if paused:  # only if not already skipped manually
+				$Intro/AnimationPlayer.stop()
+				$Intro.visible = false
+				$Intro/AudioStreamPlayer.stop()
+				Globals.cinematic_viewed = true
+				paused = false
+				start_menu_music()
+		)
 	Title.texture = title_textures[Globals.menu]
 	fragmenting = Globals.config.get_value("fragmentation", "enabled", true)
 	if capture_all_states:
