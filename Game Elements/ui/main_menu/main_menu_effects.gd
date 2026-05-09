@@ -21,6 +21,8 @@ class UIState:
 @onready var prepared = false
 var capture_all_states: bool = false
 @export var saved_fragments_paths: Array[String] = ["res://Game Elements/ui/main_menu/BreakFXSavedWestern.tres","res://Game Elements/ui/main_menu/BreakFXSavedSpace.tres","res://Game Elements/ui/main_menu/BreakFXSavedMedieval.tres"]
+var intro_started: bool = false
+
 
 var last_mouse_pos : Vector2
 var ui_textures: Dictionary = {}
@@ -33,11 +35,14 @@ var paused : bool = true
 var hover_cooldown: float = 0.0
 
 func _ready():
+	print("cinematic_viewed: ", Globals.cinematic_viewed)
 	if Globals.cinematic_viewed:
 		paused = false
 		$Intro.visible = false
+		print("calling start_menu_music from _ready")
 		start_menu_music()
 	else:
+		print("starting animation")
 		$Intro/AnimationPlayer.play("main")
 	Title.texture = title_textures[Globals.menu]
 	fragmenting = Globals.config.get_value("fragmentation", "enabled", true)
@@ -107,18 +112,23 @@ func start_menu_music():
 		$AudioStreamPlayer.play()
 	, CONNECT_ONE_SHOT)
 	
+	
 func _process(delta):
-	hover_cooldown -=delta
-	$ColorRect.material.set_shader_parameter("time", $ColorRect.material.get_shader_parameter("time")+delta)
+	hover_cooldown -= delta
+	$ColorRect.material.set_shader_parameter("time", $ColorRect.material.get_shader_parameter("time") + delta)
 	if paused:
+		if !intro_started:
+			intro_started = true
+			return
 		if $Intro/AnimationPlayer.is_playing():
 			return
 		else:
+			print("_process: animation finished naturally")
 			$Intro.visible = false
 			$Intro/AnimationPlayer.stop()
 			$Intro/AudioStreamPlayer.stop()
 			Globals.cinematic_viewed = true
-			paused=false
+			paused = false
 			start_menu_music()
 	if !fragmenting:
 		return
@@ -160,8 +170,6 @@ func _process(delta):
 		cooldown = 1
 		rewind_ui(cooldown)
 		
-	
-	
 
 func fragment_disruption():
 	if get_viewport() and last_mouse_pos.distance_to(get_viewport().get_mouse_position()) >10:
@@ -423,7 +431,7 @@ func _on_focus_entered() -> void:
 	if hover_cooldown <= 0.0:
 		print("playing audio")
 		$UIHover.play()
-		hover_cooldown = 0.1
+		hover_cooldown = 0.025
 
 func button_state(input_type : String, active : bool):
 	if input_type == "key":
