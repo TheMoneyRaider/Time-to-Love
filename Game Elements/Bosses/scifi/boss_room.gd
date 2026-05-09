@@ -171,10 +171,6 @@ func scifi_phase2_to_3():
 	playback.travel("idle")
 	await get_tree().create_timer(4, false).timeout
 	s_material.set_shader_parameter("ultimate", false)
-	print("finsihed phase change")
-	print(phase)
-	print(boss.phase)
-	print(boss.current_health)
 	
 
 var lifetime = 0.0
@@ -278,7 +274,6 @@ func _on_enemy_take_damage(_damage : float,current_health : int,_enemy : Node, d
 	if boss_type == "scifi":
 		var mini_phase1 = int(( boss_health1 / boss.max_health ) * 3)
 		var mini_phase2 = int(( boss_health2 / boss.max_health ) * 3)
-		print("P1: "+str(mini_phase1)+"P2: "+str(mini_phase2))
 		if  mini_phase1 != 3 and mini_phase1 >  mini_phase2:
 			scifi_phase1_middles()
 		
@@ -620,8 +615,6 @@ func activate(camera_in : Node, player1_in : Node, player2_in : Node):
 	player1.input_direction = Vector2.UP
 	player1.update_animation_parameters(player1.input_direction)
 	player1.update_animation_parameters(Vector2.ZERO)
-	print(player1.disabled)
-	print(player1)
 	if is_multiplayer:
 		player2 = player2_in
 		player2.disabled = true

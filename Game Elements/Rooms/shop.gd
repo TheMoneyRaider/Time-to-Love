@@ -9,7 +9,6 @@ var time_passed = 0.0
 
 func _ready() -> void:
 	var offset = $Cracks.global_position+Vector2(8,32)
-	print(offset)
 	for node in get_node("Tentacles").get_children():
 		if node.is_in_group("tentacle"):
 			node.set_hole(offset)

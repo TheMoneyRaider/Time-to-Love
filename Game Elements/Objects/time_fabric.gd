@@ -98,7 +98,6 @@ func flash_expire(delta : float, max_lifetime: float) -> void:
 		flash_timer = 0.0
 	
 	var flash = (flash_timer < flash_interval * 0.5)
-	print(flash_interval)
 	sprite.self_modulate = Color.WHITE if flash else Color(0.393, 0.393, 0.393, 1.0)
 
 

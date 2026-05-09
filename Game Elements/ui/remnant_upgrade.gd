@@ -85,8 +85,6 @@ func popup_upgrade(player1_remnants_in : Array, player2_remnants_in : Array):
 			_place_orange_selectable(slot_nodes[i],upgrade_remnants[i])
 
 	visible = true
-	print(slot_nodes)
-	print(slot_nodes.size()-1)
 	hover_index2 = slot_nodes.size()-1
 	if Globals.is_multiplayer:
 		if Globals.player1_input =="key":

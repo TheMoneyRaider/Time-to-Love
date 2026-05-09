@@ -629,7 +629,6 @@ func tether(delta : float):
 		else:
 			single_toggle = false
 			var direct = (crosshair.position).normalized()
-			print(direct)
 			tether_momentum = direct*32
 			other_player.enable(self,direct,!is_purple)
 			var remnants : Array[Remnant]

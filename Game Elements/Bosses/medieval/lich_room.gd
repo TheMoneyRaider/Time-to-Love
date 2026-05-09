@@ -231,8 +231,6 @@ func activate(camera_in : Node, player1_in : Node, player2_in : Node):
 	player1.input_direction = Vector2.UP
 	player1.update_animation_parameters(player1.input_direction)
 	player1.update_animation_parameters(Vector2.ZERO)
-	print(player1.disabled)
-	print(player1)
 	if is_multiplayer:
 		player2 = player2_in
 		player2.disabled = true

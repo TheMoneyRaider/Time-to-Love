@@ -83,7 +83,7 @@ func _ready() -> void:
 	hud.connect_signals(player1)
 	hud.set_cross_position()
 	
-	#dev_remnants()
+	dev_remnants()
 	
 	
 	
@@ -1619,12 +1619,16 @@ func _on_remnant_chosen(remnant1 : Resource, remnant2 : Resource):
 func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : bool = true):
 	var mancermancer = preload("res://Game Elements/Remnants/mancermancer.tres")
 	var giant = preload("res://Game Elements/Remnants/giant.tres")
+	var lawman = preload("res://Game Elements/Remnants/lawman.tres")
 	if gained:
 		if(remnant.remnant_name == mancermancer.remnant_name) and remnant.active:
 			if is_purple:
 				player.mancermancer_values[0] = remnant.rank
 			else:
 				player.mancermancer_values[1] = remnant.rank
+		if(remnant.remnant_name == lawman.remnant_name) and remnant.active:
+			var lawman_aura = preload("res://Game Elements/Remnants/lawman/lawman.tscn").instantiate()
+			player.add_child(lawman_aura)
 		if(remnant.remnant_name == giant.remnant_name) and remnant.active:
 			if(player.is_purple == is_purple):
 				player.scale = player.scale * 1.5
@@ -1797,18 +1801,18 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 
 
 func dev_remnants():
-	var rem = load("res://Game Elements/Remnants/gambler.tres")
-	rem.rank = 5
+	var rem = load("res://Game Elements/Remnants/lawman.tres")
+	rem.rank = 4
 	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/giant.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
+	#player_2_remnants.append(rem.duplicate(true))
+	#rem = load("res://Game Elements/Remnants/giant.tres")
+	#rem.rank = 5
+	#player_1_remnants.append(rem.duplicate(true))
+	#remnant_update(rem,player1,true)
+	#rem = load("res://Game Elements/Remnants/mancermancer.tres")
+	#rem.rank = 5
+	#player_2_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,true)
-	rem = load("res://Game Elements/Remnants/mancermancer.tres")
-	rem.rank = 5
-	player_2_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,false)
 	#rem = load("res://Game Elements/Remnants/thorns.tres")
 	#rem.rank = 5
 	#player_1_remnants.append(rem.duplicate(true))
@@ -2006,7 +2010,6 @@ func move_to_limbo_phase_2():
 
 	room_instance = next_room
 	_placable_locations()
-	print(placable_cells.size())
 	apply_shared_noise_offset(room_instance)
 	
 	# Teleport player to the entrance of the next room

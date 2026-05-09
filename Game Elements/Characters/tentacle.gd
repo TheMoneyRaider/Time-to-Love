@@ -99,7 +99,6 @@ func activate():
 		.6
 	)
 	await tween.finished
-	print(tentacle.light_color)
 	if abs(tentacle.light_color.r - 1.0) < .01:
 		spawn_enemies(int(randf()*8+8),"res://Game Elements/Characters/tentacle1.tscn")
 	if abs(tentacle.light_color.g - 1.0) < .01:
