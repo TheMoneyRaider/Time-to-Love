@@ -113,13 +113,10 @@ func start_menu_music():
 	$AudioStreamPlayer.stream = preload("res://Game Elements/Music/main_start.wav")
 	$AudioStreamPlayer.volume_db = 0.0
 	$AudioStreamPlayer.play()
-	print("playing start track")
 
 	$AudioStreamPlayer.finished.connect(func():
-		print("start finished, switching to loop")
 		$AudioStreamPlayer.stream = preload("res://Game Elements/Music/main_loop.wav")
 		$AudioStreamPlayer.play()
-		print("loop playing, stream: ", $AudioStreamPlayer.stream)
 	, CONNECT_ONE_SHOT)
 	
 	
