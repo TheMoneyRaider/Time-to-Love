@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_qhvxm"]
 [ext_resource type="PackedScene" uid="uid://cu73mawav6818" path="res://Game Elements/Attacks/magic_bolt.tscn" id="2_nm403"]
-[ext_resource type="Texture2D" uid="uid://d3eo07d3trqu8" path="res://art/big-t_128x128.png" id="3_f2uui"]
+[ext_resource type="Texture2D" uid="uid://d3eo07d3trqu8" path="res://art/characters/big-t/big-t_128x128.png" id="3_f2uui"]
 [ext_resource type="BehaviorTree" uid="uid://cvov2hu7nu1qy" path="res://ai/trees/archlich.tres" id="4_n4i00"]
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="5_e752t"]
 

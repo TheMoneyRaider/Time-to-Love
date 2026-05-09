@@ -65,8 +65,8 @@ var testing_room : Room = preload("res://Game Elements/Rooms/resources/weapon_ro
 
 
 var bosses : Array[Room] = [preload("res://Game Elements/Rooms/resources/medieval_boss.tres"),
-						preload("res://Game Elements/Rooms/resources/scifi_boss.tres"),
 						preload("res://Game Elements/Rooms/resources/western_boss.tres"),
+						preload("res://Game Elements/Rooms/resources/scifi_boss.tres"),
 						preload("res://Game Elements/Rooms/resources/limbo_boss.tres")
 						]
 
@@ -81,8 +81,9 @@ var normal_rooms : Array = []
 var shop_rooms : Array = []
 
 func get_room(room : Room):
-	if room.roomtype != Globals.RoomType.Boss:
+	if room.roomtype != Globals.RoomType.Boss: # for testing western boss, remember to comment out at some point
 		return bosses[1]
+		
 	var index = int(current_progress) if room.roomtype != Globals.RoomType.Boss else int(current_progress+1.0)
 	if index >= 3:
 		index = randi() % 3
