@@ -3,8 +3,8 @@ var mouse_sensitivity: float = 1.0
 
 @export var base_move_speed: float = 100
 var move_speed: float
-@export var max_health: float = 20.0 #TEST
-@export var current_health: float = 20.0 #TEST
+@export var max_health: float = 10.0 #TEST
+@export var current_health: float = 10.0 #TEST
 @onready var current_dmg_time: float = 0.0
 @onready var current_liquid_time: float = 0.0
 @onready var in_instant_trap: bool = false
@@ -311,7 +311,7 @@ func _physics_process(delta):
 	tether(delta)
 	if is_tethered:
 		if is_multiplayer:
-			input_direction += (tether_momentum / move_speed) * 2.0
+			input_direction += (tether_momentum / move_speed) * 1.5
 		else:
 			input_direction += (tether_momentum / move_speed) * 5.0
 	weapon_node.weapon_direction = (crosshair.position).normalized()
@@ -618,6 +618,10 @@ func _check_giant():
 	
 
 func tether(delta : float):
+	if(input_device != "key"):
+		if Input.is_action_just_pressed("quick_swap_" + input_device):
+			if(!is_multiplayer):
+				swap_color()
 	if Input.is_action_just_pressed("swap_" + input_device):
 		if is_multiplayer:
 			tether_momentum += (other_player.position - position)
@@ -625,6 +629,7 @@ func tether(delta : float):
 		else:
 			single_toggle = false
 			var direct = (crosshair.position).normalized()
+			print(direct)
 			tether_momentum = direct*32
 			other_player.enable(self,direct,!is_purple)
 			var remnants : Array[Remnant]
@@ -659,7 +664,7 @@ func tether(delta : float):
 			else:
 				tether_momentum *= .92
 			single_swap_duration = 0.0
-		print(single_swap_duration)
+		#print(single_swap_duration)
 	if !single_toggle and Input.is_action_pressed("swap_" + input_device) and (is_multiplayer or (global_position-other_player.global_position).length() >=6 or single_swap_duration <.25):
 		if single_swap_duration+delta >=.25 and single_swap_duration <.25:
 			is_tethered = true

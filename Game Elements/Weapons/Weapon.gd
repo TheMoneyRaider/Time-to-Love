@@ -182,7 +182,7 @@ func apply_remnants(attack_instance):
 				match rem.remnant_name:
 					terramancer.remnant_name:
 						if c_owner.velocity.length() <= .1:
-							attack_instance.scale = attack_instance.scale * (1 + (mancer_value / 4) + rem.variable_2_values[rem.rank-1] / 4)
+							attack_instance.scale = attack_instance.scale * (1 + (mancer_value / 4.0) + rem.variable_2_values[rem.rank-1] / 4.0)
 							attack_instance.hit_force = attack_instance.hit_force * (1 + mancer_value + rem.variable_2_values[rem.rank-1] / 4)
 							attack_instance.knockback_force = attack_instance.knockback_force * (1 + (mancer_value / 2) + rem.variable_2_values[rem.rank-1] / 4)
 					aeromancer.remnant_name:

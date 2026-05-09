@@ -7,6 +7,7 @@ var player_input_device = "key"
 var mouse_sensitivity = 1.0
 var debug_mode = false
 var mouse_clamping_enabled = true
+var input_direction = Vector2.ZERO
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -27,7 +28,6 @@ func load_settings():
 	debug_mode = Globals.config.get_value("debug", 'enabled', false)
 
 func _process(_delta: float) -> void:
-	var input_direction = Vector2.ZERO
 	if(player_input_device != "key"):
 		input_direction = Input.get_vector("look_left_" + player_input_device, "look_right_" + player_input_device, "look_up_" + player_input_device, "look_down_" + player_input_device).normalized()
 		if(input_direction != Vector2(0,0)):

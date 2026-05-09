@@ -41,6 +41,7 @@ func enable(player : Node, direction : Vector2, is_purple_in : bool):
 	global_position = player.global_position
 	_pending_teleport = true
 	linear_velocity = Vector2.ZERO
+	await get_tree().physics_frame
 	apply_impulse(direction* speed, Vector2.ZERO)
 	input_direction = direction
 	is_purple = is_purple_in
