@@ -220,6 +220,7 @@ func _input(event):
 			if get_node("Intro"):
 				$Intro.visible = false
 				$Intro/AnimationPlayer.stop()
+				$Intro/AudioStreamPlayer.stop()
 				start_menu_music()
 			Globals.cinematic_viewed = true
 			paused=false
