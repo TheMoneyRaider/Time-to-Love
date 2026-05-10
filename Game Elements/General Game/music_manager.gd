@@ -17,7 +17,8 @@ var loop_tracks = {
 	"main":		preload("res://Game Elements/Music/main_loop.wav"),
 	"western":	preload("res://Game Elements/Music/western_loop.wav"),
 	"scifi":	preload("res://Game Elements/Music/sci-fi_loop.wav"),
-	"medieval":	preload("res://Game Elements/Music/medieval.wav")
+	"medieval":	preload("res://Game Elements/Music/medieval.wav"),
+	"shop": 	preload("res://Game Elements/Music/shopkeeper.wav")
 }
 
 func _ready():
