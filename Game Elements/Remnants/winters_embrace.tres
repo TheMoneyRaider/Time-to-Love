@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("2_24lu2")
-remnant_name = "Remnant of Winters Embrace"
+remnant_name = "Remnant of The Cryomancer"
 description = "Whenever you hit an enemy they are slowed down by $X% for $Y seconds."
 icon = ExtResource("2_ti0sv")
 art = ExtResource("1_okrky")

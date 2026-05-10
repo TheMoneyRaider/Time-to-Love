@@ -22,6 +22,7 @@ pierce = -2.0
 wall_collision = false
 attack_type = "shatter"
 deflects = true
+i_frames = 0
 repeat_hits = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

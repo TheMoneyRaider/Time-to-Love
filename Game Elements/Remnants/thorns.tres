@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("3_6a7c0")
-remnant_name = "Remnant of Thorns"
+remnant_name = "Remnant of The Druid"
 description = "Enemies $X also take damage when you take damage."
 icon = ExtResource("2_i1h4b")
 art = ExtResource("1_iqg4q")

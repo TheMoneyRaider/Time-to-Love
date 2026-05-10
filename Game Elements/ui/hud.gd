@@ -29,6 +29,12 @@ var player2_combo = 1.0
 var player2_combo_inc = 1.0
 var player2_combo_max = 1.0
 
+var music_player_a: AudioStreamPlayer
+var music_player_b: AudioStreamPlayer
+var active_player: AudioStreamPlayer
+var inactive_player: AudioStreamPlayer
+var current_song_idx: int = -1
+
 func _ready():
 	$RootControl/VBoxContainer/Noti.modulate.a = 0.0
 	combo1.visible = false
@@ -38,6 +44,16 @@ func _ready():
 	load_settings()
 	display_debug_setting_header()
 	
+	music_player_a = AudioStreamPlayer.new()
+	music_player_a.bus = "Music"
+	add_child(music_player_a)
+
+	music_player_b = AudioStreamPlayer.new()
+	music_player_b.bus = "Music"
+	add_child(music_player_b)
+
+	active_player = music_player_a
+	inactive_player = music_player_b
 
 func set_timefabric_amount(timefabric_collected : int):
 	$RootControl/VBoxContainer/HorizontalSlice/TimeFabric/HBoxContainer/Label.text = str(timefabric_collected)

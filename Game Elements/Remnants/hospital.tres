@@ -1,16 +1,21 @@
-[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://yg2541ywfctr"]
+[gd_resource type="Resource" script_class="Remnant" load_steps=7 format=3 uid="uid://yg2541ywfctr"]
 
 [ext_resource type="Texture2D" uid="uid://d2vuantmwf808" path="res://art/remnants/hospital.png" id="1_waxin"]
 [ext_resource type="Texture2D" uid="uid://bd5865h2fujam" path="res://art/remnants/hospital_icon.png" id="2_tgoow"]
 [ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_sjfgh"]
+[ext_resource type="Resource" uid="uid://cjhrcacnh878s" path="res://Game Elements/Remnants/cleric.tres" id="4_sjfgh"]
+[ext_resource type="Resource" uid="uid://cmotiux0slpys" path="res://Game Elements/Remnants/healer.tres" id="5_vx756"]
+[ext_resource type="Resource" uid="uid://do61egp5p5k0k" path="res://Game Elements/Remnants/blood_moon.tres" id="6_vx756"]
 
 [resource]
 script = ExtResource("3_sjfgh")
-remnant_name = "Remnant of the Hospital"
+remnant_name = "Remnant of The Doctor"
 description = "Whenever you heal, heal for $X% more."
 icon = ExtResource("2_tgoow")
 art = ExtResource("1_waxin")
 progress_required = 1.0
+required_remnants = Array[ExtResource("3_sjfgh")]([ExtResource("4_sjfgh"), ExtResource("5_vx756"), ExtResource("6_vx756")])
+num_rem_required = 1
 variable_names = Array[String](["$X"])
 variable_1_values = [5, 10, 15, 20, 25]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

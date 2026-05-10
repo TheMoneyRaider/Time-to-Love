@@ -83,6 +83,7 @@ start_lag = 0.05
 pierce = -2.0
 wall_collision = false
 attack_type = "explosion"
+i_frames = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_oynju")

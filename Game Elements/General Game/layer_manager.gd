@@ -68,6 +68,8 @@ var is_multiplayer = Globals.is_multiplayer
 @onready var PathwayViewport =  $PathwayViewport
 @onready var PathwayTransition =  $game_container/game_viewport/game_root/Camera2D/PathwayTransition
 
+var current_song_idx: int = -1
+
 func _ready() -> void:
 	$game_container.material = $game_container.material.duplicate(true)
 	var conflict_cells : Array[Vector2i] = []
@@ -126,8 +128,17 @@ func _ready() -> void:
 	pathfinding.setup_from_room(room_instance.get_node("Ground"), room_instance.blocked_cells, room_instance.trap_cells,room_instance.liquid_cells)
 	_prepare_timefabric()
 	PathwayTransition.material.set_shader_parameter("mask_texture", PathwayTransition.get_texture())
-	#TEST
-	#move_to_limbo_phase_2()
+	
+	music_player_a = AudioStreamPlayer.new()
+	music_player_a.bus = "Music"
+	add_child(music_player_a)
+	music_player_b = AudioStreamPlayer.new()
+	music_player_b.bus = "Music"
+	add_child(music_player_b)
+	active_player = music_player_a
+	inactive_player = music_player_b
+	
+	play_timeline_music()
 
 func _process(delta: float) -> void:
 	if PathwayViewport.get_children().size() > 0: 
@@ -224,6 +235,36 @@ func _process(delta: float) -> void:
 					if child.is_in_group("pathway") and !child.used and child.active:
 						pathways.append(child)
 				awareness_display.set_array(pathways.duplicate(),2)
+
+var music_player_a: AudioStreamPlayer
+var music_player_b: AudioStreamPlayer
+var active_player: AudioStreamPlayer
+var inactive_player: AudioStreamPlayer
+
+# In _ready(), replace the music player creation with:
+
+func play_timeline_music() -> void:
+	
+	var themes = [
+		"medieval",
+		"western",
+		"scifi",
+		"shop",
+	]
+	
+	var active_theme
+	if room_instance_data.roomtype == Globals.RoomType.Shop:
+		active_theme = themes[3]
+	else:
+		var progress = RoomManager.current_progress
+		if progress < 1.0:
+			active_theme = themes[0]
+		elif progress < 2.0:
+			active_theme = themes[1]
+		else:
+			active_theme = themes[2]
+	
+	music_manager.play_theme(active_theme)
 
 func create_new_rooms() -> void:
 	if thread_running:
@@ -455,12 +496,12 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 						return true
 					node.queue_free()
 					_open_remnant_popup()
-					base_reward_probabilities[0] *= .9
+					#base_reward_probabilities[0] *= .9
 					return true
 			"TimeFabricOrb":
 				if player_reference in node.tracked_bodies:
 					timefabric_rewarded = 200 #TODO change this to by dynamic(ish)
-					base_reward_probabilities[0] *= .8
+					#base_reward_probabilities[0] *= .8
 					return true
 			"UpgradeOrb":
 				if player_reference in node.tracked_bodies:
@@ -470,7 +511,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 						return true
 					node.queue_free()
 					_open_upgrade_popup()
-					base_reward_probabilities[0] *= .9
+					#base_reward_probabilities[0] *= .9
 					return true
 			"HealthUpgrade":
 				if player_reference in node.tracked_bodies:
@@ -481,7 +522,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					particle.position = node.position
 					generated_room.add_child(particle)
 					node.queue_free()
-					base_reward_probabilities[0] *= .8
+					#base_reward_probabilities[0] *= .8
 					return true
 			"Health":
 				if player_reference in node.tracked_bodies:
@@ -506,11 +547,12 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					#node.queue_free()
 					#return true
 		if node.is_in_group("weapon_select"):
-			if player_reference in node.tracked_bodies:
-				player_reference.update_weapon(node.weapon_type)
-				hud.set_cooldown_icons()
-				#node.queue_free()
-				return true
+			if(node.enabled == true):
+				if player_reference in node.tracked_bodies:
+					player_reference.update_weapon(node.weapon_type)
+					hud.set_cooldown_icons()
+					#node.queue_free()
+					return true
 		if node.is_in_group("letter"):
 			if player_reference in node.tracked_bodies:
 				node.spawn_letter()
@@ -1358,6 +1400,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	
 	room_cleared= false
 	reward_claimed = false
+	play_timeline_music()
 	
 	var enemies : Array[Node]= []
 	
@@ -1493,6 +1536,7 @@ func _on_player_take_damage(damage_amount : float,_current_health : float,_playe
 func _on_enemy_take_damage(damage : float,current_health : int,enemy : Node, direction = Vector2(0,-1)) -> void:
 	RoomManager.layer_ai[5]+=damage
 	if current_health <= 0.0:
+		var has_death_attack = false
 		for node in get_tree().get_nodes_in_group("attack"):
 			if node.c_owner == enemy:
 				if node.has_method("clear_effects"):
@@ -1506,13 +1550,22 @@ func _on_enemy_take_damage(damage : float,current_health : int,enemy : Node, dir
 			attack_instance.global_position = enemy.global_position
 			room_instance.call_deferred("add_child",attack_instance)
 		if(enemy.purple_explode):
-			var attack_instance = load("res://Game Elements/Attacks/explosion.tscn").instantiate()
+			var attack_instance = load("res://Game Elements/Attacks/enemy_explosion.tscn").instantiate()
 			attack_instance.modulate = Color("bb20ff")
 			attack_instance.scale = attack_instance.scale * 2
 			attack_instance.damage = 5
 			attack_instance.c_owner = enemy
 			attack_instance.global_position = enemy.global_position
 			room_instance.call_deferred("add_child",attack_instance)
+			has_death_attack = true
+		if(enemy.cactus_explode):
+			for i in range(0,12):
+				var attack_instance = preload("res://Game Elements/Attacks/cactus_spine.tscn").instantiate()
+				attack_instance.c_owner = enemy
+				attack_instance.global_position = enemy.global_position
+				attack_instance.direction = Vector2.RIGHT.rotated(i * 2 * PI / 12)
+				room_instance.call_deferred("add_child", attack_instance)
+		
 		enemy.clear_effects()
 		var health_chance = randf()
 		var percentage_health_missing
@@ -1521,12 +1574,18 @@ func _on_enemy_take_damage(damage : float,current_health : int,enemy : Node, dir
 				percentage_health_missing = ((player1.max_health - player1.current_health) + (player2.max_health - player2.current_health)) / (player1.max_health + player2.max_health)
 			else:
 				percentage_health_missing = (player1.max_health - player1.current_health) / (player1.max_health)
-			if(100 * health_chance <= (percentage_health_missing * 4)):
+			if(100 * health_chance <= (percentage_health_missing * 6)):
 				_place_health_up(Vector2i.ZERO,enemy.global_position,direction)
 		_enemy_to_timefabric(enemy,direction,Vector2(enemy.min_timefabric,enemy.max_timefabric))
 		enemy.visible=false
-		enemy.queue_free()
-		RoomManager.layer_ai[7]+=1
+		if(has_death_attack == true):
+			enemy.hitable = false
+			await get_tree().create_timer(2).timeout
+			enemy.queue_free()
+			RoomManager.layer_ai[7]+=1
+		else:
+			enemy.queue_free()
+			RoomManager.layer_ai[7]+=1
 
 func _on_remnant_chosen(remnant1 : Resource, remnant2 : Resource):
 	player_1_remnants.append(remnant1.duplicate(true))
@@ -1578,8 +1637,6 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 		
 	player.display_combo()
 	
-
-
 
 func _on_remnant_upgraded(remnant1 : Resource, remnant2 : Resource):
 	var mancermancer = preload("res://Game Elements/Remnants/mancermancer.tres")
@@ -1856,7 +1913,7 @@ func dev_remnants():
 	#rem.rank = 4
 	#player_1_remnants.append(rem.duplicate(true))
 	#player_2_remnants.append(rem.duplicate(true))
-	#rem = load("res://Game Elements/Remnants/winters_embrace.tres")
+	#var rem = load("res://Game Elements/Remnants/winters_embrace.tres")
 	#rem.rank = 4
 	#player_1_remnants.append(rem.duplicate(true))
 	#player_2_remnants.append(rem.duplicate(true))

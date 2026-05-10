@@ -288,7 +288,11 @@ static func _spawn_enemy(cell: Vector2i, scene: Node, enemy: PackedScene, layer_
 		
 		
 	if layer_manager.room_instance_data.roomtype == Globals.RoomType.Boss:
+		if !inst:
+			return
 		await inst.get_tree().process_frame
+		if !inst:
+			return
 		await inst.get_tree().process_frame
 		if !inst:
 			return

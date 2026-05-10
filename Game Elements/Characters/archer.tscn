@@ -1,23 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://bky5i1giu1st8"]
+[gd_scene load_steps=15 format=3 uid="uid://bky5i1giu1st8"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_w832q"]
 [ext_resource type="PackedScene" uid="uid://dqdvwpir6b8oo" path="res://Game Elements/Attacks/archer_bolt.tscn" id="2_3tt6f"]
-[ext_resource type="Shader" uid="uid://jwdy7amsrtqm" path="res://Game Elements/Characters/spawn_transition.gdshader" id="2_dm2ew"]
 [ext_resource type="BehaviorTree" uid="uid://bpsmxbgw60kcj" path="res://ai/trees/archer.tres" id="4_w832q"]
 [ext_resource type="Texture2D" uid="uid://pjw0msy2kxfl" path="res://art/characters/archer/Archers.png" id="5_djlis"]
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="6_dm2ew"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_llnr1"]
-shader = ExtResource("2_dm2ew")
-shader_parameter/progress = 1.0
-shader_parameter/noise_density = 60.0
-shader_parameter/beam_size = 0.10000000405148
-shader_parameter/color = Color(0, 1, 1, 1)
-shader_parameter/hframes = 10
-shader_parameter/vframes = 44
-shader_parameter/frame = 1
-shader_parameter/quantized = false
-shader_parameter/wipe = true
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_phyc7"]
 size = Vector2(14, 19)
@@ -131,7 +118,6 @@ attacks = [ExtResource("2_3tt6f")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_llnr1")
 position = Vector2(3, 2)
 scale = Vector2(0.6842106, 0.6842106)
 texture = ExtResource("5_djlis")

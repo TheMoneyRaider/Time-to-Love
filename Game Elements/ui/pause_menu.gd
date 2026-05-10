@@ -102,6 +102,7 @@ func _on_menu_pressed():
 		slot_nodes[i].set_enabled(false)
 		slot_nodes[i].hide_visuals(true)
 	get_tree().paused = false
+	Globals.save_config()
 	get_tree().call_deferred("change_scene_to_file", "res://Game Elements/ui/main_menu/main_menu.tscn")
 
 

@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("3_3phi2")
-remnant_name = "Remnant of the Hydromancer"
+remnant_name = "Remnant of The Hydromancer"
 description = "Next attack gains a $X effect after touching a liquid"
 icon = ExtResource("2_538ff")
 art = ExtResource("1_7o63u")

@@ -14,9 +14,9 @@ script = ExtResource("1_7y327")
 speed = 300.0
 lifespan = 0.75
 hit_force = 10.0
-attack_type = "bolt"
+attack_type = "bullet"
 deflectable = true
-i_frames = 4
+i_frames = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -1.5)
