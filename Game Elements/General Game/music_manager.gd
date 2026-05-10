@@ -10,7 +10,8 @@ var start_tracks = {
 	"main":		preload("res://Game Elements/Music/main_start.wav"),
 	"western":	preload("res://Game Elements/Music/western_start.wav"),
 	"scifi": 	preload("res://Game Elements/Music/sci-fi_start.wav"),
-	"medieval":	preload("res://Game Elements/Music/medieval.wav")
+	"medieval":	preload("res://Game Elements/Music/medieval.wav"),
+	"shop":		preload("res://Game Elements/Music/shopkeeper.wav/")
 }
 
 var loop_tracks = {
