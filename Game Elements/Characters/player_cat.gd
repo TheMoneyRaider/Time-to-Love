@@ -33,7 +33,7 @@ var move_speed: float
 @onready var purple_crosshair = preload("res://art/purple_crosshair_with_shadow.png")
 @onready var orange_crosshair = preload("res://art/orange_crosshair_with_shadow.png")
 @onready var purple_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/purple_spritesheet.png")
-@onready var orange_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/Basic Orange Spritesheet-export.png")
+@onready var orange_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/orange_spritesheet.png")
 var other_player
 var disabled = false
 var current_room : Globals.RoomType
@@ -624,7 +624,6 @@ func tether(delta : float):
 			else:
 				tether_momentum *= .92
 			single_swap_duration = 0.0
-		#print(single_swap_duration)
 	if !single_toggle and Input.is_action_pressed("swap_" + input_device) and (is_multiplayer or (global_position-other_player.global_position).length() >=6 or single_swap_duration <.25):
 		if single_swap_duration+delta >=.25 and single_swap_duration <.25:
 			is_tethered = true

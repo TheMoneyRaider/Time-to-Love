@@ -31,11 +31,23 @@ func _process(delta: float) -> void:
 func activate() -> void:
 	get_parent().open_shop()
 
-
 func _on_body_entered(body):
 	if body.is_in_group("player"):
 		tracked_bodies.append(body)
+		prompt1.visible = true
+		_set_display(tracked_bodies[0])
 func _on_body_exited(body):
 	if body in tracked_bodies:
 		tracked_bodies.erase(body)
+	if len(tracked_bodies) == 0:
+		prompt1.visible = false
+	else:
+		_set_display(tracked_bodies[0])
 		
+		
+@export var prompt1 : Node2D
+func _set_display(body : Node):
+	if body.input_device == "key":
+			prompt1.get_child(0).bbcode_text = "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_e_outline[/font]: Inquire"
+	else:
+		prompt1.get_child(0).bbcode_text = "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_cross_outline[/font]: Inquire"

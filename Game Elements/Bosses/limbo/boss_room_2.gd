@@ -119,6 +119,7 @@ func hide_boss():
 		inst.enemy_took_damage.connect(LayerManager._on_enemy_take_damage)
 		if i == index:
 			Hiding_Node = inst
+			inst.hitable = false
 		else:
 			clones.append(inst)
 			inst.hitable = false

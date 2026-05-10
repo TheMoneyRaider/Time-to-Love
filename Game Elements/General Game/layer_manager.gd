@@ -841,14 +841,10 @@ func _enable_pathways() -> void:
 func _upgradable_remnants() -> bool:
 	var count = 0
 	for remnant in player_1_remnants:
-		if remnant.rank != 5:
-			count+=1
-			break
+		count+=1
 	for remnant in player_2_remnants:
-		if remnant.rank != 5:
-			count+=1
-			break
-	if count ==2:
+		count+=1
+	if count >=3:
 		return true
 	return false
 

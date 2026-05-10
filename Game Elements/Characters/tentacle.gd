@@ -99,13 +99,12 @@ func activate():
 		.6
 	)
 	await tween.finished
-	print(tentacle.light_color)
 	if abs(tentacle.light_color.r - 1.0) < .01:
-		spawn_enemies(int(randf()*8+8),"res://Game Elements/Characters/tentacle1.tscn")
+		spawn_enemies(int(randf()*4+4),"res://Game Elements/Characters/tentacle1.tscn")
 	if abs(tentacle.light_color.g - 1.0) < .01:
-		spawn_enemies(int(randf()*4+8),"res://Game Elements/Characters/tentacle2.tscn")
+		spawn_enemies(int(randf()*2+4),"res://Game Elements/Characters/tentacle2.tscn")
 	if abs(tentacle.light_color.b - 1.0) < .01:
-		spawn_enemies(int(randf()*8+12),"res://Game Elements/Characters/tentacle3.tscn")
+		spawn_enemies(int(randf()*4+6),"res://Game Elements/Characters/tentacle3.tscn")
 	
 
 
