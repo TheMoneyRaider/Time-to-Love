@@ -11,7 +11,7 @@ var start_tracks = {
 	"western":	preload("res://Game Elements/Music/western_start.wav"),
 	"scifi": 	preload("res://Game Elements/Music/sci-fi_start.wav"),
 	"medieval":	preload("res://Game Elements/Music/medieval.wav"),
-	"shop":		preload("res://Game Elements/Music/shopkeeper.wav/")
+	"shop": 	preload("res://Game Elements/Music/shopkeeper.wav")
 }
 
 var loop_tracks = {
@@ -19,16 +19,22 @@ var loop_tracks = {
 	"western":	preload("res://Game Elements/Music/western_loop.wav"),
 	"scifi":	preload("res://Game Elements/Music/sci-fi_loop.wav"),
 	"medieval":	preload("res://Game Elements/Music/medieval.wav"),
-	"shop":		preload("res://Game Elements/Music/shopkeeper.wav/")
+	"shop": 	preload("res://Game Elements/Music/shopkeeper.wav")
 }
 
 func _ready():
+	process_mode = Node.PROCESS_MODE_ALWAYS 
+	
 	music_player_a = AudioStreamPlayer.new()
 	music_player_a.bus = "Music"
+	music_player_a.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(music_player_a)
+	
 	music_player_b = AudioStreamPlayer.new()
 	music_player_b.bus = "Music"
+	music_player_b.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(music_player_b)
+	
 	active_player = music_player_a
 	inactive_player = music_player_b
 	
