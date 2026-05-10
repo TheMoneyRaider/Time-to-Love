@@ -68,11 +68,19 @@ var is_multiplayer = Globals.is_multiplayer
 @onready var PathwayViewport =  $PathwayViewport
 @onready var PathwayTransition =  $game_container/game_viewport/game_root/Camera2D/PathwayTransition
 
-var songs = [
-	preload("res://Game Elements/Music/western.wav"),
-	preload("res://Game Elements/Music/sci-fi.wav"),
+var start_tracks = [
+	preload("res://Game Elements/Music/western_start.wav"),
+	preload("res://Game Elements/Music/sci-fi_start.wav"),
 	preload("res://Game Elements/Music/medieval.wav"),
+	preload("res://Game Elements/Music/shopkeeper.wav")
 ]
+var loop_tracks = [
+	preload("res://Game Elements/Music/western_loop.wav"),
+	preload("res://Game Elements/Music/sci-fi_loop.wav"),
+	preload("res://Game Elements/Music/medieval.wav"),
+	preload("res://Game Elements/Music/shopkeeper.wav")
+]
+
 var current_song_idx: int = -1
 
 func _ready() -> void:
@@ -143,7 +151,7 @@ func _ready() -> void:
 	active_player = music_player_a
 	inactive_player = music_player_b
 	
-	play_random_music(2.0)
+	play_timline_music()
 
 func _process(delta: float) -> void:
 	if PathwayViewport.get_children().size() > 0: 
@@ -248,25 +256,28 @@ var inactive_player: AudioStreamPlayer
 
 # In _ready(), replace the music player creation with:
 
-func play_random_music(fade_time: float = 2.0) -> void:
-	var new_idx = current_song_idx
-	while new_idx == current_song_idx:
-		new_idx = randi() % songs.size()
+func play_timline_music() -> void:
+	var new_idx: int
+	if room_instance_data.roomtype == Globals.RoomType.Shop:
+		new_idx = 3  # ← shop track index
+	else:
+		var progress = RoomManager.current_progress
+		if progress < 1.0:
+			new_idx = 2  # medieval
+		elif progress < 2.0:
+			new_idx = 0  # western
+		else:
+			new_idx = 1  # sci-fi
 	current_song_idx = new_idx
+	active_player.stop()
+	inactive_player.stream = start_tracks[current_song_idx]
+	inactive_player.volume_db = 0.0
+	inactive_player.play()	
+	inactive_player.finished.connect(func():
+		inactive_player.stream = loop_tracks[current_song_idx]
+		inactive_player.play()
+	, CONNECT_ONE_SHOT)
 
-	# Fade out active player
-	var tween_out = create_tween()
-	tween_out.tween_property(active_player, "volume_db", -80.0, fade_time)
-	tween_out.tween_callback(active_player.stop)
-
-	# Fade in on inactive player
-	inactive_player.stream = songs[current_song_idx]
-	inactive_player.volume_db = -80.0
-	inactive_player.play()
-	var tween_in = create_tween()
-	tween_in.tween_property(inactive_player, "volume_db", 0.0, fade_time)
-
-	# Swap so next call knows which is active
 	var tmp = active_player
 	active_player = inactive_player
 	inactive_player = tmp
@@ -1409,7 +1420,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	
 	room_cleared= false
 	reward_claimed = false
-	play_random_music(2.0)
+	play_timline_music()
 	
 	var enemies : Array[Node]= []
 	
@@ -1646,8 +1657,6 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 		
 	player.display_combo()
 	
-
-
 
 func _on_remnant_upgraded(remnant1 : Resource, remnant2 : Resource):
 	var mancermancer = preload("res://Game Elements/Remnants/mancermancer.tres")

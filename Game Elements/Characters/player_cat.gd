@@ -624,7 +624,7 @@ func tether(delta : float):
 			else:
 				tether_momentum *= .92
 			single_swap_duration = 0.0
-		print(single_swap_duration)
+		#print(single_swap_duration)
 	if !single_toggle and Input.is_action_pressed("swap_" + input_device) and (is_multiplayer or (global_position-other_player.global_position).length() >=6 or single_swap_duration <.25):
 		if single_swap_duration+delta >=.25 and single_swap_duration <.25:
 			is_tethered = true

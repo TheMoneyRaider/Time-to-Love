@@ -21,6 +21,8 @@ class UIState:
 @onready var prepared = false
 var capture_all_states: bool = false
 @export var saved_fragments_paths: Array[String] = ["res://Game Elements/ui/main_menu/BreakFXSavedWestern.tres","res://Game Elements/ui/main_menu/BreakFXSavedSpace.tres","res://Game Elements/ui/main_menu/BreakFXSavedMedieval.tres"]
+var intro_started: bool = false
+
 
 var last_mouse_pos : Vector2
 var ui_textures: Dictionary = {}
@@ -32,12 +34,6 @@ var paused : bool = true
 
 var hover_cooldown: float = 0.0
 
-var songs = [
-	preload("res://Game Elements/Music/main.wav"),
-	preload("res://Game Elements/Music/main.wav"),
-	preload("res://Game Elements/Music/main.wav")
-]
-
 func _ready():
 	if Globals.cinematic_viewed:
 		paused = false
@@ -45,6 +41,16 @@ func _ready():
 		start_menu_music()
 	else:
 		$Intro/AnimationPlayer.play("main")
+		# After 60 seconds, skip to end and start music
+		get_tree().create_timer(65.0).timeout.connect(func():
+			if paused:  # only if not already skipped manually
+				$Intro/AnimationPlayer.stop()
+				$Intro.visible = false
+				$Intro/AudioStreamPlayer.stop()
+				Globals.cinematic_viewed = true
+				paused = false
+				start_menu_music()
+		)
 	Title.texture = title_textures[Globals.menu]
 	fragmenting = Globals.config.get_value("fragmentation", "enabled", true)
 	if capture_all_states:
@@ -102,30 +108,26 @@ func _begin_explosion_cooldown():
 		cooldown = randf_range(2,4)
 		exploaded = true
 
-			
-
 func start_menu_music():
-	$AudioStreamPlayer.bus = "Music"
-	$AudioStreamPlayer.stream = songs[Globals.menu]
-	$AudioStreamPlayer.volume_db = -80.0
-	$AudioStreamPlayer.play()
-	var song_types = ["western", "sci-fi", "midieval"]
-	print("Playing: " + song_types[Globals.menu] + "\n" + str(songs[Globals.menu]))
-	var tween = create_tween()
-	tween.tween_property($AudioStreamPlayer, "volume_db", 0.0, 2.0)
+	music_manager.play_theme("main")
+	
 	
 func _process(delta):
-	hover_cooldown -=delta
-	$ColorRect.material.set_shader_parameter("time", $ColorRect.material.get_shader_parameter("time")+delta)
+	hover_cooldown -= delta
+	$ColorRect.material.set_shader_parameter("time", $ColorRect.material.get_shader_parameter("time") + delta)
 	if paused:
+		if !intro_started:
+			intro_started = true
+			return
 		if $Intro/AnimationPlayer.is_playing():
 			return
 		else:
+			print("_process: animation finished naturally")
 			$Intro.visible = false
 			$Intro/AnimationPlayer.stop()
 			$Intro/AudioStreamPlayer.stop()
 			Globals.cinematic_viewed = true
-			paused=false
+			paused = false
 			start_menu_music()
 	if !fragmenting:
 		return
@@ -167,8 +169,6 @@ func _process(delta):
 		cooldown = 1
 		rewind_ui(cooldown)
 		
-	
-	
 
 func fragment_disruption():
 	if get_viewport() and last_mouse_pos.distance_to(get_viewport().get_mouse_position()) >10:
@@ -220,6 +220,7 @@ func _input(event):
 			if get_node("Intro"):
 				$Intro.visible = false
 				$Intro/AnimationPlayer.stop()
+				$Intro/AudioStreamPlayer.stop()
 				start_menu_music()
 			Globals.cinematic_viewed = true
 			paused=false
@@ -430,7 +431,7 @@ func _on_focus_entered() -> void:
 	if hover_cooldown <= 0.0:
 		print("playing audio")
 		$UIHover.play()
-		hover_cooldown = 0.1
+		hover_cooldown = 0.025
 
 func button_state(input_type : String, active : bool):
 	if input_type == "key":
