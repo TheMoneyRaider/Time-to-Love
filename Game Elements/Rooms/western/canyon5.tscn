@@ -1,6 +1,6 @@
 [gd_scene load_steps=19 format=4 uid="uid://bqs55e3w6idxl"]
 
-[ext_resource type="Script" uid="uid://bnd3mcg05byuy" path="res://Game Elements/Rooms/western/canyon_1.gd" id="1_wj5j8"]
+[ext_resource type="Script" uid="uid://00rnhke2atmb" path="res://Game Elements/Rooms/room_script.gd" id="1_w8ody"]
 [ext_resource type="PackedScene" uid="uid://ccwiql3bybf2p" path="res://Game Elements/Objects/pathway.tscn" id="2_m2bsy"]
 [ext_resource type="Texture2D" uid="uid://n0bko3km56nl" path="res://Game Elements/General Game/limbo/limbo_noise.tres" id="2_vuvng"]
 [ext_resource type="TileSet" uid="uid://c8bkt55x0nxpj" path="res://art/western_pack/Tilesets/western_tiles_2.tres" id="3_m2bsy"]
@@ -104,7 +104,7 @@ shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
 [node name="Root" type="Node2D"]
-script = ExtResource("1_wj5j8")
+script = ExtResource("1_w8ody")
 
 [node name="PathwayU1_Detect" parent="." instance=ExtResource("2_m2bsy")]
 position = Vector2(235, 720)

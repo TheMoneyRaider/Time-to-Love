@@ -25,7 +25,7 @@ var layer_ai := [
 	0	#Rooms since shop room 			13
 	]
 #the root node of each room MUST BE NAMED Root
-@onready var current_progress = 0.0 #TEST 3.0
+@onready var current_progress = 1.0 #TEST 3.0
 var medieval_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/cave1.tres"),
 								preload("res://Game Elements/Rooms/resources/cave2.tres"),
 								preload("res://Game Elements/Rooms/resources/cave3.tres"),
@@ -40,10 +40,10 @@ var medieval_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources
 
 var western_rooms : Array[Room] = [#preload("res://Game Elements/Rooms/resources/canyon1.tres"),
 								#preload("res://Game Elements/Rooms/resources/canyon2.tres"),
-								preload("res://Game Elements/Rooms/resources/canyon3.tres"),
-								preload("res://Game Elements/Rooms/resources/canyon4.tres"),
-								preload("res://Game Elements/Rooms/resources/canyon5.tres"),
-								preload("res://Game Elements/Rooms/resources/canyon6.tres")]
+								preload("res://Game Elements/Rooms/resources/canyon3.tres")]
+								#preload("res://Game Elements/Rooms/resources/canyon4.tres"),
+								#preload("res://Game Elements/Rooms/resources/canyon5.tres"),
+								#preload("res://Game Elements/Rooms/resources/canyon6.tres")]
 var western_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/shop_cyberspace.tres"),
 								preload("res://Game Elements/Rooms/resources/shop_factory.tres")]
 
