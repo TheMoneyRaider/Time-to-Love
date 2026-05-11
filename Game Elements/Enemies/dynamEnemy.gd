@@ -86,6 +86,8 @@ func handle_attack(target_position: Vector2,attack_index: int = 0):
 		else:
 			request_attack(attacks[0], attack_position + Vector2(0,20), attack_direction)
 			return
+	if enemy_type=="archer":
+		attack_position = attack_position + attack_direction * 10
 	request_attack(attacks[attack_index], attack_position, attack_direction)
 
 func request_attack(t_attack: PackedScene, attack_position: Vector2, attack_direction: Vector2):

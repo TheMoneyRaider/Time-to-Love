@@ -1584,6 +1584,7 @@ func _on_enemy_take_damage(damage : float,current_health : int,enemy : Node, dir
 		enemy.visible=false
 		if(has_death_attack == true):
 			enemy.hitable = false
+			enemy.process_mode = Node.PROCESS_MODE_DISABLED
 			await get_tree().create_timer(2).timeout
 			enemy.queue_free()
 			RoomManager.layer_ai[7]+=1
