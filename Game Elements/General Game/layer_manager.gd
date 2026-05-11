@@ -771,7 +771,7 @@ func _randomize_room_reward(pathway_to_randomize : Node) -> void:
 	#Pass the icon & type to the pathway node
 	pathway_to_randomize.set_reward(reward_type1,wave,reward_type2)
 
-func _choose_reward(pathway_name : String) -> void:
+func _choose_reward(pathway_name : String, reward_setter : int = -1) -> void:
 	var reward_type1 = null
 	var reward_type2 = null
 	var wave = false
@@ -783,50 +783,54 @@ func _choose_reward(pathway_name : String) -> void:
 		reward_type1 = Globals.Reward.Boss
 		room_instance.get_node(pathway_name).set_reward(reward_type1,false,reward_type1)
 		return
-	while reward_type1 == null:
-		var reward_value = calculate_reward(reward_num)
-		var last_reward_num = reward_num.duplicate()
-		if reward_value!= 5 or !wave:
-			match reward_value:
-				0:
-					if !RemnantManager.will_softlock(player_1_remnants,player_2_remnants,false):
-						reward_type1 = Globals.Reward.Remnant
+	if(reward_setter < 0):
+		while reward_type1 == null:
+			var reward_value = calculate_reward(reward_num)
+			var last_reward_num = reward_num.duplicate()
+			if reward_value!= 5 or !wave:
+				match reward_value:
+					0:
+						if !RemnantManager.will_softlock(player_1_remnants,player_2_remnants,false):
+							reward_type1 = Globals.Reward.Remnant
+							reward_num[reward_value] = reward_num[reward_value] * .5
+
+					1:
+						reward_type1 = Globals.Reward.TimeFabric
 						reward_num[reward_value] = reward_num[reward_value] * .5
 
-				1:
-					reward_type1 = Globals.Reward.TimeFabric
-					reward_num[reward_value] = reward_num[reward_value] * .5
-
-				2:
-					if !RemnantManager.will_softlock(player_1_remnants,player_2_remnants,true):
-						if _upgradable_remnants():
-							reward_type1 = Globals.Reward.RemnantUpgrade
-							reward_num[reward_value] = reward_num[reward_value] * .5
-				3:
-					reward_type1 = Globals.Reward.HealthUpgrade
-					reward_num[reward_value] = reward_num[reward_value] * .5
-				4:
-					reward_type1 = Globals.Reward.Health
-					if is_multiplayer:
-						if player1.current_health == player1.max_health and player2.current_health == player2.max_health:
-							reward_type1 = null	
-					elif player1.current_health == player1.max_health:
-						reward_type1 = null
-					if reward_type1!= null:
-						reward_num[reward_value] = reward_num[reward_value] * .5 #Maybe not necessary?
-				5:
-					wave = true
-					reward_num[reward_value] = reward_num[reward_value] * .5
-				#6:
-				#	reward_type1 = Globals.Reward.NewWeapon
-				#	reward_num[reward_value] = reward_num[reward_value]/2.0
-		if wave and reward_type2==null and reward_type1!=null: #Get two rewards
-			reward_type2 = reward_type1
-			reward_type1 = null
-		if reward_type1 == reward_type2: #if a enemy wave room is being made, don't let both rewards be the same
-			reward_type1 = null
-			reward_num = last_reward_num
-	if reward_type2 == null:
+					2:
+						if !RemnantManager.will_softlock(player_1_remnants,player_2_remnants,true):
+							if _upgradable_remnants():
+								reward_type1 = Globals.Reward.RemnantUpgrade
+								reward_num[reward_value] = reward_num[reward_value] * .5
+					3:
+						reward_type1 = Globals.Reward.HealthUpgrade
+						reward_num[reward_value] = reward_num[reward_value] * .5
+					4:
+						reward_type1 = Globals.Reward.Health
+						if is_multiplayer:
+							if player1.current_health == player1.max_health and player2.current_health == player2.max_health:
+								reward_type1 = null	
+						elif player1.current_health == player1.max_health:
+							reward_type1 = null
+						if reward_type1!= null:
+							reward_num[reward_value] = reward_num[reward_value] * .5 #Maybe not necessary?
+					5:
+						wave = true
+						reward_num[reward_value] = reward_num[reward_value] * .5
+					#6:
+					#	reward_type1 = Globals.Reward.NewWeapon
+					#	reward_num[reward_value] = reward_num[reward_value]/2.0
+			if wave and reward_type2==null and reward_type1!=null: #Get two rewards
+				reward_type2 = reward_type1
+				reward_type1 = null
+			if reward_type1 == reward_type2: #if a enemy wave room is being made, don't let both rewards be the same
+				reward_type1 = null
+				reward_num = last_reward_num
+		if reward_type2 == null:
+			reward_type2 = Globals.Reward.Remnant
+	else:
+		reward_type1 = reward_setter
 		reward_type2 = Globals.Reward.Remnant
 	#Pass the icon & type to the pathway node
 	room_instance.get_node(pathway_name).set_reward(reward_type1,wave,reward_type2, possible_weapon)
@@ -1206,8 +1210,10 @@ func _finalize_room_creation(next_room_instance: Node2D, next_room_data: Room, d
 	generated_room_metadata[pathway_detect.name] = next_room_data
 	generated_rooms[pathway_detect.name] = next_room_instance
 	generated_room_conflict[pathway_detect.name] = conflict_cells.duplicate()
-	
-	_choose_reward(pathway_detect.name)
+	if(room_instance_data.roomtype == Globals.RoomType.Misc):
+		_choose_reward(pathway_detect.name,1)
+	else:
+		_choose_reward(pathway_detect.name)
 
 
 var transitioning : bool = false
