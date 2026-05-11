@@ -12,7 +12,7 @@ var input_direction : Vector2 = Vector2.ZERO
 @onready var collision_shape = $CollisionShape2D
 @onready var sprite_2d = $Sprite2D
 @onready var purple_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/purple_spritesheet.png")
-@onready var orange_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/Basic Orange Spritesheet-export.png")
+@onready var orange_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/orange_spritesheet.png")
 
 
 func _ready():

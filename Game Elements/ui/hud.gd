@@ -29,6 +29,12 @@ var player2_combo = 1.0
 var player2_combo_inc = 1.0
 var player2_combo_max = 1.0
 
+var music_player_a: AudioStreamPlayer
+var music_player_b: AudioStreamPlayer
+var active_player: AudioStreamPlayer
+var inactive_player: AudioStreamPlayer
+var current_song_idx: int = -1
+
 func _ready():
 	$RootControl/VBoxContainer/Noti.modulate.a = 0.0
 	combo1.visible = false
@@ -38,6 +44,16 @@ func _ready():
 	load_settings()
 	display_debug_setting_header()
 	
+	music_player_a = AudioStreamPlayer.new()
+	music_player_a.bus = "Music"
+	add_child(music_player_a)
+
+	music_player_b = AudioStreamPlayer.new()
+	music_player_b.bus = "Music"
+	add_child(music_player_b)
+
+	active_player = music_player_a
+	inactive_player = music_player_b
 
 func set_timefabric_amount(timefabric_collected : int):
 	$RootControl/VBoxContainer/HorizontalSlice/TimeFabric/HBoxContainer/Label.text = str(timefabric_collected)
@@ -434,8 +450,16 @@ func kill_enemies():
 		for tent in LayerManager.room_instance.get_node("Shop/Tentacles").get_children():
 			tent.queue_free()
 		return
+	if LayerManager.room_instance_data.roomtype==Globals.RoomType.Boss:
+		if LayerManager.room_instance.get_node_or_null("Shop/Tentacles"):
+			for node in LayerManager.room_instance.get_node("Shop/Tentacles").get_children():
+				if node.is_in_group("enemy") and "current_health" in node:
+					node.current_health = -1.0
+					node.emit_signal("enemy_took_damage",100.0,node.current_health,node,Vector2(0,-1))
+				if node.is_in_group("attack"):
+					node.queue_free()
 	for node in LayerManager.room_instance.get_children():
-		if node.is_in_group("enemy"):
+		if node.is_in_group("enemy") and "current_health" in node:
 			node.current_health = -1.0
 			node.emit_signal("enemy_took_damage",100.0,node.current_health,node,Vector2(0,-1))
 		if node.is_in_group("attack"):

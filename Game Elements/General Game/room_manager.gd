@@ -25,7 +25,7 @@ var layer_ai := [
 	0	#Rooms since shop room 			13
 	]
 #the root node of each room MUST BE NAMED Root
-@onready var current_progress = 1.0 #TEST 3.0
+@onready var current_progress = 0.0 #TEST 3.0
 var medieval_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/cave1.tres"),
 								preload("res://Game Elements/Rooms/resources/cave2.tres"),
 								preload("res://Game Elements/Rooms/resources/cave3.tres"),
@@ -94,7 +94,7 @@ func get_room(room : Room):
 	var base = T + (T - float(layer_ai[8]) / max(layer_ai[0],1))
 	var prob = base + P * layer_ai[13]
 	var shop_override = clamp(prob, 0.0, 1.0)
-	if shop_override > randf() and layer_ai[0] > 3 and room.roomtype != Globals.RoomType.Shop and current_progress < 3.0:
+	if shop_override > randf() and layer_ai[0] > 3 and room.roomtype != Globals.RoomType.Shop and current_progress < 3.0 and room.roomtype != Globals.RoomType.Boss:
 		var shop_index = clamp(int(randf()*shop_rooms[index].size()),0,shop_rooms[index].size()-1)
 		return shop_rooms[index][shop_index]
 	#Removed a  +.01, don't know why that was needed.
