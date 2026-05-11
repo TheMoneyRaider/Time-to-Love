@@ -16,8 +16,12 @@ func load_settings():
 	debug_mode = Globals.config.get_value("debug", "enabled", false)
 	frag_mode = Globals.config.get_value("fragmentation", "enabled", true)
 	$MarginContainer/VBoxContainer/Volume/Volume.value = db_to_percent(Globals.config.get_value("audio", "master", 0))
-	Globals.player1_input = Globals.config.get_value("inputs","player1_input", "key")
-	Globals.player2_input = Globals.config.get_value("inputs","player2_input", "0")
+	if Input.get_connected_joypads().size() == 0:
+		Globals.player1_input = "key"
+		Globals.player2_input = "0"
+	else:
+		Globals.player1_input = Globals.config.get_value("inputs","player1_input", "key")
+		Globals.player2_input = Globals.config.get_value("inputs","player2_input", "0")
 	mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
 	debug_mode = Globals.config.get_value("debug", "enabled", false)
 	

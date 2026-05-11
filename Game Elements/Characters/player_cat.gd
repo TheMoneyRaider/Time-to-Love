@@ -81,6 +81,12 @@ var LayerManager: Node
 var debug_mode : bool = false
 
 func _ready():
+	if Input.get_connected_joypads().size() == 0:
+		Globals.player1_input = "key"
+		Globals.player2_input = "0"
+	else:
+		Globals.player1_input = Globals.config.get_value("inputs","player1_input", "key")
+		Globals.player2_input = Globals.config.get_value("inputs","player2_input", "0")
 	debug_mode = Globals.config.get_value("debug", 'enabled', false)
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	if !is_multiplayer:
