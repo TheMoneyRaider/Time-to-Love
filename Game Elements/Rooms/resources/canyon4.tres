@@ -5,6 +5,9 @@
 [resource]
 script = ExtResource("1_okhwf")
 scene_location = "res://Game Elements/Rooms/western/canyon4.tscn"
+num_liquid = 2
+liquid_types = Array[int]([1, 1])
+liquid_chances = Array[float]([1.0, 1.0])
 noise_seed = null
 trap_types = Array[int]([0])
 num_enemy_goal = 20
