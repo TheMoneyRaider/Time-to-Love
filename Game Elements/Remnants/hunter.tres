@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://cbox4gkaqwbue"]
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://c6u16mrwbb0d0"]
 
 [ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="1_58hmu"]
 [ext_resource type="Texture2D" uid="uid://buubskqgdc4jf" path="res://art/remnants/hunter.png" id="1_uvif7"]

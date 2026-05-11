@@ -169,6 +169,10 @@ func _process(delta: float) -> void:
 				
 	hud.set_timefabric_amount(timefabric_collected)
 	hud.set_cooldowns()
+	
+	if Input.is_action_just_pressed("give_remnant") and Globals.config.get_value("debug", 'enabled', false):
+		_open_remnant_popup()
+	
 	if Input.is_action_just_pressed("pause") and !camera_override and !remnant_offer_popup and !remnant_upgrade_popup and hud.get_node("../PauseMenu").pause_cooldown == 0:
 		if pause.active:
 			pause._on_return_pressed()
@@ -1565,7 +1569,7 @@ func _on_enemy_take_damage(damage : float,current_health : int,enemy : Node, dir
 				attack_instance.global_position = enemy.global_position
 				attack_instance.direction = Vector2.RIGHT.rotated(i * 2 * PI / 12)
 				room_instance.call_deferred("add_child", attack_instance)
-		
+			has_death_attack = true
 		enemy.clear_effects()
 		var health_chance = randf()
 		var percentage_health_missing
@@ -1606,12 +1610,16 @@ func _on_remnant_chosen(remnant1 : Resource, remnant2 : Resource):
 func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : bool = true):
 	var mancermancer = preload("res://Game Elements/Remnants/mancermancer.tres")
 	var giant = preload("res://Game Elements/Remnants/giant.tres")
+	var lawman = preload("res://Game Elements/Remnants/lawman.tres")
 	if gained:
 		if(remnant.remnant_name == mancermancer.remnant_name) and remnant.active:
 			if is_purple:
 				player.mancermancer_values[0] = remnant.rank
 			else:
 				player.mancermancer_values[1] = remnant.rank
+		if(remnant.remnant_name == lawman.remnant_name) and remnant.active:
+			var lawman_aura = preload("res://Game Elements/Remnants/lawman/lawman.tscn").instantiate()
+			player.add_child(lawman_aura)
 		if(remnant.remnant_name == giant.remnant_name) and remnant.active:
 			if(player.is_purple == is_purple):
 				player.scale = player.scale * 1.5
@@ -1782,18 +1790,18 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 
 
 func dev_remnants():
-	var rem = load("res://Game Elements/Remnants/gambler.tres")
-	rem.rank = 5
+	var rem = load("res://Game Elements/Remnants/lawman.tres")
+	rem.rank = 4
 	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/giant.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
+	#player_2_remnants.append(rem.duplicate(true))
+	#rem = load("res://Game Elements/Remnants/giant.tres")
+	#rem.rank = 5
+	#player_1_remnants.append(rem.duplicate(true))
+	#remnant_update(rem,player1,true)
+	#rem = load("res://Game Elements/Remnants/mancermancer.tres")
+	#rem.rank = 5
+	#player_2_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,true)
-	rem = load("res://Game Elements/Remnants/mancermancer.tres")
-	rem.rank = 5
-	player_2_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,false)
 	#rem = load("res://Game Elements/Remnants/thorns.tres")
 	#rem.rank = 5
 	#player_1_remnants.append(rem.duplicate(true))
@@ -1991,7 +1999,6 @@ func move_to_limbo_phase_2():
 
 	room_instance = next_room
 	_placable_locations()
-	print(placable_cells.size())
 	apply_shared_noise_offset(room_instance)
 	
 	# Teleport player to the entrance of the next room

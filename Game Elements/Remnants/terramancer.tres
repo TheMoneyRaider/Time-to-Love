@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("3_4teqx")
 remnant_name = "Remnant of the Terramancer"
-description = "Gain $X boosts to attack size and knockback while rooted"
+description = "Gain $X boosts to attack size, knockback and damage resistance while rooted in place"
 icon = ExtResource("2_t0ox3")
 art = ExtResource("1_eyu3i")
 variable_names = Array[String](["$X", "$Y"])

@@ -111,7 +111,6 @@ func _on_replay_pressed():
 	await tween.finished
 	
 	var now := Time.get_time_dict_from_system()
-	print(now.second)
 	play_replay_reverse()
 
 func play_replay_reverse():
@@ -171,7 +170,6 @@ func get_shader_intensity(current_time: float, total_time_func: float, min_inten
 	
 func end_replay():
 	var now := Time.get_time_dict_from_system()
-	print(now.second)
 	capturing = false
 	for i in range(6):
 		buffers[i].clear()

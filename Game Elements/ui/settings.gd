@@ -1,19 +1,27 @@
 extends Control
 var is_pause_settings = false
 var mouse_sensitivity: float = 1.0
+var joystick_acceleration: float = 7.0
 const SETTINGS_FILE = "user://settings.cfg"
 var debug_mode: bool = false
 var display_pathways: bool = false
 var mouse_clamping: bool = false
 var toggle_invulnerability: bool = false
+var controller_mode = true
 
 func load_settings():
 	mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
+	controller_mode = Globals.config.get_value("controls","controller_mode", true)
+	joystick_acceleration = Globals.config.get_value("controls","joystick_acceleration",7.0)
 	debug_mode = Globals.config.get_value("debug", "enabled", false)
 	frag_mode = Globals.config.get_value("fragmentation", "enabled", true)
 	$MarginContainer/VBoxContainer/Volume/Volume.value = db_to_percent(Globals.config.get_value("audio", "master", 0))
-	Globals.player1_input = Globals.config.get_value("inputs","player1_input", "key")
-	Globals.player2_input = Globals.config.get_value("inputs","player2_input", "0")
+	if Input.get_connected_joypads().size() == 0:
+		Globals.player1_input = "key"
+		Globals.player2_input = "0"
+	else:
+		Globals.player1_input = Globals.config.get_value("inputs","player1_input", "key")
+		Globals.player2_input = Globals.config.get_value("inputs","player2_input", "0")
 	mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
 	debug_mode = Globals.config.get_value("debug", "enabled", false)
 	
@@ -43,6 +51,8 @@ func _on_apply_settings()-> void:
 	
 	var volslider = $MarginContainer/VBoxContainer/Volume/Volume
 	Globals.config.set_value("controls", "mouse_sensitivity", mouse_sensitivity)
+	Globals.config.set_value("controls", "controller_mode", controller_mode)
+	Globals.config.set_value("controls", "joystick_acceleration", joystick_acceleration)
 	Globals.config.set_value("debug", "enabled", debug_mode)
 	Globals.config.set_value("fragmentation", "enabled", frag_mode)
 	Globals.config.set_value("inputs","player1_input", Globals.player1_input)
@@ -64,7 +74,13 @@ func _ready() -> void:
 
 	$MarginContainer/VBoxContainer/Mouse/MouseSensitivity.value = mouse_sensitivity
 	update_sensitivity_label()
-		
+	
+	$"MarginContainer/VBoxContainer/Controller/Joystick Sensitivity".value = joystick_acceleration
+	update_acceleration_label()
+	
+	$MarginContainer/VBoxContainer/Controller_Mode/ControllerMode.button_pressed = controller_mode
+	update_controller_menu_label()
+	
 	$MarginContainer/VBoxContainer/Debug/DebugMode.button_pressed = debug_mode
 	update_debug_menu_label()
 	
@@ -134,6 +150,13 @@ func set_mouse_sensitivity(value: float):
 
 func update_sensitivity_label():
 	$MarginContainer/VBoxContainer/Mouse/SensLabel.text = "%.2f" % mouse_sensitivity
+
+func set_joystick_acceleration(value: float):
+	joystick_acceleration = clamp(value, 3, 14)
+	update_acceleration_label()
+
+func update_acceleration_label():
+	$MarginContainer/VBoxContainer/Controller/SensLabel.text = "%.2f" % joystick_acceleration	
 
 func _on_mouse_sensitivity_value_changed(value: float) -> void:
 	set_mouse_sensitivity(value)
@@ -207,3 +230,18 @@ func _on_p2_selected(index : int):
 	refresh_devices(true)
 	refresh_devices(false)
 	
+
+
+func _on_joystick_sensitivity_value_changed(value: float) -> void:
+	set_joystick_acceleration(value)
+
+
+func _on_controller_mode_toggled(toggled_on: bool) -> void:
+	controller_mode = toggled_on
+	update_controller_menu_label()
+
+func update_controller_menu_label() -> void:
+	if controller_mode == false: 
+		$MarginContainer/VBoxContainer/Controller_Mode/ControllerLabel.text = "Off"
+	else:
+		$MarginContainer/VBoxContainer/Controller_Mode/ControllerLabel.text = "On"

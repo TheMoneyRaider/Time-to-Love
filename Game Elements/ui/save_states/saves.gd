@@ -21,7 +21,6 @@ func _delete_save(idx: int) -> void:
 
 func _ready() -> void:
 	save_state1 = _load_save(0)
-	print(save_state1.time_spent)
 	save_state2 = _load_save(1)
 	save_state3 = _load_save(2)
 	highlight_state()

@@ -182,7 +182,7 @@ func apply_remnants(attack_instance):
 				match rem.remnant_name:
 					terramancer.remnant_name:
 						if c_owner.velocity.length() <= .1:
-							attack_instance.scale = attack_instance.scale * (1 + (mancer_value / 4) + rem.variable_2_values[rem.rank-1] / 4)
+							attack_instance.scale = attack_instance.scale * (1 + (mancer_value / 4.0) + rem.variable_2_values[rem.rank-1] / 4.0)
 							attack_instance.hit_force = attack_instance.hit_force * (1 + mancer_value + rem.variable_2_values[rem.rank-1] / 4)
 							attack_instance.knockback_force = attack_instance.knockback_force * (1 + (mancer_value / 2) + rem.variable_2_values[rem.rank-1] / 4)
 					aeromancer.remnant_name:
@@ -197,7 +197,7 @@ func apply_remnants(attack_instance):
 							attack_instance.speed = (.5 * similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100)
 					hydromancer.remnant_name:
 						attack_instance.last_liquid = c_owner.last_liquid
-						c_owner.last_liquid = Globals.Liquid.Buffer
+						#c_owner.last_liquid = Globals.Liquid.Buffer
 					intelligence.remnant_name:
 						attack_instance.intelligence = rem.duplicate(true)
 					longshot.remnant_name:

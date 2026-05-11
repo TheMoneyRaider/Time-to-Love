@@ -38,8 +38,8 @@ var medieval_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources
 var medieval_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/shop_cyberspace.tres"),
 								preload("res://Game Elements/Rooms/resources/shop_factory.tres")]
 
-var western_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/canyon1.tres"),
-								preload("res://Game Elements/Rooms/resources/canyon2.tres"),
+var western_rooms : Array[Room] = [#preload("res://Game Elements/Rooms/resources/canyon1.tres"),
+								#preload("res://Game Elements/Rooms/resources/canyon2.tres"),
 								preload("res://Game Elements/Rooms/resources/canyon3.tres"),
 								preload("res://Game Elements/Rooms/resources/canyon4.tres"),
 								preload("res://Game Elements/Rooms/resources/canyon5.tres"),

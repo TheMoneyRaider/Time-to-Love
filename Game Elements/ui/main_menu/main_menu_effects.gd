@@ -31,7 +31,7 @@ var title_textures : Array = [preload("res://art/title_assets/title_variants/wes
 var UI: UIState = UIState.new()
 @onready var prev_state = null
 var paused : bool = true
-
+var skip_next_release : bool = false
 var hover_cooldown: float = 0.0
 
 func _ready():
@@ -127,7 +127,8 @@ func _process(delta):
 			$Intro/AnimationPlayer.stop()
 			$Intro/AudioStreamPlayer.stop()
 			Globals.cinematic_viewed = true
-			paused = false
+			paused=false
+			skip_next_release = true
 			start_menu_music()
 	if !fragmenting:
 		return
@@ -223,6 +224,7 @@ func _input(event):
 				$Intro/AudioStreamPlayer.stop()
 				start_menu_music()
 			Globals.cinematic_viewed = true
+			skip_next_release = true
 			paused=false
 		return
 	if !fragmenting:
@@ -584,10 +586,13 @@ func inputs(input_device):
 		if UI.player2.input == input_device:
 			UI.player2.pressing = true
 	if Input.is_action_just_released("activate_"+input_device):
-		if UI.player1.input == input_device and UI.player1.pressing:
-			UI.player1.hover_button.emit_signal("pressed")
-		if UI.player2.input == input_device and UI.player2.pressing:
-			UI.player2.hover_button.emit_signal("pressed")
+		if skip_next_release:
+			skip_next_release = false
+		else:
+			if UI.player1.input == input_device and UI.player1.pressing:
+				UI.player1.hover_button.emit_signal("pressed")
+			if UI.player2.input == input_device and UI.player2.pressing:
+				UI.player2.hover_button.emit_signal("pressed")
 
 func normalize_ui_state(state: Dictionary) -> Dictionary:
 	var p1_hover = state["p1_hover"]

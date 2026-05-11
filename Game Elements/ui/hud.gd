@@ -384,7 +384,7 @@ func _on_max_health_changed(max_health : float, current_health : float,player_no
 			health_bar_2.set_current_health(temp_current_health)
 	else:
 		health_bar_2.set_max_health(temp_max_health)
-		health_bar_2.set_current_health(current_health)
+		health_bar_2.set_current_health(temp_current_health)
 		
 func load_settings():
 	debug_mode = Globals.config.get_value("debug", "enabled", false)
@@ -472,6 +472,7 @@ func update_menu_indicator() -> void:
 	var angle_string = "  angles: | V | "
 	var move_string = "  Move to Pathway: | M | "
 	var kill_string = "  Kill Enemies: | K | "
+	var remnant_string = " Give Remnant: | R | "
 	
 	if menu_indicator:
 		$RootControl/DebugMenu/GridContainer/Paths.text = paths_string
@@ -484,6 +485,7 @@ func update_menu_indicator() -> void:
 		update_angles()
 		$RootControl/DebugMenu/GridContainer/Move.text = move_string
 		$RootControl/DebugMenu/GridContainer/Kill.text = kill_string
+		$RootControl/DebugMenu/GridContainer/Remnant.text = remnant_string
 	else:
 		$RootControl/DebugMenu/GridContainer/Paths.text = ""
 		$RootControl/DebugMenu/GridContainer/Invulnerability.text = ""
@@ -491,6 +493,7 @@ func update_menu_indicator() -> void:
 		$RootControl/DebugMenu/GridContainer/EnemyAngles.text = ""
 		$RootControl/DebugMenu/GridContainer/Move.text = ""
 		$RootControl/DebugMenu/GridContainer/Kill.text = ""
+		$RootControl/DebugMenu/GridContainer/Remnant.text = ""
 	return
 
 func update_display_paths() -> void:
