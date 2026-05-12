@@ -14,6 +14,7 @@ collision_mask = 39
 script = ExtResource("1_l50ie")
 speed = 200.0
 damage = 5.0
+lifespan = 3.0
 cooldown = 0.75
 pierce = 5.0
 attack_type = "giant_bolt"

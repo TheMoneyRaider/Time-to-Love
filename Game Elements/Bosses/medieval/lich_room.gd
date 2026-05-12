@@ -214,8 +214,19 @@ func deactivate():
 	for node in get_children():
 		if node.is_in_group("pathway"):
 			node.enable_pathway()
+	
+	if is_multiplayer:
+		var particle2 =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+		player2.change_health(player2.max_health * .50)
+		particle2.global_position = player2.global_position
+		LayerManager.room_instance.add_child(particle2)
+	var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+	player1.change_health(player1.max_health * .50)
+	particle.global_position = player1.global_position
+	LayerManager.room_instance.add_child(particle)
 	active=false
 	Hud.hide_boss_bar()
+	
 	
 
 
