@@ -1,0 +1,109 @@
+[gd_scene load_steps=9 format=3 uid="uid://tfrgihhydi7k"]
+
+[ext_resource type="Texture2D" uid="uid://rawhoxpikpyp" path="res://art/title_assets/grainy_background_visual.png" id="1_76ob2"]
+[ext_resource type="Shader" uid="uid://bmxbbdu84nb75" path="res://Game Elements/ui/credits/credit_tentacle.gdshader" id="1_508cw"]
+[ext_resource type="Texture2D" uid="uid://bhjl4hljjii5d" path="res://art/title_assets/title_variants/medieval_timeline.png" id="2_sq166"]
+[ext_resource type="Texture2D" uid="uid://c0xftuui0bhhw" path="res://art/title_assets/title_variants/space_timeline.png" id="3_rv3o2"]
+[ext_resource type="Texture2D" uid="uid://dvsghefyamvym" path="res://art/title_assets/title_variants/western_timeline.png" id="4_76ob2"]
+[ext_resource type="Texture2D" uid="uid://eifbgnatdh4i" path="res://art/particles/gradiant_dot3.png" id="6_3cp7a"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sq166"]
+shader = ExtResource("1_508cw")
+shader_parameter/amplitude = 0.25
+shader_parameter/frequency = 2.0
+shader_parameter/speed = 2.0
+shader_parameter/tip_strength = 2.0
+shader_parameter/sway_direction = Vector2(1, 0)
+
+[sub_resource type="QuadMesh" id="QuadMesh_rv3o2"]
+subdivide_width = 32
+subdivide_depth = 8
+
+[node name="Credits" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="."]
+z_index = -2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_76ob2")
+expand_mode = 1
+
+[node name="Timeline" type="Node2D" parent="."]
+position = Vector2(960, 500)
+rotation = -0.47996554
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Timeline"]
+material = SubResource("ShaderMaterial_sq166")
+position = Vector2(-538.0796, 0.6115875)
+scale = Vector2(1075.84, 85.28)
+mesh = SubResource("QuadMesh_rv3o2")
+texture = ExtResource("2_sq166")
+
+[node name="Timeline2" type="Node2D" parent="."]
+position = Vector2(960, 500)
+rotation = -2.661627
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Timeline2"]
+material = SubResource("ShaderMaterial_sq166")
+position = Vector2(-537.6178, 0.2753868)
+scale = Vector2(1075.84, 85.28)
+mesh = SubResource("QuadMesh_rv3o2")
+texture = ExtResource("3_rv3o2")
+
+[node name="Timeline3" type="Node2D" parent="."]
+position = Vector2(960, 500)
+rotation = -1.5707964
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Timeline3"]
+material = SubResource("ShaderMaterial_sq166")
+position = Vector2(-538, 5.1259995e-06)
+scale = Vector2(1075.84, 85.28)
+mesh = SubResource("QuadMesh_rv3o2")
+texture = ExtResource("4_76ob2")
+
+[node name="Light_texture" type="TextureRect" parent="."]
+modulate = Color(0.52135843, 0.0013825077, 0.6983415, 1)
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -231.0
+offset_top = -244.0
+offset_right = 281.0
+offset_bottom = 268.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("6_3cp7a")
+
+[node name="Light_texture2" type="TextureRect" parent="."]
+modulate = Color(0.52135843, 0.0013825077, 0.6983415, 1)
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -231.0
+offset_top = -244.0
+offset_right = 281.0
+offset_bottom = 268.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("6_3cp7a")
