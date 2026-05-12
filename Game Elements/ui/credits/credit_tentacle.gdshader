@@ -1,12 +1,17 @@
 shader_type canvas_item;
 
-uniform float amplitude = .25;
+uniform float amplitude = .5;
 uniform float frequency = 3.0;
-uniform float speed = 2.0;
+uniform float speed = 1.0;
 
-uniform float tip_strength = 2.0;
 
 uniform vec2 sway_direction = vec2(1.0, 0.0);
+
+// Noise texture
+uniform sampler2D noise_texture;
+
+// Controls cutoff amount
+uniform int timeline = 0;
 
 void vertex() {
 
@@ -29,4 +34,31 @@ void vertex() {
         * influence;
 
     VERTEX.xy += vec2(offset.y,offset.x);
+}
+
+void fragment() {
+
+    vec4 tex = texture(TEXTURE, UV);
+
+    // Sample animated noise
+
+    float noise =
+        texture(noise_texture, UV).r;
+
+	float lower = 0.0;
+	float higher = 1.0;
+	if(timeline==0){
+		higher = .35;
+	}else if(timeline==1){
+		lower=.35;
+		higher=.6;
+	}else{
+		lower = .6;
+	}
+    // Cut holes in sprite
+    if (noise < lower || noise > higher) {
+        discard;
+    }
+
+    COLOR = tex;
 }
