@@ -1,8 +1,8 @@
 extends Node2D
 @onready var timefabric = preload("res://Game Elements/Objects/time_fabric.tscn")
 @onready var health_pickup = preload("res://Game Elements/Objects/health_pickup.tscn")
-@onready var reward_num : Array = [2.0,1.0,1.5,1.0,1.0,1.0]
-@onready var base_reward_probabilities : Array = [2.0,1.0,1.5,1.0,1.0,1.0]
+@onready var reward_num : Array = [2.0,1.0,1.5,1.0,0.0,1.0]
+@onready var base_reward_probabilities : Array = [2.0,1.0,1.5,1.0,0.0,1.0]
 ### Temp Multiplayer Fix
 var player1 = null
 var player2 = null
@@ -485,7 +485,18 @@ func calculate_cell_arrays(generated_room : Node2D, generated_room_data : Room) 
 	generated_room.blocked_cells = _remove_duplicates(generated_room.blocked_cells)
 	generated_room.liquid_cells[0] = _amalgamate_liquids(generated_room.liquid_cells)
 
+func _populate_health_rewards(generated_room : Node2D,_generated_room_data : Room):
+	var pathway_name= ""
+	var direction_count = [0,0,0,0]
+	for p_direct in _generated_room_data.pathway_direction:
+		direction_count[p_direct]+=1
+		pathway_name = _get_pathway_name(p_direct,direction_count[p_direct])
+		if not if_node_exists(pathway_name,generated_room):
+			var pathway = generated_room.get_node_or_null(pathway_name+"_Detect")
+			_attempt_health_reward(pathway)
+
 func check_reward(generated_room : Node2D, _generated_room_data : Room, player_reference : Node) -> bool:
+	
 	for node in generated_room.get_children():
 		match node.name:
 			"Shop":
@@ -501,11 +512,13 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 						return true
 					node.queue_free()
 					_open_remnant_popup()
+					_populate_health_rewards(generated_room, _generated_room_data)
 					#base_reward_probabilities[0] *= .9
 					return true
 			"TimeFabricOrb":
 				if player_reference in node.tracked_bodies:
 					timefabric_rewarded = 200 #TODO change this to by dynamic(ish)
+					_populate_health_rewards(generated_room, _generated_room_data)
 					#base_reward_probabilities[0] *= .8
 					return true
 			"UpgradeOrb":
@@ -516,6 +529,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 						return true
 					node.queue_free()
 					_open_upgrade_popup()
+					_populate_health_rewards(generated_room, _generated_room_data)
 					#base_reward_probabilities[0] *= .9
 					return true
 			"HealthUpgrade":
@@ -527,6 +541,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					particle.position = node.position
 					generated_room.add_child(particle)
 					node.queue_free()
+					_populate_health_rewards(generated_room, _generated_room_data)
 					#base_reward_probabilities[0] *= .8
 					return true
 			"Health":
@@ -538,6 +553,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					particle.position = node.position
 					generated_room.add_child(particle)
 					node.queue_free()
+					_populate_health_rewards(generated_room, _generated_room_data)
 					return true
 			#"NewWeapon":
 				#if player_reference in node.tracked_bodies:
@@ -719,6 +735,19 @@ func _process_terrain_batch() -> void:
 
 func open_death_menu() -> void:
 	get_node("DeathMenu").activate()
+
+func _attempt_health_reward(pathway_to_randomize : Node) -> void:
+	var reward_type1 = null
+	var reward_type2 = null
+	var wave = false
+	var prev_reward_type = pathway_to_randomize.reward1_type
+	if prev_reward_type == Globals.Reward.Shop or prev_reward_type == Globals.Reward.Boss:
+		return
+	if(randf() < percent_health_missing() / 2.0):
+		reward_type1 = Globals.Reward.Health
+		reward_type2 = Globals.Reward.Health
+		pathway_to_randomize.set_reward(reward_type1,wave,reward_type2)
+	
 
 func _randomize_room_reward(pathway_to_randomize : Node) -> void:
 	var reward_type1 = null
@@ -1740,28 +1769,25 @@ func _debug_tiles(array_of_tiles) -> void:
 		debug.position = tile*16
 		room_instance.add_child(debug)
 
-func reward_modifier(idx : int) -> float:
-	match idx:
-		4:
-			var percentage_health_missing = 0.0
-			if is_multiplayer:
-				percentage_health_missing = ((player1.max_health - player1.current_health) + (player2.max_health - player2.current_health)) / (player1.max_health + player2.max_health)
-			else:
-				percentage_health_missing = (player1.max_health - player1.current_health) / (player1.max_health)
-			return percentage_health_missing * 2
-	return 1.0		
+func percent_health_missing() -> float:
+	var percentage_health_missing = 0.0
+	if is_multiplayer:
+		percentage_health_missing = ((player1.max_health - player1.current_health) + (player2.max_health - player2.current_health)) / (player1.max_health + player2.max_health)
+	else:
+		percentage_health_missing = (player1.max_health - player1.current_health) / (player1.max_health)
+	return percentage_health_missing		
 	
 func calculate_reward(reward_probability : Array) -> int:
 	var total = 0.0
 	var idx=0
 	for val in reward_probability:
-		total+= val * reward_modifier(idx)
+		total+= val
 		idx += 1
 	idx = 0
 	var float_point = randf() * total
 	var running_weight = 0.0
 	while idx < reward_probability.size():
-		running_weight+=reward_probability[idx] * reward_modifier(idx)
+		running_weight+=reward_probability[idx]
 		if running_weight >= float_point:
 			return idx
 		idx+=1
