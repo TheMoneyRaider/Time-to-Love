@@ -201,6 +201,9 @@ func _process(delta: float) -> void:
 		deactivate()
 
 func finish_intro():
+	player1.get_node("Crosshair").mouse_clamping_enabled = true
+	if is_multiplayer:
+		player2.get_node("Crosshair").mouse_clamping_enabled = true
 	player1.disabled = false
 	if is_multiplayer:
 		player2.disabled = false
@@ -621,6 +624,9 @@ func activate(camera_in : Node, player1_in : Node, player2_in : Node):
 		player2.input_direction = Vector2.UP
 		player2.update_animation_parameters(player2.input_direction)
 		player2.update_animation_parameters(Vector2.ZERO)
+	player1.get_node("Crosshair").mouse_clamping_enabled = false
+	if is_multiplayer:
+		player2.get_node("Crosshair").mouse_clamping_enabled = false
 	Hud =LayerManager.hud
 	LayerManager.BossIntro.get_node("BossName").text = boss_name
 	LayerManager.BossIntro.get_node("Boss").texture = boss_splash_art

@@ -88,6 +88,7 @@ func _ready() -> void:
 	room_instance_data = RoomManager.testing_room
 	room_location = load(room_instance_data.scene_location)
 	room_instance = room_location.instantiate()
+	RoomManager.update_ai_array(room_instance, room_instance_data,self)
 	room_instance.y_sort_enabled = true
 	game_root.add_child(room_instance)
 	apply_shared_noise_offset(room_instance)
@@ -150,7 +151,7 @@ func _process(delta: float) -> void:
 		if is_multiplayer:
 			camera.global_position = (player1.global_position + player2.global_position) / 2 +camera.get_cam_offset(delta)
 		else:
-			camera.position = player1.global_position+camera.get_cam_offset(delta)
+			camera.position = player1.global_position+camera.get_cam_offset(delta)		
 	
 	# Thread check
 	if thread_running and not room_gen_thread.is_alive():
