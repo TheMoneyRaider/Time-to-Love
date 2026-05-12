@@ -5,7 +5,6 @@ uniform float frequency = 3.0;
 uniform float speed = 1.0;
 
 
-uniform vec2 sway_direction = vec2(1.0, 0.0);
 
 // Noise texture
 uniform sampler2D noise_texture;
@@ -28,7 +27,7 @@ void vertex() {
     float wave = wave1 + wave2 * 0.35;
 
     vec2 offset =
-        normalize(sway_direction)
+        vec2(1.0,0.0)
         * wave
         * amplitude
         * influence;

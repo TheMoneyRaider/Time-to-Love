@@ -92,7 +92,6 @@ func _begin_explosion_cooldown():
 
 
 func _process(delta):
-	$ColorRect.material.set_shader_parameter("time", $ColorRect.material.get_shader_parameter("time")+delta)
 	if paused:
 		if $Intro/AnimationPlayer.is_playing():
 			return

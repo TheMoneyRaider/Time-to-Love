@@ -25,6 +25,9 @@ func _ready() -> void:
 
 	#ColorRect fades out
 	tween.tween_property(color_rect, "modulate:a", 0.0, 2.0)
+	tween.tween_property(main.get_node("ColorRect"), "modulate:a", 0.0, 1.0)
+	
+	
 
 	#Timeline animations
 	tween.tween_callback(func():

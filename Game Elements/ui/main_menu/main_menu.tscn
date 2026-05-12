@@ -17,7 +17,6 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qvtd8"]
 shader = ExtResource("9_6wjqi")
-shader_parameter/time = 0.0
 shader_parameter/tendril_count = 2
 shader_parameter/tendril_thickness = 20.0
 shader_parameter/tendril_waviness = 18.206000627285
@@ -74,7 +73,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0, 0, 0, 1)
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 layout_mode = 0
