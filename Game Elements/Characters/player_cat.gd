@@ -545,6 +545,7 @@ func swap_color():
 	emit_signal("swapped_color", self)
 	if(is_purple):
 		is_purple = false
+		_check_hare()
 		_check_giant()
 		sprite.texture = orange_texture
 		crosshair_sprite.texture = orange_crosshair
@@ -559,6 +560,7 @@ func swap_color():
 			LayerManager.room_instance.add_child(inst)
 	else:
 		is_purple = true
+		_check_hare()
 		_check_giant()
 		sprite.texture = purple_texture
 		crosshair_sprite.texture = purple_crosshair
@@ -576,7 +578,18 @@ func swap_color():
 var single_swap_duration : float = 0.0
 var single_toggle : bool = false
 
-
+func _check_hare():
+	var remnants : Array[Remnant]
+	if(is_purple):
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var hare = preload("res://Game Elements/Remnants/hare.tres")
+	for remnant in remnants:
+		if(remnant.remnant_name == hare.remnant_name):
+			move_speed = base_move_speed * (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
+			return
+	move_speed = base_move_speed
 
 func _check_giant():
 	var remnants_purple : Array[Remnant]
@@ -936,9 +949,8 @@ func damage_boost() -> float:
 	return boost
 
 func change_health(add_to_current : float, add_to_max : float = 0):
-	current_health+=add_to_current
-	max_health+=add_to_max
 	if add_to_current > 0.0:
+		var healer = preload("res://Game Elements/Remnants/healer.tres")
 		var hospital = preload("res://Game Elements/Remnants/hospital.tres")
 		var remnants = []
 		if is_purple:
@@ -948,9 +960,15 @@ func change_health(add_to_current : float, add_to_max : float = 0):
 		for rem in remnants:
 			if rem.remnant_name == hospital.remnant_name and rem.active:
 				var amnt = rem.variable_1_values[rem.rank - 1] / 100.0
-				amnt *= add_to_current
-				current_health+=amnt
-				break
+				add_to_current *= (1 + amnt)
+		for rem in remnants:
+			if rem.remnant_name == healer.remnant_name and rem.active:
+				if(add_to_max == 0):
+					var amnt = rem.variable_1_values[rem.rank - 1] / 100.0
+					var health_restored = min(max_health - current_health, add_to_current)
+					add_to_max = health_restored * amnt
+	current_health+=add_to_current
+	max_health+=add_to_max
 	current_health = clamp(current_health,0.0,max_health)
 	emit_signal("max_health_changed",max_health,current_health,self)
 	

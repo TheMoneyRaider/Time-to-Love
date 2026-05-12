@@ -78,7 +78,7 @@ func _ready() -> void:
 	hud.connect_signals(player1)
 	hud.set_cross_position()
 	
-	#dev_remnants()
+	dev_remnants()
 	
 	
 	
@@ -1325,39 +1325,39 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 				player2_ranked_up.append(rem.remnant_name)
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants,player1_ranked_up,player2_ranked_up)
 	
-	var healer = preload("res://Game Elements/Remnants/healer.tres")
-	var hare = preload("res://Game Elements/Remnants/hare.tres")
-	if is_multiplayer or player1.is_purple:
-		for rem in player_1_remnants:
-			if rem.remnant_name == healer.remnant_name and rem.active:
-				var amnt = rem.variable_1_values[rem.rank - 1]
-				player1.change_health(0, amnt)
-				
-			if rem.remnant_name == hare.remnant_name and rem.active:
-				var effect = preload("res://Game Elements/Effects/speed.tres")
-				effect.cooldown = 15
-				effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
-				effect.gained(player1)
-				player1.effects.append(effect)
-	if is_multiplayer or not player1.is_purple:
-		for rem in player_2_remnants:
-			if rem.remnant_name == healer.remnant_name and rem.active:
-				var amnt = rem.variable_1_values[rem.rank - 1]
-				if is_multiplayer:
-					player2.change_health(0, amnt)
-				else:
-					player1.change_health(0, amnt)
-				
-			if rem.remnant_name == hare.remnant_name and rem.active:
-				var effect = preload("res://Game Elements/Effects/speed.tres")
-				effect.cooldown = 15
-				effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
-				if is_multiplayer:
-					effect.gained(player2)
-					player2.effects.append(effect)
-				else:
-					effect.gained(player1)
-					player1.effects.append(effect)
+	#var healer = preload("res://Game Elements/Remnants/healer.tres")
+	#var hare = preload("res://Game Elements/Remnants/hare.tres")
+	#if is_multiplayer or player1.is_purple:
+		#for rem in player_1_remnants:
+			#if rem.remnant_name == healer.remnant_name and rem.active:
+				#var amnt = rem.variable_1_values[rem.rank - 1]
+				#player1.change_health(0, amnt)
+				#
+			#if rem.remnant_name == hare.remnant_name and rem.active:
+				#var effect = preload("res://Game Elements/Effects/speed.tres")
+				#effect.cooldown = 15
+				#effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
+				#effect.gained(player1)
+				#player1.effects.append(effect)
+	#if is_multiplayer or not player1.is_purple:
+		#for rem in player_2_remnants:
+			#if rem.remnant_name == healer.remnant_name and rem.active:
+				#var amnt = rem.variable_1_values[rem.rank - 1]
+				#if is_multiplayer:
+					#player2.change_health(0, amnt)
+				#else:
+					#player1.change_health(0, amnt)
+				#
+			#if rem.remnant_name == hare.remnant_name and rem.active:
+				#var effect = preload("res://Game Elements/Effects/speed.tres")
+				#effect.cooldown = 15
+				#effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
+				#if is_multiplayer:
+					#effect.gained(player2)
+					#player2.effects.append(effect)
+				#else:
+					#effect.gained(player1)
+					#player1.effects.append(effect)
 	
 	if not generated_rooms.has(pathway_id):
 		push_warning("No linked room for pathway " + pathway_id)
@@ -1648,6 +1648,7 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 	var mancermancer = preload("res://Game Elements/Remnants/mancermancer.tres")
 	var giant = preload("res://Game Elements/Remnants/giant.tres")
 	var lawman = preload("res://Game Elements/Remnants/lawman.tres")
+	var hare = preload("res://Game Elements/Remnants/hare.tres")
 	if gained:
 		if(remnant.remnant_name == mancermancer.remnant_name) and remnant.active:
 			if is_purple:
@@ -1665,6 +1666,8 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 				player.weapons[1].damage = player.weapons[1].damage + remnant.variable_2_values[remnant.rank - 1]
 			else:
 				player.weapons[0].damage = player.weapons[0].damage + remnant.variable_2_values[remnant.rank - 1]
+		if(remnant.remnant_name == hare.remnant_name) and remnant.active:
+			player.move_speed = player.base_move_speed * (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
 	else:
 		if(remnant.remnant_name == mancermancer.remnant_name):
 			if is_purple:
@@ -1679,7 +1682,8 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 				player.weapons[1].damage = player.weapons[1].damage - remnant.variable_2_values[remnant.rank - 1]
 			else:
 				player.weapons[0].damage = player.weapons[0].damage - remnant.variable_2_values[remnant.rank - 1]
-		
+		if(remnant.remnant_name == hare.remnant_name):
+			player.move_speed = player.base_move_speed * (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
 	player.display_combo()
 	
 
@@ -1824,18 +1828,18 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 
 
 func dev_remnants():
-	var rem = load("res://Game Elements/Remnants/lawman.tres")
-	rem.rank = 4
-	player_1_remnants.append(rem.duplicate(true))
+	#var rem = load("res://Game Elements/Remnants/healer.tres")
+	#rem.rank = 4
+	#player_1_remnants.append(rem.duplicate(true))
 	#player_2_remnants.append(rem.duplicate(true))
 	#rem = load("res://Game Elements/Remnants/giant.tres")
 	#rem.rank = 5
-	#player_1_remnants.append(rem.duplicate(true))
-	#remnant_update(rem,player1,true)
+	#player_2_remnants.append(rem.duplicate(true))
+	#remnant_update(rem,player1,false)
 	#rem = load("res://Game Elements/Remnants/mancermancer.tres")
 	#rem.rank = 5
 	#player_2_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,true)
+	#remnant_update(rem,player1,true)
 	#rem = load("res://Game Elements/Remnants/thorns.tres")
 	#rem.rank = 5
 	#player_1_remnants.append(rem.duplicate(true))
