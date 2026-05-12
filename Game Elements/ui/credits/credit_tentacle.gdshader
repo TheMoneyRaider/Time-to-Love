@@ -12,7 +12,10 @@ uniform sampler2D noise_texture;
 // Controls cutoff amount
 uniform int timeline = 0;
 
+varying vec4 modulate_color;
+
 void vertex() {
+    modulate_color = COLOR;
 
     float t = UV.x;
 
@@ -34,7 +37,9 @@ void vertex() {
 
     VERTEX.xy += vec2(offset.y,offset.x);
 }
-
+float lum(vec3 color){
+    return dot(color, vec3(0.299, 0.587, 0.114)); // brightness
+}
 void fragment() {
 
     vec4 tex = texture(TEXTURE, UV);
@@ -54,10 +59,13 @@ void fragment() {
 	}else{
 		lower = .6;
 	}
+        COLOR = tex;
     // Cut holes in sprite
     if (noise < lower || noise > higher) {
-        discard;
-    }
+		COLOR.a = modulate_color.a * tex.a;
+		float value = 1.0-lum(tex.rgb);
+		COLOR.rgb = vec3(value);
+    }else{
+	}
 
-    COLOR = tex;
 }

@@ -1,4 +1,4 @@
-extends Control
+extends CanvasLayer
 
 @export var timeline1 : Node2D
 @export var timeline2 : Node2D
@@ -8,12 +8,17 @@ extends Control
 @onready var main = $Main
 
 var coalese_time = 10.0
+var fade_time = 2.25
 var end_scale = Vector2(.48, .48)
 
 func _ready() -> void:
-	# Start state
 	color_rect.modulate.a = 0.0
 	main.visible = false
+	color_rect.visible = true
+	activate()
+
+func activate():
+	# Start state
 
 	var tween = create_tween()
 
@@ -24,8 +29,12 @@ func _ready() -> void:
 	tween.tween_callback(func(): main.visible = true)
 
 	#ColorRect fades out
-	tween.tween_property(color_rect, "modulate:a", 0.0, 2.0)
+	tween.tween_property(color_rect, "modulate:a", 0.0, 1.0)
 	tween.tween_property(main.get_node("ColorRect"), "modulate:a", 0.0, 1.0)
+	tween.tween_interval(1.0)
+	tween.tween_property(timeline1, "modulate:a", .01, fade_time)
+	tween.parallel().tween_property(timeline2, "modulate:a", .01, fade_time)
+	tween.parallel().tween_property(timeline3, "modulate:a", .01, fade_time)
 	
 	
 
@@ -41,4 +50,8 @@ func _ready() -> void:
 		t.tween_interval(2.0)
 		t.tween_property(timeline1, "rotation", deg_to_rad(-89), .0625)
 		t.parallel().tween_property(timeline3, "rotation", deg_to_rad(-91), .0625)
-		t.tween_property(color_rect, "modulate:a", 1.0, .125))  # 5. Fade back in after timelines
+		t.tween_property(color_rect, "modulate:a", 1.0, .125)  # 5. Fade back in after timelines
+		t.tween_callback(start_credits))
+
+func start_credits():
+	pass

@@ -276,7 +276,6 @@ func damage_flash() -> void:
 		$Sprite2D.self_modulate = Color(1.0, 1.0, 1.0)
 
 func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0,creates_indicators : bool = true, unstoppable : bool = false):
-
 	if !hitable and !unstoppable:
 		return
 	if current_health< 0.0:
@@ -317,7 +316,7 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 	current_health -= damage
 	if is_boss:
 		LayerManager.hud.update_bossbar(clamp(current_health/max_health,0.0,1.0))
-		if current_health <= 0.0 and phase != boss_phases - 1:
+		if current_health <= 0.0 and phase < boss_phases - 1:
 			if phase == last_phase:
 				phase+=1
 				if phase < boss_phases:

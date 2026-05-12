@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://bjlqt0ad4do23"]
+[gd_scene load_steps=34 format=3 uid="uid://bjlqt0ad4do23"]
 
 [ext_resource type="Script" uid="uid://by1wxpi7fijx5" path="res://Game Elements/General Game/layer_manager.gd" id="1_gynnh"]
 [ext_resource type="PackedScene" uid="uid://0hahdiffjt61" path="res://Game Elements/ui/hud.tscn" id="2_4xk7e"]
@@ -19,6 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://cggx60a5l71t7" path="res://art/white_square2.png" id="14_sf3i7"]
 [ext_resource type="FontFile" uid="uid://d366m5nnnpg1f" path="res://fonts/Orbitron-Bold.ttf" id="15_l10hl"]
 [ext_resource type="Shader" uid="uid://bxe3oguf2lb6m" path="res://Game Elements/General Game/grass_cull.gdshader" id="16_nt7kn"]
+[ext_resource type="PackedScene" uid="uid://tfrgihhydi7k" path="res://Game Elements/ui/credits/credits.tscn" id="17_jceoj"]
 [ext_resource type="Texture2D" uid="uid://n0bko3km56nl" path="res://Game Elements/General Game/limbo/limbo_noise.tres" id="20_fpruh"]
 [ext_resource type="Shader" uid="uid://c7aprdgds5kpc" path="res://Game Elements/Shaders/chromatic_abberation.gdshader" id="21_x2m3a"]
 [ext_resource type="PackedScene" uid="uid://d4mlvdb3rgf07" path="res://Game Elements/Bosses/limbo/transition/limbo_transition.tscn" id="22_lojdy"]
@@ -502,6 +503,9 @@ layer = 3
 z_index = 80
 position = Vector2(960, 500)
 scale = Vector2(4, 4)
+
+[node name="Credits" parent="." instance=ExtResource("17_jceoj")]
+layer = 10
 
 [node name="game_container" type="SubViewportContainer" parent="."]
 texture_filter = 1

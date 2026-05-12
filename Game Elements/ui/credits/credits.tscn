@@ -54,13 +54,7 @@ shader_parameter/view_offset = Vector2(0.5, 0.5)
 shader_parameter/range_start = 1.650000078375
 shader_parameter/range_end = 2.350000111625
 
-[node name="Credits" type="Control" node_paths=PackedStringArray("timeline1", "timeline2", "timeline3")]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Credits" type="CanvasLayer" node_paths=PackedStringArray("timeline1", "timeline2", "timeline3")]
 script = ExtResource("1_t8rvd")
 timeline1 = NodePath("Main/Timeline")
 timeline2 = NodePath("Main/Timeline2")
@@ -68,12 +62,13 @@ timeline3 = NodePath("Main/Timeline3")
 
 [node name="Main" type="Control" parent="."]
 visible = false
-layout_mode = 1
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Background" type="TextureRect" parent="Main"]
 z_index = -2
@@ -83,6 +78,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = ExtResource("1_76ob2")
 expand_mode = 1
 
@@ -150,11 +146,12 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
 z_index = 4
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
