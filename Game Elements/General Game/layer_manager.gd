@@ -1573,7 +1573,7 @@ func _on_player_attack(_new_attack : PackedScene, _attack_position : Vector2, _a
 func _on_player_take_damage(damage_amount : float,_current_health : float,_player_node : Node) -> void:
 	RoomManager.layer_ai[11]+=damage_amount
 	
-func _on_enemy_take_damage(damage : float,current_health : int,enemy : Node, direction = Vector2(0,-1)) -> void:
+func _on_enemy_take_damage(damage : float,current_health : float,enemy : Node, direction = Vector2(0,-1)) -> void:
 	RoomManager.layer_ai[5]+=damage
 	if current_health <= 0.0:
 		var has_death_attack = false
