@@ -55,6 +55,7 @@ shader_parameter/range_start = 1.650000078375
 shader_parameter/range_end = 2.350000111625
 
 [node name="Credits" type="CanvasLayer" node_paths=PackedStringArray("timeline1", "timeline2", "timeline3")]
+process_mode = 2
 script = ExtResource("1_t8rvd")
 timeline1 = NodePath("Main/Timeline")
 timeline2 = NodePath("Main/Timeline2")
