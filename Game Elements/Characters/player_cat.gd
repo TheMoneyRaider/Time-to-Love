@@ -468,13 +468,13 @@ func post_damage_trigger(damage_amount: float, _dmg_owner : Node):
 					if(rem.rank == 5):
 						var attack_instance = preload("res://Game Elements/Attacks/thorns_invisible.tscn").instantiate()
 						attack_instance.get_node("CollisionShape2D").shape = get_camera_rect()
-						attack_instance.damage = damage_amount
+						attack_instance.damage = damage_amount * rem.variable_3_values[rem.rank - 1]
 						attack_instance.c_owner = self
 						attack_instance.global_position = self.global_position
 						LayerManager.room_instance.call_deferred("add_child",attack_instance)
 					else:
 						var attack_instance = preload("res://Game Elements/Attacks/thorns_invisible.tscn").instantiate()
-						attack_instance.damage = damage_amount
+						attack_instance.damage = damage_amount * rem.variable_3_values[rem.rank - 1]
 						attack_instance.scale = attack_instance.scale * ((rem.rank) / 2.0)
 						attack_instance.c_owner = self
 						attack_instance.global_position = self.global_position
@@ -929,7 +929,6 @@ func damage_boost() -> float:
 		remnants = LayerManager.player_1_remnants
 	else:
 		remnants = LayerManager.player_2_remnants
-	var hunter = preload("res://Game Elements/Remnants/hunter.tres")
 	var kinetic = preload("res://Game Elements/Remnants/kinetic_battery.tres")
 	var ninja = preload("res://Game Elements/Remnants/ninja.tres")
 	var assassin = preload("res://Game Elements/Remnants/assassin.tres")
@@ -937,13 +936,6 @@ func damage_boost() -> float:
 	for rem in remnants:
 		if rem.active:
 			match rem.remnant_name:
-				hunter.remnant_name:
-					var min_dist = 100000
-					for child in LayerManager.room_instance.get_children():
-						if child is DynamEnemy:
-							min_dist = min(min_dist,self.position.distance_to(child.position))
-					if rem.variable_2_values[rem.rank-1]*16 < min_dist:
-						boost = (100+float(rem.variable_1_values[rem.rank-1]))/100.0
 				kinetic.remnant_name:
 					var temp_move = 0
 					if input_direction != Vector2.ZERO:

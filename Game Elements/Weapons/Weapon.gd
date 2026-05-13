@@ -170,6 +170,7 @@ func apply_remnants(attack_instance):
 		var hydromancer = preload("res://Game Elements/Remnants/hydromancer.tres")
 		var intelligence = preload("res://Game Elements/Remnants/intelligence.tres")
 		var longshot = preload("res://Game Elements/Remnants/longshot.tres")
+		var hunter = preload("res://Game Elements/Remnants/hunter.tres")
 		if c_owner.is_purple:
 			remnants = c_owner.get_tree().get_root().get_node("LayerManager").player_1_remnants
 			mancer_value = c_owner.mancermancer_values[0]
@@ -203,6 +204,13 @@ func apply_remnants(attack_instance):
 					longshot.remnant_name:
 						if(pierce >= 0):
 							attack_instance.pierce += rem.rank
+					hunter.remnant_name:
+						var min_dist = 100000
+						for child in c_owner.LayerManager.room_instance.get_children():
+							if child is DynamEnemy:
+								min_dist = min(min_dist,c_owner.global_position.distance_to(child.global_position))
+						if rem.variable_2_values[rem.rank-1]*16 < min_dist:
+							attack_instance.damage += rem.variable_1_values[rem.rank-1]
 					_:
 						pass
 
