@@ -7,6 +7,9 @@ var player_input_device = "key"
 var mouse_sensitivity = 1.0
 var debug_mode = false
 var mouse_clamping_enabled = true
+var input_direction = Vector2.ZERO
+var glide = true
+var joystick_acceleration = 7.0
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -24,14 +27,18 @@ func _input(event):
 	
 func load_settings():
 	mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
+	joystick_acceleration = Globals.config.get_value("controls","joystick_acceleration",7.0)
+	glide = Globals.config.get_value("controls","controller_mode", true)
 	debug_mode = Globals.config.get_value("debug", 'enabled', false)
 
 func _process(_delta: float) -> void:
-	var input_direction = Vector2.ZERO
 	if(player_input_device != "key"):
 		input_direction = Input.get_vector("look_left_" + player_input_device, "look_right_" + player_input_device, "look_up_" + player_input_device, "look_down_" + player_input_device).normalized()
 		if(input_direction != Vector2(0,0)):
-			crosshair_direction = input_direction
+			if(!glide):
+				crosshair_direction = input_direction
+			else:
+				crosshair_direction = crosshair_direction.lerp(input_direction, joystick_acceleration * _delta).normalized()
 	
 	var camera = get_viewport().get_camera_2d()
 	var mouse_coords = camera.get_global_mouse_position()

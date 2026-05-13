@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=49 format=3 uid="uid://cvov2hu7nu1qy"]
+[gd_resource type="BehaviorTree" load_steps=52 format=3 uid="uid://cvov2hu7nu1qy"]
 
 [ext_resource type="Script" uid="uid://7jhqrxgbl3q" path="res://ai/tasks/adjustTargetPos.gd" id="1_72b1t"]
 [ext_resource type="Script" uid="uid://yu3fkdlxtfbv" path="res://ai/tasks/calcPath.gd" id="3_4xmbu"]
@@ -145,9 +145,19 @@ animation_name = &"attack"
 [sub_resource type="BTAction" id="BTAction_eixhu"]
 script = ExtResource("9_rtb1l")
 
+[sub_resource type="BTAction" id="BTAction_r3tv5"]
+script = ExtResource("9_rtb1l")
+
+[sub_resource type="BTDelay" id="BTDelay_a4vyd"]
+seconds = 0.1
+children = [SubResource("BTAction_r3tv5")]
+
+[sub_resource type="BTSequence" id="BTSequence_maybb"]
+children = [SubResource("BTAction_eixhu"), SubResource("BTDelay_a4vyd")]
+
 [sub_resource type="BTDelay" id="BTDelay_rtb1l"]
 seconds = 0.2
-children = [SubResource("BTAction_eixhu")]
+children = [SubResource("BTSequence_maybb")]
 
 [sub_resource type="BBNode" id="BBNode_nirik"]
 saved_value = NodePath("AnimationPlayer")
@@ -175,8 +185,8 @@ children = [SubResource("BTAction_xsft4"), SubResource("BTAction_1kwu6"), SubRes
 
 [sub_resource type="BTAction" id="BTAction_id2f6"]
 script = ExtResource("6_r3tv5")
-min_time = 2.5
-max_time = 4.5
+min_time = 2.0
+max_time = 4.0
 
 [sub_resource type="BTAction" id="BTAction_0ew5i"]
 script = ExtResource("5_38t2i")
@@ -185,7 +195,7 @@ script = ExtResource("5_38t2i")
 children = [SubResource("BTAction_id2f6"), SubResource("BTAction_0ew5i")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_id2f6"]
-duration = 4.0
+duration = 3.5
 children = [SubResource("BTSequence_r3tv5")]
 
 [sub_resource type="BTDynamicSelector" id="BTDynamicSelector_k4yq3"]

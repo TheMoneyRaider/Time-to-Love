@@ -9,6 +9,8 @@ var input_direction : Vector2 = Vector2.ZERO
 @onready var move_state = $LimboHSM/Move
 @onready var attack_state = $LimboHSM/Attack
 @onready var swap_state = $LimboHSM/Swap
+@onready var collision_shape = $CollisionShape2D
+@onready var sprite_2d = $Sprite2D
 @onready var purple_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/purple_spritesheet.png")
 @onready var orange_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/orange_spritesheet.png")
 
@@ -39,6 +41,7 @@ func enable(player : Node, direction : Vector2, is_purple_in : bool):
 	global_position = player.global_position
 	_pending_teleport = true
 	linear_velocity = Vector2.ZERO
+	await get_tree().physics_frame
 	apply_impulse(direction* speed, Vector2.ZERO)
 	input_direction = direction
 	is_purple = is_purple_in

@@ -80,6 +80,7 @@ radius = 36.138622
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oeecv"]
 shader = ExtResource("2_avgrg")
+shader_parameter/desaturate = 0.0
 shader_parameter/upper_left = true
 shader_parameter/split = false
 shader_parameter/x_y_ratio = 1.0

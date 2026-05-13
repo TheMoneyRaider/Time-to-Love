@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("1_j86dx")
-remnant_name = "Remnant of Intelligence"
+remnant_name = "Remnant of The Intelligence"
 description = "Your ranged attacks will be $X guided towards enemies"
 icon = ExtResource("2_tavq4")
 art = ExtResource("1_ll1sj")

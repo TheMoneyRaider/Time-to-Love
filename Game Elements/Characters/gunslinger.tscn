@@ -1,0 +1,146 @@
+[gd_scene load_steps=15 format=3 uid="uid://cbpewiw81kxc0"]
+
+[ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_b5bue"]
+[ext_resource type="PackedScene" uid="uid://bautao6qqc1ur" path="res://Game Elements/Attacks/cowboy_bullet.tscn" id="2_l3ar2"]
+[ext_resource type="Texture2D" uid="uid://brb4wlo0tvyss" path="res://art/characters/gunslinger/cowboy_spritesheet.png" id="4_b5bue"]
+[ext_resource type="BehaviorTree" uid="uid://ddgbrhr8sil1l" path="res://ai/trees/gunslinger.tres" id="4_l3ar2"]
+[ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="6_k8604"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_phyc7"]
+size = Vector2(11, 15)
+
+[sub_resource type="Animation" id="Animation_8s1eb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_uhxym"]
+resource_name = "attack_forward"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.06666667, 0.10000001, 0.13333334, 0.16666667, 0.20000002, 0.23333335),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [9, 10, 11, 12, 13, 14, 15, 16]
+}
+
+[sub_resource type="Animation" id="Animation_phyc7"]
+resource_name = "idle_forward"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 4]
+}
+
+[sub_resource type="Animation" id="Animation_12o7h"]
+resource_name = "move_forward"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06666667, 0.13333334, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [5, 6, 7, 8]
+}
+
+[sub_resource type="Animation" id="Animation_llnr1"]
+resource_name = "sprint_forward"
+length = 0.24
+loop_mode = 1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8s1eb"]
+_data = {
+&"RESET": SubResource("Animation_8s1eb"),
+&"attack": SubResource("Animation_uhxym"),
+&"idle": SubResource("Animation_phyc7"),
+&"move": SubResource("Animation_12o7h"),
+&"sprint": SubResource("Animation_llnr1")
+}
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_8s1eb"]
+var/state/name = &"state"
+var/state/type = 4
+var/state/value = "spawning"
+var/state/hint = 0
+var/state/hint_string = ""
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w832q"]
+radius = 6.0
+
+[node name="Cowboy" type="CharacterBody2D" groups=["enemy"]]
+z_index = 20
+y_sort_enabled = true
+scale = Vector2(1.2, 1.2)
+collision_layer = 4
+collision_mask = 9
+script = ExtResource("1_b5bue")
+max_health = 20.0
+hit_range = 300
+agro_distance = 500.0
+enemy_type = "archer"
+displays = Array[NodePath]([NodePath("Sprite2D")])
+max_sprint_cooldown = 4.0
+sprint_multiplier = 3.0
+move_speed = 80.0
+attacks = [ExtResource("2_l3ar2")]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+position = Vector2(3, 2)
+texture = ExtResource("4_b5bue")
+hframes = 17
+vframes = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2.5, 1.5)
+shape = SubResource("RectangleShape2D_phyc7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_8s1eb")
+}
+
+[node name="BTPlayer" type="BTPlayer" parent="."]
+behavior_tree = ExtResource("4_l3ar2")
+blackboard_plan = SubResource("BlackboardPlan_8s1eb")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 7
+linear_damp = 0.0
+script = ExtResource("6_k8604")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(2, 6)
+shape = SubResource("CircleShape2D_w832q")

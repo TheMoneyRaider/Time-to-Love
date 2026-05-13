@@ -6,10 +6,12 @@
 
 [resource]
 script = ExtResource("3_6a7c0")
-remnant_name = "Remnant of Thorns"
-description = "Enemies $X also take damage when you take damage."
+remnant_name = "Remnant of The Druid"
+description = "Whenever you take damage, enemies $X are damaged $Y the damage received."
 icon = ExtResource("2_i1h4b")
 art = ExtResource("1_iqg4q")
-variable_names = Array[String](["$X"])
+variable_names = Array[String](["$X", "$Y", "$Z"])
 variable_1_values = ["in a small radius", "in a medium radius", "in a large radius", "in a giant radius", "on screen"]
+variable_2_values = ["equal to", "equal to", "by twice", "by twice", "by thrice"]
+variable_3_values = [1, 1, 2, 2, 3]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

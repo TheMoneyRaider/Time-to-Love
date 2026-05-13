@@ -170,6 +170,7 @@ func apply_remnants(attack_instance):
 		var hydromancer = preload("res://Game Elements/Remnants/hydromancer.tres")
 		var intelligence = preload("res://Game Elements/Remnants/intelligence.tres")
 		var longshot = preload("res://Game Elements/Remnants/longshot.tres")
+		var hunter = preload("res://Game Elements/Remnants/hunter.tres")
 		if c_owner.is_purple:
 			remnants = c_owner.get_tree().get_root().get_node("LayerManager").player_1_remnants
 			mancer_value = c_owner.mancermancer_values[0]
@@ -182,7 +183,7 @@ func apply_remnants(attack_instance):
 				match rem.remnant_name:
 					terramancer.remnant_name:
 						if c_owner.velocity.length() <= .1:
-							attack_instance.scale = attack_instance.scale * (1 + (mancer_value / 4) + rem.variable_2_values[rem.rank-1] / 4)
+							attack_instance.scale = attack_instance.scale * (1 + (mancer_value / 4.0) + rem.variable_2_values[rem.rank-1] / 4.0)
 							attack_instance.hit_force = attack_instance.hit_force * (1 + mancer_value + rem.variable_2_values[rem.rank-1] / 4)
 							attack_instance.knockback_force = attack_instance.knockback_force * (1 + (mancer_value / 2) + rem.variable_2_values[rem.rank-1] / 4)
 					aeromancer.remnant_name:
@@ -197,12 +198,19 @@ func apply_remnants(attack_instance):
 							attack_instance.speed = (.5 * similarity * c_owner.velocity.length() * ((mancer_value * 50) + rem.variable_1_values[rem.rank-1]) / 100)
 					hydromancer.remnant_name:
 						attack_instance.last_liquid = c_owner.last_liquid
-						c_owner.last_liquid = Globals.Liquid.Buffer
+						#c_owner.last_liquid = Globals.Liquid.Buffer
 					intelligence.remnant_name:
 						attack_instance.intelligence = rem.duplicate(true)
 					longshot.remnant_name:
 						if(pierce >= 0):
 							attack_instance.pierce += rem.rank
+					hunter.remnant_name:
+						var min_dist = 100000
+						for child in c_owner.LayerManager.room_instance.get_children():
+							if child is DynamEnemy:
+								min_dist = min(min_dist,c_owner.global_position.distance_to(child.global_position))
+						if rem.variable_2_values[rem.rank-1]*16 < min_dist:
+							attack_instance.damage += rem.variable_1_values[rem.rank-1]
 					_:
 						pass
 
@@ -336,7 +344,7 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 					damage += (special_start_damage / 1.2) * time_elapsed
 				var effect = preload("res://Game Elements/Effects/max_charge.tres").duplicate(true)
 				effect.cooldown = 20*time_elapsed
-				effect.value1 = 0.15
+				effect.value1 = 0.1
 				effect.gained(c_owner)
 				Effects.append(effect)
 				if(special_time_elapsed >= 2.0):
@@ -475,7 +483,7 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 				speed = speed - 100
 				var temp_attack_scene = attack_scene
 				attack_scene = "res://Game Elements/Attacks/giant_bolt.tscn"
-				spawn_attack(special_direction,special_position, node_attacking,"burn_particles")
+				spawn_attack(special_direction,special_position + 20 * special_direction, node_attacking,"burn_particles")
 				current_special_hits = 0
 				scale = scale / 1.2
 				speed = speed + 100

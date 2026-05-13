@@ -6,9 +6,9 @@
 script = ExtResource("1_poe5v")
 scene_location = "res://Game Elements/Rooms/western/canyon1.tscn"
 noise_seed = null
-num_enemy_goal = 5
+num_enemy_goal = 6
 roomvariant = 2
-enemy_pool = Array[String](["res://Game Elements/Characters/robot.tscn"])
-enemy_chances = Array[float]([1.0])
+enemy_pool = Array[String](["res://Game Elements/Characters/scorpion.tscn", "res://Game Elements/Characters/cactus.tscn", "res://Game Elements/Characters/gunslinger.tscn"])
+enemy_chances = Array[float]([2.0, 1.0, 1.0])
 wave_segment = 0.25
 metadata/_custom_type_script = "uid://boljl4yehg187"

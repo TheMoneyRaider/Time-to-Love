@@ -1137,7 +1137,6 @@ texture = ExtResource("10_884a8")
 expand_mode = 1
 
 [node name="B-F08" type="TextureRect" parent="."]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -1249,14 +1248,13 @@ texture = ExtResource("16_iutgx")
 expand_mode = 1
 
 [node name="F-F08" type="TextureRect" parent="."]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -240.0
 offset_top = -311.0
 offset_right = 240.0
-offset_bottom = 311.00415
+offset_bottom = 311.0044
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.9, 0.9)
@@ -1265,7 +1263,6 @@ texture = ExtResource("17_6luvr")
 expand_mode = 1
 
 [node name="F-F18" type="TextureRect" parent="."]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

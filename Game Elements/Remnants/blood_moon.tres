@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://do61egp5p5k0k"]
+
+[ext_resource type="Texture2D" uid="uid://ctqsomddtcmpi" path="res://art/remnants/cleric_remannt.png" id="1_rwqum"]
+[ext_resource type="Texture2D" uid="uid://bc1ubv2dkymp5" path="res://art/remnants/cleric_orb.png" id="2_j8ex2"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_tfben"]
+
+[resource]
+script = ExtResource("3_tfben")
+remnant_name = "Remnant of The Vampire"
+description = "$X% Chance to heal $Y% of your health after killing an enemy"
+icon = ExtResource("2_j8ex2")
+art = ExtResource("1_rwqum")
+progress_required = 1.0
+variable_names = Array[String](["$X", "$Y"])
+variable_1_values = [3, 6, 9, 12, 15]
+variable_2_values = [4, 8, 12, 16, 20]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

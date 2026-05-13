@@ -35,6 +35,7 @@ var num_letters_collected : int = 0
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	load_config()
+	apply_audio_settings()
 	player1_input = config.get_value("inputs","player1_input", "key")
 	player2_input = config.get_value("inputs","player2_input", "0")
 	randomize()
@@ -64,6 +65,20 @@ func load_config():
 		save_state = SaveState.new()
 
 	total_progress = save_state.total_progress
+
+func apply_audio_settings():
+	var bus_map = {
+		"master": "Master",
+		"music": "Music",
+		"sfx": "SFX",
+		"ui": "UI"
+	}
+	for key in bus_map:
+		var db = config.get_value("audio", key, 0)
+		var idx = AudioServer.get_bus_index(bus_map[key])
+		if idx != -1:
+			AudioServer.set_bus_volume_db(idx, db)
+			AudioServer.set_bus_mute(idx, db <= -80)
 
 func save_config():
 	total_progress = max(total_progress, RoomManager.current_progress)
@@ -106,3 +121,4 @@ func invert_direction(direct : Direction) -> Direction:
 		Direction.Down:
 			return Direction.Up
 	return Direction.Error
+	

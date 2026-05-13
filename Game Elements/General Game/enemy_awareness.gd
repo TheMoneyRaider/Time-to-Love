@@ -91,8 +91,10 @@ func _process(_d):
 					icon2.visible = true
 					icon1.texture = reward
 					icon2.texture = reward
-					icon1.material.set_shader_parameter("split", false)
-					icon2.material.set_shader_parameter("split", false)
+					if(icon1.material != null):
+						icon1.material.set_shader_parameter("split", false)
+					if(icon2.material != null):
+						icon2.material.set_shader_parameter("split", false)
 			2:
 				if version_changed:
 					glow.get_node("GlowCircle").visible = false

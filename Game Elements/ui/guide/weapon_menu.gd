@@ -188,7 +188,6 @@ func move_focus(direction: int) -> void:
 		var entry = list_container.get_child(current_focus_index)
 		var btn = entry.btn_select
 		_on_weapon_focus(btn)
-	print(current_focus_index)
 
 func _update_scroll():
 	

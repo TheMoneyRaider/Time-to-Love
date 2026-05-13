@@ -21,6 +21,8 @@ class UIState:
 @onready var prepared = false
 var capture_all_states: bool = false
 @export var saved_fragments_paths: Array[String] = ["res://Game Elements/ui/main_menu/BreakFXSavedWestern.tres","res://Game Elements/ui/main_menu/BreakFXSavedSpace.tres","res://Game Elements/ui/main_menu/BreakFXSavedMedieval.tres"]
+var intro_started: bool = false
+
 
 var last_mouse_pos : Vector2
 var ui_textures: Dictionary = {}
@@ -29,13 +31,26 @@ var title_textures : Array = [preload("res://art/title_assets/title_variants/wes
 var UI: UIState = UIState.new()
 @onready var prev_state = null
 var paused : bool = true
+var skip_next_release : bool = false
+var hover_cooldown: float = 0.0
 
 func _ready():
 	if Globals.cinematic_viewed:
 		paused = false
 		$Intro.visible = false
+		start_menu_music()
 	else:
 		$Intro/AnimationPlayer.play("main")
+		# After 60 seconds, skip to end and start music
+		get_tree().create_timer(65.0).timeout.connect(func():
+			if paused:  # only if not already skipped manually
+				$Intro/AnimationPlayer.stop()
+				$Intro.visible = false
+				$Intro/AudioStreamPlayer.stop()
+				Globals.cinematic_viewed = true
+				paused = false
+				start_menu_music()
+		)
 	Title.texture = title_textures[Globals.menu]
 	fragmenting = Globals.config.get_value("fragmentation", "enabled", true)
 	if capture_all_states:
@@ -45,6 +60,11 @@ func _ready():
 		UI_Group.get_node("VBoxContainer").get_child(2).grab_focus()
 		UI_Group.visible = true
 		Title.visible = true
+		
+		for button in $SubViewportContainer/SubViewport/UI_Group/VBoxContainer.get_children():
+			if button is Button:
+				button.mouse_entered.connect(_on_focus_entered)  # ← mouse hover
+				button.focus_entered.connect(_on_focus_entered)  # ← keyboard/controller
 	else:
 		if !capture_all_states:
 			preload_all_textures()
@@ -88,19 +108,26 @@ func _begin_explosion_cooldown():
 		cooldown = randf_range(2,4)
 		exploaded = true
 
-			
-
-
+func start_menu_music():
+	music_manager.play_theme("main")
+	
+	
 func _process(delta):
 	if paused:
+		if !intro_started:
+			intro_started = true
+			return
 		if $Intro/AnimationPlayer.is_playing():
 			return
 		else:
+			print("_process: animation finished naturally")
 			$Intro.visible = false
 			$Intro/AnimationPlayer.stop()
 			$Intro/AudioStreamPlayer.stop()
 			Globals.cinematic_viewed = true
 			paused=false
+			skip_next_release = true
+			start_menu_music()
 	if !fragmenting:
 		return
 	if Globals.player1_input:
@@ -140,6 +167,7 @@ func _process(delta):
 		exploaded = false
 		cooldown = 1
 		rewind_ui(cooldown)
+		
 
 func fragment_disruption():
 	if get_viewport() and last_mouse_pos.distance_to(get_viewport().get_mouse_position()) >10:
@@ -192,7 +220,9 @@ func _input(event):
 				$Intro.visible = false
 				$Intro/AnimationPlayer.stop()
 				$Intro/AudioStreamPlayer.stop()
+				start_menu_music()
 			Globals.cinematic_viewed = true
+			skip_next_release = true
 			paused=false
 		return
 	if !fragmenting:
@@ -275,16 +305,16 @@ func explode_ui():
 			frag.queue_free()
 
 		# Save all fragments to resource
-		var container = FragmentsContainer.new()
-		container.fragments = fragment_resources
-		ResourceSaver.save(container, saved_fragments_paths[state])
-		fragment_resources.clear()
-		print("Saved fragments of menu "+str(state))
+		#var container = FragmentsContainer.new()
+		#container.fragments = fragment_resources
+		#ResourceSaver.save(container, saved_fragments_paths[state])
+		#fragment_resources.clear()
+		#print("Saved fragments of menu "+str(state))
 		
-	print("All fragment data saved!")
+	#print("All fragment data saved!")
 
 func load_fragments(path: String) -> void:
-	if not FileAccess.file_exists(path):
+	if not ResourceLoader.exists(path):
 		return
 	UI_Group.visible = true
 	var container: FragmentsContainer = load(path)
@@ -396,6 +426,12 @@ func update_prompt():
 		text += button_state(Globals.player2_input,disruptive2)
 		$RichTextLabel.bbcode_text = text+": Toggle Fracturing "
 
+func _on_focus_entered() -> void:
+	print("focus entered")
+	if hover_cooldown <= 0.0:
+		print("playing audio")
+		$UIHover.play()
+		hover_cooldown = 0.025
 
 func button_state(input_type : String, active : bool):
 	if input_type == "key":
@@ -454,6 +490,15 @@ func update_ui_display():
 		"p2_press": UI.player2.pressing
 	})
 	if !prev_state or state!=prev_state:
+		
+		# handles UI sfx
+		if prev_state and (state["p1_hover"] != prev_state["p1_hover"] \
+		or state["p2_hover"] != prev_state["p2_hover"]):
+			if hover_cooldown <= 0.0:
+				print("playing hover sound")
+				$UIHover.play()
+				hover_cooldown = 0.1
+		
 		prev_state=state
 		var fname = generate_filename(prev_state)
 		if !ui_textures.has(fname):
@@ -539,10 +584,13 @@ func inputs(input_device):
 		if UI.player2.input == input_device:
 			UI.player2.pressing = true
 	if Input.is_action_just_released("activate_"+input_device):
-		if UI.player1.input == input_device and UI.player1.pressing:
-			UI.player1.hover_button.emit_signal("pressed")
-		if UI.player2.input == input_device and UI.player2.pressing:
-			UI.player2.hover_button.emit_signal("pressed")
+		if skip_next_release:
+			skip_next_release = false
+		else:
+			if UI.player1.input == input_device and UI.player1.pressing:
+				UI.player1.hover_button.emit_signal("pressed")
+			if UI.player2.input == input_device and UI.player2.pressing:
+				UI.player2.hover_button.emit_signal("pressed")
 
 func normalize_ui_state(state: Dictionary) -> Dictionary:
 	var p1_hover = state["p1_hover"]

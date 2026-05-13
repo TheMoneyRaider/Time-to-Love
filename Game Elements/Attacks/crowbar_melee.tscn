@@ -132,6 +132,7 @@ pierce = -2.0
 wall_collision = false
 attack_type = "crowbar_melee"
 deflects = true
+i_frames = 0
 animation = "swing"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

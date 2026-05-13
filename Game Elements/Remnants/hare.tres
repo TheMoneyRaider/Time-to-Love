@@ -6,11 +6,11 @@
 
 [resource]
 script = ExtResource("3_71ycc")
-remnant_name = "Remnant of the Hare"
-description = "$X% speed boost for the first 15 seconds of each room"
+remnant_name = "Remnant of The Hare"
+description = "You move $X% faster"
 icon = ExtResource("2_6ti52")
 art = ExtResource("1_8rr8o")
 progress_required = 1.0
 variable_names = Array[String](["$X"])
-variable_1_values = [25, 50, 100, 150, 200]
+variable_1_values = [5, 10, 15, 20, 25]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

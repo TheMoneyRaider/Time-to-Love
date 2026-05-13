@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("3_02elh")
-remnant_name = "Remnant of a Gambler"
+remnant_name = "Remnant of The Gambler"
 description = "Weapon Spread set to $X degrees. Number of attacks increased by $Y."
 icon = ExtResource("2_omsgd")
 art = ExtResource("1_uht33")

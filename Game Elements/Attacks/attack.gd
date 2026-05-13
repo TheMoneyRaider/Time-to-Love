@@ -20,6 +20,7 @@ var direction = Vector2.RIGHT
 @export var wall_collision = true
 #If the attack damages walls
 @export var wall_damage = false
+@export var bounces = 0
 var hit_nodes = {}
 #The attack type
 @export var attack_type : String = ""
@@ -33,7 +34,7 @@ var hit_nodes = {}
 @export var animation : String = ""
 @export var hits_owner : bool = false
 @export var hits_all : bool = false
-
+var start_scale = scale
 var combod : bool = false
 var is_purple : bool = false
 
@@ -57,7 +58,7 @@ func mult(speed_mult, damage_mult = 1, lifespan_mult = 1, hit_force_mult = 1):
 	self.speed = self.speed * speed_mult
 	self.damage = self.damage * damage_mult
 	self.lifespan = self.lifespan * lifespan_mult
-	self.hit_force = self.hit_force * hit_force_mult 
+	self.hit_force = self.hit_force * hit_force_mult
 
 func set_values(attack_speed = self.attack_speed, attack_damage = self.damage, attack_lifespan = self.lifespan, attack_hit_force = self.hit_force):
 	self.speed = attack_speed
@@ -80,6 +81,7 @@ func ready_hacks():
 func _ready():
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	ready_hacks()
+	start_scale = scale
 	frozen = true
 	if start_lag > 0.0:
 		await get_tree().create_timer(start_lag, false).timeout
@@ -218,6 +220,8 @@ func _process(delta):
 	drag()
 	if attack_type == "ls_melee":
 		global_position = c_owner.global_position
+	if attack_type == "bullet":
+		scale = start_scale * .2 * lerp(5,3,(life)/(lifespan))
 	if intelligence and speed > 0 and attack_type != "slug":
 		change_direction()
 	if frozen:
@@ -262,7 +266,7 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 		return 0
 	if n_owner.is_in_group("player") and body.is_in_group("player") and !hits_all:
 		return 0
-	if n_owner.is_in_group("enemy"): 
+	if n_owner.is_in_group("enemy"):
 		if body.is_in_group("enemy") and !hits_all:
 			return 0
 	elif !n_owner.is_in_group("player") and !body.is_in_group("player") and !hits_all:
@@ -285,6 +289,7 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 				return 0
 		body.take_damage(damage_dealt,n_owner,a_direction,self, i_frames,creates_indicators)
 		return 1
+	
 	if wall_damage:
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(0, n_owner,a_direction, self,null)
 	return -1
@@ -294,7 +299,8 @@ func intersection(body):
 	if c_owner == null:
 		return
 	if "current_health" not in c_owner or c_owner.current_health <= 0.0:
-		return
+		if(("hitable" in c_owner) and c_owner.hitable == true):
+			return
 	if body.get("c_owner") != null and !is_instance_valid(body.c_owner):
 		return
 	if attack_type == "laser" and life < .5:
@@ -302,6 +308,7 @@ func intersection(body):
 	if attack_type == "death mark":
 		if body != c_owner and body.is_in_group("player"):
 			c_owner.die(false)
+			queue_free()
 		return
 	
 	if(!hit_nodes.has(body)):
@@ -315,9 +322,26 @@ func intersection(body):
 			0:
 				pass
 			-1:
-				pierce -= 1
-				if(wall_collision):
-					queue_free()
+				if bounces > 0:
+					bounces -= 1
+					# Cast a short ray forward to get the wall's surface normal
+					var space = get_world_2d().direct_space_state
+					var query = PhysicsRayQueryParameters2D.create(
+						global_position,
+						global_position + direction.normalized() * 64
+					)
+					query.collide_with_areas = false
+					query.collide_with_bodies = true
+					query.collision_mask = 1 << 0
+					var result = space.intersect_ray(query)
+					if result:
+						direction = direction.bounce(result.normal)
+						rotation = direction.angle() + PI/2
+						hit_nodes.clear()  # allow re-hitting after bounce
+				else:
+					pierce -= 1
+					if wall_collision:
+						queue_free()
 	if pierce == -1:
 		queue_free()
 
@@ -328,7 +352,8 @@ func _on_body_entered(body):
 		special_nodes[-1].queue_free()
 		queue_free()
 		return
-	intersection(body)
+	if(!("attack_type" in body)):
+		intersection(body)
 
 func deflect(hit_direction, hit_speed, deflection_area):
 	if attack_type=="laser":
@@ -362,7 +387,10 @@ func _on_area_entered(area: Area2D) -> void:
 			area.c_owner.take_damage(self.damage,c_owner,direction,self,creates_indicators)
 			area.c_owner.take_damage(self.damage,c_owner,direction,self,creates_indicators)
 			return
-		area.deflect(direction, hit_force,self)
+		if(attack_type == "ls_melee"):
+			area.deflect((area.global_position - global_position).normalized(), hit_force,self)
+		else:
+			area.deflect(direction, hit_force,self)
 		area.c_owner = c_owner
 		area.is_purple = is_purple
 		area.hit_nodes = {}

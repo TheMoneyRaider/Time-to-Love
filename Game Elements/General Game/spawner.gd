@@ -65,6 +65,8 @@ static func spawn_enemies(
 	var cells_needed := _cells_needed(_get_enemy_half_extents(enemy_path))
 	
 	var enemy_goal = room_data.num_enemy_goal
+	if(room_data.enemy_density_goal > 0):
+		enemy_goal = int(len(available_cells) * room_data.enemy_density_goal)
 	if override_enemy_count > -1: enemy_goal = override_enemy_count
 
 	for _i in enemy_goal:
@@ -288,7 +290,11 @@ static func _spawn_enemy(cell: Vector2i, scene: Node, enemy: PackedScene, layer_
 		
 		
 	if layer_manager.room_instance_data.roomtype == Globals.RoomType.Boss:
+		if !inst:
+			return
 		await inst.get_tree().process_frame
+		if !inst:
+			return
 		await inst.get_tree().process_frame
 		if !inst:
 			return

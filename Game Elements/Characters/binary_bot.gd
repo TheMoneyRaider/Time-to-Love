@@ -94,7 +94,6 @@ func _process(delta):
 	var board = bt_player.blackboard
 	if board:
 		var attack_mode = board.get_var("attack_mode")
-		print(attack_mode)
 		if attack_mode == "SPAWNING":
 			if !tracked_wave:
 				board.set_var("attack_mode","CHASE")

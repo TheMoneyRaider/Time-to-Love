@@ -6,11 +6,11 @@
 
 [resource]
 script = ExtResource("3_karch")
-remnant_name = "Remnant of the Longshot"
+remnant_name = "Remnant of The Archer"
 description = "Ranged attacks have $Y more pierce and deal $X% more damage for every enemy hit"
 icon = ExtResource("2_xsrs2")
 art = ExtResource("1_qyqfm")
 variable_names = Array[String](["$X", "$Y"])
-variable_1_values = [20, 40, 60, 80, 100]
+variable_1_values = [25, 50, 75, 100, 125]
 variable_2_values = [1, 2, 3, 4, 5]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

@@ -20,7 +20,7 @@ shader_parameter/tendril_thickness = 20.0
 shader_parameter/tendril_waviness = 18.206000627285
 shader_parameter/tendril_speed = 1.5
 shader_parameter/view_offset = Vector2(0, 0)
-shader_parameter/range_start = 1.5000000712500001
+shader_parameter/range_start = 1.50000007125
 shader_parameter/range_end = 2.50000011875
 
 [node name="Settings" type="Node2D"]
@@ -50,6 +50,37 @@ grow_vertical = 2
 texture = ExtResource("7_5x5iw")
 expand_mode = 1
 
+[node name="ColorRect" type="ColorRect" parent="Control"]
+z_index = -1
+material = SubResource("ShaderMaterial_3n0va")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Light_texture" type="TextureRect" parent="Control"]
+modulate = Color(0.52135843, 0.0013825077, 0.6983415, 1)
+z_index = -1
+layout_mode = 0
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+texture = ExtResource("9_xt5ys")
+
+[node name="Light_texture2" type="TextureRect" parent="Control"]
+modulate = Color(0.52135843, 0.0013825077, 0.6983415, 1)
+z_index = -1
+layout_mode = 0
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+texture = ExtResource("9_xt5ys")
+
 [node name="MarginContainer" type="MarginContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 15
@@ -72,18 +103,87 @@ size_flags_horizontal = 0
 [node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/Volume"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Volume"
+text = "Master"
 
 [node name="Volume" type="HSlider" parent="Control/MarginContainer/VBoxContainer/Volume"]
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 size_flags_horizontal = 8
-focus_neighbor_bottom = NodePath("../../Mouse/MouseSensitivity")
+focus_neighbor_bottom = NodePath("../../Music/Music")
 step = 0.5
 value = 100.0
 script = ExtResource("2_r7s23")
 
 [node name="VolVal" type="Label" parent="Control/MarginContainer/VBoxContainer/Volume"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="Music" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/Music"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Music"
+
+[node name="Music" type="HSlider" parent="Control/MarginContainer/VBoxContainer/Music"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+size_flags_horizontal = 8
+focus_neighbor_top = NodePath("../../Volume/Volume")
+focus_neighbor_bottom = NodePath("../../SFX/SFX")
+step = 0.5
+value = 100.0
+script = ExtResource("2_r7s23")
+
+[node name="MusicVal" type="Label" parent="Control/MarginContainer/VBoxContainer/Music"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="SFX" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/SFX"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "SFX"
+
+[node name="SFX" type="HSlider" parent="Control/MarginContainer/VBoxContainer/SFX"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+size_flags_horizontal = 8
+focus_neighbor_top = NodePath("../../Music/Music")
+focus_neighbor_bottom = NodePath("../../UI/UI")
+step = 0.5
+value = 100.0
+script = ExtResource("2_r7s23")
+
+[node name="SFXVal" type="Label" parent="Control/MarginContainer/VBoxContainer/SFX"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="UI" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/UI"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "UI"
+
+[node name="UI" type="HSlider" parent="Control/MarginContainer/VBoxContainer/UI"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+size_flags_horizontal = 8
+focus_neighbor_top = NodePath("../../SFX/SFX")
+focus_neighbor_bottom = NodePath("../../Mouse/MouseSensitivity")
+step = 0.5
+value = 100.0
+script = ExtResource("2_r7s23")
+
+[node name="UIVal" type="Label" parent="Control/MarginContainer/VBoxContainer/UI"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 
@@ -99,8 +199,8 @@ text = "Mouse Sensitivity"
 [node name="MouseSensitivity" type="HSlider" parent="Control/MarginContainer/VBoxContainer/Mouse"]
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
-focus_neighbor_top = NodePath("../../Volume/Volume")
-focus_neighbor_bottom = NodePath("../../Debug/DebugMode")
+focus_neighbor_top = NodePath("../../UI/UI")
+focus_neighbor_bottom = NodePath("../../Controller_Mode/ControllerMode")
 min_value = 0.1
 max_value = 2.0
 step = 0.01
@@ -108,6 +208,50 @@ value = 1.0
 script = ExtResource("2_r7s23")
 
 [node name="SensLabel" type="Label" parent="Control/MarginContainer/VBoxContainer/Mouse"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="Controller_Mode" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/Controller_Mode"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Controller Aim Smoothing"
+
+[node name="ControllerMode" type="CheckButton" parent="Control/MarginContainer/VBoxContainer/Controller_Mode"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../../Mouse/MouseSensitivity")
+focus_neighbor_bottom = NodePath("../../Controller/Joystick Sensitivity")
+
+[node name="ControllerLabel" type="Label" parent="Control/MarginContainer/VBoxContainer/Controller_Mode"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="Controller" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/Controller"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Joystick Acceleration"
+
+[node name="Joystick Sensitivity" type="HSlider" parent="Control/MarginContainer/VBoxContainer/Controller"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+focus_neighbor_top = NodePath("../../Controller_Mode/ControllerMode")
+focus_neighbor_bottom = NodePath("../../Fragmenting/FragMode")
+min_value = 3.0
+max_value = 14.0
+step = 0.1
+value = 7.0
+script = ExtResource("2_r7s23")
+
+[node name="SensLabel" type="Label" parent="Control/MarginContainer/VBoxContainer/Controller"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
@@ -123,7 +267,7 @@ text = "Menu Fragmentation"
 
 [node name="FragMode" type="CheckButton" parent="Control/MarginContainer/VBoxContainer/Fragmenting"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../../Mouse/MouseSensitivity")
+focus_neighbor_top = NodePath("../../Controller/Joystick Sensitivity")
 focus_neighbor_bottom = NodePath("../../Debug/DebugMode")
 
 [node name="FragLabel" type="Label" parent="Control/MarginContainer/VBoxContainer/Fragmenting"]
@@ -143,12 +287,35 @@ text = "Debug Mode"
 [node name="DebugMode" type="CheckButton" parent="Control/MarginContainer/VBoxContainer/Debug"]
 layout_mode = 2
 focus_neighbor_top = NodePath("../../Fragmenting/FragMode")
-focus_neighbor_bottom = NodePath("../../Player1/Choice")
+focus_neighbor_bottom = NodePath("../../RewindMode/Choice")
 
 [node name="DebugLabel" type="Label" parent="Control/MarginContainer/VBoxContainer/Debug"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
+
+[node name="RewindMode" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Text" type="Label" parent="Control/MarginContainer/VBoxContainer/RewindMode"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Rewind Mode"
+
+[node name="Choice" type="OptionButton" parent="Control/MarginContainer/VBoxContainer/RewindMode"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../../Debug/DebugMode")
+focus_neighbor_bottom = NodePath("../../Player1/Choice")
+selected = 0
+allow_reselect = true
+item_count = 3
+popup/item_0/text = "Low RAM"
+popup/item_0/id = 0
+popup/item_1/text = "High FPS"
+popup/item_1/id = 1
+popup/item_2/text = "Off"
+popup/item_2/id = 2
 
 [node name="Player1" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -161,7 +328,7 @@ text = "Player 1 "
 
 [node name="Choice" type="OptionButton" parent="Control/MarginContainer/VBoxContainer/Player1"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../../Debug/DebugMode")
+focus_neighbor_top = NodePath("../../RewindMode/Choice")
 focus_neighbor_bottom = NodePath("../../Player2/Choice")
 allow_reselect = true
 
@@ -210,41 +377,16 @@ theme_override_styles/hover = ExtResource("8_xt5ys")
 theme_override_styles/hover_pressed = ExtResource("5_r7s23")
 text = "Apply"
 
-[node name="ColorRect" type="ColorRect" parent="Control"]
-z_index = -1
-material = SubResource("ShaderMaterial_3n0va")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="Light_texture" type="TextureRect" parent="Control"]
-modulate = Color(0.52135843, 0.0013825077, 0.6983415, 1)
-z_index = -1
-layout_mode = 0
-offset_left = -256.0
-offset_top = -256.0
-offset_right = 256.0
-offset_bottom = 256.0
-texture = ExtResource("9_xt5ys")
-
-[node name="Light_texture2" type="TextureRect" parent="Control"]
-modulate = Color(0.52135843, 0.0013825077, 0.6983415, 1)
-z_index = -1
-layout_mode = 0
-offset_left = -256.0
-offset_top = -256.0
-offset_right = 256.0
-offset_bottom = 256.0
-texture = ExtResource("9_xt5ys")
-
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Volume/Volume" to="Control" method="_on_volume_value_changed"]
+[connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Music/Music" to="Control" method="_on_music_value_changed"]
+[connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/SFX/SFX" to="Control" method="_on_sfx_value_changed"]
+[connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/UI/UI" to="Control" method="_on_ui_value_changed"]
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Mouse/MouseSensitivity" to="Control" method="_on_mouse_sensitivity_value_changed"]
+[connection signal="toggled" from="Control/MarginContainer/VBoxContainer/Controller_Mode/ControllerMode" to="Control" method="_on_controller_mode_toggled"]
+[connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Controller/Joystick Sensitivity" to="Control" method="_on_joystick_sensitivity_value_changed"]
 [connection signal="toggled" from="Control/MarginContainer/VBoxContainer/Fragmenting/FragMode" to="Control" method="_on_frag_mode_toggled"]
 [connection signal="toggled" from="Control/MarginContainer/VBoxContainer/Debug/DebugMode" to="Control" method="_on_debug_mode_toggled"]
+[connection signal="item_selected" from="Control/MarginContainer/VBoxContainer/RewindMode/Choice" to="Control" method="_on_rewind_mode_selected"]
 [connection signal="item_selected" from="Control/MarginContainer/VBoxContainer/Player1/Choice" to="Control" method="_on_p1_selected"]
 [connection signal="item_selected" from="Control/MarginContainer/VBoxContainer/Player2/Choice" to="Control" method="_on_p2_selected"]
 [connection signal="pressed" from="Control/MarginContainer/VBoxContainer/EnterExit/Back" to="Control" method="_on_back_pressed"]

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://n8r8w8412etu"
+path="res://.godot/imported/select_002.ogg-fa92c03f3b75ff5a8d9c5eb5902396ff.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/ui/sfx/select_002.ogg"
+dest_files=["res://.godot/imported/select_002.ogg-fa92c03f3b75ff5a8d9c5eb5902396ff.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

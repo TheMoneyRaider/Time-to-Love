@@ -21,7 +21,6 @@ func _delete_save(idx: int) -> void:
 
 func _ready() -> void:
 	save_state1 = _load_save(0)
-	print(save_state1.time_spent)
 	save_state2 = _load_save(1)
 	save_state3 = _load_save(2)
 	highlight_state()
@@ -54,16 +53,19 @@ func format_time(seconds: float) -> String:
 func _save1_select_pressed() -> void:
 	Globals.save_idx = 0
 	Globals.save_state = _load_save(0)
+	Globals.total_progress = Globals.save_state.total_progress
 	highlight_state()
 
 func _save2_select_pressed() -> void:
 	Globals.save_idx = 1
 	Globals.save_state = _load_save(1)
+	Globals.total_progress = Globals.save_state.total_progress
 	highlight_state()
 
 func _save3_select_pressed() -> void:
 	Globals.save_idx = 2
 	Globals.save_state = _load_save(2)
+	Globals.total_progress = Globals.save_state.total_progress
 	highlight_state()
 
 func _on_delete1_pressed() -> void:

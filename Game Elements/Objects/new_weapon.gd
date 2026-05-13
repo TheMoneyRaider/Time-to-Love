@@ -6,6 +6,7 @@ extends Area2D
 var tracked_bodies: Array = []
 var cost : int = 0
 var enabled : bool = true
+@export var required_progress : float = 0.0
 
 func set_cost(in_cost : int):
 	cost = in_cost
@@ -16,6 +17,13 @@ func set_cost(in_cost : int):
 
 func _ready():
 	prompt1.visible = false
+	var prog = max(Globals.total_progress,RoomManager.current_progress)
+	if(prog < required_progress):
+		enabled = false
+		$Image.material = $Image.material.duplicate()
+		var mat := $Image.material as ShaderMaterial
+		if mat:
+			mat.set_shader_parameter("desaturate", 0.0 if enabled else 1.0)
 	var weapon_resource = load("res://Game Elements/Weapons/" + weapon_type + ".tres")
 	var sprite = weapon_resource.weapon_sprite
 	if weapon_type == "Railgun":

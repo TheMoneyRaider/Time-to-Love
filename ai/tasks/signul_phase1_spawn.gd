@@ -28,6 +28,5 @@ func _tick(_delta: float) -> Status:
 		if get_laser_count() > 4:
 			enemy_id = 1
 		var e_count = enemy_count_linear[enemy_id] + int(enemy_count_rand[enemy_id] * randf())
-		print(e_count)
 		agent.boss_signal("spawn_enemies",e_count,enemies[enemy_id])
 	return SUCCESS

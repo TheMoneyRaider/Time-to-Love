@@ -28,6 +28,7 @@ var look_direction : Vector2 = Vector2(0,1)
 @export var weapon_cooldowns : Array[float] = []
 var last_hitter : Node = null
 var exploded : float = 0
+@export var cactus_explode : bool = false
 var purple_explode : bool = false
 
 var last_pos:Vector2 = Vector2(0,0)
@@ -85,6 +86,8 @@ func handle_attack(target_position: Vector2,attack_index: int = 0):
 		else:
 			request_attack(attacks[0], attack_position + Vector2(0,20), attack_direction)
 			return
+	if enemy_type=="archer":
+		attack_position = attack_position + attack_direction * 10
 	request_attack(attacks[attack_index], attack_position, attack_direction)
 
 func request_attack(t_attack: PackedScene, attack_position: Vector2, attack_direction: Vector2):
@@ -92,7 +95,7 @@ func request_attack(t_attack: PackedScene, attack_position: Vector2, attack_dire
 	instance.global_position = attack_position
 	instance.direction = attack_direction
 	instance.c_owner = self
-	get_parent().add_child(instance)
+	get_parent().call_deferred("add_child",instance)
 	emit_signal("attack_requested", t_attack, attack_position, attack_direction)
 # import like, takes damage or something like that
 
@@ -290,6 +293,11 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 	if current_health >= 0.0 and display_damage and creates_indicators:
 		LayerManager._damage_indicator(damage, dmg_owner,direction, attack_body,self)
 		damage_flash()
+		if(enemy_type=="cactus"):
+			var attack_position = global_position
+			var attack_direction = (dmg_owner.global_position - attack_position).normalized()
+			for i in range(-1,2):
+				request_attack(attacks[1], attack_position, attack_direction.rotated(i * 2 * PI / 12) )
 	if dmg_owner != null:
 		last_hitter = dmg_owner
 		if dmg_owner.is_in_group("player"):
@@ -389,8 +397,8 @@ func _check_on_hit_remnants(dmg_owner: Node, attack_body: Node):
 				match rem.remnant_name:
 					winter.remnant_name:
 						effect = preload("res://Game Elements/Effects/winter_freeze.tres").duplicate(true)
-						effect.cooldown = rem.variable_2_values[rem.rank-1]
-						effect.value1 =  rem.variable_1_values[rem.rank-1]
+						effect.cooldown = rem.variable_2_values[rem.rank-1] + .25 * mancer_value
+						effect.value1 =  rem.variable_1_values[rem.rank-1] + 10 * mancer_value
 						effect.gained(self)
 						effects.append(effect)
 					pyromancer.remnant_name:
