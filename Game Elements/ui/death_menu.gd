@@ -20,7 +20,7 @@ var capturing := true
 var rewinding := false
 var total_time = 0.0
 var final_frame : Image
-
+var rewind_mode = 0
 var test_buffer := []
 var test_buffer_fps := 30
 var test_buffer_size = 600
@@ -31,17 +31,27 @@ var frame_amount = 0
 
 func _ready():
 	hide()
+	rewind_mode = Globals.config.get_value("rewind", "rewind_mode", 0)
 	#Disable buttons at start
 	for button in death_box.get_children():
 		if button is Button:
 			button.disabled = true
-	capture_timer = Timer.new()
-	capture_timer.wait_time = 1.0 / test_buffer_fps #buffer_fps[0]
-	capture_timer.one_shot = false
-	add_child(capture_timer)
-	#capture_timer.timeout.connect(_capture_frame) TEST
-	capture_timer.timeout.connect(_test_capture_frame)
-	capture_timer.start()
+	if(rewind_mode != 2):
+		capture_timer = Timer.new()
+		if(rewind_mode == 0):
+			capture_timer.wait_time = 1.0 / test_buffer_fps
+		else:
+			capture_timer.wait_time = 1.0 / buffer_fps[0]
+		capture_timer.one_shot = false
+		add_child(capture_timer)
+		#capture_timer.timeout.connect(_capture_frame) TEST
+		if(rewind_mode == 0):
+			capture_timer.timeout.connect(_test_capture_frame)
+		else:
+			capture_timer.timeout.connect(_capture_frame)
+		capture_timer.start()
+	else:
+		capturing = false
 
 func _process(delta):
 	if capturing:
@@ -58,8 +68,9 @@ func state_change():
 
 func activate():
 	state_change()
-	capturing=false
-	capture_timer.stop()
+	if(capturing):
+		capturing=false
+		capture_timer.stop()
 	show()
 	get_tree().paused = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -98,6 +109,8 @@ func _test_capture_frame():
 		return
 	var viewport = get_parent().get_node("game_container/game_viewport") as SubViewport
 	var img = viewport.get_texture().get_image()
+	img.resize(viewport.size.x / 2, viewport.size.y / 2, Image.INTERPOLATE_NEAREST)
+	img.convert(Image.FORMAT_RGB8)
 	img.compress(Image.CompressMode.COMPRESS_S3TC)
 	#Save final frame
 	if frame_amount == 3:
@@ -141,11 +154,15 @@ func _on_replay_pressed():
 	tween.parallel().tween_property(death_box,"modulate:a",0.0,1.0)
 	tween.parallel().tween_property(get_node("Control/DeathAnnouncement"),"modulate:a",0.0,1.0)
 	await tween.finished
-	
+	if(rewind_mode == 2):
+		end_replay()
+		return
 	var now := Time.get_time_dict_from_system()
 	#play_replay_reverse() TEST
-	test_play_replay_reverse()
-
+	if(rewind_mode == 0):
+		test_play_replay_reverse()
+	else:
+		play_replay_reverse()
 func play_replay_reverse():
 	var reusable_texture := ImageTexture.new()
 	#Variables
@@ -235,13 +252,14 @@ func end_replay():
 	
 	test_buffer.clear()
 	test_frame_timer =0
-
+	
 	# Create a full-screen overlay with the last frame
-	var overlay = preload("res://Game Elements/ui/transition_texture.tscn").instantiate()
-	overlay.get_node("TextureRect").texture = ImageTexture.create_from_image(final_frame)
-	overlay.get_properties(replay_texture)
-	final_frame = null
-	get_tree().get_root().add_child(overlay)
+	if(rewind_mode != 2):
+		var overlay = preload("res://Game Elements/ui/transition_texture.tscn").instantiate()
+		overlay.get_node("TextureRect").texture = ImageTexture.create_from_image(final_frame)
+		overlay.get_properties(replay_texture)
+		final_frame = null
+		get_tree().get_root().add_child(overlay)
 	get_tree().paused = false
 	# Load the next scene deferred, the overlay keeps the last frame visible
 	get_tree().call_deferred("change_scene_to_file", "res://Game Elements/General Game/layer_manager.tscn")

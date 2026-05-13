@@ -8,6 +8,7 @@ var display_pathways: bool = false
 var mouse_clamping: bool = false
 var toggle_invulnerability: bool = false
 var controller_mode = true
+var rewind_mode = 0
 
 func load_settings():
 	mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
@@ -15,6 +16,7 @@ func load_settings():
 	joystick_acceleration = Globals.config.get_value("controls","joystick_acceleration",7.0)
 	debug_mode = Globals.config.get_value("debug", "enabled", false)
 	frag_mode = Globals.config.get_value("fragmentation", "enabled", true)
+	rewind_mode = Globals.config.get_value("rewind", "rewind_mode", 0)
 	$MarginContainer/VBoxContainer/Volume/Volume.value = db_to_percent(Globals.config.get_value("audio", "master", 0))
 	if Input.get_connected_joypads().size() == 0:
 		Globals.player1_input = "key"
@@ -57,6 +59,7 @@ func _on_apply_settings()-> void:
 	Globals.config.set_value("fragmentation", "enabled", frag_mode)
 	Globals.config.set_value("inputs","player1_input", Globals.player1_input)
 	Globals.config.set_value("inputs","player2_input", Globals.player2_input)
+	Globals.config.set_value("rewind","rewind_mode",rewind_mode)
 	
 	Globals.config.set_value("audio", "master",percent_to_db(volslider.value))
 	Globals.config.set_value("audio", "music", percent_to_db($MarginContainer/VBoxContainer/Music/Music.value))
@@ -86,6 +89,7 @@ func _ready() -> void:
 	
 	$MarginContainer/VBoxContainer/Fragmenting/FragMode.button_pressed = frag_mode
 	update_frag_menu_label()
+	$MarginContainer/VBoxContainer/RewindMode/Choice.selected = rewind_mode
 	
 	refresh_devices(true)
 	refresh_devices(false)
@@ -245,3 +249,7 @@ func update_controller_menu_label() -> void:
 		$MarginContainer/VBoxContainer/Controller_Mode/ControllerLabel.text = "Off"
 	else:
 		$MarginContainer/VBoxContainer/Controller_Mode/ControllerLabel.text = "On"
+
+
+func _on_rewind_mode_selected(index: int) -> void:
+	rewind_mode = index

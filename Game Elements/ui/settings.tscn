@@ -287,12 +287,35 @@ text = "Debug Mode"
 [node name="DebugMode" type="CheckButton" parent="Control/MarginContainer/VBoxContainer/Debug"]
 layout_mode = 2
 focus_neighbor_top = NodePath("../../Fragmenting/FragMode")
-focus_neighbor_bottom = NodePath("../../Player1/Choice")
+focus_neighbor_bottom = NodePath("../../RewindMode/Choice")
 
 [node name="DebugLabel" type="Label" parent="Control/MarginContainer/VBoxContainer/Debug"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
+
+[node name="RewindMode" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Text" type="Label" parent="Control/MarginContainer/VBoxContainer/RewindMode"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Rewind Mode"
+
+[node name="Choice" type="OptionButton" parent="Control/MarginContainer/VBoxContainer/RewindMode"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../../Debug/DebugMode")
+focus_neighbor_bottom = NodePath("../../Player1/Choice")
+selected = 0
+allow_reselect = true
+item_count = 3
+popup/item_0/text = "Low RAM"
+popup/item_0/id = 0
+popup/item_1/text = "High FPS"
+popup/item_1/id = 1
+popup/item_2/text = "Off"
+popup/item_2/id = 2
 
 [node name="Player1" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -305,7 +328,7 @@ text = "Player 1 "
 
 [node name="Choice" type="OptionButton" parent="Control/MarginContainer/VBoxContainer/Player1"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../../Debug/DebugMode")
+focus_neighbor_top = NodePath("../../RewindMode/Choice")
 focus_neighbor_bottom = NodePath("../../Player2/Choice")
 allow_reselect = true
 
@@ -363,6 +386,7 @@ text = "Apply"
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Controller/Joystick Sensitivity" to="Control" method="_on_joystick_sensitivity_value_changed"]
 [connection signal="toggled" from="Control/MarginContainer/VBoxContainer/Fragmenting/FragMode" to="Control" method="_on_frag_mode_toggled"]
 [connection signal="toggled" from="Control/MarginContainer/VBoxContainer/Debug/DebugMode" to="Control" method="_on_debug_mode_toggled"]
+[connection signal="item_selected" from="Control/MarginContainer/VBoxContainer/RewindMode/Choice" to="Control" method="_on_rewind_mode_selected"]
 [connection signal="item_selected" from="Control/MarginContainer/VBoxContainer/Player1/Choice" to="Control" method="_on_p1_selected"]
 [connection signal="item_selected" from="Control/MarginContainer/VBoxContainer/Player2/Choice" to="Control" method="_on_p2_selected"]
 [connection signal="pressed" from="Control/MarginContainer/VBoxContainer/EnterExit/Back" to="Control" method="_on_back_pressed"]
