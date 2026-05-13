@@ -1828,14 +1828,14 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 
 
 func dev_remnants():
-	#var rem = load("res://Game Elements/Remnants/healer.tres")
+	#var rem = load("res://Game Elements/Remnants/hare.tres")
 	#rem.rank = 4
 	#player_1_remnants.append(rem.duplicate(true))
 	#player_2_remnants.append(rem.duplicate(true))
 	#rem = load("res://Game Elements/Remnants/giant.tres")
 	#rem.rank = 5
 	#player_2_remnants.append(rem.duplicate(true))
-	#remnant_update(rem,player1,false)
+	#remnant_update(rem,player1,true)
 	#rem = load("res://Game Elements/Remnants/mancermancer.tres")
 	#rem.rank = 5
 	#player_2_remnants.append(rem.duplicate(true))

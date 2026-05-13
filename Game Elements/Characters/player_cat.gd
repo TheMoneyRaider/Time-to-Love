@@ -579,17 +579,29 @@ var single_swap_duration : float = 0.0
 var single_toggle : bool = false
 
 func _check_hare():
-	var remnants : Array[Remnant]
-	if(is_purple):
-		remnants = LayerManager.player_1_remnants
-	else:
-		remnants = LayerManager.player_2_remnants
+	var remnants_purple : Array[Remnant]
+	var remnants_orange : Array[Remnant]
+	remnants_purple = LayerManager.player_1_remnants
+	remnants_orange = LayerManager.player_2_remnants
+	var purple_hare_rank = 0
+	var orange_hare_rank = 0
 	var hare = preload("res://Game Elements/Remnants/hare.tres")
-	for remnant in remnants:
-		if(remnant.remnant_name == hare.remnant_name):
-			move_speed = base_move_speed * (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
-			return
-	move_speed = base_move_speed
+	for rem in remnants_purple:
+		if rem.remnant_name == hare.remnant_name and rem.active:
+			purple_hare_rank = rem.rank
+	for rem in remnants_orange:
+		if rem.remnant_name == hare.remnant_name and rem.active:
+			orange_hare_rank = rem.rank
+	if(is_purple):
+		if(purple_hare_rank > orange_hare_rank):
+			move_speed *= ((1 + .05 * purple_hare_rank) / (1 + .05 * orange_hare_rank)) 
+		else:
+			move_speed *= ((1 + .05 * orange_hare_rank) / (1 + .05 * purple_hare_rank))
+	else:
+		if(purple_hare_rank < orange_hare_rank):
+			move_speed *= ((1 + .05 * purple_hare_rank) / (1 + .05 * orange_hare_rank)) 
+		else:
+			move_speed *= ((1 + .05 * orange_hare_rank) / (1 + .05 * purple_hare_rank)) 
 
 func _check_giant():
 	var remnants_purple : Array[Remnant]
