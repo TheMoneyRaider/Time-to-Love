@@ -1599,11 +1599,16 @@ func _on_enemy_take_damage(damage : float,current_health : float,enemy : Node, d
 			room_instance.call_deferred("add_child",attack_instance)
 			has_death_attack = true
 		if(enemy.cactus_explode):
+			var attack_direction
+			if(enemy.last_hitter != null):
+				attack_direction = (enemy.last_hitter.global_position - enemy.global_position).normalized()
+			else:
+				attack_direction = Vector2.RIGHT
 			for i in range(0,12):
 				var attack_instance = preload("res://Game Elements/Attacks/cactus_spine.tscn").instantiate()
 				attack_instance.c_owner = enemy
 				attack_instance.global_position = enemy.global_position
-				attack_instance.direction = Vector2.RIGHT.rotated(i * 2 * PI / 12)
+				attack_instance.direction = attack_direction.rotated(i * 2 * PI / 12)
 				room_instance.call_deferred("add_child", attack_instance)
 			has_death_attack = true
 		enemy.clear_effects()

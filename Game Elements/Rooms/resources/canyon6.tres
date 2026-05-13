@@ -11,6 +11,6 @@ num_enemy_goal = 20
 enemy_density_goal = 0.02
 roomvariant = 2
 enemy_pool = Array[String](["res://Game Elements/Characters/gunslinger.tscn", "res://Game Elements/Characters/cactus.tscn", "res://Game Elements/Characters/scorpion.tscn"])
-enemy_chances = Array[float]([1.0, 0.5, 2.0])
+enemy_chances = Array[float]([0.6, 0.5, 1.5])
 wave_segment = 0.0
 metadata/_custom_type_script = "uid://boljl4yehg187"
