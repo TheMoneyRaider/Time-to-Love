@@ -28,13 +28,8 @@ func _ready():
 	var weapon_resource = load("res://Game Elements/Weapons/" + weapon_type + ".tres")
 	var sprite = weapon_resource.weapon_sprite
 	if weapon_type == "Railgun":
-		var atlas = AtlasTexture.new()
-		atlas.atlas = sprite
-		atlas.region = Rect2(0, 0, 16, 48)  # x, y, width, height of the first frame
-		$Image.texture = atlas
-		scale = scale * .75
-	else:
-		$Image.texture = sprite
+		$Image.hframes= 13
+	$Image.texture = sprite
 	self.connect("body_entered", Callable(self, "_on_body_entered"))
 	self.connect("body_exited", Callable(self, "_on_body_exited"))
 	if cost!= 0:
@@ -45,8 +40,10 @@ func _ready():
 var time = 0.0
 func _process(delta: float) -> void:
 	time+=delta
-	$Image.position.y = sin(time/2+time_offset)*4
-	$Image.rotation = sin(time/3+2*time_offset) / 3
+	$Image.position.y = sin(time/2+time_offset)*1.5-16.0
+	$Image.rotation = sin(time/2+2*time_offset) / 3
+	if weapon_type == "Railgun" or weapon_type == "LaserSword":
+		$Image.rotation+=PI/2.0
 
 func _on_body_entered(body):
 	if body.is_in_group("player"):
