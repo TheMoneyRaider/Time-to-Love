@@ -116,7 +116,6 @@ shape = SubResource("CircleShape2D_8365d")
 
 [node name="Image" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_oeecv")
-scale = Vector2(2, 2)
 texture = ExtResource("3_p100u")
 
 [node name="Prompt1" type="Node2D" parent="."]

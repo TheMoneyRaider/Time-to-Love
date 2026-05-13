@@ -14,8 +14,9 @@ func set_cost(in_cost : int):
 		$Prompt1/TextureRect.visible = true
 	else:
 		$Prompt1/TextureRect.visible = false
-
+var time_offset
 func _ready():
+	time_offset = randf()*50
 	prompt1.visible = false
 	var prog = max(Globals.total_progress,RoomManager.current_progress)
 	if(prog < required_progress):
@@ -41,6 +42,11 @@ func _ready():
 	else:
 		$Prompt1/TextureRect.visible = false
 
+var time = 0.0
+func _process(delta: float) -> void:
+	time+=delta
+	$Image.position.y = sin(time/2+time_offset)*4
+	$Image.rotation = sin(time/3+2*time_offset) / 3
 
 func _on_body_entered(body):
 	if body.is_in_group("player"):

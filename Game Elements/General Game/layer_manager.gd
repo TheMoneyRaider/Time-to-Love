@@ -883,7 +883,7 @@ func _upgradable_remnants() -> bool:
 		count+=1
 	for remnant in player_2_remnants:
 		count+=1
-	if count >=3:
+	if count >=6:
 		return true
 	return false
 
