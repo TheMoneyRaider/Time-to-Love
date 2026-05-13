@@ -78,7 +78,10 @@ func request_attacks(direction : Vector2, char_position : Vector2, node_attackin
 		var gambler = preload("res://Game Elements/Remnants/gambler.tres")
 		for rem in remnants:
 			if rem.remnant_name == gambler.remnant_name:
-				attack_spread = rem.variable_1_values[rem.rank-1]
+				if(type == "Mace" or type == "Laser_Sword" or type=="Crowbar"):
+					attack_spread = rem.variable_1_values[rem.rank-1] * 2
+				else:
+					attack_spread = rem.variable_1_values[rem.rank-1]
 				random_spread = true
 				num_attacks += rem.variable_2_values[rem.rank-1]
 				
@@ -171,6 +174,7 @@ func apply_remnants(attack_instance):
 		var intelligence = preload("res://Game Elements/Remnants/intelligence.tres")
 		var longshot = preload("res://Game Elements/Remnants/longshot.tres")
 		var hunter = preload("res://Game Elements/Remnants/hunter.tres")
+		var giant = preload("res://Game Elements/Remnants/giant.tres")
 		if c_owner.is_purple:
 			remnants = c_owner.get_tree().get_root().get_node("LayerManager").player_1_remnants
 			mancer_value = c_owner.mancermancer_values[0]
@@ -178,6 +182,16 @@ func apply_remnants(attack_instance):
 			remnants = c_owner.get_tree().get_root().get_node("LayerManager").player_2_remnants
 			mancer_value = c_owner.mancermancer_values[1]
 		attack_instance.intelligence = null
+		for rem in remnants:
+			if rem.active:
+				match rem.remnant_name:
+					hunter.remnant_name:
+						var min_dist = 100000
+						for child in c_owner.LayerManager.room_instance.get_children():
+							if child is DynamEnemy:
+								min_dist = min(min_dist,c_owner.global_position.distance_to(child.global_position))
+						if rem.variable_2_values[rem.rank-1]*16 < min_dist:
+							attack_instance.damage += rem.variable_1_values[rem.rank-1]
 		for rem in remnants:
 			if rem.active:
 				match rem.remnant_name:
@@ -204,13 +218,8 @@ func apply_remnants(attack_instance):
 					longshot.remnant_name:
 						if(pierce >= 0):
 							attack_instance.pierce += rem.rank
-					hunter.remnant_name:
-						var min_dist = 100000
-						for child in c_owner.LayerManager.room_instance.get_children():
-							if child is DynamEnemy:
-								min_dist = min(min_dist,c_owner.global_position.distance_to(child.global_position))
-						if rem.variable_2_values[rem.rank-1]*16 < min_dist:
-							attack_instance.damage += rem.variable_1_values[rem.rank-1]
+					giant.remnant_name:
+						attack_instance.scale *= 1.5
 					_:
 						pass
 

@@ -1712,9 +1712,14 @@ func _on_remnant_upgraded(remnant1 : Resource, remnant2 : Resource):
 		else:
 			player1.mancermancer_values[1] = remnant2.rank
 	if(remnant1.remnant_name == hare.remnant_name and remnant1.active):
-		player1.move_speed = player1.base_move_speed * (1 + remnant1.variable_1_values[remnant1.rank - 1] * .01)
+		if(player1.is_purple):
+			player1.move_speed = player1.base_move_speed * (1 + remnant1.variable_1_values[remnant1.rank - 1] * .01)
 	elif(remnant2.remnant_name == hare.remnant_name and remnant2.active):
-		player2.move_speed = player2.base_move_speed * (1 + remnant2.variable_1_values[remnant2.rank - 1] * .01)
+		if(!is_multiplayer):
+			if(!player1.is_purple):
+				player1.move_speed = player1.base_move_speed * (1 + remnant1.variable_1_values[remnant1.rank - 1] * .01)
+		else:
+			player2.move_speed = player2.base_move_speed * (1 + remnant2.variable_1_values[remnant2.rank - 1] * .01)
 	if(remnant1.remnant_name == "Remnant of The Giant" and remnant1.active):
 		if(!is_multiplayer):
 			if(player1.is_purple):
@@ -1842,14 +1847,14 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 
 
 func dev_remnants():
-	#var rem = load("res://Game Elements/Remnants/hunter.tres")
-	#rem.rank = 3
-	#player_1_remnants.append(rem.duplicate(true))
+	var rem = load("res://Game Elements/Remnants/giant.tres")
+	rem.rank = 3
+	player_1_remnants.append(rem.duplicate(true))
 	#player_2_remnants.append(rem.duplicate(true))
 	#rem = load("res://Game Elements/Remnants/giant.tres")
 	#rem.rank = 5
 	#player_2_remnants.append(rem.duplicate(true))
-	#remnant_update(rem,player1,true)
+	remnant_update(rem,player1,true)
 	#rem = load("res://Game Elements/Remnants/mancermancer.tres")
 	#rem.rank = 5
 	#player_2_remnants.append(rem.duplicate(true))

@@ -295,9 +295,10 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 		damage_flash()
 		if(enemy_type=="cactus"):
 			var attack_position = global_position
-			var attack_direction = (dmg_owner.global_position - attack_position).normalized()
-			for i in range(-1,2):
-				request_attack(attacks[1], attack_position, attack_direction.rotated(i * 2 * PI / 12) )
+			if(is_instance_valid(dmg_owner)):
+				var attack_direction = (dmg_owner.global_position - attack_position).normalized()
+				for i in range(-1,2):
+					request_attack(attacks[1], attack_position, attack_direction.rotated(i * 2 * PI / 12) )
 	if dmg_owner != null:
 		last_hitter = dmg_owner
 		if dmg_owner.is_in_group("player"):
