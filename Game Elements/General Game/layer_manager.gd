@@ -1685,12 +1685,13 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 				player.weapons[0].damage = player.weapons[0].damage - remnant.variable_2_values[remnant.rank - 1]
 		if(remnant.remnant_name == hare.remnant_name):
 			if(is_purple == player.is_purple):
-				player.move_speed = player.base_move_speed * (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
+				player.move_speed = player.base_move_speed / (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
 	player.display_combo()
 	
 
 func _on_remnant_upgraded(remnant1 : Resource, remnant2 : Resource):
 	var mancermancer = preload("res://Game Elements/Remnants/mancermancer.tres")
+	var hare = preload("res://Game Elements/Remnants/hare.tres")
 	for i in range(player_1_remnants.size()):
 		if player_1_remnants[i] == remnant1:
 			player_1_remnants[i].rank +=1
@@ -1704,14 +1705,18 @@ func _on_remnant_upgraded(remnant1 : Resource, remnant2 : Resource):
 			player2.mancermancer_values[1] = remnant2.rank
 		else:
 			player1.mancermancer_values[1] = remnant2.rank
-	if(remnant1.remnant_name == "Remnant of the Giant" and remnant1.active):
+	if(remnant1.remnant_name == hare.remnant_name and remnant1.active):
+		player1.move_speed = player1.base_move_speed * (1 + remnant1.variable_1_values[remnant1.rank - 1] * .01)
+	elif(remnant2.remnant_name == hare.remnant_name and remnant2.active):
+		player2.move_speed = player2.base_move_speed * (1 + remnant2.variable_1_values[remnant2.rank - 1] * .01)
+	if(remnant1.remnant_name == "Remnant of The Giant" and remnant1.active):
 		if(!is_multiplayer):
 			if(player1.is_purple):
 				player1.change_health(5, 5)
 		else:
 			player1.change_health(5, 5)
 		player1.weapons[1].damage = player1.weapons[1].damage + (remnant1.rank % 2)
-	elif(remnant2.remnant_name == "Remnant of the Giant" and remnant2.active):
+	elif(remnant2.remnant_name == "Remnant of The Giant" and remnant2.active):
 		if(is_multiplayer):
 			player2.change_health(5, 5)
 			player2.weapons[0].damage = player2.weapons[0].damage + (remnant2.rank % 2)
@@ -1719,6 +1724,7 @@ func _on_remnant_upgraded(remnant1 : Resource, remnant2 : Resource):
 			if(player1.is_purple == false):
 				player1.change_health(5, 5)
 			player1.weapons[0].damage = player1.weapons[0].damage + (remnant2.rank % 2)
+	
 	remnant_upgrade_popup.queue_free()
 	player1.get_node("Crosshair").visible = true
 	if is_multiplayer:
