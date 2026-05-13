@@ -25,7 +25,7 @@ var layer_ai := [
 	0	#Rooms since shop room 			13
 	]
 #the root node of each room MUST BE NAMED Root
-@onready var current_progress = 0.0 #TEST 3.0
+@onready var current_progress = 1.0 #TEST 3.0
 var medieval_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/cave1.tres"),
 								preload("res://Game Elements/Rooms/resources/cave2.tres"),
 								preload("res://Game Elements/Rooms/resources/cave3.tres"),
@@ -61,7 +61,7 @@ var sci_fi_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/s
 								preload("res://Game Elements/Rooms/resources/shop_factory.tres")]
 								
 var testing_room : Room = preload("res://Game Elements/Rooms/resources/weapon_room.tres")
-#preload("res://Game Elements/Rooms/resources/testing_room.tres")
+ #preload("res://Game Elements/Rooms/resources/testing_room.tres")
 
 
 var bosses : Array[Room] = [preload("res://Game Elements/Rooms/resources/medieval_boss.tres"),

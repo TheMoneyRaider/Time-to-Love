@@ -65,6 +65,9 @@ func _process(delta: float) -> void:
 		deactivate()
 
 func finish_intro():
+	player1.get_node("Crosshair").mouse_clamping_enabled = true
+	if is_multiplayer:
+		player2.get_node("Crosshair").mouse_clamping_enabled = true
 	player1.disabled = false
 	if is_multiplayer:
 		player2.disabled = false
@@ -211,8 +214,19 @@ func deactivate():
 	for node in get_children():
 		if node.is_in_group("pathway"):
 			node.enable_pathway()
+	
+	if is_multiplayer:
+		var particle2 =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+		player2.change_health(player2.max_health * .50)
+		particle2.global_position = player2.global_position
+		LayerManager.room_instance.add_child(particle2)
+	var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+	player1.change_health(player1.max_health * .50)
+	particle.global_position = player1.global_position
+	LayerManager.room_instance.add_child(particle)
 	active=false
 	Hud.hide_boss_bar()
+	
 	
 
 
@@ -237,6 +251,9 @@ func activate(camera_in : Node, player1_in : Node, player2_in : Node):
 		player2.input_direction = Vector2.UP
 		player2.update_animation_parameters(player2.input_direction)
 		player2.update_animation_parameters(Vector2.ZERO)
+	player1.get_node("Crosshair").mouse_clamping_enabled = false
+	if is_multiplayer:
+		player2.get_node("Crosshair").mouse_clamping_enabled = false
 	Hud =LayerManager.hud
 	LayerManager.BossIntro.get_node("BossName").text = boss_name
 	LayerManager.BossIntro.get_node("Boss").texture = boss_splash_art
