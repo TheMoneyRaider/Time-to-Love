@@ -113,8 +113,6 @@ func start_menu_music():
 	
 	
 func _process(delta):
-	hover_cooldown -= delta
-	$ColorRect.material.set_shader_parameter("time", $ColorRect.material.get_shader_parameter("time") + delta)
 	if paused:
 		if !intro_started:
 			intro_started = true

@@ -1,13 +1,18 @@
 shader_type canvas_item;
 
-uniform float time : hint_range(0, 1000) = 0.0;
 uniform int tendril_count : hint_range(1, 100) = 8;
 uniform float tendril_thickness : hint_range(1, 200) = 4.0;
 uniform float tendril_waviness : hint_range(5, 200) = 40.0;
-uniform float tendril_speed : hint_range(0, 10) = 1.5;
+uniform float tendril_speed : hint_range(-10, 10) = 1.5;
 uniform vec2 view_offset = vec2(0.5,0.5);
 uniform float range_start : hint_range(0, 10) = .5; //0 is down, 1 is up
 uniform float range_end : hint_range(0, 10) = 1;
+
+
+varying vec4 modulate_color;
+void vertex(){
+    modulate_color = COLOR;
+}
 
 vec3 tendril_color(float t) {
 	t = t*t*t;
@@ -41,7 +46,7 @@ void fragment() {
 
         // Undulation perpendicular to tendril
         vec2 perp = vec2(-dir.y, dir.x) / length(dir);
-        float offset = sin(t * 10.0 + time * tendril_speed + float(i)) * tendril_waviness;
+        float offset = sin(t * 10.0 + TIME * tendril_speed + float(i)) * tendril_waviness;
 
         // Tendril position for current pixel
         vec2 tendril_pos = tip + dir * t + perp * offset;
@@ -58,4 +63,5 @@ void fragment() {
     }
 
     COLOR = vec4(final_color, clamp(alpha, 0.0, 1.0));
+    COLOR.a *= modulate_color.a;
 }

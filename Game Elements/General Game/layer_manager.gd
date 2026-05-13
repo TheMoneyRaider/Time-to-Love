@@ -50,6 +50,7 @@ var thread_running := false
 @onready var pause = $PauseMenu
 @onready var BossIntro = $BossIntro
 @onready var awareness_display = $EnemyAwareness/AwarenessManager
+@onready var credits = $Credits
 
 #Cached scenes to speed up room loading at runtime
 var room_location : Resource 
