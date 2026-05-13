@@ -1667,7 +1667,8 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 			else:
 				player.weapons[0].damage = player.weapons[0].damage + remnant.variable_2_values[remnant.rank - 1]
 		if(remnant.remnant_name == hare.remnant_name) and remnant.active:
-			player.move_speed = player.base_move_speed * (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
+			if(is_purple == player.is_purple):
+				player.move_speed = player.base_move_speed * (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
 	else:
 		if(remnant.remnant_name == mancermancer.remnant_name):
 			if is_purple:
@@ -1683,7 +1684,8 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 			else:
 				player.weapons[0].damage = player.weapons[0].damage - remnant.variable_2_values[remnant.rank - 1]
 		if(remnant.remnant_name == hare.remnant_name):
-			player.move_speed = player.base_move_speed * (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
+			if(is_purple == player.is_purple):
+				player.move_speed = player.base_move_speed * (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
 	player.display_combo()
 	
 
