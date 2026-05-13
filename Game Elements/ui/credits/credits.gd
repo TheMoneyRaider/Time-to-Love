@@ -15,7 +15,6 @@ func _ready() -> void:
 	color_rect.modulate.a = 0.0
 	main.visible = false
 	color_rect.visible = true
-	activate()
 
 func activate():
 	# Start state
