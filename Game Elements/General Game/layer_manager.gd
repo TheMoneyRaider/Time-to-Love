@@ -172,6 +172,9 @@ func _process(delta: float) -> void:
 	hud.set_timefabric_amount(timefabric_collected)
 	hud.set_cooldowns()
 	
+	if Input.is_action_just_pressed("Feedback"):
+		OS.shell_open("https://docs.google.com/forms/d/e/1FAIpQLSdi6Cud_Lk8Z1nC_vxo8Z86O0FkFxxIehl1sPip_KGtnudooA/viewform?usp=publish-editor")
+	
 	if Input.is_action_just_pressed("give_remnant") and Globals.config.get_value("debug", 'enabled', false):
 		_open_remnant_popup()
 	

@@ -149,6 +149,8 @@ func _process(delta):
 		if Input.is_action_just_pressed("swap_" + Globals.player2_input):
 			disruptive2 = !disruptive2
 			update_prompt()
+		if Input.is_action_just_pressed("Feedback"):
+			OS.shell_open("https://docs.google.com/forms/d/e/1FAIpQLSdi6Cud_Lk8Z1nC_vxo8Z86O0FkFxxIehl1sPip_KGtnudooA/viewform?usp=publish-editor")
 	if prepared:
 		inputs(UI.player1.input)
 		inputs(UI.player2.input)

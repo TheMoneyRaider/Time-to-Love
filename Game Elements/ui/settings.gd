@@ -96,7 +96,6 @@ func _ready() -> void:
 	$MarginContainer/VBoxContainer/Volume/Volume.grab_focus()
 	 
 func _process(delta):
-	$ColorRect.material.set_shader_parameter("time", $ColorRect.material.get_shader_parameter("time")+delta)
 	if Input.get_connected_joypads().size() != (devices[0].size()-1):
 		refresh_devices(true)
 		refresh_devices(false)
@@ -253,3 +252,7 @@ func update_controller_menu_label() -> void:
 
 func _on_rewind_mode_selected(index: int) -> void:
 	rewind_mode = index
+
+
+func _on_feeback_pressed() -> void:
+	OS.shell_open("https://docs.google.com/forms/d/e/1FAIpQLSdi6Cud_Lk8Z1nC_vxo8Z86O0FkFxxIehl1sPip_KGtnudooA/viewform?usp=publish-editor")
