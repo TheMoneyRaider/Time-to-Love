@@ -81,7 +81,7 @@ var normal_rooms : Array = []
 var shop_rooms : Array = []
 
 func get_room(room : Room):
-	return medieval_rooms[7]
+	return medieval_rooms[8]
 	#if room.roomtype != Globals.RoomType.Boss:
 	#	return bosses[0]
 	#	return bosses[0]
