@@ -823,20 +823,20 @@ func _choose_reward(pathway_name : String, reward_setter : int = -1) -> void:
 					0:
 						if !RemnantManager.will_softlock(player_1_remnants,player_2_remnants,false):
 							reward_type1 = Globals.Reward.Remnant
-							reward_num[reward_value] = reward_num[reward_value] * .5
+							reward_num[reward_value] = reward_num[reward_value] * .1
 
 					1:
 						reward_type1 = Globals.Reward.TimeFabric
-						reward_num[reward_value] = reward_num[reward_value] * .5
+						reward_num[reward_value] = reward_num[reward_value] * .1
 
 					2:
 						if !RemnantManager.will_softlock(player_1_remnants,player_2_remnants,true):
 							if _upgradable_remnants():
 								reward_type1 = Globals.Reward.RemnantUpgrade
-								reward_num[reward_value] = reward_num[reward_value] * .5
+								reward_num[reward_value] = reward_num[reward_value] * .1
 					3:
 						reward_type1 = Globals.Reward.HealthUpgrade
-						reward_num[reward_value] = reward_num[reward_value] * .5
+						reward_num[reward_value] = reward_num[reward_value] * .1
 					4:
 						reward_type1 = Globals.Reward.Health
 						if is_multiplayer:
@@ -844,11 +844,11 @@ func _choose_reward(pathway_name : String, reward_setter : int = -1) -> void:
 								reward_type1 = null	
 						elif player1.current_health == player1.max_health:
 							reward_type1 = null
-						if reward_type1!= null:
-							reward_num[reward_value] = reward_num[reward_value] * .5 #Maybe not necessary?
+						#if reward_type1!= null:
+							#reward_num[reward_value] = reward_num[reward_value] * .5 #Maybe not necessary?
 					5:
 						wave = true
-						reward_num[reward_value] = reward_num[reward_value] * .5
+						reward_num[reward_value] = reward_num[reward_value] * .1
 					#6:
 					#	reward_type1 = Globals.Reward.NewWeapon
 					#	reward_num[reward_value] = reward_num[reward_value]/2.0

@@ -362,6 +362,8 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 					effect.value1 = 0.0
 					effect.gained(c_owner)
 					Effects.append(effect)
+			"Shotgun":
+				pass
 			"Railgun":
 				if(special_time_elapsed <= 1.0):
 					var effect = preload("res://Game Elements/Effects/rail_charge.tres").duplicate(true)
@@ -480,6 +482,13 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 					node_attacking.emit_signal("special_changed",false,0.0)
 				else:
 					node_attacking.emit_signal("special_changed",true,0.0)
+			"Shotgun":
+				shotgun_special_attack(special_direction)
+				current_special_hits = 0
+				if node_attacking.weapons[0] == self:
+					node_attacking.emit_signal("special_changed",false,0.0)
+				else:
+					node_attacking.emit_signal("special_changed",true,0.0)
 			"Laser_Sword":
 				sword_special_attack(special_direction,node_attacking)
 			"Crossbow":
@@ -535,6 +544,18 @@ func mace_special_attack(attack_direction : Vector2, attack_position : Vector2):
 	apply_remnants(instance)
 	instance.is_purple = c_owner.is_purple if c_owner.is_in_group("player") else false
 	c_owner.get_tree().get_root().get_node("LayerManager").room_instance.add_child(instance)
+
+func shotgun_special_attack(attack_direction : Vector2):
+	for i in range(0,72):
+		var instance = preload("res://Game Elements/Attacks/special_bullet.tscn").instantiate()
+		instance.global_position = c_owner.global_position
+		instance.direction = attack_direction.rotated(i * 2 * PI / 24)
+		instance.c_owner = c_owner
+		apply_remnants(instance)
+		instance.is_purple = c_owner.is_purple if c_owner.is_in_group("player") else false
+		c_owner.get_tree().get_root().get_node("LayerManager").room_instance.add_child(instance)
+		#spawn_attack(attack_direction.rotated(i * 2 * PI / 12),c_owner.global_position)
+		await c_owner.get_tree().create_timer(.005).timeout
 
 func sword_special_attack(special_direction : Vector2,node_attacking : Node):
 	current_special_hits = 0

@@ -13,4 +13,5 @@ attack_spread = 40.0
 split_attacks = true
 attack_type = "bullet"
 attack_scene = "res://Game Elements/Attacks/bullet.tscn"
+special_hits = 50
 name = "Shotgun"
