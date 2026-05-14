@@ -60,6 +60,45 @@ shader_parameter/view_offset = Vector2(0.5, 0.5)
 shader_parameter/range_start = 1.650000078375
 shader_parameter/range_end = 2.350000111625
 
+[sub_resource type="Animation" id="Animation_mc28u"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VBoxContainer:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("VBoxContainer:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(80, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_b852y"]
 resource_name = "main"
 length = 63.0
@@ -98,45 +137,6 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(80, 0), Vector2(80, -8287)]
-}
-
-[sub_resource type="Animation" id="Animation_mc28u"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("VBoxContainer:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("VBoxContainer:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(80, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tqjvl"]
@@ -323,7 +323,7 @@ Letter icons and art assets by LCSkeleton/Robin Norkum, TheStarvingArtificer for
 CurlyBug Games for paper design, SunGraphica for holographic art Design, Odistudio Games for various western designs, 
 Sophie Bosak for sci-fi objects, Wolthera van Hövell tot Westerflier, CC-BY-4.0/GPL-3.0/OGA-BY-3.0
 Elysian Game Studio for slime art, SNOBLIN for skeleton art, Ansimuz for explosion art, BeyonderBoy for lava art
-Jamie Brownhill for medieval art assets 
+Jamie Brownhill for medieval art assets, Ponk for Snare asset
 [left]
 	LPC Mountains 2
 https://opengameart.org/content/lpc-mountains

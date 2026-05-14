@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bnpnxgfjlbfnr" path="res://art/remnants/vines.png" id="2_3ywki"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e4i8t"]
+size = Vector2(20, 14)
 
 [sub_resource type="Animation" id="Animation_cx7ta"]
 resource_name = "Extend"
@@ -15,10 +16,22 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.23333335, 0.4666667),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.116666675, 0.2333, 0.35, 0.4667, 0.5834),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [0, 1, 2]
+"values": [0, 1, 2, 3, 4, 5]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:shape:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.26666668, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(12.75, 8.5), Vector2(16, 13.25), Vector2(16, 16)]
 }
 
 [sub_resource type="Animation" id="Animation_dwroi"]
@@ -30,10 +43,22 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": []
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:shape:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(20, 14)]
 }
 
 [sub_resource type="Animation" id="Animation_tiv03"]
@@ -46,10 +71,22 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.23333333, 0.46666667),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.14004001, 0.28008, 0.42003998, 0.56004),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
-"values": [2, 1, 0]
+"values": [4, 3, 2, 1, 0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:shape:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.33333337, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(16, 16), Vector2(16, 13.25), Vector2(12.75, 8.5)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_uqf35"]
@@ -69,9 +106,9 @@ script = ExtResource("1_tiv03")
 shape = SubResource("RectangleShape2D_e4i8t")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(2.3841858e-07, 2.3841858e-07)
+scale = Vector2(0.625, 0.625)
 texture = ExtResource("2_3ywki")
-hframes = 3
+hframes = 6
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
