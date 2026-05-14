@@ -153,22 +153,23 @@ func change_direction():
 			# lower score = better
 			var score = dist + angle/max_angle
 			var ray = cast_ray(global_position, to_enemy.normalized(), 1600, self)
-			if dist * dist_scale <= (ray.position -global_position).length() / 16.0:
-				enemies[enemy] = score
-				if debug_draw_detection:
+			if ray and ray.position:
+				if dist * dist_scale <= (ray.position -global_position).length() / 16.0:
+					enemies[enemy] = score
+					if debug_draw_detection:
+						_debug_rays.append({
+							"from": global_position,
+							"to": enemy.global_position,
+							"hit": true,
+							"score": score
+						})
+				elif debug_draw_detection:
 					_debug_rays.append({
 						"from": global_position,
-						"to": enemy.global_position,
-						"hit": true,
-						"score": score
+						"to": ray.position,
+						"hit": false,
+						"score": 0.0
 					})
-			elif debug_draw_detection:
-				_debug_rays.append({
-					"from": global_position,
-					"to": ray.position,
-					"hit": false,
-					"score": 0.0
-				})
 				
 
 	if debug_draw_detection:

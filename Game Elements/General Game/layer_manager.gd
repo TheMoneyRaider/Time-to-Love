@@ -79,7 +79,7 @@ func _ready() -> void:
 	hud.connect_signals(player1)
 	hud.set_cross_position()
 	
-	#dev_remnants()
+	dev_remnants()
 	
 	
 	
@@ -1627,7 +1627,7 @@ func _on_enemy_take_damage(damage : float,current_health : float,enemy : Node, d
 			enemy.hitable = false
 			enemy.process_mode = Node.PROCESS_MODE_DISABLED
 			await get_tree().create_timer(2).timeout
-			enemy.queue_free()
+			if enemy and is_instance_valid(enemy): enemy.queue_free()
 			RoomManager.layer_ai[7]+=1
 		else:
 			enemy.queue_free()
@@ -1841,7 +1841,12 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 
 
 func dev_remnants():
-	#var rem = load("res://Game Elements/Remnants/hunter.tres")
+	var rem
+	rem = load("res://Game Elements/Remnants/intelligence.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	#rem = load("res://Game Elements/Remnants/hunter.tres")
 	#rem.rank = 3
 	#player_1_remnants.append(rem.duplicate(true))
 	#player_2_remnants.append(rem.duplicate(true))
