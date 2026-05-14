@@ -295,7 +295,7 @@ texture = ExtResource("1_2kvdu")
 27:6/0 = 0
 0:7/0 = 0
 0:7/0/custom_data_0 = 1
-1:7/next_alternative_id = 5
+1:7/next_alternative_id = 6
 1:7/0 = 0
 1:7/1 = 1
 1:7/1/modulate = Color(0.5649617, 0.5649616, 0.5649616, 1)
@@ -604,6 +604,7 @@ texture = ExtResource("1_2kvdu")
 13:14/0 = 0
 13:14/0/modulate = Color(0, 0, 0, 1)
 13:14/0/custom_data_5 = true
+1:14/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_roj7u"]
 texture = ExtResource("2_6sw3y")
