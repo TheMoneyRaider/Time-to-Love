@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c3aw2qncec2uc"
 path.s3tc="res://.godot/imported/accentleaf.png-6c4e180f11b03f6aa3f8901b1901a892.s3tc.ctex"
+path.etc2="res://.godot/imported/accentleaf.png-6c4e180f11b03f6aa3f8901b1901a892.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Game Elements/General Game/MedievalGrass/accentleaf.png"
-dest_files=["res://.godot/imported/accentleaf.png-6c4e180f11b03f6aa3f8901b1901a892.s3tc.ctex"]
+dest_files=["res://.godot/imported/accentleaf.png-6c4e180f11b03f6aa3f8901b1901a892.s3tc.ctex", "res://.godot/imported/accentleaf.png-6c4e180f11b03f6aa3f8901b1901a892.etc2.ctex"]
 
 [params]
 
