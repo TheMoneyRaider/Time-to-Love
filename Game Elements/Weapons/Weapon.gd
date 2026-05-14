@@ -555,7 +555,7 @@ func shotgun_special_attack(attack_direction : Vector2):
 		instance.is_purple = c_owner.is_purple if c_owner.is_in_group("player") else false
 		c_owner.get_tree().get_root().get_node("LayerManager").room_instance.add_child(instance)
 		#spawn_attack(attack_direction.rotated(i * 2 * PI / 12),c_owner.global_position)
-		await c_owner.get_tree().create_timer(.005).timeout
+		await c_owner.get_tree().create_timer(.001).timeout
 
 func sword_special_attack(special_direction : Vector2,node_attacking : Node):
 	current_special_hits = 0
