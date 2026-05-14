@@ -385,10 +385,13 @@ glow_scene = ExtResource("5_570vf")
 [node name="PauseMenu" parent="." instance=ExtResource("4_qhni4")]
 
 [node name="RemnantMenu" parent="." instance=ExtResource("7_vxirk")]
+layer = 2
 
 [node name="WeaponMenu" parent="." instance=ExtResource("8_sf3i7")]
+layer = 2
 
 [node name="LetterMenu" parent="." instance=ExtResource("9_l10hl")]
+layer = 2
 
 [node name="Transition" type="CanvasLayer" parent="."]
 layer = 2

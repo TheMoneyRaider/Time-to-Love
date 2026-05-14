@@ -38,6 +38,8 @@ func _process(_delta: float):
 				rotation = weapon_direction.angle()+ PI / 2
 			"Crossbow":
 				rotation = weapon_direction.angle() + PI/2
+			"Shotgun":
+				rotation = weapon_direction.angle() + PI*7/4
 			_:
 				rotation = weapon_direction.angle() + PI / 2
 
@@ -85,6 +87,8 @@ func update_weapon_location():
 				$Sprite2D.position = Vector2(-11,-48) * $Sprite2D.scale
 			"Crowbar":
 				$Sprite2D.position = Vector2(-30,2) * $Sprite2D.scale
-			_:
-				$Sprite2D.position = Vector2(0,0) * $Sprite2D.scale
+			"Crossbow":
+				$Sprite2D.position = Vector2(-12,-36) * $Sprite2D.scale
+			"Shotgun":
+				$Sprite2D.position = Vector2(2,8) * $Sprite2D.scale
 	
