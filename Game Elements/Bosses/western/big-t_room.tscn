@@ -11,6 +11,7 @@
 process_mode = 1
 script = ExtResource("1_fdioo")
 boss = NodePath("BigT")
+boss_name = "Big T"
 boss_type = "western"
 
 [node name="BigT" parent="." instance=ExtResource("2_1uqao")]
