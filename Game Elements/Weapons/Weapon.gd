@@ -353,7 +353,7 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 					damage += (special_start_damage / 1.2) * time_elapsed
 				var effect = preload("res://Game Elements/Effects/max_charge.tres").duplicate(true)
 				effect.cooldown = 20*time_elapsed
-				effect.value1 = 0.1
+				effect.value1 = 0.05
 				effect.gained(c_owner)
 				Effects.append(effect)
 				if(special_time_elapsed >= 2.0):
