@@ -42,8 +42,7 @@ var western_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/
 								preload("res://Game Elements/Rooms/resources/canyon4.tres"),
 								preload("res://Game Elements/Rooms/resources/canyon5.tres"),
 								preload("res://Game Elements/Rooms/resources/canyon6.tres")]
-var western_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/shop_cyberspace.tres"),
-								preload("res://Game Elements/Rooms/resources/shop_factory.tres")]
+var western_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/shop_town.tres")]
 
 var sci_fi_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/factory1.tres"),
 								preload("res://Game Elements/Rooms/resources/factory2.tres"),
@@ -79,7 +78,6 @@ var normal_rooms : Array = []
 var shop_rooms : Array = []
 
 func get_room(room : Room):
-	return western_rooms[3]
 	var index = int(current_progress) if room.roomtype != Globals.RoomType.Boss else int(current_progress+1.0)
 	if index >= 3:
 		index = randi() % 3
