@@ -1274,7 +1274,7 @@ func _finalize_room_creation(next_room_instance: Node2D, next_room_data: Room, d
 var transitioning : bool = false
 func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	time_in_room = 0
-	
+	hud.disable_tutorial()
 	var shido1 = 0.0
 	var shido2 = 0.0
 	var player1_ranked_up : Array[String] = []
@@ -1349,7 +1349,6 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 						player1.weapons[0].damage = player1.weapons[0].damage + (rem.rank % 2)
 				player2_ranked_up.append(rem.remnant_name)
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants,player1_ranked_up,player2_ranked_up)
-	
 	#var healer = preload("res://Game Elements/Remnants/healer.tres")
 	#var hare = preload("res://Game Elements/Remnants/hare.tres")
 	#if is_multiplayer or player1.is_purple:
