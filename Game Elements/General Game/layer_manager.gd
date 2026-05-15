@@ -1878,7 +1878,7 @@ func dev_remnants():
 	rem = load("res://Game Elements/Remnants/cleric.tres")
 	rem.rank = 2
 	player_1_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/pyromancer.tres.tres")
+	rem = load("res://Game Elements/Remnants/pyromancer.tres")
 	rem.rank = 2
 	player_2_remnants.append(rem.duplicate(true))
 	rem = load("res://Game Elements/Remnants/aeromancer.tres")

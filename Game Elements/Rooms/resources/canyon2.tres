@@ -11,6 +11,6 @@ trap_chances = Array[float]([0.75, 0.75, 0.75, 0.75])
 trap_types = Array[int]([0, 0, 0, 0])
 roomvariant = 2
 enemy_pool = Array[String](["res://Game Elements/Characters/gunslinger.tscn", "res://Game Elements/Characters/cactus.tscn", "res://Game Elements/Characters/scorpion.tscn"])
-enemy_chances = Array[float]([0.5, 1.0, 2.0])
+enemy_chances = Array[float]([0.0, 0.0, 2.0])
 wave_segment = 0.25
 metadata/_custom_type_script = "uid://boljl4yehg187"
