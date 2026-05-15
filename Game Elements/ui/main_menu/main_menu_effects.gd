@@ -452,7 +452,7 @@ func _on_focus_entered() -> void:
 	if hover_cooldown <= 0.0:
 		print("playing audio")
 		$UIHover.play()
-		hover_cooldown = 0.025
+		#hover_cooldown = 0.025
 
 func button_state(input_type : String, active : bool):
 	if input_type == "key":
@@ -518,7 +518,7 @@ func update_ui_display():
 			if hover_cooldown <= 0.0:
 				print("playing hover sound")
 				$UIHover.play()
-				hover_cooldown = 0.1
+				#hover_cooldown = 0.1
 		
 		prev_state=state
 		var fname = generate_filename(prev_state)
