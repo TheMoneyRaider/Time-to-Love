@@ -23,6 +23,10 @@ RemnantManager="*res://Game Elements/General Game/remnant_manager.gd"
 RoomManager="*res://Game Elements/General Game/room_manager.gd"
 music_manager="*res://Game Elements/General Game/music_manager.gd"
 
+[debug]
+
+settings/profiler/max_timestamp_query_elements=1024
+
 [display]
 
 window/size/viewport_width=1920

@@ -3,8 +3,8 @@ var mouse_sensitivity: float = 1.0
 
 @export var base_move_speed: float = 100
 var move_speed: float
-@export var max_health: float = 15.0 #TEST
-@export var current_health: float = 15.0 #TEST
+@export var max_health: float = 10.0 #TEST
+@export var current_health: float = 10.0 #TEST
 @onready var current_dmg_time: float = 0.0
 @onready var current_liquid_time: float = 0.0
 @onready var in_instant_trap: bool = false
@@ -394,22 +394,22 @@ func _check_bulwark(damage_amount : float, _dmg_owner : Node, send_damage: bool)
 			orange_bulwark_rank = rem.rank
 	if(is_purple):
 		if(purple_bulwark_rank != 0):
-			damage_amount = damage_amount * (1 - purple_bulwark_rank * .15)
+			damage_amount = damage_amount * (.9 - purple_bulwark_rank * .1)
 		if(orange_bulwark_rank != 0):
 			if(send_damage):
 				if(is_multiplayer):
 					other_player.take_damage(damage_amount, _dmg_owner, Vector2(0,-1), null, 0,true, false)
 				else:
-					take_damage(damage_amount * (1 - orange_bulwark_rank * .15), _dmg_owner, Vector2(0,-1), null, 0,true, false)
+					take_damage(damage_amount * (.9 - orange_bulwark_rank * .1), _dmg_owner, Vector2(0,-1), null, 0,true, false)
 	else:
 		if(orange_bulwark_rank != 0):
-			damage_amount = damage_amount * (1 - orange_bulwark_rank * .15)
+			damage_amount = damage_amount * (.9 - orange_bulwark_rank * .1)
 		if(purple_bulwark_rank != 0):
 			if(send_damage):
 				if(is_multiplayer):
 					other_player.take_damage(damage_amount, _dmg_owner, Vector2(0,-1), null, 0,true, false)
 				else:
-					take_damage(damage_amount * (1 - purple_bulwark_rank * .15), _dmg_owner, Vector2(0,-1), null, 0,true, false)
+					take_damage(damage_amount * (.9 - purple_bulwark_rank * .1), _dmg_owner, Vector2(0,-1), null, 0,true, false)
 	return damage_amount
 
 func pre_damage_trigger(damage_amount: float, _dmg_owner : Node) -> float:
