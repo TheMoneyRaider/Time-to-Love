@@ -22,7 +22,9 @@ var layer_ai := [
 	0,	#Trap rooms visited				10
 	0,	#Damage taken					11
 	0,	#Currency collected				12
-	0	#Rooms since shop room 			13
+	0,	#Rooms since shop room 			13
+	0,	#This timeline Rooms cleared 	14
+	0	#This timeline Combat rooms cleared 15
 	]
 #the root node of each room MUST BE NAMED Root
 @onready var current_progress = 1.0 #TEST 3.0
@@ -38,14 +40,11 @@ var medieval_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources
 var medieval_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/shop_cave.tres"),
 								preload("res://Game Elements/Rooms/resources/shop_outside.tres")]
 
-var western_rooms : Array[Room] = [#preload("res://Game Elements/Rooms/resources/canyon1.tres"),
-								#preload("res://Game Elements/Rooms/resources/canyon2.tres"),
-								preload("res://Game Elements/Rooms/resources/canyon3.tres"),
+var western_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/canyon3.tres"),
 								preload("res://Game Elements/Rooms/resources/canyon4.tres"),
 								preload("res://Game Elements/Rooms/resources/canyon5.tres"),
 								preload("res://Game Elements/Rooms/resources/canyon6.tres")]
-var western_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/shop_cyberspace.tres"),
-								preload("res://Game Elements/Rooms/resources/shop_factory.tres")]
+var western_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/shop_town.tres")]
 
 var sci_fi_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/factory1.tres"),
 								preload("res://Game Elements/Rooms/resources/factory2.tres"),
@@ -123,13 +122,15 @@ func _ready() -> void:
 func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerManager : Node) -> void:
 	if generated_room_data==testing_room:
 		LayerManager.time_passed = 0.0
-		layer_ai = [0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+		layer_ai = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 		return
 	#Rooms cleared
 	layer_ai[0] += 1
+	layer_ai[14] += 1
 	#Combat rooms cleared
 	if generated_room_data.roomtype == Globals.RoomType.Combat or generated_room_data.roomtype == Globals.RoomType.Boss:
 		RoomManager.layer_ai[1] += 1
+		RoomManager.layer_ai[15] += 1
 	#Last room time
 	layer_ai[2] = LayerManager.time_passed - layer_ai[3]
 	#Total time
@@ -159,6 +160,8 @@ func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerM
 	current_progress = floor(current_progress)+1-exp(-0.25*layer_ai[0])
 	if generated_room_data.roomtype == Globals.RoomType.Boss:
 		current_progress = floor(current_progress)+1.0
+		layer_ai[14] =0
+		layer_ai[15] =0
 	#current_progress = max(3.0,current_progress)#TEST
 
 func get_boss_chance() -> float:

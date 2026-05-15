@@ -254,7 +254,7 @@ func end_replay():
 	
 	test_buffer.clear()
 	test_frame_timer =0
-	
+	RoomManager.current_progress = 0.0
 	# Create a full-screen overlay with the last frame
 	if(rewind_mode != 2):
 		var overlay = preload("res://Game Elements/ui/transition_texture.tscn").instantiate()
