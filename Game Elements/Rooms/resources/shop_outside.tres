@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Room" load_steps=2 format=3 uid="uid://v2ydnsxl7idb"]
+
+[ext_resource type="Script" uid="uid://boljl4yehg187" path="res://Game Elements/Rooms/room.gd" id="1_newvf"]
+
+[resource]
+script = ExtResource("1_newvf")
+scene_location = "res://Game Elements/Rooms/shops/shop_outside.tscn"
+noise_seed = null
+num_enemy_goal = 0
+roomtype = 2
+roomvariant = 1
+letter_goal = 1
+metadata/_custom_type_script = "uid://boljl4yehg187"

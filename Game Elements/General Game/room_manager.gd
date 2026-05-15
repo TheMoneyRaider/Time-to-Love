@@ -35,7 +35,8 @@ var medieval_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources
 								preload("res://Game Elements/Rooms/resources/outside3.tres"),
 								preload("res://Game Elements/Rooms/resources/outside4.tres"),
 								preload("res://Game Elements/Rooms/resources/outside5.tres")]
-var medieval_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/shop_cave.tres")]
+var medieval_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/shop_cave.tres"),
+								preload("res://Game Elements/Rooms/resources/shop_outside.tres")]
 
 var western_rooms : Array[Room] = [#preload("res://Game Elements/Rooms/resources/canyon1.tres"),
 								#preload("res://Game Elements/Rooms/resources/canyon2.tres"),
@@ -80,9 +81,6 @@ var normal_rooms : Array = []
 var shop_rooms : Array = []
 
 func get_room(room : Room):
-	#if room.roomtype != Globals.RoomType.Boss:
-	#	return bosses[0]
-	#	return bosses[0]
 	var index = int(current_progress) if room.roomtype != Globals.RoomType.Boss else int(current_progress+1.0)
 	if index >= 3:
 		index = randi() % 3
