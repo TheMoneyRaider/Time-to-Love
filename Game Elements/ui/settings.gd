@@ -96,7 +96,6 @@ func _ready() -> void:
 	$MarginContainer/VBoxContainer/Volume/Volume.grab_focus()
 	 
 func _process(delta):
-	$ColorRect.material.set_shader_parameter("time", $ColorRect.material.get_shader_parameter("time")+delta)
 	if Input.get_connected_joypads().size() != (devices[0].size()-1):
 		refresh_devices(true)
 		refresh_devices(false)
