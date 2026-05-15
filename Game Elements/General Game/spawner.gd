@@ -218,6 +218,10 @@ static func _score_cell(
 
 ####FIT / EDGE LOGIC
 static func _can_fit(cell: Vector2i, needed: Vector2i, cell_set: Dictionary) -> bool:
+	if !cell_set.has(cell+Vector2i(0,1)) and !cell_set.has(cell+Vector2i(0,-1)):
+		return false
+	if !cell_set.has(cell+Vector2i(1,0)) and !cell_set.has(cell+Vector2i(-1,0)):
+		return false
 	for x in range(-needed.x, needed.x + 1):
 		for y in range(-needed.y, needed.y + 1):
 			if not cell_set.has(cell + Vector2i(x, y)):
