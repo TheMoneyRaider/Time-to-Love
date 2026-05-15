@@ -27,7 +27,7 @@ var layer_ai := [
 	0	#This timeline Combat rooms cleared 15
 	]
 #the root node of each room MUST BE NAMED Root
-@onready var current_progress = 1.0 #TEST 3.0
+@onready var current_progress = 0.0 #TEST 3.0
 var medieval_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/cave1.tres"),
 								preload("res://Game Elements/Rooms/resources/cave2.tres"),
 								preload("res://Game Elements/Rooms/resources/cave3.tres"),
@@ -80,6 +80,8 @@ var normal_rooms : Array = []
 var shop_rooms : Array = []
 
 func get_room(room : Room):
+	if room.roomtype==Globals.RoomType.Shop:
+		layer_ai[8] = 0
 	var index = int(current_progress) if room.roomtype != Globals.RoomType.Boss else int(current_progress+1.0)
 	if index >= 3:
 		index = randi() % 3
