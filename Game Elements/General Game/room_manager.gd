@@ -122,7 +122,7 @@ func _ready() -> void:
 func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerManager : Node) -> void:
 	if generated_room_data==testing_room:
 		LayerManager.time_passed = 0.0
-		layer_ai = [0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+		layer_ai = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 		return
 	#Rooms cleared
 	layer_ai[0] += 1

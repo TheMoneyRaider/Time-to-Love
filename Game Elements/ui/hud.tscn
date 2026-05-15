@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://0hahdiffjt61"]
+[gd_scene load_steps=34 format=3 uid="uid://0hahdiffjt61"]
 
 [ext_resource type="Script" uid="uid://ttvprfi61vn4" path="res://Game Elements/ui/hud.gd" id="1_6fbih"]
 [ext_resource type="Script" uid="uid://bs428146shl5s" path="res://Game Elements/ui/time_fabric_animation.gd" id="2_bjfho"]
@@ -13,6 +13,7 @@
 [ext_resource type="Shader" uid="uid://dtp2e4p3wbgyp" path="res://Game Elements/ui/special_cooldown.gdshader" id="8_gp50j"]
 [ext_resource type="Texture2D" uid="uid://kdaw8in4wo0" path="res://art/weapons/crossbow/crossbow_bright.png" id="9_gp50j"]
 [ext_resource type="PackedScene" uid="uid://bsol6opkpit8y" path="res://Game Elements/ui/health_bar.tscn" id="10_sjf6p"]
+[ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/particles/effect_particles.gd" id="13_8prbk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5ho0i"]
 shader = ExtResource("3_8prbk")
@@ -83,6 +84,36 @@ shader_parameter/interp_time = 0.25
 shader_parameter/time_offset = 0.0
 shader_parameter/prev_progress = 0.0
 
+[sub_resource type="Gradient" id="Gradient_8prbk"]
+colors = PackedColorArray(0.8862745, 0.36862746, 0.8235294, 0, 0.9999998, 0.25418806, 0.97574455, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5ho0i"]
+gradient = SubResource("Gradient_8prbk")
+
+[sub_resource type="Curve" id="Curve_wtgju"]
+_data = [Vector2(0, 0), 0.0, 11.356104, 0, 0, Vector2(0.03956044, 1), 0.0, 0.0, 0, 0, Vector2(0.2385321, 1), 0.0, 0.0, 0, 0, Vector2(0.5168196, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_wg6mc"]
+curve = SubResource("Curve_wtgju")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mrems"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 15.08
+angular_velocity_min = -399.87
+angular_velocity_max = 243.19998
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -30.000002
+radial_accel_max = -30.000002
+scale_min = 6.0
+scale_max = 8.0
+scale_curve = SubResource("CurveTexture_wg6mc")
+color_ramp = SubResource("GradientTexture1D_5ho0i")
+hue_variation_min = -0.020000022
+hue_variation_max = 0.029999977
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bjfho"]
 bg_color = Color(0.38210395, 0.030576311, 0.5883771, 1)
 
@@ -107,6 +138,36 @@ shader_parameter/progress = 0.0
 shader_parameter/interp_time = 0.25
 shader_parameter/time_offset = 0.0
 shader_parameter/prev_progress = 0.0
+
+[sub_resource type="Gradient" id="Gradient_5ho0i"]
+colors = PackedColorArray(0.9059535, 0.47390318, 9.62615e-07, 0, 0.99999994, 0.47239578, 0.060623117, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_wtgju"]
+gradient = SubResource("Gradient_5ho0i")
+
+[sub_resource type="Curve" id="Curve_wg6mc"]
+_data = [Vector2(0, 0), 0.0, 11.356104, 0, 0, Vector2(0.03956044, 1), 0.0, 0.0, 0, 0, Vector2(0.2385321, 1), 0.0, 0.0, 0, 0, Vector2(0.5168196, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_mrems"]
+curve = SubResource("Curve_wg6mc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_oroqg"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 15.08
+angular_velocity_min = -399.87
+angular_velocity_max = 243.19998
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -30.000002
+radial_accel_max = -30.000002
+scale_min = 6.0
+scale_max = 8.0
+scale_curve = SubResource("CurveTexture_mrems")
+color_ramp = SubResource("GradientTexture1D_wtgju")
+hue_variation_min = -0.020000022
+hue_variation_max = 0.029999977
 
 [sub_resource type="Theme" id="Theme_gp50j"]
 resource_local_to_scene = true
@@ -339,6 +400,27 @@ tint_under = Color(0.15294118, 0.15294118, 0.15294118, 1)
 tint_over = Color(0.44313726, 0.44313726, 0.44313726, 0)
 tint_progress = Color(0.7191348, 0.1524289, 0.9021915, 1)
 
+[node name="Control" type="Control" parent="RootControl/Left_Bottom_Corner/CooldownBar/CooldownBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.375
+offset_top = -0.5
+offset_right = 0.375
+offset_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ChargedParticles" type="GPUParticles2D" parent="RootControl/Left_Bottom_Corner/CooldownBar/CooldownBar/Control"]
+z_index = -1
+amount = 300
+lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_mrems")
+script = ExtResource("13_8prbk")
+
 [node name="HealthBar" parent="RootControl/Left_Bottom_Corner" instance=ExtResource("10_sjf6p")]
 layout_mode = 2
 theme = SubResource("Theme_gferk")
@@ -417,6 +499,27 @@ texture_progress = ExtResource("9_gp50j")
 tint_under = Color(0.15294118, 0.15294118, 0.15294118, 1)
 tint_over = Color(0.44297108, 0.44297108, 0.44297108, 0)
 tint_progress = Color(1, 0.64705884, 0, 1)
+
+[node name="Control" type="Control" parent="RootControl/Right_Bottom_Corner/CooldownBar/CooldownBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.375
+offset_top = -0.5
+offset_right = 0.375
+offset_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ChargedParticles" type="GPUParticles2D" parent="RootControl/Right_Bottom_Corner/CooldownBar/CooldownBar/Control"]
+z_index = -1
+amount = 300
+lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_oroqg")
+script = ExtResource("13_8prbk")
 
 [node name="HealthBar" parent="RootControl/Right_Bottom_Corner" instance=ExtResource("10_sjf6p")]
 layout_mode = 2
