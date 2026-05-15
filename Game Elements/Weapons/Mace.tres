@@ -12,4 +12,3 @@ weapon_sprite = ExtResource("3_7bdxl")
 spawn_distance = 25.0
 name = "Mace"
 name_font = ExtResource("2_a2bi6")
-progress_required = 1.0

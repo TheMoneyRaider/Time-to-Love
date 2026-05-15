@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b8lj8jb4ye2c4" path="res://Game Elements/Weapons/weapon_sprite.gd" id="1_56kly"]
 [ext_resource type="Shader" uid="uid://duj0kst2rubq2" path="res://Game Elements/Weapons/Weapon_sprite.gdshader" id="2_56kly"]
-[ext_resource type="Texture2D" uid="uid://de4x2t3g0dybl" path="res://art/weapons/crowbar/crowbar.png" id="3_lpiuj"]
+[ext_resource type="Texture2D" uid="uid://chdv0nrip45up" path="res://art/shotgun.png" id="3_lpiuj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lpiuj"]
 shader = ExtResource("2_56kly")
@@ -52,7 +52,7 @@ script = ExtResource("1_56kly")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_lpiuj")
-position = Vector2(-2, -9)
+position = Vector2(-3, -10)
 texture = ExtResource("3_lpiuj")
 centered = false
 

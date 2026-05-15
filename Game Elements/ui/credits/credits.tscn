@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://tfrgihhydi7k"]
+[gd_scene load_steps=25 format=3 uid="uid://tfrgihhydi7k"]
 
 [ext_resource type="Texture2D" uid="uid://rawhoxpikpyp" path="res://art/title_assets/grainy_background_visual.png" id="1_76ob2"]
 [ext_resource type="Shader" uid="uid://bmxbbdu84nb75" path="res://Game Elements/ui/credits/credit_tentacle.gdshader" id="1_508cw"]
@@ -8,6 +8,12 @@
 [ext_resource type="Texture2D" uid="uid://dvsghefyamvym" path="res://art/title_assets/title_variants/western_timeline.png" id="4_76ob2"]
 [ext_resource type="Texture2D" uid="uid://eifbgnatdh4i" path="res://art/particles/gradiant_dot3.png" id="6_3cp7a"]
 [ext_resource type="Shader" uid="uid://df6is5vss0kty" path="res://Game Elements/ui/resources/timelines.gdshader" id="8_4c207"]
+[ext_resource type="Texture2D" uid="uid://d30v0jr7m2y11" path="res://art/readme_assets/readme_title.png" id="9_mc28u"]
+[ext_resource type="Texture2D" uid="uid://bcuoj03skfl1r" path="res://art/credit_assets/orange3-2.png" id="10_gsupv"]
+[ext_resource type="Texture2D" uid="uid://bqb0q71ryd6xb" path="res://art/credit_assets/purple2_1.png" id="11_gsk7h"]
+[ext_resource type="Texture2D" uid="uid://di362ia7t6njh" path="res://art/credit_assets/IMG_1458.png" id="12_jsf73"]
+[ext_resource type="Texture2D" uid="uid://wkolx4nimq4l" path="res://art/credit_assets/IMG_1452.png" id="13_6ckmw"]
+[ext_resource type="Texture2D" uid="uid://c8vq827vwbqwd" path="res://art/credit_assets/IMG_1459.png" id="14_4d2ny"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_3cp7a"]
 
@@ -53,6 +59,91 @@ shader_parameter/tendril_speed = -1.2499995843750007
 shader_parameter/view_offset = Vector2(0.5, 0.5)
 shader_parameter/range_start = 1.650000078375
 shader_parameter/range_end = 2.350000111625
+
+[sub_resource type="Animation" id="Animation_mc28u"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VBoxContainer:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("VBoxContainer:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(80, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_b852y"]
+resource_name = "main"
+length = 63.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VBoxContainer:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("VBoxContainer:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(3, 63),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(80, 0), Vector2(80, -8287)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tqjvl"]
+_data = {
+&"RESET": SubResource("Animation_mc28u"),
+&"main": SubResource("Animation_b852y")
+}
 
 [node name="Credits" type="CanvasLayer" node_paths=PackedStringArray("timeline1", "timeline2", "timeline3")]
 process_mode = 2
@@ -156,3 +247,193 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
+
+[node name="Credits" type="Control" parent="."]
+visible = false
+z_index = 5
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Credits"]
+libraries = {
+&"": SubResource("AnimationLibrary_tqjvl")
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Credits"]
+layout_mode = 0
+offset_left = 80.0
+offset_right = 1840.0
+offset_bottom = 148154.0
+
+[node name="Title" type="Sprite2D" parent="Credits/VBoxContainer"]
+position = Vector2(881, 500.00003)
+scale = Vector2(1.8, 1.8)
+texture = ExtResource("9_mc28u")
+
+[node name="Control" type="Control" parent="Credits/VBoxContainer"]
+custom_minimum_size = Vector2(0, 1000)
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Credits/VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=48]
+
+[b]Robert Griffin Stober[/b]
+Team Leader, User Experience Designer, Remnant Artist
+
+[b]Ryan Shepard[/b]
+Gameplay Programmer, Playtester
+
+[b]Zach Etterson[/b]
+Level Designer
+
+[b]Lana Chong[/b]
+Soundtrack Designer
+
+[b]Emily Brown[/b]
+Splash Artist
+
+[b]Bri Sterbank[/b]
+Cinematic Artist
+
+[b]Kabir Vidyarthi[/b]
+Algorithmic Designer
+
+[b]Bella LaBoy[/b]
+Writer
+
+[b]Duncan Paris[/b]
+Writer
+
+[b]Sophia Aniken[/b]
+Concept Artist
+
+[b]Joe Perry-Spears[/b]
+Editor
+[font_size=128]
+
+Asset Attributions
+[font_size=28]
+Limbonaut for LimboAI, @surajrenuka for Western Pixel Art Background. Deep-Fold for space background generator
+Brullov Studios for Horror Castle Background, Upklyak for Medieval castle Background, Medieval grass asset by Dylearn
+Letter icons and art assets by LCSkeleton/Robin Norkum, TheStarvingArtificer for newspaper art design, 
+CurlyBug Games for paper design, SunGraphica for holographic art Design, Odistudio Games for various western designs, 
+Sophie Bosak for sci-fi objects, Wolthera van Hövell tot Westerflier, CC-BY-4.0/GPL-3.0/OGA-BY-3.0
+Elysian Game Studio for slime art, SNOBLIN for skeleton art, Ansimuz for explosion art, BeyonderBoy for lava art
+Jamie Brownhill for medieval art assets, Ponk for Snare asset
+[left]
+	LPC Mountains 2
+https://opengameart.org/content/lpc-mountains
+
+	Lanea Zimmerman (Sharm)
+CC-BY-SA 3.0 / CC-BY 3.0 / GPL 3.0
+https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+
+	ElizaWy
+CC-BY-SA 3.0
+https://opengameart.org/content/lpc-basalt-column-caverns
+
+	Richard Kettering aka (Jetrel),Zachariah Husiar aka (Zabin), Hyptosis, Sharm and 
+Open Pixel Project. 
+CC-BY-SA 3.0+
+https://opengameart.org/content/zrpg-tiles
+
+	RPG Tiles: Cobble stone paths & town objects
+CC-BY-SA 3.0
+https://opengameart.org/content/rpg-tiles-cobble-stone-paths-town-objects
+
+	Daniel Cook, Jetrel, Saphy (TMW), Zabin, Bertram
+CC-BY 3.0
+https://opengameart.org/content/2d-lost-garden-zelda-
+style-tiles-resized-to-32x32-with-additions
+Credit goes to Daniel Cook's 2d Circle Graphic Archive, 
+Jetrel's mockups resized 32x32, Bertram's improvements, 
+Zabin's modification and additions, Saphy (TMW) tall grass
+
+	Stephen Challener and the Open Surge team 
+	(http://opensnc.sourceforge.net)commissioned by Gaurav Munjal
+CC-BY 3.0
+https://opengameart.org/content/32x32-and-16x16-
+rpg-tiles-forest-and-some-interior-tiles
+[right]
+
+
+
+
+
+
+	George Bailey
+CC-BY 4.0
+https://opengameart.org/content/16x16-game-assets
+
+	Rayane Félix (RayaneFLX)
+CC-BY-SA 3.0
+https://opengameart.org/content/rpg-terrains
+
+	Buch <https://opengameart.org/users/buch>
+CC0
+https://opengameart.org/content/outdoor-32x32-tileset
+
+	Bagzie, IvanMorve, Len, Reid, Crush=
+CC BY-SA 3.0 <https://github.com/themanaworld/client-data/blob/6272e
+cd9ac8fa2b3bfd529697180c4ef731b9a32/LICENSE>
+https://github.com/themanaworld/client-data/blob/6f7a0784ad2a99
+2c3d7e026b5df05bdef11fc292/graphics/tilesets/ground.png
+
+	Libz0rzz
+CC0
+https://opengameart.org/content/tileset-and-characters-unfinished
+
+	Lanea Zimmerman (Sharm)
+CC-BY-SA 3.0 / CC-BY 3.0 / GPL 3.0
+https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+
+	Saphy, Leonard Pabin (Len)
+GPL v2
+https://opengameart.org/content/the-mana-worldforest-tileset
+
+"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="Sprite1" type="Sprite2D" parent="Credits/VBoxContainer"]
+position = Vector2(306, 2482)
+texture = ExtResource("10_gsupv")
+
+[node name="Sprite2" type="Sprite2D" parent="Credits/VBoxContainer"]
+position = Vector2(1541, 2252)
+texture = ExtResource("11_gsk7h")
+
+[node name="Sprite3" type="Sprite2D" parent="Credits/VBoxContainer"]
+position = Vector2(348, 6177)
+texture = ExtResource("12_jsf73")
+
+[node name="Sprite4" type="Sprite2D" parent="Credits/VBoxContainer"]
+position = Vector2(1449, 4808)
+texture = ExtResource("13_6ckmw")
+
+[node name="Sprite5" type="Sprite2D" parent="Credits/VBoxContainer"]
+position = Vector2(985, 7490)
+texture = ExtResource("14_4d2ny")
+flip_h = true
+
+[node name="Sprite6" type="Sprite2D" parent="Credits/VBoxContainer"]
+position = Vector2(1831, 2738)
+
+[node name="Sprite7" type="Sprite2D" parent="Credits/VBoxContainer"]
+position = Vector2(1831, 2738)
+
+[node name="Sprite8" type="Sprite2D" parent="Credits/VBoxContainer"]
+position = Vector2(1831, 2738)
+
+[node name="Sprite9" type="Sprite2D" parent="Credits/VBoxContainer"]
+position = Vector2(1831, 2738)
+
+[node name="Sprite10" type="Sprite2D" parent="Credits/VBoxContainer"]
+position = Vector2(1831, 2738)
+
+[node name="Sprite11" type="Sprite2D" parent="Credits/VBoxContainer"]
+position = Vector2(1831, 2738)

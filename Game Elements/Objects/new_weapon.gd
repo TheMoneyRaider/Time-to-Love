@@ -14,8 +14,9 @@ func set_cost(in_cost : int):
 		$Prompt1/TextureRect.visible = true
 	else:
 		$Prompt1/TextureRect.visible = false
-
+var time_offset
 func _ready():
+	time_offset = randf()*50
 	prompt1.visible = false
 	var prog = max(Globals.total_progress,RoomManager.current_progress)
 	if(prog < required_progress):
@@ -27,13 +28,8 @@ func _ready():
 	var weapon_resource = load("res://Game Elements/Weapons/" + weapon_type + ".tres")
 	var sprite = weapon_resource.weapon_sprite
 	if weapon_type == "Railgun":
-		var atlas = AtlasTexture.new()
-		atlas.atlas = sprite
-		atlas.region = Rect2(0, 0, 16, 48)  # x, y, width, height of the first frame
-		$Image.texture = atlas
-		scale = scale * .75
-	else:
-		$Image.texture = sprite
+		$Image.hframes= 13
+	$Image.texture = sprite
 	self.connect("body_entered", Callable(self, "_on_body_entered"))
 	self.connect("body_exited", Callable(self, "_on_body_exited"))
 	if cost!= 0:
@@ -41,6 +37,13 @@ func _ready():
 	else:
 		$Prompt1/TextureRect.visible = false
 
+var time = 0.0
+func _process(delta: float) -> void:
+	time+=delta
+	$Image.position.y = sin(time/2+time_offset)*1.5-16.0
+	$Image.rotation = sin(time/2+2*time_offset) / 3
+	if weapon_type == "Railgun" or weapon_type == "LaserSword":
+		$Image.rotation+=PI/2.0
 
 func _on_body_entered(body):
 	if body.is_in_group("player"):

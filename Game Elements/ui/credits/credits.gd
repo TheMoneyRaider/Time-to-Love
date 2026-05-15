@@ -53,4 +53,6 @@ func activate():
 		t.tween_callback(start_credits))
 
 func start_credits():
-	pass
+	$Credits/AnimationPlayer.play("main")
+	await $Credits/AnimationPlayer.animation_finished
+	get_tree().call_deferred("change_scene_to_file", "res://Game Elements/ui/main_menu/main_menu.tscn")

@@ -1,100 +1,91 @@
 extends Area2D
 
-@onready var anim: AnimationPlayer = $AnimationPlayer
-@onready var hitbox: CollisionShape2D = $CollisionShape2D
+const SPEED_EFFECT   = preload("res://Game Elements/Effects/speed.tres")
+const CRAFTER        = preload("res://Game Elements/Remnants/crafter.tres")
+const CRAFTER_FX     = preload("res://Game Elements/Particles/crafter_particles.tscn")
+const TICK_INTERVAL  = 0.21
 
-var active: bool = false
-var tracked_bodies: Array = []
+@onready var anim   : AnimationPlayer    = $AnimationPlayer
+@onready var hitbox : CollisionShape2D    = $CollisionShape2D
 
-func _ready():
-	connect("body_entered", Callable(self, "_on_body_entered"))
-	connect("body_exited", Callable(self, "_on_body_exited"))
+var active          : bool  = false
+var tracked_bodies  : Array = []
 
-func activate():
-	anim.play("Extend")
+
+func _ready() -> void:
+	body_entered.connect(_on_body_entered)
+	body_exited.connect(_on_body_exited)
+
+
+# ── Activation ────────────────────────────────────────────────────────────────
+
+func activate() -> void:
 	active = true
-	for body in tracked_bodies:
-		if _crafter_chance(body):
-			var do_effect = true
-			for effect in body.effects:
-				if effect.type == "speed":
-					do_effect = false
-			if do_effect:
-				var new_effect = preload("res://Game Elements/Effects/speed.tres").duplicate(true)
-				new_effect.cooldown = .2
-				new_effect.value1 = -.8
-				new_effect.gained(body)
-				body.effects.append(new_effect)
-	while !tracked_bodies.is_empty():
-		await get_tree().create_timer(.21,false).timeout
-		activate()
+	anim.play("Extend")
+	_apply_slow_to_all()
+	await _tick()
 	anim.play("Retract")
 	active = false
 	await anim.animation_finished
 
-var time = 0.0
-func _process(delta: float) -> void:
-	if !active:
+
+func _tick() -> void:
+	# Repeats every TICK_INTERVAL while bodies remain in range.
+	while !tracked_bodies.is_empty():
+		await get_tree().create_timer(TICK_INTERVAL, false).timeout
+		_apply_slow_to_all()
+
+
+# ── Effect helpers ────────────────────────────────────────────────────────────
+
+func _apply_slow_to_all() -> void:
+	for body in tracked_bodies:
+		_try_apply_slow(body)
+
+
+func _try_apply_slow(body: Node, cooldown: float = 0.2) -> void:
+	if !_crafter_chance(body):
 		return
-	time-=delta
-	if time <= 0.0:
-		for body in tracked_bodies:
-			if _crafter_chance(body):
-				var do_effect = true
-				for effect in body.effects:
-					if effect.type == "speed":
-						do_effect = false
-				if do_effect:
-					var new_effect = preload("res://Game Elements/Effects/speed.tres").duplicate(true)
-					new_effect.cooldown = .2
-					new_effect.value1 = -.8
-					new_effect.gained(body)
-					body.effects.append(new_effect)
-		if !tracked_bodies.is_empty():
-			time=.21
-		else:
-			time = 0.0
-			active = false
+	if body.effects.any(func(e): return e.type == "speed"):
+		return
+	var effect        = SPEED_EFFECT.duplicate(true)
+	effect.cooldown   = cooldown
+	effect.value1     = -0.8
+	effect.gained(body)
+	body.effects.append(effect)
 
 
+# ── Body tracking ─────────────────────────────────────────────────────────────
 
-
-
-func _on_body_entered(body):
-	if body.has_method("take_damage"):
-		tracked_bodies.append(body)
-	if !active:
-		if body.has_method("take_damage") and !active:
-			active = true
-			return
-	elif body.has_method("take_damage"):
-		if _crafter_chance(body):
-			var effect = preload("res://Game Elements/Effects/speed.tres").duplicate(true)
-			effect.cooldown = 1
-			effect.value1 = -.8
-			effect.gained(body)
-			body.effects.append(effect)
-
-func _on_body_exited(body):
-	if body in tracked_bodies:
-		tracked_bodies.erase(body)
-		
-func _crafter_chance(node_to_damage : Node) -> bool:
-	if !node_to_damage.is_in_group("player"):
-		return true
-	randomize()
-	var remnants : Array[Remnant]
-	if node_to_damage.is_purple:
-		remnants = get_tree().get_root().get_node("LayerManager").player_1_remnants
+func _on_body_entered(body: Node) -> void:
+	if !body.has_method("take_damage"):
+		return
+	tracked_bodies.append(body)
+	if active:
+		_try_apply_slow(body, 1.0)  # longer cooldown for mid-active arrivals
 	else:
-		remnants = get_tree().get_root().get_node("LayerManager").player_2_remnants
-	var crafter = preload("res://Game Elements/Remnants/crafter.tres")
+		activate()
+
+
+func _on_body_exited(body: Node) -> void:
+	tracked_bodies.erase(body)
+
+
+# ── Crafter remnant check ─────────────────────────────────────────────────────
+
+func _crafter_chance(node: Node) -> bool:
+	if !node.is_in_group("player"):
+		return true
+
+	var layer_mgr = get_tree().get_root().get_node("LayerManager")
+	var remnants  = layer_mgr.player_1_remnants if node.is_purple else layer_mgr.player_2_remnants
+
 	for rem in remnants:
-		if rem.remnant_name == crafter.remnant_name and rem.active:
-			if rem.variable_1_values[rem.rank-1] > randf()*100:
-				var particle =  preload("res://Game Elements/Particles/crafter_particles.tscn").instantiate()
-				particle.position = self.position
-				get_parent().add_child(particle)
+		if rem.remnant_name == CRAFTER.remnant_name && rem.active:
+			if rem.variable_1_values[rem.rank - 1] > randf() * 100:
+				var fx          = CRAFTER_FX.instantiate()
+				fx.position     = position
+				get_parent().add_child(fx)
 				return false
-			
+
 	return true
