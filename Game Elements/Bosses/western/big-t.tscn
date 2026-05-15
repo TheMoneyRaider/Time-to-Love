@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_qhvxm"]
 [ext_resource type="PackedScene" uid="uid://cu73mawav6818" path="res://Game Elements/Attacks/magic_bolt.tscn" id="2_nm403"]
 [ext_resource type="Texture2D" uid="uid://smpojals3s7d" path="res://art/characters/big-t/big-t_likely_wonky.png" id="3_f2uui"]
-[ext_resource type="BehaviorTree" uid="uid://cvov2hu7nu1qy" path="res://ai/trees/archlich.tres" id="4_n4i00"]
+[ext_resource type="BehaviorTree" uid="uid://dkwlk3hb7u71t" path="res://ai/trees/big-t.tres" id="4_f2uui"]
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="5_e752t"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_phyc7"]
@@ -185,8 +185,8 @@ max_sprint_cooldown = 4.0
 sprint_multiplier = 3.0
 move_speed = 60.0
 is_boss = true
-boss_phases = 1
-boss_healthpools = Array[float]([100.0])
+boss_phases = 5
+boss_healthpools = Array[float]([300.0])
 attacks = [ExtResource("2_nm403")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -207,7 +207,7 @@ libraries = {
 }
 
 [node name="BTPlayer" type="BTPlayer" parent="."]
-behavior_tree = ExtResource("4_n4i00")
+behavior_tree = ExtResource("4_f2uui")
 blackboard_plan = SubResource("BlackboardPlan_8s1eb")
 
 [node name="Area2D" type="Area2D" parent="."]

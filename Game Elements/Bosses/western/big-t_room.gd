@@ -35,8 +35,16 @@ func _ready() -> void:
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	is_multiplayer = Globals.is_multiplayer
 	boss.enemy_took_damage.connect(LayerManager._on_enemy_take_damage)
+	boss.boss_phase_change.connect(_phase_changed)
 			
+func _phase_changed(boss_node : Node) -> void:
+	print("sent phase change to limbo")
+	phase = boss_node.PROCESS_MODE_WHEN_PAUSED
+	var bt_player = boss_node.get_node("BTPlayer")
+	var board = bt_player.blackboard
 	
+	board.set_var("phase", phase)
+	board.set_var("phase_changed", true)
 
 var lifetime = 0.0
 var animation_time = 7.0
@@ -81,61 +89,10 @@ func get_cells_in_radius(center : Vector2, radius : float):
 			spawn_cells.append(cell)
 	return spawn_cells
 
-func lich_signal(sig :String, value1, value2, value3, value4):
-	match sig:
-		"spawn_enemies":
-			var attack_instance = load("res://Game Elements/Attacks/summoning_circle.tscn").instantiate()
-			attack_instance.c_owner = boss
-			attack_instance.global_position = value3
-			attack_instance.scale = attack_instance.scale * value4 / 64.0
-			call_deferred("add_child",attack_instance)
-			await get_tree().create_timer(1.0).timeout
-			for i in range(value1 / 3):
-				if is_multiplayer:
-					Spawner.spawn_enemies([player1,player2], self, get_cells_in_radius(value3,value4).duplicate(),LayerManager.room_instance_data,LayerManager,true,value1,value2, false, true)
-				else:
-					Spawner.spawn_enemies([player1], self, get_cells_in_radius(value3,value4).duplicate(),LayerManager.room_instance_data,LayerManager,true,value1,value2, false, true)
-			var color = (randi() % 4) + 1
-			var enemies : Array[Node]= []
-			var positions : Array[Vector2] = []
-			positions.append(player1.global_position)
-			if is_multiplayer:
-				positions.append(player2.global_position)
-			for child in get_children():
-				if child.is_in_group("enemy"):
-					if(child.global_position.distance_to(value3) <= value4 && child.has_node("SkeletonBrain") && child.get_node("SkeletonBrain").skeleton_type == 0):
-						enemies.append(child)
-						child.get_node("SkeletonBrain").skeleton_type = color
-						match color:
-							skel_type.RED:
-								child.modulate = Color("Red")
-								var attack_scene = load("res://Game Elements/Attacks/skeleton_red_swipe.tscn")
-								child.attacks[0] = attack_scene
-							skel_type.YELLOW:
-								child.modulate = Color("Yellow")
-								child.move_speed = 250.0
-							skel_type.BLUE:
-								child.modulate = Color("Blue")
-								child.max_health = 12
-								child.current_health = 12
-							skel_type.PURPLE:
-								child.modulate = Color("Purple")
-								child.purple_explode = true
-						var board = child.get_node("BTPlayer").blackboard
-						if board.get_var("state") == "spawning":
-							continue
-						#if phase < 2 and !child.is_boss:
-						#	child.global_position.y = max(child.global_position.y,-80)
-						var distances_squared = []
-						for pos in positions: 
-							distances_squared.append(child.global_position.distance_squared_to(pos))
-						var i = 0
-						if distances_squared.size()>1 and distances_squared[1]<distances_squared[0]:
-							i= 1
-						board.set_var("target_pos", positions[i])
-						board.set_var("player_idx", i)
-						board.set_var("state", "agro")
-			LayerManager.awareness_display.enemies = enemies.duplicate()
+func boss_signal(sig :String, value1, value2):
+	return
+	
+
 
 
 func finish_animation():

@@ -317,8 +317,15 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 				knockback_velocity = attack_body.direction * attack_body.knockback_force
 	current_health -= damage
 	if is_boss:
-		LayerManager.hud.update_bossbar(clamp(current_health/max_health,0.0,1.0))
-		if current_health <= 0.0 and phase != boss_phases - 1:
+		var health_percentile = clamp(current_health/max_health,0.0,1.0)
+		LayerManager.hud.update_bossbar(health_percentile)
+		if enemy_type == "large_reptile" and phase == last_phase and health_percentile < 1 - (0.2 * (phase + 1)):
+			phase += 1
+			if phase < boss_phases:
+				emit_signal("boss_phase_change", self)
+				print("big t phase change")
+				return
+		if enemy_type != "large_reptile" and current_health <= 0.0 and phase != boss_phases - 1:
 			if phase == last_phase:
 				phase+=1
 				if phase < boss_phases:
