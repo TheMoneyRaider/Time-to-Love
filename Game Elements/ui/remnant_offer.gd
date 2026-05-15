@@ -36,7 +36,7 @@ var next_frame := 1
 var anim_time := 0.0
 ###
 
-func _set_drifter_text(player1_remnants_in, player2_remnants_in, is_purple = true):
+func _set_drifter_text(player1_remnants_in, player2_remnants_in):
 	var drifter = preload("res://Game Elements/Remnants/trickster.tres")
 	for rem in player1_remnants_in:
 		if rem.active:
@@ -99,7 +99,7 @@ func _ready():
 func _process(_delta):
 	if !Globals.is_multiplayer and Input.is_action_just_pressed("swap_" + Globals.player1_input):
 		is_purple=!is_purple
-		_set_drifter_text(player1_remnants, player2_remnants, is_purple)
+		_set_drifter_text(player1_remnants, player2_remnants)
 		if Globals.player1_input== "key":
 			crosshair_sprite.texture=purple_crosshair if is_purple else orange_crosshair
 		else:
