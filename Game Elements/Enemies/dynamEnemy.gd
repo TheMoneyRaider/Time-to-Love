@@ -293,7 +293,7 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 	if current_health >= 0.0 and display_damage and creates_indicators:
 		LayerManager._damage_indicator(damage, dmg_owner,direction, attack_body,self)
 		damage_flash()
-		if(enemy_type=="cactus"):
+		if(enemy_type=="cactus") and dmg_owner:
 			var attack_position = global_position
 			if(is_instance_valid(dmg_owner)):
 				var attack_direction = (dmg_owner.global_position - attack_position).normalized()

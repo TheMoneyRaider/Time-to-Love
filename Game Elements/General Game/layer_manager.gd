@@ -79,7 +79,7 @@ func _ready() -> void:
 	hud.connect_signals(player1)
 	hud.set_cross_position()
 	
-	#dev_remnants()
+	dev_remnants()
 	
 	
 	
@@ -597,7 +597,6 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 				if player_reference in node.tracked_bodies:
 					player_reference.update_weapon(node.weapon_type)
 					hud.set_cooldown_icons()
-					#node.queue_free()
 					return true
 		if node.is_in_group("letter"):
 			if player_reference in node.tracked_bodies:
@@ -907,7 +906,7 @@ func _upgradable_remnants() -> bool:
 		count+=1
 	for remnant in player_2_remnants:
 		count+=1
-	if count >=3:
+	if count >=6:
 		return true
 	return false
 
@@ -1651,7 +1650,7 @@ func _on_enemy_take_damage(damage : float,current_health : float,enemy : Node, d
 			enemy.hitable = false
 			enemy.process_mode = Node.PROCESS_MODE_DISABLED
 			await get_tree().create_timer(2).timeout
-			enemy.queue_free()
+			if enemy and is_instance_valid(enemy): enemy.queue_free()
 			RoomManager.layer_ai[7]+=1
 		else:
 			enemy.queue_free()

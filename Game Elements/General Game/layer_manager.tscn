@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dm057ygch128h" path="res://Game Elements/ui/guide/remnant_menu.tscn" id="7_vxirk"]
 [ext_resource type="PackedScene" uid="uid://bfoxxhhsel1a" path="res://Game Elements/ui/guide/weapon_menu.tscn" id="8_sf3i7"]
 [ext_resource type="PackedScene" uid="uid://2nuxn7fyplmx" path="res://Game Elements/ui/guide/letters/letter_menu.tscn" id="9_l10hl"]
-[ext_resource type="Script" uid="uid://bu61ndyofnbda" path="res://Game Elements/General Game/camera.gd" id="9_n317s"]
+[ext_resource type="Script" path="res://Game Elements/General Game/camera.gd" id="9_n317s"]
 [ext_resource type="Texture2D" uid="uid://1c47fiseukev" path="res://Game Elements/Bosses/purple.png" id="11_arwbq"]
 [ext_resource type="Texture2D" uid="uid://nljj8bohfllh" path="res://Game Elements/Bosses/orange.png" id="12_nt7kn"]
 [ext_resource type="Texture2D" uid="uid://d3hvxaxwy516s" path="res://Game Elements/Bosses/scifi/signul_art.png" id="13_x2m3a"]
@@ -372,6 +372,7 @@ script = ExtResource("1_gynnh")
 layer = 2
 
 [node name="EnemyAwareness" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="AwarenessManager" type="Node2D" parent="EnemyAwareness" node_paths=PackedStringArray("camera")]
 material = SubResource("ShaderMaterial_alv7a")
@@ -384,10 +385,13 @@ glow_scene = ExtResource("5_570vf")
 [node name="PauseMenu" parent="." instance=ExtResource("4_qhni4")]
 
 [node name="RemnantMenu" parent="." instance=ExtResource("7_vxirk")]
+layer = 2
 
 [node name="WeaponMenu" parent="." instance=ExtResource("8_sf3i7")]
+layer = 2
 
 [node name="LetterMenu" parent="." instance=ExtResource("9_l10hl")]
+layer = 2
 
 [node name="Transition" type="CanvasLayer" parent="."]
 layer = 2

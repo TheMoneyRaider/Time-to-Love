@@ -15,4 +15,3 @@ attack_type = "bolt"
 attack_scene = "res://Game Elements/Attacks/bolt.tscn"
 name = "Crossbow"
 name_font = ExtResource("2_mo65q")
-progress_required = 1.0

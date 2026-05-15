@@ -11,4 +11,5 @@ pathway_direction = Array[int]([0, 3])
 num_enemy_goal = 0
 roomtype = 4
 wave_segment = 0.0
+letter_goal = 0
 metadata/_custom_type_script = "uid://boljl4yehg187"
