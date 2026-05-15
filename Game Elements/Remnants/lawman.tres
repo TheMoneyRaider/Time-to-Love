@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://cbox4gkaqwbue"]
 
-[ext_resource type="Texture2D" uid="uid://buubskqgdc4jf" path="res://art/remnants/hunter.png" id="1_fp1th"]
-[ext_resource type="Texture2D" uid="uid://21s1bbewu58o" path="res://art/remnants/hunter_icon.png" id="2_10hrq"]
+[ext_resource type="Texture2D" uid="uid://b6phed6a125jj" path="res://art/remnants/lawman.png" id="1_fp1th"]
+[ext_resource type="Texture2D" uid="uid://bc63mtkjvqbu6" path="res://art/remnants/lawman_icon.png" id="2_10hrq"]
 [ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_y8k3k"]
 
 [resource]
