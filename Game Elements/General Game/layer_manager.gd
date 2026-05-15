@@ -1600,6 +1600,8 @@ func _on_player_take_damage(damage_amount : float,_current_health : float,_playe
 func _on_enemy_take_damage(damage : float,current_health : float,enemy : Node, direction = Vector2(0,-1)) -> void:
 	RoomManager.layer_ai[5]+=damage
 	if current_health <= 0.0:
+		if enemy.is_boss:
+			boss_rewards()
 		var has_death_attack = false
 		for node in get_tree().get_nodes_in_group("attack"):
 			if node.c_owner == enemy:
@@ -2026,3 +2028,16 @@ func move_to_limbo_phase_2():
 	
 	await get_tree().create_timer(3.0, false).timeout
 	boss.process_mode = Node.PROCESS_MODE_PAUSABLE
+
+func boss_rewards():
+	var rooms_taken = RoomManager.layer_ai[15]
+	room_reward(Globals.Reward.Remnant)
+	if rooms_taken <= 8:
+		room_reward(Globals.Reward.Health)
+	if rooms_taken <= 7:
+		room_reward(Globals.Reward.RemnantUpgrade)
+	if rooms_taken <= 6:
+		room_reward(Globals.Reward.HealthUpgrade)
+	if rooms_taken <= 5:
+		room_reward(Globals.Reward.TimeFabric)
+	

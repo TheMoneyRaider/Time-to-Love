@@ -27,7 +27,7 @@ var layer_ai := [
 	0	#This timeline Combat rooms cleared 15
 	]
 #the root node of each room MUST BE NAMED Root
-@onready var current_progress = 1.0 #TEST 3.0
+@onready var current_progress = 0.0 #TEST 3.0
 var medieval_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/cave1.tres"),
 								preload("res://Game Elements/Rooms/resources/cave2.tres"),
 								preload("res://Game Elements/Rooms/resources/cave3.tres"),
@@ -126,7 +126,7 @@ func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerM
 		return
 	#Rooms cleared
 	layer_ai[0] += 1
-	layer_ai[14] += 1
+	layer_ai[13] += 1
 	#Combat rooms cleared
 	if generated_room_data.roomtype == Globals.RoomType.Combat or generated_room_data.roomtype == Globals.RoomType.Boss:
 		RoomManager.layer_ai[1] += 1
@@ -137,9 +137,9 @@ func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerM
 	layer_ai[3] = LayerManager.time_passed
 	if generated_room_data.roomtype == Globals.RoomType.Shop:
 		layer_ai[8] += 1
-		layer_ai[13] = 0
+		layer_ai[14] = 0
 	else:
-		layer_ai[13] += 1
+		layer_ai[14] += 1
 	if generated_room_data.num_liquid > 0:
 		var liquid_num = 0
 		var liquid_type : String

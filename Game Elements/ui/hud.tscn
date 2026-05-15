@@ -571,9 +571,8 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
 
 [node name="AttackLabel2" type="RichTextLabel" parent="."]
-visible = false
 modulate = Color(1, 1, 1, 0.627451)
-offset_left = 1320.0
+offset_left = 1261.0
 offset_top = 682.0
 offset_right = 1662.0
 offset_bottom = 871.0
@@ -582,15 +581,14 @@ theme_override_font_sizes/bold_font_size = 48
 theme_override_font_sizes/italics_font_size = 48
 theme_override_font_sizes/mono_font_size = 48
 bbcode_enabled = true
-text = "[font=res://addons/input_prompt_icon_font/icon.ttf]mouse_right_outline[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_r1[/font]
-[code]Special Attack[/code]"
+text = "[font=res://addons/input_prompt_icon_font/icon.ttf]mouse_right_outline[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_r1[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]xbox_rb[/font]
+[code]Special(Charged)[/code]"
 scroll_active = false
 horizontal_alignment = 2
 
 [node name="AttackLabel" type="RichTextLabel" parent="."]
-visible = false
 modulate = Color(1, 1, 1, 0.627451)
-offset_left = 1450.0
+offset_left = 1213.0
 offset_top = 520.0
 offset_right = 1655.0
 offset_bottom = 709.0
@@ -599,38 +597,36 @@ theme_override_font_sizes/bold_font_size = 48
 theme_override_font_sizes/italics_font_size = 48
 theme_override_font_sizes/mono_font_size = 48
 bbcode_enabled = true
-text = "[font=res://addons/input_prompt_icon_font/icon.ttf]mouse_left_outline[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_r2[/font]
+text = "[font=res://addons/input_prompt_icon_font/icon.ttf]mouse_left_outline[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_r2[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]xbox_rt[/font]
 [code]Attack[/code]"
 scroll_active = false
 horizontal_alignment = 2
 
 [node name="SwapLabel" type="RichTextLabel" parent="."]
-visible = false
 modulate = Color(1, 1, 1, 0.627451)
 offset_left = 256.0
 offset_top = 705.0
-offset_right = 542.0
-offset_bottom = 894.0
+offset_right = 781.0
+offset_bottom = 882.0
 theme_override_font_sizes/normal_font_size = 64
 theme_override_font_sizes/bold_font_size = 48
 theme_override_font_sizes/italics_font_size = 48
 theme_override_font_sizes/mono_font_size = 48
 bbcode_enabled = true
-text = "[i]Tap[/i][font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_space_outline[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_l1[/font]
+text = "Short [font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_space[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_l1[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]xbox_lb[/font]
 [code]Quick Swap[/code]"
 scroll_active = false
 
 [node name="TetherLabel" type="RichTextLabel" parent="."]
-visible = false
 modulate = Color(1, 1, 1, 0.627451)
 offset_left = 256.0
 offset_top = 493.0
-offset_right = 452.0
+offset_right = 828.0
 offset_bottom = 682.0
 theme_override_font_sizes/normal_font_size = 64
 theme_override_font_sizes/bold_font_size = 48
 theme_override_font_sizes/mono_font_size = 48
 bbcode_enabled = true
-text = "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_space_outline[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_l2[/font]
+text = "Long [font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_space[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_l2[/font]/ [font=res://addons/input_prompt_icon_font/icon.ttf]xbox_lt[/font]
 [code]Tether[/code]"
 scroll_active = false
