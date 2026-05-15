@@ -142,6 +142,14 @@ func _ready() -> void:
 	
 	play_timeline_music()
 
+func _load_save_time(idx: int) -> float:
+	var path = Globals.save_dir + "save_%d.res" % idx
+	if ResourceLoader.exists(path):
+		var loaded = ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
+		if loaded is SaveState:
+			return loaded.time_spent
+	return 0
+
 func _process(delta: float) -> void:
 	if PathwayViewport.get_children().size() > 0: 
 		PathwayTransition.material.set_shader_parameter("mask_texture", PathwayTransition.get_texture())
@@ -173,8 +181,21 @@ func _process(delta: float) -> void:
 	hud.set_cooldowns()
 	
 	if Input.is_action_just_pressed("Feedback"):
+		var total_save_time = 0
+		for i in range(3):
+			total_save_time += _load_save_time(i)
+		var progress : String = str(Globals.save_state.total_progress)
+		var gpu_name : String = RenderingServer.get_video_adapter_name()
+		var gpu_api : String = RenderingServer.get_video_adapter_api_version()
+		var gpu_adapter : String = str(RenderingServer.get_video_adapter_type())
+		var cpu_name : String = OS.get_processor_name()
+		var cpu_cores : String = str(OS.get_processor_count())
+		var ram : String = str(OS.get_memory_info()["physical"] / 1073741824.0)
+		var static_mem : String = str(Performance.get_monitor(Performance.MEMORY_STATIC) / 1048576.0)
+		DisplayServer.clipboard_set(str(total_save_time) + "," + progress + ","  + gpu_name + "," + gpu_api + "," + gpu_adapter + "," + cpu_name + "," + cpu_cores + "," + ram + "," + static_mem)
 		OS.shell_open("https://docs.google.com/forms/d/e/1FAIpQLSdi6Cud_Lk8Z1nC_vxo8Z86O0FkFxxIehl1sPip_KGtnudooA/viewform?usp=publish-editor")
-	
+		if(!pause.active):
+			pause.activate()
 	if Input.is_action_just_pressed("give_remnant") and Globals.config.get_value("debug", 'enabled', false):
 		_open_remnant_popup()
 	
