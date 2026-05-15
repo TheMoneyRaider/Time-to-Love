@@ -1,17 +1,30 @@
-[gd_scene load_steps=7 format=4 uid="uid://gpg51w53taql"]
+[gd_scene load_steps=12 format=4 uid="uid://gpg51w53taql"]
 
 [ext_resource type="Script" uid="uid://dr8eitah5yx5c" path="res://Game Elements/Bosses/western/big-t_room.gd" id="1_fdioo"]
 [ext_resource type="PackedScene" uid="uid://bkmhitsrs64l4" path="res://Game Elements/Bosses/western/big-t.tscn" id="2_1uqao"]
+[ext_resource type="Texture2D" uid="uid://d3eo07d3trqu8" path="res://art/characters/big-t/big-t_128x128.png" id="2_dffen"]
+[ext_resource type="Texture2D" uid="uid://dk0ylh2fladn4" path="res://Game Elements/Bosses/western/healthbar_underlay.png" id="3_dffen"]
+[ext_resource type="Texture2D" uid="uid://lpog42xslmy4" path="res://Game Elements/Bosses/western/healthbar_overlay.png" id="4_k70ob"]
+[ext_resource type="FontFile" uid="uid://cjehx3k6f8c7d" path="res://fonts/Orbitron-Black.ttf" id="5_vkobc"]
 [ext_resource type="PackedScene" uid="uid://ccwiql3bybf2p" path="res://Game Elements/Objects/pathway.tscn" id="7_mkqun"]
 [ext_resource type="TileSet" uid="uid://b7rsdis0l1f8d" path="res://Game Elements/tilesets/medival_tileset.tres" id="8_nso0e"]
 [ext_resource type="Material" uid="uid://dbtu31h02s2bg" path="res://Game Elements/Rooms/sci_fi/factory_ground_noise.tres" id="9_wase6"]
 [ext_resource type="TileSet" uid="uid://b8jirmgfumpau" path="res://Game Elements/tilesets/medieval_forest_2.tres" id="10_xyndt"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_12g0c"]
+
 [node name="BossRoom" type="Node2D" node_paths=PackedStringArray("boss")]
 process_mode = 1
 script = ExtResource("1_fdioo")
+boss_splash_art = ExtResource("2_dffen")
+healthbar_underlays = Array[Texture2D]([ExtResource("3_dffen")])
+healthbar_overlays = Array[Texture2D]([ExtResource("4_k70ob")])
+boss_names = Array[String](["Big T"])
+boss_name_settings = Array[LabelSettings]([SubResource("LabelSettings_12g0c")])
 boss = NodePath("BigT")
 boss_name = "Big T"
+boss_font = ExtResource("5_vkobc")
+phase_overlay_index = Array[int]([3])
 boss_type = "western"
 
 [node name="BigT" parent="." instance=ExtResource("2_1uqao")]
