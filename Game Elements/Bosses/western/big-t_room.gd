@@ -38,13 +38,13 @@ func _ready() -> void:
 	boss.boss_phase_change.connect(_phase_changed)
 			
 func _phase_changed(boss_node : Node) -> void:
-	print("sent phase change to limbo")
 	phase = boss_node.PROCESS_MODE_WHEN_PAUSED
 	var bt_player = boss_node.get_node("BTPlayer")
 	var board = bt_player.blackboard
 	
 	board.set_var("phase", phase)
 	board.set_var("phase_changed", true)
+	
 
 var lifetime = 0.0
 var animation_time = 7.0
@@ -78,6 +78,8 @@ func finish_intro():
 		player2.disabled = false
 	LayerManager.camera_override = false
 	if boss and is_instance_valid(boss):
+		if boss.phase == 0:
+			boss.phase = 1
 		boss.get_node("BTPlayer").blackboard.set_var("attack_mode", "NONE")
 	return
 

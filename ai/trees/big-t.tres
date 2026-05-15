@@ -1,6 +1,9 @@
-[gd_resource type="BehaviorTree" load_steps=6 format=3 uid="uid://dkwlk3hb7u71t"]
+[gd_resource type="BehaviorTree" load_steps=36 format=3 uid="uid://dkwlk3hb7u71t"]
 
 [ext_resource type="Script" uid="uid://dr4vkyorjqaqn" path="res://ai/tasks/getPlayerPos.gd" id="1_byeik"]
+[ext_resource type="Script" uid="uid://rvfhx3hd7gln" path="res://ai/tasks/attacks.gd" id="2_88sik"]
+[ext_resource type="Script" uid="uid://yu3fkdlxtfbv" path="res://ai/tasks/calcPath.gd" id="8_2rmn4"]
+[ext_resource type="Script" uid="uid://ravfjih580jj" path="res://ai/tasks/moveToPlayer.gd" id="11_w7kic"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_ak6g3"]
 var/state/name = &"state"
@@ -61,9 +64,114 @@ script = ExtResource("1_byeik")
 custom_name = "Constants"
 children = [SubResource("BTAction_lr4pt")]
 
+[sub_resource type="BBVariant" id="BBVariant_khm1n"]
+type = 2
+saved_value = 0
+resource_name = "0"
+
+[sub_resource type="BTCheckVar" id="BTCheckVar_0chas"]
+variable = &"phase"
+value = SubResource("BBVariant_khm1n")
+
+[sub_resource type="BBNode" id="BBNode_khm1n"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_0chas"]
+animation_player = SubResource("BBNode_khm1n")
+animation_name = &"idle"
+
+[sub_resource type="BTSequence" id="BTSequence_vbg5b"]
+children = [SubResource("BTCheckVar_0chas"), SubResource("BTPlayAnimation_0chas")]
+
+[sub_resource type="BBVariant" id="BBVariant_vn80h"]
+type = 1
+saved_value = true
+resource_name = "true"
+
+[sub_resource type="BTCheckVar" id="BTCheckVar_khm1n"]
+variable = &"phase_changed"
+value = SubResource("BBVariant_vn80h")
+
+[sub_resource type="BBNode" id="BBNode_l3xhj"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_gahrh"]
+animation_player = SubResource("BBNode_l3xhj")
+animation_name = &"roar"
+
+[sub_resource type="BTAction" id="BTAction_gahrh"]
+script = ExtResource("2_88sik")
+
+[sub_resource type="BTDelay" id="BTDelay_vbg5b"]
+children = [SubResource("BTAction_gahrh")]
+
+[sub_resource type="BTRepeat" id="BTRepeat_vbg5b"]
+times = 3
+children = [SubResource("BTDelay_vbg5b")]
+
+[sub_resource type="BBVariant" id="BBVariant_88sik"]
+type = 1
+saved_value = false
+resource_name = "<null>"
+
+[sub_resource type="BTSetVar" id="BTSetVar_vn80h"]
+variable = &"phase_changed"
+value = SubResource("BBVariant_88sik")
+
+[sub_resource type="BBNode" id="BBNode_0chas"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTStopAnimation" id="BTStopAnimation_l3xhj"]
+animation_player = SubResource("BBNode_0chas")
+animation_name = &"roar"
+
+[sub_resource type="BTSequence" id="BTSequence_88sik"]
+custom_name = "Roar on Phase change"
+children = [SubResource("BTCheckVar_khm1n"), SubResource("BTPlayAnimation_gahrh"), SubResource("BTRepeat_vbg5b"), SubResource("BTSetVar_vn80h"), SubResource("BTStopAnimation_l3xhj")]
+
+[sub_resource type="BBNode" id="BBNode_vn80h"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_khm1n"]
+animation_player = SubResource("BBNode_vn80h")
+animation_name = &"move"
+
+[sub_resource type="BTRunLimit" id="BTRunLimit_0chas"]
+children = [SubResource("BTPlayAnimation_khm1n")]
+
+[sub_resource type="BTAction" id="BTAction_khm1n"]
+script = ExtResource("8_2rmn4")
+
+[sub_resource type="BTAction" id="BTAction_0chas"]
+script = ExtResource("11_w7kic")
+
+[sub_resource type="BBNode" id="BBNode_ogqqy"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTStopAnimation" id="BTStopAnimation_pjf07"]
+animation_player = SubResource("BBNode_ogqqy")
+animation_name = &"move"
+
+[sub_resource type="BTSequence" id="BTSequence_l3xhj"]
+custom_name = "approach"
+children = [SubResource("BTAction_khm1n"), SubResource("BTAction_0chas"), SubResource("BTStopAnimation_pjf07")]
+
+[sub_resource type="BTDynamicSelector" id="BTDynamicSelector_l3xhj"]
+custom_name = "everything else"
+children = [SubResource("BTRunLimit_0chas"), SubResource("BTSequence_l3xhj")]
+
+[sub_resource type="BTSelector" id="BTSelector_gahrh"]
+custom_name = "literally everything"
+children = [SubResource("BTSequence_vbg5b"), SubResource("BTSequence_88sik"), SubResource("BTDynamicSelector_l3xhj")]
+
 [sub_resource type="BTSequence" id="BTSequence_7l6ws"]
 custom_name = "Constant and Behavior"
-children = [SubResource("BTSequence_mrfvi")]
+children = [SubResource("BTSequence_mrfvi"), SubResource("BTSelector_gahrh")]
 
 [resource]
 blackboard_plan = SubResource("BlackboardPlan_ak6g3")

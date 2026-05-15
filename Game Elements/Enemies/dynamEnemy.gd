@@ -319,11 +319,11 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 	if is_boss:
 		var health_percentile = clamp(current_health/max_health,0.0,1.0)
 		LayerManager.hud.update_bossbar(health_percentile)
-		if enemy_type == "large_reptile" and phase == last_phase and health_percentile < 1 - (0.2 * (phase + 1)):
+		if enemy_type == "large_reptile" and phase == last_phase and health_percentile < 1 - (0.2 * phase):
 			phase += 1
 			if phase < boss_phases:
 				emit_signal("boss_phase_change", self)
-				print("big t phase change")
+				print("big t phase change: ", phase)
 				return
 		if enemy_type != "large_reptile" and current_health <= 0.0 and phase != boss_phases - 1:
 			if phase == last_phase:
