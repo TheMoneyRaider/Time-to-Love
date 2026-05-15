@@ -90,7 +90,9 @@ func _capture_frame():
 		return
 	var viewport = get_parent().get_node("game_container/game_viewport") as SubViewport
 	var img = viewport.get_texture().get_image()
-	img.compress(Image.CompressMode.COMPRESS_S3TC)
+	img.resize(viewport.size.x / 4, viewport.size.y / 4, Image.INTERPOLATE_NEAREST)
+	img.convert(Image.FORMAT_RGB8)
+	#img.compress(Image.CompressMode.COMPRESS_ETC2)
 	#Save final frame
 	if frame_amount == 3:
 		final_frame = img.duplicate(true)
@@ -109,9 +111,9 @@ func _test_capture_frame():
 		return
 	var viewport = get_parent().get_node("game_container/game_viewport") as SubViewport
 	var img = viewport.get_texture().get_image()
-	img.resize(viewport.size.x / 2, viewport.size.y / 2, Image.INTERPOLATE_NEAREST)
+	img.resize(viewport.size.x / 4, viewport.size.y / 4, Image.INTERPOLATE_NEAREST)
 	img.convert(Image.FORMAT_RGB8)
-	img.compress(Image.CompressMode.COMPRESS_S3TC)
+	#img.compress(Image.CompressMode.COMPRESS_ETC2)
 	#Save final frame
 	if frame_amount == 3:
 		final_frame = img.duplicate(true)

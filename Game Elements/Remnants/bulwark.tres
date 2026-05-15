@@ -11,5 +11,5 @@ description = "Take $X% less damage from attacks. You take damage when your othe
 icon = ExtResource("2_bun78")
 art = ExtResource("1_xt5ga")
 variable_names = Array[String](["$X"])
-variable_1_values = [20, 30, 40, 50, 60]
+variable_1_values = [15, 30, 45, 60, 75]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

@@ -13,5 +13,5 @@ art = ExtResource("1_rwqum")
 progress_required = 1.0
 variable_names = Array[String](["$X", "$Y"])
 variable_1_values = [3, 6, 9, 12, 15]
-variable_2_values = [4, 8, 12, 16, 20]
+variable_2_values = [3, 6, 9, 12, 15]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

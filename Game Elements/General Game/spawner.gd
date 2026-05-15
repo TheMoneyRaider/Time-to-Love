@@ -66,7 +66,7 @@ static func spawn_enemies(
 	
 	var enemy_goal = room_data.num_enemy_goal
 	if(room_data.enemy_density_goal > 0):
-		enemy_goal = int(len(available_cells) * room_data.enemy_density_goal)
+		enemy_goal = max(enemy_goal,int(len(available_cells) * room_data.enemy_density_goal))
 	if override_enemy_count > -1: enemy_goal = override_enemy_count
 
 	for _i in enemy_goal:

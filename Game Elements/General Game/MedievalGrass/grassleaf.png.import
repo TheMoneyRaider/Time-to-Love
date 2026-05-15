@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bkh5tqpf8qy7o"
 path.s3tc="res://.godot/imported/grassleaf.png-9218951539bd46dad1996c4b6af7aba7.s3tc.ctex"
+path.etc2="res://.godot/imported/grassleaf.png-9218951539bd46dad1996c4b6af7aba7.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Game Elements/General Game/MedievalGrass/grassleaf.png"
-dest_files=["res://.godot/imported/grassleaf.png-9218951539bd46dad1996c4b6af7aba7.s3tc.ctex"]
+dest_files=["res://.godot/imported/grassleaf.png-9218951539bd46dad1996c4b6af7aba7.s3tc.ctex", "res://.godot/imported/grassleaf.png-9218951539bd46dad1996c4b6af7aba7.etc2.ctex"]
 
 [params]
 
