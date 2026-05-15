@@ -767,10 +767,11 @@ func _attempt_health_reward(pathway_to_randomize : Node) -> void:
 	var prev_reward_type = pathway_to_randomize.reward1_type
 	if prev_reward_type == Globals.Reward.Shop or prev_reward_type == Globals.Reward.Boss:
 		return
-	if(randf() < percent_health_missing() / 2.0):
-		reward_type1 = Globals.Reward.Health
-		reward_type2 = Globals.Reward.Health
-		pathway_to_randomize.set_reward(reward_type1,wave,reward_type2)
+	if(percent_health_missing() > .5):
+		if(randf() < percent_health_missing()):
+			reward_type1 = Globals.Reward.Health
+			reward_type2 = Globals.Reward.Health
+			pathway_to_randomize.set_reward(reward_type1,wave,reward_type2)
 	
 
 func _randomize_room_reward(pathway_to_randomize : Node) -> void:
