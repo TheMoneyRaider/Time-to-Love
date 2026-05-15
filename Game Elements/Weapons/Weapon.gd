@@ -78,7 +78,10 @@ func request_attacks(direction : Vector2, char_position : Vector2, node_attackin
 		var gambler = preload("res://Game Elements/Remnants/gambler.tres")
 		for rem in remnants:
 			if rem.remnant_name == gambler.remnant_name:
-				attack_spread = rem.variable_1_values[rem.rank-1]
+				if(type == "Mace" or type == "Laser_Sword" or type=="Crowbar"):
+					attack_spread = rem.variable_1_values[rem.rank-1] * 2
+				else:
+					attack_spread = rem.variable_1_values[rem.rank-1]
 				random_spread = true
 				num_attacks += rem.variable_2_values[rem.rank-1]
 				
@@ -171,6 +174,7 @@ func apply_remnants(attack_instance):
 		var intelligence = preload("res://Game Elements/Remnants/intelligence.tres")
 		var longshot = preload("res://Game Elements/Remnants/longshot.tres")
 		var hunter = preload("res://Game Elements/Remnants/hunter.tres")
+		var giant = preload("res://Game Elements/Remnants/giant.tres")
 		if c_owner.is_purple:
 			remnants = c_owner.get_tree().get_root().get_node("LayerManager").player_1_remnants
 			mancer_value = c_owner.mancermancer_values[0]
@@ -178,6 +182,16 @@ func apply_remnants(attack_instance):
 			remnants = c_owner.get_tree().get_root().get_node("LayerManager").player_2_remnants
 			mancer_value = c_owner.mancermancer_values[1]
 		attack_instance.intelligence = null
+		for rem in remnants:
+			if rem.active:
+				match rem.remnant_name:
+					hunter.remnant_name:
+						var min_dist = 100000
+						for child in c_owner.LayerManager.room_instance.get_children():
+							if child is DynamEnemy:
+								min_dist = min(min_dist,c_owner.global_position.distance_to(child.global_position))
+						if rem.variable_2_values[rem.rank-1]*16 < min_dist:
+							attack_instance.damage += rem.variable_1_values[rem.rank-1]
 		for rem in remnants:
 			if rem.active:
 				match rem.remnant_name:
@@ -204,13 +218,8 @@ func apply_remnants(attack_instance):
 					longshot.remnant_name:
 						if(pierce >= 0):
 							attack_instance.pierce += rem.rank
-					hunter.remnant_name:
-						var min_dist = 100000
-						for child in c_owner.LayerManager.room_instance.get_children():
-							if child is DynamEnemy:
-								min_dist = min(min_dist,c_owner.global_position.distance_to(child.global_position))
-						if rem.variable_2_values[rem.rank-1]*16 < min_dist:
-							attack_instance.damage += rem.variable_1_values[rem.rank-1]
+					giant.remnant_name:
+						attack_instance.scale *= 1.5
 					_:
 						pass
 
@@ -353,6 +362,8 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 					effect.value1 = 0.0
 					effect.gained(c_owner)
 					Effects.append(effect)
+			"Shotgun":
+				pass
 			"Railgun":
 				if(special_time_elapsed <= 1.0):
 					var effect = preload("res://Game Elements/Effects/rail_charge.tres").duplicate(true)
@@ -471,6 +482,13 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 					node_attacking.emit_signal("special_changed",false,0.0)
 				else:
 					node_attacking.emit_signal("special_changed",true,0.0)
+			"Shotgun":
+				shotgun_special_attack(special_direction)
+				current_special_hits = 0
+				if node_attacking.weapons[0] == self:
+					node_attacking.emit_signal("special_changed",false,0.0)
+				else:
+					node_attacking.emit_signal("special_changed",true,0.0)
 			"Laser_Sword":
 				sword_special_attack(special_direction,node_attacking)
 			"Crossbow":
@@ -526,6 +544,18 @@ func mace_special_attack(attack_direction : Vector2, attack_position : Vector2):
 	apply_remnants(instance)
 	instance.is_purple = c_owner.is_purple if c_owner.is_in_group("player") else false
 	c_owner.get_tree().get_root().get_node("LayerManager").room_instance.add_child(instance)
+
+func shotgun_special_attack(attack_direction : Vector2):
+	for i in range(0,72):
+		var instance = preload("res://Game Elements/Attacks/special_bullet.tscn").instantiate()
+		instance.global_position = c_owner.global_position
+		instance.direction = attack_direction.rotated(i * 2 * PI / 24)
+		instance.c_owner = c_owner
+		apply_remnants(instance)
+		instance.is_purple = c_owner.is_purple if c_owner.is_in_group("player") else false
+		c_owner.get_tree().get_root().get_node("LayerManager").room_instance.add_child(instance)
+		#spawn_attack(attack_direction.rotated(i * 2 * PI / 12),c_owner.global_position)
+		await c_owner.get_tree().create_timer(.001).timeout
 
 func sword_special_attack(special_direction : Vector2,node_attacking : Node):
 	current_special_hits = 0

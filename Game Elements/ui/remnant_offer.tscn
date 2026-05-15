@@ -45,4 +45,43 @@ layout_mode = 2
 [node name="slot3" parent="MarginContainer/slots_hbox" instance=ExtResource("2_vtfuc")]
 layout_mode = 2
 
+[node name="DrifterText" type="VBoxContainer" parent="."]
+visible = false
+z_index = 50
+layout_mode = 0
+offset_left = 20.0
+offset_top = 48.0
+offset_right = 1900.0
+offset_bottom = 1008.0
+mouse_filter = 2
+alignment = 2
+
+[node name="Label" type="RichTextLabel" parent="DrifterText"]
+custom_minimum_size = Vector2(150, 70)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_f_outline[/font]: Reroll for 100
+"
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="DrifterText/Label"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.47300002
+anchor_top = 0.014
+anchor_right = 0.527
+anchor_bottom = 1.0
+offset_left = 260.75995
+offset_top = -0.98
+offset_right = 260.76
+offset_bottom = -0.98000336
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
 [node name="Crosshair" parent="." instance=ExtResource("3_8x0qu")]

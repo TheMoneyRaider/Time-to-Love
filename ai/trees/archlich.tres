@@ -185,7 +185,7 @@ children = [SubResource("BTAction_xsft4"), SubResource("BTAction_1kwu6"), SubRes
 
 [sub_resource type="BTAction" id="BTAction_id2f6"]
 script = ExtResource("6_r3tv5")
-min_time = 2.0
+min_time = 2.5
 max_time = 4.0
 
 [sub_resource type="BTAction" id="BTAction_0ew5i"]

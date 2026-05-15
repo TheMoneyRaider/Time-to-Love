@@ -46,7 +46,7 @@ var/player_idx/hint_string = ""
 [sub_resource type="BTAction" id="BTAction_76wjc"]
 custom_name = "AdjustedPlayerPos"
 script = ExtResource("1_6c74n")
-dist_to_player = 150.0
+dist_to_player = 130.0
 
 [sub_resource type="BTAction" id="BTAction_3ccgm"]
 script = ExtResource("2_ttuuy")
@@ -80,7 +80,7 @@ script = ExtResource("3_sangl")
 
 [sub_resource type="BTAction" id="BTAction_1kwu6"]
 script = ExtResource("4_igs55")
-target_to_player = 150.0
+target_to_player = 130.0
 
 [sub_resource type="BTAction" id="BTAction_ppdyw"]
 script = ExtResource("5_e13xs")

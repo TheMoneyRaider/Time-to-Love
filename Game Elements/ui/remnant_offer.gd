@@ -4,8 +4,8 @@ class_name RemnantOffer
 signal remnant_chosen(remnant1: Resource,remnant2: Resource)
 
 @onready var crosshair_sprite = $Crosshair/Sprite2D
-@onready var purple_crosshair = preload("res://art/purple_crosshair.png")
-@onready var orange_crosshair = preload("res://art/orange_crosshair.png")
+@onready var purple_crosshair = preload("res://art/purple_crosshair_with_shadow.png")
+@onready var orange_crosshair = preload("res://art/orange_crosshair_with_shadow.png")
 @onready var slot_nodes: Array = [
 	$MarginContainer/slots_hbox/slot0,
 	$MarginContainer/slots_hbox/slot1,
@@ -16,17 +16,82 @@ var selected_index1: int = -1 #Purple
 var selected_index2: int = -1 #Orange
 var player1_remnants = []
 var player2_remnants = []
+var current_weights = []
 var hover_index1 : int = 0 #purple
 var hover_index2 : int = -1 #orange
 var is_purple : bool = true
 
+######Timefabric animation
+@export var spritesheet : Texture2D = load("res://art/time_fabric.png")            #The sprite sheet
+@export var frame_width : int = 16             #adjust to match your sheet
+@export var frame_height : int = 16            #adjust to match your sheet
+@export var frame_count : int = 6              #number of frames in sheet
+@export var fps := 1                           #animation speed
+@export var smear_strength := 0.6              #0=sharp, 1=ghost-smear
+var tricky1 : int = 0 
+var tricky2 : int = 0
+var frames : Array[Texture2D] = []
+var current_frame := 0
+var next_frame := 1
+var anim_time := 0.0
+###
 
+func _set_drifter_text(player1_remnants_in, player2_remnants_in):
+	var drifter = preload("res://Game Elements/Remnants/trickster.tres")
+	for rem in player1_remnants_in:
+		if rem.active:
+			match rem.remnant_name:
+				drifter.remnant_name:
+					tricky1 = (rem.variable_1_values[rem.rank -1])
+					$DrifterText.visible = true
+	for rem in player2_remnants_in:
+		if rem.active:
+			match rem.remnant_name:
+				drifter.remnant_name:
+					tricky2 = (rem.variable_1_values[rem.rank -1])
+					$DrifterText.visible = true
+	if(is_purple && tricky1 != 0):
+		if  Globals.player1_input == "key":
+			$DrifterText/Label.text =  "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_f_outline[/font]: Reroll for "+str(tricky1)+"  "
+		else:
+			$DrifterText/Label.text =  "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_triangle_outline[/font]: Reroll for "+str(tricky1)+"  "
+	elif(!is_purple && tricky2 != 0):
+		if  Globals.player1_input == "key":
+			$DrifterText/Label.text =  "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_f_outline[/font]: Reroll for "+str(tricky2)+"  "
+		else:
+			$DrifterText/Label.text =  "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_triangle_outline[/font]: Reroll for "+str(tricky2)+"  "
+	
+func _slice_frames() -> void:
+	frames.clear()
+
+	var img := spritesheet.get_image()
+
+	for i in range(frame_count):
+		var x := i * frame_width
+		var frame_image := Image.create(frame_width, frame_height, false, Image.FORMAT_RGBA8)
+		frame_image.blit_rect(img, Rect2i(x, 0, frame_width, frame_height), Vector2i(0, 0))
+		var tex := ImageTexture.create_from_image(frame_image)
+		frames.append(tex)
+
+func _blend_textures(a: Texture2D, b: Texture2D, t: float) -> Texture2D:
+	var img_a := a.get_image()
+	var img_b := b.get_image()
+
+	var out := Image.create(img_a.get_width(), img_a.get_height(), false, Image.FORMAT_RGBA8)
+
+	for y in img_a.get_height():
+		for x in img_a.get_width():
+			var ca = img_a.get_pixel(x, y)
+			var cb = img_b.get_pixel(x, y)
+			out.set_pixel(x, y, ca.lerp(cb, t))
+
+	return ImageTexture.create_from_image(out)
 
 func _ready():
 	for i in range(slot_nodes.size()):
 		slot_nodes[i].index = i
 		slot_nodes[i].slot_selected.connect(_on_slot_selected)
-		
+	_slice_frames()
 	process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 	get_tree().paused = true
 	modulate.a = 0.0
@@ -34,6 +99,7 @@ func _ready():
 func _process(_delta):
 	if !Globals.is_multiplayer and Input.is_action_just_pressed("swap_" + Globals.player1_input):
 		is_purple=!is_purple
+		_set_drifter_text(player1_remnants, player2_remnants)
 		if Globals.player1_input== "key":
 			crosshair_sprite.texture=purple_crosshair if is_purple else orange_crosshair
 		else:
@@ -60,10 +126,28 @@ func _process(_delta):
 		inputs(Globals.player1_input,true)
 		if Globals.is_multiplayer:
 			inputs(Globals.player2_input,false)
+	if frames.is_empty():
+		return
+
+	var prev_frame_index := int(anim_time)
+	anim_time += _delta * fps
+	var new_frame_index := int(anim_time)
+
+	if new_frame_index != prev_frame_index:
+		current_frame = next_frame
+		next_frame = (next_frame + 1) % frame_count
+
+	var t := anim_time - int(anim_time)
+	var smear_t := pow(t, smear_strength)
+	$DrifterText/Label/TextureRect.texture = _blend_textures(frames[current_frame], frames[next_frame], smear_t)
+
 
 func popup_offer(player1_remnants_in : Array, player2_remnants_in : Array, rank_weights : Array = [70,20,10]):
+	_set_drifter_text(player1_remnants_in,player2_remnants_in)
 	player1_remnants = player1_remnants_in.duplicate()
 	player2_remnants = player2_remnants_in.duplicate()
+	current_weights = rank_weights
+	is_purple = true
 	crosshair_sprite.texture = purple_crosshair
 	#query the pool for 4 random remnants(2 from each player)
 	offered_remnants = RemnantManager.get_random_remnants(4,player1_remnants, player2_remnants)
@@ -170,10 +254,22 @@ func _check_if_remnant_viable(remnant : Resource, remnant_array : Array):
 	return false
 	
 func inputs(input_device : String, is_player_1 : bool):
-	if input_device=="key" or not visible:
+	if not visible:
 		return
 	if !is_purple:
 		is_player_1=!is_player_1
+	if current_weights != [] and (tricky1 + tricky2) != 0 and Input.is_action_just_pressed("special_" + input_device):
+		if(is_player_1 && tricky1 != 0):
+			if($"../../".timefabric_collected >= int(tricky1)):
+				$"../../".timefabric_collected-=int(tricky1)
+				popup_offer(player1_remnants,player2_remnants,current_weights)
+		elif(!is_player_1 && tricky2 != 0):
+			if($"../../".timefabric_collected >= int(tricky2)):
+				$"../../".timefabric_collected-=int(tricky2)
+				popup_offer(player1_remnants,player2_remnants,current_weights)
+			
+	if(input_device == "key"):
+		return
 	if Input.is_action_just_pressed("menu_right_"+input_device):
 		if is_player_1:
 			hover_index1 = min(offered_remnants.size() - 1, hover_index1 + 1)
@@ -220,4 +316,5 @@ func _close_after_two_chosen():
 	#Emit the two chosen remnants
 	emit_signal("remnant_chosen", offered_remnants[selected_index1], offered_remnants[selected_index2])
 	visible = false
+	$DrifterText.visible = false
 	get_tree().paused = false
