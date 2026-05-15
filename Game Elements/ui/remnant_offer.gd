@@ -122,11 +122,6 @@ func meets_requirements(remnant : Remnant,names : Array[String]):
 		return false
 	return true
 
-#func meets_requirements(remnant : Remnant,names : Array[String]):
-	#for rm in remnant.required_remnants:
-		#if rm.remnant_name not in names:
-			#return false
-	#return true
 
 func _place_purple_selectable(slot : Node ,remnant : Resource):
 	var rem_names : Array[String] = []
