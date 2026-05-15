@@ -516,7 +516,6 @@ func update_ui_display():
 		if prev_state and (state["p1_hover"] != prev_state["p1_hover"] \
 		or state["p2_hover"] != prev_state["p2_hover"]):
 			if hover_cooldown <= 0.0:
-				print("playing hover sound")
 				$UIHover.play()
 				#hover_cooldown = 0.1
 		
