@@ -121,6 +121,7 @@ func _load_save_time(idx: int) -> float:
 	return 0
 	
 func _process(delta):
+	hover_cooldown -= delta
 	if paused:
 		if !intro_started:
 			intro_started = true
