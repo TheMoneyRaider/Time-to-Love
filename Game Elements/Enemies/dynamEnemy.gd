@@ -50,6 +50,8 @@ var LayerManager : Node
 
 var parent_node = null
 
+var effect_stacks : Array[int] = []
+var effect_particles : Array
 
 @export var attacks = [preload("res://Game Elements/Attacks/bad_bolt.tscn"),preload("res://Game Elements/Attacks/robot_melee.tscn")]
 signal attack_requested(new_attack : PackedScene, t_position : Vector2, t_direction : Vector2, damage_boost : float)
@@ -104,6 +106,10 @@ func load_settings():
 	
 
 func _ready():
+	effect_stacks.resize(9)
+	effect_stacks.fill(0)
+	effect_particles.resize(9)
+	effect_particles.fill(null)
 	parent_node = get_parent()
 	if is_boss:
 		current_health = boss_healthpools[phase]

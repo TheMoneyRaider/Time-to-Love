@@ -153,6 +153,9 @@ func _load_save_time(idx: int) -> float:
 func _process(delta: float) -> void:
 	if PathwayViewport.get_children().size() > 0: 
 		PathwayTransition.material.set_shader_parameter("mask_texture", PathwayTransition.get_texture())
+	var draw_calls = Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)
+	if draw_calls >= 400:
+		print("Draw call limit hit: ", draw_calls)
 	time_passed += delta
 	time_in_room += delta
 	

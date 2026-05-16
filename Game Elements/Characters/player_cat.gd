@@ -54,6 +54,8 @@ var invulnerable : bool = false
 var debug_menu : bool = false
 
 var effects : Array[Effect] = []
+var effect_stacks : Array[int] = []
+var effect_particles : Array
 var last_liquid : Globals.Liquid = Globals.Liquid.Buffer
 
 var forcefield_active : bool = false
@@ -81,6 +83,10 @@ var LayerManager: Node
 var debug_mode : bool = false
 
 func _ready():
+	effect_stacks.resize(9)
+	effect_stacks.fill(0)
+	effect_particles.resize(9)
+	effect_particles.fill(null)
 	if Input.get_connected_joypads().size() == 0:
 		Globals.player1_input = "key"
 		Globals.player2_input = "0"
