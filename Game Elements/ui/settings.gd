@@ -7,6 +7,9 @@ var display_pathways: bool = false
 var mouse_clamping: bool = false
 var toggle_invulnerability: bool = false
 
+var p1_dropdown_open: bool = false
+var p2_dropdown_open: bool = false
+
 func load_settings():
 	mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
 	debug_mode = Globals.config.get_value("debug", "enabled", false)
@@ -67,21 +70,39 @@ func _on_apply_settings()-> void:
 # @export var bus_name: String = "Master"
 
 func _ready() -> void:
-		
 	load_settings()
-
 	$MarginContainer/VBoxContainer/Mouse/MouseSensitivity.value = mouse_sensitivity
 	update_sensitivity_label()
-		
+	
+	# disconnect before setting to avoid triggering sounds
+	$MarginContainer/VBoxContainer/Debug/DebugMode.toggled.disconnect(_on_debug_mode_toggled)
 	$MarginContainer/VBoxContainer/Debug/DebugMode.button_pressed = debug_mode
+	$MarginContainer/VBoxContainer/Debug/DebugMode.toggled.connect(_on_debug_mode_toggled)
 	update_debug_menu_label()
 	
+	$MarginContainer/VBoxContainer/Fragmenting/FragMode.toggled.disconnect(_on_frag_mode_toggled)
 	$MarginContainer/VBoxContainer/Fragmenting/FragMode.button_pressed = frag_mode
+	$MarginContainer/VBoxContainer/Fragmenting/FragMode.toggled.connect(_on_frag_mode_toggled)
 	update_frag_menu_label()
 	
 	refresh_devices(true)
 	refresh_devices(false)
 	$MarginContainer/VBoxContainer/Volume/Volume.grab_focus()
+	
+	$MarginContainer/VBoxContainer/Player1/Choice.pressed.connect(func():
+		p1_dropdown_open = !p1_dropdown_open
+		if p1_dropdown_open:
+			sfx_manager.play(preload("res://Game Elements/ui/sfx/maximize_008.ogg"))
+		else:
+			sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"))
+	)
+	$MarginContainer/VBoxContainer/Player2/Choice.pressed.connect(func():
+		p2_dropdown_open = !p2_dropdown_open
+		if p2_dropdown_open:
+			sfx_manager.play(preload("res://Game Elements/ui/sfx/maximize_008.ogg"))
+		else:
+			sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"))
+	)
 	 
 func _process(delta):
 	$ColorRect.material.set_shader_parameter("time", $ColorRect.material.get_shader_parameter("time")+delta)
@@ -203,6 +224,8 @@ func refresh_devices(is_purple : bool = true):
 	choice.selected = -1
 
 func _on_p1_selected(index : int):
+	p1_dropdown_open = false
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"))
 	if devices[0][index]==Globals.player2_input:
 		if Globals.player2_input=="key":
 			Globals.player2_input = "0"
@@ -214,6 +237,8 @@ func _on_p1_selected(index : int):
 	
 
 func _on_p2_selected(index : int):
+	p2_dropdown_open = false
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"))
 	if devices[1][index]==Globals.player1_input:
 		if Globals.player1_input=="key":
 			Globals.player1_input = "0"
