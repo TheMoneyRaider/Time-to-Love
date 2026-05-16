@@ -88,6 +88,7 @@ var weapon_select_sounds = [
 ]
 
 func _ready() -> void:
+	$LettersPopup.modulate.a=0.0
 	$game_container.material = $game_container.material.duplicate(true)
 	var conflict_cells : Array[Vector2i] = []
 	_setup_players()
