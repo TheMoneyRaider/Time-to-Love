@@ -34,13 +34,13 @@ func load_settings():
 	for child in $MarginContainer/VBoxContainer.get_children():
 		for node in child.get_children():
 			if node is Button:
-				node.mouse_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg")))
-				node.focus_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg")))
+				node.mouse_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
+				node.focus_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
 	
 var frag_mode: bool = false
 var devices : Array[Array]=[[],[]]
 func _on_back_pressed() -> void:
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	if is_pause_settings:
 		queue_free()
 		if Globals.is_multiplayer or Globals.player1_input != "key":
@@ -51,7 +51,7 @@ func _on_back_pressed() -> void:
 #
 func _on_apply_settings()-> void:
 	
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	var volslider = $MarginContainer/VBoxContainer/Volume/Volume
 	Globals.config.set_value("controls", "mouse_sensitivity", mouse_sensitivity)
 	Globals.config.set_value("debug", "enabled", debug_mode)
@@ -92,16 +92,16 @@ func _ready() -> void:
 	$MarginContainer/VBoxContainer/Player1/Choice.pressed.connect(func():
 		p1_dropdown_open = !p1_dropdown_open
 		if p1_dropdown_open:
-			sfx_manager.play(preload("res://Game Elements/ui/sfx/maximize_008.ogg"))
+			sfx_manager.play(preload("res://Game Elements/ui/sfx/maximize_008.ogg"), 0.0, "UI")
 		else:
-			sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"))
+			sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
 	)
 	$MarginContainer/VBoxContainer/Player2/Choice.pressed.connect(func():
 		p2_dropdown_open = !p2_dropdown_open
 		if p2_dropdown_open:
-			sfx_manager.play(preload("res://Game Elements/ui/sfx/maximize_008.ogg"))
+			sfx_manager.play(preload("res://Game Elements/ui/sfx/maximize_008.ogg"), 0.0, "UI")
 		else:
-			sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"))
+			sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
 	)
 	 
 func _process(delta):
@@ -176,9 +176,9 @@ func update_debug_menu_label() -> void:
 		
 func _on_debug_mode_toggled(toggled_on: bool) -> void:
 	if toggled_on:
-		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"))
+		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"), 0.0, "UI")
 	else:
-		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_off.ogg"))
+		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_off.ogg"), 0.0, "UI")
 	debug_mode = toggled_on
 	update_debug_menu_label()
 	
@@ -190,9 +190,9 @@ func update_frag_menu_label() -> void:
 		
 func _on_frag_mode_toggled(toggled_on: bool) -> void:
 	if toggled_on:
-		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"))
+		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"), 0.0, "UI")
 	else:
-		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_off.ogg"))
+		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_off.ogg"), 0.0, "UI")
 	frag_mode = toggled_on
 	update_frag_menu_label()
 	
@@ -225,7 +225,7 @@ func refresh_devices(is_purple : bool = true):
 
 func _on_p1_selected(index : int):
 	p1_dropdown_open = false
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"))
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
 	if devices[0][index]==Globals.player2_input:
 		if Globals.player2_input=="key":
 			Globals.player2_input = "0"
@@ -238,7 +238,7 @@ func _on_p1_selected(index : int):
 
 func _on_p2_selected(index : int):
 	p2_dropdown_open = false
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"))
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
 	if devices[1][index]==Globals.player1_input:
 		if Globals.player1_input=="key":
 			Globals.player1_input = "0"
