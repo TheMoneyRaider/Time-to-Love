@@ -77,6 +77,9 @@ func _on_apply_settings()-> void:
 	Globals.config.set_value("audio", "sfx",   percent_to_db($MarginContainer/VBoxContainer/SFX/SFX.value))
 	Globals.config.set_value("audio", "ui",    percent_to_db($MarginContainer/VBoxContainer/UI/UI.value))
 	Globals.save_config()
+	var LayerManager = get_tree().get_root().get_node_or_null("LayerManager")
+	if LayerManager:
+		LayerManager.update_players_input_devices()
 	
 
 @onready var label := $MarginContainer/VBoxContainer/Volume/VolVal

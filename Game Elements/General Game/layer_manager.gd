@@ -929,6 +929,13 @@ func _upgradable_remnants() -> bool:
 		return true
 	return false
 
+
+func update_players_input_devices():
+	if(is_multiplayer):
+		player2.update_input_device(Globals.player2_input)
+	player1.update_input_device(Globals.player1_input)
+	
+
 func _setup_players() -> void:
 	var player_scene = preload("res://Game Elements/Characters/player_cat.tscn")
 	if(is_multiplayer):
