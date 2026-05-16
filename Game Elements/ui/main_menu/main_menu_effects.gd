@@ -34,6 +34,16 @@ var paused : bool = true
 var skip_next_release : bool = false
 var hover_cooldown: float = 0.0
 
+
+func _on_skip() -> void:
+	$Intro/AnimationPlayer.stop()
+	$Intro.visible = false
+	$Intro/AudioStreamPlayer.stop()
+	Globals.cinematic_viewed = true
+	paused = false
+	start_menu_music()
+	
+
 func _ready():
 	if Globals.cinematic_viewed:
 		paused = false
@@ -43,6 +53,8 @@ func _ready():
 		$Intro/AnimationPlayer.play("RESET")
 		$Intro/AnimationPlayer.advance(0)  # apply it instantly
 		$Intro/AnimationPlayer.play("main")
+		$Intro/Skip.skip_requested.connect(_on_skip)
+		$Intro/Skip.active = true
 		# After 60 seconds, skip to end and start music
 		get_tree().create_timer(65.0).timeout.connect(func():
 			if paused:  # only if not already skipped manually
@@ -235,19 +247,6 @@ func mouse_over(button: Button):
 
 func _input(event):
 	if !Globals.cinematic_viewed:
-		var is_button = event is InputEventKey \
-			or event is InputEventMouseButton \
-			or event is InputEventJoypadButton
-
-		if is_button and event.pressed:
-			if get_node("Intro"):
-				$Intro.visible = false
-				$Intro/AnimationPlayer.stop()
-				$Intro/AudioStreamPlayer.stop()
-				start_menu_music()
-			Globals.cinematic_viewed = true
-			skip_next_release = true
-			paused=false
 		return
 	if !fragmenting:
 		return
