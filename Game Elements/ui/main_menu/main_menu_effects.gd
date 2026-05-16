@@ -40,6 +40,8 @@ func _ready():
 		$Intro.visible = false
 		start_menu_music()
 	else:
+		$Intro/AnimationPlayer.play("RESET")
+		$Intro/AnimationPlayer.advance(0)  # apply it instantly
 		$Intro/AnimationPlayer.play("main")
 		# After 60 seconds, skip to end and start music
 		get_tree().create_timer(65.0).timeout.connect(func():
