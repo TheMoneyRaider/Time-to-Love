@@ -77,6 +77,31 @@ var crossbow_sounds = [
 	preload("res://Game Elements/sfx/weapons/crossbow/crossbow5.ogg"),
 ]
 
+var railgun_sounds = [
+	preload("res://Game Elements/sfx/weapons/rail_gun/railgun1.ogg"),
+	preload("res://Game Elements/sfx/weapons/rail_gun/railgun2.ogg"),
+	preload("res://Game Elements/sfx/weapons/rail_gun/railgun3.ogg"),
+	preload("res://Game Elements/sfx/weapons/rail_gun/railgun4.ogg"),
+	preload("res://Game Elements/sfx/weapons/rail_gun/railgun5.ogg"),
+]
+
+var crowbar_sounds = [
+	preload("res://Game Elements/sfx/weapons/crowbar/crowbar1.wav"),
+	preload("res://Game Elements/sfx/weapons/crowbar/crowbar1.wav"),
+	preload("res://Game Elements/sfx/weapons/crowbar/crowbar1.wav"),
+]
+
+var cool_shotgun_sounds = [
+	preload("res://Game Elements/sfx/weapons/shotgun/good_shotgun1.ogg"),
+	preload("res://Game Elements/sfx/weapons/shotgun/good_shotgun2.ogg"),
+	preload("res://Game Elements/sfx/weapons/shotgun/good_shotgun3.ogg"),
+]
+
+var lame_shotgun_sounds = [
+	preload("res://Game Elements/sfx/weapons/shotgun/lame_shotgun1.ogg"),
+	preload("res://Game Elements/sfx/weapons/shotgun/lame_shotgun2.ogg"),
+	preload("res://Game Elements/sfx/weapons/shotgun/lame_shotgun3.ogg"),
+]
 
 static func create_weapon(resource_location : String, current_owner : Node2D):
 	var new_weapon = load(resource_location).duplicate(true)
@@ -104,12 +129,13 @@ func request_attacks(direction : Vector2, char_position : Vector2, node_attackin
 			sfx_manager.play(ls_sounds[randi() % ls_sounds.size()])
 		"Crossbow":
 			sfx_manager.play(crossbow_sounds[randi() % crossbow_sounds.size()])
-		#"Crowbar":
-			#sfx_manager.play(crowbar_sounds[randi() % crowbar_sounds.size()])
-		#"Railgun":
-			#sfx_manager.play(railgun_sounds[randi() % railgun_sounds.size()])
-		#"Shotgun":
-			#sfx_manager.play(shotgun_sounds[randi() % shotgun_sounds.size()])
+		"Crowbar":
+			sfx_manager.play(crowbar_sounds[randi() % crowbar_sounds.size()])
+		"Railgun":
+			sfx_manager.play(railgun_sounds[randi() % railgun_sounds.size()])
+		"Shotgun":
+			#sfx_manager.play(cool_shotgun_sounds[randi() % cool_shotgun_sounds.size()])
+			sfx_manager.play(lame_shotgun_sounds[randi() % lame_shotgun_sounds.size()])
 		#"RobotMelee":
 			#sfx_manager.play(robot_sounds[randi() % robot_sounds.size()])
 			
