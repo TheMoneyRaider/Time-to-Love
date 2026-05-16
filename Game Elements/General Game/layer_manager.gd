@@ -1,8 +1,8 @@
 extends Node2D
 @onready var timefabric = preload("res://Game Elements/Objects/time_fabric.tscn")
 @onready var health_pickup = preload("res://Game Elements/Objects/health_pickup.tscn")
-@onready var reward_num : Array = [2.0,1.0,1.5,1.0,0.0,.6]
-@onready var base_reward_probabilities : Array = [2.0,1.0,1.5,1.0,0.0,.6]
+@onready var reward_num : Array = [2.0,1.0,1.0,1.0,0.0,.4]
+@onready var base_reward_probabilities : Array = [2.0,1.0,1.0,1.0,0.0,.4]
 ### Temp Multiplayer Fix
 var player1 = null
 var player2 = null

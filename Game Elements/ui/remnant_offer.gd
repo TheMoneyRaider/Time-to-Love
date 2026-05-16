@@ -142,7 +142,7 @@ func _process(_delta):
 	$DrifterText/Label/TextureRect.texture = _blend_textures(frames[current_frame], frames[next_frame], smear_t)
 
 
-func popup_offer(player1_remnants_in : Array, player2_remnants_in : Array, rank_weights : Array = [70,20,10]):
+func popup_offer(player1_remnants_in : Array, player2_remnants_in : Array, rank_weights : Array = [70,25,5]):
 	_set_drifter_text(player1_remnants_in,player2_remnants_in)
 	player1_remnants = player1_remnants_in.duplicate()
 	player2_remnants = player2_remnants_in.duplicate()
@@ -153,13 +153,23 @@ func popup_offer(player1_remnants_in : Array, player2_remnants_in : Array, rank_
 	offered_remnants = RemnantManager.get_random_remnants(4,player1_remnants, player2_remnants)
 	selected_index1 = -1
 	selected_index2 = -1
+	match int(RoomManager.current_progress):
+		0:
+			rank_weights = [70,25,5]
+		1:
+			rank_weights = [20, 50, 25, 5]
+		2:
+			rank_weights = [5, 30, 40, 20, 5]
+		3:
+			rank_weights = [0, 30, 35, 25, 10]
+		_:
+			rank_weights = [0, 30, 35, 25, 10]
 	#populate UI
 	for i in range(slot_nodes.size()):
 		if i < offered_remnants.size():
 			var temp_rank = weighted_random_index(rank_weights)
-			if(offered_remnants[i].remnant_name == "Remnant of the Mancermancer"):
-				temp_rank = max(3, temp_rank)
-			offered_remnants[i].rank = int(RoomManager.current_progress)+temp_rank
+			offered_remnants[i].rank = max(offered_remnants[i].num_rem_required, temp_rank)
+			
 			slot_nodes[i].set_remnant(offered_remnants[i],false)
 		else:
 			slot_nodes[i].queue_free()
