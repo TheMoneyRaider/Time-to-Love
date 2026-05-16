@@ -168,17 +168,17 @@ func inputs(input_device : String, is_player_1 : bool):
 	if Input.is_action_just_pressed("menu_right_"+input_device):
 		if is_player_1:
 			hover_index1 = min(offered_remnants.size() - 1, hover_index1 + 1)
-			sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"))
+			sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI")
 		else:
 			hover_index2 = min(offered_remnants.size() - 1, hover_index2 + 1)
-			sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"))
+			sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI")
 	if Input.is_action_just_pressed("menu_left_"+input_device):
 		if is_player_1:
 			hover_index1 = max(0, hover_index1 - 1)
-			sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"))
+			sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI")
 		else:
 			hover_index2 = max(0, hover_index2 - 1)
-			sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"))
+			sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI")
 	if Input.is_action_just_pressed("activate_"+input_device):
 		if is_player_1:
 			if _check_if_remnant_viable(offered_remnants[hover_index1], player1_remnants) and hover_index1 != selected_index2:
@@ -188,7 +188,7 @@ func inputs(input_device : String, is_player_1 : bool):
 				selected_index2 = hover_index2
 
 func _on_slot_selected(idx: int) -> void:
-	sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"))
+	sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI")
 	if Globals.is_multiplayer:
 		if Globals.player1_input == "key" and _check_if_remnant_viable(offered_remnants[idx], player1_remnants) and idx != selected_index2:
 			selected_index1 = idx
