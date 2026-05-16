@@ -70,6 +70,14 @@ var is_multiplayer = Globals.is_multiplayer
 
 var current_song_idx: int = -1
 
+var timefabric_collected_sounds = [
+	preload("res://Game Elements/sfx/enemies/time_fabric/collect1.ogg"),
+	preload("res://Game Elements/sfx/enemies/time_fabric/collect2.ogg"),
+	preload("res://Game Elements/sfx/enemies/time_fabric/collect3.ogg"),
+	preload("res://Game Elements/sfx/enemies/time_fabric/collect4.ogg"),
+	preload("res://Game Elements/sfx/enemies/time_fabric/collect5.ogg"),
+]
+
 func _ready() -> void:
 	$game_container.material = $game_container.material.duplicate(true)
 	var conflict_cells : Array[Vector2i] = []
@@ -978,6 +986,7 @@ func _place_timefabric(time_idx : int, offset : Vector2i, current_position : Vec
 	timefabric_instance.set_direction(direction)
 	timefabric_instance.set_process(true)
 	timefabric_instance.absorbed_by_player.connect(_on_timefabric_absorbed)
+	# sfx_manager.play(preload("res://Game Elements/sfx/enemies/time_fabric/drop1.ogg"))
 	return
 
 func _score_timefabric_placement(pixels_to_cover : Dictionary, timefabric_pixels : Array, timefabric_idx : int,offset : Vector2i) -> float:
@@ -1692,6 +1701,7 @@ func _on_healthpickup_absorbed(player_node : Node, health_node : Node):
 
 func _on_timefabric_absorbed(timefabric_node : Node):
 	timefabric_collected+=1
+	sfx_manager.play(timefabric_collected_sounds[randi() % timefabric_collected_sounds.size()], 0.0)
 	RoomManager.layer_ai[12]+=1
 	timefabric_node.queue_free()
 	
