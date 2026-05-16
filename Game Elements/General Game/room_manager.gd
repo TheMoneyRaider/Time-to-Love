@@ -27,7 +27,7 @@ var layer_ai := [
 	0	#This timeline Combat rooms cleared 15
 	]
 #the root node of each room MUST BE NAMED Root
-@onready var current_progress = 0.0 #TEST 3.0
+@onready var current_progress = 1.0 #TEST 3.0
 var medieval_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/cave1.tres"),
 								preload("res://Game Elements/Rooms/resources/cave2.tres"),
 								preload("res://Game Elements/Rooms/resources/cave3.tres"),
@@ -59,7 +59,7 @@ var sci_fi_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/f
 var sci_fi_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/shop_cyberspace.tres"),
 								preload("res://Game Elements/Rooms/resources/shop_factory.tres")]
 								
-var starting_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/1.tres")]
+var starting_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/1.tres"),preload("res://Game Elements/Rooms/resources/2.tres")]
  #preload("res://Game Elements/Rooms/resources/testing_room.tres")
 
 

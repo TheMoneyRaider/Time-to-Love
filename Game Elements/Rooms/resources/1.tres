@@ -5,7 +5,6 @@
 [resource]
 script = ExtResource("1_7e2dp")
 scene_location = "res://Game Elements/Rooms/starting_rooms/1.tscn"
-num_liquid = 2
 liquid_types = Array[int]([1, 2])
 liquid_chances = Array[float]([1.0, 1.0])
 noise_seed = null
