@@ -4,6 +4,7 @@ var mouse_sensitivity: float = 1.0
 var joystick_acceleration: float = 7.0
 const SETTINGS_FILE = "user://settings.cfg"
 var debug_mode: bool = false
+var crosshair_mode : bool = true
 var display_pathways: bool = false
 var mouse_clamping: bool = false
 var toggle_invulnerability: bool = false
@@ -18,6 +19,7 @@ func load_settings():
 	controller_mode = Globals.config.get_value("controls","controller_mode", true)
 	joystick_acceleration = Globals.config.get_value("controls","joystick_acceleration",7.0)
 	debug_mode = Globals.config.get_value("debug", "enabled", false)
+	crosshair_mode = Globals.config.get_value("settings", "crosshair", true) 
 	frag_mode = Globals.config.get_value("fragmentation", "enabled", true)
 	rewind_mode = Globals.config.get_value("rewind", "rewind_mode", 0)
 	$MarginContainer/VBoxContainer/Volume/Volume.value = db_to_percent(Globals.config.get_value("audio", "master", 0))
@@ -28,7 +30,6 @@ func load_settings():
 		Globals.player1_input = Globals.config.get_value("inputs","player1_input", "key")
 		Globals.player2_input = Globals.config.get_value("inputs","player2_input", "0")
 	mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
-	debug_mode = Globals.config.get_value("debug", "enabled", false)
 	
 	# audio settings 
 	$MarginContainer/VBoxContainer/Volume/Volume.value = db_to_percent(Globals.config.get_value("audio", "master", 0))
@@ -67,6 +68,7 @@ func _on_apply_settings()-> void:
 	Globals.config.set_value("controls", "controller_mode", controller_mode)
 	Globals.config.set_value("controls", "joystick_acceleration", joystick_acceleration)
 	Globals.config.set_value("debug", "enabled", debug_mode)
+	Globals.config.set_value("settings", "crosshair", crosshair_mode)
 	Globals.config.set_value("fragmentation", "enabled", frag_mode)
 	Globals.config.set_value("inputs","player1_input", Globals.player1_input)
 	Globals.config.set_value("inputs","player2_input", Globals.player2_input)
@@ -99,6 +101,12 @@ func _ready() -> void:
 	$MarginContainer/VBoxContainer/Debug/DebugMode.button_pressed = debug_mode
 	$MarginContainer/VBoxContainer/Debug/DebugMode.toggled.connect(_on_debug_mode_toggled)
 	update_debug_menu_label()
+	# disconnect before setting to avoid triggering sounds
+	$MarginContainer/VBoxContainer/Crosshair/Crosshair.toggled.disconnect(_on_crosshair_mode_toggled)
+	$MarginContainer/VBoxContainer/Crosshair/Crosshair.button_pressed = crosshair_mode
+	$MarginContainer/VBoxContainer/Crosshair/Crosshair.toggled.connect(_on_crosshair_mode_toggled)
+	update_debug_menu_label()
+	
 	
 	$MarginContainer/VBoxContainer/Fragmenting/FragMode.toggled.disconnect(_on_frag_mode_toggled)
 	$MarginContainer/VBoxContainer/Fragmenting/FragMode.button_pressed = frag_mode
@@ -201,6 +209,12 @@ func update_debug_menu_label() -> void:
 	else:
 		$MarginContainer/VBoxContainer/Debug/DebugLabel.text = "On"
 		
+func update_crosshair_menu_label() -> void:
+	if crosshair_mode == false: 
+		$MarginContainer/VBoxContainer/Crosshair/CrosshairLabel.text = "Off"
+	else:
+		$MarginContainer/VBoxContainer/Crosshair/CrosshairLabel.text = "On"
+		
 func _on_debug_mode_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"))
@@ -208,6 +222,15 @@ func _on_debug_mode_toggled(toggled_on: bool) -> void:
 		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_off.ogg"))
 	debug_mode = toggled_on
 	update_debug_menu_label()
+	
+
+func _on_crosshair_mode_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"))
+	else:
+		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_off.ogg"))
+	crosshair_mode = toggled_on
+	update_crosshair_menu_label()
 	
 func update_frag_menu_label() -> void:
 	if frag_mode == false: 

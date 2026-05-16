@@ -312,6 +312,25 @@ custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 
+[node name="Crosshair" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/Crosshair"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Camera Peek Forward"
+
+[node name="Crosshair" type="CheckButton" parent="Control/MarginContainer/VBoxContainer/Crosshair"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../../Fragmenting/FragMode")
+focus_neighbor_bottom = NodePath("../../RewindMode/Choice")
+
+[node name="CrosshairLabel" type="Label" parent="Control/MarginContainer/VBoxContainer/Crosshair"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+
 [node name="RewindMode" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
@@ -405,6 +424,7 @@ text = "Apply"
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Controller/Joystick Sensitivity" to="Control" method="_on_joystick_sensitivity_value_changed"]
 [connection signal="toggled" from="Control/MarginContainer/VBoxContainer/Fragmenting/FragMode" to="Control" method="_on_frag_mode_toggled"]
 [connection signal="toggled" from="Control/MarginContainer/VBoxContainer/Debug/DebugMode" to="Control" method="_on_debug_mode_toggled"]
+[connection signal="toggled" from="Control/MarginContainer/VBoxContainer/Crosshair/Crosshair" to="Control" method="_on_crosshair_mode_toggled"]
 [connection signal="item_selected" from="Control/MarginContainer/VBoxContainer/RewindMode/Choice" to="Control" method="_on_rewind_mode_selected"]
 [connection signal="item_selected" from="Control/MarginContainer/VBoxContainer/Player1/Choice" to="Control" method="_on_p1_selected"]
 [connection signal="item_selected" from="Control/MarginContainer/VBoxContainer/Player2/Choice" to="Control" method="_on_p2_selected"]

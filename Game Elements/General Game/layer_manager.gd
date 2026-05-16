@@ -177,8 +177,12 @@ func _process(delta: float) -> void:
 		if is_multiplayer:
 			camera.global_position = (player1.global_position + player2.global_position) / 2 +camera.get_cam_offset(delta)
 		else:
-			camera.position = player1.global_position+camera.get_cam_offset(delta)		
-	
+			var average_crosshair_position = Globals.config.get_value("settings","crosshair", true)
+			if average_crosshair_position:
+				camera.position = (player1.crosshair.global_position+player1.global_position*2.0)/3.0+camera.get_cam_offset(delta)		
+			else:
+				camera.position = player1.global_position+camera.get_cam_offset(delta)		
+				
 	# Thread check
 	if thread_running and not room_gen_thread.is_alive():
 		thread_result = room_gen_thread.wait_to_finish()
