@@ -407,8 +407,6 @@ func place_liquids(generated_room : Node2D, generated_room_data : Room, conflict
 		else:
 			cells = generated_room.get_node(liquid_type+str(types[liquid])).get_used_cells()
 			if(_arrays_intersect(cells, conflict_cells)):
-				print(cells)
-				print(conflict_cells)
 				
 				generated_room.get_node(liquid_type+str(types[liquid])).queue_free()
 				#DEBUG

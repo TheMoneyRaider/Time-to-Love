@@ -59,7 +59,9 @@ var sci_fi_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/f
 var sci_fi_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/shop_cyberspace.tres"),
 								preload("res://Game Elements/Rooms/resources/shop_factory.tres")]
 								
-var starting_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/1.tres"),preload("res://Game Elements/Rooms/resources/2.tres")]
+var starting_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/1.tres"),
+									preload("res://Game Elements/Rooms/resources/2.tres"),
+									preload("res://Game Elements/Rooms/resources/3.tres")]
  #preload("res://Game Elements/Rooms/resources/testing_room.tres")
 
 
