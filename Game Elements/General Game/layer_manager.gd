@@ -78,6 +78,14 @@ var timefabric_collected_sounds = [
 	preload("res://Game Elements/sfx/enemies/time_fabric/collect5.ogg"),
 ]
 
+var weapon_select_sounds = [
+	preload("res://Game Elements/sfx/weapons/selection/selection1.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection2.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection3.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection4.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection5.wav"),
+]
+
 func _ready() -> void:
 	$game_container.material = $game_container.material.duplicate(true)
 	var conflict_cells : Array[Vector2i] = []
@@ -558,6 +566,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 			if(node.enabled == true):
 				if player_reference in node.tracked_bodies:
 					player_reference.update_weapon(node.weapon_type)
+					sfx_manager.play(weapon_select_sounds[randi() % weapon_select_sounds.size()], -4.0)
 					hud.set_cooldown_icons()
 					#node.queue_free()
 					return true

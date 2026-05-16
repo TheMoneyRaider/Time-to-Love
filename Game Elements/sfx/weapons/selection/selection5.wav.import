@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ds1q75hpk3pld"
+path="res://.godot/imported/selection5.wav-a134c9b5dc9a14e288a70a17ecddfc7a.sample"
+
+[deps]
+
+source_file="res://Game Elements/sfx/weapons/selection/selection5.wav"
+dest_files=["res://.godot/imported/selection5.wav-a134c9b5dc9a14e288a70a17ecddfc7a.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
