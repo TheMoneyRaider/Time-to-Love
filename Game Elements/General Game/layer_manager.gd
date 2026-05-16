@@ -103,7 +103,7 @@ func _ready() -> void:
 	####
 	game_root.add_child(pathfinding)
 	randomize()
-	room_instance_data = RoomManager.testing_room
+	room_instance_data = RoomManager.starting_rooms[int(Globals.total_progress)]
 	room_location = load(room_instance_data.scene_location)
 	room_instance = room_location.instantiate()
 	RoomManager.update_ai_array(room_instance, room_instance_data,self)

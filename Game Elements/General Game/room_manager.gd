@@ -59,7 +59,7 @@ var sci_fi_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/f
 var sci_fi_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/shop_cyberspace.tres"),
 								preload("res://Game Elements/Rooms/resources/shop_factory.tres")]
 								
-var testing_room : Room = preload("res://Game Elements/Rooms/resources/weapon_room.tres")
+var starting_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/1.tres")]
  #preload("res://Game Elements/Rooms/resources/testing_room.tres")
 
 
@@ -122,7 +122,7 @@ func _ready() -> void:
 			cached_scenes[room_data_item.scene_location] = packed
 
 func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerManager : Node) -> void:
-	if generated_room_data==testing_room:
+	if generated_room_data in starting_rooms:
 		LayerManager.time_passed = 0.0
 		layer_ai = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 		return
