@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://vywx8ky5abjc"
+path="res://.godot/imported/laser4.ogg-9c157b74c20849a217d330746c515f3f.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/weapons/laser_sword/laser4.ogg"
+dest_files=["res://.godot/imported/laser4.ogg-9c157b74c20849a217d330746c515f3f.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

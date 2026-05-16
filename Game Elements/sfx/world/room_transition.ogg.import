@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://e06edn8loqov"
+path="res://.godot/imported/room_transition.ogg-b8df3712f3d8adfad42dfa09290eafff.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/world/room_transition.ogg"
+dest_files=["res://.godot/imported/room_transition.ogg-b8df3712f3d8adfad42dfa09290eafff.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

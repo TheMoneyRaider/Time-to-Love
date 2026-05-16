@@ -53,6 +53,56 @@ var special_start_damage : float = 1.0
 var special_started : bool = false
 var special_nodes = []
 
+var mace_sounds = [
+	preload("res://Game Elements/sfx/weapons/mace/mace1.ogg"),
+	preload("res://Game Elements/sfx/weapons/mace/mace2.ogg"),
+	preload("res://Game Elements/sfx/weapons/mace/mace3.ogg"),
+	preload("res://Game Elements/sfx/weapons/mace/mace4.ogg"),
+	preload("res://Game Elements/sfx/weapons/mace/mace5.ogg"),
+]
+
+var ls_sounds = [
+	preload("res://Game Elements/sfx/weapons/laser_sword/laser1.ogg"),
+	preload("res://Game Elements/sfx/weapons/laser_sword/laser1.ogg"),
+	preload("res://Game Elements/sfx/weapons/laser_sword/laser1.ogg"),
+	preload("res://Game Elements/sfx/weapons/laser_sword/laser1.ogg"),
+	preload("res://Game Elements/sfx/weapons/laser_sword/laser1.ogg"),
+]
+
+var crossbow_sounds = [
+	preload("res://Game Elements/sfx/weapons/crossbow/crossbow1.ogg"),
+	preload("res://Game Elements/sfx/weapons/crossbow/crossbow2.ogg"),
+	preload("res://Game Elements/sfx/weapons/crossbow/crossbow3.ogg"),
+	preload("res://Game Elements/sfx/weapons/crossbow/crossbow4.ogg"),
+	preload("res://Game Elements/sfx/weapons/crossbow/crossbow5.ogg"),
+]
+
+var railgun_sounds = [
+	preload("res://Game Elements/sfx/weapons/rail_gun/railgun1.ogg"),
+	preload("res://Game Elements/sfx/weapons/rail_gun/railgun2.ogg"),
+	preload("res://Game Elements/sfx/weapons/rail_gun/railgun3.ogg"),
+	preload("res://Game Elements/sfx/weapons/rail_gun/railgun4.ogg"),
+	preload("res://Game Elements/sfx/weapons/rail_gun/railgun5.ogg"),
+]
+
+var crowbar_sounds = [
+	preload("res://Game Elements/sfx/weapons/crowbar/crowbar1.wav"),
+	preload("res://Game Elements/sfx/weapons/crowbar/crowbar1.wav"),
+	preload("res://Game Elements/sfx/weapons/crowbar/crowbar1.wav"),
+]
+
+var cool_shotgun_sounds = [
+	preload("res://Game Elements/sfx/weapons/shotgun/good_shotgun1.ogg"),
+	preload("res://Game Elements/sfx/weapons/shotgun/good_shotgun2.ogg"),
+	preload("res://Game Elements/sfx/weapons/shotgun/good_shotgun3.ogg"),
+]
+
+var lame_shotgun_sounds = [
+	preload("res://Game Elements/sfx/weapons/shotgun/lame_shotgun1.ogg"),
+	preload("res://Game Elements/sfx/weapons/shotgun/lame_shotgun2.ogg"),
+	preload("res://Game Elements/sfx/weapons/shotgun/lame_shotgun3.ogg"),
+]
+
 static func create_weapon(resource_location : String, current_owner : Node2D):
 	var new_weapon = load(resource_location).duplicate(true)
 	var attack_instance = load(new_weapon.attack_scene).instantiate()
@@ -71,6 +121,25 @@ static func create_weapon(resource_location : String, current_owner : Node2D):
 
 func request_attacks(direction : Vector2, char_position : Vector2, node_attacking : Node, flip : int = 1):
 	#GAMBLER
+	
+	match type:
+		"Mace":
+			sfx_manager.play(mace_sounds[randi() % mace_sounds.size()], 2.0)
+		"Laser_Sword":
+			sfx_manager.play(ls_sounds[randi() % ls_sounds.size()])
+		"Crossbow":
+			sfx_manager.play(crossbow_sounds[randi() % crossbow_sounds.size()], 8.0)
+		"Crowbar": 
+			sfx_manager.play(crowbar_sounds[randi() % crowbar_sounds.size()])
+		"Railgun":
+			sfx_manager.play(railgun_sounds[randi() % railgun_sounds.size()], 6.0)
+		"Shotgun":
+			#sfx_manager.play(cool_shotgun_sounds[randi() % cool_shotgun_sounds.size()])
+			sfx_manager.play(lame_shotgun_sounds[randi() % lame_shotgun_sounds.size()], -5.0)
+		#"RobotMelee":	
+			#sfx_manager.play(robot_sounds[randi() % robot_sounds.size()])
+			
+			
 	var temp_spread = attack_spread
 	var temp_random = random_spread
 	if node_attacking.is_in_group("player"):

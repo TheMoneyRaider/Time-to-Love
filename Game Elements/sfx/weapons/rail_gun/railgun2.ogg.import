@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bwk2uc8mtirlm"
+path="res://.godot/imported/railgun2.ogg-d29dc8477937530cb33811a5565b1642.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/weapons/rail_gun/railgun2.ogg"
+dest_files=["res://.godot/imported/railgun2.ogg-d29dc8477937530cb33811a5565b1642.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

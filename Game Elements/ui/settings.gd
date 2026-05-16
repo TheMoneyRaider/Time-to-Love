@@ -10,6 +10,9 @@ var toggle_invulnerability: bool = false
 var controller_mode = true
 var rewind_mode = 0
 
+var p1_dropdown_open: bool = false
+var p2_dropdown_open: bool = false
+
 func load_settings():
 	mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
 	controller_mode = Globals.config.get_value("controls","controller_mode", true)
@@ -37,10 +40,17 @@ func load_settings():
 	update_label($MarginContainer/VBoxContainer/Music/Music.value,   $MarginContainer/VBoxContainer/Music/MusicVal)     
 	update_label($MarginContainer/VBoxContainer/SFX/SFX.value,       $MarginContainer/VBoxContainer/SFX/SFXVal)         
 	update_label($MarginContainer/VBoxContainer/UI/UI.value,         $MarginContainer/VBoxContainer/UI/UIVal)           
-		
+	
+	for child in $MarginContainer/VBoxContainer.get_children():
+		for node in child.get_children():
+			if node is Button:
+				node.mouse_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg")))
+				node.focus_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg")))
+	
 var frag_mode: bool = false
 var devices : Array[Array]=[[],[]]
 func _on_back_pressed() -> void:
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	if is_pause_settings:
 		queue_free()
 		if Globals.is_multiplayer or Globals.player1_input != "key":
@@ -51,6 +61,7 @@ func _on_back_pressed() -> void:
 #
 func _on_apply_settings()-> void:
 	
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	var volslider = $MarginContainer/VBoxContainer/Volume/Volume
 	Globals.config.set_value("controls", "mouse_sensitivity", mouse_sensitivity)
 	Globals.config.set_value("controls", "controller_mode", controller_mode)
@@ -72,28 +83,44 @@ func _on_apply_settings()-> void:
 # @export var bus_name: String = "Master"
 
 func _ready() -> void:
-		
 	load_settings()
-
 	$MarginContainer/VBoxContainer/Mouse/MouseSensitivity.value = mouse_sensitivity
 	update_sensitivity_label()
-	
 	$"MarginContainer/VBoxContainer/Controller/Joystick Sensitivity".value = joystick_acceleration
 	update_acceleration_label()
 	
 	$MarginContainer/VBoxContainer/Controller_Mode/ControllerMode.button_pressed = controller_mode
 	update_controller_menu_label()
-	
+	# disconnect before setting to avoid triggering sounds
+	$MarginContainer/VBoxContainer/Debug/DebugMode.toggled.disconnect(_on_debug_mode_toggled)
 	$MarginContainer/VBoxContainer/Debug/DebugMode.button_pressed = debug_mode
+	$MarginContainer/VBoxContainer/Debug/DebugMode.toggled.connect(_on_debug_mode_toggled)
 	update_debug_menu_label()
 	
+	$MarginContainer/VBoxContainer/Fragmenting/FragMode.toggled.disconnect(_on_frag_mode_toggled)
 	$MarginContainer/VBoxContainer/Fragmenting/FragMode.button_pressed = frag_mode
+	$MarginContainer/VBoxContainer/Fragmenting/FragMode.toggled.connect(_on_frag_mode_toggled)
 	update_frag_menu_label()
 	$MarginContainer/VBoxContainer/RewindMode/Choice.selected = rewind_mode
 	
 	refresh_devices(true)
 	refresh_devices(false)
 	$MarginContainer/VBoxContainer/Volume/Volume.grab_focus()
+	
+	$MarginContainer/VBoxContainer/Player1/Choice.pressed.connect(func():
+		p1_dropdown_open = !p1_dropdown_open
+		if p1_dropdown_open:
+			sfx_manager.play(preload("res://Game Elements/ui/sfx/maximize_008.ogg"))
+		else:
+			sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"))
+	)
+	$MarginContainer/VBoxContainer/Player2/Choice.pressed.connect(func():
+		p2_dropdown_open = !p2_dropdown_open
+		if p2_dropdown_open:
+			sfx_manager.play(preload("res://Game Elements/ui/sfx/maximize_008.ogg"))
+		else:
+			sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"))
+	)
 	 
 func _process(delta):
 	if Input.get_connected_joypads().size() != (devices[0].size()-1):
@@ -172,6 +199,10 @@ func update_debug_menu_label() -> void:
 		$MarginContainer/VBoxContainer/Debug/DebugLabel.text = "On"
 		
 func _on_debug_mode_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"))
+	else:
+		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_off.ogg"))
 	debug_mode = toggled_on
 	update_debug_menu_label()
 	
@@ -182,6 +213,10 @@ func update_frag_menu_label() -> void:
 		$MarginContainer/VBoxContainer/Fragmenting/FragLabel.text = "On"
 		
 func _on_frag_mode_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"))
+	else:
+		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_off.ogg"))
 	frag_mode = toggled_on
 	update_frag_menu_label()
 	
@@ -213,6 +248,8 @@ func refresh_devices(is_purple : bool = true):
 	choice.selected = -1
 
 func _on_p1_selected(index : int):
+	p1_dropdown_open = false
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"))
 	if devices[0][index]==Globals.player2_input:
 		if Globals.player2_input=="key":
 			Globals.player2_input = "0"
@@ -224,6 +261,8 @@ func _on_p1_selected(index : int):
 	
 
 func _on_p2_selected(index : int):
+	p2_dropdown_open = false
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"))
 	if devices[1][index]==Globals.player1_input:
 		if Globals.player1_input=="key":
 			Globals.player1_input = "0"

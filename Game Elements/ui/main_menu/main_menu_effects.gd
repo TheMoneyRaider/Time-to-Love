@@ -65,6 +65,7 @@ func _ready():
 			if button is Button:
 				button.mouse_entered.connect(_on_focus_entered)  # ← mouse hover
 				button.focus_entered.connect(_on_focus_entered)  # ← keyboard/controller
+				button.pressed.connect(func(): sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg")))
 	else:
 		if !capture_all_states:
 			preload_all_textures()
