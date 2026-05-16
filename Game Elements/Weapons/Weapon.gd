@@ -124,19 +124,19 @@ func request_attacks(direction : Vector2, char_position : Vector2, node_attackin
 	
 	match type:
 		"Mace":
-			sfx_manager.play(mace_sounds[randi() % mace_sounds.size()])
+			sfx_manager.play(mace_sounds[randi() % mace_sounds.size()], 2.0)
 		"Laser_Sword":
 			sfx_manager.play(ls_sounds[randi() % ls_sounds.size()])
 		"Crossbow":
-			sfx_manager.play(crossbow_sounds[randi() % crossbow_sounds.size()])
-		"Crowbar":
+			sfx_manager.play(crossbow_sounds[randi() % crossbow_sounds.size()], 8.0)
+		"Crowbar": 
 			sfx_manager.play(crowbar_sounds[randi() % crowbar_sounds.size()])
 		"Railgun":
-			sfx_manager.play(railgun_sounds[randi() % railgun_sounds.size()])
+			sfx_manager.play(railgun_sounds[randi() % railgun_sounds.size()], 6.0)
 		"Shotgun":
 			#sfx_manager.play(cool_shotgun_sounds[randi() % cool_shotgun_sounds.size()])
-			sfx_manager.play(lame_shotgun_sounds[randi() % lame_shotgun_sounds.size()])
-		#"RobotMelee":
+			sfx_manager.play(lame_shotgun_sounds[randi() % lame_shotgun_sounds.size()], -5.0)
+		#"RobotMelee":	
 			#sfx_manager.play(robot_sounds[randi() % robot_sounds.size()])
 			
 			
