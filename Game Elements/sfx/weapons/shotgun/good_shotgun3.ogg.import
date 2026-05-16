@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://boerd7hnk0ym3"
+path="res://.godot/imported/good_shotgun3.ogg-051f8481399c978d8e59676db3e60116.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/weapons/shotgun/good_shotgun3.ogg"
+dest_files=["res://.godot/imported/good_shotgun3.ogg-051f8481399c978d8e59676db3e60116.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
