@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bw7omtwnt5kum"
+path="res://.godot/imported/lame_shotgun2.ogg-bd4395a2b222d2057898af56cb5febbc.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/weapons/shotgun/lame_shotgun2.ogg"
+dest_files=["res://.godot/imported/lame_shotgun2.ogg-bd4395a2b222d2057898af56cb5febbc.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -53,6 +53,11 @@ var drag_along : Array[Node] = []
 var life = 0.0
 var last_liquid : Globals.Liquid = Globals.Liquid.Buffer
 
+var deflect_sounds = [
+	preload("res://Game Elements/sfx/player/deflect/deflect1.ogg"),
+	preload("res://Game Elements/sfx/player/deflect/deflect2.ogg"),
+]
+
 #Multiplies the Speed, Damage, Lifespan adn Hit_Force of attack by given values
 func mult(speed_mult, damage_mult = 1, lifespan_mult = 1, hit_force_mult = 1):
 	self.speed = self.speed * speed_mult
@@ -357,6 +362,8 @@ func _on_body_entered(body):
 		intersection(body)
 
 func deflect(hit_direction, hit_speed, deflection_area):
+	
+	sfx_manager.play(deflect_sounds[randi() % deflect_sounds.size()], 2.0)
 	if attack_type=="laser":
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment1"))
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment2"))

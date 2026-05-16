@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bnecuocxfrr4n"
+path="res://.godot/imported/walk2.ogg-bff82880fab617605cd41aed0851262d.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/player/walk2.ogg"
+dest_files=["res://.godot/imported/walk2.ogg-bff82880fab617605cd41aed0851262d.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

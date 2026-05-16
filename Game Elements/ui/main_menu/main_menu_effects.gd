@@ -65,6 +65,7 @@ func _ready():
 			if button is Button:
 				button.mouse_entered.connect(_on_focus_entered)  # ← mouse hover
 				button.focus_entered.connect(_on_focus_entered)  # ← keyboard/controller
+				button.pressed.connect(func(): sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0 , "UI"))
 	else:
 		if !capture_all_states:
 			preload_all_textures()
@@ -451,8 +452,8 @@ func _on_focus_entered() -> void:
 	print("focus entered")
 	if hover_cooldown <= 0.0:
 		print("playing audio")
-		$UIHover.play()
-		#hover_cooldown = 0.025
+		sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI")
+		hover_cooldown = 0.025
 
 func button_state(input_type : String, active : bool):
 	if input_type == "key":
@@ -516,8 +517,9 @@ func update_ui_display():
 		if prev_state and (state["p1_hover"] != prev_state["p1_hover"] \
 		or state["p2_hover"] != prev_state["p2_hover"]):
 			if hover_cooldown <= 0.0:
-				$UIHover.play()
-				#hover_cooldown = 0.1
+				print("playing hover sound")
+				sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI")
+				hover_cooldown = 0.1
 		
 		prev_state=state
 		var fname = generate_filename(prev_state)

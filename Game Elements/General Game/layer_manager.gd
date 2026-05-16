@@ -71,6 +71,22 @@ var is_multiplayer = Globals.is_multiplayer
 
 var current_song_idx: int = -1
 
+var timefabric_collected_sounds = [
+	preload("res://Game Elements/sfx/enemies/time_fabric/collect1.ogg"),
+	preload("res://Game Elements/sfx/enemies/time_fabric/collect2.ogg"),
+	preload("res://Game Elements/sfx/enemies/time_fabric/collect3.ogg"),
+	preload("res://Game Elements/sfx/enemies/time_fabric/collect4.ogg"),
+	preload("res://Game Elements/sfx/enemies/time_fabric/collect5.ogg"),
+]
+
+var weapon_select_sounds = [
+	preload("res://Game Elements/sfx/weapons/selection/selection1.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection2.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection3.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection4.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection5.wav"),
+]
+
 func _ready() -> void:
 	$game_container.material = $game_container.material.duplicate(true)
 	var conflict_cells : Array[Vector2i] = []
@@ -596,6 +612,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 			if(node.enabled == true):
 				if player_reference in node.tracked_bodies:
 					player_reference.update_weapon(node.weapon_type)
+					sfx_manager.play(weapon_select_sounds[randi() % weapon_select_sounds.size()], -4.0)
 					hud.set_cooldown_icons()
 					return true
 		if node.is_in_group("letter"):
@@ -1037,6 +1054,7 @@ func _place_timefabric(time_idx : int, offset : Vector2i, current_position : Vec
 	timefabric_instance.set_direction(direction)
 	timefabric_instance.set_process(true)
 	timefabric_instance.absorbed_by_player.connect(_on_timefabric_absorbed)
+	# sfx_manager.play(preload("res://Game Elements/sfx/enemies/time_fabric/drop1.ogg"))
 	return
 
 func _score_timefabric_placement(pixels_to_cover : Dictionary, timefabric_pixels : Array, timefabric_idx : int,offset : Vector2i) -> float:
@@ -1091,6 +1109,9 @@ func _prepare_timefabric() -> void:
 
 func _open_remnant_popup() -> void:
 	if room_instance and !remnant_offer_popup:
+		
+		sfx_manager.play(preload("res://Game Elements/sfx/world/display_remnants.ogg"))
+		
 		var offer_scene = preload("res://Game Elements/ui/remnant_offer.tscn")
 		remnant_offer_popup = offer_scene.instantiate()
 		hud.add_child(remnant_offer_popup)
@@ -1290,7 +1311,8 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 		player1.disabled = true
 		if is_multiplayer:
 			player2.disabled = true
-			
+		
+		sfx_manager.play(preload("res://Game Elements/sfx/world/zaks_room_transition.ogg"), 10.0)
 		var particles = load("res://Game Elements/Particles/pathway_particles.tscn").instantiate()
 		PathwayTransition.global_position = pathway.global_position
 		PathwayViewport.add_child(particles)
@@ -1660,6 +1682,7 @@ func _on_enemy_take_damage(damage : float,current_health : float,enemy : Node, d
 			RoomManager.layer_ai[7]+=1
 
 func _on_remnant_chosen(remnant1 : Resource, remnant2 : Resource):
+	
 	player_1_remnants.append(remnant1.duplicate(true))
 	player_2_remnants.append(remnant2.duplicate(true))
 	remnant_update(remnant1,player1,true)
@@ -1781,6 +1804,7 @@ func _on_healthpickup_absorbed(player_node : Node, health_node : Node):
 
 func _on_timefabric_absorbed(timefabric_node : Node):
 	timefabric_collected+=1
+	sfx_manager.play(timefabric_collected_sounds[randi() % timefabric_collected_sounds.size()], 0.0)
 	RoomManager.layer_ai[12]+=1
 	timefabric_node.queue_free()
 	

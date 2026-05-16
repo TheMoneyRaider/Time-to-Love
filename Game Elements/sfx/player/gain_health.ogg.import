@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://n7uuekgfut6b"
+path="res://.godot/imported/gain_health.ogg-663612ae83878429f646436767d13da5.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/player/gain_health.ogg"
+dest_files=["res://.godot/imported/gain_health.ogg-663612ae83878429f646436767d13da5.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
