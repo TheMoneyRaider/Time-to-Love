@@ -125,6 +125,7 @@ material = SubResource("ShaderMaterial_hgkmx")
 texture = SubResource("ViewportTexture_dp20r")
 
 [node name="Prompt2" type="Node2D" parent="."]
+visible = false
 z_index = 1000
 scale = Vector2(3, 3)
 
@@ -150,6 +151,7 @@ scale = Vector2(0.06, 0.06)
 metadata/_edit_use_anchors_ = true
 
 [node name="Prompt1" type="Node2D" parent="."]
+visible = false
 z_index = 1000
 scale = Vector2(3, 3)
 
