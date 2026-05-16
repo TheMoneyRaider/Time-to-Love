@@ -1,7 +1,7 @@
 extends Control
 
-@export var hold_time: float = 2.0          # seconds of input needed to skip
-@export var decay_rate: float = 1.0         # how fast it drains per second
+@export var hold_time: float = 1.0          # seconds of input needed to skip
+@export var decay_rate: float = .5         # how fast it drains per second
 
 var progress: float = 0.0
 var is_any_input_held: bool = false

@@ -103,7 +103,7 @@ func _ready() -> void:
 	####
 	game_root.add_child(pathfinding)
 	randomize()
-	room_instance_data = RoomManager.starting_rooms[int(Globals.total_progress)]
+	room_instance_data = RoomManager.starting_rooms[clamp(int(Globals.total_progress),0,2)]
 	room_location = load(room_instance_data.scene_location)
 	room_instance = room_location.instantiate()
 	RoomManager.update_ai_array(room_instance, room_instance_data,self)
@@ -407,6 +407,9 @@ func place_liquids(generated_room : Node2D, generated_room_data : Room, conflict
 		else:
 			cells = generated_room.get_node(liquid_type+str(types[liquid])).get_used_cells()
 			if(_arrays_intersect(cells, conflict_cells)):
+				print(cells)
+				print(conflict_cells)
+				
 				generated_room.get_node(liquid_type+str(types[liquid])).queue_free()
 				#DEBUG
 				_debug_message("Layer collision removed")
