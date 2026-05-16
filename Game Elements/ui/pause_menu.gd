@@ -21,11 +21,11 @@ func _ready():
 	hide()
 	
 	for button in $Control/VBoxContainer.get_children():
-		button.mouse_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg")))
-		button.focus_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg")))
+		button.mouse_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg")))
+		button.focus_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg")))
 	for button in $Control/Extras.get_children():
-		button.mouse_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg")))
-		button.focus_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg")))
+		button.mouse_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg")))
+		button.focus_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg")))
 
 func setup(nodes : Array[Node]):
 	for node in nodes:
