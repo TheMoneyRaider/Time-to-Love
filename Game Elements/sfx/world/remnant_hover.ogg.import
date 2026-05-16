@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dq8l450mawomo"
+path="res://.godot/imported/remnant_hover.ogg-4796649c23a6e2113f48cb9556eef29b.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/world/remnant_hover.ogg"
+dest_files=["res://.godot/imported/remnant_hover.ogg-4796649c23a6e2113f48cb9556eef29b.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
