@@ -4,6 +4,11 @@ func _ready() -> void:
 	var config := ConfigFile.new()
 	var err = config.load("user://settings.cfg")
 	
+	for button in get_children():
+		if button is Button:
+			button.mouse_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg")))
+			button.focus_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg")))
+	
 	if err == OK:
 		var volume = config.get_value("audio", "master", 0)
 		var bus_index = AudioServer.get_bus_index("Master")
