@@ -154,6 +154,10 @@ func update_debug_menu_label() -> void:
 		$MarginContainer/VBoxContainer/Debug/DebugLabel.text = "On"
 		
 func _on_debug_mode_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"))
+	else:
+		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_off.ogg"))
 	debug_mode = toggled_on
 	update_debug_menu_label()
 	
@@ -164,6 +168,10 @@ func update_frag_menu_label() -> void:
 		$MarginContainer/VBoxContainer/Fragmenting/FragLabel.text = "On"
 		
 func _on_frag_mode_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"))
+	else:
+		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_off.ogg"))
 	frag_mode = toggled_on
 	update_frag_menu_label()
 	
