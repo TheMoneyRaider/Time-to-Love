@@ -98,6 +98,8 @@ func get_room(room : Room):
 		return bosses[index]
 
 	var normal_index = clamp(int(randf()*normal_rooms[index].size()),0,normal_rooms[index].size()-1)
+	if normal_rooms[index][normal_index]==room:
+		return get_room(room)
 	return normal_rooms[index][normal_index]
 	
 
