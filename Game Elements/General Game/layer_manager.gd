@@ -1239,7 +1239,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 		if is_multiplayer:
 			player2.disabled = true
 		
-		sfx_manager.play(preload("res://Game Elements/sfx/world/room_transition.ogg"))
+		sfx_manager.play(preload("res://Game Elements/sfx/world/zaks_room_transition.ogg"), 10.0)
 		var particles = load("res://Game Elements/Particles/pathway_particles.tscn").instantiate()
 		PathwayTransition.global_position = pathway.global_position
 		PathwayViewport.add_child(particles)
@@ -1602,6 +1602,7 @@ func _on_enemy_take_damage(damage : float,current_health : int,enemy : Node, dir
 			RoomManager.layer_ai[7]+=1
 
 func _on_remnant_chosen(remnant1 : Resource, remnant2 : Resource):
+	
 	player_1_remnants.append(remnant1.duplicate(true))
 	player_2_remnants.append(remnant2.duplicate(true))
 	remnant_update(remnant1,player1,true)
