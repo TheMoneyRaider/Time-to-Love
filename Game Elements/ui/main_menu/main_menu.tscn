@@ -14,7 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://eifbgnatdh4i" path="res://art/particles/gradiant_dot3.png" id="10_a412y"]
 [ext_resource type="StyleBox" uid="uid://4eubuwqyfxh3" path="res://Game Elements/ui/resources/4-2_button.tres" id="10_c3jtu"]
 [ext_resource type="PackedScene" uid="uid://djqkn1bomolv2" path="res://Game Elements/ui/main_menu/cinematic/intro.tscn" id="14_xx3pa"]
-[ext_resource type="AudioStream" uid="uid://dvqf01jx2qcgv" path="res://Game Elements/ui/sfx/click_001.ogg" id="15_5wsuk"]
+[ext_resource type="AudioStream" uid="uid://dq8l450mawomo" path="res://Game Elements/sfx/world/remnant_hover.ogg" id="15_5wsuk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qvtd8"]
 shader = ExtResource("9_6wjqi")
