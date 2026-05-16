@@ -363,14 +363,17 @@ func _on_letter_pressed(index: int):
 		return
 	print("Letter pressed: %d" % index)
 	if letter_active:
+		sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 		close_letter()
 		return
 	else:
+		sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 		view_letter(index)
 			
 			
 
 func _on_texture_button_pressed() -> void:
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	close_letter()
 	
 
@@ -387,6 +390,7 @@ func activate():
 
 
 func _on_return_pressed():
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	polygons.clear()
 	letter_buttons.clear()
 	fragment_visuals.clear()
