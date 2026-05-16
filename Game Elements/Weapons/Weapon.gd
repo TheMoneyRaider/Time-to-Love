@@ -61,6 +61,23 @@ var mace_sounds = [
 	preload("res://Game Elements/sfx/weapons/mace/mace5.ogg"),
 ]
 
+var ls_sounds = [
+	preload("res://Game Elements/sfx/weapons/laser_sword/laser1.ogg"),
+	preload("res://Game Elements/sfx/weapons/laser_sword/laser1.ogg"),
+	preload("res://Game Elements/sfx/weapons/laser_sword/laser1.ogg"),
+	preload("res://Game Elements/sfx/weapons/laser_sword/laser1.ogg"),
+	preload("res://Game Elements/sfx/weapons/laser_sword/laser1.ogg"),
+]
+
+var crossbow_sounds = [
+	preload("res://Game Elements/sfx/weapons/crossbow/crossbow1.ogg"),
+	preload("res://Game Elements/sfx/weapons/crossbow/crossbow2.ogg"),
+	preload("res://Game Elements/sfx/weapons/crossbow/crossbow3.ogg"),
+	preload("res://Game Elements/sfx/weapons/crossbow/crossbow4.ogg"),
+	preload("res://Game Elements/sfx/weapons/crossbow/crossbow5.ogg"),
+]
+
+
 static func create_weapon(resource_location : String, current_owner : Node2D):
 	var new_weapon = load(resource_location).duplicate(true)
 	var attack_instance = load(new_weapon.attack_scene).instantiate()
@@ -83,10 +100,10 @@ func request_attacks(direction : Vector2, char_position : Vector2, node_attackin
 	match type:
 		"Mace":
 			sfx_manager.play(mace_sounds[randi() % mace_sounds.size()])
-		#"Laser_Sword":
-			#sfx_manager.play(sword_sounds[randi() % sword_sounds.size()])
-		#"Crossbow":
-			#sfx_manager.play(crossbow_sounds[randi() % crossbow_sounds.size()])
+		"Laser_Sword":
+			sfx_manager.play(ls_sounds[randi() % ls_sounds.size()])
+		"Crossbow":
+			sfx_manager.play(crossbow_sounds[randi() % crossbow_sounds.size()])
 		#"Crowbar":
 			#sfx_manager.play(crowbar_sounds[randi() % crowbar_sounds.size()])
 		#"Railgun":
