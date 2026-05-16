@@ -87,6 +87,14 @@ var weapon_select_sounds = [
 	preload("res://Game Elements/sfx/weapons/selection/selection5.wav"),
 ]
 
+var cactus_explosion_sound = [
+	preload("res://Game Elements/sfx/weapons/selection/selection1.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection2.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection3.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection4.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection5.wav")
+]
+
 func _ready() -> void:
 	$game_container.material = $game_container.material.duplicate(true)
 	var conflict_cells : Array[Vector2i] = []
@@ -1647,6 +1655,7 @@ func _on_enemy_take_damage(damage : float,current_health : float,enemy : Node, d
 			room_instance.call_deferred("add_child",attack_instance)
 			has_death_attack = true
 		if(enemy.cactus_explode):
+			sfx_manager.play(cactus_explosion_sound[randi() % cactus_explosion_sound.size()], -6.0)
 			var attack_direction
 			if(enemy.last_hitter != null):
 				attack_direction = (enemy.last_hitter.global_position - enemy.global_position).normalized()
