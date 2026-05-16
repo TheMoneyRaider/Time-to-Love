@@ -27,10 +27,17 @@ func load_settings():
 	update_label($MarginContainer/VBoxContainer/Music/Music.value,   $MarginContainer/VBoxContainer/Music/MusicVal)     
 	update_label($MarginContainer/VBoxContainer/SFX/SFX.value,       $MarginContainer/VBoxContainer/SFX/SFXVal)         
 	update_label($MarginContainer/VBoxContainer/UI/UI.value,         $MarginContainer/VBoxContainer/UI/UIVal)           
-		
+	
+	for child in $MarginContainer/VBoxContainer.get_children():
+		for node in child.get_children():
+			if node is Button:
+				node.mouse_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg")))
+				node.focus_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg")))
+	
 var frag_mode: bool = false
 var devices : Array[Array]=[[],[]]
 func _on_back_pressed() -> void:
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	if is_pause_settings:
 		queue_free()
 		if Globals.is_multiplayer or Globals.player1_input != "key":
@@ -41,6 +48,7 @@ func _on_back_pressed() -> void:
 #
 func _on_apply_settings()-> void:
 	
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	var volslider = $MarginContainer/VBoxContainer/Volume/Volume
 	Globals.config.set_value("controls", "mouse_sensitivity", mouse_sensitivity)
 	Globals.config.set_value("debug", "enabled", debug_mode)
