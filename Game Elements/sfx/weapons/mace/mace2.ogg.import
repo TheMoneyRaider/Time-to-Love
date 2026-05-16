@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://x10nkm3gi3rh"
+path="res://.godot/imported/mace2.ogg-fc804665195fcaa8255503d03ce77291.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/weapons/mace/mace2.ogg"
+dest_files=["res://.godot/imported/mace2.ogg-fc804665195fcaa8255503d03ce77291.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
