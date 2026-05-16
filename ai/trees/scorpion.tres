@@ -128,6 +128,7 @@ children = [SubResource("BTAction_4evon")]
 [sub_resource type="BTAction" id="BTAction_3mace"]
 script = ExtResource("9_dbhim")
 sounds = Array[AudioStream]([ExtResource("10_dbhim"), ExtResource("11_md62u"), ExtResource("12_nxvid")])
+volume_db = 6.0
 
 [sub_resource type="BBNode" id="BBNode_yg7nc"]
 saved_value = NodePath("AnimationPlayer")

@@ -293,6 +293,7 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 	if(i_frames > 0):
 		return
 	i_frames = attack_i_frames
+	sfx_manager.play(preload("res://Game Elements/sfx/enemies/thud.ogg"), -2.0)
 	if dmg_owner:
 		check_agro(dmg_owner)
 	if enemy_type=="binary_bot":
