@@ -31,6 +31,15 @@ func _ready() -> void:
 	load_state($MarginContainer/VBoxContainer/Save2, save_state2)
 	load_state($MarginContainer/VBoxContainer/Save3, save_state3)
 	$MarginContainer/Back.grab_focus()
+	_connect_hover_sounds($MarginContainer)
+
+func _connect_hover_sounds(node: Node) -> void:
+	for child in node.get_children():
+		if child is Button:
+			child.mouse_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg")))
+			child.focus_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg")))
+		_connect_hover_sounds(child)
+		
 
 func _process(delta: float) -> void:
 	$ColorRect.material.set_shader_parameter("time", $ColorRect.material.get_shader_parameter("time") + delta)
