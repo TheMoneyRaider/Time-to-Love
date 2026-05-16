@@ -44,27 +44,31 @@ func _on_skip() -> void:
 	start_menu_music()
 	
 
+
+func _begin_cinematic() -> void:
+	$Intro.visible = true
+	$Intro/AnimationPlayer.play("RESET")
+	$Intro/AnimationPlayer.advance(0)
+	$Intro/AnimationPlayer.play("main")
+	$Intro/Skip.skip_requested.connect(_on_skip)
+	$Intro/Skip.active = true
+	intro_started = true
+
+	get_tree().create_timer(65.0).timeout.connect(func():
+		if paused:
+			$Intro/AnimationPlayer.stop()
+			$Intro.visible = false
+			$Intro/AudioStreamPlayer.stop()
+			Globals.cinematic_viewed = true
+			paused = false
+			start_menu_music()
+	)
+
 func _ready():
 	if Globals.cinematic_viewed:
 		paused = false
 		$Intro.visible = false
 		start_menu_music()
-	else:
-		$Intro/AnimationPlayer.play("RESET")
-		$Intro/AnimationPlayer.advance(0)  # apply it instantly
-		$Intro/AnimationPlayer.play("main")
-		$Intro/Skip.skip_requested.connect(_on_skip)
-		$Intro/Skip.active = true
-		# After 60 seconds, skip to end and start music
-		get_tree().create_timer(65.0).timeout.connect(func():
-			if paused:  # only if not already skipped manually
-				$Intro/AnimationPlayer.stop()
-				$Intro.visible = false
-				$Intro/AudioStreamPlayer.stop()
-				Globals.cinematic_viewed = true
-				paused = false
-				start_menu_music()
-		)
 	Title.texture = title_textures[Globals.menu]
 	fragmenting = Globals.config.get_value("fragmentation", "enabled", true)
 	if capture_all_states:
@@ -99,6 +103,9 @@ func _ready():
 			cooldown = -1
 		if capture_all_states:
 			capture_all_ui_states()
+	if !Globals.cinematic_viewed:
+		_begin_cinematic()
+		
 			
 			
 	if Globals.total_progress < 1.0:
@@ -136,10 +143,7 @@ func _load_save_time(idx: int) -> float:
 	
 func _process(delta):
 	if paused:
-		if !intro_started:
-			intro_started = true
-			return
-		if $Intro/AnimationPlayer.is_playing():
+		if !intro_started or $Intro/AnimationPlayer.is_playing():
 			return
 		else:
 			print("_process: animation finished naturally")

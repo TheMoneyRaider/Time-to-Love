@@ -9,6 +9,7 @@ font_size = 400
 font_color = Color(1, 0.67764086, 0.6649999, 0.85882354)
 
 [node name="Skip" type="Control"]
+modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 3
 anchors_preset = 0

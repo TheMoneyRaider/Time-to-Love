@@ -9,6 +9,9 @@ var is_any_input_held: bool = false
 signal skip_requested
 
 var active : bool = false
+
+
+
 func _process(delta: float) -> void:
 	if active:
 		if is_any_input_held:
