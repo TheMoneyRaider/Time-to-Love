@@ -52,39 +52,46 @@ func format_time(seconds: float) -> String:
 	return str(hours) + "hr " + str(minutes) + "m " + str(secs) + "s "
 
 func _save1_select_pressed() -> void:
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	Globals.save_idx = 0
 	Globals.save_state = _load_save(0)
 	Globals.total_progress = Globals.save_state.total_progress
 	highlight_state()
 
 func _save2_select_pressed() -> void:
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	Globals.save_idx = 1
 	Globals.save_state = _load_save(1)
 	Globals.total_progress = Globals.save_state.total_progress
 	highlight_state()
 
 func _save3_select_pressed() -> void:
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	Globals.save_idx = 2
 	Globals.save_state = _load_save(2)
 	Globals.total_progress = Globals.save_state.total_progress
 	highlight_state()
 
 func _on_delete1_pressed() -> void:
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	$MarginContainer/VBoxContainer/Save1/HBoxContainer/Delete.visible = !$MarginContainer/VBoxContainer/Save1/HBoxContainer/Delete.visible
 	$MarginContainer/VBoxContainer/Save2/HBoxContainer/Delete.visible = false
 	$MarginContainer/VBoxContainer/Save3/HBoxContainer/Delete.visible = false
 
 func _on_delete2_pressed() -> void:
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	$MarginContainer/VBoxContainer/Save2/HBoxContainer/Delete.visible = !$MarginContainer/VBoxContainer/Save2/HBoxContainer/Delete.visible
 	$MarginContainer/VBoxContainer/Save1/HBoxContainer/Delete.visible = false
 	$MarginContainer/VBoxContainer/Save3/HBoxContainer/Delete.visible = false
 
 func _on_delete3_pressed() -> void:
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	$MarginContainer/VBoxContainer/Save3/HBoxContainer/Delete.visible = !$MarginContainer/VBoxContainer/Save3/HBoxContainer/Delete.visible
 	$MarginContainer/VBoxContainer/Save1/HBoxContainer/Delete.visible = false
 	$MarginContainer/VBoxContainer/Save2/HBoxContainer/Delete.visible = false
 
 func _on_deletec1_pressed() -> void:
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	_delete_save(0)
 	save_state1 = SaveState.new()
 	load_state($MarginContainer/VBoxContainer/Save1, save_state1)
@@ -94,6 +101,7 @@ func _on_deletec1_pressed() -> void:
 		Globals.save_state = save_state1
 
 func _on_deletec2_pressed() -> void:
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	_delete_save(1)
 	save_state2 = SaveState.new()
 	load_state($MarginContainer/VBoxContainer/Save2, save_state2)
@@ -103,6 +111,7 @@ func _on_deletec2_pressed() -> void:
 		Globals.save_state = save_state2
 
 func _on_deletec3_pressed() -> void:
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	_delete_save(2)
 	save_state3 = SaveState.new()
 	load_state($MarginContainer/VBoxContainer/Save3, save_state3)
