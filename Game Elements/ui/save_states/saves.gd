@@ -1,6 +1,7 @@
 extends Control
 
 func _on_back_pressed() -> void:
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	get_tree().call_deferred("change_scene_to_file", "res://Game Elements/ui/main_menu/main_menu.tscn")
 
 var save_state1 : SaveState
@@ -15,6 +16,7 @@ func _load_save(idx: int) -> SaveState:
 	return SaveState.new()
 
 func _delete_save(idx: int) -> void:
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	var path = Globals.save_dir + "save_%d.res" % idx
 	if ResourceLoader.exists(path):
 		DirAccess.remove_absolute(path)
