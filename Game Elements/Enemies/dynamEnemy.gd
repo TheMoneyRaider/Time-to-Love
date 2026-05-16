@@ -86,6 +86,8 @@ func handle_attack(target_position: Vector2,attack_index: int = 0):
 		else:
 			request_attack(attacks[0], attack_position + Vector2(0,20), attack_direction)
 			return
+	if enemy_type=="archer":
+		attack_position = attack_position + attack_direction * 10
 	request_attack(attacks[attack_index], attack_position, attack_direction)
 
 func request_attack(t_attack: PackedScene, attack_position: Vector2, attack_direction: Vector2):
@@ -93,7 +95,7 @@ func request_attack(t_attack: PackedScene, attack_position: Vector2, attack_dire
 	instance.global_position = attack_position
 	instance.direction = attack_direction
 	instance.c_owner = self
-	get_parent().add_child(instance)
+	get_parent().call_deferred("add_child",instance)
 	emit_signal("attack_requested", t_attack, attack_position, attack_direction)
 # import like, takes damage or something like that
 
@@ -277,7 +279,6 @@ func damage_flash() -> void:
 		$Sprite2D.self_modulate = Color(1.0, 1.0, 1.0)
 
 func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0,creates_indicators : bool = true, unstoppable : bool = false):
-
 	if !hitable and !unstoppable:
 		return
 	if current_health< 0.0:
@@ -292,6 +293,12 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 	if current_health >= 0.0 and display_damage and creates_indicators:
 		LayerManager._damage_indicator(damage, dmg_owner,direction, attack_body,self)
 		damage_flash()
+		if(enemy_type=="cactus") and dmg_owner:
+			var attack_position = global_position
+			if(is_instance_valid(dmg_owner)):
+				var attack_direction = (dmg_owner.global_position - attack_position).normalized()
+				for i in range(-1,2):
+					request_attack(attacks[1], attack_position, attack_direction.rotated(i * 2 * PI / 12) )
 	if dmg_owner != null:
 		last_hitter = dmg_owner
 		if dmg_owner.is_in_group("player"):
@@ -318,7 +325,7 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 	current_health -= damage
 	if is_boss:
 		LayerManager.hud.update_bossbar(clamp(current_health/max_health,0.0,1.0))
-		if current_health <= 0.0 and phase != boss_phases - 1:
+		if current_health <= 0.0 and phase < boss_phases - 1:
 			if phase == last_phase:
 				phase+=1
 				if phase < boss_phases:

@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://k015s1ulwopp"]
+
+[ext_resource type="Script" uid="uid://dhco0trt17e4d" path="res://Game Elements/Remnants/lawman/lawman.gd" id="1_urh2h"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j88wx"]
+radius = 74.0
+
+[node name="Lawman" type="Area2D"]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("1_urh2h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_j88wx")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]

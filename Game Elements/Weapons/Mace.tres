@@ -10,6 +10,6 @@ script = ExtResource("2_7bdxl")
 type = "Mace"
 weapon_sprite = ExtResource("3_7bdxl")
 spawn_distance = 25.0
+special_hits = 8
 name = "Mace"
 name_font = ExtResource("2_a2bi6")
-progress_required = 1.0

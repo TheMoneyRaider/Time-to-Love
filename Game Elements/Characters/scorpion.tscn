@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="5_shmfs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_phyc7"]
-size = Vector2(8.333334, 8.333334)
+size = Vector2(13.749999, 13.125)
 
 [sub_resource type="Animation" id="Animation_8s1eb"]
 length = 0.001
@@ -94,7 +94,7 @@ var/state/hint = 0
 var/state/hint_string = ""
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w832q"]
-radius = 4.0
+radius = 6.8749995
 
 [node name="Scorpion" type="CharacterBody2D" groups=["enemy"]]
 z_index = 20
@@ -103,11 +103,12 @@ scale = Vector2(1.6, 1.6)
 collision_layer = 4
 collision_mask = 9
 script = ExtResource("1_6l5bn")
-agro_distance = 125.0
+hit_range = 32
+agro_distance = 200.0
 enemy_type = "Scorpion"
 displays = Array[NodePath]([NodePath("Sprite2D")])
-min_timefabric = 7
-max_timefabric = 15
+min_timefabric = 5
+max_timefabric = 10
 can_sprint = true
 min_sprint_time = 0.5
 max_sprint_time = 1.0
@@ -118,13 +119,14 @@ attacks = [ExtResource("2_66uv8")]
 [node name="Sprite2D" type="Sprite2D" parent="."]
 y_sort_enabled = true
 position = Vector2(-2.3841858e-07, 0.33333337)
-scale = Vector2(0.333, 0.333)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_6l5bn")
 hframes = 3
 vframes = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.8333334, 0.2777778)
+position = Vector2(-0.62499994, 0)
+scale = Vector2(0.9999998, 0.9999998)
 shape = SubResource("RectangleShape2D_phyc7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -144,5 +146,5 @@ linear_damp = 0.0
 script = ExtResource("5_shmfs")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-1, -6)
+position = Vector2(-1.625, -6)
 shape = SubResource("CircleShape2D_w832q")

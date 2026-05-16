@@ -41,7 +41,7 @@ func _load_all_weapons() -> Array[Weapon]:
 	return weapon_pool
 func populate_weapons():
 	var i = 0
-	var prog = Globals.config.get_value("progress", "total_progress", 0.0)
+	var prog = Globals.save_state.total_progress
 	var last_entry : Node = null
 	var weapons = _load_all_weapons()
 	weapons.sort_custom(_sort_by_progress_required)
@@ -188,7 +188,6 @@ func move_focus(direction: int) -> void:
 		var entry = list_container.get_child(current_focus_index)
 		var btn = entry.btn_select
 		_on_weapon_focus(btn)
-	print(current_focus_index)
 
 func _update_scroll():
 	

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://cbox4gkaqwbue"]
+
+[ext_resource type="Texture2D" uid="uid://b6phed6a125jj" path="res://art/remnants/lawman.png" id="1_fp1th"]
+[ext_resource type="Texture2D" uid="uid://bc63mtkjvqbu6" path="res://art/remnants/lawman_icon.png" id="2_10hrq"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_y8k3k"]
+
+[resource]
+script = ExtResource("3_y8k3k")
+remnant_name = "Remnant of The Lawman"
+description = "Enemy attacks slow down by $X% when near you."
+icon = ExtResource("2_10hrq")
+art = ExtResource("1_fp1th")
+progress_required = 1.0
+variable_names = Array[String](["$X"])
+variable_1_values = [10, 20, 30, 40, 60]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

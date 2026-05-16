@@ -9,7 +9,6 @@ var time_passed = 0.0
 
 func _ready() -> void:
 	var offset = $Cracks.global_position+Vector2(8,32)
-	print(offset)
 	for node in get_node("Tentacles").get_children():
 		if node.is_in_group("tentacle"):
 			node.set_hole(offset)
@@ -61,8 +60,8 @@ func check_rewards(player_node : Node) -> bool:
 						return true
 					"health":
 						if layer_manager.is_multiplayer:
-							layer_manager.player2.change_health(5.0)
-						layer_manager.player1.change_health(5.0)
+							layer_manager.player2.change_health(layer_manager.player2.max_health * .75)
+						layer_manager.player1.change_health(layer_manager.player1.max_health * .75)
 						var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 						particle.global_position = item.global_position
 						layer_manager.room_instance.add_child(particle)

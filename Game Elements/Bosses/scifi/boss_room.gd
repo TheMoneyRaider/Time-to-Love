@@ -171,10 +171,6 @@ func scifi_phase2_to_3():
 	playback.travel("idle")
 	await get_tree().create_timer(4, false).timeout
 	s_material.set_shader_parameter("ultimate", false)
-	print("finsihed phase change")
-	print(phase)
-	print(boss.phase)
-	print(boss.current_health)
 	
 
 var lifetime = 0.0
@@ -205,6 +201,9 @@ func _process(delta: float) -> void:
 		deactivate()
 
 func finish_intro():
+	player1.get_node("Crosshair").mouse_clamping_enabled = true
+	if is_multiplayer:
+		player2.get_node("Crosshair").mouse_clamping_enabled = true
 	player1.disabled = false
 	if is_multiplayer:
 		player2.disabled = false
@@ -278,7 +277,6 @@ func _on_enemy_take_damage(_damage : float,current_health : int,_enemy : Node, d
 	if boss_type == "scifi":
 		var mini_phase1 = int(( boss_health1 / boss.max_health ) * 3)
 		var mini_phase2 = int(( boss_health2 / boss.max_health ) * 3)
-		print("P1: "+str(mini_phase1)+"P2: "+str(mini_phase2))
 		if  mini_phase1 != 3 and mini_phase1 >  mini_phase2:
 			scifi_phase1_middles()
 		
@@ -600,6 +598,15 @@ func deactivate():
 	for node in get_children():
 		if node.is_in_group("pathway"):
 			node.enable_pathway()
+	if is_multiplayer:
+		var particle2 =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+		player2.change_health(player2.max_health * .50)
+		particle2.global_position = player2.global_position
+		LayerManager.room_instance.add_child(particle2)
+	var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+	player1.change_health(player1.max_health * .50)
+	particle.global_position = player1.global_position
+	LayerManager.room_instance.add_child(particle)
 	active=false
 	Hud.hide_boss_bar()
 	
@@ -620,14 +627,15 @@ func activate(camera_in : Node, player1_in : Node, player2_in : Node):
 	player1.input_direction = Vector2.UP
 	player1.update_animation_parameters(player1.input_direction)
 	player1.update_animation_parameters(Vector2.ZERO)
-	print(player1.disabled)
-	print(player1)
 	if is_multiplayer:
 		player2 = player2_in
 		player2.disabled = true
 		player2.input_direction = Vector2.UP
 		player2.update_animation_parameters(player2.input_direction)
 		player2.update_animation_parameters(Vector2.ZERO)
+	player1.get_node("Crosshair").mouse_clamping_enabled = false
+	if is_multiplayer:
+		player2.get_node("Crosshair").mouse_clamping_enabled = false
 	Hud =LayerManager.hud
 	LayerManager.BossIntro.get_node("BossName").text = boss_name
 	LayerManager.BossIntro.get_node("Boss").texture = boss_splash_art

@@ -25,6 +25,7 @@ var noise := FastNoiseLite.new()
 @export var pathway_direction : Array[Globals.Direction] = [Globals.Direction.Up,Globals.Direction.Down,Globals.Direction.Left,Globals.Direction.Right]
 
 @export var num_enemy_goal : int = 10
+@export var enemy_density_goal : float = 0.0
 
 @export var roomtype : Globals.RoomType = Globals.RoomType.Combat
 @export var roomvariant : Globals.RoomVariant = Globals.RoomVariant.SciFiFactory

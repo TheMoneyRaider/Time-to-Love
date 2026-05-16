@@ -31,7 +31,7 @@ var title_textures : Array = [preload("res://art/title_assets/title_variants/wes
 var UI: UIState = UIState.new()
 @onready var prev_state = null
 var paused : bool = true
-
+var skip_next_release : bool = false
 var hover_cooldown: float = 0.0
 
 func _ready():
@@ -112,10 +112,15 @@ func _begin_explosion_cooldown():
 func start_menu_music():
 	music_manager.play_theme("main")
 	
+func _load_save_time(idx: int) -> float:
+	var path = Globals.save_dir + "save_%d.res" % idx
+	if ResourceLoader.exists(path):
+		var loaded = ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
+		if loaded is SaveState:
+			return loaded.time_spent
+	return 0
 	
 func _process(delta):
-	hover_cooldown -= delta
-	$ColorRect.material.set_shader_parameter("time", $ColorRect.material.get_shader_parameter("time") + delta)
 	if paused:
 		if !intro_started:
 			intro_started = true
@@ -128,7 +133,8 @@ func _process(delta):
 			$Intro/AnimationPlayer.stop()
 			$Intro/AudioStreamPlayer.stop()
 			Globals.cinematic_viewed = true
-			paused = false
+			paused=false
+			skip_next_release = true
 			start_menu_music()
 	if !fragmenting:
 		return
@@ -151,6 +157,20 @@ func _process(delta):
 		if Input.is_action_just_pressed("swap_" + Globals.player2_input):
 			disruptive2 = !disruptive2
 			update_prompt()
+		if Input.is_action_just_pressed("Feedback"):
+			var total_save_time = 0
+			for i in range(3):
+				total_save_time += _load_save_time(i)
+			var progress : String = str(Globals.save_state.total_progress)
+			var gpu_name : String = RenderingServer.get_video_adapter_name()
+			var gpu_api : String = RenderingServer.get_video_adapter_api_version()
+			var gpu_adapter : String = str(RenderingServer.get_video_adapter_type())
+			var cpu_name : String = OS.get_processor_name()
+			var cpu_cores : String = str(OS.get_processor_count())
+			var ram : String = str(OS.get_memory_info()["physical"] / 1073741824.0)
+			var static_mem : String = str(Performance.get_monitor(Performance.MEMORY_STATIC) / 1048576.0)
+			DisplayServer.clipboard_set(str(total_save_time) + "," + progress + ","  + gpu_name + "," + gpu_api + "," + gpu_adapter + "," + cpu_name + "," + cpu_cores + "," + ram + "," + static_mem)
+			OS.shell_open("https://docs.google.com/forms/d/e/1FAIpQLSdi6Cud_Lk8Z1nC_vxo8Z86O0FkFxxIehl1sPip_KGtnudooA/viewform?usp=publish-editor")
 	if prepared:
 		inputs(UI.player1.input)
 		inputs(UI.player2.input)
@@ -224,6 +244,7 @@ func _input(event):
 				$Intro/AudioStreamPlayer.stop()
 				start_menu_music()
 			Globals.cinematic_viewed = true
+			skip_next_release = true
 			paused=false
 		return
 	if !fragmenting:
@@ -585,10 +606,13 @@ func inputs(input_device):
 		if UI.player2.input == input_device:
 			UI.player2.pressing = true
 	if Input.is_action_just_released("activate_"+input_device):
-		if UI.player1.input == input_device and UI.player1.pressing:
-			UI.player1.hover_button.emit_signal("pressed")
-		if UI.player2.input == input_device and UI.player2.pressing:
-			UI.player2.hover_button.emit_signal("pressed")
+		if skip_next_release:
+			skip_next_release = false
+		else:
+			if UI.player1.input == input_device and UI.player1.pressing:
+				UI.player1.hover_button.emit_signal("pressed")
+			if UI.player2.input == input_device and UI.player2.pressing:
+				UI.player2.hover_button.emit_signal("pressed")
 
 func normalize_ui_state(state: Dictionary) -> Dictionary:
 	var p1_hover = state["p1_hover"]

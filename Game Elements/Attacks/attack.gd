@@ -158,22 +158,23 @@ func change_direction():
 			# lower score = better
 			var score = dist + angle/max_angle
 			var ray = cast_ray(global_position, to_enemy.normalized(), 1600, self)
-			if dist * dist_scale <= (ray.position -global_position).length() / 16.0:
-				enemies[enemy] = score
-				if debug_draw_detection:
+			if ray and ray.position:
+				if dist * dist_scale <= (ray.position -global_position).length() / 16.0:
+					enemies[enemy] = score
+					if debug_draw_detection:
+						_debug_rays.append({
+							"from": global_position,
+							"to": enemy.global_position,
+							"hit": true,
+							"score": score
+						})
+				elif debug_draw_detection:
 					_debug_rays.append({
 						"from": global_position,
-						"to": enemy.global_position,
-						"hit": true,
-						"score": score
+						"to": ray.position,
+						"hit": false,
+						"score": 0.0
 					})
-			elif debug_draw_detection:
-				_debug_rays.append({
-					"from": global_position,
-					"to": ray.position,
-					"hit": false,
-					"score": 0.0
-				})
 				
 
 	if debug_draw_detection:
@@ -304,7 +305,7 @@ func intersection(body):
 	if c_owner == null:
 		return
 	if "current_health" not in c_owner or c_owner.current_health <= 0.0:
-		if(c_owner.hitable == true):
+		if(("hitable" in c_owner) and c_owner.hitable == true):
 			return
 	if body.get("c_owner") != null and !is_instance_valid(body.c_owner):
 		return
@@ -313,6 +314,7 @@ func intersection(body):
 	if attack_type == "death mark":
 		if body != c_owner and body.is_in_group("player"):
 			c_owner.die(false)
+			queue_free()
 		return
 	
 	if(!hit_nodes.has(body)):

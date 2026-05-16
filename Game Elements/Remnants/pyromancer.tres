@@ -7,10 +7,11 @@
 [resource]
 script = ExtResource("3_pgsoo")
 remnant_name = "Remnant of The Pyromancer"
-description = "Enemies create a $X explosion on death, dealing $Y damage"
+description = "Enemies create a $X explosion on death, dealing $Z damage"
 icon = ExtResource("2_rvhv7")
 art = ExtResource("1_3pdxi")
-variable_names = Array[String](["$X", "$Y"])
+variable_names = Array[String](["$X", "$Y", "$Z"])
 variable_1_values = ["Small", "Medium", "Large", "Giant", "Gargantuan"]
 variable_2_values = [2, 3, 4, 5, 6]
+variable_3_values = [20, 30, 40, 50, 60]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

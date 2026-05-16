@@ -14,6 +14,7 @@ script = ExtResource("1_7y327")
 speed = 300.0
 lifespan = 0.75
 hit_force = 10.0
+cooldown = 0.7
 attack_type = "bullet"
 deflectable = true
 i_frames = 0

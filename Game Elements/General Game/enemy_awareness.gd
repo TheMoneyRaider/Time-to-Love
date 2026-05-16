@@ -8,16 +8,19 @@ var version = 0
 
 var glow_pool := []
 var active_glows := []
+var version_changed : bool = false
 
 func set_array(array : Array, version_in : int):
 	enemies =array
+	if version != version_in:
+		version_changed = true
 	version = version_in
 
 
 func _ready():
 	# Initialize pool	
 	for i in range(max_glows):
-		var glow = glow_scene.instantiate() as Sprite2D
+		var glow = glow_scene.instantiate()
 		glow.visible = false
 		add_child(glow)
 		glow_pool.append(glow)
@@ -36,7 +39,7 @@ func _process(_d):
 	var world_pos
 	# Ensure we have enough glows
 	while glow_pool.size() < enemies.size():
-		var glow = glow_scene.instantiate() as Sprite2D
+		var glow = glow_scene.instantiate()
 		glow.visible = false
 		add_child(glow)
 		glow_pool.append(glow)
@@ -47,7 +50,7 @@ func _process(_d):
 			continue
 			
 		world_pos = enemies[i].global_position
-		var glow = glow_pool[i] as Sprite2D
+		var glow = glow_pool[i]
 
 		# Position & fade
 		
@@ -73,15 +76,59 @@ func _process(_d):
 		glow.visible = true
 		match version:
 			0:
-				glow.modulate = lerp(Color(0.713, 0.001, 0.76, 1.0),Color(0.8, 0.407, 0.0, 1.0),t_color)
+				glow.get_node("GlowCircle").modulate = lerp(Color(0.713, 0.001, 0.76, 1.0),Color(0.8, 0.407, 0.0, 1.0),t_color)
+				if version_changed:
+					glow.get_node("GlowCircle").visible = true
+					glow.get_node("PathwayIcon1").visible = false
+					glow.get_node("PathwayIcon2").visible = false
 			1:
-				glow.modulate = Color(0.415, 0.0, 0.443, 1.0)
+				if version_changed:
+					glow.get_node("GlowCircle").visible = false
+					var reward = enemies[i].get_node("Image").texture
+					var icon1 = glow.get_node("PathwayIcon1")
+					var icon2 = glow.get_node("PathwayIcon2")
+					icon1.visible = true
+					icon2.visible = true
+					icon1.texture = reward
+					icon2.texture = reward
+					if(icon1.material != null):
+						icon1.material.set_shader_parameter("split", false)
+					if(icon2.material != null):
+						icon2.material.set_shader_parameter("split", false)
 			2:
-				glow.modulate = Color(1.0, 0.639, 0.386, 1.0)
+				if version_changed:
+					glow.get_node("GlowCircle").visible = false
+					var pathway = enemies[i]
+					var icon1 = glow.get_node("PathwayIcon1")
+					var icon2 = glow.get_node("PathwayIcon2")
+					icon1.visible = true
+					icon2.visible = true
+
+					icon1.texture = pathway.reward1_texture
+					icon1.frame = pathway.reward1_frame
+					icon1.hframes = pathway.reward1_hframes
+					icon1.vframes = pathway.reward1_vframes
+					icon1.material = pathway.reward1_material
+					icon1.visible = pathway.reward1_texture != null
+
+					icon2.texture = pathway.reward2_texture
+					icon2.frame = pathway.reward2_frame
+					icon2.hframes = pathway.reward2_hframes
+					icon2.vframes = pathway.reward2_vframes
+					icon2.material = pathway.reward2_material
+					icon2.visible = pathway.reward2_texture != null and pathway.is_wave
+					if pathway.is_wave:
+						icon1.material = pathway.reward1_material.duplicate()
+						icon2.material = pathway.reward2_material.duplicate()
+						icon1.material.set_shader_parameter("split", true)
+						icon2.material.set_shader_parameter("split", true)
+						icon1.material.set_shader_parameter("upper_left", true)
+						icon2.material.set_shader_parameter("upper_left", false)
 
 	# Hide any unused glows
 	for i in range(enemies.size(), glow_pool.size()):
 		glow_pool[i].visible = false
+	version_changed = false
 
 
 func distance_to_rect_edge(p: Vector2, rect: Rect2) -> float:

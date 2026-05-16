@@ -17,5 +17,5 @@ progress_required = 1.0
 required_remnants = Array[ExtResource("3_sjfgh")]([ExtResource("4_sjfgh"), ExtResource("5_vx756"), ExtResource("6_vx756")])
 num_rem_required = 1
 variable_names = Array[String](["$X"])
-variable_1_values = [5, 10, 15, 20, 25]
+variable_1_values = [10, 20, 30, 40, 50]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"
