@@ -13,7 +13,7 @@
 [ext_resource type="Shader" uid="uid://dtp2e4p3wbgyp" path="res://Game Elements/ui/special_cooldown.gdshader" id="8_gp50j"]
 [ext_resource type="Texture2D" uid="uid://kdaw8in4wo0" path="res://art/weapons/crossbow/crossbow_bright.png" id="9_gp50j"]
 [ext_resource type="PackedScene" uid="uid://bsol6opkpit8y" path="res://Game Elements/ui/health_bar.tscn" id="10_sjf6p"]
-[ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/particles/effect_particles.gd" id="13_8prbk"]
+[ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/Particles/effect_particles.gd" id="13_8prbk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5ho0i"]
 shader = ExtResource("3_8prbk")
@@ -571,6 +571,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
 
 [node name="AttackLabel2" type="RichTextLabel" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0.627451)
 offset_left = 1261.0
 offset_top = 682.0
@@ -587,6 +588,7 @@ scroll_active = false
 horizontal_alignment = 2
 
 [node name="AttackLabel" type="RichTextLabel" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0.627451)
 offset_left = 1213.0
 offset_top = 520.0
@@ -603,6 +605,7 @@ scroll_active = false
 horizontal_alignment = 2
 
 [node name="SwapLabel" type="RichTextLabel" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0.627451)
 offset_left = 256.0
 offset_top = 705.0
@@ -618,6 +621,7 @@ text = "Short [font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_space[
 scroll_active = false
 
 [node name="TetherLabel" type="RichTextLabel" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0.627451)
 offset_left = 256.0
 offset_top = 493.0

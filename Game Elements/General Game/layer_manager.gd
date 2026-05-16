@@ -1,8 +1,8 @@
 extends Node2D
 @onready var timefabric = preload("res://Game Elements/Objects/time_fabric.tscn")
 @onready var health_pickup = preload("res://Game Elements/Objects/health_pickup.tscn")
-@onready var reward_num : Array = [2.0,1.0,1.5,1.0,0.0,1.0]
-@onready var base_reward_probabilities : Array = [2.0,1.0,1.5,1.0,0.0,1.0]
+@onready var reward_num : Array = [2.0,1.0,1.5,1.0,0.0,.6]
+@onready var base_reward_probabilities : Array = [2.0,1.0,1.5,1.0,0.0,.6]
 ### Temp Multiplayer Fix
 var player1 = null
 var player2 = null
@@ -1872,25 +1872,10 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 
 
 func dev_remnants():
-	var rem = load("res://Game Elements/Remnants/winters_embrace.tres")
-	rem.rank = 3
-	player_1_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/barbarian.tres")
-	rem.rank = 3
-	player_1_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/cleric.tres")
-	rem.rank = 2
-	player_1_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/pyromancer.tres")
-	rem.rank = 2
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/aeromancer.tres")
+	var rem = load("res://Game Elements/Remnants/hare.tres")
 	rem.rank = 3
 	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/hoard.tres")
-	rem.rank = 2
-	player_2_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,true)
+	remnant_update(rem,player1,false)
 	#rem = load("res://Game Elements/Remnants/mancermancer.tres")
 	#rem.rank = 5
 	#player_1_remnants.append(rem.duplicate(true))
