@@ -1,8 +1,8 @@
 extends Node2D
 @onready var timefabric = preload("res://Game Elements/Objects/time_fabric.tscn")
 @onready var health_pickup = preload("res://Game Elements/Objects/health_pickup.tscn")
-@onready var reward_num : Array = [2.0,1.0,1.5,1.0,0.0,1.0]
-@onready var base_reward_probabilities : Array = [2.0,1.0,1.5,1.0,0.0,1.0]
+@onready var reward_num : Array = [2.0,1.0,1.0,1.0,0.0,0.5]
+@onready var base_reward_probabilities : Array = [2.0,1.0,1.0,1.0,0.0,0.5]
 ### Temp Multiplayer Fix
 var player1 = null
 var player2 = null
@@ -96,7 +96,7 @@ func _ready() -> void:
 	hud.connect_signals(player1)
 	hud.set_cross_position()
 	
-	dev_remnants()
+	#dev_remnants()
 	
 	
 	
@@ -1439,7 +1439,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	generated_rooms.clear()
 	generated_room_metadata.clear()
 	generated_room_conflict.clear()
-	reward_num = base_reward_probabilities
+	reward_num = base_reward_probabilities.duplicate()
 	
 	# Delete the current room
 	if is_instance_valid(room_instance):
