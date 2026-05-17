@@ -32,9 +32,12 @@ var letter_percentage : float = 0.0
 var num_letters : int = 0
 var num_letters_collected : int = 0
 
+var effect_dict : Dictionary[Node, Array] = {}
+
 func _ready():
 	Engine.max_fps = 60
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	DirAccess.make_dir_recursive_absolute(save_dir)
 	load_config()
 	apply_audio_settings()
 	player1_input = config.get_value("inputs","player1_input", "key")
@@ -84,7 +87,7 @@ func apply_audio_settings():
 func save_config():
 	total_progress = max(total_progress, RoomManager.current_progress)
 	save_state.total_progress = total_progress
-	DirAccess.make_dir_recursive_absolute(save_dir)  # ensure it exists every time
+	#DirAccess.make_dir_recursive_absolute(save_dir)  # ensure it exists every time
 	var err = ResourceSaver.save(save_state, _save_path())
 	if err != OK:
 		push_error("Failed to save SaveState: ", err)
