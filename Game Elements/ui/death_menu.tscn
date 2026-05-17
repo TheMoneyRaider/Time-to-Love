@@ -48,24 +48,24 @@ theme_override_styles/pressed = ExtResource("3_dydff")
 theme_override_styles/hover = ExtResource("4_51ben")
 text = "Rewind"
 
-[node name="Quit" type="Button" parent="Control/VBoxContainer"]
-layout_mode = 2
-focus_neighbor_top = NodePath("../Rewind")
-focus_neighbor_bottom = NodePath("../Menu")
-theme_override_font_sizes/font_size = 50
-theme_override_styles/normal = ExtResource("2_mw7a0")
-theme_override_styles/pressed = ExtResource("3_dydff")
-theme_override_styles/hover = ExtResource("4_51ben")
-text = "Quit"
-
 [node name="Menu" type="Button" parent="Control/VBoxContainer"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../Quit")
+focus_neighbor_top = NodePath("../Rewind")
+focus_neighbor_bottom = NodePath("../Quit")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = ExtResource("2_mw7a0")
 theme_override_styles/pressed = ExtResource("3_dydff")
 theme_override_styles/hover = ExtResource("4_51ben")
 text = "Main Menu"
+
+[node name="Quit" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../Menu")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = ExtResource("2_mw7a0")
+theme_override_styles/pressed = ExtResource("3_dydff")
+theme_override_styles/hover = ExtResource("4_51ben")
+text = "Quit"
 
 [node name="DeathAnnouncement" type="Label" parent="Control"]
 layout_mode = 1
@@ -93,5 +93,5 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [connection signal="pressed" from="Control/VBoxContainer/Rewind" to="." method="_on_replay_pressed"]
-[connection signal="pressed" from="Control/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/Menu" to="." method="_on_menu_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
