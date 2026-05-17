@@ -196,7 +196,7 @@ custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 size_flags_horizontal = 8
 focus_neighbor_top = NodePath("../../SFX/SFX")
-focus_neighbor_bottom = NodePath("../../Mouse/MouseSensitivity")
+focus_neighbor_bottom = NodePath("../../DisplayMode/Choice")
 step = 0.5
 value = 100.0
 script = ExtResource("2_r7s23")
@@ -204,6 +204,27 @@ script = ExtResource("2_r7s23")
 [node name="UIVal" type="Label" parent="Control/MarginContainer/VBoxContainer/UI"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
+
+[node name="DisplayMode" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Text" type="Label" parent="Control/MarginContainer/VBoxContainer/DisplayMode"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Display"
+
+[node name="Choice" type="OptionButton" parent="Control/MarginContainer/VBoxContainer/DisplayMode"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../../UI/UIVal")
+focus_neighbor_bottom = NodePath("../../Mouse/MouseSensitivity")
+selected = 0
+allow_reselect = true
+item_count = 2
+popup/item_0/text = "Windowed"
+popup/item_0/id = 0
+popup/item_1/text = "Fullscreen"
+popup/item_1/id = 1
 
 [node name="Mouse" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -217,7 +238,7 @@ text = "Mouse Sensitivity"
 [node name="MouseSensitivity" type="HSlider" parent="Control/MarginContainer/VBoxContainer/Mouse"]
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
-focus_neighbor_top = NodePath("../../UI/UI")
+focus_neighbor_top = NodePath("../../DisplayMode/Choice")
 focus_neighbor_bottom = NodePath("../../Controller_Mode/ControllerMode")
 min_value = 0.1
 max_value = 2.0
@@ -419,6 +440,7 @@ text = "Apply"
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Music/Music" to="Control" method="_on_music_value_changed"]
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/SFX/SFX" to="Control" method="_on_sfx_value_changed"]
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/UI/UI" to="Control" method="_on_ui_value_changed"]
+[connection signal="item_selected" from="Control/MarginContainer/VBoxContainer/DisplayMode/Choice" to="Control" method="_on_display_item_selected"]
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Mouse/MouseSensitivity" to="Control" method="_on_mouse_sensitivity_value_changed"]
 [connection signal="toggled" from="Control/MarginContainer/VBoxContainer/Controller_Mode/ControllerMode" to="Control" method="_on_controller_mode_toggled"]
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Controller/Joystick Sensitivity" to="Control" method="_on_joystick_sensitivity_value_changed"]
