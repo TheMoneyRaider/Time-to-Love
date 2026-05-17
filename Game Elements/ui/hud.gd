@@ -62,6 +62,8 @@ func _ready():
 		$AttackLabel2.visible = true
 		$SwapLabel.visible = true
 		$TetherLabel.visible = true
+	else:
+		disable_tutorial()
 		
 func disable_tutorial():
 	$AttackLabel.visible = false

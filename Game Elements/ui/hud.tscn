@@ -13,7 +13,7 @@
 [ext_resource type="Shader" uid="uid://dtp2e4p3wbgyp" path="res://Game Elements/ui/special_cooldown.gdshader" id="8_gp50j"]
 [ext_resource type="Texture2D" uid="uid://kdaw8in4wo0" path="res://art/weapons/crossbow/crossbow_bright.png" id="9_gp50j"]
 [ext_resource type="PackedScene" uid="uid://bsol6opkpit8y" path="res://Game Elements/ui/health_bar.tscn" id="10_sjf6p"]
-[ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/particles/effect_particles.gd" id="13_8prbk"]
+[ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/Particles/effect_particles.gd" id="13_8prbk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5ho0i"]
 shader = ExtResource("3_8prbk")
@@ -572,17 +572,18 @@ theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
 
 [node name="AttackLabel2" type="RichTextLabel" parent="."]
 modulate = Color(1, 1, 1, 0.627451)
-offset_left = 1261.0
+offset_left = 1021.0
 offset_top = 682.0
 offset_right = 1662.0
-offset_bottom = 871.0
+offset_bottom = 981.0
 theme_override_font_sizes/normal_font_size = 64
 theme_override_font_sizes/bold_font_size = 48
 theme_override_font_sizes/italics_font_size = 48
 theme_override_font_sizes/mono_font_size = 48
 bbcode_enabled = true
 text = "[font=res://addons/input_prompt_icon_font/icon.ttf]mouse_right_outline[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_r1[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]xbox_rb[/font]
-[code]Special(Charged)[/code]"
+[code]Special(Charged)[/code]
+[font_size=48]Hit enemies to build charge"
 scroll_active = false
 horizontal_alignment = 2
 
