@@ -86,6 +86,18 @@ func handle_attack(target_position: Vector2,attack_index: int = 0):
 		else:
 			request_attack(attacks[0], attack_position + Vector2(0,20), attack_direction)
 			return
+			
+	# big t attack handling
+	if enemy_type == "large_reptile":
+		if attack_index == 0: # Roar
+			var num_projectiles = 12
+			var spread = 2 * PI / 3
+			var step = spread / (num_projectiles - 1)
+			var start_angle = attack_direction.angle() - spread / 2
+			for i in range(num_projectiles):
+				var spread_dir = Vector2.RIGHT.rotated(start_angle + step * i)
+				request_attack(attacks[0], attack_position, spread_dir)
+
 	request_attack(attacks[attack_index], attack_position, attack_direction)
 
 func request_attack(t_attack: PackedScene, attack_position: Vector2, attack_direction: Vector2):
