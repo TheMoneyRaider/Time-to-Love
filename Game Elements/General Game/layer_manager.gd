@@ -2106,4 +2106,9 @@ func boss_rewards():
 		room_reward(Globals.Reward.HealthUpgrade)
 	if rooms_taken <= 4:
 		room_reward(Globals.Reward.TimeFabric)
-	
+
+func _notification(what: int) -> void:
+	match what:
+		NOTIFICATION_WM_WINDOW_FOCUS_OUT:
+			if(!pause.active):
+				pause.activate()
