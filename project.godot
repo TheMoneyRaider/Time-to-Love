@@ -383,6 +383,7 @@ Feedback={
 2d_physics/layer_5="Invisible Enemy Layer"
 2d_physics/layer_6="Invisible Enemy (Hitable)"
 2d_physics/layer_7="Special Enviornment"
+2d_physics/layer_8="Enemy Environment"
 
 [rendering]
 

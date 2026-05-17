@@ -1146,11 +1146,14 @@ func check_tortoise(is_purple : bool, new_progress : float, used_special : bool 
 		if rem.remnant_name == tort.remnant_name and rem.active:
 			var shield = preload("res://Game Elements/Remnants/tortoise/shield.tscn").instantiate()
 			shield.p_owner = self
-			get_parent().add_child(shield)
-			shield.rotation = (crosshair.position).normalized().angle()
+			shield.direction = (crosshair.position).normalized()
+			LayerManager.room_instance.add_child(shield)
+			shield.rotation = (crosshair.position).normalized().angle() +PI/2
 			shield.lifetime = tort.variable_2_values[rem.rank-1]
 			shield.scale = Vector2(tort.variable_3_values[rem.rank-1],tort.variable_3_values[rem.rank-1])
 			shield.global_position = global_position
+			shield.lifetime = 100.0
+			print("SHELL")
 	
 
 

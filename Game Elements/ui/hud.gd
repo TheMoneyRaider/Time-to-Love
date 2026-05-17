@@ -54,8 +54,8 @@ func _ready():
 
 	active_player = music_player_a
 	inactive_player = music_player_b
-	_on_special_changed(true,0.0)
-	_on_special_changed(false,0.0)
+	_on_special_changed(true,1.0)
+	_on_special_changed(false,1.0)
 	
 	if(Globals.save_state.time_spent <= 120):
 		$AttackLabel.visible = true

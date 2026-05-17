@@ -122,7 +122,7 @@ _data = {
 [node name="Duck" type="CharacterBody2D"]
 z_index = 20
 collision_layer = 4
-collision_mask = 7
+collision_mask = 135
 script = ExtResource("1_eryy6")
 max_health = 10000000
 enemy_type = "hit_me"

@@ -116,7 +116,7 @@ static func create_weapon(resource_location : String, current_owner : Node2D):
 	new_weapon.c_owner = current_owner
 	attack_instance.queue_free()
 	#Modify sprites in c_owner
-	
+	new_weapon.current_special_hits = new_weapon.special_hits
 	return new_weapon
 
 func request_attacks(direction : Vector2, char_position : Vector2, node_attacking : Node, flip : int = 1):
