@@ -166,7 +166,7 @@ func _load_save_time(idx: int) -> float:
 		if loaded is SaveState:
 			return loaded.time_spent
 	return 0
-
+var current_crosshair_offset : Vector2 = Vector2.ZERO
 func _process(delta: float) -> void:
 	if PathwayViewport.get_children().size() > 0: 
 		PathwayTransition.material.set_shader_parameter("mask_texture", PathwayTransition.get_texture())
@@ -179,7 +179,10 @@ func _process(delta: float) -> void:
 		else:
 			var average_crosshair_position = Globals.config.get_value("settings","crosshair", true)
 			if average_crosshair_position:
-				camera.position = (player1.crosshair.global_position+player1.global_position*2.0)/3.0+camera.get_cam_offset(delta)		
+				if !player1.disabled:
+					var crosshair_component = player1.crosshair.global_position - player1.global_position
+					current_crosshair_offset = current_crosshair_offset.lerp(crosshair_component, 1.0*delta)
+					camera.position = (current_crosshair_offset + player1.global_position * 3.0) / 3.0 + camera.get_cam_offset(delta)
 			else:
 				camera.position = player1.global_position+camera.get_cam_offset(delta)		
 				
