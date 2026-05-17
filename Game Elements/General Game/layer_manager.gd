@@ -625,8 +625,8 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 			if player_reference in node.tracked_bodies:
 				node.spawn_letter()
 				if is_multiplayer:
-					player2.change_health(player2.max_health / 10.0)
-				player1.change_health(player1.max_health / 10.0)
+					player2.change_health(player2.max_health / 5.0)
+				player1.change_health(player1.max_health / 5.0)
 				var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 				particle.position = node.position
 				generated_room.add_child(particle)
