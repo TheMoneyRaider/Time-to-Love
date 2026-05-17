@@ -319,7 +319,9 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 	
 	if wall_damage:
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(0, n_owner,a_direction, self,null)
-	return -1
+	if body is TileMapLayer or body is StaticBody2D:
+		return -1
+	return 0
 	
 
 func intersection(body):
@@ -368,10 +370,10 @@ func intersection(body):
 				else:
 					pierce -= 1
 					if wall_collision:
-						print("Attack Wall Collide")
+						#print("Attack Wall Collide")
 						queue_free()
 	if pierce == -1:
-		print("Pierce Attack Death")
+		#print("Pierce Attack Death")
 		queue_free()
 
 
@@ -414,7 +416,10 @@ func deflect(hit_direction, hit_speed, deflection_area):
 		for rem in remnants:
 			if rem.remnant_name == monk.remnant_name and rem.active:
 				damage *= (100.0+(rem.variable_1_values[rem.rank-1]))/100.0
-				print("monk")
+				var inst = preload("res://Game Elements/Particles/monk_particles.tscn").instantiate()
+				get_parent().add_child(inst)
+				inst.global_position = global_position
+				
 	
 	
 	
@@ -443,7 +448,7 @@ func _on_area_entered(area: Area2D) -> void:
 		area.is_purple = is_purple
 		area.hit_nodes = {}
 		for area_intr in area.get_overlapping_areas():
-			area.call_deferred("_on_body_entered", area_intr)
+			_on_body_entered(area_intr)
 		if c_owner and c_owner.is_in_group("player"):
 			var remnants : Array[Remnant]
 			if c_owner.is_purple:

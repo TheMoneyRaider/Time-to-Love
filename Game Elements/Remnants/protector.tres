@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://bfddtp1n5jpgh"]
 
-[ext_resource type="Texture2D" uid="uid://bosgbhenk4iks" path="res://art/remnants/trickster.png" id="1_gfuki"]
-[ext_resource type="Texture2D" uid="uid://ynuevys0w582" path="res://art/remnants/trickster_icon.png" id="2_xan8v"]
+[ext_resource type="Texture2D" uid="uid://bh0dj8re470or" path="res://art/remnants/defender.png" id="1_gfuki"]
+[ext_resource type="Texture2D" uid="uid://bn1skdm4xso0t" path="res://art/remnants/defender_icon.png" id="2_xan8v"]
 [ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_bneag"]
 
 [resource]
