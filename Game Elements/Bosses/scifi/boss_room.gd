@@ -595,11 +595,14 @@ func update_art(p_in : int):
 	
 
 func deactivate():
+	var chosen_pathway : bool = false
 	for node in get_children():
 		if node.is_in_group("pathway"):
-			node.enable_pathway()
-			node._make_gray()
-			break
+			if !chosen_pathway:
+				node.enable_pathway()
+				node._make_gray()
+				node.get_node("Icons").visible = false
+				chosen_pathway = true
 	#if is_multiplayer:
 		#var particle2 =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 		#player2.change_health(player2.max_health * .50)

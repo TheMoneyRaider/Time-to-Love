@@ -80,9 +80,10 @@ var replacement_enemies : Array[PackedScene] = [
 	]
 var normal_rooms : Array = []
 var shop_rooms : Array = []
-
+var tempvar : bool = true
 func get_room(room : Room):
-	if current_progress ==2.8:
+	if tempvar:
+		tempvar = false
 		return bosses[2]
 	var index = int(current_progress) if room.roomtype != Globals.RoomType.Boss else int(current_progress+1.0)
 	if index >= 3:
@@ -183,6 +184,9 @@ func make_room_limbo(room_reference : Node, z_val : int, layermanager : Node,set
 	if set_values:
 		cur_prog = current_progress - floor(current_progress)
 		new_prog = 1-exp(-0.1386*(layer_ai[0]+1))
+		cur_prog = _cubic_bezier_ease(1,0,.92,.66,cur_prog)
+		new_prog = _cubic_bezier_ease(1,0,.92,.66,new_prog)
+		
 	for child in room_reference.get_children():
 		make_room_limbo(child, z_val +child.z_index if "z_index" in child else z_val,layermanager, false)
 		if child.name =="GrassAddon":
@@ -206,4 +210,21 @@ func make_room_limbo(room_reference : Node, z_val : int, layermanager : Node,set
 				25.0   # duration in seconds
 			)
 	
-	
+func _cubic_bezier_ease(x1: float, y1: float, x2: float, y2: float, t: float) -> float:
+	var sample = t
+	for i in range(8):
+		var x = _bezier_coord(x1, x2, sample)
+		var dx = _bezier_coord_derivative(x1, x2, sample)
+		if abs(dx) < 0.0001: break
+		sample -= (x - t) / dx
+	return _bezier_coord(y1, y2, sample)
+
+func _bezier_coord(p1: float, p2: float, t: float) -> float:
+	return 3.0 * p1 * t * (1.0 - t) * (1.0 - t) \
+		 + 3.0 * p2 * t * t * (1.0 - t) \
+		 + t * t * t
+
+func _bezier_coord_derivative(p1: float, p2: float, t: float) -> float:
+	return 3.0 * p1 * (1.0 - t) * (1.0 - 2.0 * t) \
+		 + 3.0 * p2 * t * (2.0 - 3.0 * t) \
+		 + 3.0 * t * t

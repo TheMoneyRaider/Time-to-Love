@@ -277,7 +277,7 @@ func _process(delta: float) -> void:
 			if this_room_reward1 == Globals.Reward.Shop:
 				for i in 4:
 					await get_tree().process_frame
-			if !reward_claimed:
+			if !reward_claimed and room_instance_data.roomtype!=Globals.RoomType.Boss:
 				_enable_pathways()
 				reward_claimed=true
 				
@@ -1329,6 +1329,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 		var particles = load("res://Game Elements/Particles/pathway_particles.tscn").instantiate()
 		PathwayTransition.global_position = pathway.global_position
 		PathwayViewport.add_child(particles)
+		particles.get_child(0).material.set_shader_parameter("grayscale",pathway.gray)
 		particles.position = Vector2(1024,1024)
 		transitioning = true
 		await get_tree().create_timer(2,false).timeout
@@ -1829,6 +1830,9 @@ func _on_activate(player_node : Node):
 			return
 		if reward_claimed and room_cleared:
 			check_pathways(room_instance, room_instance_data,player_node,false)
+		if !reward_claimed and room_cleared and room_instance_data.roomtype == Globals.RoomType.Boss:
+			check_pathways(room_instance, room_instance_data,player_node,false)
+			
 	
 func _on_special(player_node : Node):
 	var remnants : Array[Remnant] = []
