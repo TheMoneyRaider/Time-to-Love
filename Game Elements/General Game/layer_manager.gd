@@ -88,6 +88,7 @@ var weapon_select_sounds = [
 ]
 
 func _ready() -> void:
+	RemnantManager.has_gotten_remnant = false
 	$LettersPopup.modulate.a=0.0
 	$game_container.material = $game_container.material.duplicate(true)
 	var conflict_cells : Array[Vector2i] = []

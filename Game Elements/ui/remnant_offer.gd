@@ -60,7 +60,10 @@ func _set_drifter_text(player1_remnants_in, player2_remnants_in):
 			$DrifterText/Label.text =  "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_f_outline[/font]: Reroll for "+str(tricky2)+"  "
 		else:
 			$DrifterText/Label.text =  "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_triangle_outline[/font]: Reroll for "+str(tricky2)+"  "
-	
+	if Globals.total_progress < 1.0 and !RemnantManager.has_gotten_remnant:
+		$DrifterText/Label.text = "Chose a Remnant for each Character"
+		$DrifterText.visible = true
+		$DrifterText/Label/TextureRect.visible = false
 func _slice_frames() -> void:
 	frames.clear()
 
@@ -319,6 +322,7 @@ func _on_slot_selected(idx: int) -> void:
 			_close_after_two_chosen()
 
 func _close_after_two_chosen():
+	RemnantManager.has_gotten_remnant = true
 	#Fade out animation
 	var tween = create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, .5)
