@@ -1,8 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://dv81hehnm8n2s"]
+[gd_scene load_steps=16 format=3 uid="uid://dv81hehnm8n2s"]
 
+[ext_resource type="Shader" uid="uid://dwl2c5ejlom8n" path="res://Game Elements/Particles/pathway_particles.gdshader" id="1_4lkcr"]
 [ext_resource type="Script" uid="uid://cslhitgg2jcir" path="res://Game Elements/Particles/pathway_particles.gd" id="1_hikjp"]
 [ext_resource type="Texture2D" uid="uid://dsg1hqhbidk6m" path="res://art/particles/gradiant_dot.png" id="2_hikjp"]
 [ext_resource type="Texture2D" uid="uid://lwp6tmccxc3r" path="res://art/particles/white_dot_blur.png" id="3_hikjp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3autm"]
+shader = ExtResource("1_4lkcr")
 
 [sub_resource type="Gradient" id="Gradient_4lkcr"]
 offsets = PackedFloat32Array(0.025052192, 0.27139875, 1)
@@ -81,7 +85,8 @@ color_ramp = SubResource("GradientTexture1D_3autm")
 hue_variation_min = -0.030000022
 hue_variation_max = 0.029999977
 
-[node name="PathwayParticles" type="Node2D"]
+[node name="PathwayParticles" type="CanvasGroup"]
+material = SubResource("ShaderMaterial_3autm")
 script = ExtResource("1_hikjp")
 
 [node name="Purple" type="GPUParticles2D" parent="."]

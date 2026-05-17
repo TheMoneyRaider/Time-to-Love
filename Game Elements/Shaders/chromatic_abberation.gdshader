@@ -3,6 +3,7 @@ shader_type canvas_item;
 uniform sampler2D mask_texture;
 uniform float aberration_strength : hint_range(0.0, 30.0) = 2.0;
 uniform float mask_intensity : hint_range(0.0,1.0) = 1.0;
+uniform bool grayscale = false;
 
 void fragment() {
     vec2 uv = UV;
@@ -28,5 +29,8 @@ void fragment() {
     vec4 mask_color = texture(mask_texture, uv) * mask_intensity;
 
 	COLOR = mix(color_with_aberration, color_with_aberration + mask_color, mask * mask_intensity);
-
+	if (grayscale){
+		float lum =  dot(COLOR.rgb, vec3(0.299, 0.587, 0.114));
+		COLOR.rgb = vec3(lum);
+	}
 }

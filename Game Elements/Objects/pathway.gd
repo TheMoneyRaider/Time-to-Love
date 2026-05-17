@@ -38,6 +38,11 @@ var anim_time := 0.0
 ######
 var tricky : int = -1
 
+
+func _make_gray():
+	$ShaderSprite.material = $ShaderSprite.material.duplicate(true)
+	$ShaderSprite.material.set_shader_parameter("grayscale",true)
+
 func _ready():
 	prompt1.visible = false
 	prompt2.visible = false
