@@ -919,6 +919,8 @@ func shift_hue(color: Color, amount: float) -> Color:
 	return Color.from_hsv(h, color.s, color.v, color.a)
 
 func _crafter_chance() -> bool:
+	if is_tethered:
+		return false
 	randomize()
 	var remnants : Array[Remnant]
 	if is_purple:
