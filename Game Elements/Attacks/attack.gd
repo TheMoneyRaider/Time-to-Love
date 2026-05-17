@@ -83,6 +83,21 @@ func ready_hacks():
 			break
 			
 
+
+
+func check_defender():
+	if !c_owner or !c_owner.is_in_group("player"):
+		return
+	var remnants : Array[Remnant]
+	if c_owner.is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var protec = preload("res://Game Elements/Remnants/protector.tres")
+	for rem in remnants:
+		if rem.remnant_name == protec.remnant_name and rem.active:
+			damage *= c_owner.damage_multiplier
+
 func _ready():
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	ready_hacks()
@@ -126,6 +141,8 @@ func _ready():
 		_laser_attack_setup()
 	if attack_type=="light_beam":
 		rotation = direction.angle()
+	call_deferred("check_defender")
+	
 	
 
 func drag():
@@ -411,9 +428,26 @@ func _on_area_entered(area: Area2D) -> void:
 		area.hit_nodes = {}
 		for area_intr in area.get_overlapping_areas():
 			area._on_body_entered(area_intr)
+		if c_owner and c_owner.is_in_group("player"):
+			var remnants : Array[Remnant]
+			if c_owner.is_purple:
+				remnants = LayerManager.player_1_remnants
+			else:
+				remnants = LayerManager.player_2_remnants
+			var protec = preload("res://Game Elements/Remnants/protector.tres")
+			for rem in remnants:
+				if rem.remnant_name == protec.remnant_name and rem.active:
+					print(self)
+					print()
+					#var effect = preload("res://Game Elements/Effects/damage.tres").duplicate(true)
+					#effect.value1 = rem.variable_1_values[rem.rank-1]
+					#effect.cooldown = rem.variable_2_values[rem.rank-1]
+					#effect.gained(c_owner)
+					#c_owner.effects.append(effect)
+
 	if area.is_in_group("enemy") or area.is_in_group("player"):
 		intersection(area)
-
+	
 
 func _on_body_exited(body: Node2D) -> void:
 	if(attack_type == "giant_bolt"):
