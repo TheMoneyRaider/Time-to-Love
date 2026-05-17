@@ -22,6 +22,31 @@ var loop_tracks = {
 	"shop": 	preload("res://Game Elements/Music/shopkeeper.wav")
 }
 
+var tween: Tween
+const FADE_DURATION = 0.5
+const PAUSED_VOLUME = -16.0
+var paused_value : bool = false
+
+
+
+func fade_volume(target_db_variance: float):
+	if tween:
+		tween.kill()
+	tween = create_tween()
+	var original = active_player.volume_db
+	tween.tween_property(active_player, "volume_db", original+target_db_variance, FADE_DURATION)
+	tween.parallel().tween_property(inactive_player, "volume_db", original+target_db_variance, FADE_DURATION)
+func _on_pause_changed():
+	if get_tree().paused:
+		fade_volume(PAUSED_VOLUME)
+	else:
+		fade_volume(-PAUSED_VOLUME)
+	paused_value=get_tree().paused
+
+func _process(_delta : float):
+	if paused_value !=get_tree().paused:
+		_on_pause_changed()
+
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS 
 	
