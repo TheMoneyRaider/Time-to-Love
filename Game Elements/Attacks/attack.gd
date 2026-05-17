@@ -53,6 +53,11 @@ var drag_along : Array[Node] = []
 var life = 0.0
 var last_liquid : Globals.Liquid = Globals.Liquid.Buffer
 
+var deflect_sounds = [
+	preload("res://Game Elements/sfx/player/deflect/deflect1.ogg"),
+	preload("res://Game Elements/sfx/player/deflect/deflect2.ogg"),
+]
+
 #Multiplies the Speed, Damage, Lifespan adn Hit_Force of attack by given values
 func mult(speed_mult, damage_mult = 1, lifespan_mult = 1, hit_force_mult = 1):
 	self.speed = self.speed * speed_mult
@@ -230,7 +235,11 @@ func _process(delta):
 	if attack_type == "laser" or attack_type == "scifi_laser" or attack_type == "tentacle":
 		if has_method("get_overlapping_bodies") and monitoring:
 			for body in get_overlapping_bodies():
+				print(body)
 				intersection(body)
+	if deflects and monitoring:
+		for area in get_overlapping_areas():
+			_on_area_entered(area)
 	if attack_type != "slug":
 		position += direction * speed * delta
 	life+=delta
@@ -357,6 +366,7 @@ func _on_body_entered(body):
 		intersection(body)
 
 func deflect(hit_direction, hit_speed, deflection_area):
+	sfx_manager.play(deflect_sounds[randi() % deflect_sounds.size()], 2.0)
 	if attack_type=="laser":
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment1"))
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment2"))
@@ -368,6 +378,7 @@ func deflect(hit_direction, hit_speed, deflection_area):
 			board.set_var("kill_direction", hit_direction)
 		return
 	direction = hit_direction
+	deflected_nodes = {}
 	rotation = direction.angle() + PI/2
 	if attack_type == "light_beam":
 		rotation = direction.angle()
@@ -375,9 +386,11 @@ func deflect(hit_direction, hit_speed, deflection_area):
 	speed = speed + hit_speed
 	
 		
-
+var deflected_nodes = {}
 func _on_area_entered(area: Area2D) -> void:
-	if area.is_in_group("attack") and area.deflectable == true and deflects and is_instance_valid(area.c_owner) and is_instance_valid(c_owner) and area.c_owner != c_owner:
+	if deflected_nodes.has(area):   # already deflected this one
+		return
+	if area.is_in_group("attack") and area.deflectable == true and deflects and is_instance_valid(area.c_owner) and is_instance_valid(c_owner) and (area.c_owner != c_owner or hits_all):
 		if area.attack_type =="laser":
 			if area.life > .5:
 				return
@@ -392,6 +405,7 @@ func _on_area_entered(area: Area2D) -> void:
 			area.deflect((area.global_position - global_position).normalized(), hit_force,self)
 		else:
 			area.deflect(direction, hit_force,self)
+		deflected_nodes[area] = null    # mark it
 		area.c_owner = c_owner
 		area.is_purple = is_purple
 		area.hit_nodes = {}

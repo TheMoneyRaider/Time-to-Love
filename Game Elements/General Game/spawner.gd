@@ -383,6 +383,7 @@ static func spawn_letters(
 	var letter_goal = clamp(int(room_data.letter_goal * randf())+1,1,room_data.letter_goal)
 	if letter_goal <= 0:
 		return
+	letter_goal = 1 #No more than 1 letter per room
 	chosen_letters = {}
 
 	#Convert to hash set for O(1) lookup

@@ -60,6 +60,16 @@ var last_liquid : Globals.Liquid = Globals.Liquid.Buffer
 
 var forcefield_active : bool = false
 
+var footstep_timer: float = 0.0
+var footstep_interval: float = 0.25
+var footstep_sounds = [
+	preload("res://Game Elements/sfx/player/walk1.ogg"),
+	preload("res://Game Elements/sfx/player/walk2.ogg"),
+	preload("res://Game Elements/sfx/player/walk3.ogg"),
+	preload("res://Game Elements/sfx/player/walk4.ogg"),
+	preload("res://Game Elements/sfx/player/walk5.ogg")
+]
+
 
 #The scripts for loading default values into the attack
 #The list of attacks for playercharacter
@@ -114,6 +124,8 @@ func _ready():
 		tether_width_curve = tether_line.width_curve
 		tether_line.gradient = null			
 	hide_forcefield(0.0)
+	
+	special_changed.connect(check_tortoise)
 
 
 func hide_forcefield(interp_time : float):
@@ -357,6 +369,15 @@ func _physics_process(delta):
 	red_flash()
 	if disabled_countdown >= 1:
 		disabled_countdown-=1
+		
+	if velocity.length() > 5.0 and !disabled and !is_tethered:
+		footstep_timer -= delta
+		if footstep_timer <= 0.0:
+			var speed_ratio = clamp(velocity.length() / base_move_speed, 1.0, 2.5)
+			footstep_timer = footstep_interval / speed_ratio
+			sfx_manager.play(footstep_sounds[randi() % footstep_sounds.size()])
+	else:
+		footstep_timer = 0.0
 
 func update_animation_parameters(move_input : Vector2):
 	if(move_input != Vector2.ZERO):
@@ -390,13 +411,14 @@ func _check_bulwark(damage_amount : float, _dmg_owner : Node, send_damage: bool)
 	var remnants_orange : Array[Remnant]
 	remnants_purple = LayerManager.player_1_remnants
 	remnants_orange = LayerManager.player_2_remnants
+	var bulk = load("res://Game Elements/Remnants/bulwark.tres")
 	var purple_bulwark_rank = 0
 	var orange_bulwark_rank = 0
 	for rem in remnants_purple:
-		if rem.remnant_name == "Remnant of the Bulwark" and rem.active:
+		if rem.remnant_name == bulk.remnant_name and rem.active:
 			purple_bulwark_rank = rem.rank
 	for rem in remnants_orange:
-		if rem.remnant_name == "Remnant of the Bulwark" and rem.active:
+		if rem.remnant_name == bulk.remnant_name and rem.active:
 			orange_bulwark_rank = rem.rank
 	if(is_purple):
 		if(purple_bulwark_rank != 0):
@@ -461,7 +483,7 @@ func post_damage_trigger(damage_amount: float, _dmg_owner : Node):
 		if rem.active:
 			match rem.remnant_name:
 				cleric.remnant_name:
-					if rem.variable_1_values[rem.rank-1] > randf()*100:
+					if rem.variable_1_values[rem.rank-1] > randf()*100 and current_health >= 0.0:
 						var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 						particle.position = self.position
 						get_parent().add_child(particle)
@@ -498,6 +520,7 @@ func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0
 		i_frames = attack_i_frames
 		damage_amount = damage_amount * (1 - damage_resistance)
 		damage_amount = _check_reduction_remnants(damage_amount,_dmg_owner)
+		sfx_manager.play(preload("res://Game Elements/sfx/player/take_damage.ogg"))
 		damage_amount = _check_bulwark(damage_amount, _dmg_owner, bulwark)
 		if check_drones():
 			LayerManager._damage_indicator(0, _dmg_owner,_direction, attack_body,self,Color(0.0, 0.666, 0.85, 1.0))
@@ -905,6 +928,8 @@ func shift_hue(color: Color, amount: float) -> Color:
 	return Color.from_hsv(h, color.s, color.v, color.a)
 
 func _crafter_chance() -> bool:
+	if is_tethered:
+		return false
 	randomize()
 	var remnants : Array[Remnant]
 	if is_purple:
@@ -960,6 +985,8 @@ func damage_boost() -> float:
 
 func change_health(add_to_current : float, add_to_max : float = 0):
 	if add_to_current > 0.0:
+		if add_to_current >= 1.0:
+			sfx_manager.play(preload("res://Game Elements/sfx/player/gain_health.ogg"))
 		var healer = preload("res://Game Elements/Remnants/healer.tres")
 		var hospital = preload("res://Game Elements/Remnants/hospital.tres")
 		var remnants = []
@@ -1112,6 +1139,32 @@ func check_forcefield(delta : float):
 			$Forcefield.damage = force.variable_1_values[rem.rank-1]
 			effect.gained(self)
 			effects.append(effect)
+	
+func check_tortoise(is_purple : bool, new_progress : float, used_special : bool = false):
+	if !used_special:
+		return
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var tort = preload("res://Game Elements/Remnants/tortoise.tres")
+	for rem in remnants:
+		if rem.remnant_name == tort.remnant_name and rem.active:
+			var shield = preload("res://Game Elements/Remnants/tortoise/shield.tscn").instantiate()
+			var shield2 = preload("res://Game Elements/Remnants/tortoise/shield_deflection.tscn").instantiate()
+			shield2.c_owner = self
+			shield2.direction = (crosshair.position).normalized()
+			LayerManager.room_instance.add_child(shield)
+			LayerManager.room_instance.add_child(shield2)
+			shield.rotation = (crosshair.position).normalized().angle() +PI/2
+			shield2.rotation = (crosshair.position).normalized().angle() +PI/2
+			shield.lifetime = tort.variable_2_values[rem.rank-1]
+			shield.scale = Vector2(tort.variable_3_values[rem.rank-1],tort.variable_3_values[rem.rank-1])
+			shield2.scale = Vector2(tort.variable_3_values[rem.rank-1],tort.variable_3_values[rem.rank-1])
+			shield.global_position = global_position
+			shield2.global_position = global_position
+			shield.deflection  =shield2
 	
 
 

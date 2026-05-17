@@ -50,3 +50,4 @@ explosiveness = 0.75
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_hse8h")
 script = ExtResource("2_ueuly")
+letter = true

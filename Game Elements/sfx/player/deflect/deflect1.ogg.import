@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://c6c0ivabs6gwy"
+path="res://.godot/imported/deflect1.ogg-b21764fd8630d4fdf8c59ec93097b105.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/player/deflect/deflect1.ogg"
+dest_files=["res://.godot/imported/deflect1.ogg-b21764fd8630d4fdf8c59ec93097b105.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

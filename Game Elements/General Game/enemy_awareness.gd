@@ -82,20 +82,26 @@ func _process(_d):
 					glow.get_node("PathwayIcon1").visible = false
 					glow.get_node("PathwayIcon2").visible = false
 			1:
+				glow.scale *= 2.0
 				if version_changed:
 					glow.get_node("GlowCircle").visible = false
-					var reward = enemies[i].get_node("Image").texture
+					var reward = enemies[i].get_node("Image")
 					var icon1 = glow.get_node("PathwayIcon1")
 					var icon2 = glow.get_node("PathwayIcon2")
 					icon1.visible = true
 					icon2.visible = true
-					icon1.texture = reward
-					icon2.texture = reward
+					icon1.texture = reward.texture
+					icon2.texture = reward.texture
+					icon1.hframes = reward.hframes
+					icon2.hframes = reward.hframes
+					icon1.vframes = reward.vframes
+					icon2.vframes = reward.vframes
 					if(icon1.material != null):
 						icon1.material.set_shader_parameter("split", false)
 					if(icon2.material != null):
 						icon2.material.set_shader_parameter("split", false)
 			2:
+				glow.scale *= 2.0
 				if version_changed:
 					glow.get_node("GlowCircle").visible = false
 					var pathway = enemies[i]

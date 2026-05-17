@@ -108,19 +108,21 @@ void fragment() {
 		ALBEDO = vec3(0.0,0.0,0.0);
 	}else{
 		if (mask2 < 0.5) {
-			discard;
+			ALBEDO = vec3(0.0,0.0,0.0);
+		}else{
+			// Texture noises for grass patches
+			float albedo2_noise_tex = texture(albedo2_noise, vertex_world.xz * (albedo2_scale)).r;
+			float albedo3_noise_tex = texture(albedo3_noise, vertex_world.xz * (albedo3_scale)).r;
+			// Set colours based on noise thresholds
+			ALBEDO = albedo1.rgb;
+			if (albedo2_noise_tex > albedo2_threshold) {
+				ALBEDO = albedo2.rgb;
+			} if (albedo3_noise_tex > albedo3_threshold) {
+				ALBEDO = albedo3.rgb;
+			}
 		}
 
-		// Texture noises for grass patches
-		float albedo2_noise_tex = texture(albedo2_noise, vertex_world.xz * (albedo2_scale)).r;
-		float albedo3_noise_tex = texture(albedo3_noise, vertex_world.xz * (albedo3_scale)).r;
-		// Set colours based on noise thresholds
-		ALBEDO = albedo1.rgb;
-		if (albedo2_noise_tex > albedo2_threshold) {
-			ALBEDO = albedo2.rgb;
-		} if (albedo3_noise_tex > albedo3_threshold) {
-			ALBEDO = albedo3.rgb;
-		}
+		
 	}
 
 

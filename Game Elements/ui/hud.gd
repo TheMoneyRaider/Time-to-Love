@@ -54,14 +54,16 @@ func _ready():
 
 	active_player = music_player_a
 	inactive_player = music_player_b
-	_on_special_changed(true,0.0)
-	_on_special_changed(false,0.0)
+	_on_special_changed(true,1.0)
+	_on_special_changed(false,1.0)
 	
 	if(Globals.save_state.time_spent <= 120):
 		$AttackLabel.visible = true
 		$AttackLabel2.visible = true
 		$SwapLabel.visible = true
 		$TetherLabel.visible = true
+	else:
+		disable_tutorial()
 		
 func disable_tutorial():
 	$AttackLabel.visible = false
@@ -539,7 +541,7 @@ func _on_special_reset(is_purple : bool):
 		return
 	update_shader(RightCooldownBar.get_node("CooldownBar").material,0.0, true)
 
-func _on_special_changed(is_purple : bool, new_progress):
+func _on_special_changed(is_purple : bool, new_progress : float, used_special : bool = false):
 	if is_purple:
 		update_shader(LeftCooldownBar.get_node("CooldownBar").material,new_progress)
 		if new_progress==1.0:

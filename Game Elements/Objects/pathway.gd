@@ -37,6 +37,12 @@ var next_frame := 1
 var anim_time := 0.0
 ######
 var tricky : int = -1
+var gray : bool = false
+
+func _make_gray():
+	gray = true
+	$ShaderSprite.material = $ShaderSprite.material.duplicate(true)
+	$ShaderSprite.material.set_shader_parameter("grayscale",true)
 
 func _ready():
 	prompt1.visible = false

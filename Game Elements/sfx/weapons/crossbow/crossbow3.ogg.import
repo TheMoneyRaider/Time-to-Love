@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://i8k7axq6b6ns"
+path="res://.godot/imported/crossbow3.ogg-3b2290b870be89547dc6ad5457605981.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/weapons/crossbow/crossbow3.ogg"
+dest_files=["res://.godot/imported/crossbow3.ogg-3b2290b870be89547dc6ad5457605981.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

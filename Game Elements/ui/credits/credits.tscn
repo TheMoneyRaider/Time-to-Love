@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://tfrgihhydi7k"]
+[gd_scene load_steps=26 format=3 uid="uid://tfrgihhydi7k"]
 
 [ext_resource type="Texture2D" uid="uid://rawhoxpikpyp" path="res://art/title_assets/grainy_background_visual.png" id="1_76ob2"]
 [ext_resource type="Shader" uid="uid://bmxbbdu84nb75" path="res://Game Elements/ui/credits/credit_tentacle.gdshader" id="1_508cw"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://di362ia7t6njh" path="res://art/credit_assets/IMG_1458.png" id="12_jsf73"]
 [ext_resource type="Texture2D" uid="uid://wkolx4nimq4l" path="res://art/credit_assets/IMG_1452.png" id="13_6ckmw"]
 [ext_resource type="Texture2D" uid="uid://c8vq827vwbqwd" path="res://art/credit_assets/IMG_1459.png" id="14_4d2ny"]
+[ext_resource type="PackedScene" uid="uid://dgmvhpjut83yh" path="res://Game Elements/ui/main_menu/cinematic/skip.tscn" id="15_gsupv"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_3cp7a"]
 
@@ -437,3 +438,18 @@ position = Vector2(1831, 2738)
 
 [node name="Sprite11" type="Sprite2D" parent="Credits/VBoxContainer"]
 position = Vector2(1831, 2738)
+
+[node name="Skip" parent="Credits" instance=ExtResource("15_gsupv")]
+z_index = 100
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1752.0
+offset_top = 832.0
+offset_right = 1880.0
+offset_bottom = 960.0
+grow_horizontal = 0
+grow_vertical = 0

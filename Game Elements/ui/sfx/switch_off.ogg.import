@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dllfoui5fdchs"
+path="res://.godot/imported/switch_off.ogg-6f97f397db51b784be08f31ea6a48576.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/ui/sfx/switch_off.ogg"
+dest_files=["res://.godot/imported/switch_off.ogg-6f97f397db51b784be08f31ea6a48576.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

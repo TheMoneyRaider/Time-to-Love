@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://dghhm2cuhrpl0"]
+
+[ext_resource type="Script" uid="uid://bsy5axu27yvg8" path="res://Game Elements/Remnants/tortoise/shield.gd" id="1_02hg1"]
+[ext_resource type="Texture2D" uid="uid://c6olv0wegdtbn" path="res://Game Elements/Remnants/tortoise/tortoise_shield.png" id="1_of5uk"]
+[ext_resource type="Texture2D" uid="uid://b3y64xmuqj0hy" path="res://Game Elements/Remnants/tortoise/tortoise_shield2.png" id="3_htw1q"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_02hg1"]
+radius = 50.0
+height = 142.0
+
+[node name="Shield" type="StaticBody2D"]
+z_index = 30
+collision_layer = 128
+collision_mask = 4
+script = ExtResource("1_02hg1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -4)
+shape = SubResource("CapsuleShape2D_02hg1")
+
+[node name="Shell" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.6627451)
+texture = ExtResource("1_of5uk")
+
+[node name="Cover" type="Sprite2D" parent="."]
+texture = ExtResource("3_htw1q")

@@ -71,7 +71,24 @@ var is_multiplayer = Globals.is_multiplayer
 
 var current_song_idx: int = -1
 
+var timefabric_collected_sounds = [
+	preload("res://Game Elements/sfx/enemies/time_fabric/collect1.ogg"),
+	preload("res://Game Elements/sfx/enemies/time_fabric/collect2.ogg"),
+	preload("res://Game Elements/sfx/enemies/time_fabric/collect3.ogg"),
+	preload("res://Game Elements/sfx/enemies/time_fabric/collect4.ogg"),
+	preload("res://Game Elements/sfx/enemies/time_fabric/collect5.ogg"),
+]
+
+var weapon_select_sounds = [
+	preload("res://Game Elements/sfx/weapons/selection/selection1.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection2.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection3.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection4.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection5.wav"),
+]
+
 func _ready() -> void:
+	$LettersPopup.modulate.a=0.0
 	$game_container.material = $game_container.material.duplicate(true)
 	var conflict_cells : Array[Vector2i] = []
 	_setup_players()
@@ -79,14 +96,14 @@ func _ready() -> void:
 	hud.connect_signals(player1)
 	hud.set_cross_position()
 	
-	#dev_remnants()
+	dev_remnants()
 	
 	
 	
 	####
 	game_root.add_child(pathfinding)
 	randomize()
-	room_instance_data = RoomManager.testing_room
+	room_instance_data = RoomManager.starting_rooms[clamp(int(Globals.total_progress),0,2)]
 	room_location = load(room_instance_data.scene_location)
 	room_instance = room_location.instantiate()
 	RoomManager.update_ai_array(room_instance, room_instance_data,self)
@@ -149,7 +166,7 @@ func _load_save_time(idx: int) -> float:
 		if loaded is SaveState:
 			return loaded.time_spent
 	return 0
-
+var current_crosshair_offset : Vector2 = Vector2.ZERO
 func _process(delta: float) -> void:
 	if PathwayViewport.get_children().size() > 0: 
 		PathwayTransition.material.set_shader_parameter("mask_texture", PathwayTransition.get_texture())
@@ -163,8 +180,15 @@ func _process(delta: float) -> void:
 		if is_multiplayer:
 			camera.global_position = (player1.global_position + player2.global_position) / 2 +camera.get_cam_offset(delta)
 		else:
-			camera.position = player1.global_position+camera.get_cam_offset(delta)		
-	
+			var average_crosshair_position = Globals.config.get_value("settings","crosshair", true)
+			if average_crosshair_position:
+				if !player1.disabled and !get_tree().paused:
+					var crosshair_component = player1.crosshair.global_position - player1.global_position
+					current_crosshair_offset = current_crosshair_offset.lerp(crosshair_component, 1.0*delta)
+					camera.position = (current_crosshair_offset + player1.global_position * 3.0) / 3.0 + camera.get_cam_offset(delta)
+			else:
+				camera.position = player1.global_position+camera.get_cam_offset(delta)		
+				
 	# Thread check
 	if thread_running and not room_gen_thread.is_alive():
 		thread_result = room_gen_thread.wait_to_finish()
@@ -259,7 +283,7 @@ func _process(delta: float) -> void:
 			if this_room_reward1 == Globals.Reward.Shop:
 				for i in 4:
 					await get_tree().process_frame
-			if !reward_claimed:
+			if !reward_claimed and room_instance_data.roomtype!=Globals.RoomType.Boss:
 				_enable_pathways()
 				reward_claimed=true
 				
@@ -393,6 +417,7 @@ func place_liquids(generated_room : Node2D, generated_room_data : Room, conflict
 		else:
 			cells = generated_room.get_node(liquid_type+str(types[liquid])).get_used_cells()
 			if(_arrays_intersect(cells, conflict_cells)):
+				
 				generated_room.get_node(liquid_type+str(types[liquid])).queue_free()
 				#DEBUG
 				_debug_message("Layer collision removed")
@@ -599,14 +624,15 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 			if(node.enabled == true):
 				if player_reference in node.tracked_bodies:
 					player_reference.update_weapon(node.weapon_type)
+					sfx_manager.play(weapon_select_sounds[randi() % weapon_select_sounds.size()], -4.0)
 					hud.set_cooldown_icons()
 					return true
 		if node.is_in_group("letter"):
 			if player_reference in node.tracked_bodies:
 				node.spawn_letter()
 				if is_multiplayer:
-					player2.change_health(player2.max_health / 10.0)
-				player1.change_health(player1.max_health / 10.0)
+					player2.change_health(player2.max_health / 5.0)
+				player1.change_health(player1.max_health / 5.0)
 				var particle =  load("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 				particle.position = node.position
 				generated_room.add_child(particle)
@@ -914,6 +940,13 @@ func _upgradable_remnants() -> bool:
 		return true
 	return false
 
+
+func update_players_input_devices():
+	if(is_multiplayer):
+		player2.update_input_device(Globals.player2_input)
+	player1.update_input_device(Globals.player1_input)
+	
+
 func _setup_players() -> void:
 	var player_scene = preload("res://Game Elements/Characters/player_cat.tscn")
 	if(is_multiplayer):
@@ -1040,6 +1073,7 @@ func _place_timefabric(time_idx : int, offset : Vector2i, current_position : Vec
 	timefabric_instance.set_direction(direction)
 	timefabric_instance.set_process(true)
 	timefabric_instance.absorbed_by_player.connect(_on_timefabric_absorbed)
+	# sfx_manager.play(preload("res://Game Elements/sfx/enemies/time_fabric/drop1.ogg"))
 	return
 
 func _score_timefabric_placement(pixels_to_cover : Dictionary, timefabric_pixels : Array, timefabric_idx : int,offset : Vector2i) -> float:
@@ -1094,6 +1128,9 @@ func _prepare_timefabric() -> void:
 
 func _open_remnant_popup() -> void:
 	if room_instance and !remnant_offer_popup:
+		
+		sfx_manager.play(preload("res://Game Elements/sfx/world/display_remnants.ogg"))
+		
 		var offer_scene = preload("res://Game Elements/ui/remnant_offer.tscn")
 		remnant_offer_popup = offer_scene.instantiate()
 		hud.add_child(remnant_offer_popup)
@@ -1293,10 +1330,12 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 		player1.disabled = true
 		if is_multiplayer:
 			player2.disabled = true
-			
+		
+		sfx_manager.play(preload("res://Game Elements/sfx/world/zaks_room_transition.ogg"), 10.0)
 		var particles = load("res://Game Elements/Particles/pathway_particles.tscn").instantiate()
 		PathwayTransition.global_position = pathway.global_position
 		PathwayViewport.add_child(particles)
+		particles.get_child(0).material.set_shader_parameter("grayscale",pathway.gray)
 		particles.position = Vector2(1024,1024)
 		transitioning = true
 		await get_tree().create_timer(2,false).timeout
@@ -1588,7 +1627,7 @@ func _open_random_pathways(generated_room : Node2D, generated_room_data : Room, 
 		direction_count[p_direct]+=1
 		pathway_name = _get_pathway_name(p_direct,direction_count[p_direct])
 		if if_node_exists(pathway_name,generated_room):
-			if randf() > .5:
+			if randf() < .65:
 				_open_pathway(pathway_name, generated_room)
 			else:
 				_open_pathway(pathway_name+"_Detect", generated_room)
@@ -1663,6 +1702,7 @@ func _on_enemy_take_damage(damage : float,current_health : float,enemy : Node, d
 			RoomManager.layer_ai[7]+=1
 
 func _on_remnant_chosen(remnant1 : Resource, remnant2 : Resource):
+	
 	player_1_remnants.append(remnant1.duplicate(true))
 	player_2_remnants.append(remnant2.duplicate(true))
 	remnant_update(remnant1,player1,true)
@@ -1779,11 +1819,12 @@ func _on_healthpickup_absorbed(player_node : Node, health_node : Node):
 	var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 	particle.global_position = player_node.global_position
 	room_instance.add_child(particle)
-	player_node.change_health(2)
+	player_node.change_health(2.5)
 	health_node.queue_free()
 
 func _on_timefabric_absorbed(timefabric_node : Node):
 	timefabric_collected+=1
+	sfx_manager.play(timefabric_collected_sounds[randi() % timefabric_collected_sounds.size()], 0.0)
 	RoomManager.layer_ai[12]+=1
 	timefabric_node.queue_free()
 	
@@ -1795,6 +1836,9 @@ func _on_activate(player_node : Node):
 			return
 		if reward_claimed and room_cleared:
 			check_pathways(room_instance, room_instance_data,player_node,false)
+		if !reward_claimed and room_cleared and room_instance_data.roomtype == Globals.RoomType.Boss:
+			check_pathways(room_instance, room_instance_data,player_node,false)
+			
 	
 func _on_special(player_node : Node):
 	var remnants : Array[Remnant] = []
@@ -2020,12 +2064,12 @@ func move_to_limbo_phase_2():
 func boss_rewards():
 	var rooms_taken = RoomManager.layer_ai[15]
 	room_reward(Globals.Reward.Remnant)
-	if rooms_taken <= 8:
-		room_reward(Globals.Reward.Health)
 	if rooms_taken <= 7:
-		room_reward(Globals.Reward.RemnantUpgrade)
+		room_reward(Globals.Reward.Health)
 	if rooms_taken <= 6:
-		room_reward(Globals.Reward.HealthUpgrade)
+		room_reward(Globals.Reward.RemnantUpgrade)
 	if rooms_taken <= 5:
+		room_reward(Globals.Reward.HealthUpgrade)
+	if rooms_taken <= 4:
 		room_reward(Globals.Reward.TimeFabric)
 	

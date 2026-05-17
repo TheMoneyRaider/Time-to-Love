@@ -52,7 +52,17 @@ func activate():
 		t.tween_property(color_rect, "modulate:a", 1.0, .125)  # 5. Fade back in after timelines
 		t.tween_callback(start_credits))
 
+
+
+func _on_skip() -> void:
+	get_tree().call_deferred("change_scene_to_file", "res://Game Elements/ui/main_menu/main_menu.tscn")
+
+	
+
+
 func start_credits():
 	$Credits/AnimationPlayer.play("main")
+	$Credits/Skip.active = true
+	$Credits/Skip.skip_requested.connect(_on_skip)
 	await $Credits/AnimationPlayer.animation_finished
 	get_tree().call_deferred("change_scene_to_file", "res://Game Elements/ui/main_menu/main_menu.tscn")

@@ -59,7 +59,9 @@ var sci_fi_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/f
 var sci_fi_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/shop_cyberspace.tres"),
 								preload("res://Game Elements/Rooms/resources/shop_factory.tres")]
 								
-var testing_room : Room = preload("res://Game Elements/Rooms/resources/weapon_room.tres")
+var starting_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/1.tres"),
+									preload("res://Game Elements/Rooms/resources/2.tres"),
+									preload("res://Game Elements/Rooms/resources/3.tres")]
  #preload("res://Game Elements/Rooms/resources/testing_room.tres")
 
 
@@ -78,10 +80,11 @@ var replacement_enemies : Array[PackedScene] = [
 	]
 var normal_rooms : Array = []
 var shop_rooms : Array = []
-
+var tempvar : bool = true
 func get_room(room : Room):
-	#if room.roomtype==Globals.RoomType.Shop:
-	#	layer_ai[8] = 0
+	#if tempvar:
+		#tempvar = false
+		#return bosses[2]
 	var index = int(current_progress) if room.roomtype != Globals.RoomType.Boss else int(current_progress+1.0)
 	if index >= 3:
 		index = randi() % 3
@@ -101,6 +104,8 @@ func get_room(room : Room):
 		return bosses[index]
 
 	var normal_index = clamp(int(randf()*normal_rooms[index].size()),0,normal_rooms[index].size()-1)
+	if normal_rooms[index][normal_index]==room:
+		return get_room(room)
 	return normal_rooms[index][normal_index]
 	
 
@@ -123,13 +128,14 @@ func _ready() -> void:
 			cached_scenes[room_data_item.scene_location] = packed
 
 func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerManager : Node) -> void:
-	if generated_room_data==testing_room:
+	if generated_room_data in starting_rooms:
 		LayerManager.time_passed = 0.0
 		layer_ai = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 		return
 	#Rooms cleared
 	layer_ai[0] += 1
 	layer_ai[13] += 1
+	layer_ai[14] += 1
 	#Combat rooms cleared
 	if generated_room_data.roomtype == Globals.RoomType.Combat or generated_room_data.roomtype == Globals.RoomType.Boss:
 		RoomManager.layer_ai[1] += 1
@@ -139,10 +145,8 @@ func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerM
 	#Total time
 	layer_ai[3] = LayerManager.time_passed
 	if generated_room_data.roomtype == Globals.RoomType.Shop:
-		#layer_ai[8] += 1
-		layer_ai[14] = 0
-	else:
-		layer_ai[14] += 1
+		layer_ai[8] += 1
+		layer_ai[13] = 0
 	if generated_room_data.num_liquid > 0:
 		var liquid_num = 0
 		var liquid_type : String
@@ -180,6 +184,9 @@ func make_room_limbo(room_reference : Node, z_val : int, layermanager : Node,set
 	if set_values:
 		cur_prog = current_progress - floor(current_progress)
 		new_prog = 1-exp(-0.1386*(layer_ai[0]+1))
+		cur_prog = _cubic_bezier_ease(.74,.23,.88,.43,cur_prog)
+		new_prog = _cubic_bezier_ease(.74,.23,.88,.43,new_prog)
+		
 	for child in room_reference.get_children():
 		make_room_limbo(child, z_val +child.z_index if "z_index" in child else z_val,layermanager, false)
 		if child.name =="GrassAddon":
@@ -203,4 +210,21 @@ func make_room_limbo(room_reference : Node, z_val : int, layermanager : Node,set
 				25.0   # duration in seconds
 			)
 	
-	
+func _cubic_bezier_ease(x1: float, y1: float, x2: float, y2: float, t: float) -> float:
+	var sample = t
+	for i in range(8):
+		var x = _bezier_coord(x1, x2, sample)
+		var dx = _bezier_coord_derivative(x1, x2, sample)
+		if abs(dx) < 0.0001: break
+		sample -= (x - t) / dx
+	return _bezier_coord(y1, y2, sample)
+
+func _bezier_coord(p1: float, p2: float, t: float) -> float:
+	return 3.0 * p1 * t * (1.0 - t) * (1.0 - t) \
+		 + 3.0 * p2 * t * t * (1.0 - t) \
+		 + t * t * t
+
+func _bezier_coord_derivative(p1: float, p2: float, t: float) -> float:
+	return 3.0 * p1 * (1.0 - t) * (1.0 - 2.0 * t) \
+		 + 3.0 * p2 * t * (2.0 - 3.0 * t) \
+		 + 3.0 * t * t

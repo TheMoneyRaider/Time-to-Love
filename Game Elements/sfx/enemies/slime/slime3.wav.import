@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dwyp2bg76hjhr"
+path="res://.godot/imported/slime3.wav-d26ce771a6415e40b73c73a3a9cb5b60.sample"
+
+[deps]
+
+source_file="res://Game Elements/sfx/enemies/slime/slime3.wav"
+dest_files=["res://.godot/imported/slime3.wav-d26ce771a6415e40b73c73a3a9cb5b60.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
