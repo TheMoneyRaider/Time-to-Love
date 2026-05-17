@@ -262,6 +262,8 @@ func _process(delta):
 	life+=delta
 	if attack_type == "smash":
 		get_node("CollisionShape2D").shape.radius = lerp(8,16,life/lifespan)
+		if life < .15:
+			get_node("CollisionShape2D").disabled = true
 	if attack_type == "scifi_wave":
 		_wave_process()
 	if attack_type == "scifi_laser":
