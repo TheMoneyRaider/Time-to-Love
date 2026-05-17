@@ -571,6 +571,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
 
 [node name="AttackLabel2" type="RichTextLabel" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0.627451)
 offset_left = 1021.0
 offset_top = 682.0
@@ -589,6 +590,7 @@ scroll_active = false
 horizontal_alignment = 2
 
 [node name="AttackLabel" type="RichTextLabel" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0.627451)
 offset_left = 1213.0
 offset_top = 520.0
@@ -606,6 +608,7 @@ scroll_active = false
 horizontal_alignment = 2
 
 [node name="SwapLabel" type="RichTextLabel" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0.627451)
 offset_left = 256.0
 offset_top = 705.0
@@ -622,6 +625,7 @@ text = "Short [font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_space[
 scroll_active = false
 
 [node name="TetherLabel" type="RichTextLabel" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0.627451)
 offset_left = 256.0
 offset_top = 493.0

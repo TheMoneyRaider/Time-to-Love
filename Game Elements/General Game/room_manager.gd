@@ -94,9 +94,10 @@ func get_room(room : Room):
 
 	var base = T + (T - float(layer_ai[8]) / max(layer_ai[0],1))
 	var prob = base + P * layer_ai[13]
-	var shop_override = clamp(prob, 0.0, 1.0)
+	var shop_override = clamp(prob, 0.0, .75)
 	if shop_override > randf() and layer_ai[0] > 3 and room.roomtype != Globals.RoomType.Shop and current_progress < 3.0 and room.roomtype != Globals.RoomType.Boss:
 		var shop_index = clamp(int(randf()*shop_rooms[index].size()),0,shop_rooms[index].size()-1)
+		layer_ai[8] += 1
 		return shop_rooms[index][shop_index]
 	#Removed a  +.01, don't know why that was needed.
 	if get_boss_chance() > randf() and room.roomtype != Globals.RoomType.Boss:
@@ -171,9 +172,11 @@ func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerM
 	#current_progress = max(3.0,current_progress)#TEST
 
 func get_boss_chance() -> float:
-	if layer_ai[0] - (int(current_progress) * 8) >= 8:
+	if layer_ai[14] + int(current_progress) >= 8:
 		return 1.0
-	return 1.0 / (1 + exp(-.8 * ((layer_ai[0] - 5) - (int(current_progress) * 8)))) if layer_ai[0] - (int(current_progress) * 8) >= 5 else 0.0
+	return 1.0 / (1 + exp(-.8 * ((current_progress + layer_ai[14] - 5)))) if layer_ai[14] >= 5 else 0.0
+	#return pow((layer_ai[0]-10),2)/200 if current_progress-int(current_progress) > .85 else 0.0
+	#WE NEED THIS TO BE QUICKER
 	
 var cur_prog = 0.0
 var new_prog = 0.0

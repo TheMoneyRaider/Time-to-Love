@@ -286,7 +286,7 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 			if(randf() > .5):
 				deflect(-1 * direction, 100, null)
 				self.c_owner = body
-				hit_nodes = {}
+				hit_nodes.clear()
 				return 0
 	if body.has_method("take_damage"):
 		if attack_type=="scifi_wave":
