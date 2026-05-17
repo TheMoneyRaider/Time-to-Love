@@ -42,6 +42,8 @@ func _phase_changed(boss_node : Node) -> void:
 	var bt_player = boss_node.get_node("BTPlayer")
 	var board = bt_player.blackboard
 	
+	print("big t on phase ", phase)
+	
 	board.set_var("phase", phase)
 	board.set_var("phase_changed", true)
 	
@@ -79,7 +81,8 @@ func finish_intro():
 	LayerManager.camera_override = false
 	if boss and is_instance_valid(boss):
 		if boss.phase == 0:
-			boss.phase = 1
+			boss.phase += 1
+			_phase_changed(boss)
 		boss.get_node("BTPlayer").blackboard.set_var("attack_mode", "NONE")
 	return
 
