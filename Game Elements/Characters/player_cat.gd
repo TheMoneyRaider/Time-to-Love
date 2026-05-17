@@ -868,6 +868,9 @@ func check_liquids(delta):
 					var idx = 0
 					for effect in effects:
 						if effect.type == "slow":
+							var particle =  preload("res://Game Elements/Particles/steam_particles.tscn").instantiate()
+							#particle.position = self.position
+							self.add_child(particle)
 							effect.tick(delta,self)
 							if effect.cooldown == 0:
 								effects.remove_at(idx)
