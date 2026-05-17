@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=7 format=3 uid="uid://du1x7y2bbgdgj"]
+
+[ext_resource type="Texture2D" uid="uid://bosgbhenk4iks" path="res://art/remnants/trickster.png" id="1_icu2k"]
+[ext_resource type="Texture2D" uid="uid://ynuevys0w582" path="res://art/remnants/trickster_icon.png" id="2_dhqq8"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_swxn5"]
+[ext_resource type="Resource" uid="uid://bfddtp1n5jpgh" path="res://Game Elements/Remnants/protector.tres" id="4_8nohb"]
+[ext_resource type="Resource" uid="uid://bgfehmpxkwoh7" path="res://Game Elements/Remnants/tortoise.tres" id="5_n1sen"]
+[ext_resource type="Resource" uid="uid://cwdmt8ofej2gp" path="res://Game Elements/Remnants/bulwark.tres" id="6_4c4wh"]
+
+[resource]
+script = ExtResource("3_swxn5")
+remnant_name = "Remnant of The Monk"
+description = "Deflected attacks deal $X% more damage"
+icon = ExtResource("2_dhqq8")
+art = ExtResource("1_icu2k")
+required_remnants = Array[ExtResource("3_swxn5")]([ExtResource("4_8nohb"), ExtResource("5_n1sen"), ExtResource("6_4c4wh")])
+num_rem_required = 2
+variable_names = Array[String](["$X"])
+variable_1_values = [15.0, 30.0, 45.0, 60.0, 75.0]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

@@ -368,8 +368,10 @@ func intersection(body):
 				else:
 					pierce -= 1
 					if wall_collision:
+						print("Attack Wall Collide")
 						queue_free()
 	if pierce == -1:
+		print("Pierce Attack Death")
 		queue_free()
 
 
@@ -402,6 +404,20 @@ func deflect(hit_direction, hit_speed, deflection_area):
 	damage = round(damage * ((hit_speed + speed) / speed))
 	speed = speed + hit_speed
 	
+	if deflection_area.c_owner and deflection_area.c_owner.is_in_group("player"):
+		var remnants : Array[Remnant]
+		if deflection_area.c_owner.is_purple:
+			remnants = LayerManager.player_1_remnants
+		else:
+			remnants = LayerManager.player_2_remnants
+		var monk = preload("res://Game Elements/Remnants/monk.tres")
+		for rem in remnants:
+			if rem.remnant_name == monk.remnant_name and rem.active:
+				damage *= (100.0+(rem.variable_1_values[rem.rank-1]))/100.0
+				print("monk")
+	
+	
+	
 		
 var deflected_nodes = {}
 func _on_area_entered(area: Area2D) -> void:
@@ -427,7 +443,7 @@ func _on_area_entered(area: Area2D) -> void:
 		area.is_purple = is_purple
 		area.hit_nodes = {}
 		for area_intr in area.get_overlapping_areas():
-			area._on_body_entered(area_intr)
+			area.call_deferred("_on_body_entered", area_intr)
 		if c_owner and c_owner.is_in_group("player"):
 			var remnants : Array[Remnant]
 			if c_owner.is_purple:
@@ -437,13 +453,11 @@ func _on_area_entered(area: Area2D) -> void:
 			var protec = preload("res://Game Elements/Remnants/protector.tres")
 			for rem in remnants:
 				if rem.remnant_name == protec.remnant_name and rem.active:
-					print(self)
-					print()
-					#var effect = preload("res://Game Elements/Effects/damage.tres").duplicate(true)
-					#effect.value1 = rem.variable_1_values[rem.rank-1]
-					#effect.cooldown = rem.variable_2_values[rem.rank-1]
-					#effect.gained(c_owner)
-					#c_owner.effects.append(effect)
+					var effect = preload("res://Game Elements/Effects/damage.tres").duplicate(true)
+					effect.value1 = rem.variable_1_values[rem.rank-1]
+					effect.cooldown = rem.variable_2_values[rem.rank-1]
+					effect.gained(c_owner)
+					c_owner.effects.append(effect)
 
 	if area.is_in_group("enemy") or area.is_in_group("player"):
 		intersection(area)

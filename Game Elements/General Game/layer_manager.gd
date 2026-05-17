@@ -1927,6 +1927,11 @@ func dev_remnants():
 	player_1_remnants.append(rem.duplicate(true))
 	player_2_remnants.append(rem.duplicate(true))
 	
+	rem = load("res://Game Elements/Remnants/monk.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	
 	#rem = load("res://Game Elements/Remnants/winters_embrace.tres")
 	#rem.rank = 3
 	#player_1_remnants.append(rem.duplicate(true))

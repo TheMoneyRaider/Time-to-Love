@@ -94,7 +94,6 @@ func gained(node_to_change: Node):
 				saved_nodes.append(particle)
 		"damage":
 			node_to_change.damage_multiplier *= (100.0 +value1) / 100.0
-			print("Increased to: "+str(node_to_change.damage_multiplier))
 
 func lost(node_to_change: Node):
 	match type:
@@ -132,7 +131,6 @@ func lost(node_to_change: Node):
 			node_to_change.move_speed = node_to_change.move_speed * 1 / (1 - value1)
 		"damage":
 			node_to_change.damage_multiplier /= (100.0 +value1) / 100.0
-			print("Increased to: "+str(node_to_change.damage_multiplier))
 	
 	for part_idx in range(9):
 		if(node_to_change.effect_stacks[part_idx] <= 0 and is_instance_valid(node_to_change.effect_particles[part_idx])):

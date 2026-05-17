@@ -35,6 +35,8 @@ var move_speed: float
 @onready var purple_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/purple_spritesheet.png")
 @onready var orange_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/orange_spritesheet.png")
 var damage_multiplier = 1.0
+var effect_stacks : Array[int] = []
+var effect_particles : Array
 var other_player
 var disabled = false
 var current_room : Globals.RoomType
@@ -92,6 +94,10 @@ var LayerManager: Node
 var debug_mode : bool = false
 
 func _ready():
+	effect_stacks.resize(9)
+	effect_stacks.fill(0)
+	effect_particles.resize(9)
+	effect_particles.fill(null)
 	if Input.get_connected_joypads().size() == 0:
 		Globals.player1_input = "key"
 		Globals.player2_input = "0"
