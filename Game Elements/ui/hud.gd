@@ -42,7 +42,6 @@ func _ready():
 	LeftCooldownBar.get_node("CooldownBar").material =LeftCooldownBar.get_node("CooldownBar").material.duplicate(true)
 	RightCooldownBar.get_node("CooldownBar").material =RightCooldownBar.get_node("CooldownBar").material.duplicate(true)
 	load_settings()
-	display_debug_setting_header()
 	
 	music_player_a = AudioStreamPlayer.new()
 	music_player_a.bus = "Music"
@@ -407,14 +406,18 @@ func load_settings():
 		
 func display_debug_setting_header():
 	$RootControl/DebugMenu/GridContainer.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
-	if debug_mode == true: 
+	if menu_indicator: 
 		$RootControl/DebugMenu/GridContainer.visible = true
 		$RootControl/DebugMenu/GridContainer/MenuIndicator.text = "debug menu: H"
+	else:
+		$RootControl/DebugMenu/GridContainer.visible = false
+		$RootControl/DebugMenu/GridContainer/MenuIndicator.text = ""
 		
 func _input(event):
 	if debug_mode:
 		if event.is_action_pressed("display_debug_settings"):
 			menu_indicator = !menu_indicator
+			display_debug_setting_header()
 		
 		if event.is_action_pressed("display_paths"):
 			display_paths = !display_paths

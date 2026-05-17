@@ -34,6 +34,9 @@ var move_speed: float
 @onready var orange_crosshair = preload("res://art/orange_crosshair_with_shadow.png")
 @onready var purple_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/purple_spritesheet.png")
 @onready var orange_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/orange_spritesheet.png")
+var damage_multiplier = 1.0
+var effect_stacks : Array[int] = []
+var effect_particles : Array
 var other_player
 var disabled = false
 var current_room : Globals.RoomType
@@ -54,8 +57,6 @@ var invulnerable : bool = false
 var debug_menu : bool = false
 
 var effects : Array[Effect] = []
-var effect_stacks : Array[int] = []
-var effect_particles : Array
 var last_liquid : Globals.Liquid = Globals.Liquid.Buffer
 
 var forcefield_active : bool = false
@@ -622,15 +623,15 @@ func _check_hare():
 		if rem.remnant_name == hare.remnant_name and rem.active:
 			orange_hare_rank = rem.rank
 	if(is_purple):
-		#if(purple_hare_rank > orange_hare_rank):
-		#move_speed *= ((1 + .05 * orange_hare_rank) / (1 + .05 * purple_hare_rank)) 
-		#else:
-		move_speed *= ((1 + .05 * purple_hare_rank) / (1 + .05 * orange_hare_rank))
+		if(purple_hare_rank > orange_hare_rank):
+			move_speed *= ((1 + .05 * purple_hare_rank) / (1 + .05 * orange_hare_rank)) 
+		else:
+			move_speed *= ((1 + .05 * orange_hare_rank) / (1 + .05 * purple_hare_rank))
 	else:
-		#if(purple_hare_rank < orange_hare_rank):
-		move_speed *= ((1 + .05 * orange_hare_rank) / (1 + .05 * purple_hare_rank)) 
-		#else:
-		#	move_speed *= ((1 + .05 * purple_hare_rank) / (1 + .05 * orange_hare_rank)) 
+		if(purple_hare_rank < orange_hare_rank):
+			move_speed *= ((1 + .05 * purple_hare_rank) / (1 + .05 * orange_hare_rank)) 
+		else:
+			move_speed *= ((1 + .05 * orange_hare_rank) / (1 + .05 * purple_hare_rank)) 
 
 func _check_giant():
 	var remnants_purple : Array[Remnant]

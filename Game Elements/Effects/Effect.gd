@@ -92,6 +92,8 @@ func gained(node_to_change: Node):
 				particle.lifetime = cooldown
 				node_to_change.add_child(particle)
 				saved_nodes.append(particle)
+		"damage":
+			node_to_change.damage_multiplier *= (100.0 +value1) / 100.0
 
 func lost(node_to_change: Node):
 	match type:
@@ -127,6 +129,8 @@ func lost(node_to_change: Node):
 		"rail_charge":
 			node_to_change.effect_stacks[3] -= 1
 			node_to_change.move_speed = node_to_change.move_speed * 1 / (1 - value1)
+		"damage":
+			node_to_change.damage_multiplier /= (100.0 +value1) / 100.0
 	
 	for part_idx in range(9):
 		if(node_to_change.effect_stacks[part_idx] <= 0 and is_instance_valid(node_to_change.effect_particles[part_idx])):

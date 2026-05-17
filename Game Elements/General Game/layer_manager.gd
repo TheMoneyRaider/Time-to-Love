@@ -170,9 +170,6 @@ var current_crosshair_offset : Vector2 = Vector2.ZERO
 func _process(delta: float) -> void:
 	if PathwayViewport.get_children().size() > 0: 
 		PathwayTransition.material.set_shader_parameter("mask_texture", PathwayTransition.get_texture())
-	var draw_calls = Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)
-	if draw_calls >= 400:
-		print("Draw call limit hit: ", draw_calls)
 	time_passed += delta
 	time_in_room += delta
 	
@@ -1919,10 +1916,47 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 
 
 func dev_remnants():
-	var rem = load("res://Game Elements/Remnants/hare.tres")
-	rem.rank = 3
+	var rem
+	rem = load("res://Game Elements/Remnants/tortoise.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
 	player_2_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,false)
+	
+	rem = load("res://Game Elements/Remnants/protector.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	
+	rem = load("res://Game Elements/Remnants/monk.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	
+	
+	rem = load("res://Game Elements/Remnants/lawman.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	
+	#rem = load("res://Game Elements/Remnants/winters_embrace.tres")
+	#rem.rank = 3
+	#player_1_remnants.append(rem.duplicate(true))
+	#rem = load("res://Game Elements/Remnants/barbarian.tres")
+	#rem.rank = 3
+	#player_1_remnants.append(rem.duplicate(true))
+	#rem = load("res://Game Elements/Remnants/cleric.tres")
+	#rem.rank = 2
+	#player_1_remnants.append(rem.duplicate(true))
+	#rem = load("res://Game Elements/Remnants/pyromancer.tres")
+	#rem.rank = 2
+	#player_2_remnants.append(rem.duplicate(true))
+	#rem = load("res://Game Elements/Remnants/aeromancer.tres")
+	#rem.rank = 3
+	#player_2_remnants.append(rem.duplicate(true))
+	#rem = load("res://Game Elements/Remnants/hoard.tres")
+	#rem.rank = 2
+	#player_2_remnants.append(rem.duplicate(true))
+	#remnant_update(rem,player1,true)
 	#rem = load("res://Game Elements/Remnants/mancermancer.tres")
 	#rem.rank = 5
 	#player_1_remnants.append(rem.duplicate(true))

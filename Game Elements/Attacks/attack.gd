@@ -83,6 +83,21 @@ func ready_hacks():
 			break
 			
 
+
+
+func check_defender():
+	if !c_owner or !c_owner.is_in_group("player"):
+		return
+	var remnants : Array[Remnant]
+	if c_owner.is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var protec = preload("res://Game Elements/Remnants/protector.tres")
+	for rem in remnants:
+		if rem.remnant_name == protec.remnant_name and rem.active:
+			damage *= c_owner.damage_multiplier
+
 func _ready():
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	ready_hacks()
@@ -126,6 +141,8 @@ func _ready():
 		_laser_attack_setup()
 	if attack_type=="light_beam":
 		rotation = direction.angle()
+	call_deferred("check_defender")
+	
 	
 
 func drag():
@@ -302,7 +319,9 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 	
 	if wall_damage:
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(0, n_owner,a_direction, self,null)
-	return -1
+	if body is TileMapLayer or body is StaticBody2D:
+		return -1
+	return 0
 	
 
 func intersection(body):
@@ -351,8 +370,10 @@ func intersection(body):
 				else:
 					pierce -= 1
 					if wall_collision:
+						#print("Attack Wall Collide")
 						queue_free()
 	if pierce == -1:
+		#print("Pierce Attack Death")
 		queue_free()
 
 
@@ -385,6 +406,22 @@ func deflect(hit_direction, hit_speed, deflection_area):
 	damage = round(damage * ((hit_speed + speed) / speed))
 	speed = speed + hit_speed
 	
+	if deflection_area and deflection_area.c_owner and deflection_area.c_owner.is_in_group("player"):
+		var remnants : Array[Remnant]
+		if deflection_area.c_owner.is_purple:
+			remnants = LayerManager.player_1_remnants
+		else:
+			remnants = LayerManager.player_2_remnants
+		var monk = preload("res://Game Elements/Remnants/monk.tres")
+		for rem in remnants:
+			if rem.remnant_name == monk.remnant_name and rem.active:
+				damage *= (100.0+(rem.variable_1_values[rem.rank-1]))/100.0
+				var inst = preload("res://Game Elements/Particles/monk_particles.tscn").instantiate()
+				get_parent().add_child.call_deferred(inst)
+				inst.global_position = global_position
+
+	
+	
 		
 var deflected_nodes = {}
 func _on_area_entered(area: Area2D) -> void:
@@ -410,10 +447,25 @@ func _on_area_entered(area: Area2D) -> void:
 		area.is_purple = is_purple
 		area.hit_nodes = {}
 		for area_intr in area.get_overlapping_areas():
-			area._on_body_entered(area_intr)
+			_on_body_entered(area_intr)
+		if c_owner and c_owner.is_in_group("player"):
+			var remnants : Array[Remnant]
+			if c_owner.is_purple:
+				remnants = LayerManager.player_1_remnants
+			else:
+				remnants = LayerManager.player_2_remnants
+			var protec = preload("res://Game Elements/Remnants/protector.tres")
+			for rem in remnants:
+				if rem.remnant_name == protec.remnant_name and rem.active:
+					var effect = preload("res://Game Elements/Effects/damage.tres").duplicate(true)
+					effect.value1 = rem.variable_1_values[rem.rank-1]
+					effect.cooldown = rem.variable_2_values[rem.rank-1]
+					effect.gained(c_owner)
+					c_owner.effects.append(effect)
+
 	if area.is_in_group("enemy") or area.is_in_group("player"):
 		intersection(area)
-
+	
 
 func _on_body_exited(body: Node2D) -> void:
 	if(attack_type == "giant_bolt"):
