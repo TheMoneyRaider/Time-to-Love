@@ -548,16 +548,16 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 				mace_special_attack(special_direction, special_position)
 				current_special_hits = 0
 				if node_attacking.weapons[0] == self:
-					node_attacking.emit_signal("special_changed",false,0.0)
+					node_attacking.emit_signal("special_changed",false,0.0,true)
 				else:
-					node_attacking.emit_signal("special_changed",true,0.0)
+					node_attacking.emit_signal("special_changed",true,0.0,true)
 			"Shotgun":
 				shotgun_special_attack(special_direction)
 				current_special_hits = 0
 				if node_attacking.weapons[0] == self:
-					node_attacking.emit_signal("special_changed",false,0.0)
+					node_attacking.emit_signal("special_changed",false,0.0,true)
 				else:
-					node_attacking.emit_signal("special_changed",true,0.0)
+					node_attacking.emit_signal("special_changed",true,0.0,true)
 			"Laser_Sword":
 				sword_special_attack(special_direction,node_attacking)
 			"Crossbow":
@@ -578,9 +578,9 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 				attack_scene = temp_attack_scene
 				pierce = pierce - 2
 				if node_attacking.weapons[0] == self:
-					node_attacking.emit_signal("special_changed",false,0.0)
+					node_attacking.emit_signal("special_changed",false,0.0,true)
 				else:
-					node_attacking.emit_signal("special_changed",true,0.0)
+					node_attacking.emit_signal("special_changed",true,0.0,true)
 			"Railgun":
 				node_attacking.create_tween().tween_property(node_attacking.weapon_node.get_node("Sprite2D"),"modulate",Color(1.0, 1.0, 1.0, 1.0),1.0)
 				if(special_time_elapsed > 1.0):
@@ -588,9 +588,9 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 			"Crowbar":
 				current_special_hits = 0
 				if node_attacking.weapons[0] == self:
-					node_attacking.emit_signal("special_changed",false,0.0)
+					node_attacking.emit_signal("special_changed",false,0.0,true)
 				else:
-					node_attacking.emit_signal("special_changed",true,0.0)
+					node_attacking.emit_signal("special_changed",true,0.0,true)
 			_:
 				pass
 		special_cleanup()

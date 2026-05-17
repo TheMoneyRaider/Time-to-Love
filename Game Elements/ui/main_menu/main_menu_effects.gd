@@ -148,6 +148,7 @@ var nav_cooldown_time: float = 0.2  # seconds between navigation steps
 
 func _process(delta):
 	nav_cooldown -= delta
+	hover_cooldown-=delta
 	if paused:
 		if !intro_started or $Intro/AnimationPlayer.is_playing():
 			return
@@ -479,7 +480,6 @@ func _on_focus_entered() -> void:
 	print("focus entered")
 	if hover_cooldown <= 0.0:
 		print("playing audio")
-		#$UIHover.play()
 		sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI")
 		hover_cooldown = 0.025
 

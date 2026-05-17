@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dfus7yvwe8o0w"]
+[gd_scene load_steps=18 format=3 uid="uid://dfus7yvwe8o0w"]
 
 [ext_resource type="Script" uid="uid://c4n53rkbitwny" path="res://Game Elements/ui/main_menu/main_menu_effects.gd" id="1_6am0n"]
 [ext_resource type="Script" uid="uid://b2yehc48vhfk4" path="res://Game Elements/ui/main_menu/main_menu.gd" id="1_28flt"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://eifbgnatdh4i" path="res://art/particles/gradiant_dot3.png" id="10_a412y"]
 [ext_resource type="StyleBox" uid="uid://4eubuwqyfxh3" path="res://Game Elements/ui/resources/4-2_button.tres" id="10_c3jtu"]
 [ext_resource type="PackedScene" uid="uid://djqkn1bomolv2" path="res://Game Elements/ui/main_menu/cinematic/intro.tscn" id="14_xx3pa"]
+[ext_resource type="PackedScene" uid="uid://dgmvhpjut83yh" path="res://Game Elements/ui/main_menu/cinematic/skip.tscn" id="15_ekaqo"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qvtd8"]
 shader = ExtResource("9_6wjqi")
@@ -268,8 +269,6 @@ offset_left = -128.0
 offset_top = -128.0
 grow_horizontal = 0
 grow_vertical = 0
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
 [connection signal="focus_entered" from="SubViewportContainer/SubViewport/UI_Group/VBoxContainer" to="." method="_on_focus_entered"]
 [connection signal="pressed" from="SubViewportContainer/SubViewport/UI_Group/VBoxContainer/StartMPlayer" to="SubViewportContainer/SubViewport/UI_Group" method="_on_start_m_button_pressed"]

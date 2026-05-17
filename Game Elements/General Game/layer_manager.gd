@@ -96,7 +96,7 @@ func _ready() -> void:
 	hud.connect_signals(player1)
 	hud.set_cross_position()
 	
-	#dev_remnants()
+	dev_remnants()
 	
 	
 	
@@ -179,7 +179,7 @@ func _process(delta: float) -> void:
 		else:
 			var average_crosshair_position = Globals.config.get_value("settings","crosshair", true)
 			if average_crosshair_position:
-				if !player1.disabled:
+				if !player1.disabled and !get_tree().paused:
 					var crosshair_component = player1.crosshair.global_position - player1.global_position
 					current_crosshair_offset = current_crosshair_offset.lerp(crosshair_component, 1.0*delta)
 					camera.position = (current_crosshair_offset + player1.global_position * 3.0) / 3.0 + camera.get_cam_offset(delta)
@@ -1916,25 +1916,34 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 
 
 func dev_remnants():
-	var rem = load("res://Game Elements/Remnants/winters_embrace.tres")
+	var rem
+	rem = load("res://Game Elements/Remnants/tortoise.tres")
 	rem.rank = 3
 	player_1_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/barbarian.tres")
-	rem.rank = 3
-	player_1_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/cleric.tres")
-	rem.rank = 2
-	player_1_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/pyromancer.tres")
-	rem.rank = 2
+	
+	rem = load("res://Game Elements/Remnants/tortoise.tres")
+	rem.rank = 5
 	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/aeromancer.tres")
-	rem.rank = 3
-	player_2_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/hoard.tres")
-	rem.rank = 2
-	player_2_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,true)
+	
+	#rem = load("res://Game Elements/Remnants/winters_embrace.tres")
+	#rem.rank = 3
+	#player_1_remnants.append(rem.duplicate(true))
+	#rem = load("res://Game Elements/Remnants/barbarian.tres")
+	#rem.rank = 3
+	#player_1_remnants.append(rem.duplicate(true))
+	#rem = load("res://Game Elements/Remnants/cleric.tres")
+	#rem.rank = 2
+	#player_1_remnants.append(rem.duplicate(true))
+	#rem = load("res://Game Elements/Remnants/pyromancer.tres")
+	#rem.rank = 2
+	#player_2_remnants.append(rem.duplicate(true))
+	#rem = load("res://Game Elements/Remnants/aeromancer.tres")
+	#rem.rank = 3
+	#player_2_remnants.append(rem.duplicate(true))
+	#rem = load("res://Game Elements/Remnants/hoard.tres")
+	#rem.rank = 2
+	#player_2_remnants.append(rem.duplicate(true))
+	#remnant_update(rem,player1,true)
 	#rem = load("res://Game Elements/Remnants/mancermancer.tres")
 	#rem.rank = 5
 	#player_1_remnants.append(rem.duplicate(true))

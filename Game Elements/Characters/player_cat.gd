@@ -118,6 +118,8 @@ func _ready():
 		tether_width_curve = tether_line.width_curve
 		tether_line.gradient = null			
 	hide_forcefield(0.0)
+	
+	special_changed.connect(check_tortoise)
 
 
 func hide_forcefield(interp_time : float):
@@ -362,7 +364,7 @@ func _physics_process(delta):
 	if disabled_countdown >= 1:
 		disabled_countdown-=1
 		
-	if velocity.length() > 5.0 and !disabled:
+	if velocity.length() > 5.0 and !disabled and !is_tethered:
 		footstep_timer -= delta
 		if footstep_timer <= 0.0:
 			var speed_ratio = clamp(velocity.length() / base_move_speed, 1.0, 2.5)
@@ -474,7 +476,7 @@ func post_damage_trigger(damage_amount: float, _dmg_owner : Node):
 		if rem.active:
 			match rem.remnant_name:
 				cleric.remnant_name:
-					if rem.variable_1_values[rem.rank-1] > randf()*100:
+					if rem.variable_1_values[rem.rank-1] > randf()*100 and current_health >= 0.0:
 						var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 						particle.position = self.position
 						get_parent().add_child(particle)
@@ -1130,6 +1132,25 @@ func check_forcefield(delta : float):
 			$Forcefield.damage = force.variable_1_values[rem.rank-1]
 			effect.gained(self)
 			effects.append(effect)
+	
+func check_tortoise(is_purple : bool, new_progress : float, used_special : bool = false):
+	if !used_special:
+		return
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var tort = preload("res://Game Elements/Remnants/tortoise.tres")
+	for rem in remnants:
+		if rem.remnant_name == tort.remnant_name and rem.active:
+			var shield = preload("res://Game Elements/Remnants/tortoise/shield.tscn").instantiate()
+			shield.p_owner = self
+			get_parent().add_child(shield)
+			shield.rotation = (crosshair.position).normalized().angle()
+			shield.lifetime = tort.variable_2_values[rem.rank-1]
+			shield.scale = Vector2(tort.variable_3_values[rem.rank-1],tort.variable_3_values[rem.rank-1])
+			shield.global_position = global_position
 	
 
 

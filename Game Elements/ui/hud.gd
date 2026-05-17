@@ -541,7 +541,7 @@ func _on_special_reset(is_purple : bool):
 		return
 	update_shader(RightCooldownBar.get_node("CooldownBar").material,0.0, true)
 
-func _on_special_changed(is_purple : bool, new_progress):
+func _on_special_changed(is_purple : bool, new_progress : float, used_special : bool = false):
 	if is_purple:
 		update_shader(LeftCooldownBar.get_node("CooldownBar").material,new_progress)
 		if new_progress==1.0:
