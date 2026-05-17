@@ -1624,7 +1624,7 @@ func _open_random_pathways(generated_room : Node2D, generated_room_data : Room, 
 		direction_count[p_direct]+=1
 		pathway_name = _get_pathway_name(p_direct,direction_count[p_direct])
 		if if_node_exists(pathway_name,generated_room):
-			if randf() > .5:
+			if randf() < .65:
 				_open_pathway(pathway_name, generated_room)
 			else:
 				_open_pathway(pathway_name+"_Detect", generated_room)
@@ -2085,12 +2085,12 @@ func move_to_limbo_phase_2():
 func boss_rewards():
 	var rooms_taken = RoomManager.layer_ai[15]
 	room_reward(Globals.Reward.Remnant)
-	if rooms_taken <= 8:
-		room_reward(Globals.Reward.Health)
 	if rooms_taken <= 7:
-		room_reward(Globals.Reward.RemnantUpgrade)
+		room_reward(Globals.Reward.Health)
 	if rooms_taken <= 6:
-		room_reward(Globals.Reward.HealthUpgrade)
+		room_reward(Globals.Reward.RemnantUpgrade)
 	if rooms_taken <= 5:
+		room_reward(Globals.Reward.HealthUpgrade)
+	if rooms_taken <= 4:
 		room_reward(Globals.Reward.TimeFabric)
 	

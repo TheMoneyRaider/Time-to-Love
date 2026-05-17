@@ -174,8 +174,6 @@ func get_boss_chance() -> float:
 	if layer_ai[0] - (int(current_progress) * 8) >= 8:
 		return 1.0
 	return 1.0 / (1 + exp(-.8 * ((layer_ai[0] - 5) - (int(current_progress) * 8)))) if layer_ai[0] - (int(current_progress) * 8) >= 5 else 0.0
-	#return pow((layer_ai[0]-10),2)/200 if current_progress-int(current_progress) > .85 else 0.0
-	#WE NEED THIS TO BE QUICKER
 	
 var cur_prog = 0.0
 var new_prog = 0.0

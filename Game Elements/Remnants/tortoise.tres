@@ -10,6 +10,7 @@ remnant_name = "Remnant of The Tortoise"
 description = "Whenever you do a special attack, create a $X sized shield that blocks enemies and deflects projectiles towards it's front for $Y seconds."
 icon = ExtResource("2_q6nt4")
 art = ExtResource("1_vd3po")
+progress_required = 1.0
 tags = Array[String](["$X", "$Y"])
 variable_names = Array[String](["$X", "$Y", "$Z"])
 variable_1_values = ["Small", "Medium", "Large", "Giant", "Gargantuan"]

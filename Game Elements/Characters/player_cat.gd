@@ -405,13 +405,14 @@ func _check_bulwark(damage_amount : float, _dmg_owner : Node, send_damage: bool)
 	var remnants_orange : Array[Remnant]
 	remnants_purple = LayerManager.player_1_remnants
 	remnants_orange = LayerManager.player_2_remnants
+	var bulk = load("res://Game Elements/Remnants/bulwark.tres")
 	var purple_bulwark_rank = 0
 	var orange_bulwark_rank = 0
 	for rem in remnants_purple:
-		if rem.remnant_name == "Remnant of the Bulwark" and rem.active:
+		if rem.remnant_name == bulk.remnant_name and rem.active:
 			purple_bulwark_rank = rem.rank
 	for rem in remnants_orange:
-		if rem.remnant_name == "Remnant of the Bulwark" and rem.active:
+		if rem.remnant_name == bulk.remnant_name and rem.active:
 			orange_bulwark_rank = rem.rank
 	if(is_purple):
 		if(purple_bulwark_rank != 0):
