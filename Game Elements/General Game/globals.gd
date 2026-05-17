@@ -33,6 +33,7 @@ var num_letters : int = 0
 var num_letters_collected : int = 0
 
 func _ready():
+	Engine.max_fps = 60
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	load_config()
 	apply_audio_settings()

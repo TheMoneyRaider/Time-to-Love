@@ -329,7 +329,7 @@ var sdf_data: SDFData
 
 func compute_hole_sdf():
 	# 1. Try to load cached SDF resource
-	if FileAccess.file_exists(sdf_resource_path+str(emerge_height)+hole_source+".tres"):
+	if ResourceLoader.exists(sdf_resource_path+str(emerge_height)+hole_source+".tres"):
 		var loaded = ResourceLoader.load(sdf_resource_path+str(emerge_height)+hole_source+".tres")
 		if loaded is SDFData:
 			sdf_data = loaded
