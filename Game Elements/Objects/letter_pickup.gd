@@ -76,6 +76,6 @@ func _on_body_exited(body):
 
 func _set_display(body : Node):
 	if body.input_device == "key":
-			prompt1.get_child(0).bbcode_text = "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_e_outline[/font]: Pickup"
+			prompt1.get_child(0).bbcode_text = "Pickup Letter: [font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_e_outline[/font]"
 	else:
-		prompt1.get_child(0).bbcode_text = "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_cross_outline[/font]: Pickup"
+		prompt1.get_child(0).bbcode_text = "Pickup Letter: [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_cross_outline[/font]"

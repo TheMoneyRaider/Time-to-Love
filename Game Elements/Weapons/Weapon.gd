@@ -148,7 +148,7 @@ func request_attacks(direction : Vector2, char_position : Vector2, node_attackin
 		for rem in remnants:
 			if rem.remnant_name == gambler.remnant_name:
 				if(type == "Mace" or type == "Laser_Sword" or type=="Crowbar"):
-					attack_spread = rem.variable_1_values[rem.rank-1] * 2
+					attack_spread = rem.variable_1_values[rem.rank-1] * 3
 				else:
 					attack_spread = rem.variable_1_values[rem.rank-1]
 				random_spread = true
