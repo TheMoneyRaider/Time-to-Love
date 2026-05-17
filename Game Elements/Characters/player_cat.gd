@@ -1145,15 +1145,19 @@ func check_tortoise(is_purple : bool, new_progress : float, used_special : bool 
 	for rem in remnants:
 		if rem.remnant_name == tort.remnant_name and rem.active:
 			var shield = preload("res://Game Elements/Remnants/tortoise/shield.tscn").instantiate()
-			shield.p_owner = self
-			shield.direction = (crosshair.position).normalized()
+			var shield2 = preload("res://Game Elements/Remnants/tortoise/shield_deflection.tscn").instantiate()
+			shield2.c_owner = self
+			shield2.direction = (crosshair.position).normalized()
 			LayerManager.room_instance.add_child(shield)
+			LayerManager.room_instance.add_child(shield2)
 			shield.rotation = (crosshair.position).normalized().angle() +PI/2
+			shield2.rotation = (crosshair.position).normalized().angle() +PI/2
 			shield.lifetime = tort.variable_2_values[rem.rank-1]
 			shield.scale = Vector2(tort.variable_3_values[rem.rank-1],tort.variable_3_values[rem.rank-1])
+			shield2.scale = Vector2(tort.variable_3_values[rem.rank-1],tort.variable_3_values[rem.rank-1])
 			shield.global_position = global_position
-			shield.lifetime = 100.0
-			print("SHELL")
+			shield2.global_position = global_position
+			shield.deflection  =shield2
 	
 
 

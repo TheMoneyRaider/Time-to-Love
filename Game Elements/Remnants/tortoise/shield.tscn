@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dghhm2cuhrpl0"]
+[gd_scene load_steps=5 format=3 uid="uid://dghhm2cuhrpl0"]
 
 [ext_resource type="Script" uid="uid://bsy5axu27yvg8" path="res://Game Elements/Remnants/tortoise/shield.gd" id="1_02hg1"]
 [ext_resource type="Texture2D" uid="uid://c6olv0wegdtbn" path="res://Game Elements/Remnants/tortoise/tortoise_shield.png" id="1_of5uk"]
 [ext_resource type="Texture2D" uid="uid://b3y64xmuqj0hy" path="res://Game Elements/Remnants/tortoise/tortoise_shield2.png" id="3_htw1q"]
-[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="5_js2b8"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_02hg1"]
 radius = 50.0
@@ -25,24 +24,3 @@ texture = ExtResource("1_of5uk")
 
 [node name="Cover" type="Sprite2D" parent="."]
 texture = ExtResource("3_htw1q")
-
-[node name="Deflection" type="Area2D" parent="."]
-collision_layer = 8
-collision_mask = 8
-script = ExtResource("5_js2b8")
-speed = 0.0
-damage = 0.0
-lifespan = 2000.0
-cooldown = 0.0
-pierce = -3.0
-wall_collision = false
-attack_type = "shield"
-deflects = true
-hits_all = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Deflection"]
-position = Vector2(-1, -4)
-shape = SubResource("CapsuleShape2D_02hg1")
-
-[connection signal="area_exited" from="Deflection" to="Deflection" method="_on_area_entered"]
-[connection signal="body_entered" from="Deflection" to="Deflection" method="_on_body_entered"]

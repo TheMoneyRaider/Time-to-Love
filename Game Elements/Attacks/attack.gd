@@ -235,7 +235,11 @@ func _process(delta):
 	if attack_type == "laser" or attack_type == "scifi_laser" or attack_type == "tentacle":
 		if has_method("get_overlapping_bodies") and monitoring:
 			for body in get_overlapping_bodies():
+				print(body)
 				intersection(body)
+	if deflects and monitoring:
+		for area in get_overlapping_areas():
+			_on_area_entered(area)
 	if attack_type != "slug":
 		position += direction * speed * delta
 	life+=delta
@@ -374,6 +378,7 @@ func deflect(hit_direction, hit_speed, deflection_area):
 			board.set_var("kill_direction", hit_direction)
 		return
 	direction = hit_direction
+	deflected_nodes = {}
 	rotation = direction.angle() + PI/2
 	if attack_type == "light_beam":
 		rotation = direction.angle()
@@ -381,9 +386,11 @@ func deflect(hit_direction, hit_speed, deflection_area):
 	speed = speed + hit_speed
 	
 		
-
+var deflected_nodes = {}
 func _on_area_entered(area: Area2D) -> void:
-	if area.is_in_group("attack") and area.deflectable == true and deflects and is_instance_valid(area.c_owner) and is_instance_valid(c_owner) and area.c_owner != c_owner:
+	if deflected_nodes.has(area):   # already deflected this one
+		return
+	if area.is_in_group("attack") and area.deflectable == true and deflects and is_instance_valid(area.c_owner) and is_instance_valid(c_owner) and (area.c_owner != c_owner or hits_all):
 		if area.attack_type =="laser":
 			if area.life > .5:
 				return
@@ -398,6 +405,7 @@ func _on_area_entered(area: Area2D) -> void:
 			area.deflect((area.global_position - global_position).normalized(), hit_force,self)
 		else:
 			area.deflect(direction, hit_force,self)
+		deflected_nodes[area] = null    # mark it
 		area.c_owner = c_owner
 		area.is_purple = is_purple
 		area.hit_nodes = {}
