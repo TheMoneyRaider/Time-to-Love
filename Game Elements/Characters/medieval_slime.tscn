@@ -116,6 +116,7 @@ min_sprint_time = 0.5
 max_sprint_time = 1.0
 max_sprint_cooldown = 4.0
 move_speed = 25.0
+grass_displacement_size = 2.0
 attacks = [ExtResource("2_1vtjt"), ExtResource("2_dvaya")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
