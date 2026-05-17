@@ -406,7 +406,7 @@ func deflect(hit_direction, hit_speed, deflection_area):
 	damage = round(damage * ((hit_speed + speed) / speed))
 	speed = speed + hit_speed
 	
-	if deflection_area.c_owner and deflection_area.c_owner.is_in_group("player"):
+	if deflection_area and deflection_area.c_owner and deflection_area.c_owner.is_in_group("player"):
 		var remnants : Array[Remnant]
 		if deflection_area.c_owner.is_purple:
 			remnants = LayerManager.player_1_remnants
@@ -417,10 +417,9 @@ func deflect(hit_direction, hit_speed, deflection_area):
 			if rem.remnant_name == monk.remnant_name and rem.active:
 				damage *= (100.0+(rem.variable_1_values[rem.rank-1]))/100.0
 				var inst = preload("res://Game Elements/Particles/monk_particles.tscn").instantiate()
-				get_parent().add_child(inst)
+				get_parent().add_child.call_deferred(inst)
 				inst.global_position = global_position
-				
-	
+
 	
 	
 		

@@ -9,7 +9,7 @@ radius = 50.0
 height = 142.0
 
 [node name="Shield" type="StaticBody2D"]
-z_index = 30
+z_index = 40
 collision_layer = 128
 collision_mask = 4
 script = ExtResource("1_02hg1")

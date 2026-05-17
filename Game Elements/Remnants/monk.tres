@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_swxn5"]
 [ext_resource type="Resource" uid="uid://bfddtp1n5jpgh" path="res://Game Elements/Remnants/protector.tres" id="4_8nohb"]
 [ext_resource type="Resource" uid="uid://bgfehmpxkwoh7" path="res://Game Elements/Remnants/tortoise.tres" id="5_n1sen"]
-[ext_resource type="Resource" uid="uid://cwdmt8ofej2gp" path="res://Game Elements/Remnants/bulwark.tres" id="6_4c4wh"]
+[ext_resource type="Resource" uid="uid://cbox4gkaqwbue" path="res://Game Elements/Remnants/lawman.tres" id="7_n1sen"]
 
 [resource]
 script = ExtResource("3_swxn5")
@@ -13,7 +13,7 @@ remnant_name = "Remnant of The Monk"
 description = "Deflected attacks deal $X% more damage"
 icon = ExtResource("2_n1sen")
 art = ExtResource("1_8nohb")
-required_remnants = Array[ExtResource("3_swxn5")]([ExtResource("4_8nohb"), ExtResource("5_n1sen"), ExtResource("6_4c4wh")])
+required_remnants = Array[ExtResource("3_swxn5")]([ExtResource("4_8nohb"), ExtResource("5_n1sen"), ExtResource("7_n1sen")])
 num_rem_required = 2
 variable_names = Array[String](["$X"])
 variable_1_values = [15.0, 30.0, 45.0, 60.0, 75.0]
