@@ -231,16 +231,16 @@ animation_name = &"attack"
 script = ExtResource("2_88sik")
 attack_index = 1
 
-[sub_resource type="BBNode" id="BBNode_qbo2h"]
+[sub_resource type="BBNode" id="BBNode_ypebl"]
 saved_value = NodePath("AnimationPlayer")
 resource_name = "AnimationPlayer"
 
-[sub_resource type="BTAwaitAnimation" id="BTAwaitAnimation_6dsdn"]
-animation_player = SubResource("BBNode_qbo2h")
-animation_name = &"attack"
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_byeik"]
+animation_player = SubResource("BBNode_ypebl")
+animation_name = &"move"
 
 [sub_resource type="BTSequence" id="BTSequence_2rmn4"]
-children = [SubResource("BTPlayAnimation_1j2ei"), SubResource("BTAction_khl4x"), SubResource("BTAwaitAnimation_6dsdn")]
+children = [SubResource("BTPlayAnimation_1j2ei"), SubResource("BTAction_khl4x"), SubResource("BTPlayAnimation_byeik")]
 
 [sub_resource type="BTSequence" id="BTSequence_0chas"]
 children = [SubResource("BTAction_l3xhj"), SubResource("BTPlayAnimation_vbg5b"), SubResource("BTSequence_2rmn4")]
