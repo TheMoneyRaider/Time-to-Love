@@ -237,7 +237,6 @@ func apply_remnants(attack_instance):
 	var remnants : Array[Remnant]
 	if c_owner != null && c_owner.is_in_group("player"):
 		var mancer_value = 0
-		var terramancer = preload("res://Game Elements/Remnants/terramancer.tres")
 		var aeromancer = preload("res://Game Elements/Remnants/aeromancer.tres")
 		var hydromancer = preload("res://Game Elements/Remnants/hydromancer.tres")
 		var intelligence = preload("res://Game Elements/Remnants/intelligence.tres")
@@ -264,11 +263,6 @@ func apply_remnants(attack_instance):
 		for rem in remnants:
 			if rem.active:
 				match rem.remnant_name:
-					terramancer.remnant_name:
-						if c_owner.velocity.length() <= .1:
-							attack_instance.scale = attack_instance.scale * (1 + (mancer_value / 4.0) + rem.variable_2_values[rem.rank-1] / 4.0)
-							attack_instance.hit_force = attack_instance.hit_force * (1 + mancer_value + rem.variable_2_values[rem.rank-1] / 4)
-							attack_instance.knockback_force = attack_instance.knockback_force * (1 + (mancer_value / 2) + rem.variable_2_values[rem.rank-1] / 4)
 					aeromancer.remnant_name:
 						var similarity = attack_instance.direction.normalized().dot(c_owner.velocity.normalized())
 						if(attack_instance.speed != 0):

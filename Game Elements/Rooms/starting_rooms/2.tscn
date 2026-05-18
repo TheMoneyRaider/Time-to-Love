@@ -82,7 +82,6 @@ tile_map_data = PackedByteArray("AADt/xYABAAJAAEAAADt/xcABAAJAAEAAADt/xgABAAJAAE
 tile_set = ExtResource("9_fpkfk")
 
 [node name="Objects1" type="TileMapLayer" parent="."]
-visible = false
 z_index = 20
 y_sort_enabled = true
 material = SubResource("ShaderMaterial_atlei")

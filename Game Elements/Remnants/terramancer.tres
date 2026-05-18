@@ -6,11 +6,12 @@
 
 [resource]
 script = ExtResource("3_4teqx")
-remnant_name = "Remnant of the Terramancer"
-description = "Gain $X boosts to attack size, knockback and damage resistance while rooted in place"
+remnant_name = "Remnant of the Lithomancer"
+description = "Whenver you use a special, creates a $X area that $Z reduces enemy projectiles and grows player projectiles. "
 icon = ExtResource("2_t0ox3")
 art = ExtResource("1_eyu3i")
-variable_names = Array[String](["$X", "$Y"])
+variable_names = Array[String](["$X", "$Y", "$Z"])
 variable_1_values = ["Small", "Medium", "Large", "Giant", "Gargantuan"]
 variable_2_values = [1, 2, 3, 4, 5]
+variable_3_values = ["Tinily", "Smally", "Moderately", "Largely", "Greatly"]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"
