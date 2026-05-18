@@ -138,7 +138,9 @@ func _ready() -> void:
 			sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
 	)
 	 
-func _process(delta):
+func _process(_delta):
+	if Input.is_action_just_pressed("ui_cancel"):
+		_on_back_pressed()
 	if Input.get_connected_joypads().size() != (devices[0].size()-1):
 		refresh_devices(true)
 		refresh_devices(false)

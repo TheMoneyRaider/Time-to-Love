@@ -5,6 +5,7 @@ var frame_amount = 0
 var mouse_mode = null
 var pause_cooldown = 0
 var active = false
+var can_escape = false
 
 @onready var slot_nodes: Array = [
 	$Control/MarginContainer/slots_hbox/slot0,
@@ -45,6 +46,7 @@ func activate():
 	if Globals.is_multiplayer or Globals.player1_input != "key":
 		$Control/VBoxContainer/Return.grab_focus()
 	pause_cooldown = 5
+	can_escape = true
 	for node in get_tree().get_nodes_in_group("attack"):
 		node.pause_shaders()
 	LayerManager.player1.reset_special()
@@ -53,6 +55,8 @@ func activate():
 		
 
 func _process(delta):
+	if can_escape and pause_cooldown < 1 and Input.is_action_just_pressed("ui_cancel"):
+		_on_return_pressed()
 	for child in $Control/Extras.get_children():
 		if child.is_hovered() or child.has_focus():
 			child.position.x = clamp(child.position.x-delta*150,168,198)

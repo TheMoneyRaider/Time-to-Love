@@ -2,6 +2,7 @@ extends CanvasLayer
 
 var mouse_mode = null
 var active = false
+var transition_state = 0
 @onready var container : Control = $Control/MarginContainer/Letters
 
 var letter_pool: Array[Letter] = []
@@ -65,6 +66,9 @@ func _input(event):
 	if not active:
 		return
 
+	if event.is_action_pressed("ui_cancel"):
+		_on_return_pressed()
+	
 	# Handle mouse motion (hover)
 	if event is InputEventMouseMotion:
 		for i in range(letter_buttons.size()):
@@ -72,6 +76,8 @@ func _input(event):
 				_on_fragment_hover(i)
 			else:
 				_on_fragment_unhover(i)
+				
+
 
 	# Handle mouse button click
 	if event is InputEventMouseButton and event.is_released() and event.button_index == MOUSE_BUTTON_LEFT:
@@ -173,6 +179,7 @@ func populate_letters():
 
 
 func transition_letter(texturerect : TextureRect,count : int):
+	transition_state += 1
 	var text2 = texturerect.duplicate(true)
 	text2.material = text2.material.duplicate()
 	text2.material.set_shader_parameter("full_white",true)
@@ -187,6 +194,7 @@ func transition_letter(texturerect : TextureRect,count : int):
 	texturerect.material.set_shader_parameter("grayscale", !Globals.save_state.viewed_letter_progress.has(letter_pool[count].letter_id))
 	tween = create_tween()
 	tween.tween_property(text2,"modulate",Color(1.0,1.0,1.0,0.0),1.0)
+	transition_state -= 1
 
 func assign_focus_neighbors():
 	if letter_buttons.size() == 0:
@@ -393,14 +401,15 @@ func activate():
 
 
 func _on_return_pressed():
-	polygons.clear()
-	letter_buttons.clear()
-	fragment_visuals.clear()
-	queue_free_children(container)
-	active = false
-	hide()
-	close_letter()
-	get_parent().get_node("PauseMenu").activate()
+	if(transition_state == 0):
+		polygons.clear()
+		letter_buttons.clear()
+		fragment_visuals.clear()
+		queue_free_children(container)
+		active = false
+		hide()
+		close_letter()
+		get_parent().get_node("PauseMenu").activate()
 	
 	
 
