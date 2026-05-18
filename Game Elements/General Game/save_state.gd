@@ -7,3 +7,5 @@ class_name SaveState
 @export var viewed_letter_progress : Dictionary = {}
 @export var letter_progress : Dictionary = {}
 @export var time_spent : float = 0.0
+@export var weapon1 : String = "res://Game Elements/Weapons/Mace.tres"
+@export var weapon2 : String = "res://Game Elements/Weapons/Crossbow.tres"

@@ -1053,6 +1053,10 @@ func set_weapon(purple : bool, resource_loc : String):
 func update_weapon(resource_name : String):
 	var resource_loc = "res://Game Elements/Weapons/" + resource_name + ".tres"
 	weapons[is_purple as int] = Weapon.create_weapon(resource_loc,self)
+	if is_purple:
+		Globals.weapon1 = resource_loc
+	else:
+		Globals.weapon2 = resource_loc
 	set_weapon_dr(weapons[is_purple as int])
 	set_weapon_sprite(weapons[is_purple as int],weapon_node)
 	

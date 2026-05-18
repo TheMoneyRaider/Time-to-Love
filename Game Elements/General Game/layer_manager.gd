@@ -6,8 +6,6 @@ extends Node2D
 ### Temp Multiplayer Fix
 var player1 = null
 var player2 = null
-var weapon1 = "res://Game Elements/Weapons/Mace.tres"
-var weapon2 = "res://Game Elements/Weapons/Crossbow.tres"
 var undiscovered_weapons = []
 var possible_weapon = ""#undiscovered_weapons.pick_random()
 ###
@@ -606,18 +604,6 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					node.queue_free()
 					_populate_health_rewards(generated_room, _generated_room_data)
 					return true
-			#"NewWeapon":
-				#if player_reference in node.tracked_bodies:
-					#player_reference.update_weapon(node.weapon_type)
-					##undiscovered_weapons.erase(possible_weapon)
-					##if(undiscovered_weapons.size() == 0):
-					##	reward_num[6] = 0.0
-					##	possible_weapon = ""
-					##else:
-					##	possible_weapon = undiscovered_weapons.pick_random()
-					#hud.set_cooldown_icons()
-					#node.queue_free()
-					#return true
 		if node.is_in_group("weapon_select"):
 			if(node.enabled == true):
 				if player_reference in node.tracked_bodies:
@@ -954,8 +940,8 @@ func _setup_players() -> void:
 		player2.is_multiplayer = true
 		player1.other_player = player2
 		player2.other_player = player1
-		player1.set_weapon(true, weapon1)
-		player2.set_weapon(false, weapon2)
+		player1.set_weapon(true, Globals.weapon1)
+		player2.set_weapon(false, Globals.weapon2)
 		game_root.add_child(player1)
 		game_root.add_child(player2)
 		player2.update_input_device(Globals.player2_input)
@@ -968,8 +954,8 @@ func _setup_players() -> void:
 	else:
 		player1 = player_scene.instantiate()
 		player1.is_multiplayer = false
-		player1.set_weapon(true, weapon1)
-		player1.set_weapon(false, weapon2)
+		player1.set_weapon(true, Globals.weapon1)
+		player1.set_weapon(false, Globals.weapon2)
 		game_root.add_child(player1)
 	player1.update_input_device(Globals.player1_input)
 	player1.attack_requested.connect(_on_player_attack)

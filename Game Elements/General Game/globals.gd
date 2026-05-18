@@ -13,6 +13,8 @@ var config := ConfigFile.new()
 var config_path := "user://settings.cfg"
 var save_dir := "user://saves/"
 var cinematic_viewed : bool = false
+var weapon1 : String = "res://Game Elements/Weapons/Mace.tres"
+var weapon2 : String = "res://Game Elements/Weapons/Crossbow.tres"
 
 enum MenuState {Western, Space, Medieval}
 
@@ -69,6 +71,8 @@ func load_config():
 		save_state = SaveState.new()
 
 	total_progress = save_state.total_progress
+	weapon1 = save_state.weapon1
+	weapon2 = save_state.weapon2
 
 func apply_audio_settings():
 	var bus_map = {
@@ -87,6 +91,8 @@ func apply_audio_settings():
 func save_config():
 	total_progress = max(total_progress, RoomManager.current_progress)
 	save_state.total_progress = total_progress
+	save_state.weapon1 = weapon1
+	save_state.weapon2 = weapon2
 	#DirAccess.make_dir_recursive_absolute(save_dir)  # ensure it exists every time
 	var err = ResourceSaver.save(save_state, _save_path())
 	if err != OK:
