@@ -324,7 +324,7 @@ Letter icons and art assets by LCSkeleton/Robin Norkum, TheStarvingArtificer for
 CurlyBug Games for paper design, SunGraphica for holographic art Design, Odistudio Games for various western designs, 
 Sophie Bosak for sci-fi objects, Wolthera van Hövell tot Westerflier, CC-BY-4.0/GPL-3.0/OGA-BY-3.0
 Elysian Game Studio for slime art, SNOBLIN for skeleton art, Ansimuz for explosion art, BeyonderBoy for lava art
-Jamie Brownhill for medieval art assets, Ponk for Snare asset
+Jamie Brownhill for medieval art assets, Ponk for Snare asset, Samuel Lee for cowboy hat
 [left]
 	LPC Mountains 2
 https://opengameart.org/content/lpc-mountains
@@ -409,11 +409,11 @@ position = Vector2(1541, 2252)
 texture = ExtResource("11_gsk7h")
 
 [node name="Sprite3" type="Sprite2D" parent="Credits/VBoxContainer"]
-position = Vector2(348, 6177)
+position = Vector2(334, 6207)
 texture = ExtResource("12_jsf73")
 
 [node name="Sprite4" type="Sprite2D" parent="Credits/VBoxContainer"]
-position = Vector2(1449, 4808)
+position = Vector2(1444, 4938)
 texture = ExtResource("13_6ckmw")
 
 [node name="Sprite5" type="Sprite2D" parent="Credits/VBoxContainer"]

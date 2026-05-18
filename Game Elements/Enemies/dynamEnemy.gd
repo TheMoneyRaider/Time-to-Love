@@ -221,6 +221,12 @@ func _process(delta):
 		_skeleton_process()
 	if enemy_type=="medieval_slime":
 		_slime_process()
+	if enemy_type=="large_reptile":
+		print("hat")
+		if $Sprite2D.flip_h:
+			$Hat.position.x = -abs($Hat.position.x)
+		else:
+			$Hat.position.x = abs($Hat.position.x)
 	if(i_frames > 0):
 		i_frames -= 1
 	for i in range(weapon_cooldowns.size()):

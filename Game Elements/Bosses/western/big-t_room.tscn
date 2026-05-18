@@ -90,6 +90,5 @@ tile_map_data = PackedByteArray("AAAHAP//AAAWAAEAAAAHAAAAAAAWAAIAAAAHAAUAAAAWAAA
 tile_set = ExtResource("10_xyndt")
 
 [node name="SubFilling" type="TileMapLayer" parent="Filling"]
-visible = false
 tile_map_data = PackedByteArray("AAD5/wUAAAAaAAYAAAD5/wYAAAAaAAYAAAAEAAEAAAAaAAYAAAAEAAIAAAAaAAYAAAAEAP7/AAAaAAYAAAAEAP3/AAAaAAYAAAD5//7/AAAaAAYAAAD5//3/AAAaAAYAAAAEAAUAAAAaAAYAAAAEAAYAAAAaAAYAAAD5/wIAAAAaAAYAAAD5/wEAAAAaAAYAAAA=")
 tile_set = ExtResource("10_xyndt")
