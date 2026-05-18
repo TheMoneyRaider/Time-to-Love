@@ -252,7 +252,6 @@ func _process(delta):
 	if attack_type == "laser" or attack_type == "scifi_laser" or attack_type == "tentacle":
 		if has_method("get_overlapping_bodies") and monitoring:
 			for body in get_overlapping_bodies():
-				print(body)
 				intersection(body)
 	if deflects and monitoring:
 		for area in get_overlapping_areas():

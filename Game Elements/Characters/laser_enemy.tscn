@@ -1,11 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://d1iraxjiyuv2c"]
+[gd_scene load_steps=12 format=3 uid="uid://d1iraxjiyuv2c"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_8r1te"]
 [ext_resource type="BehaviorTree" uid="uid://dlq43y0e0i6on" path="res://ai/trees/laser.tres" id="2_6wupc"]
 [ext_resource type="Texture2D" uid="uid://d0ylh7xfvci7q" path="res://art/characters/laser/wall_laser.png" id="3_8r1te"]
 [ext_resource type="Script" uid="uid://bg5lcpq1r3aa3" path="res://Game Elements/Characters/segment.gd" id="3_m6xb1"]
 [ext_resource type="Script" uid="uid://g72k7lhd0tbx" path="res://Game Elements/Characters/laser_beam.gd" id="4_h87mk"]
-[ext_resource type="Shader" uid="uid://corxu8ees2ktr" path="res://Game Elements/Attacks/laser_shader.gdshader" id="5_dqm1i"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6wupc"]
 radius = 8.0
@@ -15,14 +14,6 @@ radius = 8.0
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8r1te"]
 radius = 8.0
 height = 26.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_m6xb1"]
-shader = ExtResource("5_dqm1i")
-shader_parameter/outline_color = Color(0, 0, 0, 1)
-shader_parameter/outline_size = 1.0
-shader_parameter/alpha_threshold = 0.0
-shader_parameter/outline_samples = 4
-shader_parameter/shade_color = Color(1, 1, 1, 0.5)
 
 [sub_resource type="Curve" id="Curve_h87mk"]
 _limits = [0.0, 1.5, 0.0, 1.0]
@@ -101,26 +92,19 @@ shape = SubResource("CapsuleShape2D_8r1te")
 position = Vector2(7.9999995, 0)
 texture = ExtResource("3_8r1te")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
-material = SubResource("ShaderMaterial_m6xb1")
-offset_left = -1024.0
-offset_top = -1024.0
-offset_right = 1024.0
-offset_bottom = 1024.0
-
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
-transparent_bg = true
-handle_input_locally = false
-canvas_item_default_texture_filter = 0
-size = Vector2i(2048, 2048)
-render_target_update_mode = 4
-
-[node name="LaserBeam" type="Line2D" parent="SubViewportContainer/SubViewport"]
+[node name="LaserBeam" type="Line2D" parent="."]
 y_sort_enabled = true
 points = PackedVector2Array(246, 256, 3035, 796)
 default_color = Color(1, 0, 0, 1)
 script = ExtResource("4_h87mk")
 power_curve = SubResource("Curve_h87mk")
+
+[node name="BabyLaser" type="Line2D" parent="LaserBeam"]
+z_index = -1
+y_sort_enabled = true
+points = PackedVector2Array(246, 256, 3035, 796)
+width = 12.0
+default_color = Color(0, 0, 0, 1)
 
 [node name="Light" type="PointLight2D" parent="."]
 visible = false
