@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://bcfesmow2rkr7"]
 
-[ext_resource type="Texture2D" uid="uid://bosgbhenk4iks" path="res://art/remnants/trickster.png" id="1_f53ey"]
-[ext_resource type="Texture2D" uid="uid://ynuevys0w582" path="res://art/remnants/trickster_icon.png" id="2_53mgv"]
+[ext_resource type="Texture2D" uid="uid://djchd0c3djldg" path="res://art/remnants/bandit.png" id="1_f53ey"]
+[ext_resource type="Texture2D" uid="uid://evgcdk6e7spt" path="res://art/remnants/bandit_icon.png" id="2_53mgv"]
 [ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_m2043"]
 
 [resource]
