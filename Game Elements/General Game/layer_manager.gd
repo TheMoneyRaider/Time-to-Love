@@ -204,7 +204,7 @@ func _process(delta: float) -> void:
 	hud.set_cooldowns()
 	
 	if Input.is_action_just_pressed("Feedback"):
-		var total_save_time = 0
+		var total_save_time = get_node("DeathMenu").total_time
 		for i in range(3):
 			total_save_time += _load_save_time(i)
 		var progress : String = str(Globals.save_state.total_progress)

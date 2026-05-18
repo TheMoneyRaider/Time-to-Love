@@ -43,6 +43,7 @@ func activate():
 	show()
 	get_tree().paused = true
 	get_tree().get_root().get_node("LayerManager/DeathMenu").capturing = false
+	get_tree().get_root().get_node("LayerManager/DeathMenu").getting_time = false
 	if Globals.is_multiplayer or Globals.player1_input != "key":
 		$Control/VBoxContainer/Return.grab_focus()
 	pause_cooldown = 5
@@ -105,6 +106,7 @@ func _on_return_pressed():
 		slot_nodes[i].hide_visuals(true)
 	Input.set_mouse_mode(mouse_mode)
 	get_tree().get_root().get_node("LayerManager/DeathMenu").capturing = true
+	get_tree().get_root().get_node("LayerManager/DeathMenu").getting_time = true
 	get_tree().paused = false
 	hide()
 	for node in get_tree().get_nodes_in_group("attack"):
