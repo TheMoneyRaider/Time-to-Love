@@ -14,8 +14,7 @@ class UIState:
 @onready var cooldown : float = 0.0
 @onready var mouse_cooldown : float = 0.0
 @onready var the_ui : Texture2D
-@onready var disruptive1 : bool = true
-@onready var disruptive2 : bool = true
+@onready var disruptive : bool = true
 @onready var exploaded: bool = false
 @onready var fragmenting: bool = true
 @onready var prepared = false
@@ -175,10 +174,10 @@ func _process(delta):
 			last_devices=Input.get_connected_joypads()
 			update_prompt()
 		if Input.is_action_just_pressed("swap_" + Globals.player1_input):
-			disruptive1 = !disruptive1
+			disruptive = !disruptive
 			update_prompt()
 		if Input.is_action_just_pressed("swap_" + Globals.player2_input):
-			disruptive2 = !disruptive2
+			disruptive = !disruptive
 			update_prompt()
 		if Input.is_action_just_pressed("Feedback"):
 			var total_save_time = 0
@@ -236,7 +235,7 @@ func fragment_disruption():
 		last_mouse_pos = get_viewport().get_mouse_position()
 	if !fragmenting:
 		return
-	if disruptive1 and get_viewport():
+	if disruptive and get_viewport():
 		if UI.player1.input == "key":
 			var mouse_pos = get_viewport().get_mouse_position()
 			for frag in $BreakFX.get_children():
@@ -245,7 +244,6 @@ func fragment_disruption():
 			var cont_pos = UI.player1.hover_button.get_global_rect().position + UI.player1.hover_button.get_global_rect().size/2
 			for frag in $BreakFX.get_children():
 				frag.apply_force_frag(cont_pos)
-	if disruptive2 and get_viewport():
 		if UI.player2.input == "key":
 			var mouse_pos = get_viewport().get_mouse_position()
 			for frag in $BreakFX.get_children():
@@ -465,15 +463,15 @@ func find_button_for_fragment(frag_poly: Array, button_bounds: Dictionary) -> Ar
 func update_prompt():
 	if Globals.player1_input == "key" and Input.get_connected_joypads().size() == 0:
 		var text = "[font=res://addons/input_prompt_icon_font/icon.ttf]"
-		if disruptive1:
+		if disruptive:
 			text += "keyboard_space[/font]"
 		else:
 			text += "keyboard_space_outline[/font]"
 		$RichTextLabel.bbcode_text = text+": Toggle Fracturing "
 	else:
 		var text = ""
-		text += button_state(Globals.player1_input,disruptive1) +"/"
-		text += button_state(Globals.player2_input,disruptive2)
+		text += button_state(Globals.player1_input,disruptive) +"/"
+		text += button_state(Globals.player2_input,disruptive)
 		$RichTextLabel.bbcode_text = text+": Toggle Fracturing "
 
 func _on_focus_entered() -> void:

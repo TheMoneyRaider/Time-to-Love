@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dbshy44okya8v"
-path="res://.godot/imported/leather_boots.png-3ea97fd226fab09bab357b8be815ba6a.ctex"
+uid="uid://evgcdk6e7spt"
+path="res://.godot/imported/bandit_icon.png-25730f66d42ff2a6c8dfae82a1238390.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/objects/letter_fragments/MedOut/leather_boots.png"
-dest_files=["res://.godot/imported/leather_boots.png-3ea97fd226fab09bab357b8be815ba6a.ctex"]
+source_file="res://art/remnants/bandit_icon.png"
+dest_files=["res://.godot/imported/bandit_icon.png-25730f66d42ff2a6c8dfae82a1238390.ctex"]
 
 [params]
 

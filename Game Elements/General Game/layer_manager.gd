@@ -6,8 +6,6 @@ extends Node2D
 ### Temp Multiplayer Fix
 var player1 = null
 var player2 = null
-var weapon1 = "res://Game Elements/Weapons/Mace.tres"
-var weapon2 = "res://Game Elements/Weapons/Crossbow.tres"
 var undiscovered_weapons = []
 var possible_weapon = ""#undiscovered_weapons.pick_random()
 ###
@@ -33,6 +31,9 @@ var this_room_reward2 = Globals.Reward.HealthUpgrade
 var is_wave_room = false
 var total_waves = 0
 var current_wave = 0
+var num_enemies_in_room : int = 0
+var check_agro : bool = false
+
 
 #Thread Stuff
 var pending_room_creations: Array = []
@@ -88,6 +89,7 @@ var weapon_select_sounds = [
 ]
 
 func _ready() -> void:
+	RemnantManager.has_gotten_remnant = false
 	$LettersPopup.modulate.a=0.0
 	$game_container.material = $game_container.material.duplicate(true)
 	var conflict_cells : Array[Vector2i] = []
@@ -121,10 +123,12 @@ func _ready() -> void:
 	global_conflict_cells = conflict_cells
 	_placable_locations()
 	if Globals.is_multiplayer:
-		Spawner.spawn_enemies([player1,player2], room_instance, placable_cells.duplicate(),room_instance_data,self,false,-1,"",true)
+		check_agro = true
+		num_enemies_in_room =Spawner.spawn_enemies([player1,player2], room_instance, placable_cells.duplicate(),room_instance_data,self,false,-1,"",true)
 		Spawner.spawn_letters([player1,player2],room_instance, placable_cells.duplicate(),room_instance_data)
 	else:
-		Spawner.spawn_enemies([player1], room_instance, placable_cells.duplicate(),room_instance_data,self,false,-1,"",true)
+		check_agro = true
+		num_enemies_in_room =Spawner.spawn_enemies([player1], room_instance, placable_cells.duplicate(),room_instance_data,self,false,-1,"",true)
 		Spawner.spawn_letters([player1],room_instance, placable_cells.duplicate(),room_instance_data)
 	
 	var enemies : Array[Node]= []
@@ -208,7 +212,7 @@ func _process(delta: float) -> void:
 		var total_save_time = 0
 		for i in range(3):
 			total_save_time += _load_save_time(i)
-		var progress : String = str(Globals.save_state.total_progress)
+		var progress : String = str(Globals.save_state.total_progress+RoomManager.layer_ai[3] + time_passed)
 		var gpu_name : String = RenderingServer.get_video_adapter_name()
 		var gpu_api : String = RenderingServer.get_video_adapter_api_version()
 		var gpu_adapter : String = str(RenderingServer.get_video_adapter_type())
@@ -239,19 +243,27 @@ func _process(delta: float) -> void:
 			if timefabric_rewarded== 0:
 				room_instance.get_node("TimeFabricOrb").queue_free()
 	if !room_cleared:
+		var temp_num_enemies = 0
 		for child in room_instance.get_children():
 			if child.is_in_group("enemy"):
 				if child.position.distance_to(player1.position) > 5000 or is_nan(child.position.x) or is_nan(child.position.y): #Haphazard fix for the disappearing enemy
 					push_error("REMOVED ENEMY DUE TO BUG")
 					child.queue_free()
-				return
+				temp_num_enemies+=1
+				
+		if temp_num_enemies <= num_enemies_in_room *.35 and check_agro:
+			agro_enemies()
+		if temp_num_enemies >0:
+			return
 		if is_wave_room and total_waves > current_wave:
 			current_wave+=1
 			hud.display_notification("Wave "+str(current_wave)+" / "+str(total_waves))
 			if Globals.is_multiplayer:
-				Spawner.spawn_enemies([player1,player2], room_instance, placable_cells.duplicate(),room_instance_data,self,true,-1,"",true)
+				check_agro = true
+				num_enemies_in_room =Spawner.spawn_enemies([player1,player2], room_instance, placable_cells.duplicate(),room_instance_data,self,true,-1,"",true)
 			else:
-				Spawner.spawn_enemies([player1], room_instance, placable_cells.duplicate(),room_instance_data,self,true,-1,"",true)
+				check_agro = true
+				num_enemies_in_room =Spawner.spawn_enemies([player1], room_instance, placable_cells.duplicate(),room_instance_data,self,true,-1,"",true)
 			
 			var enemies : Array[Node]= []
 			for child in room_instance.get_children():
@@ -289,6 +301,31 @@ func _process(delta: float) -> void:
 					if child.is_in_group("pathway") and !child.used and child.active:
 						pathways.append(child)
 				awareness_display.set_array(pathways.duplicate(),2)
+				
+func agro_enemies():
+	print("GRRRRR")
+	check_agro = false
+	for child in room_instance.get_children():
+		if child.is_in_group("enemy"):
+			if child.get_node_or_null("BTPlayer"):
+				var board = child.get_node("BTPlayer").blackboard
+				if board.get_var("state") != "spawning" or child.enemy_type!="robot":
+					print(str(child)+" I'm ANGRY!")
+					var positions = board.get_var("player_positions")
+					var distances_squared = []
+					for pos in positions: 
+						distances_squared.append(global_position.distance_squared_to(pos))
+					var i = 0
+					if distances_squared.size()>1 and distances_squared[1]<distances_squared[0]:
+						i= 1
+					var temp_position = player1.global_position if (!is_multiplayer or randf() > .5) else player2.global_position
+					board.set_var("target_pos", temp_position)
+					board.set_var("player_idx", i)
+					board.set_var("state", "agro")
+
+
+
+
 
 var music_player_a: AudioStreamPlayer
 var music_player_b: AudioStreamPlayer
@@ -605,18 +642,6 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					node.queue_free()
 					_populate_health_rewards(generated_room, _generated_room_data)
 					return true
-			#"NewWeapon":
-				#if player_reference in node.tracked_bodies:
-					#player_reference.update_weapon(node.weapon_type)
-					##undiscovered_weapons.erase(possible_weapon)
-					##if(undiscovered_weapons.size() == 0):
-					##	reward_num[6] = 0.0
-					##	possible_weapon = ""
-					##else:
-					##	possible_weapon = undiscovered_weapons.pick_random()
-					#hud.set_cooldown_icons()
-					#node.queue_free()
-					#return true
 		if node.is_in_group("weapon_select"):
 			if(node.enabled == true):
 				if player_reference in node.tracked_bodies:
@@ -953,8 +978,8 @@ func _setup_players() -> void:
 		player2.is_multiplayer = true
 		player1.other_player = player2
 		player2.other_player = player1
-		player1.set_weapon(true, weapon1)
-		player2.set_weapon(false, weapon2)
+		player1.set_weapon(true, Globals.weapon1)
+		player2.set_weapon(false, Globals.weapon2)
 		game_root.add_child(player1)
 		game_root.add_child(player2)
 		player2.update_input_device(Globals.player2_input)
@@ -967,8 +992,8 @@ func _setup_players() -> void:
 	else:
 		player1 = player_scene.instantiate()
 		player1.is_multiplayer = false
-		player1.set_weapon(true, weapon1)
-		player1.set_weapon(false, weapon2)
+		player1.set_weapon(true, Globals.weapon1)
+		player1.set_weapon(false, Globals.weapon2)
 		game_root.add_child(player1)
 	player1.update_input_device(Globals.player1_input)
 	player1.attack_requested.connect(_on_player_attack)
@@ -1328,7 +1353,8 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 		if is_multiplayer:
 			player2.disabled = true
 		
-		sfx_manager.play(preload("res://Game Elements/sfx/world/zaks_room_transition.ogg"), 10.0)
+		sfx_manager.play(preload("res://Game Elements/sfx/world/room_transition2.ogg"), 5.0)
+		music_manager.quite_music(3.4)
 		var particles = load("res://Game Elements/Particles/pathway_particles.tscn").instantiate()
 		PathwayTransition.global_position = pathway.global_position
 		PathwayViewport.add_child(particles)
@@ -1488,10 +1514,12 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	liquid_cells = room_instance.liquid_cells
 	
 	if Globals.is_multiplayer:
-		Spawner.spawn_enemies([player1,player2], room_instance, placable_cells.duplicate(),room_instance_data,self,is_wave_room,-1,"",true)
+		check_agro = true
+		num_enemies_in_room =Spawner.spawn_enemies([player1,player2], room_instance, placable_cells.duplicate(),room_instance_data,self,is_wave_room,-1,"",true)
 		Spawner.spawn_letters([player1,player2],room_instance, placable_cells.duplicate(),room_instance_data)
 	else:
-		Spawner.spawn_enemies([player1], room_instance, placable_cells.duplicate(),room_instance_data,self,is_wave_room,-1,"",true)
+		check_agro = true
+		num_enemies_in_room =Spawner.spawn_enemies([player1], room_instance, placable_cells.duplicate(),room_instance_data,self,is_wave_room,-1,"",true)
 		Spawner.spawn_letters([player1],room_instance, placable_cells.duplicate(),room_instance_data)
 	
 	pathfinding.setup_from_room(room_instance.get_node("Ground"), 
@@ -1720,6 +1748,7 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 	var giant = preload("res://Game Elements/Remnants/giant.tres")
 	var lawman = preload("res://Game Elements/Remnants/lawman.tres")
 	var hare = preload("res://Game Elements/Remnants/hare.tres")
+	var bandit = preload("res://Game Elements/Remnants/bandit.tres")
 	if gained:
 		if(remnant.remnant_name == mancermancer.remnant_name) and remnant.active:
 			if is_purple:
@@ -1729,6 +1758,7 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 		if(remnant.remnant_name == lawman.remnant_name) and remnant.active:
 			var lawman_aura = preload("res://Game Elements/Remnants/lawman/lawman.tscn").instantiate()
 			player.add_child(lawman_aura)
+			player.lawman_aura = lawman_aura
 		if(remnant.remnant_name == giant.remnant_name) and remnant.active:
 			if(player.is_purple == is_purple):
 				player.scale = player.scale * 1.5
@@ -1740,8 +1770,20 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 		if(remnant.remnant_name == hare.remnant_name) and remnant.active:
 			if(is_purple == player.is_purple):
 				player.move_speed = player.base_move_speed * (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
+		if(remnant.remnant_name == bandit.remnant_name) and remnant.active:
+			if is_purple:
+				hud.LeftCooldownBar.set_max_cooldown(player.weapons[1].cooldown* (1.0-remnant.variable_1_values[remnant.rank-1] / 100.0))
+			else:
+				hud.RightCooldownBar.set_max_cooldown(player.weapons[0].cooldown* (1.0-remnant.variable_1_values[remnant.rank-1] / 100.0))
 	else:
 		if(remnant.remnant_name == mancermancer.remnant_name):
+			if is_purple:
+				player.mancermancer_values[0] = remnant.rank
+			else:
+				player.mancermancer_values[1] = remnant.rank
+		if(remnant.remnant_name == lawman.remnant_name):
+			if player.lawman_aura:
+				player.lawman_aura.queue_free()
 			if is_purple:
 				player.mancermancer_values[0] = 0
 			else:
@@ -1757,6 +1799,11 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 		if(remnant.remnant_name == hare.remnant_name):
 			if(is_purple == player.is_purple):
 				player.move_speed = player.base_move_speed / (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
+		if(remnant.remnant_name == bandit.remnant_name):
+			if is_purple:
+				hud.LeftCooldownBar.set_max_cooldown(player.weapons[1].cooldown)
+			else:
+				hud.RightCooldownBar.set_max_cooldown(player.weapons[0].cooldown)
 	player.display_combo()
 	
 
@@ -1917,26 +1964,39 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 
 func dev_remnants():
 	var rem
-	rem = load("res://Game Elements/Remnants/tortoise.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
 	
-	rem = load("res://Game Elements/Remnants/protector.tres")
-	rem.rank = 5
+	rem = load("res://Game Elements/Remnants/bandit.tres")
+	rem.rank = 1
 	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	
-	rem = load("res://Game Elements/Remnants/monk.tres")
+	remnant_update(rem,player1,true)
 	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
 	player_2_remnants.append(rem.duplicate(true))
+	if is_multiplayer:
+		remnant_update(rem,player2,false)
+	else:
+		remnant_update(rem,player1,false)
 	
 	
-	rem = load("res://Game Elements/Remnants/lawman.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
+	#rem = load("res://Game Elements/Remnants/tortoise.tres")
+	#rem.rank = 5
+	#player_1_remnants.append(rem.duplicate(true))
+	#player_2_remnants.append(rem.duplicate(true))
+	#
+	#rem = load("res://Game Elements/Remnants/protector.tres")
+	#rem.rank = 5
+	#player_1_remnants.append(rem.duplicate(true))
+	#player_2_remnants.append(rem.duplicate(true))
+	#
+	#rem = load("res://Game Elements/Remnants/monk.tres")
+	#rem.rank = 5
+	#player_1_remnants.append(rem.duplicate(true))
+	#player_2_remnants.append(rem.duplicate(true))
+	#
+	#
+	#rem = load("res://Game Elements/Remnants/lawman.tres")
+	#rem.rank = 5
+	#player_1_remnants.append(rem.duplicate(true))
+	#player_2_remnants.append(rem.duplicate(true))
 	
 	#rem = load("res://Game Elements/Remnants/winters_embrace.tres")
 	#rem.rank = 3

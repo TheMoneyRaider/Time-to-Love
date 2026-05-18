@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://djaa1i1eed6f8"
-path="res://.godot/imported/Signe__5.png-9462182a4aa91a2c630882448208c57f.ctex"
+uid="uid://b2qsq6jwjjnh0"
+path="res://.godot/imported/Signe__24.png-9b74892e57bbf429c4a79cc2067de770.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/objects/letter_fragments/WesternTown/Signe__5.png"
-dest_files=["res://.godot/imported/Signe__5.png-9462182a4aa91a2c630882448208c57f.ctex"]
+source_file="res://art/objects/letter_fragments/WesternCanyon/Signe__24.png"
+dest_files=["res://.godot/imported/Signe__24.png-9b74892e57bbf429c4a79cc2067de770.ctex"]
 
 [params]
 

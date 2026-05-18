@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://cwpax08wumexb"]
+
+[ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/Particles/effect_particles.gd" id="1_e2ecc"]
+
+[sub_resource type="Gradient" id="Gradient_40pph"]
+offsets = PackedFloat32Array(0.47227925, 1)
+colors = PackedColorArray(0.6535001, 1, 0.23000002, 1, 0.6535001, 1, 0.23000002, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_121nx"]
+gradient = SubResource("Gradient_40pph")
+
+[sub_resource type="Curve" id="Curve_121nx"]
+_data = [Vector2(0, 0), 0.0, 6.7659764, 0, 0, Vector2(0.2385321, 1), 0.0, 0.0, 0, 0, Vector2(0.5168196, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.3018868), -2.0860431, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_y4q31"]
+curve = SubResource("Curve_121nx")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gbpns"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 12.0
+angle_min = -142.29999
+angle_max = 289.1
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 200.0
+radial_accel_max = 200.0
+scale_max = 4.0
+scale_curve = SubResource("CurveTexture_y4q31")
+color = Color(0.6535001, 1, 0.23000002, 0.65882355)
+color_ramp = SubResource("GradientTexture1D_121nx")
+hue_variation_min = -0.20000002
+hue_variation_max = 0.19999997
+
+[node name="SlimeParticles" type="GPUParticles2D"]
+z_index = 21
+y_sort_enabled = true
+emitting = false
+amount = 100
+amount_ratio = 0.5
+lifetime = 0.4
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_gbpns")
+script = ExtResource("1_e2ecc")

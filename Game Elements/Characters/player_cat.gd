@@ -40,7 +40,7 @@ var effect_particles : Array
 var other_player
 var disabled = false
 var current_room : Globals.RoomType
-
+var lawman_aura : Node
 var in_combat = 0
 var time_since_last_hit = 0
 
@@ -353,6 +353,8 @@ func _physics_process(delta):
 			weapons[is_purple as int].use_normal_attack(Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
 		else:
 			handle_attack()
+	if has_bandit() and Input.is_action_pressed("attack_" + input_device):
+		handle_attack()
 	if Input.is_action_just_pressed("activate_" + input_device):
 		emit_signal("activate",self)
 	if Input.is_action_just_pressed("special_" + input_device):
@@ -471,6 +473,12 @@ func pre_damage_trigger(damage_amount: float, _dmg_owner : Node) -> float:
 
 
 func post_damage_trigger(damage_amount: float, _dmg_owner : Node):
+	if is_purple:
+		LayerManager.hud.get_node("RootControl/Purple").trigger_pulse()
+	else:
+		LayerManager.hud.get_node("RootControl/Orange").trigger_pulse()
+	
+	
 	randomize()
 	var remnants : Array[Remnant]
 	if is_purple:
@@ -807,8 +815,34 @@ func adjust_cooldowns(time_elapsed : float):
 		cooldowns[is_purple as int] = max(cooldowns[is_purple as int]-time_elapsed,0.0)
 
 func handle_attack():
-	if cooldowns[is_purple as int] <= 0:
+	if cooldowns[is_purple as int] <= bandit_cooldown():
 		cooldowns[is_purple as int] = request_attack(weapons[is_purple as int])
+
+
+func has_bandit():
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var bandit = preload("res://Game Elements/Remnants/bandit.tres")
+	for rem in remnants:
+		if rem.remnant_name == bandit.remnant_name and rem.active:
+			return true
+	return false
+
+func bandit_cooldown():
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var bandit = preload("res://Game Elements/Remnants/bandit.tres")
+	for rem in remnants:
+		if rem.remnant_name == bandit.remnant_name and rem.active:
+			return weapons[is_purple as int].cooldown * rem.variable_1_values[rem.rank-1] / 100.0
+	return 0.0
+
 
 func check_traps(delta):
 	var tile_pos = Vector2i(int(floor(global_position.x / 16)),int(floor(global_position.y / 16)))
@@ -851,6 +885,8 @@ func _check_hydromancer(liquid : Globals.Liquid):
 			last_liquid = liquid
 
 func check_liquids(delta):
+	if is_tethered:
+		return
 	var tile_pos = Vector2i(int(floor(global_position.x / 16)),int(floor(global_position.y / 16)))
 	if tile_pos in LayerManager.liquid_cells[0]:
 		var tile_data = LayerManager.return_liquid_layer(tile_pos).get_cell_tile_data(tile_pos)
@@ -1025,6 +1061,10 @@ func set_weapon(purple : bool, resource_loc : String):
 func update_weapon(resource_name : String):
 	var resource_loc = "res://Game Elements/Weapons/" + resource_name + ".tres"
 	weapons[is_purple as int] = Weapon.create_weapon(resource_loc,self)
+	if is_purple:
+		Globals.weapon1 = resource_loc
+	else:
+		Globals.weapon2 = resource_loc
 	set_weapon_dr(weapons[is_purple as int])
 	set_weapon_sprite(weapons[is_purple as int],weapon_node)
 	

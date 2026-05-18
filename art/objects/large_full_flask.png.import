@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://3w7nbm12amin"
-path="res://.godot/imported/book.png-0ab671ac37efc4a94c6af56bb23aabc9.ctex"
+uid="uid://b1ipxaqma0gme"
+path="res://.godot/imported/large_full_flask.png-8780728199ad4fe2741941e42748eb2e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/objects/letter_fragments/MedIn/book.png"
-dest_files=["res://.godot/imported/book.png-0ab671ac37efc4a94c6af56bb23aabc9.ctex"]
+source_file="res://art/objects/large_full_flask.png"
+dest_files=["res://.godot/imported/large_full_flask.png-8780728199ad4fe2741941e42748eb2e.ctex"]
 
 [params]
 

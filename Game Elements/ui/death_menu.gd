@@ -3,7 +3,7 @@ extends CanvasLayer
 
 
 @export var time_per_buffer := 10 # hard cap on time will be this * 6
-@export var rewind_time := 10.0 #can't be smaller than recent_seconds. also the actual rewind time is generally 3 seconds or so greater.
+@export var rewind_time := 5.0 #can't be smaller than recent_seconds. also the actual rewind time is generally 3 seconds or so greater.
 
 @export var min_shader_intensity = 0.0
 @export	var max_shader_intensity = .75
@@ -23,7 +23,7 @@ var final_frame : Image
 var rewind_mode = 0
 var test_buffer := []
 var test_buffer_fps := 30
-var test_buffer_size = 600
+var test_buffer_size = 300
 var test_frame_timer : float = 0.0
 var test_frame_duration : float = 1.0 / (test_buffer_fps * 2)
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b1ipxaqma0gme"
-path="res://.godot/imported/large_full_flask.png-64c7a4f4af9f48bc18119bd2968a19b9.ctex"
+uid="uid://cuwmjw15gepnh"
+path="res://.godot/imported/Signe__20.png-ac0983c6cbb728ae97ae6f7bc5c92c9c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/objects/letter_fragments/MedIn/large_full_flask.png"
-dest_files=["res://.godot/imported/large_full_flask.png-64c7a4f4af9f48bc18119bd2968a19b9.ctex"]
+source_file="res://art/objects/letter_fragments/WesternCanyon/Signe__20.png"
+dest_files=["res://.godot/imported/Signe__20.png-ac0983c6cbb728ae97ae6f7bc5c92c9c.ctex"]
 
 [params]
 

@@ -89,6 +89,9 @@ func finish_animation():
 	await tween.finished
 	LayerManager.BossIntro.visible = false
 	LayerManager.BossIntro.get_node("Transition").modulate = Color(0.0,0.0,0.0,1.0)
+	player1.get_node("Crosshair").mouse_clamping_enabled = true
+	if is_multiplayer:
+		player2.get_node("Crosshair").mouse_clamping_enabled = true
 	return
 
 func deactivate():
@@ -101,6 +104,9 @@ func deactivate():
 
 
 func activate(camera_in : Node, player1_in : Node, player2_in : Node):
+	player1.get_node("Crosshair").mouse_clamping_enabled = false
+	if is_multiplayer:
+		player2.get_node("Crosshair").mouse_clamping_enabled = false
 	print("boss room activate")
 	active = true
 	camera = camera_in

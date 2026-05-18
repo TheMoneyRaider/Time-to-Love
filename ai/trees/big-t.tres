@@ -1,8 +1,7 @@
-[gd_resource type="BehaviorTree" load_steps=65 format=3 uid="uid://dkwlk3hb7u71t"]
+[gd_resource type="BehaviorTree" load_steps=64 format=3 uid="uid://dkwlk3hb7u71t"]
 
 [ext_resource type="Script" uid="uid://dr4vkyorjqaqn" path="res://ai/tasks/getPlayerPos.gd" id="1_byeik"]
 [ext_resource type="Script" uid="uid://rvfhx3hd7gln" path="res://ai/tasks/attacks.gd" id="2_88sik"]
-[ext_resource type="Script" uid="uid://b7mqxkcvqcrar" path="res://ai/tasks/check_if_moving.gd" id="5_0chas"]
 [ext_resource type="Script" uid="uid://cp8st4653ft5q" path="res://ai/tasks/moveToPlayerAdjusted.gd" id="5_gahrh"]
 [ext_resource type="Script" uid="uid://dko7uh5a2dm00" path="res://ai/tasks/moveToPos.gd" id="6_l3xhj"]
 [ext_resource type="Script" uid="uid://yu3fkdlxtfbv" path="res://ai/tasks/calcPath.gd" id="8_2rmn4"]
@@ -122,17 +121,17 @@ resource_name = "<null>"
 variable = &"phase_changed"
 value = SubResource("BBVariant_88sik")
 
-[sub_resource type="BBNode" id="BBNode_0chas"]
+[sub_resource type="BBNode" id="BBNode_ogqqy"]
 saved_value = NodePath("AnimationPlayer")
 resource_name = "AnimationPlayer"
 
-[sub_resource type="BTStopAnimation" id="BTStopAnimation_l3xhj"]
-animation_player = SubResource("BBNode_0chas")
-animation_name = &"roar"
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_pjf07"]
+animation_player = SubResource("BBNode_ogqqy")
+animation_name = &"move"
 
 [sub_resource type="BTSequence" id="BTSequence_88sik"]
 custom_name = "Roar on Phase change"
-children = [SubResource("BTCheckVar_khm1n"), SubResource("BTPlayAnimation_gahrh"), SubResource("BTRepeat_vbg5b"), SubResource("BTSetVar_vn80h"), SubResource("BTStopAnimation_l3xhj")]
+children = [SubResource("BTCheckVar_khm1n"), SubResource("BTPlayAnimation_gahrh"), SubResource("BTRepeat_vbg5b"), SubResource("BTSetVar_vn80h"), SubResource("BTPlayAnimation_pjf07")]
 
 [sub_resource type="BBNode" id="BBNode_vn80h"]
 saved_value = NodePath("AnimationPlayer")
@@ -153,17 +152,6 @@ script = ExtResource("5_gahrh")
 in_range = 35
 out_range = 130
 
-[sub_resource type="BTAction" id="BTAction_ogqqy"]
-script = ExtResource("5_0chas")
-
-[sub_resource type="BBNode" id="BBNode_pjf07"]
-saved_value = NodePath("AnimationPlayer")
-resource_name = "AnimationPlayer"
-
-[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_ypebl"]
-animation_player = SubResource("BBNode_pjf07")
-animation_name = &"move"
-
 [sub_resource type="BBNode" id="BBNode_byeik"]
 saved_value = NodePath("AnimationPlayer")
 resource_name = "AnimationPlayer"
@@ -176,22 +164,35 @@ animation_name = &"tail_attack"
 script = ExtResource("2_88sik")
 attack_index = 2
 
-[sub_resource type="BBNode" id="BBNode_1j2ei"]
+[sub_resource type="BBNode" id="BBNode_0chas"]
 saved_value = NodePath("AnimationPlayer")
 resource_name = "AnimationPlayer"
 
-[sub_resource type="BTAwaitAnimation" id="BTAwaitAnimation_khl4x"]
-animation_player = SubResource("BBNode_1j2ei")
+[sub_resource type="BTStopAnimation" id="BTStopAnimation_l3xhj"]
+animation_player = SubResource("BBNode_0chas")
 animation_name = &"tail_attack"
 
-[sub_resource type="BTSequence" id="BTSequence_qbo2h"]
-children = [SubResource("BTPlayAnimation_7w5th"), SubResource("BTAction_rwb3y"), SubResource("BTAwaitAnimation_khl4x")]
+[sub_resource type="BBNode" id="BBNode_gahrh"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
 
-[sub_resource type="BTSequence" id="BTSequence_6dsdn"]
-children = [SubResource("BTAction_ogqqy"), SubResource("BTPlayAnimation_ypebl"), SubResource("BTSequence_qbo2h")]
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_vbg5b"]
+animation_player = SubResource("BBNode_gahrh")
+animation_name = &"move"
+
+[sub_resource type="BTDelay" id="BTDelay_ogqqy"]
+seconds = 0.35
+children = [SubResource("BTStopAnimation_l3xhj"), SubResource("BTPlayAnimation_vbg5b")]
+
+[sub_resource type="BTDelay" id="BTDelay_pjf07"]
+seconds = 0.25
+children = [SubResource("BTAction_rwb3y"), SubResource("BTDelay_ogqqy")]
+
+[sub_resource type="BTSequence" id="BTSequence_qbo2h"]
+children = [SubResource("BTPlayAnimation_7w5th"), SubResource("BTDelay_pjf07")]
 
 [sub_resource type="BTSequence" id="BTSequence_7w5th"]
-children = [SubResource("BTAction_0chas"), SubResource("BTAction_vbg5b"), SubResource("BTSequence_6dsdn")]
+children = [SubResource("BTAction_0chas"), SubResource("BTAction_vbg5b"), SubResource("BTSequence_qbo2h")]
 
 [sub_resource type="BTProbability" id="BTProbability_pjf07"]
 run_chance = 0.33
@@ -208,17 +209,6 @@ script = ExtResource("8_2rmn4")
 script = ExtResource("6_l3xhj")
 target_to_player = 5.0
 
-[sub_resource type="BTAction" id="BTAction_l3xhj"]
-script = ExtResource("5_0chas")
-
-[sub_resource type="BBNode" id="BBNode_gahrh"]
-saved_value = NodePath("AnimationPlayer")
-resource_name = "AnimationPlayer"
-
-[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_vbg5b"]
-animation_player = SubResource("BBNode_gahrh")
-animation_name = &"move"
-
 [sub_resource type="BBNode" id="BBNode_rwb3y"]
 saved_value = NodePath("AnimationPlayer")
 resource_name = "AnimationPlayer"
@@ -231,19 +221,32 @@ animation_name = &"attack"
 script = ExtResource("2_88sik")
 attack_index = 1
 
-[sub_resource type="BBNode" id="BBNode_qbo2h"]
+[sub_resource type="BBNode" id="BBNode_ypebl"]
 saved_value = NodePath("AnimationPlayer")
 resource_name = "AnimationPlayer"
 
-[sub_resource type="BTAwaitAnimation" id="BTAwaitAnimation_6dsdn"]
-animation_player = SubResource("BBNode_qbo2h")
+[sub_resource type="BTStopAnimation" id="BTStopAnimation_byeik"]
+animation_player = SubResource("BBNode_ypebl")
 animation_name = &"attack"
 
-[sub_resource type="BTSequence" id="BTSequence_2rmn4"]
-children = [SubResource("BTPlayAnimation_1j2ei"), SubResource("BTAction_khl4x"), SubResource("BTAwaitAnimation_6dsdn")]
+[sub_resource type="BBNode" id="BBNode_7w5th"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_rwb3y"]
+animation_player = SubResource("BBNode_7w5th")
+animation_name = &"move"
+
+[sub_resource type="BTDelay" id="BTDelay_1j2ei"]
+seconds = 0.2
+children = [SubResource("BTStopAnimation_byeik"), SubResource("BTPlayAnimation_rwb3y")]
+
+[sub_resource type="BTDelay" id="BTDelay_khl4x"]
+seconds = 0.3
+children = [SubResource("BTAction_khl4x"), SubResource("BTDelay_1j2ei")]
 
 [sub_resource type="BTSequence" id="BTSequence_0chas"]
-children = [SubResource("BTAction_l3xhj"), SubResource("BTPlayAnimation_vbg5b"), SubResource("BTSequence_2rmn4")]
+children = [SubResource("BTPlayAnimation_1j2ei"), SubResource("BTDelay_khl4x")]
 
 [sub_resource type="BTSequence" id="BTSequence_0a582"]
 children = [SubResource("BTAction_khm1n"), SubResource("BTAction_pjf07"), SubResource("BTSequence_0chas")]

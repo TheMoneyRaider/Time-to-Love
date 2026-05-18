@@ -24,7 +24,7 @@ health_chunk_scene = ExtResource("2_123nf")
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(175, 37)
+custom_minimum_size = Vector2(350, 74)
 layout_mode = 2
 max_value = 10.0
 value = 10.0
@@ -32,15 +32,15 @@ show_percentage = false
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 40
 text = "5/10 HP"
 
 [node name="Background" type="Line2D" parent="."]
-points = PackedVector2Array(0, 19, 175, 19)
-width = 38.0
+points = PackedVector2Array(0, 38, 350, 38)
+width = 76.0
 
 [node name="Foreground" type="Line2D" parent="."]
-points = PackedVector2Array(0, 19, 175, 19)
-width = 38.0
+points = PackedVector2Array(0, 38, 350, 38)
+width = 76.0
 
 [node name="Pieces" type="Node2D" parent="."]

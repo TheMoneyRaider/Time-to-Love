@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://0hahdiffjt61"]
+[gd_scene load_steps=41 format=3 uid="uid://0hahdiffjt61"]
 
 [ext_resource type="Script" uid="uid://ttvprfi61vn4" path="res://Game Elements/ui/hud.gd" id="1_6fbih"]
 [ext_resource type="Script" uid="uid://bs428146shl5s" path="res://Game Elements/ui/time_fabric_animation.gd" id="2_bjfho"]
@@ -9,11 +9,14 @@
 [ext_resource type="Texture2D" uid="uid://8clo10stsmun" path="res://Game Elements/Bosses/limbo/healthbar_p2_overlay.png" id="4_8prbk"]
 [ext_resource type="Script" uid="uid://d36yo1gmy8tkb" path="res://Game Elements/ui/cooldown_bar_1.gd" id="5_kgqo6"]
 [ext_resource type="Texture2D" uid="uid://dj6erg8qveqb0" path="res://art/ninja_2.png" id="5_p8pfh"]
+[ext_resource type="FontFile" uid="uid://bt6q2rnjl8b8a" path="res://demo/assets/fonts/QuentinCaps.ttf" id="5_wg6mc"]
 [ext_resource type="Texture2D" uid="uid://ds6fo2yfcafce" path="res://art/ninja_1.png" id="6_gp50j"]
 [ext_resource type="Shader" uid="uid://dtp2e4p3wbgyp" path="res://Game Elements/ui/special_cooldown.gdshader" id="8_gp50j"]
 [ext_resource type="Texture2D" uid="uid://kdaw8in4wo0" path="res://art/weapons/crossbow/crossbow_bright.png" id="9_gp50j"]
 [ext_resource type="PackedScene" uid="uid://bsol6opkpit8y" path="res://Game Elements/ui/health_bar.tscn" id="10_sjf6p"]
 [ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/Particles/effect_particles.gd" id="13_8prbk"]
+[ext_resource type="Shader" uid="uid://dw2wx3n6pfeno" path="res://Game Elements/ui/pain_display.gdshader" id="15_5ho0i"]
+[ext_resource type="Script" uid="uid://7n5dhknutmb5" path="res://Game Elements/ui/pain_display.gd" id="16_wtgju"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5ho0i"]
 shader = ExtResource("3_8prbk")
@@ -53,21 +56,12 @@ shader_parameter/P11_u_color_high = Color(1, 1, 1, 1)
 shader_parameter/P11_u_color_mid2 = Color(1, 0.824, 0.655, 1)
 shader_parameter/P11_scale = 64.0
 
-[sub_resource type="LabelSettings" id="LabelSettings_5ho0i"]
+[sub_resource type="LabelSettings" id="LabelSettings_mrems"]
+font = ExtResource("5_wg6mc")
 font_size = 64
-stacked_outline_count = 6
-stacked_outline_0/size = 6
-stacked_outline_0/color = Color(0.9999998, 0.9162768, 0.8571202, 1)
-stacked_outline_1/size = 6
-stacked_outline_1/color = Color(0.84, 0.65968, 0.45359996, 0.8666667)
-stacked_outline_2/size = 6
-stacked_outline_2/color = Color(0.67, 0.5605667, 0.4355, 0.7764706)
-stacked_outline_3/size = 6
-stacked_outline_3/color = Color(0.55, 0.42240003, 0.28599998, 0.6509804)
-stacked_outline_4/size = 6
-stacked_outline_4/color = Color(0.42, 0.31766, 0.23939998, 0.46666667)
-stacked_outline_5/size = 12
-stacked_outline_5/color = Color(0.3, 0.22440001, 0.11100001, 0.28627452)
+font_color = Color(0.50373435, 0.08703723, 9.62615e-08, 1)
+outline_size = 16
+outline_color = Color(0.1510567, 1.6770558e-07, 0.0046982653, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_t1xeu"]
 font_size = 35
@@ -78,7 +72,7 @@ shader_parameter/u_speed = 0.5
 shader_parameter/u_color_low = Color(0, 0, 0, 1)
 shader_parameter/u_color_mid_red = Color(0.36750364, 0.0016963201, 0.6819386, 1)
 shader_parameter/u_color_high = Color(0.9880591, 0.7400065, 1, 1)
-shader_parameter/scale = 24.0
+shader_parameter/scale = 12.0
 shader_parameter/progress = 0.0
 shader_parameter/interp_time = 0.25
 shader_parameter/time_offset = 0.0
@@ -120,7 +114,7 @@ bg_color = Color(0.38210395, 0.030576311, 0.5883771, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6fbih"]
 bg_color = Color(0.6858206, 0.29710156, 0.98195356, 1)
 
-[sub_resource type="Theme" id="Theme_gferk"]
+[sub_resource type="Theme" id="Theme_8prbk"]
 resource_local_to_scene = true
 Label/colors/font_color = Color(0.69411767, 0.32156864, 0.9843137, 1)
 Label/font_sizes/font_size = 40
@@ -133,7 +127,7 @@ shader_parameter/u_speed = 0.5
 shader_parameter/u_color_low = Color(0, 0, 0, 1)
 shader_parameter/u_color_mid_red = Color(0.73857963, 0.40337113, 0, 1)
 shader_parameter/u_color_high = Color(1, 0.8032116, 0.5074572, 1)
-shader_parameter/scale = 24.0
+shader_parameter/scale = 12.0
 shader_parameter/progress = 0.0
 shader_parameter/interp_time = 0.25
 shader_parameter/time_offset = 0.0
@@ -169,12 +163,30 @@ color_ramp = SubResource("GradientTexture1D_wtgju")
 hue_variation_min = -0.020000022
 hue_variation_max = 0.029999977
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ho0i"]
+bg_color = Color(0.38210395, 0.030576311, 0.5883771, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wtgju"]
+bg_color = Color(0.6858206, 0.29710156, 0.98195356, 1)
+
 [sub_resource type="Theme" id="Theme_gp50j"]
 resource_local_to_scene = true
 Label/colors/font_color = Color(0.69411767, 0.32156864, 0.9843137, 1)
 Label/font_sizes/font_size = 40
-ProgressBar/styles/background = SubResource("StyleBoxFlat_bjfho")
-ProgressBar/styles/fill = SubResource("StyleBoxFlat_6fbih")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_5ho0i")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_wtgju")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wtgju"]
+shader = ExtResource("15_5ho0i")
+shader_parameter/pulse_left = true
+shader_parameter/vignette_color = Color(1, 0, 0, 1)
+shader_parameter/pulse_strength = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wg6mc"]
+shader = ExtResource("15_5ho0i")
+shader_parameter/pulse_left = false
+shader_parameter/vignette_color = Color(1, 0, 0, 1)
+shader_parameter/pulse_strength = 0.0
 
 [node name="Hud" type="CanvasLayer"]
 process_mode = 3
@@ -236,8 +248,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Vision Of True Majesty"
-label_settings = SubResource("LabelSettings_5ho0i")
+text = "The Big T"
+label_settings = SubResource("LabelSettings_mrems")
 horizontal_alignment = 1
 vertical_alignment = 2
 
@@ -379,17 +391,16 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="CooldownBar" type="Control" parent="RootControl/Left_Bottom_Corner"]
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
 script = ExtResource("5_kgqo6")
 
 [node name="CooldownBar" type="TextureProgressBar" parent="RootControl/Left_Bottom_Corner/CooldownBar"]
 material = SubResource("ShaderMaterial_sjf6p")
 layout_mode = 1
-offset_top = 1.0
 offset_right = 20.0
-offset_bottom = 15.0
-scale = Vector2(4, 4)
+offset_bottom = 14.0
+scale = Vector2(8, 8)
 max_value = 0.5
 step = 0.005
 value = 0.25
@@ -423,7 +434,7 @@ script = ExtResource("13_8prbk")
 
 [node name="HealthBar" parent="RootControl/Left_Bottom_Corner" instance=ExtResource("10_sjf6p")]
 layout_mode = 2
-theme = SubResource("Theme_gferk")
+theme = SubResource("Theme_8prbk")
 
 [node name="Right_Bottom_Corner" type="VBoxContainer" parent="RootControl"]
 layout_mode = 1
@@ -471,27 +482,22 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="CooldownBar" type="Control" parent="RootControl/Right_Bottom_Corner"]
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
 script = ExtResource("5_kgqo6")
 
 [node name="CooldownBar" type="TextureProgressBar" parent="RootControl/Right_Bottom_Corner/CooldownBar"]
 material = SubResource("ShaderMaterial_gp50j")
 layout_mode = 1
-anchors_preset = 3
+anchors_preset = 1
 anchor_left = 1.0
-anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -58.0
-offset_right = 20.0
-offset_bottom = -44.0
+offset_left = -20.0
+offset_bottom = 14.0
 grow_horizontal = 0
-grow_vertical = 0
-scale = Vector2(-4, 4)
+scale = Vector2(-8, 8)
 max_value = 0.5
 step = 0.005
-value = 0.25
 texture_under = ExtResource("9_gp50j")
 texture_over = ExtResource("9_gp50j")
 texture_progress = ExtResource("9_gp50j")
@@ -569,6 +575,28 @@ theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
 [node name="Remnant" type="Label" parent="RootControl/DebugMenu/GridContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
+
+[node name="Purple" type="ColorRect" parent="RootControl"]
+material = SubResource("ShaderMaterial_wtgju")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("16_wtgju")
+
+[node name="Orange" type="ColorRect" parent="RootControl"]
+material = SubResource("ShaderMaterial_wg6mc")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("16_wtgju")
 
 [node name="AttackLabel2" type="RichTextLabel" parent="."]
 visible = false

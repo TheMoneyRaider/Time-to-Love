@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qsosnjo2r64x"
-path="res://.godot/imported/Signe__23.png-0035d1ee1fe3def49648b7fe9a6a6cd3.ctex"
+uid="uid://djchd0c3djldg"
+path="res://.godot/imported/bandit.png-468c005f75dd22916036119b0e029850.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/objects/letter_fragments/WesternTown/Signe__23.png"
-dest_files=["res://.godot/imported/Signe__23.png-0035d1ee1fe3def49648b7fe9a6a6cd3.ctex"]
+source_file="res://art/remnants/bandit.png"
+dest_files=["res://.godot/imported/bandit.png-468c005f75dd22916036119b0e029850.ctex"]
 
 [params]
 
