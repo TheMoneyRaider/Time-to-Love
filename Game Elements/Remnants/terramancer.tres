@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("3_4teqx")
 remnant_name = "Remnant of the Lithomancer"
-description = "Whenver you use a special, creates a $X area that $Z reduces enemy projectiles and grows player projectiles. "
+description = "Whenver you use a special, creates a $X area that $Z reduces enemy projectiles and grows player projectile size and strength. "
 icon = ExtResource("2_t0ox3")
 art = ExtResource("1_eyu3i")
 variable_names = Array[String](["$X", "$Y", "$Z"])

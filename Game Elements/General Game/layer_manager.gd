@@ -1920,6 +1920,7 @@ func dev_remnants():
 	rem = load("res://Game Elements/Remnants/terramancer.tres")
 	rem.rank = 3
 	player_1_remnants.append(rem.duplicate(true))
+	rem.rank = 5
 	player_2_remnants.append(rem.duplicate(true))
 	
 	#rem = load("res://Game Elements/Remnants/protector.tres")
