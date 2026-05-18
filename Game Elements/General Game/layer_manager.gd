@@ -97,7 +97,7 @@ func _ready() -> void:
 	hud.connect_signals(player1)
 	hud.set_cross_position()
 	
-	#dev_remnants()
+	dev_remnants()
 	
 	
 	
@@ -1721,6 +1721,7 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 	var giant = preload("res://Game Elements/Remnants/giant.tres")
 	var lawman = preload("res://Game Elements/Remnants/lawman.tres")
 	var hare = preload("res://Game Elements/Remnants/hare.tres")
+	var bandit = preload("res://Game Elements/Remnants/bandit.tres")
 	if gained:
 		if(remnant.remnant_name == mancermancer.remnant_name) and remnant.active:
 			if is_purple:
@@ -1730,6 +1731,7 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 		if(remnant.remnant_name == lawman.remnant_name) and remnant.active:
 			var lawman_aura = preload("res://Game Elements/Remnants/lawman/lawman.tscn").instantiate()
 			player.add_child(lawman_aura)
+			player.lawman_aura = lawman_aura
 		if(remnant.remnant_name == giant.remnant_name) and remnant.active:
 			if(player.is_purple == is_purple):
 				player.scale = player.scale * 1.5
@@ -1741,8 +1743,20 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 		if(remnant.remnant_name == hare.remnant_name) and remnant.active:
 			if(is_purple == player.is_purple):
 				player.move_speed = player.base_move_speed * (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
+		if(remnant.remnant_name == bandit.remnant_name) and remnant.active:
+			if is_purple:
+				hud.LeftCooldownBar.set_max_cooldown(player.weapons[1].cooldown* (1.0-remnant.variable_1_values[remnant.rank-1] / 100.0))
+			else:
+				hud.RightCooldownBar.set_max_cooldown(player.weapons[0].cooldown* (1.0-remnant.variable_1_values[remnant.rank-1] / 100.0))
 	else:
 		if(remnant.remnant_name == mancermancer.remnant_name):
+			if is_purple:
+				player.mancermancer_values[0] = remnant.rank
+			else:
+				player.mancermancer_values[1] = remnant.rank
+		if(remnant.remnant_name == lawman.remnant_name):
+			if player.lawman_aura:
+				player.lawman_aura.queue_free()
 			if is_purple:
 				player.mancermancer_values[0] = 0
 			else:
@@ -1758,6 +1772,11 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 		if(remnant.remnant_name == hare.remnant_name):
 			if(is_purple == player.is_purple):
 				player.move_speed = player.base_move_speed / (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
+		if(remnant.remnant_name == bandit.remnant_name):
+			if is_purple:
+				hud.LeftCooldownBar.set_max_cooldown(player.weapons[1].cooldown)
+			else:
+				hud.RightCooldownBar.set_max_cooldown(player.weapons[0].cooldown)
 	player.display_combo()
 	
 
@@ -1918,26 +1937,39 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 
 func dev_remnants():
 	var rem
-	rem = load("res://Game Elements/Remnants/tortoise.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
 	
-	rem = load("res://Game Elements/Remnants/protector.tres")
-	rem.rank = 5
+	rem = load("res://Game Elements/Remnants/bandit.tres")
+	rem.rank = 1
 	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
-	
-	rem = load("res://Game Elements/Remnants/monk.tres")
+	remnant_update(rem,player1,true)
 	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
 	player_2_remnants.append(rem.duplicate(true))
+	if is_multiplayer:
+		remnant_update(rem,player2,false)
+	else:
+		remnant_update(rem,player1,false)
 	
 	
-	rem = load("res://Game Elements/Remnants/lawman.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	player_2_remnants.append(rem.duplicate(true))
+	#rem = load("res://Game Elements/Remnants/tortoise.tres")
+	#rem.rank = 5
+	#player_1_remnants.append(rem.duplicate(true))
+	#player_2_remnants.append(rem.duplicate(true))
+	#
+	#rem = load("res://Game Elements/Remnants/protector.tres")
+	#rem.rank = 5
+	#player_1_remnants.append(rem.duplicate(true))
+	#player_2_remnants.append(rem.duplicate(true))
+	#
+	#rem = load("res://Game Elements/Remnants/monk.tres")
+	#rem.rank = 5
+	#player_1_remnants.append(rem.duplicate(true))
+	#player_2_remnants.append(rem.duplicate(true))
+	#
+	#
+	#rem = load("res://Game Elements/Remnants/lawman.tres")
+	#rem.rank = 5
+	#player_1_remnants.append(rem.duplicate(true))
+	#player_2_remnants.append(rem.duplicate(true))
 	
 	#rem = load("res://Game Elements/Remnants/winters_embrace.tres")
 	#rem.rank = 3

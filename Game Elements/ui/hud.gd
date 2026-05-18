@@ -288,11 +288,11 @@ func set_max_cooldowns():
 
 func set_cooldowns():
 	if is_multiplayer:
-		LeftCooldownBar.set_current_cooldown(player1.cooldowns[1])
-		RightCooldownBar.set_current_cooldown(player2.cooldowns[0])
+		LeftCooldownBar.set_current_cooldown(player1.cooldowns[1] - player1.bandit_cooldown())
+		RightCooldownBar.set_current_cooldown(player2.cooldowns[0] - player2.bandit_cooldown())
 	else:
-		LeftCooldownBar.set_current_cooldown(player1.cooldowns[1])
-		RightCooldownBar.set_current_cooldown(player1.cooldowns[0])
+		LeftCooldownBar.set_current_cooldown(player1.cooldowns[1] - player1.bandit_cooldown())
+		RightCooldownBar.set_current_cooldown(player1.cooldowns[0] - player1.bandit_cooldown())
 
 func set_cooldown_icons():
 	if is_multiplayer:

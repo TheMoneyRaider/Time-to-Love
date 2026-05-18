@@ -491,7 +491,6 @@ grow_vertical = 0
 scale = Vector2(-4, 4)
 max_value = 0.5
 step = 0.005
-value = 0.25
 texture_under = ExtResource("9_gp50j")
 texture_over = ExtResource("9_gp50j")
 texture_progress = ExtResource("9_gp50j")

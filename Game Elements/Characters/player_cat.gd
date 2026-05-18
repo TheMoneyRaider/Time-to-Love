@@ -40,7 +40,7 @@ var effect_particles : Array
 var other_player
 var disabled = false
 var current_room : Globals.RoomType
-
+var lawman_aura : Node
 var in_combat = 0
 var time_since_last_hit = 0
 
@@ -353,6 +353,8 @@ func _physics_process(delta):
 			weapons[is_purple as int].use_normal_attack(Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
 		else:
 			handle_attack()
+	if has_bandit() and Input.is_action_pressed("attack_" + input_device):
+		handle_attack()
 	if Input.is_action_just_pressed("activate_" + input_device):
 		emit_signal("activate",self)
 	if Input.is_action_just_pressed("special_" + input_device):
@@ -807,8 +809,34 @@ func adjust_cooldowns(time_elapsed : float):
 		cooldowns[is_purple as int] = max(cooldowns[is_purple as int]-time_elapsed,0.0)
 
 func handle_attack():
-	if cooldowns[is_purple as int] <= 0:
+	if cooldowns[is_purple as int] <= bandit_cooldown():
 		cooldowns[is_purple as int] = request_attack(weapons[is_purple as int])
+
+
+func has_bandit():
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var bandit = preload("res://Game Elements/Remnants/bandit.tres")
+	for rem in remnants:
+		if rem.remnant_name == bandit.remnant_name and rem.active:
+			return true
+	return false
+
+func bandit_cooldown():
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var bandit = preload("res://Game Elements/Remnants/bandit.tres")
+	for rem in remnants:
+		if rem.remnant_name == bandit.remnant_name and rem.active:
+			return weapons[is_purple as int].cooldown * rem.variable_1_values[rem.rank-1] / 100.0
+	return 0.0
+
 
 func check_traps(delta):
 	var tile_pos = Vector2i(int(floor(global_position.x / 16)),int(floor(global_position.y / 16)))
