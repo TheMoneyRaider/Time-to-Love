@@ -39,9 +39,9 @@ static func spawn_enemies(
 	is_wave: bool,
 	override_enemy_count : int = -1,
 	override_enemy_type : String = "", is_natural_spawn : bool = false, edge_penalty : bool = true
-) -> void:
+) -> int:
 	if room_data.num_enemy_goal <= 0 and override_enemy_count == -1:
-		return
+		return 0
 
 	#Convert to hash set for O(1) lookup
 	var cell_set := {}
@@ -78,7 +78,7 @@ static func spawn_enemies(
 
 		if best == Vector2i(-999,-999):
 			push_warning("No valid cell left to place enemy")
-			return
+			return chosen_positions.size()
 
 		cell_set.erase(best)
 		chosen_positions.append(best)
@@ -89,6 +89,7 @@ static func spawn_enemies(
 			enemy_scene = _get_enemy_scene(enemy_path)
 			cells_needed = _cells_needed(_get_enemy_half_extents(enemy_path))
 		_apply_enemy_influence(best)
+	return chosen_positions.size()
 
 ###ENEMY SELECTION
 static func choose_enemy(room_data: Room) -> String:
