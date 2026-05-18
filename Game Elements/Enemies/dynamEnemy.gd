@@ -93,6 +93,10 @@ func handle_attack(target_position: Vector2,attack_index: int = 0):
 	if enemy_type == "large_reptile" && attack_index != 1:
 		var num_projectiles = 12 if attack_index == 0 else 5 
 		var spread = (2.0 * PI / 3.0) if attack_index == 0 else (PI / 3.0)
+		if attack_index == 0:
+			attack_position+= Vector2(-13,-28)*3.6 if $Sprite2D.flip_h else Vector2(13,-28)*3.6
+		if attack_index == 2:
+			attack_position+= Vector2(13,-6)*3.6 if $Sprite2D.flip_h else Vector2(-13,-6)*3.6
 		var step = spread / (num_projectiles - 1)
 		var start_angle = attack_direction.angle() - spread / 2
 		for i in range(num_projectiles):
@@ -223,10 +227,10 @@ func _process(delta):
 		_slime_process()
 	if enemy_type=="large_reptile":
 		if $Sprite2D.flip_h:
-			$Hat.position.x = -abs($Hat.special_position.x+1.0)
+			$Hat.position.x = -abs($Hat.special_position.x)
 		else:
-			$Hat.position.x = abs($Hat.special_position.x+1.0)
-		$Hat.position.y = $Hat.special_position.y+2.5-19.167
+			$Hat.position.x = abs($Hat.special_position.x)
+		$Hat.position.y = $Hat.special_position.y
 		$Hat.rotation = $Hat.special_rotation
 	if(i_frames > 0):
 		i_frames -= 1
