@@ -33,12 +33,10 @@ y_sort_enabled = true
 collision_layer = 32
 collision_mask = 129
 script = ExtResource("1_gkk4m")
-max_health = 20
+max_health = 45.0
 hit_range = 20
 agro_distance = 200.0
 enemy_type = "binary_bot"
-min_timefabric = 40
-max_timefabric = 200
 move_speed = 100.0
 
 [node name="BTPlayer" type="BTPlayer" parent="."]
