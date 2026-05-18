@@ -486,7 +486,7 @@ func post_damage_trigger(damage_amount: float, _dmg_owner : Node):
 						var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 						particle.position = self.position
 						get_parent().add_child(particle)
-						change_health(rem.variable_2_values[rem.rank-1])
+						change_health(damage_amount * .01 * rem.variable_2_values[rem.rank-1])
 				barbarian.remnant_name:
 					for weapon in weapons:
 						weapon.damage = weapon.damage * (1 + rem.variable_1_values[rem.rank-1] / 100.0)
