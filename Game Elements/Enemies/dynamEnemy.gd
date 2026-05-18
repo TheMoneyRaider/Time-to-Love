@@ -88,15 +88,15 @@ func handle_attack(target_position: Vector2,attack_index: int = 0):
 			return
 			
 	# big t attack handling
-	if enemy_type == "large_reptile":
-		if attack_index == 0: # Roar
-			var num_projectiles = 12
-			var spread = 2 * PI / 3
-			var step = spread / (num_projectiles - 1)
-			var start_angle = attack_direction.angle() - spread / 2
-			for i in range(num_projectiles):
-				var spread_dir = Vector2.RIGHT.rotated(start_angle + step * i)
-				request_attack(attacks[0], attack_position, spread_dir)
+	if enemy_type == "large_reptile" && attack_index != 1:
+		var num_projectiles = 12 if attack_index == 0 else 5 
+		var spread = (2.0 * PI / 3.0) if attack_index == 0 else (PI / 3.0)
+		var step = spread / (num_projectiles - 1)
+		var start_angle = attack_direction.angle() - spread / 2
+		for i in range(num_projectiles):
+			var spread_dir = Vector2.RIGHT.rotated(start_angle + step * i)
+			request_attack(attacks[attack_index], attack_position, spread_dir)
+		return
 
 	request_attack(attacks[attack_index], attack_position, attack_direction)
 
@@ -335,7 +335,6 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 			phase += 1
 			if phase < boss_phases:
 				emit_signal("boss_phase_change", self)
-				print("big t phase change: ", phase)
 				return
 		if enemy_type != "large_reptile" and current_health <= 0.0 and phase != boss_phases - 1:
 			if phase == last_phase:

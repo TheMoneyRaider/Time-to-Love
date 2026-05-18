@@ -1,9 +1,11 @@
-[gd_resource type="BehaviorTree" load_steps=36 format=3 uid="uid://dkwlk3hb7u71t"]
+[gd_resource type="BehaviorTree" load_steps=65 format=3 uid="uid://dkwlk3hb7u71t"]
 
 [ext_resource type="Script" uid="uid://dr4vkyorjqaqn" path="res://ai/tasks/getPlayerPos.gd" id="1_byeik"]
 [ext_resource type="Script" uid="uid://rvfhx3hd7gln" path="res://ai/tasks/attacks.gd" id="2_88sik"]
+[ext_resource type="Script" uid="uid://b7mqxkcvqcrar" path="res://ai/tasks/check_if_moving.gd" id="5_0chas"]
+[ext_resource type="Script" uid="uid://cp8st4653ft5q" path="res://ai/tasks/moveToPlayerAdjusted.gd" id="5_gahrh"]
+[ext_resource type="Script" uid="uid://dko7uh5a2dm00" path="res://ai/tasks/moveToPos.gd" id="6_l3xhj"]
 [ext_resource type="Script" uid="uid://yu3fkdlxtfbv" path="res://ai/tasks/calcPath.gd" id="8_2rmn4"]
-[ext_resource type="Script" uid="uid://ravfjih580jj" path="res://ai/tasks/moveToPlayer.gd" id="11_w7kic"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_ak6g3"]
 var/state/name = &"state"
@@ -143,27 +145,128 @@ animation_name = &"move"
 [sub_resource type="BTRunLimit" id="BTRunLimit_0chas"]
 children = [SubResource("BTPlayAnimation_khm1n")]
 
-[sub_resource type="BTAction" id="BTAction_khm1n"]
+[sub_resource type="BTAction" id="BTAction_0chas"]
 script = ExtResource("8_2rmn4")
 
-[sub_resource type="BTAction" id="BTAction_0chas"]
-script = ExtResource("11_w7kic")
+[sub_resource type="BTAction" id="BTAction_vbg5b"]
+script = ExtResource("5_gahrh")
+in_range = 35
+out_range = 130
 
-[sub_resource type="BBNode" id="BBNode_ogqqy"]
+[sub_resource type="BTAction" id="BTAction_ogqqy"]
+script = ExtResource("5_0chas")
+
+[sub_resource type="BBNode" id="BBNode_pjf07"]
 saved_value = NodePath("AnimationPlayer")
 resource_name = "AnimationPlayer"
 
-[sub_resource type="BTStopAnimation" id="BTStopAnimation_pjf07"]
-animation_player = SubResource("BBNode_ogqqy")
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_ypebl"]
+animation_player = SubResource("BBNode_pjf07")
 animation_name = &"move"
 
+[sub_resource type="BBNode" id="BBNode_byeik"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_7w5th"]
+animation_player = SubResource("BBNode_byeik")
+animation_name = &"tail_attack"
+
+[sub_resource type="BTAction" id="BTAction_rwb3y"]
+script = ExtResource("2_88sik")
+attack_index = 2
+
+[sub_resource type="BBNode" id="BBNode_1j2ei"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTAwaitAnimation" id="BTAwaitAnimation_khl4x"]
+animation_player = SubResource("BBNode_1j2ei")
+animation_name = &"tail_attack"
+
+[sub_resource type="BTSequence" id="BTSequence_qbo2h"]
+children = [SubResource("BTPlayAnimation_7w5th"), SubResource("BTAction_rwb3y"), SubResource("BTAwaitAnimation_khl4x")]
+
+[sub_resource type="BTSequence" id="BTSequence_6dsdn"]
+children = [SubResource("BTAction_ogqqy"), SubResource("BTPlayAnimation_ypebl"), SubResource("BTSequence_qbo2h")]
+
+[sub_resource type="BTSequence" id="BTSequence_7w5th"]
+children = [SubResource("BTAction_0chas"), SubResource("BTAction_vbg5b"), SubResource("BTSequence_6dsdn")]
+
+[sub_resource type="BTProbability" id="BTProbability_pjf07"]
+run_chance = 0.33
+children = [SubResource("BTSequence_7w5th")]
+
+[sub_resource type="BTSequence" id="BTSequence_ypebl"]
+custom_name = "tail attack"
+children = [SubResource("BTProbability_pjf07")]
+
+[sub_resource type="BTAction" id="BTAction_khm1n"]
+script = ExtResource("8_2rmn4")
+
+[sub_resource type="BTAction" id="BTAction_pjf07"]
+script = ExtResource("6_l3xhj")
+target_to_player = 5.0
+
+[sub_resource type="BTAction" id="BTAction_l3xhj"]
+script = ExtResource("5_0chas")
+
+[sub_resource type="BBNode" id="BBNode_gahrh"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_vbg5b"]
+animation_player = SubResource("BBNode_gahrh")
+animation_name = &"move"
+
+[sub_resource type="BBNode" id="BBNode_rwb3y"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_1j2ei"]
+animation_player = SubResource("BBNode_rwb3y")
+animation_name = &"attack"
+
+[sub_resource type="BTAction" id="BTAction_khl4x"]
+script = ExtResource("2_88sik")
+attack_index = 1
+
+[sub_resource type="BBNode" id="BBNode_qbo2h"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTAwaitAnimation" id="BTAwaitAnimation_6dsdn"]
+animation_player = SubResource("BBNode_qbo2h")
+animation_name = &"attack"
+
+[sub_resource type="BTSequence" id="BTSequence_2rmn4"]
+children = [SubResource("BTPlayAnimation_1j2ei"), SubResource("BTAction_khl4x"), SubResource("BTAwaitAnimation_6dsdn")]
+
+[sub_resource type="BTSequence" id="BTSequence_0chas"]
+children = [SubResource("BTAction_l3xhj"), SubResource("BTPlayAnimation_vbg5b"), SubResource("BTSequence_2rmn4")]
+
+[sub_resource type="BTSequence" id="BTSequence_0a582"]
+children = [SubResource("BTAction_khm1n"), SubResource("BTAction_pjf07"), SubResource("BTSequence_0chas")]
+
+[sub_resource type="BTProbability" id="BTProbability_1r1yi"]
+run_chance = 0.8
+children = [SubResource("BTSequence_0a582")]
+
 [sub_resource type="BTSequence" id="BTSequence_l3xhj"]
+custom_name = "swipe"
+children = [SubResource("BTProbability_1r1yi")]
+
+[sub_resource type="BTSelector" id="BTSelector_7w5th"]
 custom_name = "approach"
-children = [SubResource("BTAction_khm1n"), SubResource("BTAction_0chas"), SubResource("BTStopAnimation_pjf07")]
+children = [SubResource("BTSequence_ypebl"), SubResource("BTSequence_l3xhj")]
+
+[sub_resource type="BTCooldown" id="BTCooldown_pjf07"]
+duration = 1.0
+children = [SubResource("BTSelector_7w5th")]
 
 [sub_resource type="BTDynamicSelector" id="BTDynamicSelector_l3xhj"]
 custom_name = "everything else"
-children = [SubResource("BTRunLimit_0chas"), SubResource("BTSequence_l3xhj")]
+children = [SubResource("BTRunLimit_0chas"), SubResource("BTCooldown_pjf07")]
 
 [sub_resource type="BTSelector" id="BTSelector_gahrh"]
 custom_name = "literally everything"

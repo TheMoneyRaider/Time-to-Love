@@ -42,8 +42,6 @@ func _phase_changed(boss_node : Node) -> void:
 	var bt_player = boss_node.get_node("BTPlayer")
 	var board = bt_player.blackboard
 	
-	print("big t on phase ", phase)
-	
 	board.set_var("phase", phase)
 	board.set_var("phase_changed", true)
 	
