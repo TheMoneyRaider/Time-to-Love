@@ -223,10 +223,10 @@ func _process(delta):
 		_slime_process()
 	if enemy_type=="large_reptile":
 		if $Sprite2D.flip_h:
-			$Hat.position.x = -abs($Hat.special_position.x-1.0)
+			$Hat.position.x = -abs($Hat.special_position.x+1.0)
 		else:
-			$Hat.position.x = abs($Hat.special_position.x-1.0)
-		$Hat.position.y = $Hat.special_position.y-2.5
+			$Hat.position.x = abs($Hat.special_position.x+1.0)
+		$Hat.position.y = $Hat.special_position.y+2.5-19.167
 		$Hat.rotation = $Hat.special_rotation
 	if(i_frames > 0):
 		i_frames -= 1

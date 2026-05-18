@@ -279,7 +279,7 @@ radius = 23.259407
 
 [node name="BigT" type="CharacterBody2D" groups=["enemy"]]
 z_index = 40
-scale = Vector2(1.8, 1.8)
+scale = Vector2(3.6, 3.6)
 collision_layer = 4
 collision_mask = 9
 script = ExtResource("1_qhvxm")
@@ -291,7 +291,7 @@ min_timefabric = 200
 max_timefabric = 250
 max_sprint_cooldown = 4.0
 sprint_multiplier = 3.0
-move_speed = 60.0
+move_speed = 120.0
 is_boss = true
 boss_phases = 6
 boss_healthpools = Array[float]([300.0])
@@ -299,6 +299,7 @@ attacks = [ExtResource("2_f2uui"), ExtResource("3_rgvsh"), ExtResource("4_b1psi"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 y_sort_enabled = true
+position = Vector2(0, -19.166668)
 scale = Vector2(0.765625, 0.75)
 texture = ExtResource("3_f2uui")
 hframes = 6

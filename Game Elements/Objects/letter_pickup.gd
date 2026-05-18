@@ -24,7 +24,7 @@ func disable(variant : Globals.RoomVariant):
 			choose_random("res://art/objects/letter_fragments/WesternCanyon")
 			$PathwayIcon1.scale *= .5
 		Globals.RoomVariant.WesternTown:
-			choose_random("res://art/objects/letter_fragments/WesternTown")
+			choose_random("res://art/objects/letter_fragments/WesternCanyon")
 			$PathwayIcon1.scale *= .5
 		Globals.RoomVariant.SciFiCyberspace:
 			choose_random("res://art/objects/letter_fragments/SciFiCyberspace")

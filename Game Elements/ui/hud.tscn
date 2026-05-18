@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://0hahdiffjt61"]
+[gd_scene load_steps=41 format=3 uid="uid://0hahdiffjt61"]
 
 [ext_resource type="Script" uid="uid://ttvprfi61vn4" path="res://Game Elements/ui/hud.gd" id="1_6fbih"]
 [ext_resource type="Script" uid="uid://bs428146shl5s" path="res://Game Elements/ui/time_fabric_animation.gd" id="2_bjfho"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://8clo10stsmun" path="res://Game Elements/Bosses/limbo/healthbar_p2_overlay.png" id="4_8prbk"]
 [ext_resource type="Script" uid="uid://d36yo1gmy8tkb" path="res://Game Elements/ui/cooldown_bar_1.gd" id="5_kgqo6"]
 [ext_resource type="Texture2D" uid="uid://dj6erg8qveqb0" path="res://art/ninja_2.png" id="5_p8pfh"]
+[ext_resource type="FontFile" uid="uid://bt6q2rnjl8b8a" path="res://demo/assets/fonts/QuentinCaps.ttf" id="5_wg6mc"]
 [ext_resource type="Texture2D" uid="uid://ds6fo2yfcafce" path="res://art/ninja_1.png" id="6_gp50j"]
 [ext_resource type="Shader" uid="uid://dtp2e4p3wbgyp" path="res://Game Elements/ui/special_cooldown.gdshader" id="8_gp50j"]
 [ext_resource type="Texture2D" uid="uid://kdaw8in4wo0" path="res://art/weapons/crossbow/crossbow_bright.png" id="9_gp50j"]
@@ -55,21 +56,12 @@ shader_parameter/P11_u_color_high = Color(1, 1, 1, 1)
 shader_parameter/P11_u_color_mid2 = Color(1, 0.824, 0.655, 1)
 shader_parameter/P11_scale = 64.0
 
-[sub_resource type="LabelSettings" id="LabelSettings_5ho0i"]
+[sub_resource type="LabelSettings" id="LabelSettings_mrems"]
+font = ExtResource("5_wg6mc")
 font_size = 64
-stacked_outline_count = 6
-stacked_outline_0/size = 6
-stacked_outline_0/color = Color(0.9999998, 0.9162768, 0.8571202, 1)
-stacked_outline_1/size = 6
-stacked_outline_1/color = Color(0.84, 0.65968, 0.45359996, 0.8666667)
-stacked_outline_2/size = 6
-stacked_outline_2/color = Color(0.67, 0.5605667, 0.4355, 0.7764706)
-stacked_outline_3/size = 6
-stacked_outline_3/color = Color(0.55, 0.42240003, 0.28599998, 0.6509804)
-stacked_outline_4/size = 6
-stacked_outline_4/color = Color(0.42, 0.31766, 0.23939998, 0.46666667)
-stacked_outline_5/size = 12
-stacked_outline_5/color = Color(0.3, 0.22440001, 0.11100001, 0.28627452)
+font_color = Color(0.50373435, 0.08703723, 9.62615e-08, 1)
+outline_size = 16
+outline_color = Color(0.1510567, 1.6770558e-07, 0.0046982653, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_t1xeu"]
 font_size = 35
@@ -256,8 +248,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Vision Of True Majesty"
-label_settings = SubResource("LabelSettings_5ho0i")
+text = "The Big T"
+label_settings = SubResource("LabelSettings_mrems")
 horizontal_alignment = 1
 vertical_alignment = 2
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqs63p183jja6"
-path="res://.godot/imported/iron_helmet.png-a314d554ca1aac71a3fe0d66306adef0.ctex"
+uid="uid://cioc7j5obrkg7"
+path="res://.godot/imported/Signe__9.png-7085e28c96c2e69a676db2174175f43b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/objects/letter_fragments/MedOut/iron_helmet.png"
-dest_files=["res://.godot/imported/iron_helmet.png-a314d554ca1aac71a3fe0d66306adef0.ctex"]
+source_file="res://art/objects/letter_fragments/WesternCanyon/Signe__9.png"
+dest_files=["res://.godot/imported/Signe__9.png-7085e28c96c2e69a676db2174175f43b.ctex"]
 
 [params]
 
