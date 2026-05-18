@@ -4,7 +4,8 @@ var current_health = 100
 var max_health = 100
 @export var is_purple : bool
 
-@export var width_scale := 100
+@export var width_scale := 200
+@export var height_scale := 2.0
 @export var exponent := 0.247
 @export var flipped : bool = false
 

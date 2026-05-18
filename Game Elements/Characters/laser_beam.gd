@@ -23,14 +23,19 @@ func _ready():
 
 
 func fire_laser(from_point : Vector2, to_point : Vector2, y_axis : bool):
-	var laser_enemy = get_parent().get_parent().get_parent()
+	var laser_enemy = get_parent()
 	clear_points()
+	$BabyLaser.clear_points()
 	if y_axis:
-		add_point(from_point-get_parent().get_parent().position+Vector2(0,3))
-		add_point(to_point-get_parent().get_parent().position+Vector2(0,-3))
+		add_point(from_point+Vector2(0,3))
+		add_point(to_point+Vector2(0,-3))
+		$BabyLaser.add_point(from_point+Vector2(0,3))
+		$BabyLaser.add_point(to_point+Vector2(0,-3))
 	else:
-		add_point(from_point-get_parent().get_parent().position+Vector2(3,0))
-		add_point(to_point-get_parent().get_parent().position+Vector2(-3,0))
+		add_point(from_point+Vector2(3,0))
+		add_point(to_point+Vector2(-3,0))
+		$BabyLaser.add_point(from_point+Vector2(3,0))
+		$BabyLaser.add_point(to_point+Vector2(-3,0))
 	active = true
 	powering = 0.0
 	powering_down = -1.0
@@ -91,13 +96,14 @@ func _process(delta):
 
 	p = power_curve.sample(p)  # organic shaping
 
-	width=(p*laser_width)
-	get_parent().get_parent().get_parent().get_node("Light").scale.x = (p*light_width)
+	width=clamp((p*laser_width)-2.0,0,1000000)
+	$BabyLaser.width=(p*laser_width)
+	get_parent().get_node("Light").scale.x = (p*light_width)
 
 
 func show_laser():
 	visible = true
-	get_parent().get_parent().get_parent().get_node("Light").visible = true
+	get_parent().get_node("Light").visible = true
 func hide_laser():
 	visible = false
-	get_parent().get_parent().get_parent().get_node("Light").visible = false
+	get_parent().get_node("Light").visible = false

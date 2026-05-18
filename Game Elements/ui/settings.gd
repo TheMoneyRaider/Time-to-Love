@@ -337,7 +337,9 @@ func _on_feeback_pressed() -> void:
 	var total_save_time = 0
 	for i in range(3):
 		total_save_time += _load_save_time(i)
-	var progress : String = str(Globals.save_state.total_progress)
+	var progress : String =str(Globals.save_state.total_progress)
+	if get_tree().get_root().get_node_or_null("LayerManager"):
+		progress= str(Globals.save_state.total_progress+RoomManager.layer_ai[3] + get_tree().get_root().get_node_or_null("LayerManager").time_passed)
 	var gpu_name : String = RenderingServer.get_video_adapter_name()
 	var gpu_api : String = RenderingServer.get_video_adapter_api_version()
 	var gpu_adapter : String = str(RenderingServer.get_video_adapter_type())

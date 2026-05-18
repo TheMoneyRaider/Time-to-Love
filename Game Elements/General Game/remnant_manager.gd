@@ -5,7 +5,7 @@ var remnant_pool: Array[Resource] = []
 func _ready():
 	randomize()
 	_load_all_remnants()
-
+var has_gotten_remnant : bool = false
 #Loads all resources from res://remnants/
 func _load_all_remnants() -> void:
 	var dir = ResourceLoader.list_directory("res://Game Elements/Remnants/")

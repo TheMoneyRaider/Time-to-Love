@@ -252,7 +252,6 @@ func _process(delta):
 	if attack_type == "laser" or attack_type == "scifi_laser" or attack_type == "tentacle":
 		if has_method("get_overlapping_bodies") and monitoring:
 			for body in get_overlapping_bodies():
-				print(body)
 				intersection(body)
 	if deflects and monitoring:
 		for area in get_overlapping_areas():
@@ -262,6 +261,8 @@ func _process(delta):
 	life+=delta
 	if attack_type == "smash":
 		get_node("CollisionShape2D").shape.radius = lerp(8,16,life/lifespan)
+		if life < .15:
+			get_node("CollisionShape2D").disabled = true
 	if attack_type == "scifi_wave":
 		_wave_process()
 	if attack_type == "scifi_laser":
@@ -302,6 +303,9 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 		if(deflectable && attack_type != "slime_ball"):
 			if(randf() > .5):
 				deflect(-1 * direction, 100, null)
+				var inst = preload("res://Game Elements/Particles/slime_particles.tscn").instantiate()
+				get_parent().add_child.call_deferred(inst)
+				inst.global_position = global_position
 				self.c_owner = body
 				hit_nodes.clear()
 				return 0
@@ -370,10 +374,10 @@ func intersection(body):
 				else:
 					pierce -= 1
 					if wall_collision:
-						#print("Attack Wall Collide")
+						if deflected: print("Attack Wall Collide")
 						queue_free()
 	if pierce == -1:
-		#print("Pierce Attack Death")
+		if deflected: print("Pierce Attack Death")
 		queue_free()
 
 
@@ -385,8 +389,10 @@ func _on_body_entered(body):
 		return
 	if(!("attack_type" in body)):
 		intersection(body)
-
+var deflected :bool = false
 func deflect(hit_direction, hit_speed, deflection_area):
+	deflected = true
+	print("DEFLECT")
 	sfx_manager.play(deflect_sounds[randi() % deflect_sounds.size()], 2.0)
 	if attack_type=="laser":
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment1"))
@@ -405,6 +411,9 @@ func deflect(hit_direction, hit_speed, deflection_area):
 		rotation = direction.angle()
 	damage = round(damage * ((hit_speed + speed) / speed))
 	speed = speed + hit_speed
+	lifespan+=2.0
+	if pierce >=0:
+		pierce+=2
 	
 	if deflection_area and deflection_area.c_owner and deflection_area.c_owner.is_in_group("player"):
 		var remnants : Array[Remnant]
