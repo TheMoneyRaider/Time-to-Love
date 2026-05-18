@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://0hahdiffjt61"]
+[gd_scene load_steps=36 format=3 uid="uid://0hahdiffjt61"]
 
 [ext_resource type="Script" uid="uid://ttvprfi61vn4" path="res://Game Elements/ui/hud.gd" id="1_6fbih"]
 [ext_resource type="Script" uid="uid://bs428146shl5s" path="res://Game Elements/ui/time_fabric_animation.gd" id="2_bjfho"]
@@ -120,7 +120,7 @@ bg_color = Color(0.38210395, 0.030576311, 0.5883771, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6fbih"]
 bg_color = Color(0.6858206, 0.29710156, 0.98195356, 1)
 
-[sub_resource type="Theme" id="Theme_gferk"]
+[sub_resource type="Theme" id="Theme_8prbk"]
 resource_local_to_scene = true
 Label/colors/font_color = Color(0.69411767, 0.32156864, 0.9843137, 1)
 Label/font_sizes/font_size = 40
@@ -169,12 +169,18 @@ color_ramp = SubResource("GradientTexture1D_wtgju")
 hue_variation_min = -0.020000022
 hue_variation_max = 0.029999977
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ho0i"]
+bg_color = Color(0.38210395, 0.030576311, 0.5883771, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wtgju"]
+bg_color = Color(0.6858206, 0.29710156, 0.98195356, 1)
+
 [sub_resource type="Theme" id="Theme_gp50j"]
 resource_local_to_scene = true
 Label/colors/font_color = Color(0.69411767, 0.32156864, 0.9843137, 1)
 Label/font_sizes/font_size = 40
-ProgressBar/styles/background = SubResource("StyleBoxFlat_bjfho")
-ProgressBar/styles/fill = SubResource("StyleBoxFlat_6fbih")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_5ho0i")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_wtgju")
 
 [node name="Hud" type="CanvasLayer"]
 process_mode = 3
@@ -379,17 +385,16 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="CooldownBar" type="Control" parent="RootControl/Left_Bottom_Corner"]
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
 script = ExtResource("5_kgqo6")
 
 [node name="CooldownBar" type="TextureProgressBar" parent="RootControl/Left_Bottom_Corner/CooldownBar"]
 material = SubResource("ShaderMaterial_sjf6p")
 layout_mode = 1
-offset_top = 1.0
 offset_right = 20.0
-offset_bottom = 15.0
-scale = Vector2(4, 4)
+offset_bottom = 14.0
+scale = Vector2(8, 8)
 max_value = 0.5
 step = 0.005
 value = 0.25
@@ -423,7 +428,7 @@ script = ExtResource("13_8prbk")
 
 [node name="HealthBar" parent="RootControl/Left_Bottom_Corner" instance=ExtResource("10_sjf6p")]
 layout_mode = 2
-theme = SubResource("Theme_gferk")
+theme = SubResource("Theme_8prbk")
 
 [node name="Right_Bottom_Corner" type="VBoxContainer" parent="RootControl"]
 layout_mode = 1
@@ -471,24 +476,20 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="CooldownBar" type="Control" parent="RootControl/Right_Bottom_Corner"]
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
 script = ExtResource("5_kgqo6")
 
 [node name="CooldownBar" type="TextureProgressBar" parent="RootControl/Right_Bottom_Corner/CooldownBar"]
 material = SubResource("ShaderMaterial_gp50j")
 layout_mode = 1
-anchors_preset = 3
+anchors_preset = 1
 anchor_left = 1.0
-anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -58.0
-offset_right = 20.0
-offset_bottom = -44.0
+offset_left = -20.0
+offset_bottom = 14.0
 grow_horizontal = 0
-grow_vertical = 0
-scale = Vector2(-4, 4)
+scale = Vector2(-8, 8)
 max_value = 0.5
 step = 0.005
 texture_under = ExtResource("9_gp50j")
