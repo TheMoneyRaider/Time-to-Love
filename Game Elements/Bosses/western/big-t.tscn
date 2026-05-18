@@ -8,8 +8,9 @@
 [ext_resource type="BehaviorTree" uid="uid://dkwlk3hb7u71t" path="res://ai/trees/big-t.tres" id="4_f2uui"]
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="5_e752t"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_phyc7"]
-size = Vector2(56, 44)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rgvsh"]
+radius = 15.277779
+height = 45.0
 
 [sub_resource type="Animation" id="Animation_8s1eb"]
 length = 0.001
@@ -159,8 +160,9 @@ hframes = 6
 vframes = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(6, 1)
-shape = SubResource("RectangleShape2D_phyc7")
+position = Vector2(0.94444424, 4.1666665)
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_rgvsh")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
