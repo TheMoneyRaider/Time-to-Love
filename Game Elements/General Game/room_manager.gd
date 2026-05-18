@@ -66,7 +66,7 @@ var starting_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources
 
 
 var bosses : Array[Room] = [preload("res://Game Elements/Rooms/resources/medieval_boss.tres"),
-						preload("res://Game Elements/Rooms/resources/scifi_boss.tres"),
+						preload("res://Game Elements/Rooms/resources/western_boss.tres"),
 						preload("res://Game Elements/Rooms/resources/scifi_boss.tres"),
 						preload("res://Game Elements/Rooms/resources/limbo_boss.tres")
 						]
