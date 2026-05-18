@@ -122,17 +122,17 @@ resource_name = "<null>"
 variable = &"phase_changed"
 value = SubResource("BBVariant_88sik")
 
-[sub_resource type="BBNode" id="BBNode_0chas"]
+[sub_resource type="BBNode" id="BBNode_ogqqy"]
 saved_value = NodePath("AnimationPlayer")
 resource_name = "AnimationPlayer"
 
-[sub_resource type="BTStopAnimation" id="BTStopAnimation_l3xhj"]
-animation_player = SubResource("BBNode_0chas")
-animation_name = &"roar"
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_pjf07"]
+animation_player = SubResource("BBNode_ogqqy")
+animation_name = &"move"
 
 [sub_resource type="BTSequence" id="BTSequence_88sik"]
 custom_name = "Roar on Phase change"
-children = [SubResource("BTCheckVar_khm1n"), SubResource("BTPlayAnimation_gahrh"), SubResource("BTRepeat_vbg5b"), SubResource("BTSetVar_vn80h"), SubResource("BTStopAnimation_l3xhj")]
+children = [SubResource("BTCheckVar_khm1n"), SubResource("BTPlayAnimation_gahrh"), SubResource("BTRepeat_vbg5b"), SubResource("BTSetVar_vn80h"), SubResource("BTPlayAnimation_pjf07")]
 
 [sub_resource type="BBNode" id="BBNode_vn80h"]
 saved_value = NodePath("AnimationPlayer")
@@ -176,16 +176,16 @@ animation_name = &"tail_attack"
 script = ExtResource("2_88sik")
 attack_index = 2
 
-[sub_resource type="BBNode" id="BBNode_1j2ei"]
+[sub_resource type="BBNode" id="BBNode_vbg5b"]
 saved_value = NodePath("AnimationPlayer")
 resource_name = "AnimationPlayer"
 
-[sub_resource type="BTAwaitAnimation" id="BTAwaitAnimation_khl4x"]
-animation_player = SubResource("BBNode_1j2ei")
-animation_name = &"tail_attack"
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_ogqqy"]
+animation_player = SubResource("BBNode_vbg5b")
+animation_name = &"move"
 
 [sub_resource type="BTSequence" id="BTSequence_qbo2h"]
-children = [SubResource("BTPlayAnimation_7w5th"), SubResource("BTAction_rwb3y"), SubResource("BTAwaitAnimation_khl4x")]
+children = [SubResource("BTPlayAnimation_7w5th"), SubResource("BTAction_rwb3y"), SubResource("BTPlayAnimation_ogqqy")]
 
 [sub_resource type="BTSequence" id="BTSequence_6dsdn"]
 children = [SubResource("BTAction_ogqqy"), SubResource("BTPlayAnimation_ypebl"), SubResource("BTSequence_qbo2h")]
