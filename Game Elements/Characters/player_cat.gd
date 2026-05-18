@@ -879,6 +879,8 @@ func _check_hydromancer(liquid : Globals.Liquid):
 			last_liquid = liquid
 
 func check_liquids(delta):
+	if is_tethered:
+		return
 	var tile_pos = Vector2i(int(floor(global_position.x / 16)),int(floor(global_position.y / 16)))
 	if tile_pos in LayerManager.liquid_cells[0]:
 		var tile_data = LayerManager.return_liquid_layer(tile_pos).get_cell_tile_data(tile_pos)

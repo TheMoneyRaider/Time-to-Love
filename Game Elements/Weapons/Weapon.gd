@@ -627,6 +627,7 @@ func shotgun_special_attack(attack_direction : Vector2):
 		await c_owner.get_tree().create_timer(.001).timeout
 
 func sword_special_attack(special_direction : Vector2,node_attacking : Node):
+	node_attacking.i_frames = 8
 	current_special_hits = 0
 	special_cleanup()
 	var locations : Array[Vector2] = get_locations(node_attacking, special_direction)
@@ -681,11 +682,13 @@ func sword_special_attack(special_direction : Vector2,node_attacking : Node):
 				node_attacking.global_position = spawn_pos
 				# Wait for the next frame before continuing
 				await node_attacking.get_tree().process_frame
+				node_attacking.i_frames = 8
 				current_special_hits = 0
 		if i == locations.size()-1:
 			node_attacking.global_position = spawn_pos
 	node_attacking.move_speed /= 4.0
 	current_special_hits = 0
+	node_attacking.i_frames = 8
 	if node_attacking.weapons[0] == self:
 		node_attacking.emit_signal("special_changed",false,0.0)
 	else:

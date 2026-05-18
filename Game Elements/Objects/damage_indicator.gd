@@ -112,7 +112,7 @@ func set_values(c_owner : Node = null, attack : Node = null, attack_owner : Node
 	text.text = str(int(value*10.0))
 	first_color = color
 	lifetime = 1.5
-	self.scale = Vector2(.125,.125)
+	self.scale = Vector2(0.15625,0.15625)
 
 
 
