@@ -103,18 +103,16 @@ z_index = 20
 y_sort_enabled = true
 scale = Vector2(1.2, 1.2)
 collision_layer = 4
-collision_mask = 9
+collision_mask = 137
 script = ExtResource("1_b5bue")
-max_health = 15.0
+max_health = 18.0
 hit_range = 300
 agro_distance = 500.0
 enemy_type = "archer"
 displays = Array[NodePath]([NodePath("Sprite2D")])
-min_timefabric = 15
-max_timefabric = 25
 max_sprint_cooldown = 4.0
 sprint_multiplier = 3.0
-move_speed = 60.0
+move_speed = 80.0
 attacks = [ExtResource("2_l3ar2")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

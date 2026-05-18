@@ -6,9 +6,14 @@
 [resource]
 script = ExtResource("2_e3vge")
 letter_id = 8
-description = "[center][font_size=76][color=9c7708][font=res://fonts/Orbitron-ExtraBold.ttf]
+description = "
 
 
-SO CAN A LEVER"
+
+
+
+
+
+[center][font_size=200][color=9c7708]SO CAN A LEVER"
 letter_format = ExtResource("1_hc3g5")
 metadata/_custom_type_script = "uid://gbihjja6jybk"

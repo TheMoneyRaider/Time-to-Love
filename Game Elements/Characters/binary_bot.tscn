@@ -31,6 +31,7 @@ radius = 9.0
 z_index = 20
 y_sort_enabled = true
 collision_layer = 32
+collision_mask = 129
 script = ExtResource("1_gkk4m")
 max_health = 20
 hit_range = 20

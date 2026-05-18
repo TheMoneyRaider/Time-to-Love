@@ -46,7 +46,7 @@ hue_variation_max = 0.019999977
 
 [node name="Tentacle" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 4
-collision_mask = 7
+collision_mask = 135
 script = ExtResource("1_uepfv")
 max_health = 30.0
 enemy_type = "tentacle"

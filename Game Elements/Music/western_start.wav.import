@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ctyttt8kfv4lw"
+path="res://.godot/imported/western_start.wav-a73ef2208b7f8a88bf548b009ba70339.sample"
+
+[deps]
+
+source_file="res://Game Elements/Music/western_start.wav"
+dest_files=["res://.godot/imported/western_start.wav-a73ef2208b7f8a88bf548b009ba70339.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

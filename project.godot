@@ -13,6 +13,7 @@ config_version=5
 config/name="Time to Love"
 run/main_scene="uid://dfus7yvwe8o0w"
 config/features=PackedStringArray("4.5", "Mobile")
+run/max_fps=60
 config/icon="res://icon.svg"
 
 [autoload]
@@ -20,6 +21,12 @@ config/icon="res://icon.svg"
 Globals="*res://Game Elements/General Game/globals.gd"
 RemnantManager="*res://Game Elements/General Game/remnant_manager.gd"
 RoomManager="*res://Game Elements/General Game/room_manager.gd"
+music_manager="*res://Game Elements/General Game/music_manager.gd"
+sfx_manager="*res://Game Elements/General Game/sfx_manager.gd"
+
+[debug]
+
+settings/profiler/max_timestamp_query_elements=1024
 
 [display]
 
@@ -275,11 +282,13 @@ special_key={
 special_0={
 "deadzone": 0.2,
 "events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":3,"pressure":0.0,"pressed":true,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":10,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
 special_1={
 "deadzone": 0.2,
 "events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":1,"button_index":3,"pressure":0.0,"pressed":true,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":1,"button_index":10,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
 display_paths={
@@ -343,6 +352,27 @@ move_to_pathway={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":77,"key_label":0,"unicode":109,"location":0,"echo":false,"script":null)
 ]
 }
+give_remnant={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":82,"key_label":0,"unicode":114,"location":0,"echo":false,"script":null)
+]
+}
+quick_swap_0={
+"deadzone": 0.2,
+"events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":9,"pressure":0.0,"pressed":true,"script":null)
+]
+}
+quick_swap_1={
+"deadzone": 0.2,
+"events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":1,"button_index":9,"pressure":0.0,"pressed":true,"script":null)
+]
+}
+Feedback={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194333,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":true,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194308,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
 
 [layer_names]
 
@@ -353,10 +383,12 @@ move_to_pathway={
 2d_physics/layer_5="Invisible Enemy Layer"
 2d_physics/layer_6="Invisible Enemy (Hitable)"
 2d_physics/layer_7="Special Enviornment"
+2d_physics/layer_8="Enemy Environment"
 
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+textures/vram_compression/import_etc2_astc=true
 2d/snap/snap_2d_transforms_to_pixel=true
 
 [shader_globals]

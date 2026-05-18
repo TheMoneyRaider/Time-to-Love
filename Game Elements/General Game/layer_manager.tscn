@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://bjlqt0ad4do23"]
+[gd_scene load_steps=38 format=3 uid="uid://bjlqt0ad4do23"]
 
 [ext_resource type="Script" uid="uid://by1wxpi7fijx5" path="res://Game Elements/General Game/layer_manager.gd" id="1_gynnh"]
 [ext_resource type="PackedScene" uid="uid://0hahdiffjt61" path="res://Game Elements/ui/hud.tscn" id="2_4xk7e"]
@@ -12,16 +12,21 @@
 [ext_resource type="PackedScene" uid="uid://dm057ygch128h" path="res://Game Elements/ui/guide/remnant_menu.tscn" id="7_vxirk"]
 [ext_resource type="PackedScene" uid="uid://bfoxxhhsel1a" path="res://Game Elements/ui/guide/weapon_menu.tscn" id="8_sf3i7"]
 [ext_resource type="PackedScene" uid="uid://2nuxn7fyplmx" path="res://Game Elements/ui/guide/letters/letter_menu.tscn" id="9_l10hl"]
-[ext_resource type="Script" uid="uid://bu61ndyofnbda" path="res://Game Elements/General Game/camera.gd" id="9_n317s"]
+[ext_resource type="Script" path="res://Game Elements/General Game/camera.gd" id="9_n317s"]
 [ext_resource type="Texture2D" uid="uid://1c47fiseukev" path="res://Game Elements/Bosses/purple.png" id="11_arwbq"]
 [ext_resource type="Texture2D" uid="uid://nljj8bohfllh" path="res://Game Elements/Bosses/orange.png" id="12_nt7kn"]
 [ext_resource type="Texture2D" uid="uid://d3hvxaxwy516s" path="res://Game Elements/Bosses/scifi/signul_art.png" id="13_x2m3a"]
 [ext_resource type="Texture2D" uid="uid://cggx60a5l71t7" path="res://art/white_square2.png" id="14_sf3i7"]
 [ext_resource type="FontFile" uid="uid://d366m5nnnpg1f" path="res://fonts/Orbitron-Bold.ttf" id="15_l10hl"]
 [ext_resource type="Shader" uid="uid://bxe3oguf2lb6m" path="res://Game Elements/General Game/grass_cull.gdshader" id="16_nt7kn"]
+[ext_resource type="PackedScene" uid="uid://tfrgihhydi7k" path="res://Game Elements/ui/credits/credits.tscn" id="17_jceoj"]
 [ext_resource type="Texture2D" uid="uid://n0bko3km56nl" path="res://Game Elements/General Game/limbo/limbo_noise.tres" id="20_fpruh"]
 [ext_resource type="Shader" uid="uid://c7aprdgds5kpc" path="res://Game Elements/Shaders/chromatic_abberation.gdshader" id="21_x2m3a"]
 [ext_resource type="PackedScene" uid="uid://d4mlvdb3rgf07" path="res://Game Elements/Bosses/limbo/transition/limbo_transition.tscn" id="22_lojdy"]
+[ext_resource type="StyleBox" uid="uid://bhn7lbt5yrxsl" path="res://Game Elements/ui/resources/6-1_button.tres" id="24_ob6go"]
+[ext_resource type="StyleBox" uid="uid://0lsgrq0cdmnb" path="res://Game Elements/ui/resources/6-3_button.tres" id="25_b0oxo"]
+[ext_resource type="StyleBox" uid="uid://dnekp2864687f" path="res://Game Elements/ui/resources/6-2_button.tres" id="26_lw03b"]
+[ext_resource type="Texture2D" uid="uid://crq6clfuj120q" path="res://art/UI Package/Book5.png" id="27_j751v"]
 
 [sub_resource type="Shader" id="Shader_alv7a"]
 code = "shader_type canvas_item;
@@ -231,10 +236,10 @@ tracks/4/path = NodePath("Orange:position")
 tracks/4/interp = 2
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 1.2333333, 1.7, 4.6295376, 5.143999, 6.766667),
+"times": PackedFloat32Array(0, 1.2333333, 1.6333333, 4.61, 5.14, 6.766667),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(337, -819), Vector2(326, 504), Vector2(326, 504), Vector2(326, 504), Vector2(326, 504), Vector2(-877, 610)]
+"values": [Vector2(337, -819), Vector2(225.99998, 131.99998), Vector2(225.99998, 131.99998), Vector2(225.99998, 131.99998), Vector2(225.99998, 131.99998), Vector2(-877, 610)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -243,10 +248,10 @@ tracks/5/path = NodePath("Purple:position")
 tracks/5/interp = 2
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0, 1.2333333, 1.6, 4.6295376, 5.143999, 6.8333335),
+"times": PackedFloat32Array(0, 1.23, 1.7, 4.6, 5.14, 6.6666665),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(73, -879), Vector2(62, 444), Vector2(62, 444), Vector2(62, 444), Vector2(62, 444), Vector2(-1141, 550)]
+"values": [Vector2(-954, 513), Vector2(-234, 144), Vector2(-234, 144), Vector2(-234, 144), Vector2(-234, 144), Vector2(-241.00006, -963.9998)]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
@@ -371,6 +376,7 @@ script = ExtResource("1_gynnh")
 layer = 2
 
 [node name="EnemyAwareness" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="AwarenessManager" type="Node2D" parent="EnemyAwareness" node_paths=PackedStringArray("camera")]
 material = SubResource("ShaderMaterial_alv7a")
@@ -383,10 +389,13 @@ glow_scene = ExtResource("5_570vf")
 [node name="PauseMenu" parent="." instance=ExtResource("4_qhni4")]
 
 [node name="RemnantMenu" parent="." instance=ExtResource("7_vxirk")]
+layer = 2
 
 [node name="WeaponMenu" parent="." instance=ExtResource("8_sf3i7")]
+layer = 2
 
 [node name="LetterMenu" parent="." instance=ExtResource("9_l10hl")]
+layer = 2
 
 [node name="Transition" type="CanvasLayer" parent="."]
 layer = 2
@@ -421,24 +430,25 @@ texture = ExtResource("2_248xd")
 [node name="Purple" type="TextureRect" parent="BossIntro"]
 offset_left = -970.0
 offset_top = 1263.0
-offset_right = 110.0
-offset_bottom = 3183.0054
-scale = Vector2(0.25, 0.25)
+offset_right = 1390.0
+offset_bottom = 3183.0034
+scale = Vector2(0.4, 0.4)
 texture = ExtResource("11_arwbq")
+flip_h = true
 
 [node name="Orange" type="TextureRect" parent="BossIntro"]
 offset_left = 322.0
 offset_top = 1456.0
-offset_right = 1442.0
-offset_bottom = 3049.4324
-scale = Vector2(0.25, 0.25)
+offset_right = 2682.0
+offset_bottom = 3096.0
+scale = Vector2(0.35, 0.35)
 texture = ExtResource("12_nt7kn")
 
 [node name="Boss" type="TextureRect" parent="BossIntro"]
 offset_left = 1262.0
 offset_top = 1387.0
-offset_right = 1750.9999
-offset_bottom = 1909.1779
+offset_right = 1751.0005
+offset_bottom = 1909.1777
 texture = ExtResource("13_x2m3a")
 expand_mode = 1
 
@@ -453,7 +463,7 @@ texture = ExtResource("14_sf3i7")
 [node name="LowerDivider" type="TextureRect" parent="BossIntro"]
 offset_left = 960.0
 offset_top = -1217.805
-offset_right = 991.9997
+offset_right = 991.99976
 offset_bottom = -217.80518
 pivot_offset = Vector2(16, 0)
 texture = ExtResource("14_sf3i7")
@@ -471,12 +481,12 @@ offset_bottom = -681.0
 theme_override_fonts/normal_font = ExtResource("15_l10hl")
 theme_override_font_sizes/normal_font_size = 100
 bbcode_enabled = true
-text = "[color=orange]Orange[/color][color=purple][font=\"res://fonts/OldEnglishFive.ttf\"] Purple[/font][/color]"
+text = "[color=purple][font=\"res://fonts/OldEnglishFive.ttf\"]Purple[/font][/color][color=orange]  Orange[/color]"
 
 [node name="BossName" type="RichTextLabel" parent="BossIntro"]
 offset_left = 929.0
 offset_top = -871.0
-offset_right = 2047.0027
+offset_right = 2047.0029
 offset_bottom = -459.0
 theme_override_fonts/normal_font = ExtResource("15_l10hl")
 theme_override_font_sizes/normal_font_size = 128
@@ -501,6 +511,9 @@ layer = 3
 z_index = 80
 position = Vector2(960, 500)
 scale = Vector2(4, 4)
+
+[node name="Credits" parent="." instance=ExtResource("17_jceoj")]
+layer = 10
 
 [node name="game_container" type="SubViewportContainer" parent="."]
 texture_filter = 1
@@ -549,3 +562,22 @@ transparent_bg = true
 handle_input_locally = false
 size = Vector2i(2048, 2048)
 render_target_update_mode = 4
+
+[node name="LettersPopup" type="Button" parent="."]
+offset_left = 1838.0
+offset_top = 474.0
+offset_right = 2158.0
+offset_bottom = 537.0
+focus_mode = 0
+mouse_filter = 2
+theme_override_styles/normal = ExtResource("24_ob6go")
+theme_override_styles/pressed = ExtResource("25_b0oxo")
+theme_override_styles/hover = ExtResource("26_lw03b")
+
+[node name="TextureRect" type="TextureRect" parent="LettersPopup"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = -7.0
+offset_right = 79.0
+offset_bottom = 64.0
+texture = ExtResource("27_j751v")

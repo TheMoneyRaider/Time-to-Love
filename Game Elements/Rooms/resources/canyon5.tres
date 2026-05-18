@@ -4,12 +4,13 @@
 
 [resource]
 script = ExtResource("1_a03oo")
-scene_location = "res://Game Elements/Rooms/western/canyon3.tscn"
+scene_location = "res://Game Elements/Rooms/western/canyon5.tscn"
 noise_seed = null
 trap_types = Array[int]([0])
-num_enemy_goal = 5
+num_enemy_goal = 25
+enemy_density_goal = 0.015
 roomvariant = 2
 enemy_pool = Array[String](["res://Game Elements/Characters/gunslinger.tscn", "res://Game Elements/Characters/cactus.tscn", "res://Game Elements/Characters/scorpion.tscn"])
-enemy_chances = Array[float]([1.0, 1.0, 1.0])
-wave_segment = 0.25
+enemy_chances = Array[float]([0.5, 0.5, 2.0])
+wave_segment = 0.0
 metadata/_custom_type_script = "uid://boljl4yehg187"

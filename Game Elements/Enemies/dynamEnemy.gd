@@ -50,6 +50,8 @@ var LayerManager : Node
 
 var parent_node = null
 
+var effect_stacks : Array[int] = []
+var effect_particles : Array
 
 @export var attacks = [preload("res://Game Elements/Attacks/bad_bolt.tscn"),preload("res://Game Elements/Attacks/robot_melee.tscn")]
 signal attack_requested(new_attack : PackedScene, t_position : Vector2, t_direction : Vector2, damage_boost : float)
@@ -98,6 +100,8 @@ func handle_attack(target_position: Vector2,attack_index: int = 0):
 			request_attack(attacks[attack_index], attack_position, spread_dir)
 		return
 
+	if enemy_type=="archer":
+		attack_position = attack_position + attack_direction * 10
 	request_attack(attacks[attack_index], attack_position, attack_direction)
 
 func request_attack(t_attack: PackedScene, attack_position: Vector2, attack_direction: Vector2):
@@ -105,7 +109,7 @@ func request_attack(t_attack: PackedScene, attack_position: Vector2, attack_dire
 	instance.global_position = attack_position
 	instance.direction = attack_direction
 	instance.c_owner = self
-	get_parent().add_child(instance)
+	get_parent().call_deferred("add_child",instance)
 	emit_signal("attack_requested", t_attack, attack_position, attack_direction)
 # import like, takes damage or something like that
 
@@ -114,6 +118,10 @@ func load_settings():
 	
 
 func _ready():
+	effect_stacks.resize(9)
+	effect_stacks.fill(0)
+	effect_particles.resize(9)
+	effect_particles.fill(null)
 	parent_node = get_parent()
 	if is_boss:
 		current_health = boss_healthpools[phase]
@@ -289,7 +297,6 @@ func damage_flash() -> void:
 		$Sprite2D.self_modulate = Color(1.0, 1.0, 1.0)
 
 func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0,creates_indicators : bool = true, unstoppable : bool = false):
-
 	if !hitable and !unstoppable:
 		return
 	if current_health< 0.0:
@@ -304,6 +311,12 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 	if current_health >= 0.0 and display_damage and creates_indicators:
 		LayerManager._damage_indicator(damage, dmg_owner,direction, attack_body,self)
 		damage_flash()
+		if(enemy_type=="cactus") and dmg_owner:
+			var attack_position = global_position
+			if(is_instance_valid(dmg_owner)):
+				var attack_direction = (dmg_owner.global_position - attack_position).normalized()
+				for i in range(-1,2):
+					request_attack(attacks[1], attack_position, attack_direction.rotated(i * 2 * PI / 12) )
 	if dmg_owner != null:
 		last_hitter = dmg_owner
 		if dmg_owner.is_in_group("player"):

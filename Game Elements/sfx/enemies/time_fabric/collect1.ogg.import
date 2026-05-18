@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://pt62cxk8vi5a"
+path="res://.godot/imported/collect1.ogg-af21b1e2eb9bcdf156ac260bbdbd8fdf.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/enemies/time_fabric/collect1.ogg"
+dest_files=["res://.godot/imported/collect1.ogg-af21b1e2eb9bcdf156ac260bbdbd8fdf.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

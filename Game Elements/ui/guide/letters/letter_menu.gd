@@ -276,28 +276,34 @@ func view_letter(idx : int):
 	match letter_pool[idx].letter_format.name:
 		"Stone":
 			text.position = Vector2(550,100)
-			text.size.x = 800
-			text.text = "[color=#4a4a48][font_size=32]" + text.text
+			text.size.x = 800 / text.scale.x
+			text.size.y = 960 / text.scale.y
+			text.text = "[font=res://fonts/Piedra-Regular.ttf][color=#6a6a68][font_size=64]" + text.text
 		"Paper":
 			text.position = Vector2(660,78)
-			text.size.x = 640
-			text.text = "[color=#363535][font_size=26]" + text.text
+			text.size.x = 640 / text.scale.x
+			text.size.y = 960 / text.scale.y
+			text.text = "[color=#363535][font_size=52]" + text.text
 		"ModernNewspaper":
 			text.position = Vector2(550,350)
-			text.size.x = 780
-			text.text = "[color=#7e7e7e]" + text.text
+			text.size.x = 780 / text.scale.x
+			text.size.y = 960 / text.scale.y
+			text.text = "[color=#7e7e7e][font_size=48][font=res://fonts/Faustina/Faustina-Bold.ttf]" + text.text
 		"1980sNewspaper":
 			text.position = Vector2(550,350)
-			text.size.x = 780
-			text.text = "[color=#979081]" + text.text
+			text.size.x = 780 / text.scale.x
+			text.size.y = 960 / text.scale.y
+			text.text = "[color=#979081][font_size=64][font=res://fonts/BulletinGothic.otf]" + text.text
 		"OldNewspaper":
 			text.position = Vector2(550,350)
-			text.size.x = 780
-			text.text = "[color=#82796c]" + text.text
+			text.size.x = 780 / text.scale.x
+			text.size.y = 960 / text.scale.y
+			text.text = "[color=#82796c][font_size=48][font=res://fonts/Faustina/Faustina-Bold.ttf]" + text.text
 		"Holographic":
 			text.position = Vector2(750,40)
-			text.size.x = 340
-			text.text = "[font=res://fonts/Orbitron-Regular.ttf][color=#b9f9fa][font_size=20]" + text.text
+			text.size.x = 395 / text.scale.x
+			text.size.y = 960 / text.scale.y
+			text.text = "[font=res://fonts/Orbitron-Bold.ttf][color=#b9f9fa][font_size=45]" + text.text
 
 
 	# -----------------------

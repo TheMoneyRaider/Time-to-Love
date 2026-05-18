@@ -53,14 +53,16 @@ vec2 band(vec2 tiledUV){
 }
 
 
+varying vec4 modulate_color;
 
 void vertex() {
 	sob_worldUV = (MODEL_MATRIX*vec4(VERTEX, 0.0, 1.0)).xy;
+	modulate_color = COLOR;
 }
 
 void fragment() {
 	vec4 original_color = texture(TEXTURE, UV);
-	COLOR = original_color;
+	COLOR = original_color*modulate_color;
     if (original_color.a < 0.01) discard;
 	vec2 tiledUV = band(fract(floor(sob_worldUV) / 1024.0));
 	float value = texture(sob_noise,tiledUV).r;

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://kaos828ucwc5"
+path="res://.godot/imported/minimize_008.ogg-57f12dc666707c8d4547e5c597b639ab.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/ui/sfx/minimize_008.ogg"
+dest_files=["res://.godot/imported/minimize_008.ogg-57f12dc666707c8d4547e5c597b639ab.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

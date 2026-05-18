@@ -4,22 +4,19 @@
 [ext_resource type="Texture2D" uid="uid://b0kbges471l4a" path="res://art/attacks/cacto_spine.png" id="2_5rn17"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e1io4"]
-size = Vector2(10, 14)
+size = Vector2(9, 13)
 
 [node name="Cactus_spine" type="Area2D" groups=["attack"]]
 collision_layer = 8
 collision_mask = 39
 script = ExtResource("1_5rn17")
-speed = 100.0
-damage = 1.5
+speed = 150.0
 lifespan = 10.0
 hit_force = 10.0
-bounces = 1
 attack_type = "bolt"
-deflectable = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -2)
+position = Vector2(0.5, -1.5)
 shape = SubResource("RectangleShape2D_e1io4")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

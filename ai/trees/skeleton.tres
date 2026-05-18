@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=54 format=3 uid="uid://cdbmhpx3cvk6m"]
+[gd_resource type="BehaviorTree" load_steps=59 format=3 uid="uid://cdbmhpx3cvk6m"]
 
 [ext_resource type="Script" uid="uid://dr4vkyorjqaqn" path="res://ai/tasks/getPlayerPos.gd" id="1_saqvl"]
 [ext_resource type="Script" uid="uid://clsympdov604o" path="res://ai/tasks/checkAgro.gd" id="2_lh05k"]
@@ -8,7 +8,11 @@
 [ext_resource type="Script" uid="uid://c7b86gm25q0p3" path="res://ai/tasks/player_in_range.gd" id="6_wnmcc"]
 [ext_resource type="Script" uid="uid://ravfjih580jj" path="res://ai/tasks/moveToPlayer.gd" id="7_q0wax"]
 [ext_resource type="Script" uid="uid://rvfhx3hd7gln" path="res://ai/tasks/attacks.gd" id="8_k7px6"]
+[ext_resource type="Script" uid="uid://5m1bpc0r7csw" path="res://ai/tasks/play_sound.gd" id="9_lh05k"]
 [ext_resource type="Script" uid="uid://danrund51c7i6" path="res://ai/tasks/chooseRandomPos.gd" id="9_y4n6s"]
+[ext_resource type="AudioStream" uid="uid://bshxl4bfb8u2x" path="res://Game Elements/sfx/weapons/crowbar/crowbar1.wav" id="10_jayc6"]
+[ext_resource type="AudioStream" uid="uid://dds3le5lwysse" path="res://Game Elements/sfx/weapons/crowbar/crowbar2.wav" id="11_wnmcc"]
+[ext_resource type="AudioStream" uid="uid://boag4s3e4pe7r" path="res://Game Elements/sfx/weapons/crowbar/crowbar3.wav" id="12_q0wax"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_ua8f2"]
 var/state/name = &"state"
@@ -119,6 +123,10 @@ script = ExtResource("8_k7px6")
 seconds = 0.1
 children = [SubResource("BTAction_4evon")]
 
+[sub_resource type="BTAction" id="BTAction_24pkm"]
+script = ExtResource("9_lh05k")
+sounds = Array[AudioStream]([ExtResource("10_jayc6"), ExtResource("11_wnmcc"), ExtResource("12_q0wax")])
+
 [sub_resource type="BBNode" id="BBNode_yg7nc"]
 saved_value = NodePath("AnimationPlayer")
 resource_name = "AnimationPlayer"
@@ -133,7 +141,7 @@ children = [SubResource("BTPlayAnimation_2flr3")]
 
 [sub_resource type="BTSequence" id="BTSequence_v4ajl"]
 custom_name = "Attack if in Range"
-children = [SubResource("BTAction_v4ajl"), SubResource("BTAction_yg7nc"), SubResource("BTAction_2flr3"), SubResource("BTAction_h7qfk"), SubResource("BTStopAnimation_3ccgm"), SubResource("BTPlayAnimation_4evon"), SubResource("BTDelay_1kwu6"), SubResource("BTDelay_arvq5")]
+children = [SubResource("BTAction_v4ajl"), SubResource("BTAction_yg7nc"), SubResource("BTAction_2flr3"), SubResource("BTAction_h7qfk"), SubResource("BTStopAnimation_3ccgm"), SubResource("BTPlayAnimation_4evon"), SubResource("BTDelay_1kwu6"), SubResource("BTAction_24pkm"), SubResource("BTDelay_arvq5")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_33y05"]
 duration = 1.0

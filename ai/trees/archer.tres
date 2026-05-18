@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=59 format=3 uid="uid://bpsmxbgw60kcj"]
+[gd_resource type="BehaviorTree" load_steps=66 format=3 uid="uid://bpsmxbgw60kcj"]
 
 [ext_resource type="Script" uid="uid://clsympdov604o" path="res://ai/tasks/checkAgro.gd" id="2_861og"]
 [ext_resource type="Script" uid="uid://yu3fkdlxtfbv" path="res://ai/tasks/calcPath.gd" id="3_76wjc"]
@@ -7,9 +7,15 @@
 [ext_resource type="Script" uid="uid://c0bvdm1o3wjaq" path="res://ai/tasks/random_cooldown.gd" id="5_1ufl2"]
 [ext_resource type="Script" uid="uid://b7mqxkcvqcrar" path="res://ai/tasks/check_if_moving.gd" id="5_861og"]
 [ext_resource type="Script" uid="uid://c7b86gm25q0p3" path="res://ai/tasks/player_in_range.gd" id="6_yry68"]
-[ext_resource type="Script" path="res://ai/tasks/moveToPlayerAdjusted.gd" id="8_861og"]
+[ext_resource type="Script" uid="uid://cp8st4653ft5q" path="res://ai/tasks/moveToPlayerAdjusted.gd" id="8_861og"]
 [ext_resource type="Script" uid="uid://rvfhx3hd7gln" path="res://ai/tasks/attacks.gd" id="8_k4yq3"]
 [ext_resource type="Script" uid="uid://danrund51c7i6" path="res://ai/tasks/chooseRandomPos.gd" id="9_5gebp"]
+[ext_resource type="Script" uid="uid://5m1bpc0r7csw" path="res://ai/tasks/play_sound.gd" id="9_76wjc"]
+[ext_resource type="AudioStream" uid="uid://jxwf38t20set" path="res://Game Elements/sfx/weapons/crossbow/crossbow1.ogg" id="10_gh5pl"]
+[ext_resource type="AudioStream" uid="uid://dfxqitsitesop" path="res://Game Elements/sfx/weapons/crossbow/crossbow2.ogg" id="11_5gebp"]
+[ext_resource type="AudioStream" uid="uid://i8k7axq6b6ns" path="res://Game Elements/sfx/weapons/crossbow/crossbow3.ogg" id="12_xjmew"]
+[ext_resource type="AudioStream" uid="uid://c1ll4domk5xyr" path="res://Game Elements/sfx/weapons/crossbow/crossbow4.ogg" id="13_subil"]
+[ext_resource type="AudioStream" uid="uid://d1lljqk77f1j8" path="res://Game Elements/sfx/weapons/crossbow/crossbow5.ogg" id="14_fg08g"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_ua8f2"]
 var/state/name = &"state"
@@ -137,6 +143,11 @@ script = ExtResource("8_k4yq3")
 seconds = 0.1
 children = [SubResource("BTAction_861og")]
 
+[sub_resource type="BTAction" id="BTAction_yry68"]
+script = ExtResource("9_76wjc")
+sounds = Array[AudioStream]([ExtResource("10_gh5pl"), ExtResource("11_5gebp"), ExtResource("12_xjmew"), ExtResource("13_subil"), ExtResource("14_fg08g")])
+volume_db = 6.0
+
 [sub_resource type="BBNode" id="BBNode_76wjc"]
 saved_value = NodePath("AnimationPlayer")
 resource_name = "AnimationPlayer"
@@ -151,7 +162,7 @@ children = [SubResource("BTPlayAnimation_ppdyw")]
 
 [sub_resource type="BTSequence" id="BTSequence_v4ajl"]
 custom_name = "Attack if in Range"
-children = [SubResource("BTAction_v4ajl"), SubResource("BTAction_yg7nc"), SubResource("BTAction_1ufl2"), SubResource("BTAction_h7qfk"), SubResource("BTStopAnimation_3ccgm"), SubResource("BTPlayAnimation_4evon"), SubResource("BTDelay_arvq5"), SubResource("BTDelay_1ufl2")]
+children = [SubResource("BTAction_v4ajl"), SubResource("BTAction_yg7nc"), SubResource("BTAction_1ufl2"), SubResource("BTAction_h7qfk"), SubResource("BTStopAnimation_3ccgm"), SubResource("BTPlayAnimation_4evon"), SubResource("BTDelay_arvq5"), SubResource("BTAction_yry68"), SubResource("BTDelay_1ufl2")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_33y05"]
 duration = 1.0

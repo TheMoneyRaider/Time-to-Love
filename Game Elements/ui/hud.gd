@@ -29,6 +29,12 @@ var player2_combo = 1.0
 var player2_combo_inc = 1.0
 var player2_combo_max = 1.0
 
+var music_player_a: AudioStreamPlayer
+var music_player_b: AudioStreamPlayer
+var active_player: AudioStreamPlayer
+var inactive_player: AudioStreamPlayer
+var current_song_idx: int = -1
+
 func _ready():
 	$RootControl/VBoxContainer/Noti.modulate.a = 0.0
 	combo1.visible = false
@@ -36,8 +42,33 @@ func _ready():
 	LeftCooldownBar.get_node("CooldownBar").material =LeftCooldownBar.get_node("CooldownBar").material.duplicate(true)
 	RightCooldownBar.get_node("CooldownBar").material =RightCooldownBar.get_node("CooldownBar").material.duplicate(true)
 	load_settings()
-	display_debug_setting_header()
 	
+	music_player_a = AudioStreamPlayer.new()
+	music_player_a.bus = "Music"
+	add_child(music_player_a)
+
+	music_player_b = AudioStreamPlayer.new()
+	music_player_b.bus = "Music"
+	add_child(music_player_b)
+
+	active_player = music_player_a
+	inactive_player = music_player_b
+	_on_special_changed(true,1.0)
+	_on_special_changed(false,1.0)
+	
+	if(Globals.save_state.time_spent <= 120):
+		$AttackLabel.visible = true
+		$AttackLabel2.visible = true
+		$SwapLabel.visible = true
+		$TetherLabel.visible = true
+	else:
+		disable_tutorial()
+		
+func disable_tutorial():
+	$AttackLabel.visible = false
+	$AttackLabel2.visible = false
+	$SwapLabel.visible = false
+	$TetherLabel.visible = false
 
 func set_timefabric_amount(timefabric_collected : int):
 	$RootControl/VBoxContainer/HorizontalSlice/TimeFabric/HBoxContainer/Label.text = str(timefabric_collected)
@@ -368,21 +399,25 @@ func _on_max_health_changed(max_health : float, current_health : float,player_no
 			health_bar_2.set_current_health(temp_current_health)
 	else:
 		health_bar_2.set_max_health(temp_max_health)
-		health_bar_2.set_current_health(current_health)
+		health_bar_2.set_current_health(temp_current_health)
 		
 func load_settings():
 	debug_mode = Globals.config.get_value("debug", "enabled", false)
 		
 func display_debug_setting_header():
 	$RootControl/DebugMenu/GridContainer.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
-	if debug_mode == true: 
+	if menu_indicator: 
 		$RootControl/DebugMenu/GridContainer.visible = true
 		$RootControl/DebugMenu/GridContainer/MenuIndicator.text = "debug menu: H"
+	else:
+		$RootControl/DebugMenu/GridContainer.visible = false
+		$RootControl/DebugMenu/GridContainer/MenuIndicator.text = ""
 		
 func _input(event):
 	if debug_mode:
 		if event.is_action_pressed("display_debug_settings"):
 			menu_indicator = !menu_indicator
+			display_debug_setting_header()
 		
 		if event.is_action_pressed("display_paths"):
 			display_paths = !display_paths
@@ -434,8 +469,16 @@ func kill_enemies():
 		for tent in LayerManager.room_instance.get_node("Shop/Tentacles").get_children():
 			tent.queue_free()
 		return
+	if LayerManager.room_instance_data.roomtype==Globals.RoomType.Boss:
+		if LayerManager.room_instance.get_node_or_null("Shop/Tentacles"):
+			for node in LayerManager.room_instance.get_node("Shop/Tentacles").get_children():
+				if node.is_in_group("enemy") and "current_health" in node:
+					node.current_health = -1.0
+					node.emit_signal("enemy_took_damage",100.0,node.current_health,node,Vector2(0,-1))
+				if node.is_in_group("attack"):
+					node.queue_free()
 	for node in LayerManager.room_instance.get_children():
-		if node.is_in_group("enemy"):
+		if node.is_in_group("enemy") and "current_health" in node:
 			node.current_health = -1.0
 			node.emit_signal("enemy_took_damage",100.0,node.current_health,node,Vector2(0,-1))
 		if node.is_in_group("attack"):
@@ -448,6 +491,7 @@ func update_menu_indicator() -> void:
 	var angle_string = "  angles: | V | "
 	var move_string = "  Move to Pathway: | M | "
 	var kill_string = "  Kill Enemies: | K | "
+	var remnant_string = " Give Remnant: | R | "
 	
 	if menu_indicator:
 		$RootControl/DebugMenu/GridContainer/Paths.text = paths_string
@@ -460,6 +504,7 @@ func update_menu_indicator() -> void:
 		update_angles()
 		$RootControl/DebugMenu/GridContainer/Move.text = move_string
 		$RootControl/DebugMenu/GridContainer/Kill.text = kill_string
+		$RootControl/DebugMenu/GridContainer/Remnant.text = remnant_string
 	else:
 		$RootControl/DebugMenu/GridContainer/Paths.text = ""
 		$RootControl/DebugMenu/GridContainer/Invulnerability.text = ""
@@ -467,6 +512,7 @@ func update_menu_indicator() -> void:
 		$RootControl/DebugMenu/GridContainer/EnemyAngles.text = ""
 		$RootControl/DebugMenu/GridContainer/Move.text = ""
 		$RootControl/DebugMenu/GridContainer/Kill.text = ""
+		$RootControl/DebugMenu/GridContainer/Remnant.text = ""
 	return
 
 func update_display_paths() -> void:
@@ -498,11 +544,19 @@ func _on_special_reset(is_purple : bool):
 		return
 	update_shader(RightCooldownBar.get_node("CooldownBar").material,0.0, true)
 
-func _on_special_changed(is_purple : bool, new_progress):
+func _on_special_changed(is_purple : bool, new_progress : float, used_special : bool = false):
 	if is_purple:
 		update_shader(LeftCooldownBar.get_node("CooldownBar").material,new_progress)
+		if new_progress==1.0:
+			LeftCooldownBar.get_node("CooldownBar/Control/ChargedParticles").emitting = true
+		else:
+			LeftCooldownBar.get_node("CooldownBar/Control/ChargedParticles").emitting = false
 		return
 	update_shader(RightCooldownBar.get_node("CooldownBar").material,new_progress)
+	if new_progress==1.0:
+		RightCooldownBar.get_node("CooldownBar/Control/ChargedParticles").emitting = true
+	else:
+		RightCooldownBar.get_node("CooldownBar/Control/ChargedParticles").emitting = false
 
 func update_shader(material: ShaderMaterial, new_prog : float, reset : bool = false):
 	if reset:

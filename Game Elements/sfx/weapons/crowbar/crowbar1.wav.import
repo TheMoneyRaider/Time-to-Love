@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bshxl4bfb8u2x"
+path="res://.godot/imported/crowbar1.wav-15975d52f9e07b68144b48f36da1ba39.sample"
+
+[deps]
+
+source_file="res://Game Elements/sfx/weapons/crowbar/crowbar1.wav"
+dest_files=["res://.godot/imported/crowbar1.wav-15975d52f9e07b68144b48f36da1ba39.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

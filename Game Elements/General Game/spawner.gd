@@ -65,6 +65,8 @@ static func spawn_enemies(
 	var cells_needed := _cells_needed(_get_enemy_half_extents(enemy_path))
 	
 	var enemy_goal = room_data.num_enemy_goal
+	if(room_data.enemy_density_goal > 0):
+		enemy_goal = max(enemy_goal,int(len(available_cells) * room_data.enemy_density_goal))
 	if override_enemy_count > -1: enemy_goal = override_enemy_count
 
 	for _i in enemy_goal:
@@ -216,6 +218,10 @@ static func _score_cell(
 
 ####FIT / EDGE LOGIC
 static func _can_fit(cell: Vector2i, needed: Vector2i, cell_set: Dictionary) -> bool:
+	if !cell_set.has(cell+Vector2i(0,1)) and !cell_set.has(cell+Vector2i(0,-1)):
+		return false
+	if !cell_set.has(cell+Vector2i(1,0)) and !cell_set.has(cell+Vector2i(-1,0)):
+		return false
 	for x in range(-needed.x, needed.x + 1):
 		for y in range(-needed.y, needed.y + 1):
 			if not cell_set.has(cell + Vector2i(x, y)):
@@ -315,9 +321,7 @@ static func replace() -> int:
 		return -1
 	var progress = pow(RoomManager.current_progress - floor(RoomManager.current_progress),2)
 	var tentacles : Array[float] = [pow((1-progress),2)*progress,2*progress*(1-progress)*progress,pow(progress,2)*progress]
-	print(tentacles)
 	var value = randf()
-	print(value)
 	if value <= tentacles[0]:
 		return 0
 	value -= tentacles[0]
@@ -379,6 +383,7 @@ static func spawn_letters(
 	var letter_goal = clamp(int(room_data.letter_goal * randf())+1,1,room_data.letter_goal)
 	if letter_goal <= 0:
 		return
+	letter_goal = 1 #No more than 1 letter per room
 	chosen_letters = {}
 
 	#Convert to hash set for O(1) lookup

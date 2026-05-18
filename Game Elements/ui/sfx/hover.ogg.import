@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://fh5a4nsor3of"
+path="res://.godot/imported/hover.ogg-6ee49816ca1e7816200d1373def7614d.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/ui/sfx/hover.ogg"
+dest_files=["res://.godot/imported/hover.ogg-6ee49816ca1e7816200d1373def7614d.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

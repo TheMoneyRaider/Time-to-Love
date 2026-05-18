@@ -80,8 +80,9 @@ radius = 32.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hgkmx"]
 shader = ExtResource("6_x3etk")
-shader_parameter/aberration_strength = 1.5000000712500001
+shader_parameter/aberration_strength = 1.50000007125
 shader_parameter/mask_intensity = 1.0
+shader_parameter/grayscale = false
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_dp20r"]
 viewport_path = NodePath("MaskViewport")
@@ -125,6 +126,7 @@ material = SubResource("ShaderMaterial_hgkmx")
 texture = SubResource("ViewportTexture_dp20r")
 
 [node name="Prompt2" type="Node2D" parent="."]
+visible = false
 z_index = 1000
 scale = Vector2(3, 3)
 
@@ -150,6 +152,7 @@ scale = Vector2(0.06, 0.06)
 metadata/_edit_use_anchors_ = true
 
 [node name="Prompt1" type="Node2D" parent="."]
+visible = false
 z_index = 1000
 scale = Vector2(3, 3)
 

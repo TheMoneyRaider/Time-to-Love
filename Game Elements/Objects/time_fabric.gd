@@ -27,7 +27,7 @@ var jump_cooldown := 0.0
 var time_passed := 0.0
 var freeze_time := 0.0
 var bob_offset := 0.0
-var attracted = false
+var attracted = [false,false]
 var lifetime = 5.0
 var flash_timer = 0.0
 
@@ -79,7 +79,7 @@ func _process(delta: float) -> void:
 		if in_liquid(delta):
 			sprite.position.y = sin(time_passed* bob_speed) * bob_amplitude*3.5
 			sprite.rotation = sin((time_passed+bob_offset)* bob_speed) * bob_amplitude
-		elif !attracted:
+		elif !attracted[0] and !attracted[1]:
 			# Jump after cooldown
 			jump_cooldown -= delta
 			if jump_cooldown <= 0.0:
@@ -98,7 +98,6 @@ func flash_expire(delta : float, max_lifetime: float) -> void:
 		flash_timer = 0.0
 	
 	var flash = (flash_timer < flash_interval * 0.5)
-	print(flash_interval)
 	sprite.self_modulate = Color.WHITE if flash else Color(0.393, 0.393, 0.393, 1.0)
 
 
@@ -152,19 +151,19 @@ func _check_if_hitting_wall(delta) -> void:
 func move_towards_player():
 	var layer_manager = get_tree().get_root().get_node("LayerManager")
 	if layer_manager.is_multiplayer:
-		check_player(layer_manager.player1)
-		check_player(layer_manager.player2)
+		check_player(layer_manager.player1, 0)
+		check_player(layer_manager.player2, 1)
 	else:
-		check_player(layer_manager.player1)
+		check_player(layer_manager.player1, 0)
 
-func check_player(player : Node):
+func check_player(player : Node, idx : int):
 	var dir = (player.position - position)
 	var distance = dir.length()
 	var attraction_radius = 60.0
-	if distance < attraction_radius or attracted:
+	if distance < attraction_radius or attracted[idx]:
 		var new_vel = dir.normalized() * (100.0 + abs(attraction_radius - distance) * 5.0)
 		velocity = Vector3(new_vel.x, new_vel.y, 0)
-		attracted = true
+		attracted[idx] = true
 	if distance < 5:
 		emit_signal("absorbed_by_player", self)
 

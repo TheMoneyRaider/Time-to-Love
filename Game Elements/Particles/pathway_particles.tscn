@@ -1,8 +1,13 @@
-[gd_scene load_steps=14 format=3 uid="uid://dv81hehnm8n2s"]
+[gd_scene load_steps=16 format=3 uid="uid://dv81hehnm8n2s"]
 
 [ext_resource type="Script" uid="uid://cslhitgg2jcir" path="res://Game Elements/Particles/pathway_particles.gd" id="1_hikjp"]
+[ext_resource type="Shader" uid="uid://b8fj4fnewu35m" path="res://Game Elements/Particles/grayscale.gdshader" id="2_4lkcr"]
 [ext_resource type="Texture2D" uid="uid://dsg1hqhbidk6m" path="res://art/particles/gradiant_dot.png" id="2_hikjp"]
 [ext_resource type="Texture2D" uid="uid://lwp6tmccxc3r" path="res://art/particles/white_dot_blur.png" id="3_hikjp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3autm"]
+shader = ExtResource("2_4lkcr")
+shader_parameter/grayscale = false
 
 [sub_resource type="Gradient" id="Gradient_4lkcr"]
 offsets = PackedFloat32Array(0.025052192, 0.27139875, 1)
@@ -85,6 +90,7 @@ hue_variation_max = 0.029999977
 script = ExtResource("1_hikjp")
 
 [node name="Purple" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_3autm")
 emitting = false
 amount = 90
 texture = ExtResource("2_hikjp")
@@ -95,6 +101,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_mi623")
 
 [node name="Orange" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_3autm")
 emitting = false
 amount = 270
 texture = ExtResource("3_hikjp")
@@ -105,6 +112,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_btxau")
 
 [node name="Purple2" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_3autm")
 emitting = false
 amount = 90
 texture = ExtResource("2_hikjp")
@@ -115,6 +123,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_mi623")
 
 [node name="Orange2" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_3autm")
 emitting = false
 amount = 270
 texture = ExtResource("3_hikjp")
@@ -125,6 +134,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_btxau")
 
 [node name="Purple3" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_3autm")
 emitting = false
 amount = 90
 texture = ExtResource("2_hikjp")
@@ -135,6 +145,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_mi623")
 
 [node name="Orange3" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_3autm")
 emitting = false
 amount = 270
 texture = ExtResource("3_hikjp")
@@ -145,6 +156,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_btxau")
 
 [node name="Purple4" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_3autm")
 emitting = false
 amount = 90
 texture = ExtResource("2_hikjp")
@@ -155,6 +167,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_mi623")
 
 [node name="Orange4" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_3autm")
 emitting = false
 amount = 270
 texture = ExtResource("3_hikjp")
@@ -165,6 +178,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_btxau")
 
 [node name="Purple5" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_3autm")
 emitting = false
 amount = 90
 texture = ExtResource("2_hikjp")
@@ -175,6 +189,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_mi623")
 
 [node name="Orange5" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_3autm")
 emitting = false
 amount = 270
 texture = ExtResource("3_hikjp")
@@ -185,6 +200,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_btxau")
 
 [node name="Purple6" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_3autm")
 emitting = false
 amount = 90
 texture = ExtResource("2_hikjp")
@@ -195,6 +211,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_mi623")
 
 [node name="Orange6" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_3autm")
 emitting = false
 amount = 270
 texture = ExtResource("3_hikjp")
@@ -205,6 +222,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_btxau")
 
 [node name="Purple7" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_3autm")
 emitting = false
 amount = 90
 texture = ExtResource("2_hikjp")
@@ -215,6 +233,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_mi623")
 
 [node name="Orange7" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_3autm")
 emitting = false
 amount = 270
 texture = ExtResource("3_hikjp")
@@ -225,6 +244,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_btxau")
 
 [node name="Purple8" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_3autm")
 emitting = false
 amount = 90
 texture = ExtResource("2_hikjp")
@@ -235,6 +255,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_mi623")
 
 [node name="Orange8" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_3autm")
 emitting = false
 amount = 270
 texture = ExtResource("3_hikjp")
@@ -245,6 +266,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_btxau")
 
 [node name="Purple9" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_3autm")
 emitting = false
 amount = 90
 texture = ExtResource("2_hikjp")
@@ -255,6 +277,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_mi623")
 
 [node name="Orange9" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_3autm")
 emitting = false
 amount = 270
 texture = ExtResource("3_hikjp")
@@ -265,6 +288,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_btxau")
 
 [node name="Purple10" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_3autm")
 emitting = false
 amount = 90
 texture = ExtResource("2_hikjp")
@@ -275,6 +299,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_mi623")
 
 [node name="Orange10" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_3autm")
 emitting = false
 amount = 270
 texture = ExtResource("3_hikjp")

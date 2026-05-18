@@ -58,9 +58,14 @@ func activate():
 var ability_progress = 0.0
 var clones : Array[Node]= []
 var last_clones : int = 0
+var credits :bool = false
 func _process(delta: float) -> void:
 	if !active:
 		return
+	if boss.current_health<= 0.0 and !credits:
+		credits = true
+		get_tree().paused = true
+		LayerManager.credits.activate()
 	if !hiding:
 		ability_progress+=delta/reveal_time
 	if hiding:
@@ -119,6 +124,7 @@ func hide_boss():
 		inst.enemy_took_damage.connect(LayerManager._on_enemy_take_damage)
 		if i == index:
 			Hiding_Node = inst
+			inst.hitable = false
 		else:
 			clones.append(inst)
 			inst.hitable = false

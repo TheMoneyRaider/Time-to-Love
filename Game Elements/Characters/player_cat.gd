@@ -3,8 +3,8 @@ var mouse_sensitivity: float = 1.0
 
 @export var base_move_speed: float = 100
 var move_speed: float
-@export var max_health: float = 10.0
-@export var current_health: float = 10.0
+@export var max_health: float = 10.0 #TEST
+@export var current_health: float = 10.0 #TEST
 @onready var current_dmg_time: float = 0.0
 @onready var current_liquid_time: float = 0.0
 @onready var in_instant_trap: bool = false
@@ -33,7 +33,10 @@ var move_speed: float
 @onready var purple_crosshair = preload("res://art/purple_crosshair_with_shadow.png")
 @onready var orange_crosshair = preload("res://art/orange_crosshair_with_shadow.png")
 @onready var purple_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/purple_spritesheet.png")
-@onready var orange_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/Basic Orange Spritesheet-export.png")
+@onready var orange_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/orange_spritesheet.png")
+var damage_multiplier = 1.0
+var effect_stacks : Array[int] = []
+var effect_particles : Array
 var other_player
 var disabled = false
 var current_room : Globals.RoomType
@@ -58,6 +61,16 @@ var last_liquid : Globals.Liquid = Globals.Liquid.Buffer
 
 var forcefield_active : bool = false
 
+var footstep_timer: float = 0.0
+var footstep_interval: float = 0.25
+var footstep_sounds = [
+	preload("res://Game Elements/sfx/player/walk1.ogg"),
+	preload("res://Game Elements/sfx/player/walk2.ogg"),
+	preload("res://Game Elements/sfx/player/walk3.ogg"),
+	preload("res://Game Elements/sfx/player/walk4.ogg"),
+	preload("res://Game Elements/sfx/player/walk5.ogg")
+]
+
 
 #The scripts for loading default values into the attack
 #The list of attacks for playercharacter
@@ -81,6 +94,16 @@ var LayerManager: Node
 var debug_mode : bool = false
 
 func _ready():
+	effect_stacks.resize(9)
+	effect_stacks.fill(0)
+	effect_particles.resize(9)
+	effect_particles.fill(null)
+	if Input.get_connected_joypads().size() == 0:
+		Globals.player1_input = "key"
+		Globals.player2_input = "0"
+	else:
+		Globals.player1_input = Globals.config.get_value("inputs","player1_input", "key")
+		Globals.player2_input = Globals.config.get_value("inputs","player2_input", "0")
 	debug_mode = Globals.config.get_value("debug", 'enabled', false)
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	if !is_multiplayer:
@@ -102,6 +125,8 @@ func _ready():
 		tether_width_curve = tether_line.width_curve
 		tether_line.gradient = null			
 	hide_forcefield(0.0)
+	
+	special_changed.connect(check_tortoise)
 
 
 func hide_forcefield(interp_time : float):
@@ -311,7 +336,7 @@ func _physics_process(delta):
 	tether(delta)
 	if is_tethered:
 		if is_multiplayer:
-			input_direction += (tether_momentum / move_speed)
+			input_direction += (tether_momentum / move_speed) * 1.5
 		else:
 			input_direction += (tether_momentum / move_speed) * 5.0
 	weapon_node.weapon_direction = (crosshair.position).normalized()
@@ -345,6 +370,15 @@ func _physics_process(delta):
 	red_flash()
 	if disabled_countdown >= 1:
 		disabled_countdown-=1
+		
+	if velocity.length() > 5.0 and !disabled and !is_tethered:
+		footstep_timer -= delta
+		if footstep_timer <= 0.0:
+			var speed_ratio = clamp(velocity.length() / base_move_speed, 1.0, 2.5)
+			footstep_timer = footstep_interval / speed_ratio
+			sfx_manager.play(footstep_sounds[randi() % footstep_sounds.size()])
+	else:
+		footstep_timer = 0.0
 
 func update_animation_parameters(move_input : Vector2):
 	if(move_input != Vector2.ZERO):
@@ -358,37 +392,53 @@ func request_attack(t_weapon : Weapon) -> float:
 	t_weapon.request_attacks(attack_direction,global_position,self,weapon_node.flip)
 	return t_weapon.cooldown
 
+func _check_reduction_remnants(damage_amount : float, _dmg_owner : Node):
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var terramancer = preload("res://Game Elements/Remnants/terramancer.tres")
+	for rem in remnants:
+		if rem.active:
+			match rem.remnant_name:
+				terramancer.remnant_name:
+					if velocity.length() <= .1:
+						damage_amount = damage_amount * (1 - rem.rank * .1)
+	return damage_amount
+
 func _check_bulwark(damage_amount : float, _dmg_owner : Node, send_damage: bool):
 	var remnants_purple : Array[Remnant]
 	var remnants_orange : Array[Remnant]
 	remnants_purple = LayerManager.player_1_remnants
 	remnants_orange = LayerManager.player_2_remnants
+	var bulk = load("res://Game Elements/Remnants/bulwark.tres")
 	var purple_bulwark_rank = 0
 	var orange_bulwark_rank = 0
 	for rem in remnants_purple:
-		if rem.remnant_name == "Remnant of the Bulwark" and rem.active:
+		if rem.remnant_name == bulk.remnant_name and rem.active:
 			purple_bulwark_rank = rem.rank
 	for rem in remnants_orange:
-		if rem.remnant_name == "Remnant of the Bulwark" and rem.active:
+		if rem.remnant_name == bulk.remnant_name and rem.active:
 			orange_bulwark_rank = rem.rank
 	if(is_purple):
 		if(purple_bulwark_rank != 0):
-			damage_amount = damage_amount * (1 - purple_bulwark_rank * .1)
+			damage_amount = damage_amount * (.9 - purple_bulwark_rank * .1)
 		if(orange_bulwark_rank != 0):
 			if(send_damage):
 				if(is_multiplayer):
 					other_player.take_damage(damage_amount, _dmg_owner, Vector2(0,-1), null, 0,true, false)
 				else:
-					take_damage(damage_amount * (1 - orange_bulwark_rank * .1), _dmg_owner, Vector2(0,-1), null, 0,true, false)
+					take_damage(damage_amount * (.9 - orange_bulwark_rank * .1), _dmg_owner, Vector2(0,-1), null, 0,true, false)
 	else:
 		if(orange_bulwark_rank != 0):
-			damage_amount = damage_amount * (1 - orange_bulwark_rank * .1)
+			damage_amount = damage_amount * (.9 - orange_bulwark_rank * .1)
 		if(purple_bulwark_rank != 0):
 			if(send_damage):
 				if(is_multiplayer):
 					other_player.take_damage(damage_amount, _dmg_owner, Vector2(0,-1), null, 0,true, false)
 				else:
-					take_damage(damage_amount * (1 - purple_bulwark_rank * .1), _dmg_owner, Vector2(0,-1), null, 0,true, false)
+					take_damage(damage_amount * (.9 - purple_bulwark_rank * .1), _dmg_owner, Vector2(0,-1), null, 0,true, false)
 	return damage_amount
 
 func pre_damage_trigger(damage_amount: float, _dmg_owner : Node) -> float:
@@ -434,7 +484,7 @@ func post_damage_trigger(damage_amount: float, _dmg_owner : Node):
 		if rem.active:
 			match rem.remnant_name:
 				cleric.remnant_name:
-					if rem.variable_1_values[rem.rank-1] > randf()*100:
+					if rem.variable_1_values[rem.rank-1] > randf()*100 and current_health >= 0.0:
 						var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 						particle.position = self.position
 						get_parent().add_child(particle)
@@ -447,13 +497,13 @@ func post_damage_trigger(damage_amount: float, _dmg_owner : Node):
 					if(rem.rank == 5):
 						var attack_instance = preload("res://Game Elements/Attacks/thorns_invisible.tscn").instantiate()
 						attack_instance.get_node("CollisionShape2D").shape = get_camera_rect()
-						attack_instance.damage = damage_amount
+						attack_instance.damage = damage_amount * rem.variable_3_values[rem.rank - 1]
 						attack_instance.c_owner = self
 						attack_instance.global_position = self.global_position
 						LayerManager.room_instance.call_deferred("add_child",attack_instance)
 					else:
 						var attack_instance = preload("res://Game Elements/Attacks/thorns_invisible.tscn").instantiate()
-						attack_instance.damage = damage_amount
+						attack_instance.damage = damage_amount * rem.variable_3_values[rem.rank - 1]
 						attack_instance.scale = attack_instance.scale * ((rem.rank) / 2.0)
 						attack_instance.c_owner = self
 						attack_instance.global_position = self.global_position
@@ -470,6 +520,8 @@ func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0
 		time_since_last_hit = 0
 		i_frames = attack_i_frames
 		damage_amount = damage_amount * (1 - damage_resistance)
+		damage_amount = _check_reduction_remnants(damage_amount,_dmg_owner)
+		sfx_manager.play(preload("res://Game Elements/sfx/player/take_damage.ogg"))
 		damage_amount = _check_bulwark(damage_amount, _dmg_owner, bulwark)
 		if check_drones():
 			LayerManager._damage_indicator(0, _dmg_owner,_direction, attack_body,self,Color(0.0, 0.666, 0.85, 1.0))
@@ -523,6 +575,7 @@ func swap_color():
 	emit_signal("swapped_color", self)
 	if(is_purple):
 		is_purple = false
+		_check_hare()
 		_check_giant()
 		sprite.texture = orange_texture
 		crosshair_sprite.texture = orange_crosshair
@@ -537,6 +590,7 @@ func swap_color():
 			LayerManager.room_instance.add_child(inst)
 	else:
 		is_purple = true
+		_check_hare()
 		_check_giant()
 		sprite.texture = purple_texture
 		crosshair_sprite.texture = purple_crosshair
@@ -554,7 +608,30 @@ func swap_color():
 var single_swap_duration : float = 0.0
 var single_toggle : bool = false
 
-
+func _check_hare():
+	var remnants_purple : Array[Remnant]
+	var remnants_orange : Array[Remnant]
+	remnants_purple = LayerManager.player_1_remnants
+	remnants_orange = LayerManager.player_2_remnants
+	var purple_hare_rank = 0
+	var orange_hare_rank = 0
+	var hare = preload("res://Game Elements/Remnants/hare.tres")
+	for rem in remnants_purple:
+		if rem.remnant_name == hare.remnant_name and rem.active:
+			purple_hare_rank = rem.rank
+	for rem in remnants_orange:
+		if rem.remnant_name == hare.remnant_name and rem.active:
+			orange_hare_rank = rem.rank
+	if(is_purple):
+		if(purple_hare_rank > orange_hare_rank):
+			move_speed *= ((1 + .05 * purple_hare_rank) / (1 + .05 * orange_hare_rank)) 
+		else:
+			move_speed *= ((1 + .05 * orange_hare_rank) / (1 + .05 * purple_hare_rank))
+	else:
+		if(purple_hare_rank < orange_hare_rank):
+			move_speed *= ((1 + .05 * purple_hare_rank) / (1 + .05 * orange_hare_rank)) 
+		else:
+			move_speed *= ((1 + .05 * orange_hare_rank) / (1 + .05 * purple_hare_rank)) 
 
 func _check_giant():
 	var remnants_purple : Array[Remnant]
@@ -577,7 +654,9 @@ func _check_giant():
 		change_health((-1 + purple_max / orange_max) * current_health, purple_max - orange_max)
 		#if(purple_giant_rank != 0 && orange_giant_rank != 0):
 		#	change_health(purple_max / orange_max * current_health, purple_max - orange_max)
-		if(orange_giant_rank != 0):
+		if(orange_giant_rank != 0 and purple_giant_rank !=0):
+			pass
+		elif(orange_giant_rank != 0):
 			scale = scale / 1.5
 			#change_health(-orange_giant_rank * 5, - orange_giant_rank * 5)
 		elif(purple_giant_rank != 0):
@@ -589,7 +668,9 @@ func _check_giant():
 		change_health((-1 + orange_max / purple_max) * current_health, orange_max - purple_max)
 		#if(purple_giant_rank != 0 && orange_giant_rank != 0):
 		#	change_health(orange_giant_rank * 5 - purple_giant_rank * 5, orange_giant_rank * 5 - purple_giant_rank * 5)
-		if(purple_giant_rank != 0):
+		if(orange_giant_rank != 0 and purple_giant_rank !=0):
+			pass
+		elif(purple_giant_rank != 0):
 			scale = scale / 1.5
 			#change_health(-purple_giant_rank * 5, - purple_giant_rank * 5)
 		elif(orange_giant_rank != 0):
@@ -598,6 +679,10 @@ func _check_giant():
 	
 
 func tether(delta : float):
+	if(input_device != "key"):
+		if Input.is_action_just_pressed("quick_swap_" + input_device):
+			if(!is_multiplayer):
+				swap_color()
 	if Input.is_action_just_pressed("swap_" + input_device):
 		if is_multiplayer:
 			tether_momentum += (other_player.position - position)
@@ -607,6 +692,19 @@ func tether(delta : float):
 			var direct = (crosshair.position).normalized()
 			tether_momentum = direct*32
 			other_player.enable(self,direct,!is_purple)
+			var remnants : Array[Remnant]
+			if(!is_purple):
+				remnants = LayerManager.player_1_remnants
+			else:
+				remnants = LayerManager.player_2_remnants
+			var giant_rank = 0
+			var giant = preload("res://Game Elements/Remnants/giant.tres")
+			for rem in remnants:
+				if rem.remnant_name == giant.remnant_name and rem.active:
+					giant_rank = rem.rank
+			if(giant_rank != 0):
+				other_player.collision_shape.scale = other_player.collision_shape.scale * 1.5
+				other_player.sprite_2d.scale = other_player.sprite_2d.scale * 1.5
 			update_animation_parameters(direct)
 	if !Input.is_action_pressed("swap_" + input_device):
 		single_toggle = false
@@ -615,6 +713,8 @@ func tether(delta : float):
 			swap_color()
 			single_toggle = true
 			if !is_multiplayer:
+				other_player.collision_shape.scale = Vector2(1,1)
+				other_player.sprite_2d.scale = Vector2(1,1)
 				other_player.disable()
 			if tether_line.visible == true:
 				tether_line.visible = false
@@ -624,7 +724,6 @@ func tether(delta : float):
 			else:
 				tether_momentum *= .92
 			single_swap_duration = 0.0
-		print(single_swap_duration)
 	if !single_toggle and Input.is_action_pressed("swap_" + input_device) and (is_multiplayer or (global_position-other_player.global_position).length() >=6 or single_swap_duration <.25):
 		if single_swap_duration+delta >=.25 and single_swap_duration <.25:
 			is_tethered = true
@@ -660,6 +759,8 @@ func tether(delta : float):
 			swap_color()
 			single_toggle = true
 		if !is_multiplayer:
+			other_player.collision_shape.scale = Vector2(1,1)
+			other_player.sprite_2d.scale = Vector2(1,1)
 			other_player.disable()
 		if tether_line.visible == true:
 			tether_line.visible = false
@@ -684,7 +785,8 @@ func die(death : bool , insta_die : bool = false) -> bool:
 			LayerManager.open_death_menu()
 			return false
 		if death:
-			max_health = max_health/2.0 if max_health > 40 else max_health-2.0
+			max_health = min(max_health * .8, max_health - 2.0)
+			#max_health/2.0 if max_health > 40 else max_health-2.0
 			emit_signal("max_health_changed",max_health,current_health, self)
 			self.process_mode = PROCESS_MODE_DISABLED
 			visible = false
@@ -827,6 +929,8 @@ func shift_hue(color: Color, amount: float) -> Color:
 	return Color.from_hsv(h, color.s, color.v, color.a)
 
 func _crafter_chance() -> bool:
+	if is_tethered:
+		return false
 	randomize()
 	var remnants : Array[Remnant]
 	if is_purple:
@@ -857,7 +961,6 @@ func damage_boost() -> float:
 		remnants = LayerManager.player_1_remnants
 	else:
 		remnants = LayerManager.player_2_remnants
-	var hunter = preload("res://Game Elements/Remnants/hunter.tres")
 	var kinetic = preload("res://Game Elements/Remnants/kinetic_battery.tres")
 	var ninja = preload("res://Game Elements/Remnants/ninja.tres")
 	var assassin = preload("res://Game Elements/Remnants/assassin.tres")
@@ -865,13 +968,6 @@ func damage_boost() -> float:
 	for rem in remnants:
 		if rem.active:
 			match rem.remnant_name:
-				hunter.remnant_name:
-					var min_dist = 100000
-					for child in LayerManager.room_instance.get_children():
-						if child is DynamEnemy:
-							min_dist = min(min_dist,self.position.distance_to(child.position))
-					if rem.variable_2_values[rem.rank-1]*16 < min_dist:
-						boost = (100+float(rem.variable_1_values[rem.rank-1]))/100.0
 				kinetic.remnant_name:
 					var temp_move = 0
 					if input_direction != Vector2.ZERO:
@@ -889,9 +985,10 @@ func damage_boost() -> float:
 	return boost
 
 func change_health(add_to_current : float, add_to_max : float = 0):
-	current_health+=add_to_current
-	max_health+=add_to_max
 	if add_to_current > 0.0:
+		if add_to_current >= 1.0:
+			sfx_manager.play(preload("res://Game Elements/sfx/player/gain_health.ogg"))
+		var healer = preload("res://Game Elements/Remnants/healer.tres")
 		var hospital = preload("res://Game Elements/Remnants/hospital.tres")
 		var remnants = []
 		if is_purple:
@@ -901,9 +998,15 @@ func change_health(add_to_current : float, add_to_max : float = 0):
 		for rem in remnants:
 			if rem.remnant_name == hospital.remnant_name and rem.active:
 				var amnt = rem.variable_1_values[rem.rank - 1] / 100.0
-				amnt *= add_to_current
-				current_health+=amnt
-				break
+				add_to_current *= (1 + amnt)
+		for rem in remnants:
+			if rem.remnant_name == healer.remnant_name and rem.active:
+				if(add_to_max == 0):
+					var amnt = rem.variable_1_values[rem.rank - 1] / 100.0
+					var health_restored = min(max_health - current_health, add_to_current)
+					add_to_max = health_restored * amnt
+	current_health+=add_to_current
+	max_health+=add_to_max
 	current_health = clamp(current_health,0.0,max_health)
 	emit_signal("max_health_changed",max_health,current_health,self)
 	
@@ -1038,6 +1141,32 @@ func check_forcefield(delta : float):
 			effect.gained(self)
 			effects.append(effect)
 	
+func check_tortoise(is_purple : bool, new_progress : float, used_special : bool = false):
+	if !used_special:
+		return
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var tort = preload("res://Game Elements/Remnants/tortoise.tres")
+	for rem in remnants:
+		if rem.remnant_name == tort.remnant_name and rem.active:
+			var shield = preload("res://Game Elements/Remnants/tortoise/shield.tscn").instantiate()
+			var shield2 = preload("res://Game Elements/Remnants/tortoise/shield_deflection.tscn").instantiate()
+			shield2.c_owner = self
+			shield2.direction = (crosshair.position).normalized()
+			LayerManager.room_instance.add_child(shield)
+			LayerManager.room_instance.add_child(shield2)
+			shield.rotation = (crosshair.position).normalized().angle() +PI/2
+			shield2.rotation = (crosshair.position).normalized().angle() +PI/2
+			shield.lifetime = tort.variable_2_values[rem.rank-1]
+			shield.scale = Vector2(tort.variable_3_values[rem.rank-1],tort.variable_3_values[rem.rank-1])
+			shield2.scale = Vector2(tort.variable_3_values[rem.rank-1],tort.variable_3_values[rem.rank-1])
+			shield.global_position = global_position
+			shield2.global_position = global_position
+			shield.deflection  =shield2
+	
 
 
 func kill_enemy(enemy: Node):
@@ -1074,4 +1203,7 @@ func kill_enemy(enemy: Node):
 		if rem.remnant_name == blood_moon.remnant_name:
 			var heal_chance = rem.variable_1_values[rem.rank-1]
 			if(randf() * 100 <= heal_chance):
+				var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+				particle.position = self.position
+				get_parent().add_child(particle)
 				change_health(rem.variable_2_values[rem.rank-1] * .01 * max_health)
