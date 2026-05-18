@@ -88,6 +88,18 @@ func handle_attack(target_position: Vector2,attack_index: int = 0):
 		else:
 			request_attack(attacks[0], attack_position + Vector2(0,20), attack_direction)
 			return
+			
+	# big t attack handling
+	if enemy_type == "large_reptile" && attack_index != 1:
+		var num_projectiles = 12 if attack_index == 0 else 5 
+		var spread = (2.0 * PI / 3.0) if attack_index == 0 else (PI / 3.0)
+		var step = spread / (num_projectiles - 1)
+		var start_angle = attack_direction.angle() - spread / 2
+		for i in range(num_projectiles):
+			var spread_dir = Vector2.RIGHT.rotated(start_angle + step * i)
+			request_attack(attacks[attack_index], attack_position, spread_dir)
+		return
+
 	if enemy_type=="archer":
 		attack_position = attack_position + attack_direction * 10
 	request_attack(attacks[attack_index], attack_position, attack_direction)
@@ -330,8 +342,14 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 				knockback_velocity = attack_body.direction * attack_body.knockback_force
 	current_health -= damage
 	if is_boss:
-		LayerManager.hud.update_bossbar(clamp(current_health/max_health,0.0,1.0))
-		if current_health <= 0.0 and phase < boss_phases - 1:
+		var health_percentile = clamp(current_health/max_health,0.0,1.0)
+		LayerManager.hud.update_bossbar(health_percentile)
+		if enemy_type == "large_reptile" and phase == last_phase and health_percentile < 1 - (0.2 * phase):
+			phase += 1
+			if phase < boss_phases:
+				emit_signal("boss_phase_change", self)
+				return
+		if enemy_type != "large_reptile" and current_health <= 0.0 and phase != boss_phases - 1:
 			if phase == last_phase:
 				phase+=1
 				if phase < boss_phases:
