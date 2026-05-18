@@ -221,12 +221,6 @@ func weighted_random_index(weights: Array) -> int:
 	return weights.size()
 
 func _check_if_remnant_viable(remnant : Resource, remnant_array : Array):
-	var num_preqreqs_met = 0
-	for rm in remnant.required_remnants:
-		if rm.remnant_name in remnant_array:
-			num_preqreqs_met += 1
-	if(num_preqreqs_met < remnant.num_rem_required):
-		return false
 	if remnant in remnant_array:
 		return true
 	return false

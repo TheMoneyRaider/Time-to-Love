@@ -464,8 +464,8 @@ func apply_hydromancer(rem : Remnant, attack_body : Node, mancer_value : int):
 			@warning_ignore("integer_division")
 			for i in range(1, rem.rank + (mancer_value / 2) + 1):
 				effect = preload("res://Game Elements/Effects/burn.tres").duplicate()
-				effect.cooldown = i
-				effect.value1 = 2
+				effect.cooldown = i / 2.0
+				effect.value1 = attack_body.damage / 2.0
 				effect.gained(self)
 				effects.append(effect)
 		Globals.Liquid.Glitch:

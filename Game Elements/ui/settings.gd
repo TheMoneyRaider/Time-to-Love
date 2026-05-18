@@ -10,6 +10,7 @@ var mouse_clamping: bool = false
 var toggle_invulnerability: bool = false
 var controller_mode = true
 var rewind_mode = 0
+var display_mode = 0
 
 var p1_dropdown_open: bool = false
 var p2_dropdown_open: bool = false
@@ -22,6 +23,7 @@ func load_settings():
 	crosshair_mode = Globals.config.get_value("settings", "crosshair", true) 
 	frag_mode = Globals.config.get_value("fragmentation", "enabled", true)
 	rewind_mode = Globals.config.get_value("rewind", "rewind_mode", 0)
+	display_mode = Globals.config.get_value("display", "display_mode", 0)
 	$MarginContainer/VBoxContainer/Volume/Volume.value = db_to_percent(Globals.config.get_value("audio", "master", 0))
 	if Input.get_connected_joypads().size() == 0:
 		Globals.player1_input = "key"
@@ -73,6 +75,7 @@ func _on_apply_settings()-> void:
 	Globals.config.set_value("inputs","player1_input", Globals.player1_input)
 	Globals.config.set_value("inputs","player2_input", Globals.player2_input)
 	Globals.config.set_value("rewind","rewind_mode",rewind_mode)
+	Globals.config.set_value("display","display_mode",display_mode)
 	
 	Globals.config.set_value("audio", "master",percent_to_db(volslider.value))
 	Globals.config.set_value("audio", "music", percent_to_db($MarginContainer/VBoxContainer/Music/Music.value))
@@ -114,6 +117,7 @@ func _ready() -> void:
 	$MarginContainer/VBoxContainer/Fragmenting/FragMode.toggled.connect(_on_frag_mode_toggled)
 	update_frag_menu_label()
 	$MarginContainer/VBoxContainer/RewindMode/Choice.selected = rewind_mode
+	$MarginContainer/VBoxContainer/DisplayMode/Choice.selected = display_mode
 	
 	refresh_devices(true)
 	refresh_devices(false)
@@ -134,7 +138,9 @@ func _ready() -> void:
 			sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
 	)
 	 
-func _process(delta):
+func _process(_delta):
+	if Input.is_action_just_pressed("ui_cancel"):
+		_on_back_pressed()
 	if Input.get_connected_joypads().size() != (devices[0].size()-1):
 		refresh_devices(true)
 		refresh_devices(false)
@@ -343,3 +349,12 @@ func _on_feeback_pressed() -> void:
 	var static_mem : String = str(Performance.get_monitor(Performance.MEMORY_STATIC) / 1048576.0)
 	DisplayServer.clipboard_set(str(total_save_time) + "," + progress + ","  + gpu_name + "," + gpu_api + "," + gpu_adapter + "," + cpu_name + "," + cpu_cores + "," + ram + "," + static_mem)
 	OS.shell_open("https://docs.google.com/forms/d/e/1FAIpQLSdi6Cud_Lk8Z1nC_vxo8Z86O0FkFxxIehl1sPip_KGtnudooA/viewform?usp=publish-editor")
+
+
+func _on_display_item_selected(index: int) -> void:
+	display_mode = index
+	match display_mode:
+		0:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		1:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN) 

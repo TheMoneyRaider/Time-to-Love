@@ -3,8 +3,8 @@ var mouse_sensitivity: float = 1.0
 
 @export var base_move_speed: float = 100
 var move_speed: float
-@export var max_health: float = 10.0 #TEST
-@export var current_health: float = 10.0 #TEST
+@export var max_health: float = 35.0 #TEST
+@export var current_health: float = 35.0 #TEST
 @onready var current_dmg_time: float = 0.0
 @onready var current_liquid_time: float = 0.0
 @onready var in_instant_trap: bool = false
@@ -400,13 +400,11 @@ func _check_reduction_remnants(damage_amount : float, _dmg_owner : Node):
 		remnants = LayerManager.player_1_remnants
 	else:
 		remnants = LayerManager.player_2_remnants
-	var terramancer = preload("res://Game Elements/Remnants/terramancer.tres")
 	for rem in remnants:
 		if rem.active:
 			match rem.remnant_name:
-				terramancer.remnant_name:
-					if velocity.length() <= .1:
-						damage_amount = damage_amount * (1 - rem.rank * .1)
+					_:
+						pass
 	return damage_amount
 
 func _check_bulwark(damage_amount : float, _dmg_owner : Node, send_damage: bool):
@@ -496,7 +494,7 @@ func post_damage_trigger(damage_amount: float, _dmg_owner : Node):
 						var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 						particle.position = self.position
 						get_parent().add_child(particle)
-						change_health(rem.variable_2_values[rem.rank-1])
+						change_health(damage_amount * .01 * rem.variable_2_values[rem.rank-1])
 				barbarian.remnant_name:
 					for weapon in weapons:
 						weapon.damage = weapon.damage * (1 + rem.variable_1_values[rem.rank-1] / 100.0)
@@ -528,7 +526,7 @@ func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0
 		time_since_last_hit = 0
 		i_frames = attack_i_frames
 		damage_amount = damage_amount * (1 - damage_resistance)
-		damage_amount = _check_reduction_remnants(damage_amount,_dmg_owner)
+		#damage_amount = _check_reduction_remnants(damage_amount,_dmg_owner)
 		sfx_manager.play(preload("res://Game Elements/sfx/player/take_damage.ogg"))
 		damage_amount = _check_bulwark(damage_amount, _dmg_owner, bulwark)
 		if check_drones():
@@ -631,15 +629,9 @@ func _check_hare():
 		if rem.remnant_name == hare.remnant_name and rem.active:
 			orange_hare_rank = rem.rank
 	if(is_purple):
-		if(purple_hare_rank > orange_hare_rank):
-			move_speed *= ((1 + .05 * purple_hare_rank) / (1 + .05 * orange_hare_rank)) 
-		else:
-			move_speed *= ((1 + .05 * orange_hare_rank) / (1 + .05 * purple_hare_rank))
+		move_speed *= ((1 + .05 * purple_hare_rank) / (1 + .05 * orange_hare_rank)) 
 	else:
-		if(purple_hare_rank < orange_hare_rank):
-			move_speed *= ((1 + .05 * purple_hare_rank) / (1 + .05 * orange_hare_rank)) 
-		else:
-			move_speed *= ((1 + .05 * orange_hare_rank) / (1 + .05 * purple_hare_rank)) 
+		move_speed *= ((1 + .05 * orange_hare_rank) / (1 + .05 * purple_hare_rank)) 
 
 func _check_giant():
 	var remnants_purple : Array[Remnant]
@@ -904,6 +896,9 @@ func check_liquids(delta):
 					var idx = 0
 					for effect in effects:
 						if effect.type == "slow":
+							var particle =  preload("res://Game Elements/Particles/steam_particles.tscn").instantiate()
+							#particle.position = self.position
+							self.add_child(particle)
 							effect.tick(delta,self)
 							if effect.cooldown == 0:
 								effects.remove_at(idx)
@@ -1190,22 +1185,34 @@ func check_tortoise(is_purple : bool, new_progress : float, used_special : bool 
 	else:
 		remnants = LayerManager.player_2_remnants
 	var tort = preload("res://Game Elements/Remnants/tortoise.tres")
+	var litho = preload("res://Game Elements/Remnants/terramancer.tres")
 	for rem in remnants:
-		if rem.remnant_name == tort.remnant_name and rem.active:
-			var shield = preload("res://Game Elements/Remnants/tortoise/shield.tscn").instantiate()
-			var shield2 = preload("res://Game Elements/Remnants/tortoise/shield_deflection.tscn").instantiate()
-			shield2.c_owner = self
-			shield2.direction = (crosshair.position).normalized()
-			LayerManager.room_instance.add_child(shield)
-			LayerManager.room_instance.add_child(shield2)
-			shield.rotation = (crosshair.position).normalized().angle() +PI/2
-			shield2.rotation = (crosshair.position).normalized().angle() +PI/2
-			shield.lifetime = tort.variable_2_values[rem.rank-1]
-			shield.scale = Vector2(tort.variable_3_values[rem.rank-1],tort.variable_3_values[rem.rank-1])
-			shield2.scale = Vector2(tort.variable_3_values[rem.rank-1],tort.variable_3_values[rem.rank-1])
-			shield.global_position = global_position
-			shield2.global_position = global_position
-			shield.deflection  =shield2
+		if rem.active:
+			match rem.remnant_name:
+				tort.remnant_name:
+					var shield = preload("res://Game Elements/Remnants/tortoise/shield.tscn").instantiate()
+					var shield2 = preload("res://Game Elements/Remnants/tortoise/shield_deflection.tscn").instantiate()
+					shield2.c_owner = self
+					shield2.direction = (crosshair.position).normalized()
+					LayerManager.room_instance.add_child(shield)
+					LayerManager.room_instance.add_child(shield2)
+					shield.rotation = (crosshair.position).normalized().angle() +PI/2
+					shield2.rotation = (crosshair.position).normalized().angle() +PI/2
+					shield.lifetime = tort.variable_2_values[rem.rank-1]
+					shield.scale = Vector2(tort.variable_3_values[rem.rank-1],tort.variable_3_values[rem.rank-1])
+					shield2.scale = Vector2(tort.variable_3_values[rem.rank-1],tort.variable_3_values[rem.rank-1])
+					shield.global_position = global_position
+					shield2.global_position = global_position
+					shield.deflection  =shield2
+				litho.remnant_name:
+					var lith_area = preload("res://Game Elements/Remnants/lithomancer/lithomancer.tscn").instantiate()
+					lith_area.scale *= 1 + (rem.rank -1) * .2
+					lith_area.lifetime = rem.rank * 1.5
+					lith_area.litho_value = rem.variable_2_values[rem.rank - 1]
+					LayerManager.room_instance.add_child(lith_area)
+					lith_area.global_position = global_position
+					
+			
 	
 
 

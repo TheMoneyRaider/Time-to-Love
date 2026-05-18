@@ -257,6 +257,12 @@ func _check_if_remnant_viable(remnant : Resource, remnant_array : Array):
 	var names = []
 	for r in remnant_array:
 		names.append(r.remnant_name)
+	var num_preqreqs_met = 0
+	for rm in remnant.required_remnants:
+		if rm.remnant_name in remnant_array:
+			num_preqreqs_met += 1
+	if(num_preqreqs_met < remnant.num_rem_required):
+		return false
 	if remnant.remnant_name not in names:
 		return true
 	return false

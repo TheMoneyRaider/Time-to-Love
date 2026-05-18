@@ -13,10 +13,13 @@ var initial_replay_fps = 12
 @onready var replay_texture: TextureRect = $Control/Replay
 @onready var death_box: VBoxContainer = $Control/VBoxContainer
 
+var active = false
+
 var buffer_fps := [32,16,8,4,2,1]
 var buffers := [[],[],[],[],[],[]]
 var capture_timer: Timer
 var capturing := true
+var getting_time := true
 var rewinding := false
 var total_time = 0.0
 var final_frame : Image
@@ -54,7 +57,7 @@ func _ready():
 		capturing = false
 
 func _process(delta):
-	if capturing:
+	if getting_time:
 		total_time+=delta
 
 func state_change():
@@ -64,10 +67,17 @@ func state_change():
 		var img = buffers[0][0]
 		if img is Image and not img.is_empty():
 			Globals.save_state.picture = ImageTexture.create_from_image(img)
+	elif test_buffer.size() > 0:
+		var img = test_buffer.back()
+		if img is Image and not img.is_empty():
+			Globals.save_state.picture = ImageTexture.create_from_image(img)
 
 
 func activate():
+	active = true
 	state_change()
+	if(getting_time):
+		getting_time = false
 	if(capturing):
 		capturing=false
 		capture_timer.stop()
@@ -133,12 +143,14 @@ func _resize_test_buffer():
 		#test_buffer_fps.append(test_buffer_fps.back() * 2.0)
 
 func _on_quit_pressed():
+	active = false
 	if rewinding:
 		return
 	get_tree().paused = false
 	Globals.save_config()
 	get_tree().quit()
 func _on_menu_pressed():
+	active = false
 	if rewinding:
 		return
 	get_tree().paused = false
@@ -247,7 +259,9 @@ func get_shader_intensity(current_time: float, total_time_func: float, min_inten
 	
 func end_replay():
 	var now := Time.get_time_dict_from_system()
+	active = false
 	capturing = false
+	getting_time = false
 	for i in range(6):
 		buffers[i].clear()
 	frame_amount = 0
