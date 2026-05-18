@@ -28,6 +28,12 @@ const PAUSED_VOLUME = -16.0
 var paused_value : bool = false
 
 
+func quite_music(time: float):
+	fade_volume(PAUSED_VOLUME)
+	await get_tree().create_timer(time).timeout
+	fade_volume(-PAUSED_VOLUME)
+	
+
 
 func fade_volume(target_db_variance: float):
 	if tween:

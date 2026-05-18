@@ -1329,7 +1329,8 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 		if is_multiplayer:
 			player2.disabled = true
 		
-		sfx_manager.play(preload("res://Game Elements/sfx/world/zaks_room_transition.ogg"), 10.0)
+		sfx_manager.play(preload("res://Game Elements/sfx/world/room_transition2.ogg"), 5.0)
+		music_manager.quite_music(3.4)
 		var particles = load("res://Game Elements/Particles/pathway_particles.tscn").instantiate()
 		PathwayTransition.global_position = pathway.global_position
 		PathwayViewport.add_child(particles)
