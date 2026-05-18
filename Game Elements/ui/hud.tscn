@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://0hahdiffjt61"]
+[gd_scene load_steps=40 format=3 uid="uid://0hahdiffjt61"]
 
 [ext_resource type="Script" uid="uid://ttvprfi61vn4" path="res://Game Elements/ui/hud.gd" id="1_6fbih"]
 [ext_resource type="Script" uid="uid://bs428146shl5s" path="res://Game Elements/ui/time_fabric_animation.gd" id="2_bjfho"]
@@ -14,6 +14,8 @@
 [ext_resource type="Texture2D" uid="uid://kdaw8in4wo0" path="res://art/weapons/crossbow/crossbow_bright.png" id="9_gp50j"]
 [ext_resource type="PackedScene" uid="uid://bsol6opkpit8y" path="res://Game Elements/ui/health_bar.tscn" id="10_sjf6p"]
 [ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/Particles/effect_particles.gd" id="13_8prbk"]
+[ext_resource type="Shader" uid="uid://dw2wx3n6pfeno" path="res://Game Elements/ui/pain_display.gdshader" id="15_5ho0i"]
+[ext_resource type="Script" uid="uid://7n5dhknutmb5" path="res://Game Elements/ui/pain_display.gd" id="16_wtgju"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5ho0i"]
 shader = ExtResource("3_8prbk")
@@ -181,6 +183,18 @@ Label/colors/font_color = Color(0.69411767, 0.32156864, 0.9843137, 1)
 Label/font_sizes/font_size = 40
 ProgressBar/styles/background = SubResource("StyleBoxFlat_5ho0i")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_wtgju")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wtgju"]
+shader = ExtResource("15_5ho0i")
+shader_parameter/pulse_left = true
+shader_parameter/vignette_color = Color(1, 0, 0, 1)
+shader_parameter/pulse_strength = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wg6mc"]
+shader = ExtResource("15_5ho0i")
+shader_parameter/pulse_left = false
+shader_parameter/vignette_color = Color(1, 0, 0, 1)
+shader_parameter/pulse_strength = 0.0
 
 [node name="Hud" type="CanvasLayer"]
 process_mode = 3
@@ -569,6 +583,28 @@ theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
 [node name="Remnant" type="Label" parent="RootControl/DebugMenu/GridContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
+
+[node name="Purple" type="ColorRect" parent="RootControl"]
+material = SubResource("ShaderMaterial_wtgju")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("16_wtgju")
+
+[node name="Orange" type="ColorRect" parent="RootControl"]
+material = SubResource("ShaderMaterial_wg6mc")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("16_wtgju")
 
 [node name="AttackLabel2" type="RichTextLabel" parent="."]
 visible = false

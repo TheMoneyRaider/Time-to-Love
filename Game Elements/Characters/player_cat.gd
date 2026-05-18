@@ -473,6 +473,12 @@ func pre_damage_trigger(damage_amount: float, _dmg_owner : Node) -> float:
 
 
 func post_damage_trigger(damage_amount: float, _dmg_owner : Node):
+	if is_purple:
+		LayerManager.hud.get_node("RootControl/Purple").trigger_pulse()
+	else:
+		LayerManager.hud.get_node("RootControl/Orange").trigger_pulse()
+	
+	
 	randomize()
 	var remnants : Array[Remnant]
 	if is_purple:
