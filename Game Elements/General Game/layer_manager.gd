@@ -95,7 +95,6 @@ func _ready() -> void:
 	hud.set_players(player1,player2)
 	hud.connect_signals(player1)
 	hud.set_cross_position()
-	
 	dev_remnants()
 	
 	
@@ -1949,7 +1948,7 @@ func dev_remnants():
 	rem.rank = 2
 	player_1_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,true)
-	rem = load("res://Game Elements/Remnants/hospital.tres")
+	rem = load("res://Game Elements/Remnants/healer.tres")
 	rem.rank = 3
 	player_1_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,true)
@@ -1996,7 +1995,7 @@ func dev_remnants():
 		player2.display_combo()
 	
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
-	timefabric_collected = 0
+	timefabric_collected = 2017
 	
 var limboing : bool = false
 func move_to_limbo_phase_2():
@@ -2086,5 +2085,5 @@ func boss_rewards():
 func _notification(what: int) -> void:
 	match what:
 		NOTIFICATION_WM_WINDOW_FOCUS_OUT:
-			if(!pause.active):
+			if !pause.active and !camera_override and !transitioning and !remnant_offer_popup and !remnant_upgrade_popup and hud.get_node("../PauseMenu").pause_cooldown == 0:
 				pause.activate()
