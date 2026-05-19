@@ -43,7 +43,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	lifetime -= delta
-	flash_expire(delta,5)
+	flash_expire(delta,7)
 	if(lifetime <= 0.0):
 		self.queue_free()
 	time_passed += delta

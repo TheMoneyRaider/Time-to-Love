@@ -102,8 +102,8 @@ children = [SubResource("BTAction_ppdyw"), SubResource("BTPlayAnimation_yry68")]
 
 [sub_resource type="BTAction" id="BTAction_v4ajl"]
 script = ExtResource("6_rv571")
-min_time = 0.5
-max_time = 2.0
+min_time = 0.75
+max_time = 2.5
 
 [sub_resource type="BTAction" id="BTAction_yg7nc"]
 custom_name = "OuterRange"
@@ -146,7 +146,7 @@ children = [SubResource("BTAction_861og")]
 children = [SubResource("BTDelay_ttuuy")]
 
 [sub_resource type="BTDelay" id="BTDelay_arvq5"]
-seconds = 0.2
+seconds = 0.3
 children = [SubResource("BTSequence_sangl")]
 
 [sub_resource type="BTAction" id="BTAction_sangl"]

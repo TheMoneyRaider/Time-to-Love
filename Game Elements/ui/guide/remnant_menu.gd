@@ -143,7 +143,9 @@ func _process(delta):
 			entry.btn_select.emit_signal("pressed")  # or call _on_slot_selected
 		else:
 			_on_return_pressed()
-		
+	
+	if Input.is_action_just_pressed("ui_cancel"):
+		_on_return_pressed()	
 		
 	if not is_dragging:
 		# Apply inertia
