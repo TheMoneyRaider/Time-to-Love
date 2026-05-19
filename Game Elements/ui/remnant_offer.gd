@@ -1,16 +1,16 @@
-extends Control
+extends CanvasLayer
 class_name RemnantOffer
 
 signal remnant_chosen(remnant1: Resource,remnant2: Resource)
 
-@onready var crosshair_sprite = $Crosshair/Sprite2D
+@onready var crosshair_sprite = $Control/Crosshair/Sprite2D
 @onready var purple_crosshair = preload("res://art/purple_crosshair_with_shadow.png")
 @onready var orange_crosshair = preload("res://art/orange_crosshair_with_shadow.png")
 @onready var slot_nodes: Array = [
-	$MarginContainer/slots_hbox/slot0,
-	$MarginContainer/slots_hbox/slot1,
-	$MarginContainer/slots_hbox/slot2,
-	$MarginContainer/slots_hbox/slot3]
+	$Control/MarginContainer/slots_hbox/slot0,
+	$Control/MarginContainer/slots_hbox/slot1,
+	$Control/MarginContainer/slots_hbox/slot2,
+	$Control/MarginContainer/slots_hbox/slot3]
 var offered_remnants: Array[Resource] = []
 var selected_index1: int = -1 #Purple
 var selected_index2: int = -1 #Orange
@@ -43,27 +43,27 @@ func _set_drifter_text(player1_remnants_in, player2_remnants_in):
 			match rem.remnant_name:
 				drifter.remnant_name:
 					tricky1 = (rem.variable_1_values[rem.rank -1])
-					$DrifterText.visible = true
+					$Control/DrifterText.visible = true
 	for rem in player2_remnants_in:
 		if rem.active:
 			match rem.remnant_name:
 				drifter.remnant_name:
 					tricky2 = (rem.variable_1_values[rem.rank -1])
-					$DrifterText.visible = true
+					$Control/DrifterText.visible = true
 	if(is_purple && tricky1 != 0):
 		if  Globals.player1_input == "key":
-			$DrifterText/Label.text =  "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_f_outline[/font]: Reroll for "+str(tricky1)+"  "
+			$Control/DrifterText/Label.text =  "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_f_outline[/font]: Reroll for "+str(tricky1)+"  "
 		else:
-			$DrifterText/Label.text =  "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_triangle_outline[/font]: Reroll for "+str(tricky1)+"  "
+			$Control/DrifterText/Label.text =  "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_triangle_outline[/font]: Reroll for "+str(tricky1)+"  "
 	elif(!is_purple && tricky2 != 0):
 		if  Globals.player1_input == "key":
-			$DrifterText/Label.text =  "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_f_outline[/font]: Reroll for "+str(tricky2)+"  "
+			$Control/DrifterText/Label.text =  "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_f_outline[/font]: Reroll for "+str(tricky2)+"  "
 		else:
-			$DrifterText/Label.text =  "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_triangle_outline[/font]: Reroll for "+str(tricky2)+"  "
+			$Control/DrifterText/Label.text =  "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_triangle_outline[/font]: Reroll for "+str(tricky2)+"  "
 	if Globals.total_progress < 1.0 and !RemnantManager.has_gotten_remnant:
-		$DrifterText/Label.text = "Chose a Remnant for each Character"
-		$DrifterText.visible = true
-		$DrifterText/Label/TextureRect.visible = false
+		$Control/DrifterText/Label.text = "Chose a Remnant for each Character"
+		$Control/DrifterText.visible = true
+		$Control/DrifterText/Label/TextureRect.visible = false
 func _slice_frames() -> void:
 	frames.clear()
 
@@ -97,7 +97,7 @@ func _ready():
 	_slice_frames()
 	process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 	get_tree().paused = true
-	modulate.a = 0.0
+	$Control.modulate.a = 0.0
 
 func _process(_delta):
 	if !Globals.is_multiplayer and Input.is_action_just_pressed("swap_" + Globals.player1_input):
@@ -125,7 +125,7 @@ func _process(_delta):
 	if selected_index1 != selected_index2 and selected_index1 != -1 and selected_index2 != -1:
 		#If we now have two different selections -> close the menu
 		_close_after_two_chosen()
-	if modulate.a == 1.0:
+	if $Control.modulate.a == 1.0:
 		inputs(Globals.player1_input,true)
 		if Globals.is_multiplayer:
 			inputs(Globals.player2_input,false)
@@ -142,7 +142,7 @@ func _process(_delta):
 
 	var t := anim_time - int(anim_time)
 	var smear_t := pow(t, smear_strength)
-	$DrifterText/Label/TextureRect.texture = _blend_textures(frames[current_frame], frames[next_frame], smear_t)
+	$Control/DrifterText/Label/TextureRect.texture = _blend_textures(frames[current_frame], frames[next_frame], smear_t)
 
 
 func popup_offer(player1_remnants_in : Array, player2_remnants_in : Array, rank_weights : Array = [70,25,5]):
@@ -206,7 +206,7 @@ func popup_offer(player1_remnants_in : Array, player2_remnants_in : Array, rank_
 		crosshair_sprite.texture = purple_crosshair
 	
 	#Fade in
-	var _tween = create_tween().tween_property(self, "modulate:a", 1.0, 0.5)
+	var _tween = create_tween().tween_property($Control, "modulate:a", 1.0, 0.5)
 	
 
 
@@ -226,7 +226,7 @@ func _place_purple_selectable(slot : Node ,remnant : Resource):
 		rem_names.append(r.remnant_name)
 	if remnant.remnant_name not in rem_names and meets_requirements(remnant,rem_names):
 		var particle = preload("res://Game Elements/ui/purple_selectable.tscn").instantiate()
-		particle.position = slot.position+slot.size+$MarginContainer/slots_hbox.position
+		particle.position = slot.position+slot.size+$Control/MarginContainer/slots_hbox.position
 		particle.position.x -= slot.size.x/2
 		add_child(particle)
 
@@ -236,7 +236,7 @@ func _place_orange_selectable(slot : Node ,remnant : Resource):
 		rem_names.append(r.remnant_name)
 	if remnant.remnant_name not in rem_names and meets_requirements(remnant,rem_names):
 		var particle = preload("res://Game Elements/ui/orange_selectable.tscn").instantiate()
-		particle.position = slot.position+slot.size+$MarginContainer/slots_hbox.position
+		particle.position = slot.position+slot.size+$Control/MarginContainer/slots_hbox.position
 		particle.position.x -= slot.size.x/2
 		particle.position.y -= slot.size.y
 		add_child(particle)
@@ -331,10 +331,10 @@ func _close_after_two_chosen():
 	RemnantManager.has_gotten_remnant = true
 	#Fade out animation
 	var tween = create_tween()
-	tween.tween_property(self, "modulate:a", 0.0, .5)
+	tween.tween_property($Control, "modulate:a", 0.0, .5)
 	await tween.finished
 	#Emit the two chosen remnants
 	emit_signal("remnant_chosen", offered_remnants[selected_index1], offered_remnants[selected_index2])
 	visible = false
-	$DrifterText.visible = false
+	$Control/DrifterText.visible = false
 	get_tree().paused = false

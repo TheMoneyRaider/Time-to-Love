@@ -296,10 +296,11 @@ min_timefabric = 200
 max_timefabric = 250
 max_sprint_cooldown = 4.0
 sprint_multiplier = 3.0
-move_speed = 120.0
+move_speed = 240.0
 is_boss = true
 boss_phases = 6
 boss_healthpools = Array[float]([300.0])
+knockback_decay = 0.75
 attacks = [ExtResource("2_f2uui"), ExtResource("3_rgvsh"), ExtResource("4_b1psi")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
