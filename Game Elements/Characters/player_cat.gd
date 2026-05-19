@@ -59,6 +59,7 @@ var debug_menu : bool = false
 var effects : Array[Effect] = []
 var last_liquid : Globals.Liquid = Globals.Liquid.Buffer
 
+var assist_enabled : bool = true
 var forcefield_active : bool = false
 
 var footstep_timer: float = 0.0
@@ -154,6 +155,8 @@ func show_forcefield(interp_time : float):
 func update_input_device(in_dev : String):
 	input_device = in_dev
 	crosshair.player_input_device = input_device
+	if(input_device == "key"):
+		assist_enabled = false
 
 
 func _initialize_state_machine():
@@ -198,10 +201,10 @@ func smooth_aim_assist() -> Array[Vector2]:
 	var enemies: Array[Node] = get_tree().get_nodes_in_group("enemy")
 	var angles: Array[Vector2] = []
 	var is_boss_room := current_room == Globals.RoomType.Boss
-	for enemy in enemies:
-		var band = angular_band_circle(global_position, enemy.get_node("CollisionShape2D"))
-		var blocked = false
-		if !is_boss_room:
+	if !is_boss_room or assist_enabled:
+		for enemy in enemies:
+			var band = angular_band_circle(global_position, enemy.get_node("CollisionShape2D"))
+			var blocked = false
 			var to_enemy : Vector2= enemy.global_position - global_position
 			var ray_length : float= to_enemy.length()
 			var left_ray := Vector2(cos(band.x), sin(band.x))
@@ -223,8 +226,8 @@ func smooth_aim_assist() -> Array[Vector2]:
 					"blocked": blocked
 				})
 
-		if !blocked:
-			angles.append(band)
+			if !blocked:
+				angles.append(band)
 
 	return angles
 
@@ -279,6 +282,9 @@ func angular_band_circle(player_pos: Vector2, collision_shape: CollisionShape2D)
 	return Vector2(center_angle, center_angle)
 
 func compute_assist_angle(player_angle: float, enemy_angles: Array, band_size: float = deg_to_rad(45)) -> float:
+	var is_boss_room := current_room == Globals.RoomType.Boss
+	if is_boss_room or !assist_enabled:
+		return player_angle
 	var half_band := band_size * 0.5
 	var new_angle := player_angle
 
@@ -558,6 +564,8 @@ func set_weapon_dr(weapon : Weapon):
 		"Crowbar":
 			damage_resistance = .1
 		"Shovel":
+			damage_resistance = .1
+		"Fist":
 			damage_resistance = .1
 	
 
@@ -1222,35 +1230,47 @@ func kill_enemy(enemy: Node):
 		remnants = LayerManager.player_1_remnants
 	else:
 		remnants = LayerManager.player_2_remnants
+	var killer = preload("res://Game Elements/Remnants/killer.tres")
+	var killer_chance = 0
+	for rem in remnants:
+		if rem.remnant_name == killer.remnant_name and rem.active:
+			killer_chance =  rem.variable_1_values[rem.rank -1 ] / 100.0
+	
 	var adrenal = preload("res://Game Elements/Remnants/adrenal_injector.tres")
 	var drone = preload("res://Game Elements/Remnants/drone.tres")
 	var blood_moon = preload("res://Game Elements/Remnants/blood_moon.tres")
 	for rem in remnants:
 		if rem.remnant_name == adrenal.remnant_name and rem.active:
-			if move_speed < 3*base_move_speed:
-				var effect = preload("res://Game Elements/Effects/speed.tres").duplicate(true)
-				effect.cooldown = adrenal.variable_2_values[rem.rank-1]
-				effect.value1 = adrenal.variable_1_values[rem.rank-1] / 100.0
-				if move_speed * (1+effect.value1) >3*base_move_speed:
-					effect.value1 = 4*base_move_speed/move_speed - 1
-				effect.gained(self)
-				effects.append(effect)
+			var num_times = 2 if randf() < killer_chance else 1
+			for i in range(0,num_times):
+				if move_speed < 3*base_move_speed:
+					var effect = preload("res://Game Elements/Effects/speed.tres").duplicate(true)
+					effect.cooldown = adrenal.variable_2_values[rem.rank-1]
+					effect.value1 = adrenal.variable_1_values[rem.rank-1] / 100.0
+					if move_speed * (1+effect.value1) >3*base_move_speed:
+						effect.value1 = 4*base_move_speed/move_speed - 1
+					effect.gained(self)
+					effects.append(effect)
 		if rem.remnant_name == drone.remnant_name and rem.active:
-			var drones = get_tree().get_nodes_in_group("drones")
-			var drone_num = 0
-			for drone_inst in drones:
-				if drone_inst.player == self:
-					drone_num+=1
-			if drone_num >= rem.variable_2_values[rem.rank-1]:
-				break
-			var dr_inst = preload("res://Game Elements/Remnants/drone/drone.tscn").instantiate()
-			LayerManager.room_instance.add_child(dr_inst)
-			dr_inst.global_position = enemy.global_position
-			dr_inst.prep(self, rem.variable_1_values[rem.rank-1])
+			var num_times = 2 if randf() < killer_chance else 1
+			for i in range(0,num_times):
+				var drones = get_tree().get_nodes_in_group("drones")
+				var drone_num = 0
+				for drone_inst in drones:
+					if drone_inst.player == self:
+						drone_num+=1
+				if drone_num >= rem.variable_2_values[rem.rank-1]:
+					break
+				var dr_inst = preload("res://Game Elements/Remnants/drone/drone.tscn").instantiate()
+				LayerManager.room_instance.add_child(dr_inst)
+				dr_inst.global_position = enemy.global_position
+				dr_inst.prep(self, rem.variable_1_values[rem.rank-1])
 		if rem.remnant_name == blood_moon.remnant_name:
-			var heal_chance = rem.variable_1_values[rem.rank-1]
-			if(randf() * 100 <= heal_chance):
-				var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
-				particle.position = self.position
-				get_parent().add_child(particle)
-				change_health(rem.variable_2_values[rem.rank-1] * .01 * max_health)
+			var num_times = 2 if randf() < killer_chance else 1
+			for i in range(0,num_times):
+				var heal_chance = rem.variable_1_values[rem.rank-1]
+				if(randf() * 100 <= heal_chance):
+					var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+					particle.position = self.position
+					get_parent().add_child(particle)
+					change_health(rem.variable_2_values[rem.rank-1] * .01 * max_health)
