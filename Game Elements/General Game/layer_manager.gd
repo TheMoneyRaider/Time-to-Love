@@ -88,6 +88,14 @@ var weapon_select_sounds = [
 	preload("res://Game Elements/sfx/weapons/selection/selection5.wav"),
 ]
 
+var cactus_explosion_sound = [
+	preload("res://Game Elements/sfx/weapons/selection/selection1.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection2.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection3.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection4.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection5.wav")
+]
+
 func _ready() -> void:
 	RemnantManager.has_gotten_remnant = false
 	$LettersPopup.modulate.a=0.0
@@ -818,7 +826,7 @@ func _attempt_health_reward(pathway_to_randomize : Node) -> void:
 	if prev_reward_type == Globals.Reward.Shop or prev_reward_type == Globals.Reward.Boss:
 		return
 	if(percent_health_missing() > .5):
-		if(randf() < percent_health_missing()):
+		if(randf() < percent_health_missing()*2.0-1.0):
 			reward_type1 = Globals.Reward.Health
 			reward_type2 = Globals.Reward.Health
 			pathway_to_randomize.set_reward(reward_type1,wave,reward_type2)
@@ -923,9 +931,6 @@ func _choose_reward(pathway_name : String, reward_setter : int = -1) -> void:
 					5:
 						wave = true
 						reward_num[reward_value] = reward_num[reward_value] * .1
-					#6:
-					#	reward_type1 = Globals.Reward.NewWeapon
-					#	reward_num[reward_value] = reward_num[reward_value]/2.0
 			if wave and reward_type2==null and reward_type1!=null: #Get two rewards
 				reward_type2 = reward_type1
 				reward_type1 = null
@@ -1691,6 +1696,7 @@ func _on_enemy_take_damage(damage : float,current_health : float,enemy : Node, d
 			room_instance.call_deferred("add_child",attack_instance)
 			has_death_attack = true
 		if(enemy.cactus_explode):
+			sfx_manager.play(cactus_explosion_sound[randi() % cactus_explosion_sound.size()], -6.0)
 			var attack_direction
 			if(enemy.last_hitter != null):
 				attack_direction = (enemy.last_hitter.global_position - enemy.global_position).normalized()

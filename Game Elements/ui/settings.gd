@@ -14,6 +14,7 @@ var display_mode = 0
 
 var p1_dropdown_open: bool = false
 var p2_dropdown_open: bool = false
+var rewind_dropdown_open: bool = false
 
 func load_settings():
 	mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
@@ -133,6 +134,14 @@ func _ready() -> void:
 	$MarginContainer/VBoxContainer/Player2/Choice.pressed.connect(func():
 		p2_dropdown_open = !p2_dropdown_open
 		if p2_dropdown_open:
+			sfx_manager.play(preload("res://Game Elements/ui/sfx/maximize_008.ogg"), 0.0, "UI")
+		else:
+			sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
+	)
+	
+	$MarginContainer/VBoxContainer/RewindMode/Choice.pressed.connect(func():
+		rewind_dropdown_open = !rewind_dropdown_open
+		if rewind_dropdown_open:
 			sfx_manager.play(preload("res://Game Elements/ui/sfx/maximize_008.ogg"), 0.0, "UI")
 		else:
 			sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
@@ -312,6 +321,10 @@ func _on_joystick_sensitivity_value_changed(value: float) -> void:
 
 
 func _on_controller_mode_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"), 0.0, "UI")
+	else:
+		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_off.ogg"), 0.0, "UI")
 	controller_mode = toggled_on
 	update_controller_menu_label()
 
@@ -323,6 +336,8 @@ func update_controller_menu_label() -> void:
 
 
 func _on_rewind_mode_selected(index: int) -> void:
+	rewind_dropdown_open = false
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
 	rewind_mode = index
 
 func _load_save_time(idx: int) -> float:
@@ -334,6 +349,7 @@ func _load_save_time(idx: int) -> float:
 	return 0
 
 func _on_feeback_pressed() -> void:
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	var total_save_time = 0
 	for i in range(3):
 		total_save_time += _load_save_time(i)
