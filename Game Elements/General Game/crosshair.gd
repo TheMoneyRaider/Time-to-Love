@@ -68,7 +68,7 @@ func _process(_delta: float) -> void:
 	else:
 		if(player.weapons[player.is_purple as int].type == "Laser_Sword"):
 			position = (crosshair_direction * 35)
-		elif(player.weapons[player.is_purple as int].type == "Mace" or player.weapons[player.is_purple as int].type == "Crowbar"):
+		elif(player.weapons[player.is_purple as int].type == "Mace" or player.weapons[player.is_purple as int].type == "Crowbar" or player.weapons[player.is_purple as int].type == "Fist"):
 			position = (crosshair_direction * 25)
 		else:
 			position = (crosshair_direction * 50)

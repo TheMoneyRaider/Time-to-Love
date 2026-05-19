@@ -59,6 +59,7 @@ var debug_menu : bool = false
 var effects : Array[Effect] = []
 var last_liquid : Globals.Liquid = Globals.Liquid.Buffer
 
+var assist_enabled : bool = true
 var forcefield_active : bool = false
 
 var footstep_timer: float = 0.0
@@ -152,6 +153,8 @@ func show_forcefield(interp_time : float):
 func update_input_device(in_dev : String):
 	input_device = in_dev
 	crosshair.player_input_device = input_device
+	if(input_device == "key"):
+		assist_enabled = false
 
 
 func _initialize_state_machine():
@@ -196,10 +199,10 @@ func smooth_aim_assist() -> Array[Vector2]:
 	var enemies: Array[Node] = get_tree().get_nodes_in_group("enemy")
 	var angles: Array[Vector2] = []
 	var is_boss_room := current_room == Globals.RoomType.Boss
-	for enemy in enemies:
-		var band = angular_band_circle(global_position, enemy.get_node("CollisionShape2D"))
-		var blocked = false
-		if !is_boss_room:
+	if !is_boss_room or assist_enabled:
+		for enemy in enemies:
+			var band = angular_band_circle(global_position, enemy.get_node("CollisionShape2D"))
+			var blocked = false
 			var to_enemy : Vector2= enemy.global_position - global_position
 			var ray_length : float= to_enemy.length()
 			var left_ray := Vector2(cos(band.x), sin(band.x))
@@ -221,8 +224,8 @@ func smooth_aim_assist() -> Array[Vector2]:
 					"blocked": blocked
 				})
 
-		if !blocked:
-			angles.append(band)
+			if !blocked:
+				angles.append(band)
 
 	return angles
 
@@ -277,6 +280,9 @@ func angular_band_circle(player_pos: Vector2, collision_shape: CollisionShape2D)
 	return Vector2(center_angle, center_angle)
 
 func compute_assist_angle(player_angle: float, enemy_angles: Array, band_size: float = deg_to_rad(45)) -> float:
+	var is_boss_room := current_room == Globals.RoomType.Boss
+	if is_boss_room or !assist_enabled:
+		return player_angle
 	var half_band := band_size * 0.5
 	var new_angle := player_angle
 
@@ -556,6 +562,8 @@ func set_weapon_dr(weapon : Weapon):
 		"Crowbar":
 			damage_resistance = .1
 		"Shovel":
+			damage_resistance = .1
+		"Fist":
 			damage_resistance = .1
 	
 
