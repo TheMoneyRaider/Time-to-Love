@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://b0nj6mcov83rs"]
+[gd_scene load_steps=14 format=4 uid="uid://b0nj6mcov83rs"]
 
 [ext_resource type="Script" uid="uid://00rnhke2atmb" path="res://Game Elements/Rooms/room_script.gd" id="1_idoy2"]
 [ext_resource type="Shader" uid="uid://38vxobsuweed" path="res://Game Elements/General Game/limbo/limbo_effect.gdshader" id="2_fiu42"]
@@ -8,6 +8,7 @@
 [ext_resource type="Material" uid="uid://2bspmdwg3wl3" path="res://Game Elements/Rooms/medieval/outside_filler_grass.tres" id="6_e2ogx"]
 [ext_resource type="PackedScene" uid="uid://ccwiql3bybf2p" path="res://Game Elements/Objects/pathway.tscn" id="7_x7lq3"]
 [ext_resource type="PackedScene" uid="uid://dyqkjcho73h2u" path="res://Game Elements/Objects/new_weapon.tscn" id="8_4ffge"]
+[ext_resource type="PackedScene" uid="uid://btojf6nei1gep" path="res://Game Elements/Characters/dummy.tscn" id="9_gmi5b"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lv7v3"]
 shader = ExtResource("2_fiu42")
@@ -100,3 +101,6 @@ weapon_type = "Crossbow"
 
 [node name="MacePickup" parent="." instance=ExtResource("8_4ffge")]
 position = Vector2(166, 187)
+
+[node name="Dummy" parent="." instance=ExtResource("9_gmi5b")]
+position = Vector2(-60, 194)

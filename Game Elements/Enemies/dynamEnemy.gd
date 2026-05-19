@@ -259,7 +259,24 @@ func _process(delta):
 	
 	if debug_mode:
 		queue_redraw()
-	
+var animating : bool = false
+func _dummy_hit(size : float):
+	if animating: return
+	animating = true
+	var animation_input: String = "hit_1"
+	if size > 5.1:
+		animation_input = "hit_2"
+	if size > 10.0:
+		animation_input = "hit_3"
+	$AnimationPlayer.play(animation_input)
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	$AnimationPlayer.play("idle")
+	animating = false
+
+
+
 func _skeleton_process():
 	var dir = look_direction
 	var block : int = $SkeletonBrain.anim_frame / 4 * 4
@@ -322,6 +339,8 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 	if(i_frames > 0):
 		return
 	i_frames = attack_i_frames
+	if enemy_type=="hit_me":
+		_dummy_hit(damage)
 	sfx_manager.play(preload("res://Game Elements/sfx/enemies/thud.ogg"), -2.0)
 	if dmg_owner:
 		check_agro(dmg_owner)

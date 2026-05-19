@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://dwafc7hmrvabt"]
+[gd_scene load_steps=18 format=4 uid="uid://dwafc7hmrvabt"]
 
 [ext_resource type="Script" uid="uid://00rnhke2atmb" path="res://Game Elements/Rooms/room_script.gd" id="1_xr20v"]
 [ext_resource type="Shader" uid="uid://38vxobsuweed" path="res://Game Elements/General Game/limbo/limbo_effect.gdshader" id="2_fpkfk"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://ccwiql3bybf2p" path="res://Game Elements/Objects/pathway.tscn" id="7_3umfc"]
 [ext_resource type="PackedScene" uid="uid://dyqkjcho73h2u" path="res://Game Elements/Objects/new_weapon.tscn" id="8_ui0xc"]
 [ext_resource type="TileSet" uid="uid://c1hs512jrffba" path="res://art/western_pack/Tilesets/western_tiles_1.tres" id="9_fpkfk"]
+[ext_resource type="PackedScene" uid="uid://btojf6nei1gep" path="res://Game Elements/Characters/dummy.tscn" id="10_atlei"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lv7v3"]
 shader = ExtResource("2_fpkfk")
@@ -176,3 +177,6 @@ required_progress = 1.0
 position = Vector2(-49, 570)
 weapon_type = "Shotgun"
 required_progress = 1.0
+
+[node name="Dummy" parent="." instance=ExtResource("10_atlei")]
+position = Vector2(-71, 199)

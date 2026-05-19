@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=4 uid="uid://6kgd3ndk5wgr"]
+[gd_scene load_steps=30 format=4 uid="uid://6kgd3ndk5wgr"]
 
 [ext_resource type="Script" uid="uid://00rnhke2atmb" path="res://Game Elements/Rooms/room_script.gd" id="1_7nyve"]
 [ext_resource type="Shader" uid="uid://38vxobsuweed" path="res://Game Elements/General Game/limbo/limbo_effect.gdshader" id="2_774x8"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://b4kys60pdrkmg" path="res://Game Elements/Rooms/sci_fi/factory_door.tscn" id="11_yl6i3"]
 [ext_resource type="TileSet" uid="uid://du2dmgjlmgair" path="res://Game Elements/tilesets/sci_fi2.tres" id="12_jr6yh"]
 [ext_resource type="Shader" uid="uid://djb6fots67ufy" path="res://Game Elements/Rooms/sci_fi/glitch_liquid.gdshader" id="13_poqlc"]
+[ext_resource type="PackedScene" uid="uid://btojf6nei1gep" path="res://Game Elements/Characters/dummy.tscn" id="17_kvee5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lv7v3"]
 shader = ExtResource("2_774x8")
@@ -325,3 +326,6 @@ position = Vector2(-8.007935, -109.757935)
 scale = Vector2(0.99287677, 1.132382)
 build_mode = 1
 polygon = PackedVector2Array(-425.01953, 644.44495, -351.49582, 623.2507, -444, 744, -512, 756, -572, 776, -632, 778, -709, 776, -769, 777, -834, 790, -941.69995, 790.15546, -1032.3456, 768.9612, -1010.1878, 734.5205, -844.004, 735.4036, -713.0714, 734.5205, -612.35394, 717.74176, -539.8374, 702.7291, -494.51456, 678.0025)
+
+[node name="Dummy" parent="." instance=ExtResource("17_kvee5")]
+position = Vector2(-59, 205)
