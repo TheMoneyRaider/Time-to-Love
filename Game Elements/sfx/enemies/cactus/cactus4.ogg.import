@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://ncmyrfdkghlb"
+path="res://.godot/imported/cactus4.ogg-6efbc25eaa011d21a8285ae4efd7e2ce.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/enemies/cactus/cactus4.ogg"
+dest_files=["res://.godot/imported/cactus4.ogg-6efbc25eaa011d21a8285ae4efd7e2ce.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

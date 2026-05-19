@@ -59,6 +59,13 @@ signal attack_requested(new_attack : PackedScene, t_position : Vector2, t_direct
 signal enemy_took_damage(damage : float,current_health : float,c_node : Node, direction : Vector2)
 signal boss_phase_change(boss : Node)
 
+var cactus_explosion_sound = [
+	preload("res://Game Elements/sfx/weapons/selection/selection1.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection2.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection3.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection4.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection5.wav")
+]
 
 func _input(event):
 	if debug_menu and event.is_action_pressed("display_paths"):
@@ -315,6 +322,7 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 	if(i_frames > 0):
 		return
 	i_frames = attack_i_frames
+	sfx_manager.play(preload("res://Game Elements/sfx/enemies/thud.ogg"), -2.0)
 	if dmg_owner:
 		check_agro(dmg_owner)
 	if enemy_type=="binary_bot":
@@ -323,6 +331,7 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 		LayerManager._damage_indicator(damage, dmg_owner,direction, attack_body,self)
 		damage_flash()
 		if(enemy_type=="cactus") and dmg_owner:
+			sfx_manager.play(cactus_explosion_sound[randi() % cactus_explosion_sound.size()], -6.0)
 			var attack_position = global_position
 			if(is_instance_valid(dmg_owner)):
 				var attack_direction = (dmg_owner.global_position - attack_position).normalized()

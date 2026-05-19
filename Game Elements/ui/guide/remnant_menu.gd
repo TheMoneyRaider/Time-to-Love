@@ -16,7 +16,11 @@ var current_focus_index := -2  # -1 means return focused
 var last_input_dir := 0  # prevent repeated triggers
 var last_input_dirv := 0  # prevent repeated triggers
 
+var last_center_index: int = -1
+
 func _ready():
+	$Control/Return.mouse_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
+	$Control/Return.focus_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
 	hide()
 
 func queue_free_children(n :Node):
@@ -165,6 +169,7 @@ func move_focus(direction: int) -> void:
 	elif current_focus_index >= 0:
 		current_focus_index += direction
 		current_focus_index = clamp(current_focus_index, 0, list_container.get_child_count() - 1)
+	sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI")
 	if current_focus_index >= 0:
 		var entry = list_container.get_child(current_focus_index)
 		var btn = entry.btn_select
@@ -188,11 +193,22 @@ func _update_scroll():
 	scroll_position = clamp(scroll_position, min_scroll, max_scroll)
 	list_container.position.x = scroll_position
 
-	# Scale effect for children
+	var center_x = scroller.global_position.x + scroller.size.x / 2
+	var nearest_idx = 0
+	var nearest_dist = INF
+	var idx = 0
 	for child in list_container.get_children():
-		var center_dist = abs(child.global_position.x + child.size.x/2 - scroller.global_position.x - scroller.size.x/2)
+		var center_dist = abs(child.global_position.x + child.size.x/2 - center_x)
 		var scale_factor = clamp(1 - center_dist / 2400.0, 0.8, 1)
 		child.scale = Vector2.ONE * scale_factor
+		if center_dist < nearest_dist:
+			nearest_dist = center_dist
+			nearest_idx = idx
+		idx += 1
+
+	if nearest_idx != last_center_index:
+		last_center_index = nearest_idx
+		sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI")
 
 # Find nearest remnant and set snap target
 func _calculate_snap_target():
@@ -224,6 +240,7 @@ func _calculate_snap_target():
 
 
 func _on_slot_selected(idx: int) -> void:
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	var prog = Globals.config.get_value("progress", "total_progress", 0.0)
 	var entry = list_container.get_child(idx)
 	var rem = list_container.get_child(idx).remnant
@@ -233,6 +250,7 @@ func _on_slot_selected(idx: int) -> void:
 
 
 func _on_return_pressed():
+	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	queue_free_children(list_container)
 	active = false
 	hide()
