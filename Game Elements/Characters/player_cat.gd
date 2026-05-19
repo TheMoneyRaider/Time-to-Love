@@ -378,7 +378,7 @@ func _physics_process(delta):
 		if footstep_timer <= 0.0:
 			var speed_ratio = clamp(velocity.length() / base_move_speed, 1.0, 2.5)
 			footstep_timer = footstep_interval / speed_ratio
-			sfx_manager.play(footstep_sounds[randi() % footstep_sounds.size()])
+			SFXManager.play(footstep_sounds[randi() % footstep_sounds.size()])
 	else:
 		footstep_timer = 0.0
 
@@ -527,7 +527,7 @@ func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0
 		i_frames = attack_i_frames
 		damage_amount = damage_amount * (1 - damage_resistance)
 		#damage_amount = _check_reduction_remnants(damage_amount,_dmg_owner)
-		sfx_manager.play(preload("res://Game Elements/sfx/player/take_damage.ogg"))
+		SFXManager.play(preload("res://Game Elements/sfx/player/take_damage.ogg"))
 		damage_amount = _check_bulwark(damage_amount, _dmg_owner, bulwark)
 		if check_drones():
 			LayerManager._damage_indicator(0, _dmg_owner,_direction, attack_body,self,Color(0.0, 0.666, 0.85, 1.0))
@@ -1018,7 +1018,7 @@ func damage_boost() -> float:
 func change_health(add_to_current : float, add_to_max : float = 0):
 	if add_to_current > 0.0:
 		if add_to_current >= 1.0:
-			sfx_manager.play(preload("res://Game Elements/sfx/player/gain_health.ogg"))
+			SFXManager.play(preload("res://Game Elements/sfx/player/gain_health.ogg"))
 		var healer = preload("res://Game Elements/Remnants/healer.tres")
 		var hospital = preload("res://Game Elements/Remnants/hospital.tres")
 		var remnants = []

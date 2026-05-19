@@ -341,7 +341,7 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 	i_frames = attack_i_frames
 	if enemy_type=="hit_me":
 		_dummy_hit(damage)
-	sfx_manager.play(preload("res://Game Elements/sfx/enemies/thud.ogg"), -2.0)
+	SFXManager.play(preload("res://Game Elements/sfx/enemies/thud.ogg"), -2.0)
 	if dmg_owner:
 		check_agro(dmg_owner)
 	if enemy_type=="binary_bot":
@@ -350,7 +350,7 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 		LayerManager._damage_indicator(damage, dmg_owner,direction, attack_body,self)
 		damage_flash()
 		if(enemy_type=="cactus") and dmg_owner:
-			sfx_manager.play(cactus_explosion_sound[randi() % cactus_explosion_sound.size()], -6.0)
+			SFXManager.play(cactus_explosion_sound[randi() % cactus_explosion_sound.size()], -6.0)
 			var attack_position = global_position
 			if(is_instance_valid(dmg_owner)):
 				var attack_direction = (dmg_owner.global_position - attack_position).normalized()

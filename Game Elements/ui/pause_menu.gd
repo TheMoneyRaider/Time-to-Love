@@ -22,11 +22,11 @@ func _ready():
 	hide()
 	
 	for button in $Control/VBoxContainer.get_children():
-		button.mouse_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
-		button.focus_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
+		button.mouse_entered.connect(func(): SFXManager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
+		button.focus_entered.connect(func(): SFXManager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
 	for button in $Control/Extras.get_children():
-		button.mouse_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
-		button.focus_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
+		button.mouse_entered.connect(func(): SFXManager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
+		button.focus_entered.connect(func(): SFXManager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
 
 func setup(nodes : Array[Node]):
 	for node in nodes:
@@ -70,7 +70,7 @@ func _process(delta):
 
 
 func _on_icon_selected(remnant : Remnant, is_purple : bool) -> void:
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	var index = (!is_purple as int) *2
 	if remnant ==slot_nodes[index].remnant and !slot_nodes[index].btn_select.disabled:
 		slot_nodes[index].hide_visuals(true)
@@ -83,13 +83,13 @@ func _on_icon_selected(remnant : Remnant, is_purple : bool) -> void:
 
 
 func _on_slot_selected(idx: int) -> void:
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	slot_nodes[idx].hide_visuals(true)
 	slot_nodes[idx].set_enabled(false)
 
 
 func _on_settings_pressed():
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	for i in range(slot_nodes.size()):
 		slot_nodes[i].set_enabled(false)
 		slot_nodes[i].hide_visuals(true)
@@ -98,7 +98,7 @@ func _on_settings_pressed():
 	setting.get_child(0).is_pause_settings=true
 
 func _on_return_pressed():
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	active = false
 	pause_cooldown = 5
 	for i in range(slot_nodes.size()):
@@ -113,7 +113,7 @@ func _on_return_pressed():
 		node.resume_shaders()
 
 func _on_menu_pressed():
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	get_tree().get_root().get_node("LayerManager/DeathMenu").state_change()
 	for i in range(slot_nodes.size()):
 		slot_nodes[i].set_enabled(false)
@@ -128,7 +128,7 @@ func _on_menu_pressed():
 
 
 func _on_letters_pressed() -> void:
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	active = false
 	pause_cooldown = 2000000000
 	for i in range(slot_nodes.size()):
@@ -139,7 +139,7 @@ func _on_letters_pressed() -> void:
 
 
 func _on_weapons_pressed() -> void:
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	active = false
 	pause_cooldown = 2000000000
 	for i in range(slot_nodes.size()):
@@ -150,7 +150,7 @@ func _on_weapons_pressed() -> void:
 
 
 func _on_remnants_pressed() -> void:
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	active = false
 	pause_cooldown = 2000000000
 	for i in range(slot_nodes.size()):

@@ -364,7 +364,7 @@ func play_timeline_music() -> void:
 		else:
 			active_theme = themes[2]
 	
-	music_manager.play_theme(active_theme)
+	MusicManager.play_theme(active_theme)
 
 func create_new_rooms() -> void:
 	if thread_running:
@@ -655,7 +655,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 			if(node.enabled == true):
 				if player_reference in node.tracked_bodies:
 					player_reference.update_weapon(node.weapon_type)
-					sfx_manager.play(weapon_select_sounds[randi() % weapon_select_sounds.size()], -4.0)
+					SFXManager.play(weapon_select_sounds[randi() % weapon_select_sounds.size()], -4.0)
 					hud.set_cooldown_icons()
 					return true
 		if node.is_in_group("letter"):
@@ -1102,7 +1102,7 @@ func _place_timefabric(time_idx : int, offset : Vector2i, current_position : Vec
 	timefabric_instance.set_direction(direction)
 	timefabric_instance.set_process(true)
 	timefabric_instance.absorbed_by_player.connect(_on_timefabric_absorbed)
-	# sfx_manager.play(preload("res://Game Elements/sfx/enemies/time_fabric/drop1.ogg"))
+	# SFXManager.play(preload("res://Game Elements/sfx/enemies/time_fabric/drop1.ogg"))
 	return
 
 func _score_timefabric_placement(pixels_to_cover : Dictionary, timefabric_pixels : Array, timefabric_idx : int,offset : Vector2i) -> float:
@@ -1158,7 +1158,7 @@ func _prepare_timefabric() -> void:
 func _open_remnant_popup() -> void:
 	if room_instance and !remnant_offer_popup:
 		
-		sfx_manager.play(preload("res://Game Elements/sfx/world/display_remnants.ogg"))
+		SFXManager.play(preload("res://Game Elements/sfx/world/display_remnants.ogg"))
 		
 		var offer_scene = preload("res://Game Elements/ui/remnant_offer.tscn")
 		remnant_offer_popup = offer_scene.instantiate()
@@ -1360,8 +1360,8 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 		if is_multiplayer:
 			player2.disabled = true
 		
-		sfx_manager.play(preload("res://Game Elements/sfx/world/room_transition2.ogg"), 5.0)
-		music_manager.quite_music(3.4)
+		SFXManager.play(preload("res://Game Elements/sfx/world/room_transition2.ogg"), 5.0)
+		MusicManager.quite_music(3.4)
 		var particles = load("res://Game Elements/Particles/pathway_particles.tscn").instantiate()
 		PathwayTransition.global_position = pathway.global_position
 		PathwayViewport.add_child(particles)
@@ -1699,7 +1699,7 @@ func _on_enemy_take_damage(damage : float,current_health : float,enemy : Node, d
 			room_instance.call_deferred("add_child",attack_instance)
 			has_death_attack = true
 		if(enemy.cactus_explode):
-			sfx_manager.play(cactus_explosion_sound[randi() % cactus_explosion_sound.size()], -6.0)
+			SFXManager.play(cactus_explosion_sound[randi() % cactus_explosion_sound.size()], -6.0)
 			var attack_direction
 			if(enemy.last_hitter != null):
 				attack_direction = (enemy.last_hitter.global_position - enemy.global_position).normalized()
@@ -1876,7 +1876,7 @@ func _on_healthpickup_absorbed(player_node : Node, health_node : Node):
 
 func _on_timefabric_absorbed(timefabric_node : Node):
 	timefabric_collected+=1
-	sfx_manager.play(timefabric_collected_sounds[randi() % timefabric_collected_sounds.size()], 0.0)
+	SFXManager.play(timefabric_collected_sounds[randi() % timefabric_collected_sounds.size()], 0.0)
 	RoomManager.layer_ai[12]+=1
 	timefabric_node.queue_free()
 	

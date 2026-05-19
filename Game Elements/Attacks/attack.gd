@@ -393,7 +393,7 @@ var deflected :bool = false
 func deflect(hit_direction, hit_speed, deflection_area):
 	deflected = true
 	print("DEFLECT")
-	sfx_manager.play(deflect_sounds[randi() % deflect_sounds.size()], 2.0)
+	SFXManager.play(deflect_sounds[randi() % deflect_sounds.size()], 2.0)
 	if attack_type=="laser":
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment1"))
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment2"))
