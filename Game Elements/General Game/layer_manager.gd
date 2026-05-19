@@ -216,7 +216,9 @@ func _process(delta: float) -> void:
 	hud.set_cooldowns()
 	
 	if Input.is_action_just_pressed("Feedback"):
-		var total_save_time = get_node("DeathMenu").total_time
+		var total_save_time = 0
+		if(!get_node("DeathMenu").active):
+			total_save_time = get_node("DeathMenu").total_time
 		for i in range(3):
 			total_save_time += _load_save_time(i)
 		var progress : String = str(Globals.save_state.total_progress+RoomManager.layer_ai[3] + time_passed)
@@ -1009,7 +1011,8 @@ func _enemy_to_timefabric(enemy : Node,direction : Vector2, amount_range : Vecto
 	if enemy.enemy_type=="binary_bot":
 		var locations = enemy.get_node("Core")._return_glyph_locations()
 		for loc in locations:
-			_place_timefabric(randi()%6,Vector2i.ZERO,loc,direction)
+			if(randf() < amount_range[1] / len(locations)):
+				_place_timefabric(randi()%6,Vector2i.ZERO,loc,direction)
 		return
 	var sprites = enemy.displays
 	var total_area = 0.0
@@ -2138,5 +2141,5 @@ func boss_rewards():
 func _notification(what: int) -> void:
 	match what:
 		NOTIFICATION_WM_WINDOW_FOCUS_OUT:
-			if !pause.active and !camera_override and !transitioning and !remnant_offer_popup and !remnant_upgrade_popup and hud.get_node("../PauseMenu").pause_cooldown == 0:
+			if !get_node("DeathMenu").active and !pause.active and !camera_override and !transitioning and !remnant_offer_popup and !remnant_upgrade_popup and hud.get_node("../PauseMenu").pause_cooldown == 0:
 				pause.activate()

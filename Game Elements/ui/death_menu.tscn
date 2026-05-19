@@ -41,7 +41,7 @@ theme_override_constants/separation = 40
 
 [node name="Rewind" type="Button" parent="Control/VBoxContainer"]
 layout_mode = 2
-focus_neighbor_bottom = NodePath("../Quit")
+focus_neighbor_bottom = NodePath("../Menu")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = ExtResource("2_mw7a0")
 theme_override_styles/pressed = ExtResource("3_dydff")

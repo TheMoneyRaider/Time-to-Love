@@ -499,10 +499,12 @@ func apply_hydromancer(rem : Remnant, attack_body : Node, mancer_value : int):
 		Globals.Liquid.Glitch:
 			var glitch_dir = attack_body.direction
 			glitch_dir.rotated(randf_range(-15,15))
-			_glitch_move(glitch_dir.normalized() * 160)
+			@warning_ignore("integer_division")
+			for i in range(0, 2 * rem.rank + (mancer_value / 2)):
+				_glitch_move(glitch_dir.normalized() * 8 * i)
 			effect = preload("res://Game Elements/Effects/stun.tres").duplicate()
 			@warning_ignore("integer_division")
-			effect.cooldown = rem.rank + (mancer_value / 2) / 2.5
+			effect.cooldown = (rem.rank + (mancer_value / 2)) / 4.0
 			effect.gained(self)
 			effects.append(effect)
 		_:

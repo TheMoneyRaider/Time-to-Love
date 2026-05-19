@@ -109,6 +109,7 @@ script = ExtResource("6_arvq5")
 [sub_resource type="BTAction" id="BTAction_h7qfk"]
 custom_name = "InnerRange"
 script = ExtResource("5_y6dfc")
+hit_range = 48
 
 [sub_resource type="BBNode" id="BBNode_1kwu6"]
 saved_value = NodePath("AnimationPlayer")

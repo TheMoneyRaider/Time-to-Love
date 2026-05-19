@@ -1207,7 +1207,7 @@ func check_tortoise(is_purple : bool, new_progress : float, used_special : bool 
 				litho.remnant_name:
 					var lith_area = preload("res://Game Elements/Remnants/lithomancer/lithomancer.tscn").instantiate()
 					lith_area.scale *= 1 + (rem.rank -1) * .2
-					lith_area.lifetime = rem.rank * 1.5
+					lith_area.lifetime = rem.rank * 4
 					lith_area.litho_value = rem.variable_2_values[rem.rank - 1]
 					LayerManager.room_instance.add_child(lith_area)
 					lith_area.global_position = global_position
