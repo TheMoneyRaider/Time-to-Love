@@ -628,6 +628,8 @@ func shotgun_special_attack(attack_direction : Vector2):
 		c_owner.get_tree().get_root().get_node("LayerManager").room_instance.add_child(instance)
 		#spawn_attack(attack_direction.rotated(i * 2 * PI / 12),c_owner.global_position)
 		await c_owner.get_tree().create_timer(.001).timeout
+		if i % 3 == 0: 
+			sfx_manager.play(lame_shotgun_sounds[randi() % lame_shotgun_sounds.size()], -5.0)
 
 func sword_special_attack(special_direction : Vector2,node_attacking : Node):
 	current_special_hits = 0
