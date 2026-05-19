@@ -68,10 +68,6 @@ func stop_laser():
 func _process(delta):
 	if !active:
 		return
-	if powering >= 1.0 and powering_down < 0.0:
-		get_parent().render_target_update_mode = 0
-	else:
-		get_parent().render_target_update_mode = 2
 	
 	
 	# Powering up
