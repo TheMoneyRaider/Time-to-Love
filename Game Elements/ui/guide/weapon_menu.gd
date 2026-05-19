@@ -186,6 +186,7 @@ func move_focus(direction: int) -> void:
 	elif current_focus_index >= 0:
 		current_focus_index += direction
 		current_focus_index = clamp(current_focus_index, 0, list_container.get_child_count() - 1)
+	SFXManager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI")  # ← add here
 	if current_focus_index >= 0:
 		var entry = list_container.get_child(current_focus_index)
 		var btn = entry.btn_select
@@ -245,6 +246,7 @@ func _calculate_snap_target():
 
 
 func _on_return_pressed():
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	queue_free_children(list_container)
 	active = false
 	hide()

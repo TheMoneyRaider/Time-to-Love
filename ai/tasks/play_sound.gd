@@ -7,5 +7,5 @@ class_name BTPlaySound
 
 func _tick(_delta: float) -> Status:
 	if sounds.size() > 0:
-		sfx_manager.play(sounds[randi() % sounds.size()], volume_db, bus)
+		SFXManager.play(sounds[randi() % sounds.size()], volume_db, bus)
 	return SUCCESS

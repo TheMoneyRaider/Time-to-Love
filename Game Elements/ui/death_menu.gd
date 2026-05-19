@@ -31,7 +31,7 @@ var test_frame_timer : float = 0.0
 var test_frame_duration : float = 1.0 / (test_buffer_fps * 2)
 
 var frame_amount = 0
-
+var input_delay : float = 0.0
 func _ready():
 	hide()
 	rewind_mode = Globals.config.get_value("rewind", "rewind_mode", 0)
@@ -59,6 +59,8 @@ func _ready():
 func _process(delta):
 	if getting_time:
 		total_time+=delta
+	if input_delay > 0:
+		input_delay-=delta
 
 func state_change():
 	Globals.save_state.time_spent+=total_time
@@ -74,6 +76,7 @@ func state_change():
 
 
 func activate():
+	input_delay = 2.0
 	active = true
 	state_change()
 	if(getting_time):
@@ -143,6 +146,8 @@ func _resize_test_buffer():
 		#test_buffer_fps.append(test_buffer_fps.back() * 2.0)
 
 func _on_quit_pressed():
+	if input_delay > 0:
+		return
 	active = false
 	if rewinding:
 		return
@@ -150,6 +155,8 @@ func _on_quit_pressed():
 	Globals.save_config()
 	get_tree().quit()
 func _on_menu_pressed():
+	if input_delay > 0:
+		return
 	active = false
 	if rewinding:
 		return
@@ -158,6 +165,8 @@ func _on_menu_pressed():
 	get_tree().call_deferred("change_scene_to_file", "res://Game Elements/ui/main_menu/main_menu.tscn")
 
 func _on_replay_pressed():
+	if input_delay > 0:
+		return
 	if rewinding:
 		return
 	rewinding = true

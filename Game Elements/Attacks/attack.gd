@@ -119,6 +119,8 @@ func _ready():
 		var tween = self.create_tween()
 		tween.tween_property(self,"modulate:a",1,1)
 	if attack_type == "death mark":
+		lifespan = Globals.death_time
+		LayerManager.hud.get_node("RootControl/Label").start_countdown(lifespan,c_owner)
 		if c_owner.is_purple:
 			$Sprite2D.texture = load("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_purple.png")
 		else:
@@ -345,6 +347,7 @@ func intersection(body):
 	if attack_type == "death mark":
 		if body != c_owner and body.is_in_group("player"):
 			c_owner.die(false)
+			LayerManager.hud.get_node("RootControl/Label").stop_countdown()
 			queue_free()
 		return
 	
@@ -398,7 +401,7 @@ var deflected :bool = false
 func deflect(hit_direction, hit_speed, deflection_area):
 	deflected = true
 	print("DEFLECT")
-	sfx_manager.play(deflect_sounds[randi() % deflect_sounds.size()], 2.0)
+	SFXManager.play(deflect_sounds[randi() % deflect_sounds.size()], 2.0)
 	if attack_type=="laser":
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment1"))
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment2"))

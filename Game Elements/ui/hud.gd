@@ -378,7 +378,7 @@ func _on_player_swap(player_node : Node):
 			RightCooldownBar.cover_cooldown()
 
 func _on_player_take_damage(_damage_amount : float, current_health : float, player_node : Node, _direction = Vector2(0,-1)):
-	var temp_current_health : int = int(current_health*10)
+	var temp_current_health : int = int(ceil(current_health*10))
 	if temp_current_health < 0:
 		temp_current_health = 0
 	if(player_node == player1):
@@ -389,7 +389,7 @@ func _on_player_take_damage(_damage_amount : float, current_health : float, play
 		health_bar_2.set_current_health(temp_current_health)
 
 func _on_max_health_changed(max_health : float, current_health : float,player_node : Node):
-	var temp_current_health : int = int(current_health*10)
+	var temp_current_health : int = int(ceil(current_health*10))
 	var temp_max_health : int = int(max_health*10)
 	if(player_node == player1):
 		health_bar_1.set_max_health(temp_max_health)

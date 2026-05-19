@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=31 format=3 uid="uid://do5k61nakb7mo"]
+[gd_resource type="BehaviorTree" load_steps=37 format=3 uid="uid://do5k61nakb7mo"]
 
 [ext_resource type="Script" uid="uid://dr4vkyorjqaqn" path="res://ai/tasks/getPlayerPos.gd" id="1_1ipxq"]
 [ext_resource type="Script" uid="uid://clsympdov604o" path="res://ai/tasks/checkAgro.gd" id="2_tojib"]
@@ -6,7 +6,12 @@
 [ext_resource type="Script" uid="uid://c7b86gm25q0p3" path="res://ai/tasks/player_in_range.gd" id="4_38pnp"]
 [ext_resource type="Script" uid="uid://cmb8joe4lefgx" path="res://ai/tasks/binary_melee_attack.gd" id="4_pmm7h"]
 [ext_resource type="Script" uid="uid://yu3fkdlxtfbv" path="res://ai/tasks/calcPath.gd" id="6_1fl3p"]
+[ext_resource type="Script" uid="uid://5m1bpc0r7csw" path="res://ai/tasks/play_sound.gd" id="6_eo4y3"]
 [ext_resource type="Script" uid="uid://dko7uh5a2dm00" path="res://ai/tasks/moveToPos.gd" id="7_eo4y3"]
+[ext_resource type="AudioStream" uid="uid://cqw3hmy3yf3oe" path="res://Game Elements/sfx/enemies/binary_bot/bb1.ogg" id="7_w0000"]
+[ext_resource type="AudioStream" uid="uid://dhdhn40bght6t" path="res://Game Elements/sfx/enemies/binary_bot/bb2.ogg" id="8_v8hg1"]
+[ext_resource type="AudioStream" uid="uid://d3emxclnf12sl" path="res://Game Elements/sfx/enemies/binary_bot/bb3.ogg" id="9_2ycj8"]
+[ext_resource type="AudioStream" uid="uid://bqcc0dbg1j0lw" path="res://Game Elements/sfx/enemies/binary_bot/bb4.ogg" id="10_iowe0"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_ak6g3"]
 var/state/name = &"state"
@@ -99,9 +104,13 @@ hit_range = 48
 [sub_resource type="BTAction" id="BTAction_v8hg1"]
 script = ExtResource("4_pmm7h")
 
+[sub_resource type="BTAction" id="BTAction_32x7r"]
+script = ExtResource("6_eo4y3")
+sounds = Array[AudioStream]([ExtResource("7_w0000"), ExtResource("8_v8hg1"), ExtResource("9_2ycj8"), ExtResource("10_iowe0"), null])
+
 [sub_resource type="BTSequence" id="BTSequence_2ycj8"]
 custom_name = "Attack if in Range"
-children = [SubResource("BTAction_eo4y3"), SubResource("BTAction_1fl3p"), SubResource("BTAction_w0000"), SubResource("BTAction_v8hg1")]
+children = [SubResource("BTAction_eo4y3"), SubResource("BTAction_1fl3p"), SubResource("BTAction_w0000"), SubResource("BTAction_v8hg1"), SubResource("BTAction_32x7r")]
 
 [sub_resource type="BBVariant" id="BBVariant_iowe0"]
 type = 4
