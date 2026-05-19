@@ -5,16 +5,18 @@ extends Label
 var counting : bool = false
 
 func _ready() -> void:
-	label_settings.color = Color()
+	label_settings.font_color = Color(0.0,0.0,0.0,0.0)
 	
 	
 var total_duration =0.0
 var duration =0.0
 func start_countdown(time: float, player : Node):
 	if player.is_purple:
-		label_settings.color = Color(1.0, 0.208, 0.792,label_settings.color.a)
+		label_settings.font_color = Color(1.0, 0.208, 0.792,label_settings.font_color.a)
+		label_settings.font = preload("res://fonts/OldEnglishFive.ttf")
 	else:
-		label_settings.color = Color(0.945, 0.443, 0.0,label_settings.color.a)
+		label_settings.font_color = Color(0.945, 0.443, 0.0,label_settings.font_color.a)
+		label_settings.font = preload("res://fonts/Orbitron-Bold.ttf")
 	duration=time
 	total_duration=time
 	counting= true
@@ -34,9 +36,9 @@ func _process(delta: float) -> void:
 		duration-=delta
 		if duration<=0:
 			counting = false
-			label_settings.color = Color(label_settings.color.rgb,0.0)
+			label_settings.font_color = Color(label_settings.font_color.r,label_settings.font_color.g,label_settings.font_color.b,0.0)
 		else:
 			var t = duration/total_duration
-			label_settings.color = Color(label_settings.color.rgb,min_opacity.lerp(max_opacity,t))
+			label_settings.font_color = Color(label_settings.font_color.r,label_settings.font_color.g,label_settings.font_color.b,min_opacity.lerp(max_opacity,t))
 			label_settings.font_size = max_font_size.lerp(min_font_size,t)
 	

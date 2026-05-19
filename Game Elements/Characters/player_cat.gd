@@ -130,6 +130,7 @@ func _ready():
 
 
 func hide_forcefield(interp_time : float):
+	damage_resistance -=.5
 	forcefield_active = false
 	if interp_time == 0.0:
 		$Forcefield/CollisionShape2D.disabled  =true
@@ -139,6 +140,7 @@ func hide_forcefield(interp_time : float):
 	create_tween().tween_property($Forcefield/Forcefield,"modulate",Color(1.0,1.0,1.0,0.0),interp_time)
 
 func show_forcefield(interp_time : float):
+	damage_resistance +=.5
 	forcefield_active = true
 	if interp_time == 0.0:
 		$Forcefield/CollisionShape2D.disabled  =false
@@ -1176,11 +1178,11 @@ func check_forcefield(delta : float):
 			effect.gained(self)
 			effects.append(effect)
 	
-func check_tortoise(is_purple : bool, new_progress : float, used_special : bool = false):
+func check_tortoise(temp_is_purple : bool, new_progress : float, used_special : bool = false):
 	if !used_special:
 		return
 	var remnants : Array[Remnant]
-	if is_purple:
+	if temp_is_purple:
 		remnants = LayerManager.player_1_remnants
 	else:
 		remnants = LayerManager.player_2_remnants

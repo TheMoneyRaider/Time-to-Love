@@ -1972,6 +1972,12 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 
 func dev_remnants():
 	var rem
+	
+	rem = load("res://Game Elements/Remnants/forcefield.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	
 	rem = load("res://Game Elements/Remnants/lawman.tres")
 	rem.rank = 1
 	player_1_remnants.append(rem.duplicate(true))
