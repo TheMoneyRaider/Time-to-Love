@@ -119,6 +119,8 @@ func _ready():
 		var tween = self.create_tween()
 		tween.tween_property(self,"modulate:a",1,1)
 	if attack_type == "death mark":
+		lifespan = Globals.death_time
+		LayerManager.hud.get_node("RootControl/Label").start_countdown(lifespan,c_owner)
 		if c_owner.is_purple:
 			$Sprite2D.texture = load("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_purple.png")
 		else:
@@ -341,6 +343,7 @@ func intersection(body):
 	if attack_type == "death mark":
 		if body != c_owner and body.is_in_group("player"):
 			c_owner.die(false)
+			LayerManager.hud.get_node("RootControl/Label").stop_countdown()
 			queue_free()
 		return
 	

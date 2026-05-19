@@ -3,8 +3,8 @@ var mouse_sensitivity: float = 1.0
 
 @export var base_move_speed: float = 100
 var move_speed: float
-@export var max_health: float = 35.0 #TEST
-@export var current_health: float = 35.0 #TEST
+@export var max_health: float = 10.0 #TEST
+@export var current_health: float = 10.0 #TEST
 @onready var current_dmg_time: float = 0.0
 @onready var current_liquid_time: float = 0.0
 @onready var in_instant_trap: bool = false
@@ -787,9 +787,6 @@ func die(death : bool , insta_die : bool = false) -> bool:
 			LayerManager.open_death_menu()
 			return false
 		if death:
-			max_health = min(max_health * .8, max_health - 2.0)
-			#max_health/2.0 if max_health > 40 else max_health-2.0
-			emit_signal("max_health_changed",max_health,current_health, self)
 			self.process_mode = PROCESS_MODE_DISABLED
 			visible = false
 			if(max_health <= 0.0):
@@ -797,8 +794,9 @@ func die(death : bool , insta_die : bool = false) -> bool:
 				LayerManager.open_death_menu()
 				return false
 		else:
-			current_health = max_health / 2.0
-			emit_signal("player_took_damage",-max_health / 2.0,current_health,self)
+			Globals.death_time-=1
+			i_frames = 60
+			change_health(max_health-current_health)
 			self.process_mode = PROCESS_MODE_INHERIT
 			visible = true
 	return true

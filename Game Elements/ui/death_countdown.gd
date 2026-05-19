@@ -29,6 +29,7 @@ var min_opacity = .125
 func stop_countdown():
 	min_font_size=-1
 	counting = false
+	label_settings.font_color = Color(0.0,0.0,0.0,0.0)
 
 
 func _process(delta: float) -> void:
@@ -38,7 +39,8 @@ func _process(delta: float) -> void:
 			counting = false
 			label_settings.font_color = Color(label_settings.font_color.r,label_settings.font_color.g,label_settings.font_color.b,0.0)
 		else:
-			var t = duration/total_duration
-			label_settings.font_color = Color(label_settings.font_color.r,label_settings.font_color.g,label_settings.font_color.b,min_opacity.lerp(max_opacity,t))
-			label_settings.font_size = max_font_size.lerp(min_font_size,t)
+			text = str(int(ceil(duration)))
+			var t = 1.0-duration/total_duration
+			label_settings.font_color = Color(label_settings.font_color.r,label_settings.font_color.g,label_settings.font_color.b,lerp(min_opacity,max_opacity,t))
+			label_settings.font_size = lerp(max_font_size,min_font_size,t)
 	
