@@ -1871,7 +1871,9 @@ func _on_healthpickup_absorbed(player_node : Node, health_node : Node):
 	var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 	particle.global_position = player_node.global_position
 	room_instance.add_child(particle)
-	player_node.change_health(2.5)
+	var healed = 2.5
+	healed = max(2.5,player_node.max_health * .2)
+	player_node.change_health(healed)
 	health_node.queue_free()
 
 func _on_timefabric_absorbed(timefabric_node : Node):
