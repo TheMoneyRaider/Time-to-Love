@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://0hahdiffjt61"]
+[gd_scene load_steps=43 format=3 uid="uid://0hahdiffjt61"]
 
 [ext_resource type="Script" uid="uid://ttvprfi61vn4" path="res://Game Elements/ui/hud.gd" id="1_6fbih"]
 [ext_resource type="Script" uid="uid://bs428146shl5s" path="res://Game Elements/ui/time_fabric_animation.gd" id="2_bjfho"]
@@ -17,6 +17,7 @@
 [ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/Particles/effect_particles.gd" id="13_8prbk"]
 [ext_resource type="Shader" uid="uid://dw2wx3n6pfeno" path="res://Game Elements/ui/pain_display.gdshader" id="15_5ho0i"]
 [ext_resource type="Script" uid="uid://7n5dhknutmb5" path="res://Game Elements/ui/pain_display.gd" id="16_wtgju"]
+[ext_resource type="Script" uid="uid://b2leg1eo0ux3x" path="res://Game Elements/ui/death_countdown.gd" id="18_mrems"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5ho0i"]
 shader = ExtResource("3_8prbk")
@@ -187,6 +188,10 @@ shader = ExtResource("15_5ho0i")
 shader_parameter/pulse_left = false
 shader_parameter/vignette_color = Color(1, 0, 0, 1)
 shader_parameter/pulse_strength = 0.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_oroqg"]
+font_size = 100
+font_color = Color(0.94509804, 0.44313726, 0, 1)
 
 [node name="Hud" type="CanvasLayer"]
 process_mode = 3
@@ -597,6 +602,19 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("16_wtgju")
+
+[node name="Label" type="Label" parent="RootControl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "10"
+label_settings = SubResource("LabelSettings_oroqg")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("18_mrems")
 
 [node name="AttackLabel2" type="RichTextLabel" parent="."]
 visible = false
