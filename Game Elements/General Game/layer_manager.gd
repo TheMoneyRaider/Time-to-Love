@@ -827,7 +827,7 @@ func _attempt_health_reward(pathway_to_randomize : Node) -> void:
 	if prev_reward_type == Globals.Reward.Shop or prev_reward_type == Globals.Reward.Boss:
 		return
 	if(percent_health_missing() > .5):
-		if(randf() < percent_health_missing()):
+		if(randf() < percent_health_missing()*2.0-1.0):
 			reward_type1 = Globals.Reward.Health
 			reward_type2 = Globals.Reward.Health
 			pathway_to_randomize.set_reward(reward_type1,wave,reward_type2)
@@ -932,9 +932,6 @@ func _choose_reward(pathway_name : String, reward_setter : int = -1) -> void:
 					5:
 						wave = true
 						reward_num[reward_value] = reward_num[reward_value] * .1
-					#6:
-					#	reward_type1 = Globals.Reward.NewWeapon
-					#	reward_num[reward_value] = reward_num[reward_value]/2.0
 			if wave and reward_type2==null and reward_type1!=null: #Get two rewards
 				reward_type2 = reward_type1
 				reward_type1 = null
