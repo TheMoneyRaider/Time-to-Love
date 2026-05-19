@@ -561,7 +561,9 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 					node_attacking.emit_signal("special_changed",true,0.0)
 			"Laser_Sword":
 				sword_special_attack(special_direction,node_attacking)
+				sfx_manager.play(preload("res://Game Elements/sfx/enemies/laser/laser_beam.mp3"))
 			"Crossbow":
+				sfx_manager.play(preload("res://Game Elements/sfx/weapons/crossbow/crossbow_special.ogg"), -4)
 				if(special_time_elapsed >= 3.0):
 					damage += (special_start_damage / 2)
 					
