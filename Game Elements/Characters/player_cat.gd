@@ -3,8 +3,8 @@ var mouse_sensitivity: float = 1.0
 
 @export var base_move_speed: float = 100
 var move_speed: float
-@export var max_health: float = 35.0 #TEST
-@export var current_health: float = 35.0 #TEST
+@export var max_health: float = 10.0 #TEST
+@export var current_health: float = 10.0 #TEST
 @onready var current_dmg_time: float = 0.0
 @onready var current_liquid_time: float = 0.0
 @onready var in_instant_trap: bool = false
@@ -130,6 +130,7 @@ func _ready():
 
 
 func hide_forcefield(interp_time : float):
+	damage_resistance -=.5
 	forcefield_active = false
 	if interp_time == 0.0:
 		$Forcefield/CollisionShape2D.disabled  =true
@@ -139,6 +140,7 @@ func hide_forcefield(interp_time : float):
 	create_tween().tween_property($Forcefield/Forcefield,"modulate",Color(1.0,1.0,1.0,0.0),interp_time)
 
 func show_forcefield(interp_time : float):
+	damage_resistance +=.5
 	forcefield_active = true
 	if interp_time == 0.0:
 		$Forcefield/CollisionShape2D.disabled  =false
@@ -378,7 +380,7 @@ func _physics_process(delta):
 		if footstep_timer <= 0.0:
 			var speed_ratio = clamp(velocity.length() / base_move_speed, 1.0, 2.5)
 			footstep_timer = footstep_interval / speed_ratio
-			sfx_manager.play(footstep_sounds[randi() % footstep_sounds.size()])
+			SFXManager.play(footstep_sounds[randi() % footstep_sounds.size()])
 	else:
 		footstep_timer = 0.0
 
@@ -527,7 +529,7 @@ func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0
 		i_frames = attack_i_frames
 		damage_amount = damage_amount * (1 - damage_resistance)
 		#damage_amount = _check_reduction_remnants(damage_amount,_dmg_owner)
-		sfx_manager.play(preload("res://Game Elements/sfx/player/take_damage.ogg"))
+		SFXManager.play(preload("res://Game Elements/sfx/player/take_damage.ogg"))
 		damage_amount = _check_bulwark(damage_amount, _dmg_owner, bulwark)
 		if check_drones():
 			LayerManager._damage_indicator(0, _dmg_owner,_direction, attack_body,self,Color(0.0, 0.666, 0.85, 1.0))
@@ -785,9 +787,6 @@ func die(death : bool , insta_die : bool = false) -> bool:
 			LayerManager.open_death_menu()
 			return false
 		if death:
-			max_health = min(max_health * .8, max_health - 2.0)
-			#max_health/2.0 if max_health > 40 else max_health-2.0
-			emit_signal("max_health_changed",max_health,current_health, self)
 			self.process_mode = PROCESS_MODE_DISABLED
 			visible = false
 			if(max_health <= 0.0):
@@ -795,8 +794,9 @@ func die(death : bool , insta_die : bool = false) -> bool:
 				LayerManager.open_death_menu()
 				return false
 		else:
-			current_health = max_health / 2.0
-			emit_signal("player_took_damage",-max_health / 2.0,current_health,self)
+			Globals.death_time-=1
+			i_frames = 60
+			change_health(max_health-current_health)
 			self.process_mode = PROCESS_MODE_INHERIT
 			visible = true
 	return true
@@ -1018,7 +1018,7 @@ func damage_boost() -> float:
 func change_health(add_to_current : float, add_to_max : float = 0):
 	if add_to_current > 0.0:
 		if add_to_current >= 1.0:
-			sfx_manager.play(preload("res://Game Elements/sfx/player/gain_health.ogg"))
+			SFXManager.play(preload("res://Game Elements/sfx/player/gain_health.ogg"))
 		var healer = preload("res://Game Elements/Remnants/healer.tres")
 		var hospital = preload("res://Game Elements/Remnants/hospital.tres")
 		var remnants = []
@@ -1176,11 +1176,11 @@ func check_forcefield(delta : float):
 			effect.gained(self)
 			effects.append(effect)
 	
-func check_tortoise(is_purple : bool, new_progress : float, used_special : bool = false):
+func check_tortoise(temp_is_purple : bool, new_progress : float, used_special : bool = false):
 	if !used_special:
 		return
 	var remnants : Array[Remnant]
-	if is_purple:
+	if temp_is_purple:
 		remnants = LayerManager.player_1_remnants
 	else:
 		remnants = LayerManager.player_2_remnants
@@ -1207,7 +1207,7 @@ func check_tortoise(is_purple : bool, new_progress : float, used_special : bool 
 				litho.remnant_name:
 					var lith_area = preload("res://Game Elements/Remnants/lithomancer/lithomancer.tscn").instantiate()
 					lith_area.scale *= 1 + (rem.rank -1) * .2
-					lith_area.lifetime = rem.rank * 1.5
+					lith_area.lifetime = rem.rank * 4
 					lith_area.litho_value = rem.variable_2_values[rem.rank - 1]
 					LayerManager.room_instance.add_child(lith_area)
 					lith_area.global_position = global_position

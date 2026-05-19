@@ -59,7 +59,6 @@ func _set_drifter_text(player1_remnants_in, player2_remnants_in):
 			$DrifterText/Label.text =  "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_f_outline[/font]: Reroll for "+str(tricky2)+"  "
 		else:
 			$DrifterText/Label.text =  "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_triangle_outline[/font]: Reroll for "+str(tricky2)+"  "
-	
 func _slice_frames() -> void:
 	frames.clear()
 

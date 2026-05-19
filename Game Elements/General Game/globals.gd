@@ -5,7 +5,7 @@ var is_multiplayer:bool = false
 var player1_input
 var player2_input
 var total_progress : float = 0.0
-
+var death_time = 10.0
 signal config_changed
 var save_state : SaveState
 var save_idx : int = 0

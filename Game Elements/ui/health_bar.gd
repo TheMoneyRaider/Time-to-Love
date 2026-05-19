@@ -127,7 +127,7 @@ func update_lines():
 
 
 func update_text():
-	label.text = str(current_health) + "/" + str(max_health) + " HP"
+	label.text = str(clamp(current_health,0,11000000000)) + "/" + str(clamp(max_health,0,11000000000)) + " HP"
 	
 
 func flip():

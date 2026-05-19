@@ -124,20 +124,20 @@ func request_attacks(direction : Vector2, char_position : Vector2, node_attackin
 	
 	match type:
 		"Mace":
-			sfx_manager.play(mace_sounds[randi() % mace_sounds.size()], 2.0)
+			SFXManager.play(mace_sounds[randi() % mace_sounds.size()], 2.0)
 		"Laser_Sword":
-			sfx_manager.play(ls_sounds[randi() % ls_sounds.size()])
+			SFXManager.play(ls_sounds[randi() % ls_sounds.size()])
 		"Crossbow":
-			sfx_manager.play(crossbow_sounds[randi() % crossbow_sounds.size()], 8.0)
+			SFXManager.play(crossbow_sounds[randi() % crossbow_sounds.size()], 8.0)
 		"Crowbar": 
-			sfx_manager.play(crowbar_sounds[randi() % crowbar_sounds.size()])
+			SFXManager.play(crowbar_sounds[randi() % crowbar_sounds.size()])
 		"Railgun":
-			sfx_manager.play(railgun_sounds[randi() % railgun_sounds.size()], 6.0)
+			SFXManager.play(railgun_sounds[randi() % railgun_sounds.size()], 6.0)
 		"Shotgun":
-			#sfx_manager.play(cool_shotgun_sounds[randi() % cool_shotgun_sounds.size()])
-			sfx_manager.play(lame_shotgun_sounds[randi() % lame_shotgun_sounds.size()], -5.0)
+			#SFXManager.play(cool_shotgun_sounds[randi() % cool_shotgun_sounds.size()])
+			SFXManager.play(lame_shotgun_sounds[randi() % lame_shotgun_sounds.size()], -5.0)
 		#"RobotMelee":	
-			#sfx_manager.play(robot_sounds[randi() % robot_sounds.size()])
+			#SFXManager.play(robot_sounds[randi() % robot_sounds.size()])
 			
 			
 	var temp_spread = attack_spread
@@ -541,7 +541,7 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 			"Mace":
 				mace_special_attack(special_direction, special_position)
 				current_special_hits = 0
-				sfx_manager.play(preload("res://Game Elements/sfx/weapons/mace/mace_special.ogg"))
+				SFXManager.play(preload("res://Game Elements/sfx/weapons/mace/mace_special.ogg"))
 				if node_attacking.weapons[0] == self:
 					node_attacking.emit_signal("special_changed",false,0.0,true)
 				else:
@@ -555,9 +555,9 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 					node_attacking.emit_signal("special_changed",true,0.0,true)
 			"Laser_Sword":
 				sword_special_attack(special_direction,node_attacking)
-				sfx_manager.play(preload("res://Game Elements/sfx/enemies/laser/laser_beam.mp3"))
+				SFXManager.play(preload("res://Game Elements/sfx/enemies/laser/laser_beam.mp3"))
 			"Crossbow":
-				sfx_manager.play(preload("res://Game Elements/sfx/weapons/crossbow/crossbow_special.ogg"), -4)
+				SFXManager.play(preload("res://Game Elements/sfx/weapons/crossbow/crossbow_special.ogg"), -4)
 				if(special_time_elapsed >= 3.0):
 					damage += (special_start_damage / 2)
 					
@@ -623,7 +623,7 @@ func shotgun_special_attack(attack_direction : Vector2):
 		#spawn_attack(attack_direction.rotated(i * 2 * PI / 12),c_owner.global_position)
 		await c_owner.get_tree().create_timer(.001).timeout
 		if i % 3 == 0: 
-			sfx_manager.play(lame_shotgun_sounds[randi() % lame_shotgun_sounds.size()], -5.0)
+			SFXManager.play(lame_shotgun_sounds[randi() % lame_shotgun_sounds.size()], -5.0)
 
 func sword_special_attack(special_direction : Vector2,node_attacking : Node):
 	node_attacking.i_frames = 8

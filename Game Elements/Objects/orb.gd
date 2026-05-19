@@ -101,14 +101,19 @@ func _on_body_exited(body):
 		
 		
 func _set_display(body : Node):
+	
+	var glyph_key = "activate_"+body.input_device
+	var sym = GlyphManager.get_glyph(GlyphManager.get_device_type(body.input_device),glyph_key)
+	
+	
 	if cost != 0:
 		if body.input_device == "key":
-			prompt1.get_child(0).bbcode_text = ""+str(cost)+" to buy   [font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_e_outline[/font]"
+			prompt1.get_child(0).bbcode_text = ""+str(cost)+" to buy   "+sym
 		else:
-			prompt1.get_child(0).bbcode_text = ""+str(cost)+" to buy   [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_cross_outline[/font]"
+			prompt1.get_child(0).bbcode_text = ""+str(cost)+" to buy   "+sym
 		return
 		
 	if body.input_device == "key":
-			prompt1.get_child(0).bbcode_text = "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_e_outline[/font]"
+			prompt1.get_child(0).bbcode_text = sym
 	else:
-		prompt1.get_child(0).bbcode_text = "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_cross_outline[/font]"
+		prompt1.get_child(0).bbcode_text = sym

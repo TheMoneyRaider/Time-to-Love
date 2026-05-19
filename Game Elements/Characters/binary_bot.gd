@@ -168,7 +168,7 @@ func _start_melee_attack():
 	melee_timer = 0.0
 
 	melee_tween = create_tween()
-	melee_tween.tween_property(self, "repulsion_force", repulsion_force / 8.0, 0.5)
+	melee_tween.tween_property(self, "repulsion_force", repulsion_force / 8.0, 0.25)
 	_change_glyph_colors(Color(0.487, 0.496, 0.157, 1.0), 0.5, 0.0)
 
 func _process_melee_attack(delta):
@@ -204,7 +204,7 @@ func _process_melee_attack(delta):
 
 			melee_timer += delta
 			var t = delta / melee_duration
-			lunge_velocity = target_vector * t * attack_direct * 60
+			lunge_velocity = target_vector * t * attack_direct * 80
 			get_parent().apply_velocity(lunge_velocity)
 
 			if melee_timer >= melee_duration:

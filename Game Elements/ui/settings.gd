@@ -48,13 +48,13 @@ func load_settings():
 	for child in $MarginContainer/VBoxContainer.get_children():
 		for node in child.get_children():
 			if node is Button:
-				node.mouse_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
-				node.focus_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
+				node.mouse_entered.connect(func(): SFXManager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
+				node.focus_entered.connect(func(): SFXManager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
 	
 var frag_mode: bool = false
 var devices : Array[Array]=[[],[]]
 func _on_back_pressed() -> void:
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	if is_pause_settings:
 		queue_free()
 		if Globals.is_multiplayer or Globals.player1_input != "key":
@@ -65,7 +65,7 @@ func _on_back_pressed() -> void:
 #
 func _on_apply_settings()-> void:
 	
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	var volslider = $MarginContainer/VBoxContainer/Volume/Volume
 	Globals.config.set_value("controls", "mouse_sensitivity", mouse_sensitivity)
 	Globals.config.set_value("controls", "controller_mode", controller_mode)
@@ -127,24 +127,24 @@ func _ready() -> void:
 	$MarginContainer/VBoxContainer/Player1/Choice.pressed.connect(func():
 		p1_dropdown_open = !p1_dropdown_open
 		if p1_dropdown_open:
-			sfx_manager.play(preload("res://Game Elements/ui/sfx/maximize_008.ogg"), 0.0, "UI")
+			SFXManager.play(preload("res://Game Elements/ui/sfx/maximize_008.ogg"), 0.0, "UI")
 		else:
-			sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
+			SFXManager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
 	)
 	$MarginContainer/VBoxContainer/Player2/Choice.pressed.connect(func():
 		p2_dropdown_open = !p2_dropdown_open
 		if p2_dropdown_open:
-			sfx_manager.play(preload("res://Game Elements/ui/sfx/maximize_008.ogg"), 0.0, "UI")
+			SFXManager.play(preload("res://Game Elements/ui/sfx/maximize_008.ogg"), 0.0, "UI")
 		else:
-			sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
+			SFXManager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
 	)
 	
 	$MarginContainer/VBoxContainer/RewindMode/Choice.pressed.connect(func():
 		rewind_dropdown_open = !rewind_dropdown_open
 		if rewind_dropdown_open:
-			sfx_manager.play(preload("res://Game Elements/ui/sfx/maximize_008.ogg"), 0.0, "UI")
+			SFXManager.play(preload("res://Game Elements/ui/sfx/maximize_008.ogg"), 0.0, "UI")
 		else:
-			sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
+			SFXManager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
 	)
 	 
 func _process(_delta):
@@ -233,18 +233,18 @@ func update_crosshair_menu_label() -> void:
 		
 func _on_debug_mode_toggled(toggled_on: bool) -> void:
 	if toggled_on:
-		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"), 0.0, "UI")
+		SFXManager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"), 0.0, "UI")
 	else:
-		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_off.ogg"), 0.0, "UI")
+		SFXManager.play(preload("res://Game Elements/ui/sfx/switch_off.ogg"), 0.0, "UI")
 	debug_mode = toggled_on
 	update_debug_menu_label()
 	
 
 func _on_crosshair_mode_toggled(toggled_on: bool) -> void:
 	if toggled_on:
-		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"))
+		SFXManager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"))
 	else:
-		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_off.ogg"))
+		SFXManager.play(preload("res://Game Elements/ui/sfx/switch_off.ogg"))
 	crosshair_mode = toggled_on
 	update_crosshair_menu_label()
 	
@@ -256,9 +256,9 @@ func update_frag_menu_label() -> void:
 		
 func _on_frag_mode_toggled(toggled_on: bool) -> void:
 	if toggled_on:
-		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"), 0.0, "UI")
+		SFXManager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"), 0.0, "UI")
 	else:
-		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_off.ogg"), 0.0, "UI")
+		SFXManager.play(preload("res://Game Elements/ui/sfx/switch_off.ogg"), 0.0, "UI")
 	frag_mode = toggled_on
 	update_frag_menu_label()
 	
@@ -291,7 +291,7 @@ func refresh_devices(is_purple : bool = true):
 
 func _on_p1_selected(index : int):
 	p1_dropdown_open = false
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
+	SFXManager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
 	if devices[0][index]==Globals.player2_input:
 		if Globals.player2_input=="key":
 			Globals.player2_input = "0"
@@ -304,7 +304,7 @@ func _on_p1_selected(index : int):
 
 func _on_p2_selected(index : int):
 	p2_dropdown_open = false
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
+	SFXManager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
 	if devices[1][index]==Globals.player1_input:
 		if Globals.player1_input=="key":
 			Globals.player1_input = "0"
@@ -322,9 +322,9 @@ func _on_joystick_sensitivity_value_changed(value: float) -> void:
 
 func _on_controller_mode_toggled(toggled_on: bool) -> void:
 	if toggled_on:
-		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"), 0.0, "UI")
+		SFXManager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"), 0.0, "UI")
 	else:
-		sfx_manager.play(preload("res://Game Elements/ui/sfx/switch_off.ogg"), 0.0, "UI")
+		SFXManager.play(preload("res://Game Elements/ui/sfx/switch_off.ogg"), 0.0, "UI")
 	controller_mode = toggled_on
 	update_controller_menu_label()
 
@@ -337,7 +337,7 @@ func update_controller_menu_label() -> void:
 
 func _on_rewind_mode_selected(index: int) -> void:
 	rewind_dropdown_open = false
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
+	SFXManager.play(preload("res://Game Elements/ui/sfx/minimize_008.ogg"), 0.0, "UI")
 	rewind_mode = index
 
 func _load_save_time(idx: int) -> float:
@@ -349,7 +349,7 @@ func _load_save_time(idx: int) -> float:
 	return 0
 
 func _on_feeback_pressed() -> void:
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	var total_save_time = 0
 	for i in range(3):
 		total_save_time += _load_save_time(i)

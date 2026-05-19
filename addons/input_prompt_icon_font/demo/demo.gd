@@ -20,11 +20,6 @@ func _ready() -> void:
 		var label:Label = new_item.get_child(1)
 		icon_label.text = icon
 		label.text = icon
-		#var copy := func(e:InputEvent):
-			#if e is InputEventMouseButton and e.is_pressed() and e.button_index == MOUSE_BUTTON_LEFT:
-				#DisplayServer.clipboard_set(icon)
-		#icon_label.gui_input.connect(copy)
-		#label.gui_input.connect(copy)
 	$VBox/HBoxContainer/SpinBox.value = label_settings.font_size
 	$VBox/HBoxContainer/SpinBox2.value = label_settings.outline_size
 	$VBox/HBoxContainer/ColorPickerButton.color = label_settings.font_color
