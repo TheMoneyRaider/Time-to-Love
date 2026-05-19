@@ -75,7 +75,6 @@ func _on_body_exited(body):
 		_set_display(tracked_bodies[0])
 
 func _set_display(body : Node):
-	if body.input_device == "key":
-			prompt1.get_child(0).bbcode_text = "Pickup Letter: [font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_e_outline[/font]"
-	else:
-		prompt1.get_child(0).bbcode_text = "Pickup Letter: [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_cross_outline[/font]"
+	var glyph_key = "activate_"+body.input_device
+	var sym = GlyphManager.get_glyph(GlyphManager.get_device_type(body.input_device),glyph_key)
+	prompt1.get_child(0).bbcode_text = "Pickup Letter: "+sym

@@ -269,9 +269,8 @@ func _swapped_color(player : Node):
 			return
 			
 func _set_display(body : Node):
-	if body.input_device == "key":
-			prompt2.get_child(0).bbcode_text = "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_f_outline[/font]: Reroll for "+str(tricky)+"  "
-			prompt1.get_child(0).bbcode_text = "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_e_outline[/font]: Enter"
-	else:
-		prompt2.get_child(0).bbcode_text = "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_triangle_outline[/font]: Reroll for "+str(tricky)+"  "
-		prompt1.get_child(0).bbcode_text = "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_cross_outline[/font]: Enter"
+	var glyph_key = "special_"+body.input_device
+	var glyph_key2 = "activate_"+body.input_device
+	prompt2.get_child(0).bbcode_text = GlyphManager.get_glyph(GlyphManager.get_device_type(body.input_device),glyph_key)+": Reroll for "+str(tricky)+"  "
+	prompt1.get_child(0).bbcode_text = GlyphManager.get_glyph(GlyphManager.get_device_type(body.input_device),glyph_key2)+": Enter"
+	

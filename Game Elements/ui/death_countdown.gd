@@ -23,7 +23,7 @@ func start_countdown(time: float, player : Node):
 
 var max_font_size = 400
 var min_font_size = 100
-var max_opacity = 1.0
+var max_opacity = 1.25
 var min_opacity = .125
 
 func stop_countdown():

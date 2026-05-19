@@ -490,13 +490,21 @@ func _on_focus_entered() -> void:
 		hover_cooldown = 0.025
 
 func button_state(input_type : String, active : bool):
-	if input_type == "key":
-		if active:
-			return "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_space[/font]"
-		return "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_space_outline[/font]"
-	if active:
-		return "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_l2[/font]"
-	return "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_l2_outline[/font]"
+	var string_start = "[font=res://addons/input_prompt_icon_font/icon.ttf]"
+	var string_end = "[/font]"
+	match GlyphManager.get_device_type(input_type):
+		"key":
+			if active:
+				return string_start+"keyboard_space"+string_end
+			return string_start+"keyboard_space_outline"+string_end
+		"ps4", "playstation4", "ps", "playstation","ps5", "playstation5":
+			if active:
+				return string_start+"playstation_trigger_l2"+string_end
+			return string_start+"playstation_trigger_l2_outline"+string_end
+		_:
+			if active:
+				return string_start+"xbox_lt"+string_end
+			return string_start+"xbox_lt_outline"+string_end
 
 func preload_all_textures():
 	var buttons = []
