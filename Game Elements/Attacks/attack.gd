@@ -338,7 +338,7 @@ func intersection(body):
 			return
 	if body.get("c_owner") != null and !is_instance_valid(body.c_owner):
 		return
-	if attack_type == "laser" and life < .5:
+	if attack_type == "laser" and life < 1.0:
 		return
 	if attack_type == "death mark":
 		if body != c_owner and body.is_in_group("player"):
