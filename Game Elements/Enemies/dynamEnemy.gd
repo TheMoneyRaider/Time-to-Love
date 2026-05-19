@@ -322,7 +322,7 @@ func _robot_process():
 	$RobotBrain.set_frame(block + offset)
 
 func damage_flash() -> void:
-	if(has_node("Sprite2D")):
+	if(has_node("Sprite2D")) and !enemy_type=="hit_me":
 		if(has_node("AnimationPlayer")):
 			if($AnimationPlayer.has_animation("hit")):
 				$AnimationPlayer.play("hit")
