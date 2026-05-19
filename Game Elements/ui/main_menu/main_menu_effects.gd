@@ -127,7 +127,7 @@ func _ready():
 		
 func _begin_explosion_cooldown():
 	if cooldown < 0:
-		cooldown = randf_range(2,4)
+		cooldown = randf_range(4,8)
 		exploaded = true
 
 func start_menu_music():
@@ -175,9 +175,17 @@ func _process(delta):
 			update_prompt()
 		if Input.is_action_just_pressed("swap_" + Globals.player1_input):
 			disruptive = !disruptive
+			if !disruptive:
+				exploaded = false
+				cooldown = 1
+				rewind_ui(cooldown)
 			update_prompt()
 		if Input.is_action_just_pressed("swap_" + Globals.player2_input):
 			disruptive = !disruptive
+			if !disruptive:
+				exploaded = false
+				cooldown = 1
+				rewind_ui(cooldown)
 			update_prompt()
 		if Input.is_action_just_pressed("Feedback"):
 			var total_save_time = 0
