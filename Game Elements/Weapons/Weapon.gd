@@ -547,6 +547,7 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 			"Mace":
 				mace_special_attack(special_direction, special_position)
 				current_special_hits = 0
+				sfx_manager.play(preload("res://Game Elements/sfx/weapons/mace/mace_special.ogg"))
 				if node_attacking.weapons[0] == self:
 					node_attacking.emit_signal("special_changed",false,0.0)
 				else:
