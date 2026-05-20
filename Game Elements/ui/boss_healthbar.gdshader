@@ -43,6 +43,14 @@ uniform vec4 P11_u_color_mid2 : source_color = vec4(1, 0.824, 0.655, 1.0);
 uniform float P11_scale = 8.0;
 
 
+uniform float P12_u_speed = 1.0;
+uniform vec4 P12_u_color_low : source_color = vec4(0, 0, 0, 1);
+uniform vec4 P12_u_color_mid : source_color = vec4(0.784, 0.475, 0.0, 1.0);
+uniform vec4 P12_u_color_high : source_color = vec4(1, 1, 1, 1.0);
+uniform vec4 P12_u_color_mid2 : source_color = vec4(1, 0.824, 0.655, 1.0);
+uniform float P12_scale = 8.0;
+
+
 
 
 #define P1_iTime (TIME * P1_u_speed)
@@ -51,6 +59,7 @@ uniform float P11_scale = 8.0;
 #define P4_iTime (TIME * P4_u_speed)
 #define P10_iTime (TIME * P10_u_speed)
 #define P11_iTime (TIME * P11_u_speed)
+#define P12_iTime (TIME * P11_u_speed)
 
 const mat2 mtx = mat2( vec2(0.80, -0.60), vec2(0.60, 0.80) );
 
@@ -147,6 +156,10 @@ vec4 health_color(sampler2D text, vec2 uv, vec2 pixel_size, vec4 fragment_coord,
 		vec2 uv2 = floor(uv*image_size);
 		uv2 /= P10_scale;
 		return colormap(pattern(uv2,P10_iTime),P10_u_color_low,P10_u_color_mid,P10_u_color_high);
+	} else if (effect_index == 12) {
+		vec2 uv2 = floor(uv*image_size);
+		uv2 /= P12_scale;
+		return colormap(pattern(uv2,P12_iTime),P12_u_color_low,P12_u_color_mid,P12_u_color_high);
 	} else if (effect_index == 11) {
 		vec2 uv2 = floor(uv*image_size);
 		uv2 /= P11_scale;
