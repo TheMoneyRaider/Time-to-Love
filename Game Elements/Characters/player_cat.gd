@@ -131,22 +131,22 @@ func _ready():
 
 
 func hide_forcefield(interp_time : float):
-	damage_resistance -=.5
 	forcefield_active = false
 	if interp_time == 0.0:
 		$Forcefield/CollisionShape2D.disabled  =true
 		$Forcefield/Forcefield.modulate.a = 0.0
 		return
+	damage_resistance -=.5
 	$Forcefield/CollisionShape2D.disabled  =true
 	create_tween().tween_property($Forcefield/Forcefield,"modulate",Color(1.0,1.0,1.0,0.0),interp_time)
 
 func show_forcefield(interp_time : float):
-	damage_resistance +=.5
 	forcefield_active = true
 	if interp_time == 0.0:
 		$Forcefield/CollisionShape2D.disabled  =false
 		$Forcefield/Forcefield.modulate.a = 1.0
 		return
+	damage_resistance +=.5
 	$Forcefield/CollisionShape2D.disabled  =false
 	$Forcefield/Forcefield.modulate.a = 0.0
 	create_tween().tween_property($Forcefield/Forcefield,"modulate",Color(1.0,1.0,1.0,1.0),interp_time)
@@ -568,6 +568,8 @@ func set_weapon_dr(weapon : Weapon):
 			damage_resistance = .1
 		"Fist":
 			damage_resistance = .1
+		_:
+			damage_resistance = 0.0
 	
 
 func set_weapon_sprite(weapon : Weapon, f_weapon_node : Node):
@@ -1225,7 +1227,7 @@ func check_tortoise(temp_is_purple : bool, new_progress : float, used_special : 
 				litho.remnant_name:
 					var lith_area = preload("res://Game Elements/Remnants/lithomancer/lithomancer.tscn").instantiate()
 					lith_area.scale *= 1 + (rem.rank -1) * .2
-					lith_area.lifetime = rem.rank * 4
+					lith_area.lifetime = rem.rank * 3
 					lith_area.litho_value = rem.variable_2_values[rem.rank - 1]
 					LayerManager.room_instance.add_child(lith_area)
 					lith_area.global_position = global_position
