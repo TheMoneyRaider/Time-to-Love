@@ -9,7 +9,16 @@ process_mode = 2
 layer = 3
 script = ExtResource("1_jvxp2")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -20,28 +29,29 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="slots_hbox" type="HBoxContainer" parent="MarginContainer"]
+[node name="slots_hbox" type="HBoxContainer" parent="Control/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="slot0" parent="MarginContainer/slots_hbox" instance=ExtResource("2_bn8o0")]
+[node name="slot0" parent="Control/MarginContainer/slots_hbox" instance=ExtResource("2_bn8o0")]
 layout_mode = 2
 
-[node name="slot1" parent="MarginContainer/slots_hbox" instance=ExtResource("2_bn8o0")]
+[node name="slot1" parent="Control/MarginContainer/slots_hbox" instance=ExtResource("2_bn8o0")]
 layout_mode = 2
 
-[node name="slot2" parent="MarginContainer/slots_hbox" instance=ExtResource("2_bn8o0")]
+[node name="slot2" parent="Control/MarginContainer/slots_hbox" instance=ExtResource("2_bn8o0")]
 layout_mode = 2
 
-[node name="slot3" parent="MarginContainer/slots_hbox" instance=ExtResource("2_bn8o0")]
+[node name="slot3" parent="Control/MarginContainer/slots_hbox" instance=ExtResource("2_bn8o0")]
 layout_mode = 2
 
-[node name="Crosshair" parent="." instance=ExtResource("3_61lpe")]
+[node name="Crosshair" parent="Control" instance=ExtResource("3_61lpe")]
 
-[node name="DrifterText" type="VBoxContainer" parent="."]
+[node name="DrifterText" type="VBoxContainer" parent="Control"]
 visible = false
 z_index = 50
+layout_mode = 0
 offset_left = 20.0
 offset_top = 48.0
 offset_right = 1900.0
@@ -49,7 +59,7 @@ offset_bottom = 1008.0
 mouse_filter = 2
 alignment = 2
 
-[node name="Label" type="RichTextLabel" parent="DrifterText"]
+[node name="Label" type="RichTextLabel" parent="Control/DrifterText"]
 custom_minimum_size = Vector2(150, 70)
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 48
@@ -60,7 +70,7 @@ scroll_active = false
 autowrap_mode = 0
 horizontal_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="DrifterText/Label"]
+[node name="TextureRect" type="TextureRect" parent="Control/DrifterText/Label"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 1
 anchors_preset = -1
@@ -76,9 +86,3 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 expand_mode = 1
 metadata/_edit_use_anchors_ = true
-
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
