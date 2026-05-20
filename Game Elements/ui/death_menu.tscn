@@ -76,6 +76,7 @@ offset_left = -1565.5
 offset_right = 1565.5
 offset_bottom = 324.0
 grow_horizontal = 2
+mouse_filter = 2
 theme_override_constants/outline_size = 20
 theme_override_font_sizes/normal_font_size = 128
 bbcode_enabled = true

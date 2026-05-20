@@ -48,6 +48,7 @@ func choose_random(path : String):
 
 
 func spawn_letter():
+	SteamManager.unlock_achievement("LETTER_1")
 	var LayerManager = get_tree().get_root().get_node("LayerManager")
 	var letter = preload("res://Game Elements/Objects/letter_animation/letter_animation.tscn").instantiate()
 	LayerManager.camera.add_child(letter)
@@ -58,6 +59,8 @@ func spawn_letter():
 	Globals.save_state.letter_progress[letter_id]=true
 	Globals.num_letters_collected= min(Globals.num_letters_collected+1,Globals.num_letters)
 	Globals.letter_percentage = Globals.num_letters_collected/float(Globals.num_letters)
+	if Globals.letter_percentage >= .99:
+		SteamManager.unlock_achievement("LETTER_ALL")
 	queue_free()
 
 

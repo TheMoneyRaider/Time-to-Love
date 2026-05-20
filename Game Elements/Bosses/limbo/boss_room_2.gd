@@ -64,8 +64,14 @@ func _process(delta: float) -> void:
 		return
 	if boss.current_health<= 0.0 and !credits:
 		credits = true
+		SteamManager.unlock_achievement("VISION")
+		if !Globals.has_equiped_weapon:
+			SteamManager.unlock_achievement("FISTS")
+		if !Globals.has_died and !Globals.has_equiped_weapon:
+			SteamManager.unlock_achievement("FISTS_NO_DYING")
 		get_tree().paused = true
 		LayerManager.credits.activate()
+		
 	if !hiding:
 		ability_progress+=delta/reveal_time
 	if hiding:

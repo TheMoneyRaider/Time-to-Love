@@ -173,6 +173,7 @@ func deactivate():
 			node.enable_pathway()
 	active=false
 	Hud.hide_boss_bar()
+	SteamManager.unlock_achievement("BIG_T")
 	
 
 

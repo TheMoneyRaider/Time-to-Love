@@ -29,6 +29,7 @@ func _process(delta: float) -> void:
 	velocity = velocity*.95
 var open : bool = false
 func activate() -> void:
+	SteamManager.unlock_achievement("SHOP")
 	get_parent().open_shop()
 	prompt1.visible = false
 	open=true
