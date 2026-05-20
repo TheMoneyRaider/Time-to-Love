@@ -322,8 +322,6 @@ var laser_min_distance = 16
 var laser_enemy_max = 7
 var laser_angle =cos(PI/3)
 func get_locations(start_node : Node,inital_direction : Vector2) -> Array[Vector2]: 
-	
-	
 	var camera_position = start_node.LayerManager.camera.global_position
 	var all_enemies = start_node.get_tree().get_nodes_in_group("enemy").filter(
 		func(e) -> bool:
@@ -562,7 +560,6 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 					node_attacking.emit_signal("special_changed",true,0.0,true)
 			"Laser_Sword":
 				sword_special_attack(special_direction,node_attacking)
-				SFXManager.play(preload("res://Game Elements/sfx/enemies/laser/laser_beam.mp3"))
 			"Crossbow":
 				SFXManager.play(preload("res://Game Elements/sfx/weapons/crossbow/crossbow_special.ogg"), -4)
 				if(special_time_elapsed >= 3.0):
@@ -638,12 +635,13 @@ func shotgun_special_attack(attack_direction : Vector2):
 			SFXManager.play(lame_shotgun_sounds[randi() % lame_shotgun_sounds.size()], -5.0)
 
 func sword_special_attack(special_direction : Vector2,node_attacking : Node):
-	node_attacking.i_frames = 8
-	current_special_hits = 0
 	special_cleanup()
 	var locations : Array[Vector2] = get_locations(node_attacking, special_direction)
 	if locations.size() < 2:
 		return # nothing to spawn
+	node_attacking.i_frames = 8
+	current_special_hits = 0
+	SFXManager.play(preload("res://Game Elements/sfx/enemies/laser/laser_beam.mp3"))
 
 	var image_distance = 8.0 # distance between afterimages, adjust as needed
 	var prev_pos = locations[0]

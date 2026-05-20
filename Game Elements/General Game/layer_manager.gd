@@ -169,6 +169,9 @@ func _ready() -> void:
 	inactive_player = music_player_b
 	
 	play_timeline_music()
+	room_cleared = true
+	reward_claimed = true
+	_enable_pathways()
 
 func _load_save_time(idx: int) -> float:
 	var path = Globals.save_dir + "save_%d.res" % idx
