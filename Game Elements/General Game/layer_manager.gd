@@ -98,6 +98,7 @@ var cactus_explosion_sound = [
 
 func _ready() -> void:
 	RemnantManager.has_gotten_remnant = false
+	TutorialManager.player_req = [[0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.0]]
 	$LettersPopup.modulate.a=0.0
 	$game_container.material = $game_container.material.duplicate(true)
 	var conflict_cells : Array[Vector2i] = []
@@ -1351,6 +1352,7 @@ func _finalize_room_creation(next_room_instance: Node2D, next_room_data: Room, d
 
 var transitioning : bool = false
 func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
+	hud.get_node("Tutorial_Display").visible = false
 	time_in_room = 0
 	var shido1 = 0.0
 	var shido2 = 0.0

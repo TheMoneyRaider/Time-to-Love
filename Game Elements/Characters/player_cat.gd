@@ -382,7 +382,6 @@ func _physics_process(delta):
 		disabled_countdown-=1
 		
 	if velocity.length() > 5.0 and !disabled and !is_tethered:
-		TutorialManager.player_moves(is_purple,delta)
 		footstep_timer -= delta
 		if footstep_timer <= 0.0:
 			var speed_ratio = clamp(velocity.length() / base_move_speed, 1.0, 2.5)

@@ -76,6 +76,7 @@ func state_change():
 
 
 func activate():
+	TutorialManager.deactivate()
 	input_delay = .75
 	active = true
 	state_change()

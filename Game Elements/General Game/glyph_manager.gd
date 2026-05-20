@@ -253,10 +253,7 @@ func _get_table(device: String) -> Dictionary:
 ## Returns the glyph character for [param device] + [param action].
 ## Assign icon.ttf as the font on your Label/RichTextLabel and insert directly.
 func get_glyph(device: String, action: String) -> String:
-	print(device)
-	print(action)
 	var table := _get_table(device)
-	print(table[action])
 	if table.has(action):
 		return "[font=res://addons/input_prompt_icon_font/icon.ttf]"+table[action]+"[/font]"
 	push_warning("GlyphManager: no glyph for device='%s' action='%s'" % [device, action])
