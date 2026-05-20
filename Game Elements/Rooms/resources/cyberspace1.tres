@@ -12,5 +12,5 @@ noise_seed = null
 roomvariant = 4
 enemy_pool = Array[String](["res://Game Elements/Characters/robot.tscn", "res://Game Elements/Characters/binary_bot.tscn"])
 enemy_chances = Array[float]([0.7, 0.3])
-wave_segment = 0.75
+wave_segment = 0.0
 metadata/_custom_type_script = "uid://boljl4yehg187"
