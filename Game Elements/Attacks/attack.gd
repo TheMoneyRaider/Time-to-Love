@@ -403,12 +403,13 @@ func deflect(hit_direction, hit_speed, deflection_area):
 	if attack_type=="laser":
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment1"))
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment2"))
-		var bt_player = c_owner.get_node("BTPlayer")
-		var board = bt_player.blackboard
-		if board:
-			board.set_var("kill_laser", true)
-			board.set_var("kill_damage", c_owner.max_health)
-			board.set_var("kill_direction", hit_direction)
+		var bt_player = c_owner.get_node_or_null("BTPlayer")
+		if(bt_player):
+			var board = bt_player.blackboard
+			if board:
+				board.set_var("kill_laser", true)
+				board.set_var("kill_damage", c_owner.max_health)
+				board.set_var("kill_direction", hit_direction)
 		return
 	direction = hit_direction
 	deflected_nodes = {}
