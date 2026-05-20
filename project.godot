@@ -21,12 +21,13 @@ config/icon="res://icon.svg"
 Globals="*res://Game Elements/General Game/globals.gd"
 RemnantManager="*res://Game Elements/General Game/remnant_manager.gd"
 RoomManager="*res://Game Elements/General Game/room_manager.gd"
-music_manager="*res://Game Elements/General Game/music_manager.gd"
-sfx_manager="*res://Game Elements/General Game/sfx_manager.gd"
 MusicManager="*res://Game Elements/General Game/music_manager.gd"
 SFXManager="*res://Game Elements/General Game/sfx_manager.gd"
 TutorialManager="*res://Game Elements/General Game/tutorial_manager.gd"
 GlyphManager="*res://Game Elements/General Game/glyph_manager.gd"
+music_manager="*res://Game Elements/General Game/music_manager.gd"
+sfx_manager="*res://Game Elements/General Game/sfx_manager.gd"
+SteamManager="*res://Game Elements/General Game/steam_manager.gd"
 
 [debug]
 
@@ -449,3 +450,10 @@ light_direction={
 "type": "vec3",
 "value": Vector3(-0.07, 0.725, 0)
 }
+
+[steam]
+
+initialization/app_id=0
+initialization/initialize_on_startup=false
+initialization/embed_callbacks=false
+multiplayer_peer/max_channels=4

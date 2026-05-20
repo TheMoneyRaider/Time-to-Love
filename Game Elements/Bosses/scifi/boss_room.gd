@@ -616,6 +616,7 @@ func deactivate():
 	#LayerManager.room_instance.add_child(particle)
 	active=false
 	Hud.hide_boss_bar()
+	SteamManager.unlock_achievement("SIGNUL")
 	
 
 

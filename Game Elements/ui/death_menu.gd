@@ -76,8 +76,8 @@ func state_change():
 
 
 func activate():
-	TutorialManager.deactivate()
-	input_delay = .75
+	Globals.has_died = true
+	input_delay = 2.0
 	active = true
 	state_change()
 	if(getting_time):

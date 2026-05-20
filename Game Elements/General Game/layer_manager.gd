@@ -669,6 +669,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					player_reference.update_weapon(node.weapon_type)
 					SFXManager.play(weapon_select_sounds[randi() % weapon_select_sounds.size()], -4.0,"SFX",player_reference.global_position)
 					hud.set_cooldown_icons()
+					Globals.has_equiped_weapon = true
 					return true
 		if node.is_in_group("letter"):
 			if player_reference in node.tracked_bodies:
@@ -1772,7 +1773,27 @@ func _on_remnant_chosen(remnant1 : Resource, remnant2 : Resource):
 	if is_multiplayer:
 		player2.get_node("Crosshair").visible = true
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
-	
+
+
+var required_mancers = [preload("res://Game Elements/Remnants/aeromancer.tres"),
+						preload("res://Game Elements/Remnants/hydromancer.tres"),
+						preload("res://Game Elements/Remnants/terramancer.tres"),
+						preload("res://Game Elements/Remnants/pyromancer.tres"),
+						preload("res://Game Elements/Remnants/winters_embrace.tres"),
+						preload("res://Game Elements/Remnants/mancermancer.tres")]
+
+func check_mancer_achievement():
+	var all_remnants = player_1_remnants + player_2_remnants
+	for mancer in required_mancers:
+		var found = false
+		for rem in all_remnants:
+			if rem.remnant_name == mancer.remnant_name:
+				found = true
+				break
+		if not found:
+			return #Missing at least one
+	SteamManager.unlock_achievement("MANCER_ALL")
+
 
 func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : bool = true):
 	var mancermancer = preload("res://Game Elements/Remnants/mancermancer.tres")
@@ -1780,8 +1801,10 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 	var lawman = preload("res://Game Elements/Remnants/lawman.tres")
 	var hare = preload("res://Game Elements/Remnants/hare.tres")
 	var bandit = preload("res://Game Elements/Remnants/bandit.tres")
+	check_mancer_achievement()
 	if gained:
 		if(remnant.remnant_name == mancermancer.remnant_name) and remnant.active:
+			SteamManager.unlock_achievement("MANCER")
 			if is_purple:
 				player.mancermancer_values[0] = remnant.rank
 			else:

@@ -1,7 +1,7 @@
 [gd_scene load_steps=19 format=3 uid="uid://bkmhitsrs64l4"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_qhvxm"]
-[ext_resource type="PackedScene" uid="uid://dbhrxmwmosape" path="res://Game Elements/Attacks/t-roar_particle.tscn" id="2_f2uui"]
+[ext_resource type="PackedScene" path="res://Game Elements/Attacks/t-roar_particle.tscn" id="2_rgvsh"]
 [ext_resource type="Texture2D" uid="uid://smpojals3s7d" path="res://art/characters/big-t/big-t_likely_wonky.png" id="3_f2uui"]
 [ext_resource type="PackedScene" uid="uid://c8x4fnr36es6o" path="res://Game Elements/Attacks/t-swing.tscn" id="3_rgvsh"]
 [ext_resource type="PackedScene" uid="uid://3g2wool8t66c" path="res://Game Elements/Attacks/t-spine.tscn" id="4_b1psi"]

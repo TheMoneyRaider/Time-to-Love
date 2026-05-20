@@ -66,6 +66,8 @@ func _save1_select_pressed() -> void:
 	Globals.weapon1 = Globals.save_state.weapon1
 	Globals.weapon2 = Globals.save_state.weapon2
 	Globals.has_gotten_tutorial = Globals.save_state.has_gotten_tutorial
+	Globals.has_died = Globals.save_state.has_died
+	Globals.has_equiped_weapon = Globals.save_state.has_equiped_weapon
 	highlight_state()
 
 func _save2_select_pressed() -> void:
@@ -76,6 +78,8 @@ func _save2_select_pressed() -> void:
 	Globals.weapon1 = Globals.save_state.weapon1
 	Globals.weapon2 = Globals.save_state.weapon2
 	Globals.has_gotten_tutorial = Globals.save_state.has_gotten_tutorial
+	Globals.has_died = Globals.save_state.has_died
+	Globals.has_equiped_weapon = Globals.save_state.has_equiped_weapon
 	highlight_state()
 
 func _save3_select_pressed() -> void:
@@ -86,6 +90,8 @@ func _save3_select_pressed() -> void:
 	Globals.weapon1 = Globals.save_state.weapon1
 	Globals.weapon2 = Globals.save_state.weapon2
 	Globals.has_gotten_tutorial = Globals.save_state.has_gotten_tutorial
+	Globals.has_died = Globals.save_state.has_died
+	Globals.has_equiped_weapon = Globals.save_state.has_equiped_weapon
 	highlight_state()
 
 func _on_delete1_pressed() -> void:
