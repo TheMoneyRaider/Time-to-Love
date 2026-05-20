@@ -169,6 +169,10 @@ func _ready() -> void:
 	inactive_player = music_player_b
 	
 	play_timeline_music()
+	room_cleared = true
+	reward_claimed = true
+	#if Globals.has_gotten_tutorial:
+	_enable_pathways()
 
 func _load_save_time(idx: int) -> float:
 	var path = Globals.save_dir + "save_%d.res" % idx
@@ -383,6 +387,7 @@ func create_new_rooms() -> void:
 	room_gen_thread.start(_thread_generate_rooms.bind(room_instance_data))
 
 func check_pathways(generated_room : Node2D, generated_room_data : Room, player_reference : Node, is_special_action : bool = false) -> int:
+	print("HEYYYy")
 	var pathway_name= ""
 	var direction_count = [0,0,0,0]
 	for p_direct in generated_room_data.pathway_direction:
@@ -600,6 +605,11 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 				if player_reference in vision.tracked_bodies:
 					vision.activate()
 					return true
+			"Tutorial":
+				var vision = node.get_node("VisionNPC") as Area2D
+				if player_reference in vision.tracked_bodies:
+					vision.activate()
+					return true
 			"RemnantOrb":
 				if player_reference in node.tracked_bodies:
 					if RemnantManager.will_softlock(player_1_remnants,player_2_remnants,false):
@@ -655,7 +665,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 			if(node.enabled == true):
 				if player_reference in node.tracked_bodies:
 					player_reference.update_weapon(node.weapon_type)
-					SFXManager.play(weapon_select_sounds[randi() % weapon_select_sounds.size()], -4.0)
+					SFXManager.play(weapon_select_sounds[randi() % weapon_select_sounds.size()], -4.0,"SFX",player_reference.global_position)
 					hud.set_cooldown_icons()
 					return true
 		if node.is_in_group("letter"):
@@ -1102,7 +1112,6 @@ func _place_timefabric(time_idx : int, offset : Vector2i, current_position : Vec
 	timefabric_instance.set_direction(direction)
 	timefabric_instance.set_process(true)
 	timefabric_instance.absorbed_by_player.connect(_on_timefabric_absorbed)
-	# SFXManager.play(preload("res://Game Elements/sfx/enemies/time_fabric/drop1.ogg"))
 	return
 
 func _score_timefabric_placement(pixels_to_cover : Dictionary, timefabric_pixels : Array, timefabric_idx : int,offset : Vector2i) -> float:
@@ -1711,7 +1720,7 @@ func _on_enemy_take_damage(damage : float,current_health : float,enemy : Node, d
 			room_instance.call_deferred("add_child",attack_instance)
 			has_death_attack = true
 		if(enemy.cactus_explode):
-			SFXManager.play(cactus_explosion_sound[randi() % cactus_explosion_sound.size()], -6.0)
+			SFXManager.play(cactus_explosion_sound[randi() % cactus_explosion_sound.size()], -6.0,"SFX",enemy.global_position)
 			var attack_direction
 			if(enemy.last_hitter != null):
 				attack_direction = (enemy.last_hitter.global_position - enemy.global_position).normalized()
@@ -1890,12 +1899,13 @@ func _on_healthpickup_absorbed(player_node : Node, health_node : Node):
 
 func _on_timefabric_absorbed(timefabric_node : Node):
 	timefabric_collected+=1
-	SFXManager.play(timefabric_collected_sounds[randi() % timefabric_collected_sounds.size()], 0.0)
+	SFXManager.play(timefabric_collected_sounds[randi() % timefabric_collected_sounds.size()], 0.0, "SFX", timefabric_node.global_position)
 	RoomManager.layer_ai[12]+=1
 	timefabric_node.queue_free()
 	
 func _on_activate(player_node : Node):
 	if room_instance:
+		print("ehy")
 		if check_reward(room_instance, room_instance_data,player_node):
 			return
 		if room_instance_data.roomtype == Globals.RoomType.Shop and room_instance.get_node("Shop").check_rewards(player_node):

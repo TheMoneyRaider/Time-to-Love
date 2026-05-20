@@ -263,8 +263,6 @@ func _process(delta):
 	life+=delta
 	if attack_type == "punch":
 		get_node("CollisionShape2D").shape.height = lerp(9,18, life/lifespan)
-		if life < .1:
-			get_node("CollisionShape2D").disabled = true
 	if attack_type == "smash":
 		get_node("CollisionShape2D").shape.radius = lerp(8,16,life/lifespan)
 		if life < .15:
@@ -401,7 +399,7 @@ var deflected :bool = false
 func deflect(hit_direction, hit_speed, deflection_area):
 	deflected = true
 	print("DEFLECT")
-	SFXManager.play(deflect_sounds[randi() % deflect_sounds.size()], 2.0)
+	SFXManager.play(deflect_sounds[randi() % deflect_sounds.size()], 2.0,"SFX",global_position)
 	if attack_type=="laser":
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment1"))
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment2"))

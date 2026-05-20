@@ -643,6 +643,30 @@ text = "[font=res://addons/input_prompt_icon_font/icon.ttf]mouse_right_outline[/
 scroll_active = false
 horizontal_alignment = 2
 
+[node name="Tutorial_Display" type="RichTextLabel" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.627451)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -320.5
+offset_right = 320.5
+offset_bottom = 500.0
+grow_horizontal = 2
+focus_mode = 0
+theme_override_font_sizes/normal_font_size = 64
+theme_override_font_sizes/bold_font_size = 48
+theme_override_font_sizes/italics_font_size = 48
+theme_override_font_sizes/mono_font_size = 48
+bbcode_enabled = true
+text = "
+
+
+[font=res://addons/input_prompt_icon_font/icon.ttf]mouse_left_outline[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_r2[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]xbox_rt[/font]
+[code]Attack[/code]"
+scroll_active = false
+horizontal_alignment = 1
+
 [node name="AttackLabel" type="RichTextLabel" parent="."]
 visible = false
 modulate = Color(1, 1, 1, 0.627451)

@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://byatw8u72lnbd" path="res://art/punch.png" id="2_rwjpg"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rwjpg"]
-radius = 4.5
-height = 9.0
+radius = 9.0
+height = 18.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gmthq"]
 atlas = ExtResource("2_rwjpg")
@@ -83,7 +83,7 @@ deflects = true
 i_frames = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 1)
+position = Vector2(0, -3)
 shape = SubResource("CapsuleShape2D_rwjpg")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

@@ -96,7 +96,7 @@ _data = {
 &"idle": SubResource("Animation_75s3j")
 }
 
-[node name="Dummy" type="CharacterBody2D"]
+[node name="Dummy" type="CharacterBody2D" groups=["enemy"]]
 z_index = 20
 collision_layer = 4
 collision_mask = 135
