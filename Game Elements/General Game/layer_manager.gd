@@ -171,8 +171,8 @@ func _ready() -> void:
 	play_timeline_music()
 	room_cleared = true
 	reward_claimed = true
-	#if Globals.has_gotten_tutorial:
-	_enable_pathways()
+	if Globals.has_gotten_tutorial:
+		_enable_pathways()
 
 func _load_save_time(idx: int) -> float:
 	var path = Globals.save_dir + "save_%d.res" % idx
