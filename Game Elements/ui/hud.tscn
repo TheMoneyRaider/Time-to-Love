@@ -460,14 +460,14 @@ custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="RootControl/Right_Bottom_Corner/Combo"]
+custom_minimum_size = Vector2(256, 128)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = 1
+anchor_left = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -126.0
-offset_bottom = -122.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_left = -128.0
+offset_bottom = 128.0
+grow_horizontal = 0
 scale = Vector2(2, 2)
 max_value = 3.0
 step = 0.0
