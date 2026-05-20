@@ -27,16 +27,20 @@ func _process(delta: float) -> void:
 		velocity -= (global_position - original_global_position).normalized()*delta
 	global_position += velocity
 	velocity = velocity*.95
-
+var open : bool = false
 func activate() -> void:
 	get_parent().open_shop()
+	prompt1.visible = false
+	open=true
 
 func _on_body_entered(body):
+	if open: return
 	if body.is_in_group("player"):
 		tracked_bodies.append(body)
 		prompt1.visible = true
 		_set_display(tracked_bodies[0])
 func _on_body_exited(body):
+	if open: return
 	if body in tracked_bodies:
 		tracked_bodies.erase(body)
 	if len(tracked_bodies) == 0:
@@ -49,4 +53,4 @@ func _on_body_exited(body):
 func _set_display(body : Node):
 	var glyph_key = "activate_"+body.input_device
 	var sym = GlyphManager.get_glyph(GlyphManager.get_device_type(body.input_device),glyph_key)
-	prompt1.get_child(0).bbcode_text = "Pickup Letter: "+sym
+	prompt1.get_child(0).bbcode_text = "Inquire: "+sym
