@@ -182,8 +182,8 @@ var cur_prog = 0.0
 var new_prog = 0.0
 func make_room_limbo(room_reference : Node, z_val : int, layermanager : Node,set_values : bool = true):
 	if set_values:
-		cur_prog = layer_ai[14] / 5
-		new_prog = (layer_ai[14]+1) / 5
+		cur_prog = layer_ai[14] / 5.0
+		new_prog = (layer_ai[14]+1) / 5.0
 		
 	for child in room_reference.get_children():
 		make_room_limbo(child, z_val +child.z_index if "z_index" in child else z_val,layermanager, false)

@@ -104,14 +104,14 @@ func deactivate():
 
 
 func activate(camera_in : Node, player1_in : Node, player2_in : Node):
+	player1 = player1_in
+	player2 = player1_in
 	player1.get_node("Crosshair").mouse_clamping_enabled = false
 	if is_multiplayer:
 		player2.get_node("Crosshair").mouse_clamping_enabled = false
 	print("boss room activate")
 	active = true
 	camera = camera_in
-	player1 = player1_in
-	player2 = player1_in
 	player1.disabled = true
 	player1.input_direction = Vector2.UP
 	player1.update_animation_parameters(player1.input_direction)
