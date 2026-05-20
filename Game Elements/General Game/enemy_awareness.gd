@@ -34,6 +34,8 @@ func get_camera_rect() -> Rect2:
 		view_size
 	)
 func _process(_d):
+	if(get_parent().get_parent().room_instance_data.Roomtype == Globals.RoomType.Boss):
+		return
 	var rect = get_camera_rect()
 	var edge_world
 	var world_pos
