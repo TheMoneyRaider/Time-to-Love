@@ -14,6 +14,7 @@ extends CharacterBody2D
 @export var min_sprint_cooldown : float = 3.0
 @export var max_sprint_cooldown : float = 6.0
 @export var sprint_multiplier : float = 2.0
+@onready var current_liquid_time: float = 0.0
 var current_health: float = 10.0
 @export var move_speed: float = 70
 @onready var current_dmg_time: float = 0.0
@@ -59,6 +60,13 @@ signal attack_requested(new_attack : PackedScene, t_position : Vector2, t_direct
 signal enemy_took_damage(damage : float,current_health : float,c_node : Node, direction : Vector2)
 signal boss_phase_change(boss : Node)
 
+var cactus_explosion_sound = [
+	preload("res://Game Elements/sfx/weapons/selection/selection1.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection2.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection3.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection4.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection5.wav")
+]
 
 func _input(event):
 	if debug_menu and event.is_action_pressed("display_paths"):
@@ -225,13 +233,7 @@ func _process(delta):
 		_skeleton_process()
 	if enemy_type=="medieval_slime":
 		_slime_process()
-	if enemy_type=="large_reptile":
-		if $Sprite2D.flip_h:
-			$Hat.position.x = -abs($Hat.special_position.x)
-		else:
-			$Hat.position.x = abs($Hat.special_position.x)
-		$Hat.position.y = $Hat.special_position.y
-		$Hat.rotation = $Hat.special_rotation
+	
 	if(i_frames > 0):
 		i_frames -= 1
 	for i in range(weapon_cooldowns.size()):
@@ -252,7 +254,24 @@ func _process(delta):
 	
 	if debug_mode:
 		queue_redraw()
-	
+var animating : bool = false
+func _dummy_hit(size : float):
+	if animating: return
+	animating = true
+	var animation_input: String = "hit_1"
+	if size > 5.1:
+		animation_input = "hit_2"
+	if size > 10.0:
+		animation_input = "hit_3"
+	$AnimationPlayer.play(animation_input)
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	$AnimationPlayer.play("idle")
+	animating = false
+
+
+
 func _skeleton_process():
 	var dir = look_direction
 	var block : int = $SkeletonBrain.anim_frame / 4 * 4
@@ -298,7 +317,7 @@ func _robot_process():
 	$RobotBrain.set_frame(block + offset)
 
 func damage_flash() -> void:
-	if(has_node("Sprite2D")):
+	if(has_node("Sprite2D")) and !enemy_type=="hit_me":
 		if(has_node("AnimationPlayer")):
 			if($AnimationPlayer.has_animation("hit")):
 				$AnimationPlayer.play("hit")
@@ -315,6 +334,9 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 	if(i_frames > 0):
 		return
 	i_frames = attack_i_frames
+	if enemy_type=="hit_me":
+		_dummy_hit(damage)
+	SFXManager.play(preload("res://Game Elements/sfx/enemies/thud.ogg"), -2.0)
 	if dmg_owner:
 		check_agro(dmg_owner)
 	if enemy_type=="binary_bot":
@@ -323,6 +345,7 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 		LayerManager._damage_indicator(damage, dmg_owner,direction, attack_body,self)
 		damage_flash()
 		if(enemy_type=="cactus") and dmg_owner:
+			SFXManager.play(cactus_explosion_sound[randi() % cactus_explosion_sound.size()], -6.0)
 			var attack_position = global_position
 			if(is_instance_valid(dmg_owner)):
 				var attack_direction = (dmg_owner.global_position - attack_position).normalized()
@@ -469,12 +492,15 @@ func apply_hydromancer(rem : Remnant, attack_body : Node, mancer_value : int):
 				effect.gained(self)
 				effects.append(effect)
 		Globals.Liquid.Glitch:
-			var glitch_dir = attack_body.direction
-			glitch_dir.rotated(randf_range(-15,15))
-			_glitch_move(glitch_dir.normalized() * 160)
+			if(!enemy_type == "laser_e" or is_boss):
+				var glitch_dir = attack_body.direction
+				glitch_dir.rotated(randf_range(-15,15))
+				@warning_ignore("integer_division")
+				for i in range(0, 2 * rem.rank + (mancer_value / 2)):
+					_glitch_move(glitch_dir.normalized() * 8 * i)
 			effect = preload("res://Game Elements/Effects/stun.tres").duplicate()
 			@warning_ignore("integer_division")
-			effect.cooldown = rem.rank + (mancer_value / 2) / 2.5
+			effect.cooldown = (rem.rank + (mancer_value / 2)) / 4.0
 			effect.gained(self)
 			effects.append(effect)
 		_:
@@ -527,7 +553,22 @@ func check_liquids(delta):
 					position+=tile_data.get_custom_data("direction").normalized() *delta * 32
 				Globals.Liquid.Glitch:
 					_glitch_move()
-
+				Globals.Liquid.Lava:
+					var idx = 0
+					for effect in effects:
+						if effect.type == "slow":
+							var particle =  preload("res://Game Elements/Particles/steam_particles.tscn").instantiate()
+							#particle.position = self.position
+							self.add_child(particle)
+							effect.tick(delta,self)
+							if effect.cooldown == 0:
+								effects.remove_at(idx)
+							current_liquid_time -= .01
+						idx +=1
+					current_liquid_time += delta
+					if current_liquid_time >= .25:
+						current_liquid_time -= .25
+						take_damage(2.0,null)
 func _glitch_move(input_move_dir : Vector2 = Vector2(-1234,-1234)) -> void:
 	var move_dir_l
 	var move_dir_r

@@ -5,7 +5,7 @@ var is_multiplayer:bool = false
 var player1_input
 var player2_input
 var total_progress : float = 0.0
-
+var death_time = 10.0
 signal config_changed
 var save_state : SaveState
 var save_idx : int = 0
@@ -13,8 +13,8 @@ var config := ConfigFile.new()
 var config_path := "user://settings.cfg"
 var save_dir := "user://saves/"
 var cinematic_viewed : bool = false
-var weapon1 : String = "res://Game Elements/Weapons/Mace.tres"
-var weapon2 : String = "res://Game Elements/Weapons/Crossbow.tres"
+var weapon1 : String = "res://Game Elements/Weapons/Fist.tres"
+var weapon2 : String = "res://Game Elements/Weapons/Fist.tres"
 
 enum MenuState {Western, Space, Medieval}
 
@@ -69,6 +69,8 @@ func load_config():
 			save_state = SaveState.new()
 	else:
 		save_state = SaveState.new()
+		save_state.weapon1 = "res://Game Elements/Weapons/Fist.tres"
+		save_state.weapon2 = "res://Game Elements/Weapons/Fist.tres"
 
 	total_progress = save_state.total_progress
 	weapon1 = save_state.weapon1

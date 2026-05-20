@@ -85,7 +85,7 @@ func _ready():
 				button.focus_mode = Control.FOCUS_NONE
 				button.mouse_entered.connect(_on_focus_entered)  # ← mouse hover
 				button.focus_entered.connect(_on_focus_entered)  # ← keyboard/controller
-				button.pressed.connect(func(): sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0 , "UI"))
+				button.pressed.connect(func(): SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0 , "UI"))
 	else:
 		if !capture_all_states:
 			preload_all_textures()
@@ -127,11 +127,11 @@ func _ready():
 		
 func _begin_explosion_cooldown():
 	if cooldown < 0:
-		cooldown = randf_range(2,4)
+		cooldown = randf_range(4,8)
 		exploaded = true
 
 func start_menu_music():
-	music_manager.play_theme("main")
+	MusicManager.play_theme("main")
 	
 func _load_save_time(idx: int) -> float:
 	var path = Globals.save_dir + "save_%d.res" % idx
@@ -175,9 +175,17 @@ func _process(delta):
 			update_prompt()
 		if Input.is_action_just_pressed("swap_" + Globals.player1_input):
 			disruptive = !disruptive
+			if !disruptive:
+				exploaded = false
+				cooldown = 1
+				rewind_ui(cooldown)
 			update_prompt()
 		if Input.is_action_just_pressed("swap_" + Globals.player2_input):
 			disruptive = !disruptive
+			if !disruptive:
+				exploaded = false
+				cooldown = 1
+				rewind_ui(cooldown)
 			update_prompt()
 		if Input.is_action_just_pressed("Feedback"):
 			var total_save_time = 0
@@ -279,12 +287,12 @@ func _input(event):
 				UI.player1.pressing = false
 				if UI.player1.hover_button:
 					UI.player1.hover_button.emit_signal("pressed")
-					if fragmenting: sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
+					if fragmenting: SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 			if UI.player2.input == "key":
 				UI.player2.pressing = false
 				if UI.player2.hover_button:
 					UI.player2.hover_button.emit_signal("pressed")
-					if fragmenting: sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
+					if fragmenting: SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 
 func get_button_polygon(button: Button, frag_start_pos: Vector2) -> Array:
 	var rect = button.get_global_rect()
@@ -478,17 +486,25 @@ func _on_focus_entered() -> void:
 	print("focus entered")
 	if hover_cooldown <= 0.0:
 		print("playing audio")
-		sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI")
+		SFXManager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI")
 		hover_cooldown = 0.025
 
 func button_state(input_type : String, active : bool):
-	if input_type == "key":
-		if active:
-			return "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_space[/font]"
-		return "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_space_outline[/font]"
-	if active:
-		return "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_l2[/font]"
-	return "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_l2_outline[/font]"
+	var string_start = "[font=res://addons/input_prompt_icon_font/icon.ttf]"
+	var string_end = "[/font]"
+	match GlyphManager.get_device_type(input_type):
+		"key":
+			if active:
+				return string_start+"keyboard_space"+string_end
+			return string_start+"keyboard_space_outline"+string_end
+		"ps4", "playstation4", "ps", "playstation","ps5", "playstation5":
+			if active:
+				return string_start+"playstation_trigger_l2"+string_end
+			return string_start+"playstation_trigger_l2_outline"+string_end
+		_:
+			if active:
+				return string_start+"xbox_lt"+string_end
+			return string_start+"xbox_lt_outline"+string_end
 
 func preload_all_textures():
 	var buttons = []
@@ -544,7 +560,7 @@ func update_ui_display():
 		or state["p2_hover"] != prev_state["p2_hover"]):
 			if hover_cooldown <= 0.0:
 				print("playing hover sound")
-				sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI")
+				SFXManager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI")
 				hover_cooldown = 0.1
 		
 		prev_state=state
@@ -650,10 +666,10 @@ func inputs(input_device):
 		else:
 			if UI.player1.input == input_device and UI.player1.pressing:
 				UI.player1.hover_button.emit_signal("pressed")
-				if fragmenting: sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
+				if fragmenting: SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 			if UI.player2.input == input_device and UI.player2.pressing:
 				UI.player2.hover_button.emit_signal("pressed")
-				if fragmenting: sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
+				if fragmenting: SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 
 func normalize_ui_state(state: Dictionary) -> Dictionary:
 	var p1_hover = state["p1_hover"]

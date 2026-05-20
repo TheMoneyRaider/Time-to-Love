@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=56 format=3 uid="uid://divr2rf3r2i0x"]
+[gd_resource type="BehaviorTree" load_steps=61 format=3 uid="uid://divr2rf3r2i0x"]
 
 [ext_resource type="Script" uid="uid://dr4vkyorjqaqn" path="res://ai/tasks/getPlayerPos.gd" id="1_jodhf"]
 [ext_resource type="Script" uid="uid://clsympdov604o" path="res://ai/tasks/checkAgro.gd" id="2_hsdvk"]
@@ -9,6 +9,10 @@
 [ext_resource type="Script" uid="uid://danrund51c7i6" path="res://ai/tasks/chooseRandomPos.gd" id="6_2flr3"]
 [ext_resource type="Script" uid="uid://ravfjih580jj" path="res://ai/tasks/moveToPlayer.gd" id="6_arvq5"]
 [ext_resource type="Script" uid="uid://c0bvdm1o3wjaq" path="res://ai/tasks/random_cooldown.gd" id="8_arvq5"]
+[ext_resource type="Script" uid="uid://5m1bpc0r7csw" path="res://ai/tasks/play_sound.gd" id="9_v4ajl"]
+[ext_resource type="AudioStream" uid="uid://bv4o3tnqdowic" path="res://Game Elements/sfx/enemies/robot/robot1.ogg" id="10_33y05"]
+[ext_resource type="AudioStream" uid="uid://boq0vd307mxep" path="res://Game Elements/sfx/enemies/robot/robot2.ogg" id="11_gg1gn"]
+[ext_resource type="AudioStream" uid="uid://tr43tqg5h61g" path="res://Game Elements/sfx/enemies/robot/robot3.ogg" id="12_o2lsp"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_ua8f2"]
 var/state/name = &"state"
@@ -105,6 +109,7 @@ script = ExtResource("6_arvq5")
 [sub_resource type="BTAction" id="BTAction_h7qfk"]
 custom_name = "InnerRange"
 script = ExtResource("5_y6dfc")
+hit_range = 48
 
 [sub_resource type="BBNode" id="BBNode_1kwu6"]
 saved_value = NodePath("AnimationPlayer")
@@ -129,6 +134,10 @@ script = ExtResource("5_yg7nc")
 seconds = 0.1
 children = [SubResource("BTAction_4evon")]
 
+[sub_resource type="BTAction" id="BTAction_8u4ri"]
+script = ExtResource("9_v4ajl")
+sounds = Array[AudioStream]([ExtResource("10_33y05"), ExtResource("11_gg1gn"), ExtResource("12_o2lsp")])
+
 [sub_resource type="BBNode" id="BBNode_yg7nc"]
 saved_value = NodePath("AnimationPlayer")
 resource_name = "AnimationPlayer"
@@ -143,7 +152,7 @@ children = [SubResource("BTPlayAnimation_2flr3")]
 
 [sub_resource type="BTSequence" id="BTSequence_v4ajl"]
 custom_name = "Attack if in Range"
-children = [SubResource("BTAction_v4ajl"), SubResource("BTAction_yg7nc"), SubResource("BTAction_2flr3"), SubResource("BTAction_h7qfk"), SubResource("BTStopAnimation_3ccgm"), SubResource("BTPlayAnimation_4evon"), SubResource("BTDelay_1kwu6"), SubResource("BTDelay_arvq5")]
+children = [SubResource("BTAction_v4ajl"), SubResource("BTAction_yg7nc"), SubResource("BTAction_2flr3"), SubResource("BTAction_h7qfk"), SubResource("BTStopAnimation_3ccgm"), SubResource("BTPlayAnimation_4evon"), SubResource("BTDelay_1kwu6"), SubResource("BTAction_8u4ri"), SubResource("BTDelay_arvq5")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_33y05"]
 duration = 1.0

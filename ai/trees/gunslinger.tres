@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=62 format=3 uid="uid://ddgbrhr8sil1l"]
+[gd_resource type="BehaviorTree" load_steps=67 format=3 uid="uid://ddgbrhr8sil1l"]
 
 [ext_resource type="Script" uid="uid://7jhqrxgbl3q" path="res://ai/tasks/adjustTargetPos.gd" id="1_6c74n"]
 [ext_resource type="Script" uid="uid://clsympdov604o" path="res://ai/tasks/checkAgro.gd" id="2_ttuuy"]
@@ -10,6 +10,10 @@
 [ext_resource type="Script" uid="uid://ravfjih580jj" path="res://ai/tasks/moveToPlayer.gd" id="8_3h7x8"]
 [ext_resource type="Script" uid="uid://rvfhx3hd7gln" path="res://ai/tasks/attacks.gd" id="9_83bh8"]
 [ext_resource type="Script" uid="uid://danrund51c7i6" path="res://ai/tasks/chooseRandomPos.gd" id="10_r4xme"]
+[ext_resource type="Script" uid="uid://5m1bpc0r7csw" path="res://ai/tasks/play_sound.gd" id="10_ttuuy"]
+[ext_resource type="AudioStream" uid="uid://b83aim4xlvncy" path="res://Game Elements/sfx/enemies/gunslinger/gunslinger1.ogg" id="11_e13xs"]
+[ext_resource type="AudioStream" uid="uid://brdjhsl5d031q" path="res://Game Elements/sfx/enemies/gunslinger/gunslinger2.ogg" id="12_rv571"]
+[ext_resource type="AudioStream" uid="uid://7qc3udrji1dg" path="res://Game Elements/sfx/enemies/gunslinger/gunslinger3.ogg" id="13_j6oj5"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_ua8f2"]
 var/state/name = &"state"
@@ -131,7 +135,7 @@ resource_name = "AnimationPlayer"
 animation_player = SubResource("BBNode_6xbjc")
 animation_name = &"attack"
 
-[sub_resource type="BTAction" id="BTAction_6c74n"]
+[sub_resource type="BTAction" id="BTAction_e13xs"]
 script = ExtResource("9_83bh8")
 
 [sub_resource type="BTAction" id="BTAction_861og"]
@@ -142,11 +146,16 @@ seconds = 0.05
 children = [SubResource("BTAction_861og")]
 
 [sub_resource type="BTSequence" id="BTSequence_sangl"]
-children = [SubResource("BTAction_6c74n"), SubResource("BTDelay_ttuuy")]
+children = [SubResource("BTAction_e13xs"), SubResource("BTDelay_ttuuy")]
 
 [sub_resource type="BTDelay" id="BTDelay_arvq5"]
 seconds = 0.3
 children = [SubResource("BTSequence_sangl")]
+
+[sub_resource type="BTAction" id="BTAction_sangl"]
+script = ExtResource("10_ttuuy")
+sounds = Array[AudioStream]([ExtResource("11_e13xs"), ExtResource("12_rv571"), ExtResource("13_j6oj5")])
+volume_db = -6.0
 
 [sub_resource type="BBNode" id="BBNode_76wjc"]
 saved_value = NodePath("AnimationPlayer")
@@ -162,7 +171,7 @@ children = [SubResource("BTPlayAnimation_ppdyw")]
 
 [sub_resource type="BTSequence" id="BTSequence_v4ajl"]
 custom_name = "Attack if in Range"
-children = [SubResource("BTAction_v4ajl"), SubResource("BTAction_yg7nc"), SubResource("BTAction_2flr3"), SubResource("BTAction_h7qfk"), SubResource("BTStopAnimation_3ccgm"), SubResource("BTPlayAnimation_4evon"), SubResource("BTDelay_arvq5"), SubResource("BTDelay_1ufl2")]
+children = [SubResource("BTAction_v4ajl"), SubResource("BTAction_yg7nc"), SubResource("BTAction_2flr3"), SubResource("BTAction_h7qfk"), SubResource("BTStopAnimation_3ccgm"), SubResource("BTPlayAnimation_4evon"), SubResource("BTDelay_arvq5"), SubResource("BTAction_sangl"), SubResource("BTDelay_1ufl2")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_33y05"]
 duration = 1.0

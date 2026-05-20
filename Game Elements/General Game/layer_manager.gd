@@ -88,6 +88,14 @@ var weapon_select_sounds = [
 	preload("res://Game Elements/sfx/weapons/selection/selection5.wav"),
 ]
 
+var cactus_explosion_sound = [
+	preload("res://Game Elements/sfx/weapons/selection/selection1.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection2.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection3.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection4.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection5.wav")
+]
+
 func _ready() -> void:
 	RemnantManager.has_gotten_remnant = false
 	$LettersPopup.modulate.a=0.0
@@ -97,7 +105,7 @@ func _ready() -> void:
 	hud.set_players(player1,player2)
 	hud.connect_signals(player1)
 	hud.set_cross_position()
-	dev_remnants()
+	#dev_remnants()
 	
 	
 	
@@ -208,7 +216,9 @@ func _process(delta: float) -> void:
 	hud.set_cooldowns()
 	
 	if Input.is_action_just_pressed("Feedback"):
-		var total_save_time = get_node("DeathMenu").total_time
+		var total_save_time = 0
+		if(!get_node("DeathMenu").active):
+			total_save_time = get_node("DeathMenu").total_time
 		for i in range(3):
 			total_save_time += _load_save_time(i)
 		var progress : String = str(Globals.save_state.total_progress+RoomManager.layer_ai[3] + time_passed)
@@ -354,7 +364,7 @@ func play_timeline_music() -> void:
 		else:
 			active_theme = themes[2]
 	
-	music_manager.play_theme(active_theme)
+	MusicManager.play_theme(active_theme)
 
 func create_new_rooms() -> void:
 	if thread_running:
@@ -645,7 +655,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 			if(node.enabled == true):
 				if player_reference in node.tracked_bodies:
 					player_reference.update_weapon(node.weapon_type)
-					sfx_manager.play(weapon_select_sounds[randi() % weapon_select_sounds.size()], -4.0)
+					SFXManager.play(weapon_select_sounds[randi() % weapon_select_sounds.size()], -4.0)
 					hud.set_cooldown_icons()
 					return true
 		if node.is_in_group("letter"):
@@ -818,7 +828,7 @@ func _attempt_health_reward(pathway_to_randomize : Node) -> void:
 	if prev_reward_type == Globals.Reward.Shop or prev_reward_type == Globals.Reward.Boss:
 		return
 	if(percent_health_missing() > .5):
-		if(randf() < percent_health_missing()):
+		if(randf() < percent_health_missing()*2.0-1.0):
 			reward_type1 = Globals.Reward.Health
 			reward_type2 = Globals.Reward.Health
 			pathway_to_randomize.set_reward(reward_type1,wave,reward_type2)
@@ -923,9 +933,6 @@ func _choose_reward(pathway_name : String, reward_setter : int = -1) -> void:
 					5:
 						wave = true
 						reward_num[reward_value] = reward_num[reward_value] * .1
-					#6:
-					#	reward_type1 = Globals.Reward.NewWeapon
-					#	reward_num[reward_value] = reward_num[reward_value]/2.0
 			if wave and reward_type2==null and reward_type1!=null: #Get two rewards
 				reward_type2 = reward_type1
 				reward_type1 = null
@@ -1004,7 +1011,8 @@ func _enemy_to_timefabric(enemy : Node,direction : Vector2, amount_range : Vecto
 	if enemy.enemy_type=="binary_bot":
 		var locations = enemy.get_node("Core")._return_glyph_locations()
 		for loc in locations:
-			_place_timefabric(randi()%6,Vector2i.ZERO,loc,direction)
+			if(randf() < amount_range[1] / len(locations)):
+				_place_timefabric(randi()%6,Vector2i.ZERO,loc,direction)
 		return
 	var sprites = enemy.displays
 	var total_area = 0.0
@@ -1094,7 +1102,7 @@ func _place_timefabric(time_idx : int, offset : Vector2i, current_position : Vec
 	timefabric_instance.set_direction(direction)
 	timefabric_instance.set_process(true)
 	timefabric_instance.absorbed_by_player.connect(_on_timefabric_absorbed)
-	# sfx_manager.play(preload("res://Game Elements/sfx/enemies/time_fabric/drop1.ogg"))
+	# SFXManager.play(preload("res://Game Elements/sfx/enemies/time_fabric/drop1.ogg"))
 	return
 
 func _score_timefabric_placement(pixels_to_cover : Dictionary, timefabric_pixels : Array, timefabric_idx : int,offset : Vector2i) -> float:
@@ -1150,7 +1158,7 @@ func _prepare_timefabric() -> void:
 func _open_remnant_popup() -> void:
 	if room_instance and !remnant_offer_popup:
 		
-		sfx_manager.play(preload("res://Game Elements/sfx/world/display_remnants.ogg"))
+		SFXManager.play(preload("res://Game Elements/sfx/world/display_remnants.ogg"))
 		
 		var offer_scene = preload("res://Game Elements/ui/remnant_offer.tscn")
 		remnant_offer_popup = offer_scene.instantiate()
@@ -1352,8 +1360,8 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 		if is_multiplayer:
 			player2.disabled = true
 		
-		sfx_manager.play(preload("res://Game Elements/sfx/world/room_transition2.ogg"), 5.0)
-		music_manager.quite_music(3.4)
+		SFXManager.play(preload("res://Game Elements/sfx/world/room_transition2.ogg"), 5.0)
+		MusicManager.quite_music(3.4)
 		var particles = load("res://Game Elements/Particles/pathway_particles.tscn").instantiate()
 		PathwayTransition.global_position = pathway.global_position
 		PathwayViewport.add_child(particles)
@@ -1675,12 +1683,24 @@ func _on_enemy_take_damage(damage : float,current_health : float,enemy : Node, d
 					node.clear_effects()
 				node.queue_free()
 		if(enemy.exploded != 0):
-			var attack_instance = preload("res://Game Elements/Attacks/explosion.tscn").instantiate()
-			attack_instance.damage = enemy.exploded
-			attack_instance.scale = attack_instance.scale * ((enemy.exploded) / 4)
-			attack_instance.c_owner = enemy.last_hitter
-			attack_instance.global_position = enemy.global_position
-			room_instance.call_deferred("add_child",attack_instance)
+			var remnants : Array[Remnant]
+			if enemy.last_hitter.is_purple:
+				remnants = player_1_remnants
+			else:
+				remnants = player_2_remnants
+			var killer = preload("res://Game Elements/Remnants/killer.tres")
+			var killer_chance = 0
+			for rem in remnants:
+				if rem.remnant_name == killer.remnant_name and rem.active:
+					killer_chance =  rem.variable_1_values[rem.rank -1 ] / 100.0
+			var num_times = 2 if(randf() < killer_chance) else 1
+			for i in range(num_times):
+				var attack_instance = preload("res://Game Elements/Attacks/explosion.tscn").instantiate()
+				attack_instance.damage = enemy.exploded
+				attack_instance.scale = attack_instance.scale * ((enemy.exploded) / 4)
+				attack_instance.c_owner = enemy.last_hitter
+				attack_instance.global_position = enemy.global_position
+				room_instance.call_deferred("add_child",attack_instance)
 		if(enemy.purple_explode):
 			var attack_instance = load("res://Game Elements/Attacks/enemy_explosion.tscn").instantiate()
 			attack_instance.modulate = Color("bb20ff")
@@ -1691,6 +1711,7 @@ func _on_enemy_take_damage(damage : float,current_health : float,enemy : Node, d
 			room_instance.call_deferred("add_child",attack_instance)
 			has_death_attack = true
 		if(enemy.cactus_explode):
+			SFXManager.play(cactus_explosion_sound[randi() % cactus_explosion_sound.size()], -6.0)
 			var attack_direction
 			if(enemy.last_hitter != null):
 				attack_direction = (enemy.last_hitter.global_position - enemy.global_position).normalized()
@@ -1862,12 +1883,14 @@ func _on_healthpickup_absorbed(player_node : Node, health_node : Node):
 	var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 	particle.global_position = player_node.global_position
 	room_instance.add_child(particle)
-	player_node.change_health(2.5)
+	var healed = 2.5
+	healed = max(2.5,player_node.max_health * .2)
+	player_node.change_health(healed)
 	health_node.queue_free()
 
 func _on_timefabric_absorbed(timefabric_node : Node):
 	timefabric_collected+=1
-	sfx_manager.play(timefabric_collected_sounds[randi() % timefabric_collected_sounds.size()], 0.0)
+	SFXManager.play(timefabric_collected_sounds[randi() % timefabric_collected_sounds.size()], 0.0)
 	RoomManager.layer_ai[12]+=1
 	timefabric_node.queue_free()
 	
@@ -1963,6 +1986,14 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 
 func dev_remnants():
 	var rem
+	rem = load("res://Game Elements/Remnants/trickster.tres")
+	rem.rank = 3
+	player_1_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/trickster.tres")
+	rem.rank = 1
+	player_2_remnants.append(rem.duplicate(true))
+	#player_2_remnants.append(rem.duplicate(true))
+	
 	rem = load("res://Game Elements/Remnants/lawman.tres")
 	rem.rank = 1
 	player_1_remnants.append(rem.duplicate(true))
@@ -2132,5 +2163,5 @@ func boss_rewards():
 func _notification(what: int) -> void:
 	match what:
 		NOTIFICATION_WM_WINDOW_FOCUS_OUT:
-			if !pause.active and !camera_override and !transitioning and !remnant_offer_popup and !remnant_upgrade_popup and hud.get_node("../PauseMenu").pause_cooldown == 0:
+			if !get_node("DeathMenu").active and !pause.active and !camera_override and !transitioning and !remnant_offer_popup and !remnant_upgrade_popup and hud.get_node("../PauseMenu").pause_cooldown == 0:
 				pause.activate()

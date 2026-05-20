@@ -47,20 +47,28 @@ func _process(_delta: float) -> void:
 	var CIRCLE_RADIUS = 70
 	
 	if player_input_device == "key":
-		var effective_clamping_radius = CIRCLE_RADIUS / mouse_sensitivity
 		
-		if((mouse_coords - player.global_position).length() < effective_clamping_radius ):
-			var mouse_offset = mouse_coords - player.global_position
-			var scaled_offset = mouse_offset * mouse_sensitivity
-			global_position = player.global_position + scaled_offset
-		else:
-			var clamped_offset = direction * CIRCLE_RADIUS
-			global_position = player.global_position + clamped_offset
-			
-			if mouse_clamping_enabled:
-				var unscaled_offset = clamped_offset / mouse_sensitivity
-				var target_mouse_world = player.global_position + unscaled_offset
-				var screen_pos = camera.get_viewport().get_screen_transform() * camera.get_canvas_transform() * target_mouse_world
-				Input.warp_mouse(screen_pos)
+		global_position = mouse_coords
+		
+		#var effective_clamping_radius = CIRCLE_RADIUS / mouse_sensitivity
+		#
+		#if((mouse_coords - player.global_position).length() < effective_clamping_radius ):
+			#var mouse_offset = mouse_coords - player.global_position
+			#var scaled_offset = mouse_offset * mouse_sensitivity
+			#global_position = player.global_position + scaled_offset
+		#else:
+			#var clamped_offset = direction * CIRCLE_RADIUS
+			#global_position = player.global_position + clamped_offset
+			#
+			#if mouse_clamping_enabled:
+				#var unscaled_offset = clamped_offset / mouse_sensitivity
+				#var target_mouse_world = player.global_position + unscaled_offset
+				#var screen_pos = camera.get_viewport().get_screen_transform() * camera.get_canvas_transform() * target_mouse_world
+				#Input.warp_mouse(screen_pos)
 	else:
-		position = (crosshair_direction * 50)
+		if(player.weapons[player.is_purple as int].type == "Laser_Sword"):
+			position = (crosshair_direction * 35)
+		elif(player.weapons[player.is_purple as int].type == "Mace" or player.weapons[player.is_purple as int].type == "Crowbar" or player.weapons[player.is_purple as int].type == "Fist"):
+			position = (crosshair_direction * 25)
+		else:
+			position = (crosshair_direction * 50)

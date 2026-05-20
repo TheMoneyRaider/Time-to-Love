@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://tr43tqg5h61g"
+path="res://.godot/imported/robot3.ogg-26019088ebe37a5d11df52e050511e35.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/enemies/robot/robot3.ogg"
+dest_files=["res://.godot/imported/robot3.ogg-26019088ebe37a5d11df52e050511e35.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

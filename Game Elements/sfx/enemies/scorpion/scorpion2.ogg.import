@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bbhlpotkuml2o"
+path="res://.godot/imported/scorpion2.ogg-3fe69aa496485b8baf2b8eae02c774f7.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/enemies/scorpion/scorpion2.ogg"
+dest_files=["res://.godot/imported/scorpion2.ogg-3fe69aa496485b8baf2b8eae02c774f7.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
