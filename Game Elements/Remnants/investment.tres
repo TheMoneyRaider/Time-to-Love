@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("1_2aym4")
 remnant_name = "Remnant of The Investor"
-description = "You will gain $X% of the timefabric you have when you enter a new combat node. When you take damage, lose $Y% of your timefabric."
+description = "You will gain $X% of the timefabric you have when you time travel. When you take damage, lose $Y% of your timefabric."
 icon = ExtResource("2_tbyxe")
 art = ExtResource("1_7vt4b")
 progress_required = 2.0
