@@ -76,7 +76,7 @@ func state_change():
 
 
 func activate():
-	input_delay = 2.0
+	input_delay = .75
 	active = true
 	state_change()
 	if(getting_time):
@@ -234,6 +234,7 @@ func play_replay_reverse():
 	end_replay()
 
 func test_play_replay_reverse():
+	SFXManager.play(preload("res://Game Elements/sfx/world/rewind.ogg"),0.0,"SFX")
 	var reusable_texture := ImageTexture.new()
 	#Variables
 	var elapsed_frames = 0
