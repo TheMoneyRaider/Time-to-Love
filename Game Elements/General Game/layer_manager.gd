@@ -171,8 +171,8 @@ func _ready() -> void:
 	play_timeline_music()
 	room_cleared = true
 	reward_claimed = true
-	#if Globals.has_gotten_tutorial:
-	_enable_pathways()
+	if Globals.has_gotten_tutorial:
+		_enable_pathways()
 
 func _load_save_time(idx: int) -> float:
 	var path = Globals.save_dir + "save_%d.res" % idx
@@ -1352,7 +1352,6 @@ func _finalize_room_creation(next_room_instance: Node2D, next_room_data: Room, d
 var transitioning : bool = false
 func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	time_in_room = 0
-	hud.disable_tutorial()
 	var shido1 = 0.0
 	var shido2 = 0.0
 	var player1_ranked_up : Array[String] = []
@@ -1905,7 +1904,6 @@ func _on_timefabric_absorbed(timefabric_node : Node):
 	
 func _on_activate(player_node : Node):
 	if room_instance:
-		print("ehy")
 		if check_reward(room_instance, room_instance_data,player_node):
 			return
 		if room_instance_data.roomtype == Globals.RoomType.Shop and room_instance.get_node("Shop").check_rewards(player_node):

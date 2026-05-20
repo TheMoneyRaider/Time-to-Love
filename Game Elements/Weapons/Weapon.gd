@@ -594,6 +594,8 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 					node_attacking.emit_signal("special_changed",true,0.0,true)
 			_:
 				pass
+		
+		TutorialManager.player_specials(node_attacking.is_purple,1.0)
 		special_cleanup()
 
 func cast_ray(origin: Vector2, direction: Vector2, distance: float, player_node : Node) -> Dictionary:

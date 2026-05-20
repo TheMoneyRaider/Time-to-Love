@@ -76,7 +76,7 @@ func state_change():
 
 
 func activate():
-	input_delay = 2.0
+	input_delay = .75
 	active = true
 	state_change()
 	if(getting_time):
@@ -181,6 +181,7 @@ func _on_replay_pressed():
 	if(rewind_mode == 2):
 		end_replay()
 		return
+	SFXManager.play(preload("res://Game Elements/sfx/world/rewind.ogg"),0.0,"SFX")
 	var now := Time.get_time_dict_from_system()
 	#play_replay_reverse() TEST
 	if(rewind_mode == 0):
