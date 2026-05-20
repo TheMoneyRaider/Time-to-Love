@@ -1989,6 +1989,9 @@ func dev_remnants():
 	rem = load("res://Game Elements/Remnants/trickster.tres")
 	rem.rank = 3
 	player_1_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/trickster.tres")
+	rem.rank = 1
+	player_2_remnants.append(rem.duplicate(true))
 	#player_2_remnants.append(rem.duplicate(true))
 	
 	rem = load("res://Game Elements/Remnants/lawman.tres")

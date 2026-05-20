@@ -53,23 +53,23 @@ func _set_drifter_text(player1_remnants_in, player2_remnants_in):
 	if(Globals.is_multiplayer):
 		if(tricky1 != 0 && tricky2 != 0):
 			if(tricky1 < tricky2):
-				var glyph_key = "special"+Globals.player1_input
+				var glyph_key = "special_"+Globals.player1_input
 				$Control/DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+": Reroll for "+str(tricky1)+"  "
 			else:
-				var glyph_key = "special"+Globals.player2_input
+				var glyph_key = "special_"+Globals.player2_input
 				$Control/DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player2_input),glyph_key)+": Reroll for "+str(tricky2)+"  "
 		elif (tricky1 != 0):
-			var glyph_key = "special"+Globals.player1_input
+			var glyph_key = "special_"+Globals.player1_input
 			$Control/DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+": Reroll for "+str(tricky1)+"  "
 		elif(tricky2 != 0):
-			var glyph_key = "special"+Globals.player2_input
+			var glyph_key = "special_"+Globals.player2_input
 			$Control/DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player2_input),glyph_key)+": Reroll for "+str(tricky2)+"  "
 	else:
 		if(is_purple && tricky1 != 0):
-			var glyph_key = "special"+Globals.player1_input
+			var glyph_key = "special_"+Globals.player1_input
 			$Control/DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+": Reroll for "+str(tricky1)+"  "
 		elif(!is_purple && tricky2 != 0):
-			var glyph_key = "special"+Globals.player1_input
+			var glyph_key = "special_"+Globals.player1_input
 			$Control/DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+": Reroll for "+str(tricky2)+"  "
 	if Globals.total_progress < 1.0 and !RemnantManager.has_gotten_remnant:
 		$Control/DrifterText/Label.text = "Chose a Remnant for each Character"
