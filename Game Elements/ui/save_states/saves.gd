@@ -65,6 +65,7 @@ func _save1_select_pressed() -> void:
 	Globals.total_progress = Globals.save_state.total_progress
 	Globals.weapon1 = Globals.save_state.weapon1
 	Globals.weapon2 = Globals.save_state.weapon2
+	Globals.has_gotten_tutorial = Globals.save_state.has_gotten_tutorial
 	highlight_state()
 
 func _save2_select_pressed() -> void:
@@ -74,6 +75,7 @@ func _save2_select_pressed() -> void:
 	Globals.total_progress = Globals.save_state.total_progress
 	Globals.weapon1 = Globals.save_state.weapon1
 	Globals.weapon2 = Globals.save_state.weapon2
+	Globals.has_gotten_tutorial = Globals.save_state.has_gotten_tutorial
 	highlight_state()
 
 func _save3_select_pressed() -> void:
@@ -83,6 +85,7 @@ func _save3_select_pressed() -> void:
 	Globals.total_progress = Globals.save_state.total_progress
 	Globals.weapon1 = Globals.save_state.weapon1
 	Globals.weapon2 = Globals.save_state.weapon2
+	Globals.has_gotten_tutorial = Globals.save_state.has_gotten_tutorial
 	highlight_state()
 
 func _on_delete1_pressed() -> void:

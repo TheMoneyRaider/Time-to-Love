@@ -171,7 +171,8 @@ func _ready() -> void:
 	play_timeline_music()
 	room_cleared = true
 	reward_claimed = true
-	_enable_pathways()
+	if Globals.has_gotten_tutorial:
+		_enable_pathways()
 
 func _load_save_time(idx: int) -> float:
 	var path = Globals.save_dir + "save_%d.res" % idx
@@ -600,6 +601,11 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 		match node.name:
 			"Shop":
 				var vision = generated_room.get_node("Shop/VisionNPC") as Area2D
+				if player_reference in vision.tracked_bodies:
+					vision.activate()
+					return true
+			"Tutorial":
+				var vision = node.get_node("VisionNPC") as Area2D
 				if player_reference in vision.tracked_bodies:
 					vision.activate()
 					return true

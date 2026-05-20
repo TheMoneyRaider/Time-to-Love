@@ -38,7 +38,8 @@ func _process(delta: float) -> void:
 
 
 func activate() -> void:
-	pass
+	Globals.has_gotten_tutorial =true
+	get_tree().get_root().get_node("LayerManager")._enable_pathways()
 
 
 # -- Private ------------------------------------------------------------------

@@ -15,7 +15,7 @@ var save_dir := "user://saves/"
 var cinematic_viewed : bool = false
 var weapon1 : String = "res://Game Elements/Weapons/Fist.tres"
 var weapon2 : String = "res://Game Elements/Weapons/Fist.tres"
-
+var has_gotten_tutorial : bool = false
 enum MenuState {Western, Space, Medieval}
 
 enum RoomVariant {MedOut, MedIn, WesternCanyon, WesternTown, SciFiCyberspace, SciFiFactory}
@@ -75,6 +75,7 @@ func load_config():
 	total_progress = save_state.total_progress
 	weapon1 = save_state.weapon1
 	weapon2 = save_state.weapon2
+	has_gotten_tutorial = save_state.has_gotten_tutorial
 
 func apply_audio_settings():
 	var bus_map = {
@@ -95,6 +96,7 @@ func save_config():
 	save_state.total_progress = total_progress
 	save_state.weapon1 = weapon1
 	save_state.weapon2 = weapon2
+	save_state.has_gotten_tutorial = has_gotten_tutorial
 	#DirAccess.make_dir_recursive_absolute(save_dir)  # ensure it exists every time
 	var err = ResourceSaver.save(save_state, _save_path())
 	if err != OK:
