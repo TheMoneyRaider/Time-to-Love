@@ -171,8 +171,8 @@ func _ready() -> void:
 	play_timeline_music()
 	room_cleared = true
 	reward_claimed = true
-	if Globals.has_gotten_tutorial:
-		_enable_pathways()
+	#if Globals.has_gotten_tutorial:
+	_enable_pathways()
 
 func _load_save_time(idx: int) -> float:
 	var path = Globals.save_dir + "save_%d.res" % idx
@@ -387,6 +387,7 @@ func create_new_rooms() -> void:
 	room_gen_thread.start(_thread_generate_rooms.bind(room_instance_data))
 
 func check_pathways(generated_room : Node2D, generated_room_data : Room, player_reference : Node, is_special_action : bool = false) -> int:
+	print("HEYYYy")
 	var pathway_name= ""
 	var direction_count = [0,0,0,0]
 	for p_direct in generated_room_data.pathway_direction:
@@ -1904,6 +1905,7 @@ func _on_timefabric_absorbed(timefabric_node : Node):
 	
 func _on_activate(player_node : Node):
 	if room_instance:
+		print("ehy")
 		if check_reward(room_instance, room_instance_data,player_node):
 			return
 		if room_instance_data.roomtype == Globals.RoomType.Shop and room_instance.get_node("Shop").check_rewards(player_node):

@@ -32,6 +32,7 @@ func activate() -> void:
 	get_parent().open_shop()
 	prompt1.visible = false
 	open=true
+	tracked_bodies = []
 
 func _on_body_entered(body):
 	if open: return
