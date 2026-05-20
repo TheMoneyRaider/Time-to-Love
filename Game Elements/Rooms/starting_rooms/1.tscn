@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://b0nj6mcov83rs"]
+[gd_scene load_steps=15 format=4 uid="uid://b0nj6mcov83rs"]
 
 [ext_resource type="Script" uid="uid://00rnhke2atmb" path="res://Game Elements/Rooms/room_script.gd" id="1_idoy2"]
 [ext_resource type="Shader" uid="uid://38vxobsuweed" path="res://Game Elements/General Game/limbo/limbo_effect.gdshader" id="2_fiu42"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://ccwiql3bybf2p" path="res://Game Elements/Objects/pathway.tscn" id="7_x7lq3"]
 [ext_resource type="PackedScene" uid="uid://dyqkjcho73h2u" path="res://Game Elements/Objects/new_weapon.tscn" id="8_4ffge"]
 [ext_resource type="PackedScene" uid="uid://btojf6nei1gep" path="res://Game Elements/Characters/dummy.tscn" id="9_gmi5b"]
+[ext_resource type="PackedScene" uid="uid://dpuhgipplei32" path="res://Game Elements/Objects/tutorial/tutorial.tscn" id="10_jdadq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lv7v3"]
 shader = ExtResource("2_fiu42")
@@ -103,4 +104,7 @@ weapon_type = "Crossbow"
 position = Vector2(166, 187)
 
 [node name="Dummy" parent="." instance=ExtResource("9_gmi5b")]
-position = Vector2(-60, 194)
+position = Vector2(-75, 259)
+
+[node name="Tutorial" parent="." instance=ExtResource("10_jdadq")]
+position = Vector2(-75, 161)
