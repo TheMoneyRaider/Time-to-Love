@@ -49,16 +49,27 @@ func _set_drifter_text(player1_remnants_in, player2_remnants_in):
 				drifter.remnant_name:
 					tricky2 = (rem.variable_1_values[rem.rank -1])
 					$DrifterText.visible = true
-	if(is_purple && tricky1 != 0):
-		if  Globals.player1_input == "key":
-			$DrifterText/Label.text =  "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_f_outline[/font]: Reroll for "+str(tricky1)+"  "
-		else:
-			$DrifterText/Label.text =  "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_triangle_outline[/font]: Reroll for "+str(tricky1)+"  "
-	elif(!is_purple && tricky2 != 0):
-		if  Globals.player1_input == "key":
-			$DrifterText/Label.text =  "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_f_outline[/font]: Reroll for "+str(tricky2)+"  "
-		else:
-			$DrifterText/Label.text =  "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_triangle_outline[/font]: Reroll for "+str(tricky2)+"  "
+	if(Globals.is_multiplayer):
+		if(tricky1 != 0 && tricky2 != 0):
+			if(tricky1 < tricky2):
+				var glyph_key = "special_"+Globals.player1_input
+				$DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+": Reroll for "+str(tricky1)+"  "
+			else:
+				var glyph_key = "special_"+Globals.player2_input
+				$DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player2_input),glyph_key)+": Reroll for "+str(tricky2)+"  "
+		elif (tricky1 != 0):
+			var glyph_key = "special_"+Globals.player1_input
+			$DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+": Reroll for "+str(tricky1)+"  "
+		elif(tricky2 != 0):
+			var glyph_key = "special_"+Globals.player2_input
+			$DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player2_input),glyph_key)+": Reroll for "+str(tricky2)+"  "
+	else:
+		if(is_purple && tricky1 != 0):
+			var glyph_key = "special_"+Globals.player1_input
+			$DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+": Reroll for "+str(tricky1)+"  "
+		elif(!is_purple && tricky2 != 0):
+			var glyph_key = "special_"+Globals.player1_input
+			$DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+": Reroll for "+str(tricky2)+"  "
 func _slice_frames() -> void:
 	frames.clear()
 
@@ -230,13 +241,16 @@ func inputs(input_device : String, is_player_1 : bool):
 	if !is_purple:
 		is_player_1=!is_player_1
 	if player2_remnants != [] and (tricky1 + tricky2) != 0 and Input.is_action_just_pressed("special_" + input_device):
+		var cost = max(tricky1,tricky2)
+		if(tricky1 != 0 and tricky1 !=0):
+			cost = min(tricky1,tricky2)
 		if(is_player_1 && tricky1 != 0):
-			if($"../../".timefabric_collected >= int(tricky1)):
-				$"../../".timefabric_collected-=int(tricky1)
+			if($"../../".timefabric_collected >= int(cost)):
+				$"../../".timefabric_collected-=int(cost)
 				popup_upgrade(player1_remnants,player2_remnants)
 		elif(!is_player_1 && tricky2 != 0):
-			if($"../../".timefabric_collected >= int(tricky2)):
-				$"../../".timefabric_collected-=int(tricky2)
+			if($"../../".timefabric_collected >= int(cost)):
+				$"../../".timefabric_collected-=int(cost)
 				popup_upgrade(player1_remnants,player2_remnants)
 			
 	if(input_device == "key"):

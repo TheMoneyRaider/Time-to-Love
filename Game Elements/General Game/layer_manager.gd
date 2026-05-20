@@ -105,7 +105,7 @@ func _ready() -> void:
 	hud.set_players(player1,player2)
 	hud.connect_signals(player1)
 	hud.set_cross_position()
-	#dev_remnants()
+	dev_remnants()
 	
 	
 	
@@ -1683,12 +1683,24 @@ func _on_enemy_take_damage(damage : float,current_health : float,enemy : Node, d
 					node.clear_effects()
 				node.queue_free()
 		if(enemy.exploded != 0):
-			var attack_instance = preload("res://Game Elements/Attacks/explosion.tscn").instantiate()
-			attack_instance.damage = enemy.exploded
-			attack_instance.scale = attack_instance.scale * ((enemy.exploded) / 4)
-			attack_instance.c_owner = enemy.last_hitter
-			attack_instance.global_position = enemy.global_position
-			room_instance.call_deferred("add_child",attack_instance)
+			var remnants : Array[Remnant]
+			if enemy.last_hitter.is_purple:
+				remnants = player_1_remnants
+			else:
+				remnants = player_2_remnants
+			var killer = preload("res://Game Elements/Remnants/killer.tres")
+			var killer_chance = 0
+			for rem in remnants:
+				if rem.remnant_name == killer.remnant_name and rem.active:
+					killer_chance =  rem.variable_1_values[rem.rank -1 ] / 100.0
+			var num_times = 2 if(randf() < killer_chance) else 1
+			for i in range(num_times):
+				var attack_instance = preload("res://Game Elements/Attacks/explosion.tscn").instantiate()
+				attack_instance.damage = enemy.exploded
+				attack_instance.scale = attack_instance.scale * ((enemy.exploded) / 4)
+				attack_instance.c_owner = enemy.last_hitter
+				attack_instance.global_position = enemy.global_position
+				room_instance.call_deferred("add_child",attack_instance)
 		if(enemy.purple_explode):
 			var attack_instance = load("res://Game Elements/Attacks/enemy_explosion.tscn").instantiate()
 			attack_instance.modulate = Color("bb20ff")
@@ -1974,11 +1986,13 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 
 func dev_remnants():
 	var rem
-	
-	rem = load("res://Game Elements/Remnants/forcefield.tres")
-	rem.rank = 5
+	rem = load("res://Game Elements/Remnants/trickster.tres")
+	rem.rank = 3
 	player_1_remnants.append(rem.duplicate(true))
+	rem = load("res://Game Elements/Remnants/trickster.tres")
+	rem.rank = 1
 	player_2_remnants.append(rem.duplicate(true))
+	#player_2_remnants.append(rem.duplicate(true))
 	
 	rem = load("res://Game Elements/Remnants/lawman.tres")
 	rem.rank = 1

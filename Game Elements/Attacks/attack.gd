@@ -261,6 +261,10 @@ func _process(delta):
 	if attack_type != "slug":
 		position += direction * speed * delta
 	life+=delta
+	if attack_type == "punch":
+		get_node("CollisionShape2D").shape.height = lerp(9,18, life/lifespan)
+		if life < .1:
+			get_node("CollisionShape2D").disabled = true
 	if attack_type == "smash":
 		get_node("CollisionShape2D").shape.radius = lerp(8,16,life/lifespan)
 		if life < .15:
@@ -354,7 +358,8 @@ func intersection(body):
 				if attack_type!= "laser" and attack_type!= "scifi_laser" and attack_type!= "binary_melee" and attack_type!= "tentacle":
 					hit_nodes[body] = null
 				if(attack_type == "giant_bolt"):
-					drag_along.append(body)
+					if(!body.is_boss and !body.enemy_type == "laser_e"):
+						drag_along.append(body)
 			0:
 				pass
 			-1:

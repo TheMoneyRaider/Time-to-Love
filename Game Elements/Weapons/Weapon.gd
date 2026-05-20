@@ -147,7 +147,7 @@ func request_attacks(direction : Vector2, char_position : Vector2, node_attackin
 		var gambler = preload("res://Game Elements/Remnants/gambler.tres")
 		for rem in remnants:
 			if rem.remnant_name == gambler.remnant_name:
-				if(type == "Mace" or type == "Laser_Sword" or type=="Crowbar"):
+				if(type == "Mace" or type == "Laser_Sword" or type=="Crowbar" or type =="Fist"):
 					attack_spread = rem.variable_1_values[rem.rank-1] * 3
 				else:
 					attack_spread = rem.variable_1_values[rem.rank-1]
@@ -546,6 +546,13 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 					node_attacking.emit_signal("special_changed",false,0.0,true)
 				else:
 					node_attacking.emit_signal("special_changed",true,0.0,true)
+			"Fist":
+				fist_special_attack(special_direction, special_position, node_attacking)
+				current_special_hits = 0
+				if node_attacking.weapons[0] == self:
+					node_attacking.emit_signal("special_changed",false,0.0,true)
+				else:
+					node_attacking.emit_signal("special_changed",true,0.0,true)
 			"Shotgun":
 				shotgun_special_attack(special_direction)
 				current_special_hits = 0
@@ -610,6 +617,11 @@ func mace_special_attack(attack_direction : Vector2, attack_position : Vector2):
 	apply_remnants(instance)
 	instance.is_purple = c_owner.is_purple if c_owner.is_in_group("player") else false
 	c_owner.get_tree().get_root().get_node("LayerManager").room_instance.add_child(instance)
+
+func fist_special_attack(attack_direction : Vector2, attack_position : Vector2, node_attacking : Node):
+	for i in range(0,10):
+		request_attacks(attack_direction, attack_position, node_attacking)
+		await c_owner.get_tree().create_timer(.05).timeout
 
 func shotgun_special_attack(attack_direction : Vector2):
 	for i in range(0,72):

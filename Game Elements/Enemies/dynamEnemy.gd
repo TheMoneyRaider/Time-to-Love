@@ -14,6 +14,7 @@ extends CharacterBody2D
 @export var min_sprint_cooldown : float = 3.0
 @export var max_sprint_cooldown : float = 6.0
 @export var sprint_multiplier : float = 2.0
+@onready var current_liquid_time: float = 0.0
 var current_health: float = 10.0
 @export var move_speed: float = 70
 @onready var current_dmg_time: float = 0.0
@@ -497,11 +498,12 @@ func apply_hydromancer(rem : Remnant, attack_body : Node, mancer_value : int):
 				effect.gained(self)
 				effects.append(effect)
 		Globals.Liquid.Glitch:
-			var glitch_dir = attack_body.direction
-			glitch_dir.rotated(randf_range(-15,15))
-			@warning_ignore("integer_division")
-			for i in range(0, 2 * rem.rank + (mancer_value / 2)):
-				_glitch_move(glitch_dir.normalized() * 8 * i)
+			if(!enemy_type == "laser_e" or is_boss):
+				var glitch_dir = attack_body.direction
+				glitch_dir.rotated(randf_range(-15,15))
+				@warning_ignore("integer_division")
+				for i in range(0, 2 * rem.rank + (mancer_value / 2)):
+					_glitch_move(glitch_dir.normalized() * 8 * i)
 			effect = preload("res://Game Elements/Effects/stun.tres").duplicate()
 			@warning_ignore("integer_division")
 			effect.cooldown = (rem.rank + (mancer_value / 2)) / 4.0
@@ -557,7 +559,22 @@ func check_liquids(delta):
 					position+=tile_data.get_custom_data("direction").normalized() *delta * 32
 				Globals.Liquid.Glitch:
 					_glitch_move()
-
+				Globals.Liquid.Lava:
+					var idx = 0
+					for effect in effects:
+						if effect.type == "slow":
+							var particle =  preload("res://Game Elements/Particles/steam_particles.tscn").instantiate()
+							#particle.position = self.position
+							self.add_child(particle)
+							effect.tick(delta,self)
+							if effect.cooldown == 0:
+								effects.remove_at(idx)
+							current_liquid_time -= .01
+						idx +=1
+					current_liquid_time += delta
+					if current_liquid_time >= .25:
+						current_liquid_time -= .25
+						take_damage(2.0,null)
 func _glitch_move(input_move_dir : Vector2 = Vector2(-1234,-1234)) -> void:
 	var move_dir_l
 	var move_dir_r

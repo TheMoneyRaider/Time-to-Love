@@ -1,16 +1,15 @@
-[gd_scene load_steps=28 format=4 uid="uid://cpvc2htda4qee"]
+[gd_scene load_steps=18 format=4 uid="uid://cpvc2htda4qee"]
 
 [ext_resource type="Script" uid="uid://00rnhke2atmb" path="res://Game Elements/Rooms/room_script.gd" id="1_dfxb8"]
 [ext_resource type="TileSet" uid="uid://du2dmgjlmgair" path="res://Game Elements/tilesets/sci_fi2.tres" id="2_6pgx7"]
 [ext_resource type="Script" uid="uid://b56ruwgbi1lqa" path="res://Game Elements/Rooms/sci_fi/cyber_background.gd" id="2_jxfgf"]
+[ext_resource type="Texture2D" uid="uid://n0bko3km56nl" path="res://Game Elements/General Game/limbo/limbo_noise.tres" id="2_vuvng"]
 [ext_resource type="PackedScene" uid="uid://ccwiql3bybf2p" path="res://Game Elements/Objects/pathway.tscn" id="3_jxfgf"]
 [ext_resource type="Material" uid="uid://m8b3vc11xgri" path="res://Game Elements/Rooms/sci_fi/cyberspace_ground_noise.tres" id="4_4klsv"]
 [ext_resource type="Shader" uid="uid://cpgjerdx47x38" path="res://Game Elements/Rooms/sci_fi/z_mask.gdshader" id="5_8piji"]
 [ext_resource type="Shader" uid="uid://djb6fots67ufy" path="res://Game Elements/Rooms/sci_fi/glitch_liquid.gdshader" id="5_bb0l3"]
 [ext_resource type="Texture2D" uid="uid://dlcpw4tgvjjuo" path="res://art/ring_texture.png" id="6_bb0l3"]
 [ext_resource type="Shader" uid="uid://38vxobsuweed" path="res://Game Elements/General Game/limbo/limbo_effect.gdshader" id="7_6knbw"]
-[ext_resource type="Texture2D" uid="uid://n0bko3km56nl" path="res://Game Elements/General Game/limbo/limbo_noise.tres" id="2_vuvng"]
-
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6knbw"]
 shader = ExtResource("5_bb0l3")
@@ -34,7 +33,6 @@ shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_g67pq"]
 shader = ExtResource("7_6knbw")
 shader_parameter/inverse_output = true
@@ -43,7 +41,6 @@ shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
 
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ho7ex"]
 shader = ExtResource("7_6knbw")
 shader_parameter/inverse_output = true
@@ -51,7 +48,6 @@ shader_parameter/edge_color = Vector3(1, 1, 1)
 shader_parameter/z_order = 0
 shader_parameter/progress = 0.0
 shader_parameter/sob_noise = ExtResource("2_vuvng")
-
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7afmh"]
 shader = ExtResource("7_6knbw")
