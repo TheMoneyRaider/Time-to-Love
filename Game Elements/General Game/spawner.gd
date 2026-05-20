@@ -320,7 +320,7 @@ static func _spawn_enemy(cell: Vector2i, scene: Node, enemy: PackedScene, layer_
 static func replace() -> int:
 	if RoomManager.current_progress < 3.0:
 		return -1
-	var progress = pow(RoomManager.current_progress - floor(RoomManager.current_progress),2)
+	var progress = RoomManager.layer_ai[14] / 5
 	var tentacles : Array[float] = [pow((1-progress),2)*progress,2*progress*(1-progress)*progress,pow(progress,2)*progress]
 	var value = randf()
 	if value <= tentacles[0]:

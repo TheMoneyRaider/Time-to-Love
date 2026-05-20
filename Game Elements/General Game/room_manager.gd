@@ -182,10 +182,8 @@ var cur_prog = 0.0
 var new_prog = 0.0
 func make_room_limbo(room_reference : Node, z_val : int, layermanager : Node,set_values : bool = true):
 	if set_values:
-		cur_prog = current_progress - floor(current_progress)
-		new_prog = 1-exp(-0.1386*(layer_ai[0]+1))
-		cur_prog = _cubic_bezier_ease(.74,.23,.88,.43,cur_prog)
-		new_prog = _cubic_bezier_ease(.74,.23,.88,.43,new_prog)
+		cur_prog = layer_ai[14] / 5
+		new_prog = (layer_ai[14]+1) / 5
 		
 	for child in room_reference.get_children():
 		make_room_limbo(child, z_val +child.z_index if "z_index" in child else z_val,layermanager, false)
