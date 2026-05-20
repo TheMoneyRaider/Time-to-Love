@@ -17,7 +17,7 @@
 [ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/Particles/effect_particles.gd" id="13_8prbk"]
 [ext_resource type="Shader" uid="uid://dw2wx3n6pfeno" path="res://Game Elements/ui/pain_display.gdshader" id="15_5ho0i"]
 [ext_resource type="Script" uid="uid://7n5dhknutmb5" path="res://Game Elements/ui/pain_display.gd" id="16_wtgju"]
-[ext_resource type="Script" uid="uid://b2leg1eo0ux3x" path="res://Game Elements/ui/death_countdown.gd" id="18_mrems"]
+[ext_resource type="Script" path="res://Game Elements/ui/death_countdown.gd" id="18_mrems"]
 [ext_resource type="FontFile" uid="uid://uwli4o3ns4pq" path="res://fonts/OldEnglishFive.ttf" id="18_oroqg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5ho0i"]
@@ -223,6 +223,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="BossBar" type="Control" parent="RootControl/VBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 
