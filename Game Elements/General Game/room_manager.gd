@@ -86,8 +86,6 @@ func get_room(room : Room):
 	#	tempvar = false
 	#	return bosses[1]
 	var index = int(current_progress) if room.roomtype != Globals.RoomType.Boss else int(current_progress+1.0)
-	if index >= 3:
-		index = randi() % 3
 	#shop_override
 	var T = 0.15
 	var P = 0.05
@@ -102,6 +100,8 @@ func get_room(room : Room):
 	#Removed a  +.01, don't know why that was needed.
 	if get_boss_chance() > randf() and room.roomtype != Globals.RoomType.Boss:
 		return bosses[index]
+	if index >= 3:
+		index = randi() % 3
 
 	var normal_index = clamp(int(randf()*normal_rooms[index].size()),0,normal_rooms[index].size()-1)
 	if normal_rooms[index][normal_index]==room:
