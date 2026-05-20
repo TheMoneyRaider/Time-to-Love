@@ -644,7 +644,7 @@ func activate(camera_in : Node, player1_in : Node, player2_in : Node):
 	Hud =LayerManager.hud
 	LayerManager.BossIntro.get_node("BossName").text = boss_name
 	LayerManager.BossIntro.get_node("Boss").texture = boss_splash_art
-	LayerManager.BossIntro.get_node("BossName").add_theme_font_override("font", boss_font)
+	LayerManager.BossIntro.get_node("BossName").add_theme_font_override("normal_font", boss_font)
 	screen = LayerManager.get_node("game_container/game_viewport")
 	for node in get_children():
 		if node.is_in_group("pathway"):

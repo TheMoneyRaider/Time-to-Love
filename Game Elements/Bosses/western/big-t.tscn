@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bkmhitsrs64l4"]
+[gd_scene load_steps=19 format=3 uid="uid://bkmhitsrs64l4"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_qhvxm"]
 [ext_resource type="PackedScene" uid="uid://dbhrxmwmosape" path="res://Game Elements/Attacks/t_roar_particle.tscn" id="2_f2uui"]
@@ -7,8 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://3g2wool8t66c" path="res://Game Elements/Attacks/t-spine.tscn" id="4_b1psi"]
 [ext_resource type="BehaviorTree" uid="uid://dkwlk3hb7u71t" path="res://ai/trees/big-t.tres" id="4_f2uui"]
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="5_e752t"]
-[ext_resource type="Texture2D" uid="uid://cuwlufsanxrny" path="res://Game Elements/Bosses/western/cowboy_hat.png" id="8_b1psi"]
-[ext_resource type="Script" uid="uid://cvmg6g2oh4hrx" path="res://Game Elements/Bosses/western/hat.gd" id="9_ehs1d"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rgvsh"]
 radius = 8.055557
@@ -28,30 +26,6 @@ tracks/0/keys = {
 "update": 1,
 "values": [0]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Hat:special_position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector2(18.055555, -28.333336)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Hat:special_rotation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0.23917615]
-}
 
 [sub_resource type="Animation" id="Animation_uhxym"]
 resource_name = "attack_forward"
@@ -67,30 +41,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [12, 13, 14, 15, 16, 17]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Hat:special_position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.10415496, 0.20071529, 0.3016154, 0.40143058, 0.50450057),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [Vector2(16.944443, -28.333336), Vector2(14.444447, -29.444445), Vector2(15.555556, -30.277779), Vector2(16.111113, -29.166666), Vector2(15.000002, -29.166668), Vector2(16.111113, -29.166666)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Hat:special_rotation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.10415496, 0.20071529, 0.3016154, 0.40143058, 0.50450057),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0.10008016, -0.002254665, 0.07006076, 0.07006076, -0.08653641, -0.065378964]
 }
 
 [sub_resource type="Animation" id="Animation_phyc7"]
@@ -110,30 +60,6 @@ tracks/0/keys = {
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Hat:special_position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.10415496, 0.20071529, 0.3, 0.4025155, 0.50016075, 0.59997594, 0.70087606),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [Vector2(16.666668, -29.166668), Vector2(14.166668, -29.166668), Vector2(16.111113, -29.16667), Vector2(16.944447, -29.166668), Vector2(16.944447, -29.166668), Vector2(15.277778, -29.444448), Vector2(16.11111, -29.722221), Vector2(15.555554, -31.666664)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Hat:special_rotation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.10415496, 0.20071529, 0.3, 0.4025155, 0.50016075, 0.59997594, 0.70087606),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0.18492642, 0.028011128, 0.028011128, -0.042587504, -0.016741706, 0.06662875, 0.06662875, -0.067713924]
-}
 
 [sub_resource type="Animation" id="Animation_12o7h"]
 resource_name = "move_forward"
@@ -152,30 +78,6 @@ tracks/0/keys = {
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Hat:special_position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.20830992, 0.40034562, 0.6054007, 0.8017762, 1.0003215),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [Vector2(16.944445, -29.444443), Vector2(13.888889, -29.166666), Vector2(15.555557, -29.444443), Vector2(16.666666, -29.444443), Vector2(17.222221, -28.88889), Vector2(14.722223, -28.88889)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Hat:special_rotation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.20830992, 0.40034562, 0.6054007, 0.8017762, 1.0003215),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0.18492642, 0.07212079, -0.098368354, -0.107221656, -0.008129336, -0.11353365]
-}
 
 [sub_resource type="Animation" id="Animation_d78pj"]
 resource_name = "roar"
@@ -191,30 +93,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [6, 7, 8, 9, 10, 11]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Hat:special_position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.18335612, 0.3612875, 0.54681355, 0.7204051, 0.9026763),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [Vector2(16.11111, -29.166668), Vector2(16.388891, -31.38889), Vector2(9.722221, -33.611115), Vector2(6.9444447, -32.222225), Vector2(12.777777, -31.38889), Vector2(14.166667, -29.722225)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Hat:special_rotation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.18335612, 0.3612875, 0.54681355, 0.7204051, 0.9026763),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0.018959023, -0.06600859, -0.67108536, -0.92616636, -0.6177877, -0.14292033]
 }
 
 [sub_resource type="Animation" id="Animation_rgvsh"]
@@ -232,30 +110,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [18, 19, 20, 21, 22, 23]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Hat:special_position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.105239905, 0.20288518, 0.30270034, 0.4068553, 0.50233066),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [Vector2(-17.777779, -27.5), Vector2(-20.277779, -28.055553), Vector2(-21.111113, -26.94444), Vector2(-20, -27.22222), Vector2(-17.222221, -27.499998), Vector2(-18.888887, -27.22222)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Hat:special_rotation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.105239905, 0.20288518, 0.30270034, 0.4068553, 0.50233066),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [-0.30650815, -0.43890607, -0.43890607, -0.3356051, -0.123708084, -0.123708084]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8s1eb"]
@@ -284,7 +138,7 @@ radius = 8.61559
 
 [node name="BigT" type="CharacterBody2D" groups=["enemy"]]
 z_index = 40
-scale = Vector2(3.6, 3.6)
+scale = Vector2(3, 3)
 collision_layer = 4
 collision_mask = 9
 script = ExtResource("1_qhvxm")
@@ -296,7 +150,7 @@ min_timefabric = 200
 max_timefabric = 250
 max_sprint_cooldown = 4.0
 sprint_multiplier = 3.0
-move_speed = 180.0
+move_speed = 150.0
 is_boss = true
 boss_phases = 6
 boss_healthpools = Array[float]([300.0])
@@ -338,12 +192,3 @@ shape = SubResource("CapsuleShape2D_ehs1d")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, -8.611111)
 shape = SubResource("CircleShape2D_w832q")
-
-[node name="Hat" type="Sprite2D" parent="."]
-position = Vector2(18.055555, -28.333336)
-rotation = 0.23917615
-scale = Vector2(0.7, 0.7)
-texture = ExtResource("8_b1psi")
-script = ExtResource("9_ehs1d")
-special_position = Vector2(18.055555, -28.333336)
-special_rotation = 0.23917615
