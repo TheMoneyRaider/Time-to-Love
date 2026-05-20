@@ -198,7 +198,7 @@ func _process(delta: float) -> void:
 				if !player1.disabled and !get_tree().paused:
 					var crosshair_component = player1.crosshair.global_position - player1.global_position
 					current_crosshair_offset = current_crosshair_offset.lerp(crosshair_component, 1.0*delta)
-					camera.position = (current_crosshair_offset + player1.global_position * 3.0) / 3.0 + camera.get_cam_offset(delta)
+					camera.position = (current_crosshair_offset + player1.global_position * 5.0) / 5.0 + camera.get_cam_offset(delta)
 			else:
 				camera.position = player1.global_position+camera.get_cam_offset(delta)		
 				
