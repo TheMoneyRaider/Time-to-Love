@@ -81,3 +81,9 @@ centered = false
 
 [node name="Cracks" type="Sprite2D" parent="."]
 texture = ExtResource("7_adcvl")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(12, -12, -5, -14, -15, -9, -22, -3, -22, 6, -11, 12, 1, 16, 14, 13, 19, 1, 19, -6)

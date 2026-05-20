@@ -42,7 +42,7 @@ func _process(delta: float) -> void:
 	time+=delta
 	$Image.position.y = sin(time/2+time_offset)*1.5-16.0
 	$Image.rotation = sin(time/2+2*time_offset) / 3
-	if weapon_type == "Railgun" or weapon_type == "LaserSword":
+	if weapon_type == "Railgun" or weapon_type == "Laser Sword":
 		$Image.rotation+=PI/2.0
 
 func _on_body_entered(body):
