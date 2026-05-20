@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1alxcgti5dih"
-path="res://.godot/imported/shop_empty..jpg-354671e168554565c9d19b82c8059cb1.ctex"
+uid="uid://bdatjtnonudjf"
+path="res://.godot/imported/shop.jpg-33796636104fe704596fccb98dc00b91.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/achievements/shop_empty..jpg"
-dest_files=["res://.godot/imported/shop_empty..jpg-354671e168554565c9d19b82c8059cb1.ctex"]
+source_file="res://art/achievements/shop.jpg"
+dest_files=["res://.godot/imported/shop.jpg-33796636104fe704596fccb98dc00b91.ctex"]
 
 [params]
 

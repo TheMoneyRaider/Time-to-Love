@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c75c4dvhxje2b"
-path="res://.godot/imported/shop..jpg-84be8a1a41e970665c022c752bf65299.ctex"
+uid="uid://b3iwi34bir7j3"
+path="res://.godot/imported/mancer_all.jpg-cbe81e9c0b35a11335e9faf21585d90b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/achievements/shop..jpg"
-dest_files=["res://.godot/imported/shop..jpg-84be8a1a41e970665c022c752bf65299.ctex"]
+source_file="res://art/achievements/mancer_all.jpg"
+dest_files=["res://.godot/imported/mancer_all.jpg-cbe81e9c0b35a11335e9faf21585d90b.ctex"]
 
 [params]
 
