@@ -3,8 +3,8 @@ var mouse_sensitivity: float = 1.0
 
 @export var base_move_speed: float = 100
 var move_speed: float
-@export var max_health: float = 35.0 #TEST
-@export var current_health: float = 35.0 #TEST
+@export var max_health: float = 10.0 #TEST
+@export var current_health: float = 10.0 #TEST
 @onready var current_dmg_time: float = 0.0
 @onready var current_liquid_time: float = 0.0
 @onready var in_instant_trap: bool = false
