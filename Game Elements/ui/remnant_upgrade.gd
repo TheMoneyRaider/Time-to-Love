@@ -1,16 +1,16 @@
-extends Control
+extends CanvasLayer
 class_name RemnantUpgrade
 
 signal remnant_upgraded(remnant1: Resource,remnant2: Resource)
 
-@onready var crosshair_sprite = $ControlCrosshair/Sprite2D
+@onready var crosshair_sprite = $Control/Crosshair/Sprite2D
 @onready var purple_crosshair = preload("res://art/purple_crosshair_with_shadow.png")
 @onready var orange_crosshair = preload("res://art/orange_crosshair_with_shadow.png")
 @onready var slot_nodes: Array = [
-	$ControlMarginContainer/slots_hbox/slot0,
-	$ControlMarginContainer/slots_hbox/slot1,
-	$ControlMarginContainer/slots_hbox/slot2,
-	$ControlMarginContainer/slots_hbox/slot3]
+	$Control/MarginContainer/slots_hbox/slot0,
+	$Control/MarginContainer/slots_hbox/slot1,
+	$Control/MarginContainer/slots_hbox/slot2,
+	$Control/MarginContainer/slots_hbox/slot3]
 var upgrade_remnants: Array[Resource] = []
 var selected_index1: int = -1 #Purple
 var selected_index2: int = -1 #Orange
@@ -42,34 +42,34 @@ func _set_drifter_text(player1_remnants_in, player2_remnants_in):
 			match rem.remnant_name:
 				drifter.remnant_name:
 					tricky1 = (rem.variable_1_values[rem.rank -1])
-					$ControlDrifterText.visible = true
+					$Control/DrifterText.visible = true
 	for rem in player2_remnants_in:
 		if rem.active:
 			match rem.remnant_name:
 				drifter.remnant_name:
 					tricky2 = (rem.variable_1_values[rem.rank -1])
-					$ControlDrifterText.visible = true
+					$Control/DrifterText.visible = true
 	if(Globals.is_multiplayer):
 		if(tricky1 != 0 && tricky2 != 0):
 			if(tricky1 < tricky2):
 				var glyph_key = "special_"+Globals.player1_input
-				$ControlDrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+": Reroll for "+str(tricky1)+"  "
+				$Control/DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+": Reroll for "+str(tricky1)+"  "
 			else:
 				var glyph_key = "special_"+Globals.player2_input
-				$ControlDrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player2_input),glyph_key)+": Reroll for "+str(tricky2)+"  "
+				$Control/DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player2_input),glyph_key)+": Reroll for "+str(tricky2)+"  "
 		elif (tricky1 != 0):
 			var glyph_key = "special_"+Globals.player1_input
-			$ControlDrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+": Reroll for "+str(tricky1)+"  "
+			$Control/DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+": Reroll for "+str(tricky1)+"  "
 		elif(tricky2 != 0):
 			var glyph_key = "special_"+Globals.player2_input
-			$ControlDrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player2_input),glyph_key)+": Reroll for "+str(tricky2)+"  "
+			$Control/DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player2_input),glyph_key)+": Reroll for "+str(tricky2)+"  "
 	else:
 		if(is_purple && tricky1 != 0):
 			var glyph_key = "special_"+Globals.player1_input
-			$ControlDrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+": Reroll for "+str(tricky1)+"  "
+			$Control/DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+": Reroll for "+str(tricky1)+"  "
 		elif(!is_purple && tricky2 != 0):
 			var glyph_key = "special_"+Globals.player1_input
-			$ControlDrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+": Reroll for "+str(tricky2)+"  "
+			$Control/DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+": Reroll for "+str(tricky2)+"  "
 func _slice_frames() -> void:
 	frames.clear()
 
@@ -149,7 +149,7 @@ func _process(_delta):
 
 	var t := anim_time - int(anim_time)
 	var smear_t := pow(t, smear_strength)
-	$ControlDrifterText/Label/TextureRect.texture = _blend_textures(frames[current_frame], frames[next_frame], smear_t)
+	$Control/DrifterText/Label/TextureRect.texture = _blend_textures(frames[current_frame], frames[next_frame], smear_t)
 
 func popup_upgrade(player1_remnants_in : Array, player2_remnants_in : Array):
 	_set_drifter_text(player1_remnants_in,player2_remnants_in)
@@ -204,14 +204,14 @@ func popup_upgrade(player1_remnants_in : Array, player2_remnants_in : Array):
 func _place_purple_selectable(slot : Node ,remnant : Resource):
 	if remnant in player1_remnants:
 		var particle = preload("res://Game Elements/ui/purple_selectable.tscn").instantiate()
-		particle.position = slot.position+slot.size+$ControlMarginContainer/slots_hbox.position
+		particle.position = slot.position+slot.size+$Control/MarginContainer/slots_hbox.position
 		particle.position.x -= slot.size.x/2
 		add_child(particle)
 
 func _place_orange_selectable(slot : Node ,remnant : Resource):
 	if remnant in player2_remnants:
 		var particle = preload("res://Game Elements/ui/orange_selectable.tscn").instantiate()
-		particle.position = slot.position+slot.size+$ControlMarginContainer/slots_hbox.position
+		particle.position = slot.position+slot.size+$Control/MarginContainer/slots_hbox.position
 		particle.position.x -= slot.size.x/2
 		particle.position.y -= slot.size.y
 		add_child(particle)
