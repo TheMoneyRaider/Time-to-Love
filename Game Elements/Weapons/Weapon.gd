@@ -124,18 +124,18 @@ func request_attacks(direction : Vector2, char_position : Vector2, node_attackin
 	
 	match type:
 		"Mace":
-			SFXManager.play(mace_sounds[randi() % mace_sounds.size()], 2.0)
+			SFXManager.play(mace_sounds[randi() % mace_sounds.size()], 2.0,"SFX",node_attacking.global_position)
 		"Laser_Sword":
-			SFXManager.play(ls_sounds[randi() % ls_sounds.size()])
+			SFXManager.play(ls_sounds[randi() % ls_sounds.size()], 0.0,"SFX",node_attacking.global_position)
 		"Crossbow":
-			SFXManager.play(crossbow_sounds[randi() % crossbow_sounds.size()], 8.0)
+			SFXManager.play(crossbow_sounds[randi() % crossbow_sounds.size()], 8.0,"SFX",node_attacking.global_position)
 		"Crowbar": 
-			SFXManager.play(crowbar_sounds[randi() % crowbar_sounds.size()])
+			SFXManager.play(crowbar_sounds[randi() % crowbar_sounds.size()],0.0,"SFX",node_attacking.global_position)
 		"Railgun":
-			SFXManager.play(railgun_sounds[randi() % railgun_sounds.size()], 6.0)
+			SFXManager.play(railgun_sounds[randi() % railgun_sounds.size()], 6.0,"SFX",node_attacking.global_position)
 		"Shotgun":
-			#SFXManager.play(cool_shotgun_sounds[randi() % cool_shotgun_sounds.size()])
-			SFXManager.play(lame_shotgun_sounds[randi() % lame_shotgun_sounds.size()], -5.0)
+			#SFXManager.play(cool_shotgun_sounds[randi() % cool_shotgun_sounds.size()], -5.0,"SFX",node_attacking.global_position)
+			SFXManager.play(lame_shotgun_sounds[randi() % lame_shotgun_sounds.size()], -5.0,"SFX",node_attacking.global_position)
 		#"RobotMelee":	
 			#SFXManager.play(robot_sounds[randi() % robot_sounds.size()])
 			

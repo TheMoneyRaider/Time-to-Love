@@ -655,7 +655,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 			if(node.enabled == true):
 				if player_reference in node.tracked_bodies:
 					player_reference.update_weapon(node.weapon_type)
-					SFXManager.play(weapon_select_sounds[randi() % weapon_select_sounds.size()], -4.0)
+					SFXManager.play(weapon_select_sounds[randi() % weapon_select_sounds.size()], -4.0,"SFX",player_reference.global_position)
 					hud.set_cooldown_icons()
 					return true
 		if node.is_in_group("letter"):
@@ -1102,7 +1102,6 @@ func _place_timefabric(time_idx : int, offset : Vector2i, current_position : Vec
 	timefabric_instance.set_direction(direction)
 	timefabric_instance.set_process(true)
 	timefabric_instance.absorbed_by_player.connect(_on_timefabric_absorbed)
-	# SFXManager.play(preload("res://Game Elements/sfx/enemies/time_fabric/drop1.ogg"))
 	return
 
 func _score_timefabric_placement(pixels_to_cover : Dictionary, timefabric_pixels : Array, timefabric_idx : int,offset : Vector2i) -> float:
@@ -1711,7 +1710,7 @@ func _on_enemy_take_damage(damage : float,current_health : float,enemy : Node, d
 			room_instance.call_deferred("add_child",attack_instance)
 			has_death_attack = true
 		if(enemy.cactus_explode):
-			SFXManager.play(cactus_explosion_sound[randi() % cactus_explosion_sound.size()], -6.0)
+			SFXManager.play(cactus_explosion_sound[randi() % cactus_explosion_sound.size()], -6.0,"SFX",enemy.global_position)
 			var attack_direction
 			if(enemy.last_hitter != null):
 				attack_direction = (enemy.last_hitter.global_position - enemy.global_position).normalized()
@@ -1890,7 +1889,7 @@ func _on_healthpickup_absorbed(player_node : Node, health_node : Node):
 
 func _on_timefabric_absorbed(timefabric_node : Node):
 	timefabric_collected+=1
-	SFXManager.play(timefabric_collected_sounds[randi() % timefabric_collected_sounds.size()], 0.0)
+	SFXManager.play(timefabric_collected_sounds[randi() % timefabric_collected_sounds.size()], 0.0, "SFX", timefabric_node.global_position)
 	RoomManager.layer_ai[12]+=1
 	timefabric_node.queue_free()
 	

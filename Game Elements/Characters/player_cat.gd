@@ -386,7 +386,7 @@ func _physics_process(delta):
 		if footstep_timer <= 0.0:
 			var speed_ratio = clamp(velocity.length() / base_move_speed, 1.0, 2.5)
 			footstep_timer = footstep_interval / speed_ratio
-			SFXManager.play(footstep_sounds[randi() % footstep_sounds.size()])
+			SFXManager.play(footstep_sounds[randi() % footstep_sounds.size()],0.0,"SFX",global_position)
 	else:
 		footstep_timer = 0.0
 
@@ -535,7 +535,7 @@ func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0
 		i_frames = attack_i_frames
 		damage_amount = damage_amount * (1 - damage_resistance)
 		#damage_amount = _check_reduction_remnants(damage_amount,_dmg_owner)
-		SFXManager.play(preload("res://Game Elements/sfx/player/take_damage.ogg"))
+		SFXManager.play(preload("res://Game Elements/sfx/player/take_damage.ogg"),0.0,"SFX",global_position)
 		damage_amount = _check_bulwark(damage_amount, _dmg_owner, bulwark)
 		if check_drones():
 			LayerManager._damage_indicator(0, _dmg_owner,_direction, attack_body,self,Color(0.0, 0.666, 0.85, 1.0))
@@ -1026,7 +1026,7 @@ func damage_boost() -> float:
 func change_health(add_to_current : float, add_to_max : float = 0):
 	if add_to_current > 0.0:
 		if add_to_current >= 1.0:
-			SFXManager.play(preload("res://Game Elements/sfx/player/gain_health.ogg"))
+			SFXManager.play(preload("res://Game Elements/sfx/player/gain_health.ogg"),0.0,"SFX",global_position)
 		var healer = preload("res://Game Elements/Remnants/healer.tres")
 		var hospital = preload("res://Game Elements/Remnants/hospital.tres")
 		var remnants = []
@@ -1064,12 +1064,16 @@ func set_weapon(purple : bool, resource_loc : String):
 func update_weapon(resource_name : String):
 	var resource_loc = "res://Game Elements/Weapons/" + resource_name + ".tres"
 	weapons[is_purple as int] = Weapon.create_weapon(resource_loc,self)
+	weapons[is_purple as int].current_special_hits = weapons[is_purple as int].special_hits
 	if is_purple:
 		Globals.weapon1 = resource_loc
 	else:
 		Globals.weapon2 = resource_loc
 	set_weapon_dr(weapons[is_purple as int])
 	set_weapon_sprite(weapons[is_purple as int],weapon_node)
+	if LayerManager:
+		LayerManager.hud.set_max_cooldowns()
+	LayerManager.hud._on_special_changed(is_purple,1.0)
 	
 
 func combo(input_purple : bool):
