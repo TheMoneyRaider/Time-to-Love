@@ -181,6 +181,7 @@ func _on_replay_pressed():
 	if(rewind_mode == 2):
 		end_replay()
 		return
+	SFXManager.play(preload("res://Game Elements/sfx/world/rewind.ogg"),0.0,"SFX")
 	var now := Time.get_time_dict_from_system()
 	#play_replay_reverse() TEST
 	if(rewind_mode == 0):
@@ -234,7 +235,6 @@ func play_replay_reverse():
 	end_replay()
 
 func test_play_replay_reverse():
-	SFXManager.play(preload("res://Game Elements/sfx/world/rewind.ogg"),0.0,"SFX")
 	var reusable_texture := ImageTexture.new()
 	#Variables
 	var elapsed_frames = 0
