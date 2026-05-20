@@ -810,7 +810,7 @@ func die(death : bool , insta_die : bool = false) -> bool:
 		else:
 			Globals.death_time-=1
 			i_frames = 60
-			change_health(max_health-current_health)
+			change_health(max_health/2.0-current_health)
 			self.process_mode = PROCESS_MODE_INHERIT
 			visible = true
 	return true
