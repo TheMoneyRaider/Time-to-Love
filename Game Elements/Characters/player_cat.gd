@@ -559,9 +559,9 @@ func set_weapon_dr(weapon : Weapon):
 	match weapon.type:
 		"Mace":
 			damage_resistance = .1
-		"Laser_Sword":
+		"Laser Sword":
 			damage_resistance = .1
-		"Crowbar":
+		"Shovel":
 			damage_resistance = .1
 		"Shovel":
 			damage_resistance = .1

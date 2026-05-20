@@ -66,9 +66,9 @@ func _process(_delta: float) -> void:
 				#var screen_pos = camera.get_viewport().get_screen_transform() * camera.get_canvas_transform() * target_mouse_world
 				#Input.warp_mouse(screen_pos)
 	else:
-		if(player.weapons[player.is_purple as int].type == "Laser_Sword"):
+		if(player.weapons[player.is_purple as int].type == "Laser Sword"):
 			position = (crosshair_direction * 35)
-		elif(player.weapons[player.is_purple as int].type == "Mace" or player.weapons[player.is_purple as int].type == "Crowbar" or player.weapons[player.is_purple as int].type == "Fist"):
+		elif(player.weapons[player.is_purple as int].type == "Mace" or player.weapons[player.is_purple as int].type == "Shovel" or player.weapons[player.is_purple as int].type == "Fist"):
 			position = (crosshair_direction * 25)
 		else:
 			position = (crosshair_direction * 50)

@@ -7,7 +7,7 @@
 
 [resource]
 script = ExtResource("2_n5u2p")
-type = "Laser_Sword"
+type = "Laser Sword"
 cooldown_icon = ExtResource("1_jwlky")
 weapon_sprite = ExtResource("3_n5u2p")
 random_spread = false

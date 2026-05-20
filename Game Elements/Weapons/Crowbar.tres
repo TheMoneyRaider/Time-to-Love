@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("2_t0igp")
-type = "Crowbar"
+type = "Shovel"
 cooldown_icon = ExtResource("1_5egvg")
 weapon_sprite = ExtResource("3_t0igp")
 random_spread = false
