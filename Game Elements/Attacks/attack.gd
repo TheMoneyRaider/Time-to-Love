@@ -603,6 +603,8 @@ func _wave_attack_setup():
 		else:
 			distances.append(wave_attack_dist)
 	s_material.set_shader_parameter("collision_distances",distances)
+	if s_material.get_shader_parameter("ultimate"):
+		$CollisionShape2D.disabled = true
 
 
 var laser_shapes : Array = []

@@ -327,15 +327,16 @@ func agro_enemies():
 					print(str(child)+" I'm ANGRY!")
 					var positions = board.get_var("player_positions")
 					var distances_squared = []
-					for pos in positions: 
-						distances_squared.append(global_position.distance_squared_to(pos))
-					var i = 0
-					if distances_squared.size()>1 and distances_squared[1]<distances_squared[0]:
-						i= 1
-					var temp_position = player1.global_position if (!is_multiplayer or randf() > .5) else player2.global_position
-					board.set_var("target_pos", temp_position)
-					board.set_var("player_idx", i)
-					board.set_var("state", "agro")
+					if positions:
+						for pos in positions: 
+							distances_squared.append(global_position.distance_squared_to(pos))
+						var i = 0
+						if distances_squared.size()>1 and distances_squared[1]<distances_squared[0]:
+							i= 1
+						var temp_position = player1.global_position if (!is_multiplayer or randf() > .5) else player2.global_position
+						board.set_var("target_pos", temp_position)
+						board.set_var("player_idx", i)
+						board.set_var("state", "agro")
 
 
 
