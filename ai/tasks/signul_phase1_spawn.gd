@@ -1,7 +1,7 @@
 extends BTAction
 
 
-var enemies = ["res://Game Elements/Characters/laser_enemy.tscn","res://Game Elements/Characters/robot.tscn",]
+var enemies = ["res://Game Elements/Characters/laser_enemy_boss.tscn","res://Game Elements/Characters/robot_boss.tscn",]
 var enemy_count_linear = [4,8]
 var enemy_count_rand = [4,8]
 
