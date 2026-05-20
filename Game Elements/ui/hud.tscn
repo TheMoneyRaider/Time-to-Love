@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://ttvprfi61vn4" path="res://Game Elements/ui/hud.gd" id="1_6fbih"]
 [ext_resource type="Script" uid="uid://bs428146shl5s" path="res://Game Elements/ui/time_fabric_animation.gd" id="2_bjfho"]
 [ext_resource type="Texture2D" uid="uid://bxmiq87nvpvj8" path="res://art/notification.png" id="2_gp50j"]
-[ext_resource type="Texture2D" uid="uid://bjttiaoaq2xk1" path="res://Game Elements/Bosses/limbo/healthbar_p2_underlay.png" id="2_m7god"]
+[ext_resource type="Texture2D" uid="uid://betb3txsk21hm" path="res://Game Elements/Bosses/medieval/healthbar_underlay.png" id="2_oroqg"]
 [ext_resource type="Texture2D" uid="uid://ch4g2j4jycixb" path="res://art/time_fabric.png" id="3_6fbih"]
 [ext_resource type="Shader" uid="uid://cweesrh2cbhg6" path="res://Game Elements/ui/boss_healthbar.gdshader" id="3_8prbk"]
-[ext_resource type="Texture2D" uid="uid://8clo10stsmun" path="res://Game Elements/Bosses/limbo/healthbar_p2_overlay.png" id="4_8prbk"]
+[ext_resource type="Texture2D" uid="uid://n0x48cblbas4" path="res://Game Elements/Bosses/medieval/healthbar_overlay.png" id="4_3ghwc"]
 [ext_resource type="Script" uid="uid://d36yo1gmy8tkb" path="res://Game Elements/ui/cooldown_bar_1.gd" id="5_kgqo6"]
 [ext_resource type="Texture2D" uid="uid://dj6erg8qveqb0" path="res://art/ninja_2.png" id="5_p8pfh"]
 [ext_resource type="FontFile" uid="uid://bt6q2rnjl8b8a" path="res://demo/assets/fonts/QuentinCaps.ttf" id="5_wg6mc"]
@@ -22,7 +22,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5ho0i"]
 shader = ExtResource("3_8prbk")
-shader_parameter/effect_index = 11
+shader_parameter/effect_index = 12
 shader_parameter/progress = 1.0
 shader_parameter/progress2 = 1.0
 shader_parameter/image_size = Vector2(715, 41)
@@ -57,6 +57,12 @@ shader_parameter/P11_u_color_mid = Color(0.784, 0.475, 0, 1)
 shader_parameter/P11_u_color_high = Color(1, 1, 1, 1)
 shader_parameter/P11_u_color_mid2 = Color(1, 0.824, 0.655, 1)
 shader_parameter/P11_scale = 64.0
+shader_parameter/P12_u_speed = 4.0
+shader_parameter/P12_u_color_low = Color(0, 0, 0, 1)
+shader_parameter/P12_u_color_mid = Color(0.7435552, 0.3478963, 3.85046e-07, 1)
+shader_parameter/P12_u_color_high = Color(1, 0.5298858, 0.33543846, 1)
+shader_parameter/P12_u_color_mid2 = Color(1, 0.824, 0.655, 1)
+shader_parameter/P12_scale = 128.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_mrems"]
 font = ExtResource("5_wg6mc")
@@ -217,7 +223,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="BossBar" type="Control" parent="RootControl/VBoxContainer"]
-visible = false
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 
@@ -232,7 +237,7 @@ offset_bottom = 41.0
 grow_horizontal = 2
 scale = Vector2(2, 2)
 pivot_offset = Vector2(357.5, -10)
-texture = ExtResource("2_m7god")
+texture = ExtResource("2_oroqg")
 
 [node name="Overlay" type="TextureRect" parent="RootControl/VBoxContainer/BossBar"]
 material = SubResource("ShaderMaterial_5ho0i")
@@ -246,7 +251,7 @@ offset_bottom = 41.0
 grow_horizontal = 2
 scale = Vector2(2, 2)
 pivot_offset = Vector2(357.5, -10)
-texture = ExtResource("4_8prbk")
+texture = ExtResource("4_3ghwc")
 
 [node name="Label" type="Label" parent="RootControl/VBoxContainer/BossBar"]
 layout_mode = 1
@@ -460,14 +465,14 @@ custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="RootControl/Right_Bottom_Corner/Combo"]
+custom_minimum_size = Vector2(256, 128)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = 1
+anchor_left = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -126.0
-offset_bottom = -122.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_left = -128.0
+offset_bottom = 128.0
+grow_horizontal = 0
 scale = Vector2(2, 2)
 max_value = 3.0
 step = 0.0

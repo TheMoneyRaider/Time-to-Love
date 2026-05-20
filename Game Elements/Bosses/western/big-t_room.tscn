@@ -61,7 +61,7 @@ boss_name_settings = Array[LabelSettings]([SubResource("LabelSettings_dffen")])
 boss = NodePath("BigT")
 boss_name = "Big T"
 boss_font = ExtResource("5_dffen")
-phase_overlay_index = Array[int]([3])
+phase_overlay_index = Array[int]([12])
 boss_type = "western"
 
 [node name="BigT" parent="." instance=ExtResource("2_1uqao")]
