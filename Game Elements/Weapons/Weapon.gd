@@ -125,11 +125,11 @@ func request_attacks(direction : Vector2, char_position : Vector2, node_attackin
 	match type:
 		"Mace":
 			SFXManager.play(mace_sounds[randi() % mace_sounds.size()], 2.0,"SFX",node_attacking.global_position)
-		"Laser_Sword":
+		"Laser Sword":
 			SFXManager.play(ls_sounds[randi() % ls_sounds.size()], 0.0,"SFX",node_attacking.global_position)
 		"Crossbow":
 			SFXManager.play(crossbow_sounds[randi() % crossbow_sounds.size()], 8.0,"SFX",node_attacking.global_position)
-		"Crowbar": 
+		"Shovel": 
 			SFXManager.play(crowbar_sounds[randi() % crowbar_sounds.size()],0.0,"SFX",node_attacking.global_position)
 		"Railgun":
 			SFXManager.play(railgun_sounds[randi() % railgun_sounds.size()], 6.0,"SFX",node_attacking.global_position)
@@ -147,7 +147,7 @@ func request_attacks(direction : Vector2, char_position : Vector2, node_attackin
 		var gambler = preload("res://Game Elements/Remnants/gambler.tres")
 		for rem in remnants:
 			if rem.remnant_name == gambler.remnant_name:
-				if(type == "Mace" or type == "Laser_Sword" or type=="Crowbar" or type =="Fist"):
+				if(type == "Mace" or type == "Laser Sword" or type=="Shovel" or type =="Fist"):
 					attack_spread = rem.variable_1_values[rem.rank-1] * 3
 				else:
 					attack_spread = rem.variable_1_values[rem.rank-1]
@@ -291,7 +291,7 @@ var laser_camera_distancex = 240
 var laser_camera_distancey = 128
 func start_special(special_direction : Vector2, node_attacking : Node):
 	match type:
-		"Laser_Sword":
+		"Laser Sword":
 			var mesh_inst = preload("res://Game Elements/Attacks/sword_special.tscn").instantiate()
 			node_attacking.LayerManager.room_instance.add_child(mesh_inst)
 
@@ -304,8 +304,8 @@ func start_special(special_direction : Vector2, node_attacking : Node):
 			#Spawn Line2D
 			pass
 			
-		"Crowbar":
-			print("Start Crowbar")
+		"Shovel":
+			print("Start Shovel")
 			var setup = preload("res://Game Elements/Attacks/crowbar_special/setup.tscn").instantiate()
 			setup.tilemaplayer = node_attacking.LayerManager.room_instance.get_node("Ground")
 			setup.available_tiles = node_attacking.LayerManager.placable_cells
@@ -370,7 +370,7 @@ func get_locations(start_node : Node,inital_direction : Vector2) -> Array[Vector
 	
 func special_tick(special_direction : Vector2, node_attacking : Node):
 	match type:
-			"Laser_Sword":
+			"Laser Sword":
 				var locations : Array[Vector2] = get_locations(node_attacking, special_direction)
 				special_nodes[0].draw_path(PackedVector2Array(locations))
 			"Railgun":
@@ -379,7 +379,7 @@ func special_tick(special_direction : Vector2, node_attacking : Node):
 				fire.position = node_attacking.position
 				node_attacking.LayerManager.room_instance.add_child(fire)
 				pass
-			"Crowbar":
+			"Shovel":
 				if special_nodes.size()> 1:
 					var throw = preload("res://Game Elements/Particles/throw_particles.tscn").instantiate()
 					var ray = cast_ray(node_attacking.global_position, special_direction, 1600,node_attacking)
@@ -462,7 +462,7 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 		return Effects
 		
 	match type:
-		"Laser_Sword":
+		"Laser Sword":
 			if floor(special_time_elapsed*8) !=special_time_period_elapsed:
 				special_time_period_elapsed = floor(special_time_elapsed*8)
 				special_tick(special_direction, node_attacking)
@@ -479,7 +479,7 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 				if floor(special_time_elapsed*2) !=special_time_period_elapsed:
 					special_time_period_elapsed = floor(special_time_elapsed*2)
 					special_tick(special_direction, node_attacking)
-		"Crowbar":
+		"Shovel":
 			if floor(special_time_elapsed*60) !=special_time_period_elapsed:
 				special_time_period_elapsed = floor(special_time_elapsed*60)
 				special_tick(special_direction, node_attacking)
@@ -502,9 +502,9 @@ func special_cleanup():
 
 func use_normal_attack(special_direction : Vector2, special_position : Vector2, node_attacking : Node):
 	match type:
-			"Laser_Sword":
+			"Laser Sword":
 				end_special(special_direction,special_position,node_attacking)
-			"Crowbar":
+			"Shovel":
 				if special_nodes.size()>1:
 					special_nodes[0].passify(node_attacking)
 					#Launch
@@ -558,7 +558,7 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 					node_attacking.emit_signal("special_changed",false,0.0,true)
 				else:
 					node_attacking.emit_signal("special_changed",true,0.0,true)
-			"Laser_Sword":
+			"Laser Sword":
 				sword_special_attack(special_direction,node_attacking)
 			"Crossbow":
 				SFXManager.play(preload("res://Game Elements/sfx/weapons/crossbow/crossbow_special.ogg"), -4)
@@ -586,7 +586,7 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 				node_attacking.create_tween().tween_property(node_attacking.weapon_node.get_node("Sprite2D"),"modulate",Color(1.0, 1.0, 1.0, 1.0),1.0)
 				if(special_time_elapsed > 1.0):
 					current_special_hits = 0
-			"Crowbar":
+			"Shovel":
 				current_special_hits = 0
 				if node_attacking.weapons[0] == self:
 					node_attacking.emit_signal("special_changed",false,0.0,true)
@@ -594,6 +594,8 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 					node_attacking.emit_signal("special_changed",true,0.0,true)
 			_:
 				pass
+		
+		TutorialManager.player_specials(node_attacking.is_purple,1.0)
 		special_cleanup()
 
 func cast_ray(origin: Vector2, direction: Vector2, distance: float, player_node : Node) -> Dictionary:

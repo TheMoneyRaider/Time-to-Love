@@ -1,7 +1,7 @@
 extends BTAction
 
 
-var enemy_str = "res://Game Elements/Characters/binary_bot.tscn"
+var enemy_str = "res://Game Elements/Characters/binary_bot_boss.tscn"
 
 func get_enemy_count()-> int:
 	var count = 0

@@ -154,8 +154,8 @@ move_speed = 150.0
 is_boss = true
 boss_phases = 6
 boss_healthpools = Array[float]([300.0])
-knockback_decay = 0.75
-attacks = [ExtResource("2_rgvsh"), ExtResource("3_rgvsh"), ExtResource("4_b1psi")]
+knockback_decay = 0.4
+attacks = [ExtResource("2_f2uui"), ExtResource("3_rgvsh"), ExtResource("4_b1psi")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 y_sort_enabled = true

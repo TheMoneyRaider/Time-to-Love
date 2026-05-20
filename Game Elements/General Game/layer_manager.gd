@@ -98,6 +98,7 @@ var cactus_explosion_sound = [
 
 func _ready() -> void:
 	RemnantManager.has_gotten_remnant = false
+	TutorialManager.player_req = [[0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.0]]
 	$LettersPopup.modulate.a=0.0
 	$game_container.material = $game_container.material.duplicate(true)
 	var conflict_cells : Array[Vector2i] = []
@@ -171,8 +172,8 @@ func _ready() -> void:
 	play_timeline_music()
 	room_cleared = true
 	reward_claimed = true
-	#if Globals.has_gotten_tutorial:
-	_enable_pathways()
+	if Globals.has_gotten_tutorial:
+		_enable_pathways()
 
 func _load_save_time(idx: int) -> float:
 	var path = Globals.save_dir + "save_%d.res" % idx
@@ -197,7 +198,7 @@ func _process(delta: float) -> void:
 				if !player1.disabled and !get_tree().paused:
 					var crosshair_component = player1.crosshair.global_position - player1.global_position
 					current_crosshair_offset = current_crosshair_offset.lerp(crosshair_component, 1.0*delta)
-					camera.position = (current_crosshair_offset + player1.global_position * 3.0) / 3.0 + camera.get_cam_offset(delta)
+					camera.position = (current_crosshair_offset + player1.global_position * 5.0) / 5.0 + camera.get_cam_offset(delta)
 			else:
 				camera.position = player1.global_position+camera.get_cam_offset(delta)		
 				
@@ -326,15 +327,16 @@ func agro_enemies():
 					print(str(child)+" I'm ANGRY!")
 					var positions = board.get_var("player_positions")
 					var distances_squared = []
-					for pos in positions: 
-						distances_squared.append(global_position.distance_squared_to(pos))
-					var i = 0
-					if distances_squared.size()>1 and distances_squared[1]<distances_squared[0]:
-						i= 1
-					var temp_position = player1.global_position if (!is_multiplayer or randf() > .5) else player2.global_position
-					board.set_var("target_pos", temp_position)
-					board.set_var("player_idx", i)
-					board.set_var("state", "agro")
+					if positions:
+						for pos in positions: 
+							distances_squared.append(global_position.distance_squared_to(pos))
+						var i = 0
+						if distances_squared.size()>1 and distances_squared[1]<distances_squared[0]:
+							i= 1
+						var temp_position = player1.global_position if (!is_multiplayer or randf() > .5) else player2.global_position
+						board.set_var("target_pos", temp_position)
+						board.set_var("player_idx", i)
+						board.set_var("state", "agro")
 
 
 
@@ -1352,8 +1354,8 @@ func _finalize_room_creation(next_room_instance: Node2D, next_room_data: Room, d
 
 var transitioning : bool = false
 func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
+	hud.get_node("Tutorial_Display").visible = false
 	time_in_room = 0
-	hud.disable_tutorial()
 	var shido1 = 0.0
 	var shido2 = 0.0
 	var player1_ranked_up : Array[String] = []
@@ -1928,7 +1930,6 @@ func _on_timefabric_absorbed(timefabric_node : Node):
 	
 func _on_activate(player_node : Node):
 	if room_instance:
-		print("ehy")
 		if check_reward(room_instance, room_instance_data,player_node):
 			return
 		if room_instance_data.roomtype == Globals.RoomType.Shop and room_instance.get_node("Shop").check_rewards(player_node):
@@ -2019,84 +2020,84 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 
 func dev_remnants():
 	var rem
-	rem = load("res://Game Elements/Remnants/trickster.tres")
-	rem.rank = 3
+	rem = load("res://Game Elements/Remnants/aeromancer.tres")
+	rem.rank = 2
 	player_1_remnants.append(rem.duplicate(true))
-	rem = load("res://Game Elements/Remnants/trickster.tres")
-	rem.rank = 1
-	player_2_remnants.append(rem.duplicate(true))
-	#player_2_remnants.append(rem.duplicate(true))
-	
-	rem = load("res://Game Elements/Remnants/lawman.tres")
+	remnant_update(rem,player1,true)
+	rem = load("res://Game Elements/Remnants/shido.tres")
+	rem.rank = 4
+	player_1_remnants.append(rem.duplicate(true))
+	remnant_update(rem,player1,true)
+	rem = load("res://Game Elements/Remnants/winters_embrace.tres")
+	rem.rank = 4
+	player_1_remnants.append(rem.duplicate(true))
+	remnant_update(rem,player1,true)
+	rem = load("res://Game Elements/Remnants/ninja.tres")
 	rem.rank = 1
 	player_1_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,true)
-	rem = load("res://Game Elements/Remnants/cleric.tres")
-	rem.rank = 1
+	rem = load("res://Game Elements/Remnants/pyromancer.tres")
+	rem.rank = 2
 	player_1_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,true)
-	rem = load("res://Game Elements/Remnants/tortoise.tres")
-	rem.rank = 3
+	rem = load("res://Game Elements/Remnants/bandit.tres")
+	rem.rank = 2
 	player_1_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,true)
-	rem = load("res://Game Elements/Remnants/protector.tres")
-	rem.rank = 1
+	rem = load("res://Game Elements/Remnants/emp.tres")
+	rem.rank = 2
+	player_1_remnants.append(rem.duplicate(true))
+	remnant_update(rem,player1,true)
+	rem = load("res://Game Elements/Remnants/intelligence.tres")
+	rem.rank = 4
 	player_1_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,true)
 	rem = load("res://Game Elements/Remnants/terramancer.tres")
-	rem.rank = 1
-	player_1_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,true)
-	rem = load("res://Game Elements/Remnants/hospital.tres")
 	rem.rank = 2
 	player_1_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,true)
-	rem = load("res://Game Elements/Remnants/hoard.tres")
-	rem.rank = 1
-	player_1_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,true)
-	rem = load("res://Game Elements/Remnants/thorns.tres")
-	rem.rank = 2
-	player_1_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,true)
-	rem = load("res://Game Elements/Remnants/healer.tres")
+	rem = load("res://Game Elements/Remnants/mancermancer.tres")
 	rem.rank = 3
 	player_1_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,true)
 	
-	rem = load("res://Game Elements/Remnants/aeromancer.tres")
-	rem.rank = 3
+	rem = load("res://Game Elements/Remnants/hydromancer.tres")
+	rem.rank = 4
+	player_2_remnants.append(rem.duplicate(true))
+	remnant_update(rem,player1,false)
+	rem = load("res://Game Elements/Remnants/lawman.tres")
+	rem.rank = 2
 	player_2_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,false)
 	rem = load("res://Game Elements/Remnants/pyromancer.tres")
+	rem.rank = 3
+	player_2_remnants.append(rem.duplicate(true))
+	remnant_update(rem,player1,false)
+	rem = load("res://Game Elements/Remnants/cleric.tres")
+	rem.rank = 3
+	player_2_remnants.append(rem.duplicate(true))
+	remnant_update(rem,player1,false)
+	rem = load("res://Game Elements/Remnants/bandit.tres")
 	rem.rank = 1
 	player_2_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,false)
-	rem = load("res://Game Elements/Remnants/hare.tres")
+	rem = load("res://Game Elements/Remnants/aeromancer.tres")
 	rem.rank = 2
 	player_2_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,false)
-	rem = load("res://Game Elements/Remnants/hoard.tres")
+	rem = load("res://Game Elements/Remnants/drone.tres")
+	rem.rank = 3
+	player_2_remnants.append(rem.duplicate(true))
+	remnant_update(rem,player1,false)
+	rem = load("res://Game Elements/Remnants/emp.tres")
 	rem.rank = 2
 	player_2_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,false)
-	rem = load("res://Game Elements/Remnants/hydromancer.tres")
-	rem.rank = 2
+	rem = load("res://Game Elements/Remnants/monk.tres")
+	rem.rank = 3
 	player_2_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,false)
-	rem = load("res://Game Elements/Remnants/hunter.tres")
-	rem.rank = 1
-	player_2_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,false)
-	rem = load("res://Game Elements/Remnants/longshot.tres")
-	rem.rank = 1
-	player_2_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,false)
-	rem = load("res://Game Elements/Remnants/assassin.tres")
-	rem.rank = 2
-	player_2_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,false)
-	rem = load("res://Game Elements/Remnants/terramancer.tres")
+	rem = load("res://Game Elements/Remnants/tortoise.tres")
 	rem.rank = 2
 	player_2_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,false)
@@ -2106,7 +2107,7 @@ func dev_remnants():
 		player2.display_combo()
 	
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
-	timefabric_collected = 2017
+	timefabric_collected = 3155
 	
 var limboing : bool = false
 func move_to_limbo_phase_2():

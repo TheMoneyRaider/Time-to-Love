@@ -204,7 +204,7 @@ func _process_melee_attack(delta):
 
 			melee_timer += delta
 			var t = delta / melee_duration
-			lunge_velocity = target_vector * t * attack_direct * 80
+			lunge_velocity = target_vector * t * attack_direct * 60
 			get_parent().apply_velocity(lunge_velocity)
 
 			if melee_timer >= melee_duration:

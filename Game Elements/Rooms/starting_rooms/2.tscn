@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://dwafc7hmrvabt"]
+[gd_scene load_steps=20 format=4 uid="uid://dwafc7hmrvabt"]
 
 [ext_resource type="Script" uid="uid://00rnhke2atmb" path="res://Game Elements/Rooms/room_script.gd" id="1_xr20v"]
 [ext_resource type="Shader" uid="uid://38vxobsuweed" path="res://Game Elements/General Game/limbo/limbo_effect.gdshader" id="2_fpkfk"]
@@ -11,6 +11,7 @@
 [ext_resource type="TileSet" uid="uid://c1hs512jrffba" path="res://art/western_pack/Tilesets/western_tiles_1.tres" id="9_fpkfk"]
 [ext_resource type="PackedScene" uid="uid://btojf6nei1gep" path="res://Game Elements/Characters/dummy.tscn" id="10_atlei"]
 [ext_resource type="PackedScene" uid="uid://dpuhgipplei32" path="res://Game Elements/Objects/tutorial/tutorial.tscn" id="11_8tuwy"]
+[ext_resource type="PackedScene" uid="uid://6vlkpl4y702r" path="res://Game Elements/Objects/weapon_hole.tscn" id="12_iig4n"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lv7v3"]
 shader = ExtResource("2_fpkfk")
@@ -171,7 +172,7 @@ position = Vector2(166, 187)
 
 [node name="CrowbarPickup" parent="." instance=ExtResource("8_ui0xc")]
 position = Vector2(-277, 366)
-weapon_type = "Crowbar"
+weapon_type = "Shovel"
 required_progress = 1.0
 
 [node name="ShotgunPickup" parent="." instance=ExtResource("8_ui0xc")]
@@ -184,3 +185,6 @@ position = Vector2(-103, 170)
 
 [node name="Tutorial" parent="." instance=ExtResource("11_8tuwy")]
 position = Vector2(-66, 300)
+
+[node name="NewWeapon" parent="." instance=ExtResource("12_iig4n")]
+position = Vector2(51, 319)

@@ -75,7 +75,7 @@ var footstep_sounds = [
 
 #The scripts for loading default values into the attack
 #The list of attacks for playercharacter
-var weapons = [Weapon.create_weapon("res://Game Elements/Weapons/Crossbow.tres",self),Weapon.create_weapon("res://Game Elements/Weapons/LaserSword.tres",self)]
+var weapons = [Weapon.create_weapon("res://Game Elements/Weapons/Crossbow.tres",self),Weapon.create_weapon("res://Game Elements/Weapons/Laser Sword.tres",self)]
 var attacks = [preload("res://Game Elements/Attacks/bolt.tscn"),preload("res://Game Elements/Attacks/smash.tscn")]
 var revive = preload("res://Game Elements/Attacks/death_mark.tscn")
 var cooldowns = [0,0]
@@ -131,22 +131,22 @@ func _ready():
 
 
 func hide_forcefield(interp_time : float):
-	damage_resistance -=.5
 	forcefield_active = false
 	if interp_time == 0.0:
 		$Forcefield/CollisionShape2D.disabled  =true
 		$Forcefield/Forcefield.modulate.a = 0.0
 		return
+	damage_resistance -=.5
 	$Forcefield/CollisionShape2D.disabled  =true
 	create_tween().tween_property($Forcefield/Forcefield,"modulate",Color(1.0,1.0,1.0,0.0),interp_time)
 
 func show_forcefield(interp_time : float):
-	damage_resistance +=.5
 	forcefield_active = true
 	if interp_time == 0.0:
 		$Forcefield/CollisionShape2D.disabled  =false
 		$Forcefield/Forcefield.modulate.a = 1.0
 		return
+	damage_resistance +=.5
 	$Forcefield/CollisionShape2D.disabled  =false
 	$Forcefield/Forcefield.modulate.a = 0.0
 	create_tween().tween_property($Forcefield/Forcefield,"modulate",Color(1.0,1.0,1.0,1.0),interp_time)
@@ -362,7 +362,7 @@ func _physics_process(delta):
 		else:
 			handle_attack()
 	if has_bandit() and Input.is_action_pressed("attack_" + input_device):
-		handle_attack()
+		handle_attack(true)
 	if Input.is_action_just_pressed("activate_" + input_device):
 		emit_signal("activate",self)
 	if Input.is_action_just_pressed("special_" + input_device):
@@ -559,14 +559,16 @@ func set_weapon_dr(weapon : Weapon):
 	match weapon.type:
 		"Mace":
 			damage_resistance = .1
-		"Laser_Sword":
+		"Laser Sword":
 			damage_resistance = .1
-		"Crowbar":
+		"Shovel":
 			damage_resistance = .1
 		"Shovel":
 			damage_resistance = .1
 		"Fist":
 			damage_resistance = .1
+		_:
+			damage_resistance = 0.0
 	
 
 func set_weapon_sprite(weapon : Weapon, f_weapon_node : Node):
@@ -689,10 +691,13 @@ func _check_giant():
 	
 
 func tether(delta : float):
+	if is_tethered:
+		TutorialManager.player_tethers(is_purple,delta)
 	if(input_device != "key"):
 		if Input.is_action_just_pressed("quick_swap_" + input_device):
 			if(!is_multiplayer):
 				swap_color()
+				TutorialManager.player_tethers_short(is_purple,1.0)
 	if Input.is_action_just_pressed("swap_" + input_device):
 		if is_multiplayer:
 			tether_momentum += (other_player.position - position)
@@ -721,6 +726,7 @@ func tether(delta : float):
 	if Input.is_action_just_released("swap_" + input_device):
 		if(!is_multiplayer and single_swap_duration <= .15 and single_swap_duration != 0):
 			swap_color()
+			TutorialManager.player_tethers_short(is_purple,1.0)
 			single_toggle = true
 			if !is_multiplayer:
 				other_player.collision_shape.scale = Vector2(1,1)
@@ -804,7 +810,7 @@ func die(death : bool , insta_die : bool = false) -> bool:
 		else:
 			Globals.death_time-=1
 			i_frames = 60
-			change_health(max_health-current_health)
+			change_health(max_health/2.0-current_health)
 			self.process_mode = PROCESS_MODE_INHERIT
 			visible = true
 	return true
@@ -814,8 +820,14 @@ func adjust_cooldowns(time_elapsed : float):
 	if cooldowns[is_purple as int] > 0:
 		cooldowns[is_purple as int] = max(cooldowns[is_purple as int]-time_elapsed,0.0)
 
-func handle_attack():
+func handle_attack(is_autofire : bool = false):
+	if is_autofire:
+		if cooldowns[is_purple as int] <= bandit_cooldown() / 2.0:
+			TutorialManager.player_attacks(is_purple,1.0)
+			cooldowns[is_purple as int] = request_attack(weapons[is_purple as int])
+		return
 	if cooldowns[is_purple as int] <= bandit_cooldown():
+		TutorialManager.player_attacks(is_purple,1.0)
 		cooldowns[is_purple as int] = request_attack(weapons[is_purple as int])
 
 
@@ -1219,7 +1231,7 @@ func check_tortoise(temp_is_purple : bool, new_progress : float, used_special : 
 				litho.remnant_name:
 					var lith_area = preload("res://Game Elements/Remnants/lithomancer/lithomancer.tscn").instantiate()
 					lith_area.scale *= 1 + (rem.rank -1) * .2
-					lith_area.lifetime = rem.rank * 4
+					lith_area.lifetime = rem.rank * 3
 					lith_area.litho_value = rem.variable_2_values[rem.rank - 1]
 					LayerManager.room_instance.add_child(lith_area)
 					lith_area.global_position = global_position

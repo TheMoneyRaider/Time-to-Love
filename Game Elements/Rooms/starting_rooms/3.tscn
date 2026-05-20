@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=4 uid="uid://6kgd3ndk5wgr"]
+[gd_scene load_steps=32 format=4 uid="uid://6kgd3ndk5wgr"]
 
 [ext_resource type="Script" uid="uid://00rnhke2atmb" path="res://Game Elements/Rooms/room_script.gd" id="1_7nyve"]
 [ext_resource type="Shader" uid="uid://38vxobsuweed" path="res://Game Elements/General Game/limbo/limbo_effect.gdshader" id="2_774x8"]
@@ -18,6 +18,7 @@
 [ext_resource type="Shader" uid="uid://djb6fots67ufy" path="res://Game Elements/Rooms/sci_fi/glitch_liquid.gdshader" id="13_poqlc"]
 [ext_resource type="PackedScene" uid="uid://btojf6nei1gep" path="res://Game Elements/Characters/dummy.tscn" id="17_kvee5"]
 [ext_resource type="PackedScene" uid="uid://dpuhgipplei32" path="res://Game Elements/Objects/tutorial/tutorial.tscn" id="18_uxgmh"]
+[ext_resource type="PackedScene" uid="uid://6vlkpl4y702r" path="res://Game Elements/Objects/weapon_hole.tscn" id="19_vg5f1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lv7v3"]
 shader = ExtResource("2_774x8")
@@ -280,7 +281,7 @@ position = Vector2(166, 187)
 
 [node name="CrowbarPickup" parent="." instance=ExtResource("9_kvee5")]
 position = Vector2(-277, 366)
-weapon_type = "Crowbar"
+weapon_type = "Shovel"
 required_progress = 1.0
 
 [node name="ShotgunPickup" parent="." instance=ExtResource("9_kvee5")]
@@ -295,7 +296,7 @@ required_progress = 2.0
 
 [node name="LaserSword" parent="." instance=ExtResource("9_kvee5")]
 position = Vector2(-1052, 621)
-weapon_type = "LaserSword"
+weapon_type = "Laser Sword"
 required_progress = 2.0
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -333,3 +334,6 @@ position = Vector2(234, -12)
 
 [node name="Tutorial" parent="." instance=ExtResource("18_uxgmh")]
 position = Vector2(-447, 561)
+
+[node name="NewWeapon" parent="." instance=ExtResource("19_vg5f1")]
+position = Vector2(54, 320)

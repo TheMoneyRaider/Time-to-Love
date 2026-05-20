@@ -144,26 +144,36 @@ tile_map_data = PackedByteArray("AAAiACUABAABAAIAAAAjACUABAACAAIAAAAnACkABAABAAI
 tile_set = ExtResource("1_2w160")
 
 [node name="Trap1" type="TileMapLayer" parent="."]
+z_index = 20
+y_sort_enabled = true
 material = SubResource("ShaderMaterial_c158k")
 tile_map_data = PackedByteArray("AAAbABMABAAEAAoAAAAbABQABAAEAAsAAAAbABUABAAEAAwAAAATAB4ABAADAAwAAAAcACMABAADAAwAAAAfABkABAADAAwAAAAUABUABAADAAwAAAAYABAABAADAAwAAAAgABwABAAEAAoAAAAgAB0ABAAEAAsAAAAgAB4ABAAEAAwAAAA=")
 tile_set = ExtResource("1_2w160")
 
 [node name="Trap2" type="TileMapLayer" parent="."]
+z_index = 20
+y_sort_enabled = true
 material = SubResource("ShaderMaterial_c158k")
 tile_map_data = PackedByteArray("AAAiABEABAAEAAoAAAAiABIABAAEAAsAAAAiABMABAAEAAwAAAAjABIABAADAAwAAAA=")
 tile_set = ExtResource("1_2w160")
 
 [node name="Trap3" type="TileMapLayer" parent="."]
+z_index = 20
+y_sort_enabled = true
 material = SubResource("ShaderMaterial_c158k")
 tile_map_data = PackedByteArray("AAAKACYABAAEAAoAAAAKACcABAAEAAsAAAAKACgABAAEAAwAAAAGACoABAADAAwAAAANACsABAADAAwAAAARAB8ABAADAAwAAAATACMABAAEAAoAAAATACQABAAEAAsAAAATACUABAAEAAwAAAA=")
 tile_set = ExtResource("1_2w160")
 
 [node name="Trap4" type="TileMapLayer" parent="."]
+z_index = 20
+y_sort_enabled = true
 material = SubResource("ShaderMaterial_c158k")
 tile_map_data = PackedByteArray("AAALAAQABAAEAAoAAAALAAUABAAEAAsAAAALAAYABAAEAAwAAAAIAAoABAADAAwAAAAUAAsABAADAAwAAAAHAAgABAADAAwAAAALAAMABAADAAwAAAAPAAsABAAEAAoAAAAPAAwABAAEAAsAAAAPAA0ABAAEAAwAAAA=")
 tile_set = ExtResource("1_2w160")
 
 [node name="Trap5" type="TileMapLayer" parent="."]
+z_index = 20
+y_sort_enabled = true
 material = SubResource("ShaderMaterial_c158k")
 tile_map_data = PackedByteArray("AAAqACcABAAEAAoAAAAqACgABAAEAAsAAAAqACkABAAEAAwAAAAiACcABAADAAwAAAAlACMABAADAAwAAAAqAC0ABAADAAwAAAAzACYABAAEAAoAAAAzACcABAAEAAsAAAAzACgABAAEAAwAAAA=")
 tile_set = ExtResource("1_2w160")

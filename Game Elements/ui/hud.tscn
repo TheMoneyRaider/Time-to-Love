@@ -17,7 +17,7 @@
 [ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/Particles/effect_particles.gd" id="13_8prbk"]
 [ext_resource type="Shader" uid="uid://dw2wx3n6pfeno" path="res://Game Elements/ui/pain_display.gdshader" id="15_5ho0i"]
 [ext_resource type="Script" uid="uid://7n5dhknutmb5" path="res://Game Elements/ui/pain_display.gd" id="16_wtgju"]
-[ext_resource type="Script" path="res://Game Elements/ui/death_countdown.gd" id="18_mrems"]
+[ext_resource type="Script" uid="uid://b2leg1eo0ux3x" path="res://Game Elements/ui/death_countdown.gd" id="18_mrems"]
 [ext_resource type="FontFile" uid="uid://uwli4o3ns4pq" path="res://fonts/OldEnglishFive.ttf" id="18_oroqg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5ho0i"]
@@ -624,34 +624,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("18_mrems")
 
-[node name="AttackLabel2" type="RichTextLabel" parent="."]
-visible = false
-modulate = Color(1, 1, 1, 0.627451)
-offset_left = 1021.0
-offset_top = 682.0
-offset_right = 1662.0
-offset_bottom = 981.0
-focus_mode = 0
-theme_override_font_sizes/normal_font_size = 64
-theme_override_font_sizes/bold_font_size = 48
-theme_override_font_sizes/italics_font_size = 48
-theme_override_font_sizes/mono_font_size = 48
-bbcode_enabled = true
-text = "[font=res://addons/input_prompt_icon_font/icon.ttf]mouse_right_outline[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_r1[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]xbox_rb[/font]
-[code]Special(Charged)[/code]
-[font_size=48]Hit enemies to build charge"
-scroll_active = false
-horizontal_alignment = 2
-
 [node name="Tutorial_Display" type="RichTextLabel" parent="."]
 visible = false
 modulate = Color(1, 1, 1, 0.627451)
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -320.5
-offset_right = 320.5
-offset_bottom = 500.0
+offset_left = -497.0
+offset_right = 497.0
+offset_bottom = 761.0
 grow_horizontal = 2
 focus_mode = 0
 theme_override_font_sizes/normal_font_size = 64
@@ -659,61 +640,10 @@ theme_override_font_sizes/bold_font_size = 48
 theme_override_font_sizes/italics_font_size = 48
 theme_override_font_sizes/mono_font_size = 48
 bbcode_enabled = true
-text = "
+text = "[font=res://addons/input_prompt_icon_font/icon.ttf]
 
 
-[font=res://addons/input_prompt_icon_font/icon.ttf]mouse_left_outline[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_r2[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]xbox_rt[/font]
-[code]Attack[/code]"
+[code]Hold[/code] keyboard_space / playstation_trigger_l1 / xbox_lb
+[code]Tether"
 scroll_active = false
 horizontal_alignment = 1
-
-[node name="AttackLabel" type="RichTextLabel" parent="."]
-visible = false
-modulate = Color(1, 1, 1, 0.627451)
-offset_left = 1213.0
-offset_top = 520.0
-offset_right = 1655.0
-offset_bottom = 709.0
-focus_mode = 0
-theme_override_font_sizes/normal_font_size = 64
-theme_override_font_sizes/bold_font_size = 48
-theme_override_font_sizes/italics_font_size = 48
-theme_override_font_sizes/mono_font_size = 48
-bbcode_enabled = true
-text = "[font=res://addons/input_prompt_icon_font/icon.ttf]mouse_left_outline[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_r2[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]xbox_rt[/font]
-[code]Attack[/code]"
-scroll_active = false
-horizontal_alignment = 2
-
-[node name="SwapLabel" type="RichTextLabel" parent="."]
-visible = false
-modulate = Color(1, 1, 1, 0.627451)
-offset_left = 256.0
-offset_top = 705.0
-offset_right = 781.0
-offset_bottom = 882.0
-focus_mode = 0
-theme_override_font_sizes/normal_font_size = 64
-theme_override_font_sizes/bold_font_size = 48
-theme_override_font_sizes/italics_font_size = 48
-theme_override_font_sizes/mono_font_size = 48
-bbcode_enabled = true
-text = "Short [font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_space[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_l1[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]xbox_lb[/font]
-[code]Quick Swap[/code]"
-scroll_active = false
-
-[node name="TetherLabel" type="RichTextLabel" parent="."]
-visible = false
-modulate = Color(1, 1, 1, 0.627451)
-offset_left = 256.0
-offset_top = 493.0
-offset_right = 828.0
-offset_bottom = 682.0
-focus_mode = 0
-theme_override_font_sizes/normal_font_size = 64
-theme_override_font_sizes/bold_font_size = 48
-theme_override_font_sizes/mono_font_size = 48
-bbcode_enabled = true
-text = "Long [font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_space[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_l2[/font]/ [font=res://addons/input_prompt_icon_font/icon.ttf]xbox_lt[/font]
-[code]Tether[/code]"
-scroll_active = false

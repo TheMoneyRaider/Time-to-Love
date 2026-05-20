@@ -1,82 +1,11 @@
-[gd_scene load_steps=28 format=3 uid="uid://dyqkjcho73h2u"]
+[gd_scene load_steps=16 format=3 uid="uid://dyqkjcho73h2u"]
 
 [ext_resource type="Script" uid="uid://ckyj44hgpi6oe" path="res://Game Elements/Objects/new_weapon.gd" id="1_l1nho"]
 [ext_resource type="Shader" uid="uid://b6t7bv08io6o3" path="res://Game Elements/Objects/pathway.gdshader" id="2_avgrg"]
-[ext_resource type="Texture2D" uid="uid://jauot8cjpgbk" path="res://art/particles/white_dot.png" id="2_p100u"]
-[ext_resource type="Texture2D" uid="uid://dsg1hqhbidk6m" path="res://art/particles/gradiant_dot.png" id="3_osrw6"]
 [ext_resource type="Texture2D" uid="uid://dg17fs4ivojpw" path="res://art/weapons/pillar.png" id="4_osrw6"]
 [ext_resource type="Texture2D" uid="uid://bgt0rbmptp3qg" path="res://art/weapons/laser_sword/laser_sword.png" id="6_osrw6"]
 [ext_resource type="Shader" uid="uid://dybc3kq47jw4u" path="res://Game Elements/Bosses/scifi/forcefield_singul.gdshader" id="7_nu7c8"]
 [ext_resource type="Texture2D" uid="uid://cggx60a5l71t7" path="res://art/white_square2.png" id="8_maxa0"]
-
-[sub_resource type="Gradient" id="Gradient_ybbf2"]
-offsets = PackedFloat32Array(0.2647059, 0.5392157, 1)
-colors = PackedColorArray(0.88733417, 0.64631766, 0.35203508, 1, 0.7655881, 0.4938748, 0, 0.81960785, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_okald"]
-gradient = SubResource("Gradient_ybbf2")
-
-[sub_resource type="Curve" id="Curve_nu7c8"]
-_data = [Vector2(0.0043478236, 0), 0.0, 12.662923, 0, 0, Vector2(0.26521742, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_khmhv"]
-curve = SubResource("Curve_nu7c8")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_maxa0"]
-particle_flag_disable_z = true
-emission_shape = 6
-emission_ring_axis = Vector3(0, 0, 1)
-emission_ring_height = 1.0
-emission_ring_radius = 6.0
-emission_ring_inner_radius = 0.0
-emission_ring_cone_angle = 90.0
-spread = 180.0
-initial_velocity_min = 50.0
-initial_velocity_max = 50.0
-gravity = Vector3(0, 0, 0)
-radial_accel_min = -20.000002
-radial_accel_max = -20.000002
-tangential_accel_min = -50.0
-tangential_accel_max = -50.0
-scale_min = 0.099999994
-scale_max = 0.29999998
-scale_curve = SubResource("CurveTexture_khmhv")
-color_ramp = SubResource("GradientTexture1D_okald")
-
-[sub_resource type="Gradient" id="Gradient_hytuo"]
-offsets = PackedFloat32Array(0.2647059, 0.5392157, 1)
-colors = PackedColorArray(0.94686705, 0.4836762, 0.99999994, 1, 0.87058824, 0, 0.98039216, 0.81960785, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_2debc"]
-gradient = SubResource("Gradient_hytuo")
-
-[sub_resource type="Curve" id="Curve_o0vu1"]
-_data = [Vector2(0.0043478236, 0), 0.0, 12.662923, 0, 0, Vector2(0.26521742, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_qa5l0"]
-curve = SubResource("Curve_o0vu1")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mpppp"]
-particle_flag_disable_z = true
-emission_shape = 6
-emission_ring_axis = Vector3(0, 0, 1)
-emission_ring_height = 1.0
-emission_ring_radius = 18.0
-emission_ring_inner_radius = 0.0
-emission_ring_cone_angle = 90.0
-spread = 180.0
-initial_velocity_min = 25.0
-initial_velocity_max = 25.0
-gravity = Vector3(0, 0, 0)
-radial_accel_min = -20.000002
-radial_accel_max = -20.000002
-tangential_accel_min = 39.999996
-tangential_accel_max = 39.999996
-scale_max = 2.0
-scale_curve = SubResource("CurveTexture_qa5l0")
-color_ramp = SubResource("GradientTexture1D_2debc")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8365d"]
 radius = 36.138622
@@ -129,26 +58,6 @@ z_index = 20
 collision_mask = 3
 script = ExtResource("1_l1nho")
 weapon_type = "Mace"
-
-[node name="MaskViewport" type="SubViewport" parent="."]
-disable_3d = true
-transparent_bg = true
-size = Vector2i(128, 128)
-render_target_update_mode = 4
-
-[node name="RiftWisps_OrangeNew" type="GPUParticles2D" parent="MaskViewport"]
-position = Vector2(64, 64)
-amount = 300
-texture = ExtResource("2_p100u")
-lifetime = 1.5
-process_material = SubResource("ParticleProcessMaterial_maxa0")
-
-[node name="RiftWisps_Purple" type="GPUParticles2D" parent="MaskViewport"]
-position = Vector2(64, 64)
-amount = 100
-texture = ExtResource("3_osrw6")
-lifetime = 2.0
-process_material = SubResource("ParticleProcessMaterial_mpppp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_8365d")

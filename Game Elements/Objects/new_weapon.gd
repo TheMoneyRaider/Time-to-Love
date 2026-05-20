@@ -42,7 +42,7 @@ func _process(delta: float) -> void:
 	time+=delta
 	$Image.position.y = sin(time/2+time_offset)*1.5-16.0
 	$Image.rotation = sin(time/2+2*time_offset) / 3
-	if weapon_type == "Railgun" or weapon_type == "LaserSword":
+	if weapon_type == "Railgun" or weapon_type == "Laser Sword":
 		$Image.rotation+=PI/2.0
 
 func _on_body_entered(body):
@@ -69,13 +69,10 @@ func _set_display(body : Node):
 	
 	
 	if cost != 0:
-		if body.input_device == "key":
-			prompt1.get_child(0).bbcode_text = ""+str(cost)+" to buy   "+sym
-		else:
-			prompt1.get_child(0).bbcode_text = ""+str(cost)+" to buy   "+sym
+		prompt1.get_child(0).bbcode_text = ""+str(cost)+" to buy   "+sym
+		return
+	if weapon_type == "Fist":
+		prompt1.get_child(0).bbcode_text = sym+": Unequip Weapon"
 		return
 		
-	if body.input_device == "key":
-			prompt1.get_child(0).bbcode_text = sym
-	else:
-		prompt1.get_child(0).bbcode_text = sym
+	prompt1.get_child(0).bbcode_text = sym+": Equip "+weapon_type

@@ -299,6 +299,8 @@ func scifi_phase1_middles():
 	var tween = create_tween()
 	tween.tween_property($Forcefield,"modulate",Color(1.0,1.0,1.0,0.0),1.0)
 	await get_tree().create_timer(8.0, false).timeout
+	if !$Forcefield/CollisionShape2D:
+		return
 	if middle_active <= 1:
 		# Disable the boss collision
 		boss.get_node("CollisionShape2D").set_deferred("disabled", true)

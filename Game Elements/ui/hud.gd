@@ -55,20 +55,7 @@ func _ready():
 	inactive_player = music_player_b
 	_on_special_changed(true,1.0)
 	_on_special_changed(false,1.0)
-	
-	if(Globals.save_state.time_spent <= 120):
-		$AttackLabel.visible = true
-		$AttackLabel2.visible = true
-		$SwapLabel.visible = true
-		$TetherLabel.visible = true
-	else:
-		disable_tutorial()
 		
-func disable_tutorial():
-	$AttackLabel.visible = false
-	$AttackLabel2.visible = false
-	$SwapLabel.visible = false
-	$TetherLabel.visible = false
 
 func set_timefabric_amount(timefabric_collected : int):
 	$RootControl/VBoxContainer/HorizontalSlice/TimeFabric/HBoxContainer/Label.text = str(timefabric_collected)

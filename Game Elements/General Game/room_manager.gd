@@ -86,8 +86,6 @@ func get_room(room : Room):
 	#	tempvar = false
 	#	return bosses[1]
 	var index = int(current_progress) if room.roomtype != Globals.RoomType.Boss else int(current_progress+1.0)
-	if index >= 3:
-		index = randi() % 3
 	#shop_override
 	var T = 0.15
 	var P = 0.05
@@ -102,6 +100,8 @@ func get_room(room : Room):
 	#Removed a  +.01, don't know why that was needed.
 	if get_boss_chance() > randf() and room.roomtype != Globals.RoomType.Boss:
 		return bosses[index]
+	if index >= 3:
+		index = randi() % 3
 
 	var normal_index = clamp(int(randf()*normal_rooms[index].size()),0,normal_rooms[index].size()-1)
 	if normal_rooms[index][normal_index]==room:
@@ -182,10 +182,8 @@ var cur_prog = 0.0
 var new_prog = 0.0
 func make_room_limbo(room_reference : Node, z_val : int, layermanager : Node,set_values : bool = true):
 	if set_values:
-		cur_prog = current_progress - floor(current_progress)
-		new_prog = 1-exp(-0.1386*(layer_ai[0]+1))
-		cur_prog = _cubic_bezier_ease(.74,.23,.88,.43,cur_prog)
-		new_prog = _cubic_bezier_ease(.74,.23,.88,.43,new_prog)
+		cur_prog = layer_ai[14] / 5
+		new_prog = (layer_ai[14]+1) / 5
 		
 	for child in room_reference.get_children():
 		make_room_limbo(child, z_val +child.z_index if "z_index" in child else z_val,layermanager, false)
