@@ -133,7 +133,9 @@ Special(Charged)
 var transitioning : bool = false
 func phase_transition(_phase1 : int,phase2 : int):
 	if transitioning: return
+	transitioning = true
 	if phase2 > requirements.size() - 1:
+		phase=-1
 		var tween = create_tween()
 		tween.tween_property(display, "modulate:a", 0.0, 0.4)
 		await tween.finished
