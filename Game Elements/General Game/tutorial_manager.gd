@@ -28,6 +28,10 @@ func player_tethers(is_purple : bool,amount : float):
 	if !Globals.is_multiplayer: player_req[!is_purple as int][phase]+=amount
 	update_display()
 	if player_req[0][phase] >= requirements[phase] and player_req[1][phase] >= requirements[phase]:
+		if Globals.is_multiplayer:
+			phase_transition(1,2)
+			return
+			
 		phase_transition(0,1)
 	pass
 	
