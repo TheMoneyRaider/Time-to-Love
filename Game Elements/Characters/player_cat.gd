@@ -362,7 +362,7 @@ func _physics_process(delta):
 		else:
 			handle_attack()
 	if has_bandit() and Input.is_action_pressed("attack_" + input_device):
-		handle_attack()
+		handle_attack(true)
 	if Input.is_action_just_pressed("activate_" + input_device):
 		emit_signal("activate",self)
 	if Input.is_action_just_pressed("special_" + input_device):
@@ -820,7 +820,12 @@ func adjust_cooldowns(time_elapsed : float):
 	if cooldowns[is_purple as int] > 0:
 		cooldowns[is_purple as int] = max(cooldowns[is_purple as int]-time_elapsed,0.0)
 
-func handle_attack():
+func handle_attack(is_autofire : bool = false):
+	if is_autofire:
+		if cooldowns[is_purple as int] <= bandit_cooldown() / 2.0:
+			TutorialManager.player_attacks(is_purple,1.0)
+			cooldowns[is_purple as int] = request_attack(weapons[is_purple as int])
+		return
 	if cooldowns[is_purple as int] <= bandit_cooldown():
 		TutorialManager.player_attacks(is_purple,1.0)
 		cooldowns[is_purple as int] = request_attack(weapons[is_purple as int])
