@@ -9,6 +9,7 @@ var player_req : Array[Array] = [[0.0,0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.0]]
 
 func activate(display_in : Node):
 	display = display_in
+	display.visible = true
 	phase=0
 
 func player_moves(is_purple : bool,amount : float):

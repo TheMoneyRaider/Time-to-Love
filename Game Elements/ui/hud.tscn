@@ -644,6 +644,7 @@ scroll_active = false
 horizontal_alignment = 2
 
 [node name="Tutorial_Display" type="RichTextLabel" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0.627451)
 anchors_preset = 5
 anchor_left = 0.5
