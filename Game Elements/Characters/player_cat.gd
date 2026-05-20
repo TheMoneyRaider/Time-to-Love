@@ -382,6 +382,7 @@ func _physics_process(delta):
 		disabled_countdown-=1
 		
 	if velocity.length() > 5.0 and !disabled and !is_tethered:
+		TutorialManager.player_moves(is_purple,delta)
 		footstep_timer -= delta
 		if footstep_timer <= 0.0:
 			var speed_ratio = clamp(velocity.length() / base_move_speed, 1.0, 2.5)
@@ -689,10 +690,13 @@ func _check_giant():
 	
 
 func tether(delta : float):
+	if is_tethered:
+		TutorialManager.player_tethers(is_purple,delta)
 	if(input_device != "key"):
 		if Input.is_action_just_pressed("quick_swap_" + input_device):
 			if(!is_multiplayer):
 				swap_color()
+				TutorialManager.player_tethers_short(is_purple,1.0)
 	if Input.is_action_just_pressed("swap_" + input_device):
 		if is_multiplayer:
 			tether_momentum += (other_player.position - position)
@@ -721,6 +725,7 @@ func tether(delta : float):
 	if Input.is_action_just_released("swap_" + input_device):
 		if(!is_multiplayer and single_swap_duration <= .15 and single_swap_duration != 0):
 			swap_color()
+			TutorialManager.player_tethers_short(is_purple,1.0)
 			single_toggle = true
 			if !is_multiplayer:
 				other_player.collision_shape.scale = Vector2(1,1)
@@ -816,6 +821,7 @@ func adjust_cooldowns(time_elapsed : float):
 
 func handle_attack():
 	if cooldowns[is_purple as int] <= bandit_cooldown():
+		TutorialManager.player_attacks(is_purple,1.0)
 		cooldowns[is_purple as int] = request_attack(weapons[is_purple as int])
 
 

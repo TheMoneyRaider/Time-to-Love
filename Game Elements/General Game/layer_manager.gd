@@ -1905,7 +1905,6 @@ func _on_timefabric_absorbed(timefabric_node : Node):
 	
 func _on_activate(player_node : Node):
 	if room_instance:
-		print("ehy")
 		if check_reward(room_instance, room_instance_data,player_node):
 			return
 		if room_instance_data.roomtype == Globals.RoomType.Shop and room_instance.get_node("Shop").check_rewards(player_node):
