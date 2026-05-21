@@ -43,7 +43,13 @@ func set_remnant(remnant_in: Resource, is_upgrade : bool) -> void:
 		art.texture = null
 	rank_label.text = "Rank " + _num_to_roman(remnant_in.rank) if !is_upgrade else "Rank " + _num_to_roman(remnant_in.rank) +"->" + _num_to_roman(remnant_in.rank+1)
 	art.material.set_shader_parameter("grayscale",!remnant_in.active)
+	desc_label.add_theme_color_override("default_color", Color(0.0, 0.851, 0.808))
+	name_label.label_settings.font_color =Color(0.0, 0.612, 0.58)
 	_update_description(remnant_in, desc_label, remnant_in.rank, is_upgrade)
+	if remnant_in.remnant_name==preload("res://Game Elements/Remnants/singularity.tres").remnant_name:
+		name_label.label_settings = name_label.label_settings.duplicate(true)
+		name_label.label_settings.font_color =Color(0.0, 0.754, 0.849, 1.0)
+		desc_label.add_theme_constant_override("outline_size", 20)
 
 func outline_remnant(color: Color = Color.ORANGE, alpha : float = 0.0):
 	art.material.set_shader_parameter("outline_color", color)

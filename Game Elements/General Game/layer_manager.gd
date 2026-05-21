@@ -106,7 +106,7 @@ func _ready() -> void:
 	hud.set_players(player1,player2)
 	hud.connect_signals(player1)
 	hud.set_cross_position()
-	dev_remnants()
+	#dev_remnants()
 	
 	
 	
@@ -1987,7 +1987,7 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 func dev_remnants():
 	var rem
 	
-	rem = load("res://Game Elements/Remnants/big_t.tres")
+	rem = load("res://Game Elements/Remnants/singularity.tres")
 	rem.rank = 5
 	player_1_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,true)

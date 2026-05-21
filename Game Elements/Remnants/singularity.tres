@@ -7,14 +7,15 @@
 [resource]
 script = ExtResource("3_xdx8b")
 remnant_name = "Remnant of The Singularity"
-description = "Purple $X repulses enemies. Orange $Y attracts enemies. $Z% chance to revive on death."
+description = "Purple $X repulses enemies. Orange $Y attracts timefabric."
 icon = ExtResource("2_em1r6")
 art = ExtResource("1_iigft")
 progress_required = 3.0
 tags = Array[String](["boss_remnant"])
-variable_names = Array[String](["$X", "$Y", "$Z"])
+variable_names = Array[String](["$X", "$Y"])
 variable_1_values = ["Tinily", "Slightly", "Moderately", "Largely", "Greatly"]
 variable_2_values = ["Tinily", "Slightly", "Moderately", "Largely", "Greatly"]
-variable_3_values = [15.0, 20.0, 25.0, 30.0, 35.0]
-variable_4_values = [1.0, 2.0, 3.0, 4.0, 5.0]
+variable_3_values = [19.2, 38.4, 57.6, 76.8, 96.0]
+variable_4_values = [10.0, 20.0, 30.0, 40.0, 50.0]
+variable_5_values = [90.0, 120.0, 150.0, 180.0, 210.0]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

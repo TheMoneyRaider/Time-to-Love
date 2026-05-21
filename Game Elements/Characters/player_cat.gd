@@ -311,7 +311,7 @@ func _input(event):
 func _physics_process(delta):
 	if disabled:
 		return
-		
+	attraction_effect()
 	if debug_angles:
 		_debug_wedges.clear()
 	output_angles = smooth_aim_assist()
@@ -1338,3 +1338,35 @@ func lich_effect(is_health : bool = false):
 					else:
 						return rem.variable_1_values[rem.rank-1] / 100.0
 	return 0.0
+func attraction_effect(time_fabric : bool = false):
+	var effect_radius := 64.0
+	var remnants : Array[Remnant]
+	var attraction_strength = 0.0
+	if !time_fabric and !is_purple: return
+	if time_fabric and is_purple: return 60.0
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var sing = preload("res://Game Elements/Remnants/singularity.tres")
+	for rem in remnants:
+		if rem.active:
+			match rem.remnant_name:
+				sing.remnant_name:
+					effect_radius =rem.variable_3_values[rem.rank-1]
+					attraction_strength = rem.variable_4_values[rem.rank-1]
+					if time_fabric and !is_purple: return rem.variable_5_values[rem.rank-1]
+					
+	if attraction_strength == 0.0: return
+	var enemies = get_tree().get_nodes_in_group("enemy")
+	
+	for enemy in enemies:
+		if not enemy.is_inside_tree():
+			continue
+		var dir = enemy.global_position - global_position
+		var dist = dir.length()
+		if dist < effect_radius and dist > 0:
+			var force = dir.normalized() * attraction_strength * (1.0 - dist / effect_radius)
+			var temp_velocity = enemy.velocity
+			enemy.apply_velocity(force)
+			enemy.velocity = temp_velocity
