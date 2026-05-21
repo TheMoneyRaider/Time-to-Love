@@ -99,6 +99,8 @@ func check_defender():
 			damage *= c_owner.damage_multiplier
 
 func _ready():
+	
+	#print("final =  "+str(damage))
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	ready_hacks()
 	start_scale = scale

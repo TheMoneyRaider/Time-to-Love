@@ -1005,7 +1005,7 @@ func _reset_barb_damage(percent : float, time : float):
 		weapon.damage = weapon.damage / (1 + percent)
 
 func damage_boost() -> float:
-	var boost : float = 1.0
+	var boost : float = 0.0
 	randomize()
 	var remnants : Array[Remnant]
 	if is_purple:
@@ -1023,17 +1023,17 @@ func damage_boost() -> float:
 					var temp_move = 0
 					if input_direction != Vector2.ZERO:
 						temp_move = move_speed
-					boost *= (1.0+rem.variable_1_values[rem.rank-1]/100.0*((temp_move/base_move_speed)-1))
+					boost += (rem.variable_1_values[rem.rank-1]/100.0*((temp_move/base_move_speed)-1))
 				ninja.remnant_name:
 					if is_purple:
-						boost *= LayerManager.hud.player1_combo
+						boost += LayerManager.hud.player1_combo-1.0
 					else:
-						boost *= LayerManager.hud.player2_combo
+						boost += LayerManager.hud.player2_combo-1.0
 				assassin.remnant_name:
-					boost *= (1 + min(time_since_last_hit * rem.variable_1_values[rem.rank-1],rem.variable_2_values[rem.rank-1]) / 100.0)
+					boost += (min(time_since_last_hit * rem.variable_1_values[rem.rank-1],rem.variable_2_values[rem.rank-1]) / 100.0)
 				hoard.remnant_name:
-					boost *= (1 + (rem.variable_1_values[rem.rank-1] * floor(LayerManager.timefabric_collected/50.0)  / 100.0))
-	return boost
+					boost += ((rem.variable_1_values[rem.rank-1] * floor(LayerManager.timefabric_collected/50.0)  / 100.0))
+	return boost+1.0
 
 func change_health(add_to_current : float, add_to_max : float = 0):
 	if add_to_current > 0.0:

@@ -206,8 +206,6 @@ func spawn_attack(attack_direction : Vector2, attack_position : Vector2, node_at
 		instance.global_position = attack_position
 		instance.c_owner = c_owner
 		apply_remnants(instance)
-		if c_owner.is_in_group("player"):
-			instance.damage *= c_owner.damage_boost()
 	else:
 		instance = load(attack_scene).instantiate()
 		if instance.attack_type=="crowbar_melee":
@@ -217,16 +215,15 @@ func spawn_attack(attack_direction : Vector2, attack_position : Vector2, node_at
 		instance.c_owner = c_owner
 		instance.speed = speed
 		instance.scale = instance.scale * scale
-		if c_owner.is_in_group("player"):
-			instance.damage = damage * c_owner.damage_boost()
-		else:
-			instance.damage = damage
+		instance.damage = damage
 		instance.lifespan = lifespan
 		instance.hit_force = hit_force
 		instance.start_lag = start_lag
 		instance.cooldown = cooldown
 		instance.pierce = pierce
 		apply_remnants(instance)
+		print("boosted 2 =  "+str(instance.damage))
+		
 	instance.is_purple = c_owner.is_purple if c_owner.is_in_group("player") else false
 	if(particle_effect != ""):
 		var effect = load("res://Game Elements/Particles/" + particle_effect + ".tscn").instantiate()
@@ -234,6 +231,8 @@ func spawn_attack(attack_direction : Vector2, attack_position : Vector2, node_at
 	c_owner.get_tree().get_root().get_node("LayerManager").room_instance.add_child(instance)
 
 func apply_remnants(attack_instance):
+	#print("###################################")
+	#print("1st damage value =  "+str(attack_instance.damage))
 	var remnants : Array[Remnant]
 	if c_owner != null && c_owner.is_in_group("player"):
 		var mancer_value = 0
@@ -250,6 +249,7 @@ func apply_remnants(attack_instance):
 			remnants = c_owner.get_tree().get_root().get_node("LayerManager").player_2_remnants
 			mancer_value = c_owner.mancermancer_values[1]
 		attack_instance.intelligence = null
+		var damage_multiplier = c_owner.damage_boost() -1.0
 		for rem in remnants:
 			if rem.active:
 				match rem.remnant_name:
@@ -260,6 +260,8 @@ func apply_remnants(attack_instance):
 								min_dist = min(min_dist,c_owner.global_position.distance_to(child.global_position))
 						if rem.variable_2_values[rem.rank-1]*16 < min_dist:
 							attack_instance.damage += rem.variable_1_values[rem.rank-1]
+		
+		#print("boosted 1.5 =  "+str((damage_multiplier+1.0)*attack_instance.damage))
 		for rem in remnants:
 			if rem.active:
 				match rem.remnant_name:
@@ -268,10 +270,10 @@ func apply_remnants(attack_instance):
 						if(attack_instance.speed != 0):
 							#Possibly add a min so it can't go lower than base damage? 
 							#Nah thats lame
-							attack_instance.damage = abs(attack_instance.damage * (((similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed) /  attack_instance.speed))
+							damage_multiplier += -1.0+max((((similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed) /  attack_instance.speed) /5.0,0.0)
 							attack_instance.speed = ((similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed)
 						else:
-							attack_instance.damage = abs(attack_instance.damage * ((similarity * (.005) * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + 1))
+							damage_multiplier += -1.0+max(((similarity * (.005) * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + 1) /5.0,0.0)
 							attack_instance.speed = (.5 * similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100)
 					hydromancer.remnant_name:
 						attack_instance.last_liquid = c_owner.last_liquid
@@ -285,6 +287,7 @@ func apply_remnants(attack_instance):
 						attack_instance.scale *= 1.5
 					_:
 						pass
+		attack_instance.damage *= damage_multiplier+1.0
 
 
 var laser_camera_distancex = 240
