@@ -34,7 +34,16 @@ func _ready() -> void:
 	is_multiplayer = Globals.is_multiplayer
 	boss.boss_phase_change.connect(_on_boss_phase_change)
 	boss.enemy_took_damage.connect(LayerManager._on_enemy_take_damage)
+	boss.tree_exiting.connect(_on_boss_freed)
+
+func _on_boss_freed() -> void:
+	boss = null
 	
+func reset_laser_shader() -> void:
+	var s_material = LayerManager.get_node("game_container").material
+	s_material.set_shader_parameter("laser_impact_time", -2)
+	s_material.set_shader_parameter("laser_rotation", 0.0)
+
 func _on_boss_phase_change(boss_in : Node):
 	match boss_in.phase:
 		0:
@@ -58,10 +67,14 @@ func scifi_phase1_to_2():
 	var tween = create_tween()
 	tween.tween_property($Forcefield,"modulate",Color(1.0,1.0,1.0,0.0),1.0)
 	await tween.finished
+	if !boss or !is_instance_valid(boss):
+		return
 	update_art(2)
 	boss.get_node("AnimationTree").set("parameters/conditions/idle",true)
 	print(boss.get_node("AnimationTree").get("parameters/conditions/idle"))
 	await get_tree().create_timer(3.0, false).timeout
+	if !boss or !is_instance_valid(boss):
+		return
 	boss.get_node("CollisionShape2D").set_deferred("disabled", false)
 	phase = 1
 	boss.phase = 1
@@ -86,6 +99,7 @@ func explode_segment(child: Node2D):
 
 	
 func scifi_phase2_to_3():
+	boss.hitable = false
 	boss.phase = 1
 	if phase_changing:
 		return
@@ -122,8 +136,8 @@ func scifi_phase2_to_3():
 	
 	
 	await get_tree().create_timer(1.5, false).timeout
-
-	boss.hitable = false
+	if !boss or !is_instance_valid(boss):
+		return
 	Hud.update_bossbar(0.0)
 	#Wave Attack
 	var attack_inst = preload("res://Game Elements/Bosses/scifi/wave_attack.tscn").instantiate()
@@ -138,16 +152,22 @@ func scifi_phase2_to_3():
 	tween.parallel().tween_property(LayerManager.awareness_display,"modulate",Color(1.0,1.0,1.0,0.0),3.0)
 	
 	await get_tree().create_timer(1, false).timeout
+	if !boss or !is_instance_valid(boss):
+		return
 	update_art(3)
 	boss.get_node("AnimationTree").active = true
 	boss.get_node("AnimationPlayer").active = true
 	await get_tree().create_timer(2, false).timeout
+	if !boss or !is_instance_valid(boss):
+		return
 	animation_change("idle")
 	phase = 2
 	boss.phase = 2
 	Hud.show_boss_bar(healthbar_underlays[phase],healthbar_overlays[phase],boss_names[phase],boss_name_settings[phase],phase_overlay_index[phase])
 	Hud.update_bossbar(1.0)
 	await get_tree().create_timer(1, false).timeout
+	if !boss or !is_instance_valid(boss):
+		return
 	boss.get_node("BTPlayer").active = true
 	$Ground.visible = false
 	$Filling.visible = false
@@ -156,6 +176,8 @@ func scifi_phase2_to_3():
 	$Filling_Cyber.visible = true
 
 	await get_tree().create_timer(3, false).timeout
+	if !boss or !is_instance_valid(boss):
+		return
 	var tween2 = create_tween()
 	
 	#Fully bring back boss
@@ -170,6 +192,8 @@ func scifi_phase2_to_3():
 	var playback = boss.get_node("AnimationTree").get("parameters/playback")
 	playback.travel("idle")
 	await get_tree().create_timer(4, false).timeout
+	if !boss or !is_instance_valid(boss):
+		return
 	s_material.set_shader_parameter("ultimate", false)
 	
 
@@ -199,6 +223,9 @@ func _process(delta: float) -> void:
 	scifi_binary_process(delta)
 	if !boss or !is_instance_valid(boss):
 		deactivate()
+	if boss.current_health <= 0.0:
+		boss.boss_die = true
+		boss.emit_signal("enemy_took_damage",100.0,boss.current_health,boss,Vector2(0,-1))
 
 func finish_intro():
 	player1.get_node("Crosshair").mouse_clamping_enabled = true
@@ -250,6 +277,8 @@ func finish_animation():
 	var tween = create_tween()
 	tween.tween_property(LayerManager.BossIntro.get_node("Transition"),"modulate",Color(0.0,0.0,0.0,0.0),fade_time)
 	await tween.finished
+	if !boss or !is_instance_valid(boss):
+		return
 	LayerManager.BossIntro.visible = false
 	LayerManager.BossIntro.get_node("Transition").modulate = Color(0.0,0.0,0.0,1.0)
 	return
@@ -299,6 +328,8 @@ func scifi_phase1_middles():
 	var tween = create_tween()
 	tween.tween_property($Forcefield,"modulate",Color(1.0,1.0,1.0,0.0),1.0)
 	await get_tree().create_timer(8.0, false).timeout
+	if !boss or !is_instance_valid(boss):
+		return
 	if !$Forcefield/CollisionShape2D:
 		return
 	if middle_active <= 1:
@@ -377,6 +408,8 @@ func scifi_laser_attack(num_lasers):
 	if num_lasers == 1:
 		boss.get_node("AnimationTree").set("parameters/conditions/laser_basic",true)
 		await get_tree().create_timer(3.0, false).timeout
+		if !boss or !is_instance_valid(boss):
+			return
 	boss.get_node("AnimationTree").set("parameters/conditions/laser_basic",false)
 	if !laser_legal():
 		return
@@ -459,8 +492,11 @@ func scifi_laser_attack(num_lasers):
 			
 		if get_tree():
 			await get_tree().create_timer(0.0, false).timeout
+			if !boss or !is_instance_valid(boss):
+				return
 	if inst and is_instance_valid(inst):
 		inst.queue_free()
+	reset_laser_shader()
 	if animation == "basic_laser" or animation =="laser_ultra":
 		animation_change("idle")
 	
@@ -597,6 +633,7 @@ func update_art(p_in : int):
 	
 
 func deactivate():
+	reset_laser_shader()
 	var chosen_pathway : bool = false
 	for node in get_children():
 		if node.is_in_group("pathway"):
@@ -605,15 +642,6 @@ func deactivate():
 				node._make_gray()
 				node.get_node("Icons").visible = false
 				chosen_pathway = true
-	#if is_multiplayer:
-		#var particle2 =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
-		#player2.change_health(player2.max_health * .50)
-		#particle2.global_position = player2.global_position
-		#LayerManager.room_instance.add_child(particle2)
-	#var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
-	#player1.change_health(player1.max_health * .50)
-	#particle.global_position = player1.global_position
-	#LayerManager.room_instance.add_child(particle)
 	active=false
 	Hud.hide_boss_bar()
 	SteamManager.unlock_achievement("SIGNUL")
@@ -659,6 +687,8 @@ func activate(camera_in : Node, player1_in : Node, player2_in : Node):
 	var tween = create_tween()
 	tween.tween_property(transition1,"modulate:a",1.0,1.0)
 	await tween.finished
+	if !boss or !is_instance_valid(boss):
+		return
 	LayerManager.BossIntro.visible = true
 	screen.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	transition1.visible = false

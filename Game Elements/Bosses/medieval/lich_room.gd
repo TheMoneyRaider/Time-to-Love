@@ -63,6 +63,9 @@ func _process(delta: float) -> void:
 		boss_animation()
 	if !boss or !is_instance_valid(boss):
 		deactivate()
+	if boss.current_health <= 0.0:
+		boss.boss_die = true
+		boss.emit_signal("enemy_took_damage",100.0,boss.current_health,boss,Vector2(0,-1))
 
 func finish_intro():
 	player1.get_node("Crosshair").mouse_clamping_enabled = true

@@ -1684,7 +1684,7 @@ func _on_player_take_damage(damage_amount : float,_current_health : float,_playe
 	
 func _on_enemy_take_damage(damage : float,current_health : float,enemy : Node, direction = Vector2(0,-1)) -> void:
 	RoomManager.layer_ai[5]+=damage
-	if current_health <= 0.0:
+	if current_health <= 0.0 and (!enemy.is_boss or enemy.boss_die):
 		if enemy.is_boss:
 			boss_rewards()
 		var has_death_attack = false
