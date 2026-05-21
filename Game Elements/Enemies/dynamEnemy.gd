@@ -493,7 +493,7 @@ func apply_hydromancer(rem : Remnant, attack_body : Node, mancer_value : int):
 				effect.gained(self)
 				effects.append(effect)
 		Globals.Liquid.Glitch:
-			if(!enemy_type == "laser_e" or is_boss):
+			if(!enemy_type == "laser_e" and !is_boss):
 				var glitch_dir = attack_body.direction
 				glitch_dir.rotated(randf_range(-15,15))
 				@warning_ignore("integer_division")
