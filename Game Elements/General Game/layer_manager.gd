@@ -668,7 +668,6 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					player_reference.update_weapon(node.weapon_type)
 					SFXManager.play(weapon_select_sounds[randi() % weapon_select_sounds.size()], -4.0,"SFX",player_reference.global_position)
 					hud.set_cooldown_icons()
-					Globals.has_equiped_weapon = true
 					return true
 		if node.is_in_group("letter"):
 			if player_reference in node.tracked_bodies:
@@ -1354,6 +1353,8 @@ func _finalize_room_creation(next_room_instance: Node2D, next_room_data: Room, d
 var transitioning : bool = false
 func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	hud.get_node("Tutorial_Display").visible = false
+	if Globals.weapon1!="res://Game Elements/Weapons/Fist.tres" or Globals.weapon2!="res://Game Elements/Weapons/Fist.tres":
+		Globals.has_equiped_weapon = true
 	time_in_room = 0
 	var shido1 = 0.0
 	var shido2 = 0.0
