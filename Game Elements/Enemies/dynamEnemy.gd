@@ -32,6 +32,7 @@ var exploded : float = 0
 @export var cactus_explode : bool = false
 var purple_explode : bool = false
 var boss_die : bool = false
+@export var deflect_chance : float = 0.0
 
 var last_pos:Vector2 = Vector2(0,0)
 var time_stuck: float = 0
