@@ -50,7 +50,7 @@ func set_values(c_owner : Node = null, attack : Node = null, attack_owner : Node
 		if new_pos != Vector2.ZERO:
 			position= new_pos
 	
-	if c_owner and c_owner.is_in_group("enemy") and c_owner is DynamEnemy and c_owner.enemy_type=="tentacle":
+	if attack and c_owner and c_owner.is_in_group("enemy") and c_owner is DynamEnemy and c_owner.enemy_type=="tentacle":
 		position = attack.position
 			
 	if attack and "attack_type" in attack and attack.attack_type=="laser":
