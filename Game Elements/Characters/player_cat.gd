@@ -533,7 +533,9 @@ func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0
 	if(bulwark == false || i_frames <= 0 && !invulnerable):
 		time_since_last_hit = 0
 		i_frames = attack_i_frames
-		damage_amount = damage_amount * (1 - damage_resistance)
+		damage_amount *= (1.0 - damage_resistance)
+		damage_amount *= (1.0 - lich_effect(false))
+		
 		#damage_amount = _check_reduction_remnants(damage_amount,_dmg_owner)
 		SFXManager.play(preload("res://Game Elements/sfx/player/take_damage.ogg"),0.0,"SFX",global_position)
 		damage_amount = _check_bulwark(damage_amount, _dmg_owner, bulwark)
@@ -1068,6 +1070,9 @@ func change_health(add_to_current : float, add_to_max : float = 0):
 					var amnt = rem.variable_1_values[rem.rank - 1] / 100.0
 					var health_restored = min(max_health - current_health, add_to_current)
 					add_to_max = health_restored * amnt
+	var lich_amount = 1.0- lich_effect(true)
+	if add_to_current >= 0.0:	add_to_current *= lich_amount
+	if add_to_max >= 0.0:	add_to_max *= lich_amount
 	current_health+=add_to_current
 	max_health+=add_to_max
 	current_health = clamp(current_health,0.0,max_health)
@@ -1302,3 +1307,21 @@ func kill_enemy(enemy: Node):
 					particle.position = self.position
 					get_parent().add_child(particle)
 					change_health(rem.variable_2_values[rem.rank-1] * .01 * max_health)
+
+
+func lich_effect(is_health : bool = false):
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var lich = preload("res://Game Elements/Remnants/archlich.tres")
+	for rem in remnants:
+		if rem.active:
+			match rem.remnant_name:
+				lich.remnant_name:
+					if is_health:
+						return rem.variable_2_values[rem.rank-1] / 100.0
+					else:
+						return rem.variable_1_values[rem.rank-1] / 100.0
+	return 0.0

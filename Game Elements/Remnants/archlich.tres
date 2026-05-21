@@ -13,6 +13,6 @@ art = ExtResource("1_e3w42")
 progress_required = 1.0
 tags = Array[String](["boss_remnant"])
 variable_names = Array[String](["$X", "$Y"])
-variable_1_values = [5, 10, 15, 20, 0]
+variable_1_values = [5, 10, 15, 20, 25]
 variable_2_values = [5, 10, 15, 20, 25]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

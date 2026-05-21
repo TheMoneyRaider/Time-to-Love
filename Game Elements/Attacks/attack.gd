@@ -307,7 +307,7 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 		return 0
 
 	if(deflectable && attack_type != "slime_ball" && body.is_in_group("enemy")):
-		if(randf() > body.deflect_chance):
+		if(randf() < body.deflect_chance):
 			deflect(-1 * direction, 100, null)
 			if body.enemy_type=="medieval_slime":
 				var inst = preload("res://Game Elements/Particles/slime_particles.tscn").instantiate()
