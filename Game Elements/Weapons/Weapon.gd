@@ -411,21 +411,7 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 			"Mace":
 				pass
 			"Crossbow":
-				if(special_time_elapsed == 0.0):
-					special_start_damage = damage
-				if(special_time_elapsed <= 3.0):
-					damage += (special_start_damage / 1.2) * time_elapsed
-				var effect = preload("res://Game Elements/Effects/max_charge.tres").duplicate(true)
-				effect.cooldown = 20*time_elapsed
-				effect.value1 = 0.05
-				effect.gained(c_owner)
-				Effects.append(effect)
-				if(special_time_elapsed >= 2.0):
-					effect = preload("res://Game Elements/Effects/slow_down.tres").duplicate(true)
-					effect.cooldown = 1*time_elapsed
-					effect.value1 = 0.0
-					effect.gained(c_owner)
-					Effects.append(effect)
+				pass
 			"Shotgun":
 				pass
 			"Railgun":
@@ -555,7 +541,7 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 				else:
 					node_attacking.emit_signal("special_changed",true,0.0,true)
 			"Shotgun":
-				shotgun_special_attack(special_direction)
+				shotgun_special_attack(special_direction,node_attacking)
 				current_special_hits = 0
 				if node_attacking.weapons[0] == self:
 					node_attacking.emit_signal("special_changed",false,0.0,true)
@@ -564,27 +550,7 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 			"Laser Sword":
 				sword_special_attack(special_direction,node_attacking)
 			"Crossbow":
-				SFXManager.play(preload("res://Game Elements/sfx/weapons/crossbow/crossbow_special.ogg"), -4)
-				if(special_time_elapsed >= 3.0):
-					damage += (special_start_damage / 2)
-					
-				node_attacking.player_special_reset()
-				pierce = pierce + 2
-				scale = scale * 1.2
-				speed = speed - 100
-				var temp_attack_scene = attack_scene
-				attack_scene = "res://Game Elements/Attacks/giant_bolt.tscn"
-				spawn_attack(special_direction,special_position + 20 * special_direction, node_attacking,"burn_particles")
-				current_special_hits = 0
-				scale = scale / 1.2
-				speed = speed + 100
-				damage = special_start_damage
-				attack_scene = temp_attack_scene
-				pierce = pierce - 2
-				if node_attacking.weapons[0] == self:
-					node_attacking.emit_signal("special_changed",false,0.0,true)
-				else:
-					node_attacking.emit_signal("special_changed",true,0.0,true)
+				crossbow_special_attack(special_direction,node_attacking)
 			"Railgun":
 				node_attacking.create_tween().tween_property(node_attacking.weapon_node.get_node("Sprite2D"),"modulate",Color(1.0, 1.0, 1.0, 1.0),1.0)
 				if(special_time_elapsed > 1.0):
@@ -625,19 +591,48 @@ func fist_special_attack(attack_direction : Vector2, attack_position : Vector2, 
 		request_attacks(attack_direction, attack_position, node_attacking)
 		await c_owner.get_tree().create_timer(.05).timeout
 
-func shotgun_special_attack(attack_direction : Vector2):
-	for i in range(0,72):
+func shotgun_special_attack(attack_direction : Vector2, node_attacking : Node):
+	for i in range(0,144):
 		var instance = preload("res://Game Elements/Attacks/special_bullet.tscn").instantiate()
 		instance.global_position = c_owner.global_position
-		instance.direction = attack_direction.rotated(i * 2 * PI / 24)
+		instance.direction = attack_direction.rotated(i * 2 * PI / 48)
 		instance.c_owner = c_owner
 		apply_remnants(instance)
 		instance.is_purple = c_owner.is_purple if c_owner.is_in_group("player") else false
 		c_owner.get_tree().get_root().get_node("LayerManager").room_instance.add_child(instance)
-		#spawn_attack(attack_direction.rotated(i * 2 * PI / 12),c_owner.global_position)
-		await c_owner.get_tree().create_timer(.001).timeout
 		if i % 3 == 0: 
+			await c_owner.get_tree().create_timer(.001).timeout
 			SFXManager.play(lame_shotgun_sounds[randi() % lame_shotgun_sounds.size()], -5.0)
+	if node_attacking.weapons[0] == self:
+		node_attacking.emit_signal("special_changed",false,0.0,true)
+	else:
+		node_attacking.emit_signal("special_changed",true,0.0,true)
+
+
+func crossbow_special_attack(attack_direction : Vector2, node_attacking : Node):
+	SFXManager.play(preload("res://Game Elements/sfx/weapons/crossbow/crossbow_special.ogg"), -4)
+	node_attacking.player_special_reset()
+	pierce = pierce + 2
+	#scale = scale * 1.2
+	speed = speed - 100
+	var temp_attack_scene = attack_scene
+	attack_scene = "res://Game Elements/Attacks/giant_bolt.tscn"
+	attack_direction =attack_direction.rotated(-PI / 12)
+	for i in range(0,3):
+		spawn_attack(attack_direction,node_attacking.global_position + 20 * attack_direction, node_attacking,"burn_particles")
+		attack_direction =attack_direction.rotated(PI / 12)
+	current_special_hits = 0
+	#scale = scale / 1.2
+	speed = speed + 100
+	damage = special_start_damage
+	attack_scene = temp_attack_scene
+	pierce = pierce - 2
+	if node_attacking.weapons[0] == self:
+		node_attacking.emit_signal("special_changed",false,0.0,true)
+	else:
+		node_attacking.emit_signal("special_changed",true,0.0,true)
+
+
 
 func sword_special_attack(special_direction : Vector2,node_attacking : Node):
 	special_cleanup()
