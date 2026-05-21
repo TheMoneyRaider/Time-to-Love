@@ -81,6 +81,10 @@ var replacement_enemies : Array[PackedScene] = [
 var normal_rooms : Array = []
 var shop_rooms : Array = []
 var tempvar : bool = true
+
+func reset():
+	current_progress = 0.0
+	layer_ai = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 func get_room(room : Room):
 	#if tempvar:
 	#	tempvar = false

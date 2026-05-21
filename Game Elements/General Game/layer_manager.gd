@@ -389,7 +389,6 @@ func create_new_rooms() -> void:
 	room_gen_thread.start(_thread_generate_rooms.bind(room_instance_data))
 
 func check_pathways(generated_room : Node2D, generated_room_data : Room, player_reference : Node, is_special_action : bool = false) -> int:
-	print("HEYYYy")
 	var pathway_name= ""
 	var direction_count = [0,0,0,0]
 	for p_direct in generated_room_data.pathway_direction:

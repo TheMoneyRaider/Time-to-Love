@@ -72,7 +72,7 @@ func _set_display(body : Node):
 		prompt1.get_child(0).bbcode_text = ""+str(cost)+" to buy   "+sym
 		return
 	if weapon_type == "Fist":
-		prompt1.get_child(0).bbcode_text = sym+": Unequip Weapon"
+		prompt1.get_child(0).bbcode_text = sym
 		return
 		
 	prompt1.get_child(0).bbcode_text = sym+": Equip "+weapon_type

@@ -113,6 +113,7 @@ func _on_return_pressed():
 		node.resume_shaders()
 
 func _on_menu_pressed():
+	RoomManager.reset()
 	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	get_tree().get_root().get_node("LayerManager/DeathMenu").state_change()
 	for i in range(slot_nodes.size()):
