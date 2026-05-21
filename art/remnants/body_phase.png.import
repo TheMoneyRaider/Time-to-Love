@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://br5mj726dbk3b"
-path="res://.godot/imported/winters_embrace.png-9a4632d8bae7dae3d0a8739ed3db0c87.ctex"
+uid="uid://djld6v2vtfj8h"
+path="res://.godot/imported/body_phase.png-7d6caea893bf99d316a2a929e6b4d720.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/remnants/winters_embrace.png"
-dest_files=["res://.godot/imported/winters_embrace.png-9a4632d8bae7dae3d0a8739ed3db0c87.ctex"]
+source_file="res://art/remnants/body_phase.png"
+dest_files=["res://.godot/imported/body_phase.png-7d6caea893bf99d316a2a929e6b4d720.ctex"]
 
 [params]
 
