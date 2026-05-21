@@ -56,7 +56,7 @@ func activate():
 		
 
 func _process(delta):
-	if can_escape and pause_cooldown < 1 and Input.is_action_just_pressed("ui_cancel"):
+	if can_escape and pause_cooldown < 1 and !get_parent().remnant_offer_popup and !get_parent().remnant_upgrade_popup and Input.is_action_just_pressed("ui_cancel"):
 		_on_return_pressed()
 	for child in $Control/Extras.get_children():
 		if child.is_hovered() or child.has_focus():
