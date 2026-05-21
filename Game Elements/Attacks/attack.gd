@@ -306,7 +306,7 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 	elif !n_owner.is_in_group("player") and !body.is_in_group("player") and !hits_all:
 		return 0
 
-	if(deflectable && attack_type != "slime_ball" && body.is_in_group("enemy")):
+	if(deflectable and attack_type != "slime_ball" and body.is_in_group("enemy")):
 		if(randf() < body.deflect_chance):
 			deflect(-1 * direction, 100, null)
 			if body.enemy_type=="medieval_slime":
@@ -316,6 +316,11 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 			self.c_owner = body
 			hit_nodes.clear()
 			return 0
+	if(deflectable and body.is_in_group("player") and body.deflect_chance() > randf()):
+		deflect(-1 * direction, 100, null)
+		self.c_owner = body
+		hit_nodes.clear()
+		return 0
 	if body.has_method("take_damage"):
 		if attack_type=="scifi_wave":
 			var direct = (body.global_position-global_position)

@@ -1987,7 +1987,7 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 func dev_remnants():
 	var rem
 	
-	rem = load("res://Game Elements/Remnants/archlich.tres")
+	rem = load("res://Game Elements/Remnants/big_t.tres")
 	rem.rank = 5
 	player_1_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,true)

@@ -1308,7 +1308,20 @@ func kill_enemy(enemy: Node):
 					get_parent().add_child(particle)
 					change_health(rem.variable_2_values[rem.rank-1] * .01 * max_health)
 
-
+func deflect_chance():
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var big = preload("res://Game Elements/Remnants/big_t.tres")
+	for rem in remnants:
+		if rem.active:
+			match rem.remnant_name:
+				big.remnant_name:
+					return rem.variable_1_values[rem.rank-1] / 100.0
+	return 0.0
+	
 func lich_effect(is_health : bool = false):
 	var remnants : Array[Remnant]
 	if is_purple:
