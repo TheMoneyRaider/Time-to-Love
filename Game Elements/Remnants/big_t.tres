@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://3y75ie5ora2h"]
+
+[ext_resource type="Texture2D" uid="uid://ckaohj6ugom8g" path="res://art/remnants/big_t.png" id="1_424im"]
+[ext_resource type="Texture2D" uid="uid://bex7t8r3w4fl7" path="res://art/remnants/big_t_icon.png" id="2_1l4ej"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_i4k1m"]
+
+[resource]
+script = ExtResource("3_i4k1m")
+remnant_name = "Remnant of The Big T"
+description = " $Z% chance to deflect projectiles that hit you. "
+icon = ExtResource("2_1l4ej")
+art = ExtResource("1_424im")
+progress_required = 2.0
+tags = Array[String](["boss_remnant"])
+variable_names = Array[String](["$Z"])
+variable_1_values = [5.0, 10.0, 15.0, 20.0, 25.0]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

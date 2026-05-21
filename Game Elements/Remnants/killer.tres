@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Remnant" load_steps=8 format=3 uid="uid://n0irce5c8g2g"]
 
-[ext_resource type="Texture2D" uid="uid://dj3qtdaeklu1a" path="res://art/remnants/assassin.png" id="1_qtmk2"]
-[ext_resource type="Texture2D" uid="uid://dvkx2uwhvx2e0" path="res://art/remnants/assassin_orb.png" id="2_2c527"]
+[ext_resource type="Texture2D" uid="uid://dh3sk8h0lcose" path="res://art/remnants/killer.png" id="1_4xrfg"]
+[ext_resource type="Texture2D" uid="uid://bby11yaj4f0gn" path="res://art/remnants/killer_orb.png" id="2_x5pmt"]
 [ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_vlike"]
 [ext_resource type="Resource" uid="uid://b75dkb04247ed" path="res://Game Elements/Remnants/drone.tres" id="4_4xrfg"]
 [ext_resource type="Resource" uid="uid://do61egp5p5k0k" path="res://Game Elements/Remnants/blood_moon.tres" id="5_x5pmt"]
@@ -12,8 +12,8 @@
 script = ExtResource("3_vlike")
 remnant_name = "Remnant of the Killer"
 description = "On Kill effects have a $X% chance to trigger again."
-icon = ExtResource("2_2c527")
-art = ExtResource("1_qtmk2")
+icon = ExtResource("2_x5pmt")
+art = ExtResource("1_4xrfg")
 progress_required = 2.0
 required_remnants = Array[ExtResource("3_vlike")]([ExtResource("4_4xrfg"), ExtResource("5_x5pmt"), ExtResource("6_8ot16"), ExtResource("7_aro8h")])
 num_rem_required = 3
