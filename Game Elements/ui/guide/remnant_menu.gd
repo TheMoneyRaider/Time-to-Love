@@ -78,15 +78,18 @@ func _on_remnant_focus(focused_button: Button) -> void:
 	$Control/Return.focus_neighbor_bottom = focused_button.get_path()
 
 func _sort_by_progress_required(a, b):
-	if a.progress_required < b.progress_required:
-		return true
-	return false
+	var a_is_boss = a.tags.size() > 0 and a.tags[0] == "boss_remnant"
+	var b_is_boss = b.tags.size() > 0 and b.tags[0] == "boss_remnant"
+
+	if a_is_boss != b_is_boss:
+		return a_is_boss  # boss remnants sort first
+	return a.progress_required < b.progress_required
 
 
 func visualize(entry : Node, total_progress : float):
 	var rem = entry.remnant
 	var discovered = Globals.save_state.remnant_progress.has(rem.remnant_name)
-	if total_progress < rem.progress_required:
+	if total_progress < rem.progress_required or (rem.tags.size()>0 and rem.tags[0]=="boss_remnant" and !discovered):
 		print(rem.remnant_name)
 		entry.modulate = Color()
 		return
