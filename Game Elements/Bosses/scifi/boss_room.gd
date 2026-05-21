@@ -223,7 +223,7 @@ func _process(delta: float) -> void:
 	if animation!= "" and boss and is_instance_valid(boss):
 		boss_animation()
 	scifi_binary_process(delta)
-	if boss.current_health <= 0.0:
+	if boss.current_health <= 0.0 and phase == 2:
 		deactivate()
 		boss.boss_die = true
 		boss.emit_signal("enemy_took_damage",100.0,boss.current_health,boss,Vector2(0,-1))

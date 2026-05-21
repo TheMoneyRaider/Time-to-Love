@@ -2163,5 +2163,9 @@ func boss_rewards():
 func _notification(what: int) -> void:
 	match what:
 		NOTIFICATION_WM_WINDOW_FOCUS_OUT:
-			if !get_node("DeathMenu").active and !pause.active and !camera_override and !transitioning and !remnant_offer_popup and !remnant_upgrade_popup and hud.get_node("../PauseMenu").pause_cooldown == 0:
+			if !get_node("DeathMenu").active and \
+			!pause.active and !camera_override and \
+			!transitioning and !remnant_offer_popup and \
+			!remnant_upgrade_popup and hud.get_node("../PauseMenu").pause_cooldown == 0 and \
+			(room_instance_data.roomtype!= Globals.RoomType.Boss or RoomManager.current_progress <= 3.0):
 				pause.activate()
