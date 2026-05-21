@@ -570,46 +570,58 @@ func check_liquids(delta):
 					if current_liquid_time >= .25:
 						current_liquid_time -= .25
 						take_damage(2.0,null)
+
+
+func cast_ray(origin: Vector2, direction: Vector2, distance: float, player_node : Node) -> Dictionary:
+	var query = PhysicsRayQueryParameters2D.create(origin, origin + direction * distance)
+	query.collide_with_areas = false
+	query.collide_with_bodies = true
+	query.collision_mask = 1 << 0
+	return player_node.get_world_2d().direct_space_state.intersect_ray(query)
+
 func _glitch_move(input_move_dir : Vector2 = Vector2(-1234,-1234)) -> void:
 	var move_dir_l
 	var move_dir_r
 	if(input_move_dir == Vector2(-1234,-1234)):
-		move_dir_l = velocity.normalized() *16
-		move_dir_r = velocity.normalized() *16
+		move_dir_l = velocity.normalized() * 16
+		move_dir_r = velocity.normalized() * 16
 	else:
 		move_dir_l = input_move_dir
 		move_dir_r = input_move_dir
-	var ground_cells = LayerManager.room_instance.get_node("Ground").get_used_cells()
-	var check_pos_r = Vector2i(((position + move_dir_r)/16).floor())
-	var check_pos_l = Vector2i(((position + move_dir_l)/16).floor())
+
 	var attempts = 0
 	var max_attempts = 36 # prevent infinite loops
-	while check_pos_r not in ground_cells and check_pos_l not in ground_cells and attempts < max_attempts:
+	var condition1 = cast_ray(position, move_dir_r.normalized(), move_dir_r.length(), self)
+	var condition2 = cast_ray(position, move_dir_l.normalized(), move_dir_l.length(), self)
+	while condition1 and condition2 and attempts < max_attempts:
+		condition1 = cast_ray(position, move_dir_r.normalized(), move_dir_r.length(), self)
+		condition2 = cast_ray(position, move_dir_l.normalized(), move_dir_l.length(), self)
 		move_dir_r = move_dir_r.rotated(deg_to_rad(-5))
 		move_dir_l = move_dir_l.rotated(deg_to_rad(5))
-		check_pos_l = Vector2i(((position + move_dir_l)/16).floor())
-		check_pos_r = Vector2i(((position + move_dir_r)/16).floor())
 		attempts += 1
+
 	if velocity.length() < .1:
 		return
-	var move_dir =move_dir_r
-	if check_pos_l in ground_cells:
-		move_dir =move_dir_l
-	position+=move_dir/2.0
+
+	var move_dir = move_dir_r
+	if not cast_ray(position, move_dir_l.normalized(), move_dir_l.length(), self):
+		move_dir = move_dir_l
+
+	position += move_dir / 2.0
 	var saved_position = position
 	var saved_velocity = velocity
 	var position_variance = 16
 	var hue_variance = .08
-	var color1 = shift_hue(Color(0.0, 0.867, 0.318, 1.0),randf_range(-hue_variance,hue_variance))
-	var color2 = shift_hue(Color(0.0, 0.116, 0.014, 1.0),randf_range(-hue_variance,hue_variance))
-	position+= Vector2(randf_range(-position_variance,position_variance),randf_range(-position_variance,position_variance))
-	Spawner.spawn_after_image(self,LayerManager,color1,color1,0.5,1.0,1+randf_range(-.1,.1),.75)
+	var color1 = shift_hue(Color(0.0, 0.867, 0.318, 1.0), randf_range(-hue_variance, hue_variance))
+	var color2 = shift_hue(Color(0.0, 0.116, 0.014, 1.0), randf_range(-hue_variance, hue_variance))
+	position += Vector2(randf_range(-position_variance, position_variance), randf_range(-position_variance, position_variance))
+	Spawner.spawn_after_image(self, LayerManager, color1, color1, 0.5, 1.0, 1 + randf_range(-.1, .1), .75)
 	position = saved_position
-	velocity=move_dir/2.0
+	velocity = move_dir / 2.0
 	move_and_slide()
 	saved_position = position
-	position+= Vector2(randf_range(-position_variance,position_variance),randf_range(-position_variance,position_variance))
-	Spawner.spawn_after_image(self,LayerManager,color2,color2,0.5,1.0,1+randf_range(-.1,.1),.75)
+	position += Vector2(randf_range(-position_variance, position_variance), randf_range(-position_variance, position_variance))
+	Spawner.spawn_after_image(self, LayerManager, color2, color2, 0.5, 1.0, 1 + randf_range(-.1, .1), .75)
 	position = saved_position
 	move_and_slide()
 	velocity = saved_velocity

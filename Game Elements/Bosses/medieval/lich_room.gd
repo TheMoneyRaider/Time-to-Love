@@ -46,6 +46,8 @@ func _process(delta: float) -> void:
 	if !active:
 		return
 	lifetime+=delta
+	if !boss or !is_instance_valid(boss):
+		deactivate()
 	
 	if lifetime >= animation_time and lifetime < animation_time+fade_time:
 		finish_animation()
@@ -61,9 +63,8 @@ func _process(delta: float) -> void:
 		finish_intro()		
 	if animation!= "" and boss and is_instance_valid(boss):
 		boss_animation()
-	if !boss or !is_instance_valid(boss):
-		deactivate()
 	if boss.current_health <= 0.0:
+		deactivate()
 		boss.boss_die = true
 		boss.emit_signal("enemy_took_damage",100.0,boss.current_health,boss,Vector2(0,-1))
 

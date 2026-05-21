@@ -204,6 +204,8 @@ var camera_move_time = 3.0
 func _process(delta: float) -> void:
 	if !active:
 		return
+	if !boss or !is_instance_valid(boss):
+		deactivate()
 	lifetime+=delta
 	
 	if lifetime >= animation_time and lifetime < animation_time+fade_time:
@@ -221,9 +223,8 @@ func _process(delta: float) -> void:
 	if animation!= "" and boss and is_instance_valid(boss):
 		boss_animation()
 	scifi_binary_process(delta)
-	if !boss or !is_instance_valid(boss):
-		deactivate()
 	if boss.current_health <= 0.0:
+		deactivate()
 		boss.boss_die = true
 		boss.emit_signal("enemy_took_damage",100.0,boss.current_health,boss,Vector2(0,-1))
 

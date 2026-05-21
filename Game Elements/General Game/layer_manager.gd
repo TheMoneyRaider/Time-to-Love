@@ -1432,40 +1432,6 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 						player1.weapons[0].damage = player1.weapons[0].damage + (rem.rank % 2)
 				player2_ranked_up.append(rem.remnant_name)
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants,player1_ranked_up,player2_ranked_up)
-	#var healer = preload("res://Game Elements/Remnants/healer.tres")
-	#var hare = preload("res://Game Elements/Remnants/hare.tres")
-	#if is_multiplayer or player1.is_purple:
-		#for rem in player_1_remnants:
-			#if rem.remnant_name == healer.remnant_name and rem.active:
-				#var amnt = rem.variable_1_values[rem.rank - 1]
-				#player1.change_health(0, amnt)
-				#
-			#if rem.remnant_name == hare.remnant_name and rem.active:
-				#var effect = preload("res://Game Elements/Effects/speed.tres")
-				#effect.cooldown = 15
-				#effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
-				#effect.gained(player1)
-				#player1.effects.append(effect)
-	#if is_multiplayer or not player1.is_purple:
-		#for rem in player_2_remnants:
-			#if rem.remnant_name == healer.remnant_name and rem.active:
-				#var amnt = rem.variable_1_values[rem.rank - 1]
-				#if is_multiplayer:
-					#player2.change_health(0, amnt)
-				#else:
-					#player1.change_health(0, amnt)
-				#
-			#if rem.remnant_name == hare.remnant_name and rem.active:
-				#var effect = preload("res://Game Elements/Effects/speed.tres")
-				#effect.cooldown = 15
-				#effect.value1 = rem.variable_1_values[rem.rank - 1] / 100.0
-				#if is_multiplayer:
-					#effect.gained(player2)
-					#player2.effects.append(effect)
-				#else:
-					#effect.gained(player1)
-					#player1.effects.append(effect)
-	
 	if not generated_rooms.has(pathway_id):
 		push_warning("No linked room for pathway " + pathway_id)
 		return

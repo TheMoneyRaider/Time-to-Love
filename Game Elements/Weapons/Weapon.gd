@@ -222,7 +222,7 @@ func spawn_attack(attack_direction : Vector2, attack_position : Vector2, node_at
 		instance.cooldown = cooldown
 		instance.pierce = pierce
 		apply_remnants(instance)
-		print("boosted 2 =  "+str(instance.damage))
+		#print("boosted 2 =  "+str(instance.damage))
 		
 	instance.is_purple = c_owner.is_purple if c_owner.is_in_group("player") else false
 	if(particle_effect != ""):
