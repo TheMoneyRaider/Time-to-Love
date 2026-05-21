@@ -364,7 +364,7 @@ func intersection(body):
 				if attack_type!= "laser" and attack_type!= "scifi_laser" and attack_type!= "binary_melee" and attack_type!= "tentacle":
 					hit_nodes[body] = null
 				if(attack_type == "giant_bolt"):
-					if(!body.is_boss and !body.enemy_type == "laser_e"):
+					if(body.is_in_group("enemy") and !body.is_boss and !body.enemy_type == "laser_e"):
 						drag_along.append(body)
 			0:
 				pass
