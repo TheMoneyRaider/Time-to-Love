@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/railgun_special.ogg-3e8011a1e7b407e6344ab1f08
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://ncd8s7wis7by"
+path="res://.godot/imported/railgun_special_ending.ogg-8452047ceccbedfcacac15730d8a9d49.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/weapons/rail_gun/railgun_special_ending.ogg"
+dest_files=["res://.godot/imported/railgun_special_ending.ogg-8452047ceccbedfcacac15730d8a9d49.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

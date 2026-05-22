@@ -428,6 +428,7 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 				pass
 			"Railgun":
 				if(special_time_elapsed <= 1.0):
+					SFXManager.play(preload("res://Game Elements/sfx/weapons/rail_gun/railgun_loading.ogg"), -12)
 					var effect = preload("res://Game Elements/Effects/rail_charge.tres").duplicate(true)
 					effect.cooldown = 20*time_elapsed
 					effect.value1 = 0.04
@@ -443,7 +444,7 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 						check_forward = cast_ray(node_attacking.global_position, special_direction, 1600,node_attacking)
 						node_attacking.LayerManager.room_instance.add_child(inst)
 						inst.fire_laser(node_attacking.global_position+special_direction*spawn_distance,check_forward.position,node_attacking)
-						SFXManager.play_continuous("railgun_beam", preload("res://Game Elements/sfx/weapons/rail_gun/railgun_special.ogg"))
+						SFXManager.play_continuous("railgun_beam", preload("res://Game Elements/sfx/weapons/rail_gun/railgun_special.ogg"), 6)
 					
 					special_nodes[0].global_position = node_attacking.global_position + special_nodes[0].size/-2.0 + special_direction*spawn_distance
 					check_forward = cast_ray(node_attacking.global_position, special_direction, 1600,node_attacking)
@@ -492,10 +493,6 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 
 func special_cleanup():
 	special_started = false
-	if beam_audio_player and is_instance_valid(beam_audio_player):
-		beam_audio_player.stop()
-		beam_audio_player.queue_free()
-		beam_audio_player = null
 	for node in special_nodes:
 		if node and is_instance_valid(node) and node.has_method("kill"):
 			node.kill()
@@ -573,6 +570,7 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 				if(special_time_elapsed > 1.0):
 					current_special_hits = 0
 				SFXManager.stop_continuous("railgun_beam")
+				SFXManager.play(preload("res://Game Elements/sfx/weapons/rail_gun/railgun_special_ending.ogg"))
 			"Shovel":
 				current_special_hits = 0
 				if node_attacking.weapons[0] == self:
