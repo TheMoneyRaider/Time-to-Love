@@ -25,6 +25,7 @@ var sprint_cool : float = 0.0
 var display_pathways = false
 var debug_menu = false
 var debug_mode = false
+var stunned : bool = false
 var look_direction : Vector2 = Vector2(0,1)
 @export var weapon_cooldowns : Array[float] = []
 var last_hitter : Node = null
@@ -221,6 +222,8 @@ func _physics_process(_delta: float) -> void:
 		knockback_velocity = knockback_velocity * knockback_decay
 var last_phase
 func _process(delta):
+	cactus_delay-=delta
+	thud_delay-=delta
 	#Boss stuff
 	last_phase = phase
 	#
@@ -327,7 +330,8 @@ func damage_flash() -> void:
 		$Sprite2D.self_modulate = Color(1.0, 0.378, 0.31, 1.0)
 		await get_tree().create_timer(.20).timeout		
 		$Sprite2D.self_modulate = Color(1.0, 1.0, 1.0)
-
+var cactus_delay = 0.0
+var thud_delay = 0.0
 func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0,creates_indicators : bool = true, unstoppable : bool = false):
 	if !hitable and !unstoppable:
 		return
@@ -338,7 +342,9 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 	i_frames = attack_i_frames
 	if enemy_type=="hit_me":
 		_dummy_hit(damage)
-	SFXManager.play(preload("res://Game Elements/sfx/enemies/thud.ogg"), -2.0,"SFX",global_position, 2.3)
+	if thud_delay <= 0.0:
+		SFXManager.play(preload("res://Game Elements/sfx/enemies/thud.ogg"), -2.0,"SFX",global_position, 2.3)
+		thud_delay = .05
 	if dmg_owner:
 		check_agro(dmg_owner)
 	if enemy_type=="binary_bot":
@@ -346,7 +352,8 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 	if current_health >= 0.0 and display_damage and creates_indicators:
 		LayerManager._damage_indicator(damage, dmg_owner,direction, attack_body,self)
 		damage_flash()
-		if(enemy_type=="cactus") and dmg_owner:
+		if(enemy_type=="cactus") and dmg_owner and cactus_delay <=0.0 and !stunned:
+			cactus_delay=.15
 			SFXManager.play(cactus_explosion_sound[randi() % cactus_explosion_sound.size()], -6.0,"SFX",global_position)
 			var attack_position = global_position
 			if(is_instance_valid(dmg_owner)):

@@ -163,6 +163,8 @@ func scifi_phase2_to_3():
 	animation_change("idle")
 	phase = 2
 	boss.phase = 2
+	boss.current_health = boss.boss_healthpools[phase]
+	boss.max_health = boss.boss_healthpools[phase]
 	Hud.show_boss_bar(healthbar_underlays[phase],healthbar_overlays[phase],boss_names[phase],boss_name_settings[phase],phase_overlay_index[phase])
 	Hud.update_bossbar(1.0)
 	await get_tree().create_timer(1, false).timeout
@@ -223,7 +225,7 @@ func _process(delta: float) -> void:
 	if animation!= "" and boss and is_instance_valid(boss):
 		boss_animation()
 	scifi_binary_process(delta)
-	if boss.current_health <= 0.0 and phase == 2:
+	if boss.current_health <= 0.0 and phase == 2 and !phase_changing:
 		deactivate()
 		boss.boss_die = true
 		boss.emit_signal("enemy_took_damage",100.0,boss.current_health,boss,Vector2(0,-1))

@@ -25,8 +25,6 @@ MusicManager="*res://Game Elements/General Game/music_manager.gd"
 SFXManager="*res://Game Elements/General Game/sfx_manager.gd"
 TutorialManager="*res://Game Elements/General Game/tutorial_manager.gd"
 GlyphManager="*res://Game Elements/General Game/glyph_manager.gd"
-music_manager="*res://Game Elements/General Game/music_manager.gd"
-sfx_manager="*res://Game Elements/General Game/sfx_manager.gd"
 SteamManager="*res://Game Elements/General Game/steam_manager.gd"
 
 [debug]
@@ -38,7 +36,6 @@ settings/profiler/max_timestamp_query_elements=1024
 window/size/viewport_width=1920
 window/size/viewport_height=1000
 window/stretch/mode="viewport"
-window/stretch/aspect="ignore"
 
 [editor]
 

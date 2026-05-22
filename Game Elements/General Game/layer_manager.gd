@@ -193,14 +193,14 @@ func _process(delta: float) -> void:
 		if is_multiplayer:
 			camera.global_position = (player1.global_position + player2.global_position) / 2 +camera.get_cam_offset(delta)
 		else:
-			var average_crosshair_position = Globals.config.get_value("settings","crosshair", true)
+			var average_crosshair_position = Globals.config.get_value("settings", "crosshair", true)
 			if average_crosshair_position:
 				if !player1.disabled and !get_tree().paused:
 					var crosshair_component = player1.crosshair.global_position - player1.global_position
-					current_crosshair_offset = current_crosshair_offset.lerp(crosshair_component, 1.0*delta)
-					camera.position = (current_crosshair_offset + player1.global_position * 5.0) / 5.0 + camera.get_cam_offset(delta)
+					current_crosshair_offset = crosshair_component
+					camera.position = (current_crosshair_offset + player1.global_position * 8.0) / 8.0 + camera.get_cam_offset(delta)
 			else:
-				camera.position = player1.global_position+camera.get_cam_offset(delta)		
+				camera.position = player1.global_position+camera.get_cam_offset(delta)
 				
 	# Thread check
 	if thread_running and not room_gen_thread.is_alive():
@@ -226,7 +226,7 @@ func _process(delta: float) -> void:
 			total_save_time = get_node("DeathMenu").total_time
 		for i in range(3):
 			total_save_time += _load_save_time(i)
-		var progress : String = str(Globals.save_state.total_progress+RoomManager.layer_ai[3] + time_passed)
+		var progress : String = str(max(Globals.save_state.total_progress+RoomManager.current_progress))
 		var gpu_name : String = RenderingServer.get_video_adapter_name()
 		var gpu_api : String = RenderingServer.get_video_adapter_api_version()
 		var gpu_adapter : String = str(RenderingServer.get_video_adapter_type())
@@ -1487,9 +1487,12 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	# Assign a new generated_room_data definition for metadata
 	room_instance_data = next_room_data
 	
-	if room_instance_data.roomtype == Globals.RoomType.Combat:
+	if room_instance_data.roomtype == Globals.RoomType.Combat or room_instance_data.roomtype == Globals.RoomType.Boss:
 		var investment = preload("res://Game Elements/Remnants/investment.tres")
 		for rem in player_1_remnants:
+			if rem.remnant_name == investment.remnant_name and rem.active:
+				timefabric_collected+= timefabric_collected * (rem.variable_1_values[rem.rank-1])/100.0
+		for rem in player_2_remnants:
 			if rem.remnant_name == investment.remnant_name and rem.active:
 				timefabric_collected+= timefabric_collected * (rem.variable_1_values[rem.rank-1])/100.0
 

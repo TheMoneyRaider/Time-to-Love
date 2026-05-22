@@ -76,6 +76,7 @@ func state_change():
 
 
 func activate():
+	get_parent().hud.get_node("RootControl/Label").stop_countdown()
 	Globals.has_died = true
 	input_delay = 2.0
 	active = true
@@ -281,6 +282,7 @@ func end_replay():
 	test_buffer.clear()
 	test_frame_timer =0
 	RoomManager.reset()
+	Globals.death_time = 7.0
 	# Create a full-screen overlay with the last frame
 	if(rewind_mode != 2):
 		var overlay = preload("res://Game Elements/ui/transition_texture.tscn").instantiate()

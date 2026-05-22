@@ -632,7 +632,6 @@ func crossbow_special_attack(attack_direction : Vector2, node_attacking : Node):
 	current_special_hits = 0
 	#scale = scale / 1.2
 	speed = speed + 100
-	damage = special_start_damage
 	attack_scene = temp_attack_scene
 	pierce = pierce - 2
 	if node_attacking.weapons[0] == self:

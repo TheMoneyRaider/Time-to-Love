@@ -38,7 +38,7 @@ var LayerManager : Node
 
 func activate():
 	active = true
-	mouse_mode = Input.MOUSE_MODE_HIDDEN
+	mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	show()
 	get_tree().paused = true

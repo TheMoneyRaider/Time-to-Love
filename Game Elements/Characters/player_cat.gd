@@ -93,7 +93,7 @@ signal special_reset(is_purple : int)
 
 var LayerManager: Node
 var debug_mode : bool = false
-
+var deflect_cooldown : float = 0.0
 func _ready():
 	effect_stacks.resize(9)
 	effect_stacks.fill(0)
@@ -307,10 +307,12 @@ func _input(event):
 		_debug_wedges.clear()
 		queue_redraw()
 
-
+var last_footprint_location : Vector2 = Vector2(0,0)
+var footprint_left : bool = false
 func _physics_process(delta):
 	if disabled:
 		return
+	deflect_cooldown-=delta
 	attraction_effect()
 	if debug_angles:
 		_debug_wedges.clear()
@@ -330,7 +332,7 @@ func _physics_process(delta):
 		if effect.cooldown == 0:
 			effects.remove_at(idx)
 		idx +=1
-	check_liquids(delta)
+	var in_liquid = check_liquids(delta)
 	
 	#Cat input detection
 	input_direction = Vector2(
@@ -351,6 +353,10 @@ func _physics_process(delta):
 	#move and slide function
 	if(self.process_mode != PROCESS_MODE_DISABLED and disabled_countdown <= 0):
 		move_and_slide()
+		if !is_tethered and last_footprint_location.distance_to(global_position) > 8 and !in_liquid:
+			footprint_left=!footprint_left
+			last_footprint_location=global_position
+			get_node("Footprints").spawn_footprint(global_position,input_direction,footprint_left)
 	
 	
 	if debug_menu and Input.is_action_just_pressed("toggle_invulnerability"):
@@ -898,9 +904,10 @@ func _check_hydromancer(liquid : Globals.Liquid):
 		if rem.remnant_name == hydromancer.remnant_name and rem.active:
 			last_liquid = liquid
 
-func check_liquids(delta):
+func check_liquids(delta) -> bool:
 	if is_tethered:
-		return
+		return false
+	var in_liquid = false
 	var tile_pos = Vector2i(int(floor(global_position.x / 16)),int(floor(global_position.y / 16)))
 	if tile_pos in LayerManager.liquid_cells[0]:
 		var tile_data = LayerManager.return_liquid_layer(tile_pos).get_cell_tile_data(tile_pos)
@@ -914,6 +921,7 @@ func check_liquids(delta):
 					effect.gained(self)
 					effects.append(effect)
 					_check_hydromancer(Globals.Liquid.Water)
+					in_liquid =true
 				Globals.Liquid.Lava:
 					var idx = 0
 					for effect in effects:
@@ -931,11 +939,15 @@ func check_liquids(delta):
 						current_liquid_time -= .25
 						take_damage(2.0,null)
 					_check_hydromancer(Globals.Liquid.Lava)
+					in_liquid =true
 				Globals.Liquid.Conveyer:
 					position+=tile_data.get_custom_data("direction").normalized() *delta * 32
+					in_liquid =true
 				Globals.Liquid.Glitch:
 					_glitch_move()
 					_check_hydromancer(Globals.Liquid.Glitch)
+					in_liquid =true
+	return in_liquid
 					
 
 
@@ -1357,7 +1369,7 @@ func attraction_effect(time_fabric : bool = false):
 					attraction_strength = rem.variable_4_values[rem.rank-1]
 					if time_fabric and !is_purple: return rem.variable_5_values[rem.rank-1]
 					
-	if attraction_strength == 0.0: return
+	if attraction_strength == 0.0: return 60.0
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	
 	for enemy in enemies:
