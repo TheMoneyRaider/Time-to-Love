@@ -428,7 +428,7 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 				pass
 			"Railgun":
 				if(special_time_elapsed <= 1.0):
-					SFXManager.play(preload("res://Game Elements/sfx/weapons/rail_gun/railgun_loading.ogg"), -12)
+					SFXManager.play(preload("res://Game Elements/sfx/weapons/rail_gun/railgun_loading.ogg"), -18)
 					var effect = preload("res://Game Elements/Effects/rail_charge.tres").duplicate(true)
 					effect.cooldown = 20*time_elapsed
 					effect.value1 = 0.04

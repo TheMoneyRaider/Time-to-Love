@@ -49,4 +49,16 @@ func stop_continuous(key: String) -> void:
 			player.queue_free()
 		continuous_players.erase(key)
 	
-	
+
+func play_fadeout(stream: AudioStream, fadeout_time: float, volume_db: float = 0.0, bus: String = "SFX", pitch: float = 1.0) -> void:
+	var player = AudioStreamPlayer.new()
+	player.stream = stream
+	player.bus = bus
+	player.volume_db = volume_db
+	player.pitch_scale = pitch
+	player.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(player)
+	player.play()
+	var tween = create_tween()
+	tween.tween_property(player, "volume_db", -80.0, fadeout_time)
+	tween.tween_callback(player.queue_free)
