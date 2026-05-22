@@ -39,19 +39,13 @@ func _process(_delta: float) -> void:
 				crosshair_direction = input_direction
 			else:
 				crosshair_direction = crosshair_direction.lerp(input_direction, joystick_acceleration * _delta).normalized()
-	
-	var camera = get_viewport().get_camera_2d()
-	var mouse_coords = camera.get_global_mouse_position()
-	var direction = (mouse_coords - player.global_position).normalized()
-	var CIRCLE_RADIUS = 70
-	
-	if player_input_device == "key":
-		
-		global_position = mouse_coords
-	else:
 		if(player.weapons[player.is_purple as int].type == "Laser Sword"):
 			position = (crosshair_direction * 35)
 		elif(player.weapons[player.is_purple as int].type == "Mace" or player.weapons[player.is_purple as int].type == "Shovel" or player.weapons[player.is_purple as int].type == "Fist"):
 			position = (crosshair_direction * 25)
 		else:
 			position = (crosshair_direction * 50)
+	else:
+		var camera = get_viewport().get_camera_2d()
+		var mouse_coords = camera.get_global_mouse_position()
+		global_position = mouse_coords

@@ -107,6 +107,7 @@ transform_format = 1
 mesh = SubResource("QuadMesh_2lf55")
 
 [node name="GrassAddon" type="Node3D"]
+process_mode = 3
 script = ExtResource("1_02tsi")
 
 [node name="ShaderGlobals" type="Node" parent="."]
