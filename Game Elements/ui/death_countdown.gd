@@ -43,7 +43,7 @@ func start_countdown(time: float, player: Node):
 	# play first tick immediately
 	var pitch = 1.0 - (last_tick_number - 1) * pitch_interval
 	var sounds = ticks if use_tick else tocks
-	SFXManager.play(sounds[randi() % sounds.size()], 0.0, "SFX", Vector2(-99999,-99999), 1.0, pitch)
+	SFXManager.play(sounds[randi() % sounds.size()], 0.0, "UI", Vector2(-99999,-99999), 1.0, pitch)
 	use_tick = !use_tick
 	
 var max_font_size = 400
@@ -70,7 +70,7 @@ func _process(delta: float) -> void:
 				last_tick_number = current_tick
 				var pitch = 1.0 - (current_tick - 1) * pitch_interval
 				var sounds = ticks if use_tick else tocks
-				SFXManager.play(sounds[randi() % sounds.size()], 7, "SFX", Vector2(-99999,-99999), 1.0, pitch)
+				SFXManager.play(sounds[randi() % sounds.size()], 7, "UI", Vector2(-99999,-99999), 1.0, pitch)
 				use_tick = !use_tick
 			var t = 1.0 - duration / total_duration
 			label_settings.font_color = Color(label_settings.font_color.r, label_settings.font_color.g, label_settings.font_color.b, lerp(min_opacity, max_opacity, t))
