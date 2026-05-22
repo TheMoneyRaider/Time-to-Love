@@ -226,7 +226,7 @@ func _process(delta: float) -> void:
 			total_save_time = get_node("DeathMenu").total_time
 		for i in range(3):
 			total_save_time += _load_save_time(i)
-		var progress : String = str(Globals.save_state.total_progress+RoomManager.layer_ai[3] + time_passed)
+		var progress : String = str(max(Globals.save_state.total_progress+RoomManager.current_progress))
 		var gpu_name : String = RenderingServer.get_video_adapter_name()
 		var gpu_api : String = RenderingServer.get_video_adapter_api_version()
 		var gpu_adapter : String = str(RenderingServer.get_video_adapter_type())

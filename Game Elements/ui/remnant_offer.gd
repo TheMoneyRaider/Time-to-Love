@@ -340,8 +340,10 @@ func _on_slot_selected(idx: int) -> void:
 				selected_index2 = idx
 		if selected_index1 != selected_index2 and selected_index1 != -1 and selected_index2 != -1: #If we now have two different selections -> close the menu
 			_close_after_two_chosen()
-
+var closing : bool = false
 func _close_after_two_chosen():
+	if closing: return
+	closing = true
 	RemnantManager.has_gotten_remnant = true
 	#Fade out animation
 	var tween = create_tween()
