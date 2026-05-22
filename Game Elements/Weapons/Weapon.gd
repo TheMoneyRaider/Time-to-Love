@@ -138,6 +138,8 @@ func request_attacks(direction : Vector2, char_position : Vector2, node_attackin
 			SFXManager.play(lame_shotgun_sounds[randi() % lame_shotgun_sounds.size()], -5.0,"SFX",node_attacking.global_position)
 		#"RobotMelee":	
 			#SFXManager.play(robot_sounds[randi() % robot_sounds.size()])
+		"Fist":
+			SFXManager.play(preload("res://Game Elements/sfx/weapons/fist/fist.ogg"))
 			
 			
 	var temp_spread = attack_spread

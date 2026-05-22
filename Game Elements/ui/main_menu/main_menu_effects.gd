@@ -483,9 +483,7 @@ func update_prompt():
 		$RichTextLabel.bbcode_text = text+": Toggle Fracturing "
 
 func _on_focus_entered() -> void:
-	print("focus entered")
 	if hover_cooldown <= 0.0:
-		print("playing audio")
 		SFXManager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI")
 		hover_cooldown = 0.025
 
