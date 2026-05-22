@@ -16,7 +16,7 @@ var max_health = 100
 @onready var pieces = $Pieces
 @onready var frame = $Pieces/Frame
 @export var health_chunk_scene : PackedScene
-
+var margin_amount = 32
 
 func _get_chunk_points(start_health: int, end_health: int) -> PackedVector2Array:
 	var total_width = width_scale * pow(max_health/10, exponent)
@@ -125,13 +125,13 @@ func update_lines():
 	fore.add_point(point1)
 	fore.add_point(point3)
 	frame.position = Vector2(start_pos.x,0)
-	frame.custom_minimum_size.x = total_width+16
+	frame.custom_minimum_size.x = total_width+margin_amount*2.0
 	
 	
 
 
 func update_text():
-	label.text = " "+str(clamp(current_health,0,11000000000)) + "/" + str(clamp(max_health,0,11000000000)) + " HP "
+	label.text = "   "+str(clamp(current_health,0,11000000000)) + "/" + str(clamp(max_health,0,11000000000)) + " HP   "
 	
 
 func flip():
