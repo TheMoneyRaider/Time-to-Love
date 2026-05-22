@@ -307,7 +307,8 @@ func _input(event):
 		_debug_wedges.clear()
 		queue_redraw()
 
-
+var last_footprint_location : Vector2 = Vector2(0,0)
+var footprint_left : bool = false
 func _physics_process(delta):
 	if disabled:
 		return
@@ -330,7 +331,7 @@ func _physics_process(delta):
 		if effect.cooldown == 0:
 			effects.remove_at(idx)
 		idx +=1
-	check_liquids(delta)
+	var in_liquid = check_liquids(delta)
 	
 	#Cat input detection
 	input_direction = Vector2(
@@ -351,6 +352,10 @@ func _physics_process(delta):
 	#move and slide function
 	if(self.process_mode != PROCESS_MODE_DISABLED and disabled_countdown <= 0):
 		move_and_slide()
+		if !is_tethered and last_footprint_location.distance_to(global_position) > 8 and !in_liquid:
+			footprint_left=!footprint_left
+			last_footprint_location=global_position
+			get_node("Footprints").spawn_footprint(global_position,input_direction,footprint_left)
 	
 	
 	if debug_menu and Input.is_action_just_pressed("toggle_invulnerability"):
@@ -898,9 +903,10 @@ func _check_hydromancer(liquid : Globals.Liquid):
 		if rem.remnant_name == hydromancer.remnant_name and rem.active:
 			last_liquid = liquid
 
-func check_liquids(delta):
+func check_liquids(delta) -> bool:
 	if is_tethered:
-		return
+		return false
+	var in_liquid = false
 	var tile_pos = Vector2i(int(floor(global_position.x / 16)),int(floor(global_position.y / 16)))
 	if tile_pos in LayerManager.liquid_cells[0]:
 		var tile_data = LayerManager.return_liquid_layer(tile_pos).get_cell_tile_data(tile_pos)
@@ -914,6 +920,7 @@ func check_liquids(delta):
 					effect.gained(self)
 					effects.append(effect)
 					_check_hydromancer(Globals.Liquid.Water)
+					in_liquid =true
 				Globals.Liquid.Lava:
 					var idx = 0
 					for effect in effects:
@@ -931,11 +938,15 @@ func check_liquids(delta):
 						current_liquid_time -= .25
 						take_damage(2.0,null)
 					_check_hydromancer(Globals.Liquid.Lava)
+					in_liquid =true
 				Globals.Liquid.Conveyer:
 					position+=tile_data.get_custom_data("direction").normalized() *delta * 32
+					in_liquid =true
 				Globals.Liquid.Glitch:
 					_glitch_move()
 					_check_hydromancer(Globals.Liquid.Glitch)
+					in_liquid =true
+	return in_liquid
 					
 
 
