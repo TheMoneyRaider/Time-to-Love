@@ -406,8 +406,13 @@ func _on_body_entered(body):
 var deflected :bool = false
 func deflect(hit_direction, hit_speed, deflection_area):
 	deflected = true
+	if deflection_area and deflection_area.c_owner and deflection_area.c_owner.is_in_group("player"):
+		if c_owner.deflect_cooldown <= 0.0:
+			SFXManager.play(deflect_sounds[randi() % deflect_sounds.size()], 2.0,"SFX",global_position)
+			c_owner.deflect_cooldown = 0.1
+	else:
+		SFXManager.play(deflect_sounds[randi() % deflect_sounds.size()], 2.0,"SFX",global_position)
 	print("DEFLECT")
-	SFXManager.play(deflect_sounds[randi() % deflect_sounds.size()], 2.0,"SFX",global_position)
 	if attack_type=="laser":
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment1"))
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment2"))

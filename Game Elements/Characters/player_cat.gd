@@ -93,7 +93,7 @@ signal special_reset(is_purple : int)
 
 var LayerManager: Node
 var debug_mode : bool = false
-
+var deflect_cooldown : float = 0.0
 func _ready():
 	effect_stacks.resize(9)
 	effect_stacks.fill(0)
@@ -312,6 +312,7 @@ var footprint_left : bool = false
 func _physics_process(delta):
 	if disabled:
 		return
+	deflect_cooldown-=delta
 	attraction_effect()
 	if debug_angles:
 		_debug_wedges.clear()
