@@ -407,7 +407,7 @@ var deflected :bool = false
 func deflect(hit_direction, hit_speed, deflection_area):
 	deflected = true
 	if deflection_area and deflection_area.c_owner and deflection_area.c_owner.is_in_group("player"):
-		if c_owner.deflect_cooldown <= 0.0:
+		if deflection_area.c_owner.deflect_cooldown <= 0.0:
 			SFXManager.play(deflect_sounds[randi() % deflect_sounds.size()], 2.0,"SFX",global_position)
 			c_owner.deflect_cooldown = 0.1
 	else:
