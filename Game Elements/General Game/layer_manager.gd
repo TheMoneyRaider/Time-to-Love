@@ -1487,9 +1487,12 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	# Assign a new generated_room_data definition for metadata
 	room_instance_data = next_room_data
 	
-	if room_instance_data.roomtype == Globals.RoomType.Combat:
+	if room_instance_data.roomtype == Globals.RoomType.Combat or room_instance_data.roomtype == Globals.RoomType.Boss:
 		var investment = preload("res://Game Elements/Remnants/investment.tres")
 		for rem in player_1_remnants:
+			if rem.remnant_name == investment.remnant_name and rem.active:
+				timefabric_collected+= timefabric_collected * (rem.variable_1_values[rem.rank-1])/100.0
+		for rem in player_2_remnants:
 			if rem.remnant_name == investment.remnant_name and rem.active:
 				timefabric_collected+= timefabric_collected * (rem.variable_1_values[rem.rank-1])/100.0
 

@@ -75,6 +75,7 @@ func gained(node_to_change: Node):
 				particle.position = node_to_change.position
 				saved_nodes.append(particle)
 				node_to_change.get_parent().add_child(particle)
+			if node_to_change.is_in_group("enemy"): node_to_change.stunned = true
 			var play = node_to_change.get_node_or_null("BTPlayer")
 			if play:
 				if !play.active:
@@ -114,6 +115,7 @@ func lost(node_to_change: Node):
 		"speed":
 			node_to_change.move_speed = node_to_change.move_speed * 1 / (1 + value1)
 		"stun":
+			if node_to_change.is_in_group("enemy"): node_to_change.stunned = false
 			var play = node_to_change.get_node_or_null("BTPlayer")
 			if play:
 				play.active = true

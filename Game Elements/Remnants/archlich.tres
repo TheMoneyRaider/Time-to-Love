@@ -7,12 +7,12 @@
 [resource]
 script = ExtResource("3_sljhc")
 remnant_name = "Remnant of the Archlich"
-description = "Heal effects are $X% less effective. Take $Y% less damage"
+description = "Heal effects are $Y% less effective. Take $X% less damage"
 icon = ExtResource("2_gfku8")
 art = ExtResource("1_e3w42")
 progress_required = 1.0
 tags = Array[String](["boss_remnant"])
 variable_names = Array[String](["$X", "$Y"])
 variable_1_values = [5, 10, 15, 20, 25]
-variable_2_values = [5, 10, 15, 20, 25]
+variable_2_values = [3, 6, 9, 12, 15]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

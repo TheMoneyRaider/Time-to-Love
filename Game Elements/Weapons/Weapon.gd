@@ -222,7 +222,7 @@ func spawn_attack(attack_direction : Vector2, attack_position : Vector2, node_at
 		instance.cooldown = cooldown
 		instance.pierce = pierce
 		apply_remnants(instance)
-		print("boosted 2 =  "+str(instance.damage))
+		#print("boosted 2 =  "+str(instance.damage))
 		
 	instance.is_purple = c_owner.is_purple if c_owner.is_in_group("player") else false
 	if(particle_effect != ""):
@@ -261,7 +261,7 @@ func apply_remnants(attack_instance):
 						if rem.variable_2_values[rem.rank-1]*16 < min_dist:
 							attack_instance.damage += rem.variable_1_values[rem.rank-1]
 		
-		print("boosted 1.5 =  "+str((damage_multiplier+1.0)*attack_instance.damage))
+		#print("boosted 1.5 =  "+str((damage_multiplier+1.0)*attack_instance.damage))
 		for rem in remnants:
 			if rem.active:
 				match rem.remnant_name:
