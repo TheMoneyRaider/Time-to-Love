@@ -223,6 +223,7 @@ func _physics_process(_delta: float) -> void:
 var last_phase
 func _process(delta):
 	cactus_delay-=delta
+	thud_delay-=delta
 	#Boss stuff
 	last_phase = phase
 	#
@@ -330,6 +331,7 @@ func damage_flash() -> void:
 		await get_tree().create_timer(.20).timeout		
 		$Sprite2D.self_modulate = Color(1.0, 1.0, 1.0)
 var cactus_delay = 0.0
+var thud_delay = 0.0
 func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0,creates_indicators : bool = true, unstoppable : bool = false):
 	if !hitable and !unstoppable:
 		return
@@ -340,7 +342,9 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 	i_frames = attack_i_frames
 	if enemy_type=="hit_me":
 		_dummy_hit(damage)
-	SFXManager.play(preload("res://Game Elements/sfx/enemies/thud.ogg"), -2.0,"SFX",global_position, 2.3)
+	if thud_delay <= 0.0:
+		SFXManager.play(preload("res://Game Elements/sfx/enemies/thud.ogg"), -2.0,"SFX",global_position, 2.3)
+		thud_delay = .05
 	if dmg_owner:
 		check_agro(dmg_owner)
 	if enemy_type=="binary_bot":
