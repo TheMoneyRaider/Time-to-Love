@@ -9,11 +9,12 @@ var max_health = 100
 @export var exponent := 0.247
 @export var flipped : bool = false
 
-@onready var progress_bar = $ProgressBar
-@onready var back = $Background
-@onready var fore = $Foreground
-@onready var label = $Label
+@onready var progress_bar = $HealthBar/ProgressBar
+@onready var back = $HealthBar/Background
+@onready var fore = $HealthBar/Foreground
+@onready var label = $HealthBar/Label
 @onready var pieces = $Pieces
+@onready var frame = $Pieces/Frame
 @export var health_chunk_scene : PackedScene
 
 
@@ -123,11 +124,14 @@ func update_lines():
 	fore.clear_points()
 	fore.add_point(point1)
 	fore.add_point(point3)
+	frame.position = Vector2(start_pos.x,0)
+	frame.custom_minimum_size.x = total_width+16
+	
 	
 
 
 func update_text():
-	label.text = str(clamp(current_health,0,11000000000)) + "/" + str(clamp(max_health,0,11000000000)) + " HP"
+	label.text = " "+str(clamp(current_health,0,11000000000)) + "/" + str(clamp(max_health,0,11000000000)) + " HP "
 	
 
 func flip():
@@ -138,8 +142,8 @@ func flip():
 
 	# Move each node to the other's index position
 	# The 'move_child' function handles the reordering automatically
-	move_child(progress_bar, index_b)
-	move_child(label, index_a)
+	$HealthBar.move_child(progress_bar, index_b)
+	$HealthBar.move_child(label, index_a)
 	await get_tree().process_frame
 	update_lines()
 
@@ -148,12 +152,12 @@ func set_color(default_color : bool = is_purple):
 	is_purple = default_color
 	var font_color = Color(0.627, 0.125, 0.941, 1.0)
 	if is_purple:
-		$Background.default_color = Color(0.38, 0.031, 0.588, 1.0)
-		$Foreground.default_color =Color(0.686, 0.298, 0.98, 1.0)
+		$HealthBar/Background.default_color = Color(0.38, 0.031, 0.588, 1.0)
+		$HealthBar/Foreground.default_color =Color(0.686, 0.298, 0.98, 1.0)
 		label.label_settings.font = preload("res://fonts/Orbitron-Bold.ttf")
 	else:
-		$Background.default_color = Color(0.58, 0.367, 0.0, 1.0)
-		$Foreground.default_color = Color(1.0, 0.722, 0.367, 1.0)
+		$HealthBar/Background.default_color = Color(0.58, 0.367, 0.0, 1.0)
+		$HealthBar/Foreground.default_color = Color(1.0, 0.722, 0.367, 1.0)
 		label.label_settings.font = preload("res://fonts/Cinzel Family/Cinzel/Cinzel-Bold.ttf")
 		font_color = Color(1.0, 0.647, 0.0, 1.0)
 	label.label_settings.font_color = font_color
