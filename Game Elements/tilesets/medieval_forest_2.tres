@@ -377,6 +377,7 @@ texture = ExtResource("1_2kvdu")
 1:7/1/z_index = 19
 1:7/1/terrain_set = 0
 1:7/1/terrain = 1
+1:7/1/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:7/1/terrains_peering_bit/right_side = 1
 1:7/1/terrains_peering_bit/bottom_right_corner = 1
 1:7/1/terrains_peering_bit/bottom_side = 1
