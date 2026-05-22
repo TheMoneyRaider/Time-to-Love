@@ -1357,7 +1357,7 @@ func attraction_effect(time_fabric : bool = false):
 					attraction_strength = rem.variable_4_values[rem.rank-1]
 					if time_fabric and !is_purple: return rem.variable_5_values[rem.rank-1]
 					
-	if attraction_strength == 0.0: return
+	if attraction_strength == 0.0: return 60.0
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	
 	for enemy in enemies:

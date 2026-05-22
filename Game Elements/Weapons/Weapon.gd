@@ -222,7 +222,7 @@ func spawn_attack(attack_direction : Vector2, attack_position : Vector2, node_at
 		instance.cooldown = cooldown
 		instance.pierce = pierce
 		apply_remnants(instance)
-		#print("boosted 2 =  "+str(instance.damage))
+		print("boosted 2 =  "+str(instance.damage))
 		
 	instance.is_purple = c_owner.is_purple if c_owner.is_in_group("player") else false
 	if(particle_effect != ""):
@@ -261,17 +261,17 @@ func apply_remnants(attack_instance):
 						if rem.variable_2_values[rem.rank-1]*16 < min_dist:
 							attack_instance.damage += rem.variable_1_values[rem.rank-1]
 		
-		#print("boosted 1.5 =  "+str((damage_multiplier+1.0)*attack_instance.damage))
+		print("boosted 1.5 =  "+str((damage_multiplier+1.0)*attack_instance.damage))
 		for rem in remnants:
 			if rem.active:
 				match rem.remnant_name:
 					aeromancer.remnant_name:
 						var similarity = attack_instance.direction.normalized().dot(c_owner.velocity.normalized())
 						if attack_instance.speed < 100:
-							damage_multiplier += -1.0+abs(((similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + 100.0) /  100.0)
+							damage_multiplier += -1.0+max((((similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + 100.0) /  100.0),0.5)
 							attack_instance.speed = (.5 * similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100)
 						else:
-							damage_multiplier += -1.0+abs(((similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed) /  attack_instance.speed)
+							damage_multiplier += -1.0+((similarity * abs(c_owner.velocity.length()) * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed) /  (attack_instance.speed)
 							attack_instance.speed = ((similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed)
 						
 					hydromancer.remnant_name:
@@ -623,7 +623,6 @@ func crossbow_special_attack(attack_direction : Vector2, node_attacking : Node):
 	current_special_hits = 0
 	#scale = scale / 1.2
 	speed = speed + 100
-	damage = special_start_damage
 	attack_scene = temp_attack_scene
 	pierce = pierce - 2
 	if node_attacking.weapons[0] == self:
