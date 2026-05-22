@@ -267,12 +267,21 @@ func apply_remnants(attack_instance):
 				match rem.remnant_name:
 					aeromancer.remnant_name:
 						var similarity = attack_instance.direction.normalized().dot(c_owner.velocity.normalized())
-						if attack_instance.speed < 100:
-							damage_multiplier += -1.0+abs(((similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + 100.0) /  100.0)
-							attack_instance.speed = (.5 * similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100)
-						else:
-							damage_multiplier += -1.0+abs(((similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed) /  attack_instance.speed)
+						if(attack_instance.speed > 150):
+							#Possibly add a min so it can't go lower than base damage? 
+							#Nah thats lame
+							attack_instance.damage = abs(attack_instance.damage * (((similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed) /  attack_instance.speed))
 							attack_instance.speed = ((similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed)
+						else:
+							attack_instance.damage = abs(attack_instance.damage * ((similarity * (.005) * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + 1))
+							attack_instance.speed = (.5 * similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100)
+						
+						#if attack_instance.speed < 100:
+							#damage_multiplier += -1.0+abs(((similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + 100.0) /  100.0)
+							#attack_instance.speed = (.5 * similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100)
+						#else:
+							#damage_multiplier += -1.0+abs(((similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed) /  attack_instance.speed)
+							#attack_instance.speed = ((similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed)
 						
 					hydromancer.remnant_name:
 						attack_instance.last_liquid = c_owner.last_liquid
