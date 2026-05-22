@@ -36,7 +36,6 @@ settings/profiler/max_timestamp_query_elements=1024
 window/size/viewport_width=1920
 window/size/viewport_height=1000
 window/stretch/mode="viewport"
-window/stretch/aspect="ignore"
 
 [editor]
 
