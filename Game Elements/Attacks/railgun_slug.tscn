@@ -19,7 +19,6 @@ cooldown = 5.0
 pierce = -2.0
 wall_collision = false
 attack_type = "slug"
-deflectable = true
 repeat_hits = true
 spawn_particle = ExtResource("2_ndl7l")
 

@@ -25,9 +25,9 @@ radius = 18.0
 z_index = 20
 y_sort_enabled = true
 collision_layer = 4
-collision_mask = 73
+collision_mask = 201
 script = ExtResource("1_5f7q4")
-max_health = 500.0
+max_health = 3000.0
 hit_range = 75
 agro_distance = 3000.0
 enemy_type = "vision"
@@ -36,7 +36,7 @@ min_timefabric = 8
 max_timefabric = 14
 move_speed = 80.0
 is_boss = true
-boss_healthpools = Array[float]([500.0])
+boss_healthpools = Array[float]([3000.0])
 attacks = [ExtResource("2_jln5g"), ExtResource("3_fyc65")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

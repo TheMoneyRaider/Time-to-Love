@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://bjlqt0ad4do23"]
+[gd_scene load_steps=38 format=3 uid="uid://bjlqt0ad4do23"]
 
 [ext_resource type="Script" uid="uid://by1wxpi7fijx5" path="res://Game Elements/General Game/layer_manager.gd" id="1_gynnh"]
 [ext_resource type="PackedScene" uid="uid://0hahdiffjt61" path="res://Game Elements/ui/hud.tscn" id="2_4xk7e"]
@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dm057ygch128h" path="res://Game Elements/ui/guide/remnant_menu.tscn" id="7_vxirk"]
 [ext_resource type="PackedScene" uid="uid://bfoxxhhsel1a" path="res://Game Elements/ui/guide/weapon_menu.tscn" id="8_sf3i7"]
 [ext_resource type="PackedScene" uid="uid://2nuxn7fyplmx" path="res://Game Elements/ui/guide/letters/letter_menu.tscn" id="9_l10hl"]
-[ext_resource type="Script" uid="uid://bu61ndyofnbda" path="res://Game Elements/General Game/camera.gd" id="9_n317s"]
+[ext_resource type="Script" path="res://Game Elements/General Game/camera.gd" id="9_n317s"]
 [ext_resource type="Texture2D" uid="uid://1c47fiseukev" path="res://Game Elements/Bosses/purple.png" id="11_arwbq"]
 [ext_resource type="Texture2D" uid="uid://nljj8bohfllh" path="res://Game Elements/Bosses/orange.png" id="12_nt7kn"]
 [ext_resource type="Texture2D" uid="uid://d3hvxaxwy516s" path="res://Game Elements/Bosses/scifi/signul_art.png" id="13_x2m3a"]
@@ -23,6 +23,10 @@
 [ext_resource type="Texture2D" uid="uid://n0bko3km56nl" path="res://Game Elements/General Game/limbo/limbo_noise.tres" id="20_fpruh"]
 [ext_resource type="Shader" uid="uid://c7aprdgds5kpc" path="res://Game Elements/Shaders/chromatic_abberation.gdshader" id="21_x2m3a"]
 [ext_resource type="PackedScene" uid="uid://d4mlvdb3rgf07" path="res://Game Elements/Bosses/limbo/transition/limbo_transition.tscn" id="22_lojdy"]
+[ext_resource type="StyleBox" uid="uid://bhn7lbt5yrxsl" path="res://Game Elements/ui/resources/6-1_button.tres" id="24_ob6go"]
+[ext_resource type="StyleBox" uid="uid://0lsgrq0cdmnb" path="res://Game Elements/ui/resources/6-3_button.tres" id="25_b0oxo"]
+[ext_resource type="StyleBox" uid="uid://dnekp2864687f" path="res://Game Elements/ui/resources/6-2_button.tres" id="26_lw03b"]
+[ext_resource type="Texture2D" uid="uid://crq6clfuj120q" path="res://art/UI Package/Book5.png" id="27_j751v"]
 
 [sub_resource type="Shader" id="Shader_alv7a"]
 code = "shader_type canvas_item;
@@ -360,6 +364,7 @@ shader_parameter/sob_noise = ExtResource("20_fpruh")
 shader = ExtResource("21_x2m3a")
 shader_parameter/aberration_strength = 2.000000095
 shader_parameter/mask_intensity = 0.400000019
+shader_parameter/grayscale = false
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_lsyjg"]
 viewport_path = NodePath("PathwayViewport")
@@ -524,6 +529,7 @@ disable_3d = true
 transparent_bg = true
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
+audio_listener_enable_2d = true
 size = Vector2i(1920, 1000)
 render_target_update_mode = 4
 script = ExtResource("5_n317s")
@@ -558,3 +564,22 @@ transparent_bg = true
 handle_input_locally = false
 size = Vector2i(2048, 2048)
 render_target_update_mode = 4
+
+[node name="LettersPopup" type="Button" parent="."]
+offset_left = 1838.0
+offset_top = 474.0
+offset_right = 2158.0
+offset_bottom = 537.0
+focus_mode = 0
+mouse_filter = 2
+theme_override_styles/normal = ExtResource("24_ob6go")
+theme_override_styles/pressed = ExtResource("25_b0oxo")
+theme_override_styles/hover = ExtResource("26_lw03b")
+
+[node name="TextureRect" type="TextureRect" parent="LettersPopup"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = -7.0
+offset_right = 79.0
+offset_bottom = 64.0
+texture = ExtResource("27_j751v")

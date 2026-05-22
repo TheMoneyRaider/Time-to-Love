@@ -23,7 +23,7 @@ shader_parameter/grayscale = false
 
 [sub_resource type="LabelSettings" id="LabelSettings_o7i6x"]
 font_size = 40
-font_color = Color(8.663535e-07, 0.610116, 0.5786793, 1)
+font_color = Color(0, 0.6117647, 0.5803922, 1)
 outline_size = 14
 outline_color = Color(0, 0, 0, 1)
 shadow_color = Color(0, 0, 0, 1)
@@ -107,7 +107,7 @@ custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 focus_behavior_recursive = 1
 mouse_filter = 2
-theme_override_colors/default_color = Color(0, 0.8518738, 0.80920357, 1)
+theme_override_colors/default_color = Color(0, 0.8509804, 0.80784315, 1)
 theme_override_colors/font_outline_color = Color(5.655363e-07, 0.19671893, 0.14139438, 1)
 theme_override_constants/outline_size = 7
 theme_override_font_sizes/normal_font_size = 30

@@ -14,8 +14,7 @@ class UIState:
 @onready var cooldown : float = 0.0
 @onready var mouse_cooldown : float = 0.0
 @onready var the_ui : Texture2D
-@onready var disruptive1 : bool = true
-@onready var disruptive2 : bool = true
+@onready var disruptive : bool = true
 @onready var exploaded: bool = false
 @onready var fragmenting: bool = true
 @onready var prepared = false
@@ -34,43 +33,62 @@ var paused : bool = true
 var skip_next_release : bool = false
 var hover_cooldown: float = 0.0
 
+
+func _on_skip() -> void:
+	$Intro/AnimationPlayer.stop()
+	$Intro.visible = false
+	$Intro/AudioStreamPlayer.stop()
+	Globals.cinematic_viewed = true
+	paused = false
+	start_menu_music()
+	
+
+
+func _begin_cinematic() -> void:
+	$Intro.visible = true
+	$Intro/AnimationPlayer.play("RESET")
+	$Intro/AnimationPlayer.advance(0)
+	$Intro/AnimationPlayer.play("main")
+	$Intro/Skip.skip_requested.connect(_on_skip)
+	$Intro/Skip.active = true
+	intro_started = true
+
+	get_tree().create_timer(65.0).timeout.connect(func():
+		if paused:
+			$Intro/AnimationPlayer.stop()
+			$Intro.visible = false
+			$Intro/AudioStreamPlayer.stop()
+			Globals.cinematic_viewed = true
+			paused = false
+			start_menu_music()
+	)
+
 func _ready():
 	if Globals.cinematic_viewed:
 		paused = false
 		$Intro.visible = false
 		start_menu_music()
-	else:
-		$Intro/AnimationPlayer.play("main")
-		# After 60 seconds, skip to end and start music
-		get_tree().create_timer(65.0).timeout.connect(func():
-			if paused:  # only if not already skipped manually
-				$Intro/AnimationPlayer.stop()
-				$Intro.visible = false
-				$Intro/AudioStreamPlayer.stop()
-				Globals.cinematic_viewed = true
-				paused = false
-				start_menu_music()
-		)
 	Title.texture = title_textures[Globals.menu]
 	fragmenting = Globals.config.get_value("fragmentation", "enabled", true)
 	if capture_all_states:
 		fragmenting = true
+	UI.player1 = PlayerState.new()
+	UI.player2 = PlayerState.new()
 	if !fragmenting:
 		$RichTextLabel.visible = false
-		UI_Group.get_node("VBoxContainer").get_child(2).grab_focus()
 		UI_Group.visible = true
 		Title.visible = true
-		
+
+		# Disable focus so Godot doesn't handle navigation
 		for button in $SubViewportContainer/SubViewport/UI_Group/VBoxContainer.get_children():
 			if button is Button:
+				button.focus_mode = Control.FOCUS_NONE
 				button.mouse_entered.connect(_on_focus_entered)  # ← mouse hover
 				button.focus_entered.connect(_on_focus_entered)  # ← keyboard/controller
-				button.pressed.connect(func(): sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0 , "UI"))
+				button.pressed.connect(func(): SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0 , "UI"))
 	else:
 		if !capture_all_states:
 			preload_all_textures()
-		UI.player1 = PlayerState.new()
-		UI.player2 = PlayerState.new()
 		randomize()
 		cooldown = 10.0
 		await get_tree().process_frame
@@ -85,6 +103,9 @@ func _ready():
 			cooldown = -1
 		if capture_all_states:
 			capture_all_ui_states()
+	if !Globals.cinematic_viewed:
+		_begin_cinematic()
+		
 			
 			
 	if Globals.total_progress < 1.0:
@@ -106,11 +127,11 @@ func _ready():
 		
 func _begin_explosion_cooldown():
 	if cooldown < 0:
-		cooldown = randf_range(2,4)
+		cooldown = randf_range(4,8)
 		exploaded = true
 
 func start_menu_music():
-	music_manager.play_theme("main")
+	MusicManager.play_theme("main")
 	
 func _load_save_time(idx: int) -> float:
 	var path = Globals.save_dir + "save_%d.res" % idx
@@ -119,14 +140,16 @@ func _load_save_time(idx: int) -> float:
 		if loaded is SaveState:
 			return loaded.time_spent
 	return 0
-	
+
+
+var nav_cooldown: float = 0.0
+var nav_cooldown_time: float = 0.2  # seconds between navigation steps
+
 func _process(delta):
-	hover_cooldown -= delta
+	nav_cooldown -= delta
+	hover_cooldown-=delta
 	if paused:
-		if !intro_started:
-			intro_started = true
-			return
-		if $Intro/AnimationPlayer.is_playing():
+		if !intro_started or $Intro/AnimationPlayer.is_playing():
 			return
 		else:
 			print("_process: animation finished naturally")
@@ -137,8 +160,6 @@ func _process(delta):
 			paused=false
 			skip_next_release = true
 			start_menu_music()
-	if !fragmenting:
-		return
 	if Globals.player1_input:
 		if !prepared:
 			update_prompt()
@@ -153,10 +174,18 @@ func _process(delta):
 			last_devices=Input.get_connected_joypads()
 			update_prompt()
 		if Input.is_action_just_pressed("swap_" + Globals.player1_input):
-			disruptive1 = !disruptive1
+			disruptive = !disruptive
+			if !disruptive:
+				exploaded = false
+				cooldown = 1
+				rewind_ui(cooldown)
 			update_prompt()
 		if Input.is_action_just_pressed("swap_" + Globals.player2_input):
-			disruptive2 = !disruptive2
+			disruptive = !disruptive
+			if !disruptive:
+				exploaded = false
+				cooldown = 1
+				rewind_ui(cooldown)
 			update_prompt()
 		if Input.is_action_just_pressed("Feedback"):
 			var total_save_time = 0
@@ -175,8 +204,12 @@ func _process(delta):
 	if prepared:
 		inputs(UI.player1.input)
 		inputs(UI.player2.input)
-		update_ui_display()
-		fragment_disruption()
+		# For non-fragmenting, manually highlight the hovered button
+		if !fragmenting:
+			_update_button_visuals()
+		else:
+			update_ui_display()
+			fragment_disruption()
 	cooldown -= delta
 	if mouse_cooldown ==-1:
 		if UI.player1.input == "key":
@@ -192,13 +225,25 @@ func _process(delta):
 		rewind_ui(cooldown)
 		
 
+func _update_button_visuals() -> void:
+	for button in $SubViewportContainer/SubViewport/UI_Group/VBoxContainer.get_children():
+		if button is Button:
+			var is_p1 = button == UI.player1.hover_button
+			var is_p2 = button == UI.player2.hover_button
+			if (is_p1 and UI.player1.pressing) or (is_p2 and UI.player2.pressing):
+				button.add_theme_stylebox_override("normal", button.get_theme_stylebox("pressed"))
+			elif is_p1 or is_p2:
+				button.add_theme_stylebox_override("normal", button.get_theme_stylebox("hover"))
+			else:
+				button.add_theme_stylebox_override("normal", button.get_theme_stylebox("disabled"))
+
 func fragment_disruption():
 	if get_viewport() and last_mouse_pos.distance_to(get_viewport().get_mouse_position()) >10:
 		mouse_cooldown -= 1
 		last_mouse_pos = get_viewport().get_mouse_position()
 	if !fragmenting:
 		return
-	if disruptive1 and get_viewport():
+	if disruptive and get_viewport():
 		if UI.player1.input == "key":
 			var mouse_pos = get_viewport().get_mouse_position()
 			for frag in $BreakFX.get_children():
@@ -207,7 +252,6 @@ func fragment_disruption():
 			var cont_pos = UI.player1.hover_button.get_global_rect().position + UI.player1.hover_button.get_global_rect().size/2
 			for frag in $BreakFX.get_children():
 				frag.apply_force_frag(cont_pos)
-	if disruptive2 and get_viewport():
 		if UI.player2.input == "key":
 			var mouse_pos = get_viewport().get_mouse_position()
 			for frag in $BreakFX.get_children():
@@ -234,19 +278,6 @@ func mouse_over(button: Button):
 
 func _input(event):
 	if !Globals.cinematic_viewed:
-		var is_button = event is InputEventKey \
-			or event is InputEventMouseButton \
-			or event is InputEventJoypadButton
-
-		if is_button and event.pressed:
-			if get_node("Intro"):
-				$Intro.visible = false
-				$Intro/AnimationPlayer.stop()
-				$Intro/AudioStreamPlayer.stop()
-				start_menu_music()
-			Globals.cinematic_viewed = true
-			skip_next_release = true
-			paused=false
 		return
 	if !fragmenting:
 		return
@@ -256,10 +287,12 @@ func _input(event):
 				UI.player1.pressing = false
 				if UI.player1.hover_button:
 					UI.player1.hover_button.emit_signal("pressed")
+					if fragmenting: SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 			if UI.player2.input == "key":
 				UI.player2.pressing = false
 				if UI.player2.hover_button:
 					UI.player2.hover_button.emit_signal("pressed")
+					if fragmenting: SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 
 func get_button_polygon(button: Button, frag_start_pos: Vector2) -> Array:
 	var rect = button.get_global_rect()
@@ -438,32 +471,40 @@ func find_button_for_fragment(frag_poly: Array, button_bounds: Dictionary) -> Ar
 func update_prompt():
 	if Globals.player1_input == "key" and Input.get_connected_joypads().size() == 0:
 		var text = "[font=res://addons/input_prompt_icon_font/icon.ttf]"
-		if disruptive1:
+		if disruptive:
 			text += "keyboard_space[/font]"
 		else:
 			text += "keyboard_space_outline[/font]"
 		$RichTextLabel.bbcode_text = text+": Toggle Fracturing "
 	else:
 		var text = ""
-		text += button_state(Globals.player1_input,disruptive1) +"/"
-		text += button_state(Globals.player2_input,disruptive2)
+		text += button_state(Globals.player1_input,disruptive) +"/"
+		text += button_state(Globals.player2_input,disruptive)
 		$RichTextLabel.bbcode_text = text+": Toggle Fracturing "
 
 func _on_focus_entered() -> void:
 	print("focus entered")
 	if hover_cooldown <= 0.0:
 		print("playing audio")
-		sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI")
+		SFXManager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI")
 		hover_cooldown = 0.025
 
 func button_state(input_type : String, active : bool):
-	if input_type == "key":
-		if active:
-			return "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_space[/font]"
-		return "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_space_outline[/font]"
-	if active:
-		return "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_l2[/font]"
-	return "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_l2_outline[/font]"
+	var string_start = "[font=res://addons/input_prompt_icon_font/icon.ttf]"
+	var string_end = "[/font]"
+	match GlyphManager.get_device_type(input_type):
+		"key":
+			if active:
+				return string_start+"keyboard_space"+string_end
+			return string_start+"keyboard_space_outline"+string_end
+		"ps4", "playstation4", "ps", "playstation","ps5", "playstation5":
+			if active:
+				return string_start+"playstation_trigger_l2"+string_end
+			return string_start+"playstation_trigger_l2_outline"+string_end
+		_:
+			if active:
+				return string_start+"xbox_lt"+string_end
+			return string_start+"xbox_lt_outline"+string_end
 
 func preload_all_textures():
 	var buttons = []
@@ -519,7 +560,7 @@ func update_ui_display():
 		or state["p2_hover"] != prev_state["p2_hover"]):
 			if hover_cooldown <= 0.0:
 				print("playing hover sound")
-				sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI")
+				SFXManager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI")
 				hover_cooldown = 0.1
 		
 		prev_state=state
@@ -587,33 +628,48 @@ func set_player_ui_state(state: Dictionary) -> void:
 func inputs(input_device):
 	if input_device=="key":
 		return
-	if Input.is_action_just_pressed("menu_up_"+input_device):
-		if UI.player1.input == input_device:
-			UI.player1.pressing = false
-			UI.player1.hover_button = get_next_button(UI.player1.hover_button, true)
-		if UI.player2.input == input_device:
-			UI.player2.pressing = false
-			UI.player2.hover_button = get_next_button(UI.player2.hover_button, true)
-	if Input.is_action_just_pressed("menu_down_"+input_device):
-		if UI.player1.input == input_device:
-			UI.player1.pressing = false
-			UI.player1.hover_button = get_next_button(UI.player1.hover_button, false)
-		if UI.player2.input == input_device:
-			UI.player2.pressing = false
-			UI.player2.hover_button = get_next_button(UI.player2.hover_button, false)
-	if Input.is_action_just_pressed("activate_"+input_device):
+	if Input.is_action_just_pressed("menu_up_" + input_device) or \
+		(Input.is_action_pressed("menu_up_" + input_device) and nav_cooldown <= 0.0):
+		if nav_cooldown <= 0.0:
+			nav_cooldown = nav_cooldown_time
+			if UI.player1.input == input_device:
+				UI.player1.pressing = false
+				UI.player1.hover_button = get_next_button(UI.player1.hover_button, true)
+				if !fragmenting: _on_focus_entered()
+			if UI.player2.input == input_device:
+				UI.player2.pressing = false
+				UI.player2.hover_button = get_next_button(UI.player2.hover_button, true)
+				if !fragmenting: _on_focus_entered()
+
+	if Input.is_action_just_pressed("menu_down_" + input_device) or \
+		(Input.is_action_pressed("menu_down_" + input_device) and nav_cooldown <= 0.0):
+		if nav_cooldown <= 0.0:
+			nav_cooldown = nav_cooldown_time
+			if UI.player1.input == input_device:
+				UI.player1.pressing = false
+				UI.player1.hover_button = get_next_button(UI.player1.hover_button, false)
+				if !fragmenting: _on_focus_entered()
+			if UI.player2.input == input_device:
+				UI.player2.pressing = false
+				UI.player2.hover_button = get_next_button(UI.player2.hover_button, false)
+				if !fragmenting: _on_focus_entered()
+
+	if Input.is_action_just_pressed("activate_" + input_device):
 		if UI.player1.input == input_device:
 			UI.player1.pressing = true
 		if UI.player2.input == input_device:
 			UI.player2.pressing = true
-	if Input.is_action_just_released("activate_"+input_device):
+
+	if Input.is_action_just_released("activate_" + input_device):
 		if skip_next_release:
 			skip_next_release = false
 		else:
 			if UI.player1.input == input_device and UI.player1.pressing:
 				UI.player1.hover_button.emit_signal("pressed")
+				if fragmenting: SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 			if UI.player2.input == input_device and UI.player2.pressing:
 				UI.player2.hover_button.emit_signal("pressed")
+				if fragmenting: SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 
 func normalize_ui_state(state: Dictionary) -> Dictionary:
 	var p1_hover = state["p1_hover"]

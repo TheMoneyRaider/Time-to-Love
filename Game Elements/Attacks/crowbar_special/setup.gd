@@ -40,18 +40,7 @@ var total_time = 0
 var player_owner : Node
 var hit_range = 32
 func _process(delta: float) -> void:
-	if passified:
-		total_time+=delta
-		if floor(total_time*.5)>time_period:
-			time_period=floor(total_time*.5)
-			for enemy in get_tree().get_nodes_in_group("enemy"):
-				if enemy.global_position.distance_squared_to(global_position) < hit_range:
-					enemy.take_damage(3.0,player_owner,Vector2(0,-1), null)
-					
-			for player in get_tree().get_nodes_in_group("player"):
-				if player.global_position.distance_squared_to(global_position) < hit_range:
-					player.take_damage(3.0,player_owner,Vector2(0,-1), null)
-	else:
+	if !passified:
 		time+=delta
 		sprite.modulate.a = sin(time)
 		# Smooth sinusoidal pulse from min to max

@@ -70,7 +70,8 @@ func check_rewards(player_node : Node) -> bool:
 	return false
 
 func open_shop(offered_items : int = 4) -> void:
-	ten_reward_num = get_tree().get_root().get_node("LayerManager").reward_num.duplicate()
+	#ten_reward_num = get_tree().get_root().get_node("LayerManager").reward_num.duplicate()
+	ten_reward_num = [2.0,0,1.4,1.0,.6,0]
 	if shop_open:
 		return
 	shop_open = true
@@ -191,7 +192,7 @@ func _on_tentacle_reached_hole(tentacle: Node) -> void:
 		"health":
 			reward.set_cost(150)
 		"remnantupgrade":
-			reward.set_cost(300)
+			reward.set_cost(350)
 		_:
 			reward.set_cost(250)
 	#reward.set_cost(200)

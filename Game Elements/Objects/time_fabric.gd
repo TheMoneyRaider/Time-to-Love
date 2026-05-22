@@ -43,7 +43,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	lifetime -= delta
-	flash_expire(delta,5)
+	flash_expire(delta,7)
 	if(lifetime <= 0.0):
 		self.queue_free()
 	time_passed += delta
@@ -159,7 +159,7 @@ func move_towards_player():
 func check_player(player : Node, idx : int):
 	var dir = (player.position - position)
 	var distance = dir.length()
-	var attraction_radius = 60.0
+	var attraction_radius = player.attraction_effect(true)
 	if distance < attraction_radius or attracted[idx]:
 		var new_vel = dir.normalized() * (100.0 + abs(attraction_radius - distance) * 5.0)
 		velocity = Vector3(new_vel.x, new_vel.y, 0)

@@ -18,7 +18,6 @@ font_size = 32
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3n0va"]
 shader = ExtResource("6_ct800")
-shader_parameter/time = 0.0
 shader_parameter/tendril_count = 30
 shader_parameter/tendril_thickness = 20.0
 shader_parameter/tendril_waviness = 18.206000627285
@@ -366,20 +365,20 @@ mouse_filter = 2
 modulate = Color(0.52135843, 0.0013825077, 0.6983415, 1)
 z_index = -1
 layout_mode = 0
-offset_left = -256.0
-offset_top = -256.0
-offset_right = 256.0
-offset_bottom = 256.0
+offset_left = 1666.0
+offset_top = -237.0
+offset_right = 2178.0
+offset_bottom = 275.0
 texture = ExtResource("7_gonnx")
 
 [node name="Light_texture2" type="TextureRect" parent="Control"]
 modulate = Color(0.52135843, 0.0013825077, 0.6983415, 1)
 z_index = -1
 layout_mode = 0
-offset_left = -256.0
-offset_top = -256.0
-offset_right = 256.0
-offset_bottom = 256.0
+offset_left = 1667.0
+offset_top = -258.0
+offset_right = 2179.0
+offset_bottom = 254.0
 texture = ExtResource("7_gonnx")
 
 [connection signal="pressed" from="Control/MarginContainer/VBoxContainer/Save1/HBoxContainer/Options/Delete" to="Control" method="_on_delete1_pressed"]

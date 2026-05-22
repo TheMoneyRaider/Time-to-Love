@@ -6,6 +6,11 @@ func _ready() -> void:
 	
 	if err == OK:
 		var volume = config.get_value("audio", "master", 0)
+		var display_mode = config.get_value("display","display_mode",0)
+		if(display_mode == 0):
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		else:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN) 
 		var bus_index = AudioServer.get_bus_index("Master")
 		AudioServer.set_bus_volume_db(bus_index, volume)
 

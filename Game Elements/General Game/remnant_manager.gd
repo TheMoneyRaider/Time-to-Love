@@ -5,7 +5,7 @@ var remnant_pool: Array[Resource] = []
 func _ready():
 	randomize()
 	_load_all_remnants()
-
+var has_gotten_remnant : bool = false
 #Loads all resources from res://remnants/
 func _load_all_remnants() -> void:
 	var dir = ResourceLoader.list_directory("res://Game Elements/Remnants/")
@@ -106,12 +106,12 @@ func will_softlock(player1_remnants: Array = [], player2_remnants : Array = [],i
 		var result: Array[Resource] = []
 
 		# Pick half from each
-		print("Check player 1 remnants")
+		#print("Check player 1 remnants")
 		_pick_random_upgradable(player1_remnants, 2, result)
 		var prev_size = result.size()
 		if result.size() < 1:
 			return true
-		print("Check player 2 remnants")
+		#print("Check player 2 remnants")
 		_pick_random_upgradable(player2_remnants, 2, result)
 		if result.size() == prev_size:
 			return true
@@ -134,9 +134,9 @@ func get_remnant_upgrades(num: int = 4, player1_remnants: Array = [], player2_re
 	# If num is odd, pick one more at random from the union without duplicating
 	var extra := (half * 2) -result.size()
 	if extra <= 0:
-		print("Viewable remnants")
-		for rem in result:
-			print("Name: "+str(rem.remnant_name)+" Rank: "+str(rem.rank))
+		#print("Viewable remnants")
+		#for rem in result:
+		#	print("Name: "+str(rem.remnant_name)+" Rank: "+str(rem.rank))
 		return result
 	# If we need more remnants
 	var combined := (player1_remnants + player2_remnants).duplicate()
@@ -160,8 +160,8 @@ func _pick_random_upgradable(from_pool: Array, amount: int, into: Array):
 			into.append(temp[i])
 			am+=1
 		if am >= amount:
-			for rem in temp:
-				print("Name: "+str(rem.remnant_name)+" Rank: "+str(rem.rank))
+			#for rem in temp:
+				#print("Name: "+str(rem.remnant_name)+" Rank: "+str(rem.rank))
 			break
 
 func _pick_random_unique(from_pool: Array, amount: int, into: Array):

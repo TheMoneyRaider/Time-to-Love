@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://bfddtp1n5jpgh"]
+
+[ext_resource type="Texture2D" uid="uid://bh0dj8re470or" path="res://art/remnants/defender.png" id="1_gfuki"]
+[ext_resource type="Texture2D" uid="uid://bn1skdm4xso0t" path="res://art/remnants/defender_icon.png" id="2_xan8v"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_bneag"]
+
+[resource]
+script = ExtResource("3_bneag")
+remnant_name = "Remnant of The Defender"
+description = "Whenever you deflect an attack, deal $X% more damage  for the next $Y seconds."
+icon = ExtResource("2_xan8v")
+art = ExtResource("1_gfuki")
+variable_names = Array[String](["$X", "$Y"])
+variable_1_values = [10, 15, 20, 25, 30]
+variable_2_values = [0.5, 1.0, 1.5, 2.0, 2.5]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

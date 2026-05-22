@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Room" load_steps=2 format=3 uid="uid://cgr613iyvbws"]
+
+[ext_resource type="Script" uid="uid://boljl4yehg187" path="res://Game Elements/Rooms/room.gd" id="1_7e2dp"]
+
+[resource]
+script = ExtResource("1_7e2dp")
+scene_location = "res://Game Elements/Rooms/starting_rooms/1.tscn"
+liquid_types = Array[int]([1, 2])
+liquid_chances = Array[float]([1.0, 1.0])
+noise_seed = null
+num_pathways = 2
+pathway_direction = Array[int]([0, 3])
+num_enemy_goal = 0
+roomtype = 4
+roomvariant = 0
+wave_segment = 0.0
+letter_goal = 0
+metadata/_custom_type_script = "uid://boljl4yehg187"

@@ -3,7 +3,7 @@ extends CanvasLayer
 
 
 @export var time_per_buffer := 10 # hard cap on time will be this * 6
-@export var rewind_time := 10.0 #can't be smaller than recent_seconds. also the actual rewind time is generally 3 seconds or so greater.
+@export var rewind_time := 5.0 #can't be smaller than recent_seconds. also the actual rewind time is generally 3 seconds or so greater.
 
 @export var min_shader_intensity = 0.0
 @export	var max_shader_intensity = .75
@@ -13,22 +13,25 @@ var initial_replay_fps = 12
 @onready var replay_texture: TextureRect = $Control/Replay
 @onready var death_box: VBoxContainer = $Control/VBoxContainer
 
+var active = false
+
 var buffer_fps := [32,16,8,4,2,1]
 var buffers := [[],[],[],[],[],[]]
 var capture_timer: Timer
 var capturing := true
+var getting_time := true
 var rewinding := false
 var total_time = 0.0
 var final_frame : Image
 var rewind_mode = 0
 var test_buffer := []
 var test_buffer_fps := 30
-var test_buffer_size = 600
+var test_buffer_size = 300
 var test_frame_timer : float = 0.0
 var test_frame_duration : float = 1.0 / (test_buffer_fps * 2)
 
 var frame_amount = 0
-
+var input_delay : float = 0.0
 func _ready():
 	hide()
 	rewind_mode = Globals.config.get_value("rewind", "rewind_mode", 0)
@@ -54,8 +57,10 @@ func _ready():
 		capturing = false
 
 func _process(delta):
-	if capturing:
+	if getting_time:
 		total_time+=delta
+	if input_delay > 0:
+		input_delay-=delta
 
 func state_change():
 	Globals.save_state.time_spent+=total_time
@@ -64,10 +69,20 @@ func state_change():
 		var img = buffers[0][0]
 		if img is Image and not img.is_empty():
 			Globals.save_state.picture = ImageTexture.create_from_image(img)
+	elif test_buffer.size() > 0:
+		var img = test_buffer.back()
+		if img is Image and not img.is_empty():
+			Globals.save_state.picture = ImageTexture.create_from_image(img)
 
 
 func activate():
+	get_parent().hud.get_node("RootControl/Label").stop_countdown()
+	Globals.has_died = true
+	input_delay = 2.0
+	active = true
 	state_change()
+	if(getting_time):
+		getting_time = false
 	if(capturing):
 		capturing=false
 		capture_timer.stop()
@@ -133,12 +148,18 @@ func _resize_test_buffer():
 		#test_buffer_fps.append(test_buffer_fps.back() * 2.0)
 
 func _on_quit_pressed():
+	if input_delay > 0:
+		return
+	active = false
 	if rewinding:
 		return
 	get_tree().paused = false
 	Globals.save_config()
 	get_tree().quit()
 func _on_menu_pressed():
+	if input_delay > 0:
+		return
+	active = false
 	if rewinding:
 		return
 	get_tree().paused = false
@@ -146,6 +167,9 @@ func _on_menu_pressed():
 	get_tree().call_deferred("change_scene_to_file", "res://Game Elements/ui/main_menu/main_menu.tscn")
 
 func _on_replay_pressed():
+	Globals.total_progress = max(Globals.total_progress, RoomManager.current_progress)
+	if input_delay > 0:
+		return
 	if rewinding:
 		return
 	rewinding = true
@@ -159,6 +183,7 @@ func _on_replay_pressed():
 	if(rewind_mode == 2):
 		end_replay()
 		return
+	SFXManager.play(preload("res://Game Elements/sfx/world/rewind.ogg"),0.0,"SFX")
 	var now := Time.get_time_dict_from_system()
 	#play_replay_reverse() TEST
 	if(rewind_mode == 0):
@@ -247,14 +272,17 @@ func get_shader_intensity(current_time: float, total_time_func: float, min_inten
 	
 func end_replay():
 	var now := Time.get_time_dict_from_system()
+	active = false
 	capturing = false
+	getting_time = false
 	for i in range(6):
 		buffers[i].clear()
 	frame_amount = 0
 	
 	test_buffer.clear()
 	test_frame_timer =0
-	RoomManager.current_progress = 0.0
+	RoomManager.reset()
+	Globals.death_time = 7.0
 	# Create a full-screen overlay with the last frame
 	if(rewind_mode != 2):
 		var overlay = preload("res://Game Elements/ui/transition_texture.tscn").instantiate()

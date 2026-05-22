@@ -105,7 +105,7 @@ z_index = 20
 y_sort_enabled = true
 scale = Vector2(1.2, 1.2)
 collision_layer = 4
-collision_mask = 9
+collision_mask = 137
 script = ExtResource("1_6v6ri")
 max_health = 30.0
 agro_distance = 300.0
@@ -116,6 +116,8 @@ min_sprint_time = 0.5
 max_sprint_time = 1.0
 max_sprint_cooldown = 4.0
 move_speed = 25.0
+deflect_chance = 0.5
+grass_displacement_size = 2.0
 attacks = [ExtResource("2_1vtjt"), ExtResource("2_dvaya")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

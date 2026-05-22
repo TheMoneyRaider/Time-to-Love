@@ -12,9 +12,6 @@ func _physics_process(delta):
 	for body in bodies:
 		if body is TileMapLayer:
 			do_push = false
-	#if(do_push == false):
-		#var dir = (last_locations[0] - global_position)
-		#call_deferred("delay_trigger",(dir * delta * push_strength * 5))
 	for body in bodies:
 		if body is TileMapLayer:
 			continue

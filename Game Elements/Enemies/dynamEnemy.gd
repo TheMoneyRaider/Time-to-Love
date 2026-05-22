@@ -14,6 +14,7 @@ extends CharacterBody2D
 @export var min_sprint_cooldown : float = 3.0
 @export var max_sprint_cooldown : float = 6.0
 @export var sprint_multiplier : float = 2.0
+@onready var current_liquid_time: float = 0.0
 var current_health: float = 10.0
 @export var move_speed: float = 70
 @onready var current_dmg_time: float = 0.0
@@ -24,12 +25,15 @@ var sprint_cool : float = 0.0
 var display_pathways = false
 var debug_menu = false
 var debug_mode = false
+var stunned : bool = false
 var look_direction : Vector2 = Vector2(0,1)
 @export var weapon_cooldowns : Array[float] = []
 var last_hitter : Node = null
 var exploded : float = 0
 @export var cactus_explode : bool = false
 var purple_explode : bool = false
+var boss_die : bool = false
+@export var deflect_chance : float = 0.0
 
 var last_pos:Vector2 = Vector2(0,0)
 var time_stuck: float = 0
@@ -50,6 +54,8 @@ var LayerManager : Node
 
 var parent_node = null
 
+var effect_stacks : Array[int] = []
+var effect_particles : Array
 
 @export var attacks = [preload("res://Game Elements/Attacks/bad_bolt.tscn"),preload("res://Game Elements/Attacks/robot_melee.tscn")]
 signal attack_requested(new_attack : PackedScene, t_position : Vector2, t_direction : Vector2, damage_boost : float)
@@ -93,6 +99,22 @@ func handle_attack(target_position: Vector2,attack_index: int = 0):
 		else:
 			request_attack(attacks[0], attack_position + Vector2(0,20), attack_direction)
 			return
+			
+	# big t attack handling
+	if enemy_type == "large_reptile" && attack_index != 1:
+		var num_projectiles = 12 if attack_index == 0 else 5 
+		var spread = (2.0 * PI / 3.0) if attack_index == 0 else (PI / 3.0)
+		if attack_index == 0:
+			attack_position+= Vector2(-13,-28)*3.6 if $Sprite2D.flip_h else Vector2(13,-28)*3.6
+		if attack_index == 2:
+			attack_position+= Vector2(13,-6)*3.6 if $Sprite2D.flip_h else Vector2(-13,-6)*3.6
+		var step = spread / (num_projectiles - 1)
+		var start_angle = attack_direction.angle() - spread / 2
+		for i in range(num_projectiles):
+			var spread_dir = Vector2.RIGHT.rotated(start_angle + step * i)
+			request_attack(attacks[attack_index], attack_position, spread_dir)
+		return
+
 	if enemy_type=="archer":
 		attack_position = attack_position + attack_direction * 10
 	request_attack(attacks[attack_index], attack_position, attack_direction)
@@ -111,6 +133,10 @@ func load_settings():
 	
 
 func _ready():
+	effect_stacks.resize(9)
+	effect_stacks.fill(0)
+	effect_particles.resize(9)
+	effect_particles.fill(null)
 	parent_node = get_parent()
 	if is_boss:
 		current_health = boss_healthpools[phase]
@@ -196,6 +222,8 @@ func _physics_process(_delta: float) -> void:
 		knockback_velocity = knockback_velocity * knockback_decay
 var last_phase
 func _process(delta):
+	cactus_delay-=delta
+	thud_delay-=delta
 	#Boss stuff
 	last_phase = phase
 	#
@@ -210,6 +238,7 @@ func _process(delta):
 		_skeleton_process()
 	if enemy_type=="medieval_slime":
 		_slime_process()
+	
 	if(i_frames > 0):
 		i_frames -= 1
 	for i in range(weapon_cooldowns.size()):
@@ -230,7 +259,24 @@ func _process(delta):
 	
 	if debug_mode:
 		queue_redraw()
-	
+var animating : bool = false
+func _dummy_hit(size : float):
+	if animating: return
+	animating = true
+	var animation_input: String = "hit_1"
+	if size > 5.1:
+		animation_input = "hit_2"
+	if size > 10.0:
+		animation_input = "hit_3"
+	$AnimationPlayer.play(animation_input)
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	$AnimationPlayer.play("idle")
+	animating = false
+
+
+
 func _skeleton_process():
 	var dir = look_direction
 	var block : int = $SkeletonBrain.anim_frame / 4 * 4
@@ -276,7 +322,7 @@ func _robot_process():
 	$RobotBrain.set_frame(block + offset)
 
 func damage_flash() -> void:
-	if(has_node("Sprite2D")):
+	if(has_node("Sprite2D")) and !enemy_type=="hit_me":
 		if(has_node("AnimationPlayer")):
 			if($AnimationPlayer.has_animation("hit")):
 				$AnimationPlayer.play("hit")
@@ -284,7 +330,8 @@ func damage_flash() -> void:
 		$Sprite2D.self_modulate = Color(1.0, 0.378, 0.31, 1.0)
 		await get_tree().create_timer(.20).timeout		
 		$Sprite2D.self_modulate = Color(1.0, 1.0, 1.0)
-
+var cactus_delay = 0.0
+var thud_delay = 0.0
 func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0,creates_indicators : bool = true, unstoppable : bool = false):
 	if !hitable and !unstoppable:
 		return
@@ -293,7 +340,11 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 	if(i_frames > 0):
 		return
 	i_frames = attack_i_frames
-	sfx_manager.play(preload("res://Game Elements/sfx/enemies/thud.ogg"), -2.0)
+	if enemy_type=="hit_me":
+		_dummy_hit(damage)
+	if thud_delay <= 0.0:
+		SFXManager.play(preload("res://Game Elements/sfx/enemies/thud.ogg"), -2.0,"SFX",global_position, 2.3)
+		thud_delay = .05
 	if dmg_owner:
 		check_agro(dmg_owner)
 	if enemy_type=="binary_bot":
@@ -301,8 +352,9 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 	if current_health >= 0.0 and display_damage and creates_indicators:
 		LayerManager._damage_indicator(damage, dmg_owner,direction, attack_body,self)
 		damage_flash()
-		if(enemy_type=="cactus") and dmg_owner:
-			sfx_manager.play(cactus_explosion_sound[randi() % cactus_explosion_sound.size()], -6.0)
+		if(enemy_type=="cactus") and dmg_owner and cactus_delay <=0.0 and !stunned:
+			cactus_delay=.15
+			SFXManager.play(cactus_explosion_sound[randi() % cactus_explosion_sound.size()], -6.0,"SFX",global_position)
 			var attack_position = global_position
 			if(is_instance_valid(dmg_owner)):
 				var attack_direction = (dmg_owner.global_position - attack_position).normalized()
@@ -333,8 +385,14 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 				knockback_velocity = attack_body.direction * attack_body.knockback_force
 	current_health -= damage
 	if is_boss:
-		LayerManager.hud.update_bossbar(clamp(current_health/max_health,0.0,1.0))
-		if current_health <= 0.0 and phase < boss_phases - 1:
+		var health_percentile = clamp(current_health/max_health,0.0,1.0)
+		LayerManager.hud.update_bossbar(health_percentile)
+		if enemy_type == "large_reptile" and phase == last_phase and health_percentile < 1 - (0.2 * phase):
+			phase += 1
+			if phase < boss_phases:
+				emit_signal("boss_phase_change", self)
+				return
+		if enemy_type != "large_reptile" and current_health <= 0.0 and phase != boss_phases - 1:
 			if phase == last_phase:
 				phase+=1
 				if phase < boss_phases:
@@ -438,17 +496,20 @@ func apply_hydromancer(rem : Remnant, attack_body : Node, mancer_value : int):
 			@warning_ignore("integer_division")
 			for i in range(1, rem.rank + (mancer_value / 2) + 1):
 				effect = preload("res://Game Elements/Effects/burn.tres").duplicate()
-				effect.cooldown = i
-				effect.value1 = 2
+				effect.cooldown = i / 2.0
+				effect.value1 = attack_body.damage / 2.0
 				effect.gained(self)
 				effects.append(effect)
 		Globals.Liquid.Glitch:
-			var glitch_dir = attack_body.direction
-			glitch_dir.rotated(randf_range(-15,15))
-			_glitch_move(glitch_dir.normalized() * 160)
+			if(!enemy_type == "laser_e" and !is_boss):
+				var glitch_dir = attack_body.direction
+				glitch_dir.rotated(randf_range(-15,15))
+				@warning_ignore("integer_division")
+				for i in range(0, 2 * rem.rank + (mancer_value / 2)):
+					_glitch_move(glitch_dir.normalized() * 8 * i)
 			effect = preload("res://Game Elements/Effects/stun.tres").duplicate()
 			@warning_ignore("integer_division")
-			effect.cooldown = rem.rank + (mancer_value / 2) / 2.5
+			effect.cooldown = (rem.rank + (mancer_value / 2)) / 4.0
 			effect.gained(self)
 			effects.append(effect)
 		_:
@@ -501,47 +562,74 @@ func check_liquids(delta):
 					position+=tile_data.get_custom_data("direction").normalized() *delta * 32
 				Globals.Liquid.Glitch:
 					_glitch_move()
+				Globals.Liquid.Lava:
+					var idx = 0
+					for effect in effects:
+						if effect.type == "slow":
+							var particle =  preload("res://Game Elements/Particles/steam_particles.tscn").instantiate()
+							#particle.position = self.position
+							self.add_child(particle)
+							effect.tick(delta,self)
+							if effect.cooldown == 0:
+								effects.remove_at(idx)
+							current_liquid_time -= .01
+						idx +=1
+					current_liquid_time += delta
+					if current_liquid_time >= .25:
+						current_liquid_time -= .25
+						take_damage(2.0,null)
+
+
+func cast_ray(origin: Vector2, direction: Vector2, distance: float, player_node : Node) -> Dictionary:
+	var query = PhysicsRayQueryParameters2D.create(origin, origin + direction * distance)
+	query.collide_with_areas = false
+	query.collide_with_bodies = true
+	query.collision_mask = 1 << 0
+	return player_node.get_world_2d().direct_space_state.intersect_ray(query)
 
 func _glitch_move(input_move_dir : Vector2 = Vector2(-1234,-1234)) -> void:
 	var move_dir_l
 	var move_dir_r
 	if(input_move_dir == Vector2(-1234,-1234)):
-		move_dir_l = velocity.normalized() *16
-		move_dir_r = velocity.normalized() *16
+		move_dir_l = velocity.normalized() * 16
+		move_dir_r = velocity.normalized() * 16
 	else:
 		move_dir_l = input_move_dir
 		move_dir_r = input_move_dir
-	var ground_cells = LayerManager.room_instance.get_node("Ground").get_used_cells()
-	var check_pos_r = Vector2i(((position + move_dir_r)/16).floor())
-	var check_pos_l = Vector2i(((position + move_dir_l)/16).floor())
+
 	var attempts = 0
 	var max_attempts = 36 # prevent infinite loops
-	while check_pos_r not in ground_cells and check_pos_l not in ground_cells and attempts < max_attempts:
+	var condition1 = cast_ray(position, move_dir_r.normalized(), move_dir_r.length(), self)
+	var condition2 = cast_ray(position, move_dir_l.normalized(), move_dir_l.length(), self)
+	while condition1 and condition2 and attempts < max_attempts:
+		condition1 = cast_ray(position, move_dir_r.normalized(), move_dir_r.length(), self)
+		condition2 = cast_ray(position, move_dir_l.normalized(), move_dir_l.length(), self)
 		move_dir_r = move_dir_r.rotated(deg_to_rad(-5))
 		move_dir_l = move_dir_l.rotated(deg_to_rad(5))
-		check_pos_l = Vector2i(((position + move_dir_l)/16).floor())
-		check_pos_r = Vector2i(((position + move_dir_r)/16).floor())
 		attempts += 1
+
 	if velocity.length() < .1:
 		return
-	var move_dir =move_dir_r
-	if check_pos_l in ground_cells:
-		move_dir =move_dir_l
-	position+=move_dir/2.0
+
+	var move_dir = move_dir_r
+	if not cast_ray(position, move_dir_l.normalized(), move_dir_l.length(), self):
+		move_dir = move_dir_l
+
+	position += move_dir / 2.0
 	var saved_position = position
 	var saved_velocity = velocity
 	var position_variance = 16
 	var hue_variance = .08
-	var color1 = shift_hue(Color(0.0, 0.867, 0.318, 1.0),randf_range(-hue_variance,hue_variance))
-	var color2 = shift_hue(Color(0.0, 0.116, 0.014, 1.0),randf_range(-hue_variance,hue_variance))
-	position+= Vector2(randf_range(-position_variance,position_variance),randf_range(-position_variance,position_variance))
-	Spawner.spawn_after_image(self,LayerManager,color1,color1,0.5,1.0,1+randf_range(-.1,.1),.75)
+	var color1 = shift_hue(Color(0.0, 0.867, 0.318, 1.0), randf_range(-hue_variance, hue_variance))
+	var color2 = shift_hue(Color(0.0, 0.116, 0.014, 1.0), randf_range(-hue_variance, hue_variance))
+	position += Vector2(randf_range(-position_variance, position_variance), randf_range(-position_variance, position_variance))
+	Spawner.spawn_after_image(self, LayerManager, color1, color1, 0.5, 1.0, 1 + randf_range(-.1, .1), .75)
 	position = saved_position
-	velocity=move_dir/2.0
+	velocity = move_dir / 2.0
 	move_and_slide()
 	saved_position = position
-	position+= Vector2(randf_range(-position_variance,position_variance),randf_range(-position_variance,position_variance))
-	Spawner.spawn_after_image(self,LayerManager,color2,color2,0.5,1.0,1+randf_range(-.1,.1),.75)
+	position += Vector2(randf_range(-position_variance, position_variance), randf_range(-position_variance, position_variance))
+	Spawner.spawn_after_image(self, LayerManager, color2, color2, 0.5, 1.0, 1 + randf_range(-.1, .1), .75)
 	position = saved_position
 	move_and_slide()
 	velocity = saved_velocity

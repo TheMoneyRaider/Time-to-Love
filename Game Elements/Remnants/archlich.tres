@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://d15pwy4x5p40f"]
+
+[ext_resource type="Texture2D" uid="uid://72ok2r2uhhxw" path="res://art/remnants/archlich.png" id="1_e3w42"]
+[ext_resource type="Texture2D" uid="uid://bhiumi08nvi7w" path="res://art/remnants/archlich_icon.png" id="2_gfku8"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_sljhc"]
+
+[resource]
+script = ExtResource("3_sljhc")
+remnant_name = "Remnant of the Archlich"
+description = "Heal effects are $Y% less effective. Take $X% less damage"
+icon = ExtResource("2_gfku8")
+art = ExtResource("1_e3w42")
+progress_required = 1.0
+tags = Array[String](["boss_remnant"])
+variable_names = Array[String](["$X", "$Y"])
+variable_1_values = [5, 10, 15, 20, 25]
+variable_2_values = [3, 6, 9, 12, 15]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

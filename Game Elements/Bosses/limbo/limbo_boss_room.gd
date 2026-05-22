@@ -89,6 +89,9 @@ func finish_animation():
 	await tween.finished
 	LayerManager.BossIntro.visible = false
 	LayerManager.BossIntro.get_node("Transition").modulate = Color(0.0,0.0,0.0,1.0)
+	player1.get_node("Crosshair").mouse_clamping_enabled = true
+	if is_multiplayer:
+		player2.get_node("Crosshair").mouse_clamping_enabled = true
 	return
 
 func deactivate():
@@ -101,11 +104,14 @@ func deactivate():
 
 
 func activate(camera_in : Node, player1_in : Node, player2_in : Node):
+	player1 = player1_in
+	player2 = player1_in
+	player1.get_node("Crosshair").mouse_clamping_enabled = false
+	if is_multiplayer:
+		player2.get_node("Crosshair").mouse_clamping_enabled = false
 	print("boss room activate")
 	active = true
 	camera = camera_in
-	player1 = player1_in
-	player2 = player1_in
 	player1.disabled = true
 	player1.input_direction = Vector2.UP
 	player1.update_animation_parameters(player1.input_direction)
@@ -119,7 +125,7 @@ func activate(camera_in : Node, player1_in : Node, player2_in : Node):
 	Hud =LayerManager.hud
 	LayerManager.BossIntro.get_node("BossName").text = boss_name
 	LayerManager.BossIntro.get_node("Boss").texture = boss_splash_art
-	LayerManager.BossIntro.get_node("BossName").add_theme_font_override("font", boss_font)
+	LayerManager.BossIntro.get_node("BossName").add_theme_font_override("normal_font", boss_font)
 	screen = LayerManager.get_node("game_container/game_viewport")
 	for node in get_children():
 		if node.is_in_group("pathway"):

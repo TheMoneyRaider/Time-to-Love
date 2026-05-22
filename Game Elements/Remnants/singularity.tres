@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://da26j6acp74d7"]
+
+[ext_resource type="Texture2D" uid="uid://kercl1xvk5x5" path="res://art/remnants/singularity.png" id="1_iigft"]
+[ext_resource type="Texture2D" uid="uid://chyv24y6037oc" path="res://art/remnants/singularity_icon.png" id="2_em1r6"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_xdx8b"]
+
+[resource]
+script = ExtResource("3_xdx8b")
+remnant_name = "Remnant of The Singularity"
+description = "Purple $X repulses enemies. Orange $Y attracts timefabric."
+icon = ExtResource("2_em1r6")
+art = ExtResource("1_iigft")
+progress_required = 3.0
+tags = Array[String](["boss_remnant"])
+variable_names = Array[String](["$X", "$Y"])
+variable_1_values = ["Tinily", "Slightly", "Moderately", "Largely", "Greatly"]
+variable_2_values = ["Tinily", "Slightly", "Moderately", "Largely", "Greatly"]
+variable_3_values = [19.2, 38.4, 57.6, 76.8, 96.0]
+variable_4_values = [10.0, 20.0, 30.0, 40.0, 50.0]
+variable_5_values = [90.0, 120.0, 150.0, 180.0, 210.0]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

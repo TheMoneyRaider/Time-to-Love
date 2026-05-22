@@ -1,0 +1,689 @@
+[gd_scene load_steps=44 format=3 uid="uid://0hahdiffjt61"]
+
+[ext_resource type="Script" uid="uid://ttvprfi61vn4" path="res://Game Elements/ui/hud.gd" id="1_6fbih"]
+[ext_resource type="Script" uid="uid://bs428146shl5s" path="res://Game Elements/ui/time_fabric_animation.gd" id="2_bjfho"]
+[ext_resource type="Texture2D" uid="uid://bxmiq87nvpvj8" path="res://art/notification.png" id="2_gp50j"]
+[ext_resource type="Texture2D" uid="uid://bjttiaoaq2xk1" path="res://Game Elements/Bosses/limbo/healthbar_p2_underlay.png" id="2_m7god"]
+[ext_resource type="Texture2D" uid="uid://ch4g2j4jycixb" path="res://art/time_fabric.png" id="3_6fbih"]
+[ext_resource type="Shader" uid="uid://cweesrh2cbhg6" path="res://Game Elements/ui/boss_healthbar.gdshader" id="3_8prbk"]
+[ext_resource type="Texture2D" uid="uid://8clo10stsmun" path="res://Game Elements/Bosses/limbo/healthbar_p2_overlay.png" id="4_8prbk"]
+[ext_resource type="Script" uid="uid://d36yo1gmy8tkb" path="res://Game Elements/ui/cooldown_bar_1.gd" id="5_kgqo6"]
+[ext_resource type="Texture2D" uid="uid://dj6erg8qveqb0" path="res://art/ninja_2.png" id="5_p8pfh"]
+[ext_resource type="FontFile" uid="uid://bt6q2rnjl8b8a" path="res://demo/assets/fonts/QuentinCaps.ttf" id="5_wg6mc"]
+[ext_resource type="Texture2D" uid="uid://ds6fo2yfcafce" path="res://art/ninja_1.png" id="6_gp50j"]
+[ext_resource type="Shader" uid="uid://dtp2e4p3wbgyp" path="res://Game Elements/ui/special_cooldown.gdshader" id="8_gp50j"]
+[ext_resource type="Texture2D" uid="uid://kdaw8in4wo0" path="res://art/weapons/crossbow/crossbow_bright.png" id="9_gp50j"]
+[ext_resource type="PackedScene" uid="uid://bsol6opkpit8y" path="res://Game Elements/ui/health_bar.tscn" id="10_sjf6p"]
+[ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/Particles/effect_particles.gd" id="13_8prbk"]
+[ext_resource type="Shader" uid="uid://dw2wx3n6pfeno" path="res://Game Elements/ui/pain_display.gdshader" id="15_5ho0i"]
+[ext_resource type="Script" uid="uid://7n5dhknutmb5" path="res://Game Elements/ui/pain_display.gd" id="16_wtgju"]
+[ext_resource type="Script" uid="uid://b2leg1eo0ux3x" path="res://Game Elements/ui/death_countdown.gd" id="18_mrems"]
+[ext_resource type="FontFile" uid="uid://uwli4o3ns4pq" path="res://fonts/OldEnglishFive.ttf" id="18_oroqg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5ho0i"]
+shader = ExtResource("3_8prbk")
+shader_parameter/effect_index = 11
+shader_parameter/progress = 1.0
+shader_parameter/progress2 = 1.0
+shader_parameter/image_size = Vector2(715, 41)
+shader_parameter/P1_u_speed = 0.125
+shader_parameter/P1_u_color_low = Color(0, 0, 0, 1)
+shader_parameter/P1_u_color_mid = Color(0, 0.396, 0.5607, 1)
+shader_parameter/P1_u_color_high = Color(0, 0.9019, 0.73, 1)
+shader_parameter/P1_scale = 96.0
+shader_parameter/P2_u_speed = 0.125
+shader_parameter/P2_u_color_low = Color(0, 0, 0, 1)
+shader_parameter/P2_u_color_mid = Color(0.58, 0.58, 0.58, 1)
+shader_parameter/P2_u_color_high = Color(0.9, 0.9, 0.9, 1)
+shader_parameter/P2_scale = 32.0
+shader_parameter/P3_u_speed = 1.0
+shader_parameter/P3_u_color_low = Color(0, 0, 0, 1)
+shader_parameter/P3_u_color_mid = Color(0, 0.443, 0.2078, 1)
+shader_parameter/P3_u_color_high = Color(0.329, 0.917, 0, 1)
+shader_parameter/P3_scale = 8.0
+shader_parameter/P4_u_speed = 2.0
+shader_parameter/P4_u_color_low = Color(0, 0, 0, 1)
+shader_parameter/P4_u_color_mid = Color(0.478, 0.004, 0.824, 1)
+shader_parameter/P4_u_color_high = Color(0.855, 0.447, 0.89, 1)
+shader_parameter/P4_scale = 16.0
+shader_parameter/P10_u_speed = 0.25
+shader_parameter/P10_u_color_low = Color(0, 0, 0, 1)
+shader_parameter/P10_u_color_mid = Color(0, 0.286, 0.871, 1)
+shader_parameter/P10_u_color_high = Color(0, 0.694, 0.904, 1)
+shader_parameter/P10_scale = 32.0
+shader_parameter/P11_u_speed = 0.05
+shader_parameter/P11_u_color_low = Color(0, 0, 0, 1)
+shader_parameter/P11_u_color_mid = Color(0.784, 0.475, 0, 1)
+shader_parameter/P11_u_color_high = Color(1, 1, 1, 1)
+shader_parameter/P11_u_color_mid2 = Color(1, 0.824, 0.655, 1)
+shader_parameter/P11_scale = 64.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_mrems"]
+font = ExtResource("5_wg6mc")
+font_size = 64
+font_color = Color(0.50373435, 0.08703723, 9.62615e-08, 1)
+outline_size = 16
+outline_color = Color(0.1510567, 1.6770558e-07, 0.0046982653, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_t1xeu"]
+font_size = 35
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sjf6p"]
+shader = ExtResource("8_gp50j")
+shader_parameter/u_speed = 0.5
+shader_parameter/u_color_low = Color(0, 0, 0, 1)
+shader_parameter/u_color_mid_red = Color(0.36750364, 0.0016963201, 0.6819386, 1)
+shader_parameter/u_color_high = Color(0.9880591, 0.7400065, 1, 1)
+shader_parameter/scale = 12.0
+shader_parameter/progress = 0.0
+shader_parameter/interp_time = 0.25
+shader_parameter/time_offset = 0.0
+shader_parameter/prev_progress = 0.0
+
+[sub_resource type="Gradient" id="Gradient_8prbk"]
+colors = PackedColorArray(0.8862745, 0.36862746, 0.8235294, 0, 0.9999998, 0.25418806, 0.97574455, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5ho0i"]
+gradient = SubResource("Gradient_8prbk")
+
+[sub_resource type="Curve" id="Curve_wtgju"]
+_data = [Vector2(0, 0), 0.0, 11.356104, 0, 0, Vector2(0.03956044, 1), 0.0, 0.0, 0, 0, Vector2(0.2385321, 1), 0.0, 0.0, 0, 0, Vector2(0.5168196, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_wg6mc"]
+curve = SubResource("Curve_wtgju")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mrems"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 15.08
+angular_velocity_min = -399.87
+angular_velocity_max = 243.19998
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -30.000002
+radial_accel_max = -30.000002
+scale_min = 6.0
+scale_max = 8.0
+scale_curve = SubResource("CurveTexture_wg6mc")
+color_ramp = SubResource("GradientTexture1D_5ho0i")
+hue_variation_min = -0.020000022
+hue_variation_max = 0.029999977
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bjfho"]
+bg_color = Color(0.38210395, 0.030576311, 0.5883771, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6fbih"]
+bg_color = Color(0.6858206, 0.29710156, 0.98195356, 1)
+
+[sub_resource type="Theme" id="Theme_8prbk"]
+resource_local_to_scene = true
+Label/colors/font_color = Color(0.69411767, 0.32156864, 0.9843137, 1)
+Label/font_sizes/font_size = 40
+ProgressBar/styles/background = SubResource("StyleBoxFlat_bjfho")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_6fbih")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gp50j"]
+shader = ExtResource("8_gp50j")
+shader_parameter/u_speed = 0.5
+shader_parameter/u_color_low = Color(0, 0, 0, 1)
+shader_parameter/u_color_mid_red = Color(0.73857963, 0.40337113, 0, 1)
+shader_parameter/u_color_high = Color(1, 0.8032116, 0.5074572, 1)
+shader_parameter/scale = 12.0
+shader_parameter/progress = 0.0
+shader_parameter/interp_time = 0.25
+shader_parameter/time_offset = 0.0
+shader_parameter/prev_progress = 0.0
+
+[sub_resource type="Gradient" id="Gradient_5ho0i"]
+colors = PackedColorArray(0.9059535, 0.47390318, 9.62615e-07, 0, 0.99999994, 0.47239578, 0.060623117, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_wtgju"]
+gradient = SubResource("Gradient_5ho0i")
+
+[sub_resource type="Curve" id="Curve_wg6mc"]
+_data = [Vector2(0, 0), 0.0, 11.356104, 0, 0, Vector2(0.03956044, 1), 0.0, 0.0, 0, 0, Vector2(0.2385321, 1), 0.0, 0.0, 0, 0, Vector2(0.5168196, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_mrems"]
+curve = SubResource("Curve_wg6mc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_oroqg"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 15.08
+angular_velocity_min = -399.87
+angular_velocity_max = 243.19998
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -30.000002
+radial_accel_max = -30.000002
+scale_min = 6.0
+scale_max = 8.0
+scale_curve = SubResource("CurveTexture_mrems")
+color_ramp = SubResource("GradientTexture1D_wtgju")
+hue_variation_min = -0.020000022
+hue_variation_max = 0.029999977
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ho0i"]
+bg_color = Color(0.38210395, 0.030576311, 0.5883771, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wtgju"]
+bg_color = Color(0.6858206, 0.29710156, 0.98195356, 1)
+
+[sub_resource type="Theme" id="Theme_gp50j"]
+resource_local_to_scene = true
+Label/colors/font_color = Color(0.69411767, 0.32156864, 0.9843137, 1)
+Label/font_sizes/font_size = 40
+ProgressBar/styles/background = SubResource("StyleBoxFlat_5ho0i")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_wtgju")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wtgju"]
+shader = ExtResource("15_5ho0i")
+shader_parameter/pulse_left = true
+shader_parameter/vignette_color = Color(1, 0, 0, 1)
+shader_parameter/pulse_strength = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wg6mc"]
+shader = ExtResource("15_5ho0i")
+shader_parameter/pulse_left = false
+shader_parameter/vignette_color = Color(1, 0, 0, 1)
+shader_parameter/pulse_strength = 0.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_oroqg"]
+font = ExtResource("18_oroqg")
+font_size = 100
+font_color = Color(0.94509804, 0.44313726, 0, 1)
+
+[node name="Hud" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_6fbih")
+
+[node name="RootControl" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RootControl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BossBar" type="Control" parent="RootControl/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+
+[node name="Underlay" type="TextureRect" parent="RootControl/VBoxContainer/BossBar"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -357.5
+offset_right = 357.5
+offset_bottom = 41.0
+grow_horizontal = 2
+scale = Vector2(2, 2)
+pivot_offset = Vector2(357.5, -10)
+texture = ExtResource("2_m7god")
+
+[node name="Overlay" type="TextureRect" parent="RootControl/VBoxContainer/BossBar"]
+material = SubResource("ShaderMaterial_5ho0i")
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -357.5
+offset_right = 357.5
+offset_bottom = 41.0
+grow_horizontal = 2
+scale = Vector2(2, 2)
+pivot_offset = Vector2(357.5, -10)
+texture = ExtResource("4_8prbk")
+
+[node name="Label" type="Label" parent="RootControl/VBoxContainer/BossBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "The Big T"
+label_settings = SubResource("LabelSettings_mrems")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="HorizontalSlice" type="Control" parent="RootControl/VBoxContainer"]
+layout_mode = 2
+
+[node name="RemnantIcons" type="Control" parent="RootControl/VBoxContainer/HorizontalSlice"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="LeftRemnants" type="GridContainer" parent="RootControl/VBoxContainer/HorizontalSlice/RemnantIcons"]
+layout_mode = 1
+offset_right = 916.0
+offset_bottom = 89.0
+columns = 8
+
+[node name="RightRemnants" type="GridContainer" parent="RootControl/VBoxContainer/HorizontalSlice/RemnantIcons"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+columns = 8
+
+[node name="TimeFabric" type="Control" parent="RootControl/VBoxContainer/HorizontalSlice"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -58.0
+offset_right = 58.0
+offset_bottom = 100.0
+grow_horizontal = 2
+script = ExtResource("2_bjfho")
+spritesheet = ExtResource("3_6fbih")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RootControl/VBoxContainer/HorizontalSlice/TimeFabric"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 8
+
+[node name="TextureRect" type="TextureRect" parent="RootControl/VBoxContainer/HorizontalSlice/TimeFabric/HBoxContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("3_6fbih")
+
+[node name="Label" type="Label" parent="RootControl/VBoxContainer/HorizontalSlice/TimeFabric/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Num:"
+label_settings = SubResource("LabelSettings_t1xeu")
+
+[node name="Noti" type="Control" parent="RootControl/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Background Texture" type="TextureRect" parent="RootControl/VBoxContainer/Noti"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_right = 250.0
+offset_bottom = 200.0
+grow_horizontal = 2
+mouse_filter = 2
+texture = ExtResource("2_gp50j")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="RootControl/VBoxContainer/Noti"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -242.0
+offset_right = 242.0
+offset_bottom = 187.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "Wave 1 / 10"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Left_Bottom_Corner" type="VBoxContainer" parent="RootControl"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 254.0
+grow_vertical = 0
+
+[node name="Combo" type="Control" parent="RootControl/Left_Bottom_Corner"]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="RootControl/Left_Bottom_Corner/Combo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -126.0
+offset_bottom = -122.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+max_value = 3.0
+step = 0.0
+fill_mode = 5
+texture_under = ExtResource("5_p8pfh")
+texture_progress = ExtResource("6_gp50j")
+
+[node name="Label" type="Label" parent="RootControl/Left_Bottom_Corner/Combo/TextureProgressBar"]
+layout_mode = 0
+offset_left = -311.0
+offset_top = -111.0
+offset_right = 439.0
+offset_bottom = 239.0
+scale = Vector2(0.125, 0.125)
+pivot_offset = Vector2(375, 175)
+theme_override_font_sizes/font_size = 196
+text = "3.0x"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CooldownBar" type="Control" parent="RootControl/Left_Bottom_Corner"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+script = ExtResource("5_kgqo6")
+
+[node name="CooldownBar" type="TextureProgressBar" parent="RootControl/Left_Bottom_Corner/CooldownBar"]
+material = SubResource("ShaderMaterial_sjf6p")
+layout_mode = 1
+offset_right = 20.0
+offset_bottom = 14.0
+scale = Vector2(8, 8)
+max_value = 0.5
+step = 0.005
+value = 0.25
+texture_under = ExtResource("9_gp50j")
+texture_over = ExtResource("9_gp50j")
+texture_progress = ExtResource("9_gp50j")
+tint_under = Color(0.15294118, 0.15294118, 0.15294118, 1)
+tint_over = Color(0.44313726, 0.44313726, 0.44313726, 0)
+tint_progress = Color(0.7191348, 0.1524289, 0.9021915, 1)
+
+[node name="Control" type="Control" parent="RootControl/Left_Bottom_Corner/CooldownBar/CooldownBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.375
+offset_top = -0.5
+offset_right = 0.375
+offset_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ChargedParticles" type="GPUParticles2D" parent="RootControl/Left_Bottom_Corner/CooldownBar/CooldownBar/Control"]
+z_index = -1
+amount = 300
+lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_mrems")
+script = ExtResource("13_8prbk")
+
+[node name="HealthBar" parent="RootControl/Left_Bottom_Corner" instance=ExtResource("10_sjf6p")]
+layout_mode = 2
+theme = SubResource("Theme_8prbk")
+
+[node name="Right_Bottom_Corner" type="VBoxContainer" parent="RootControl"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -254.0
+offset_top = -101.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Combo" type="Control" parent="RootControl/Right_Bottom_Corner"]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="RootControl/Right_Bottom_Corner/Combo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -126.0
+offset_bottom = -122.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+max_value = 3.0
+step = 0.0
+fill_mode = 5
+texture_under = ExtResource("5_p8pfh")
+texture_progress = ExtResource("6_gp50j")
+
+[node name="Label" type="Label" parent="RootControl/Right_Bottom_Corner/Combo/TextureProgressBar"]
+layout_mode = 0
+offset_left = -311.0
+offset_top = -111.0
+offset_right = 439.0
+offset_bottom = 239.0
+scale = Vector2(0.125, 0.125)
+pivot_offset = Vector2(375, 175)
+theme_override_font_sizes/font_size = 196
+text = "3.0x"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CooldownBar" type="Control" parent="RootControl/Right_Bottom_Corner"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+script = ExtResource("5_kgqo6")
+
+[node name="CooldownBar" type="TextureProgressBar" parent="RootControl/Right_Bottom_Corner/CooldownBar"]
+material = SubResource("ShaderMaterial_gp50j")
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -20.0
+offset_bottom = 14.0
+grow_horizontal = 0
+scale = Vector2(-8, 8)
+max_value = 0.5
+step = 0.005
+texture_under = ExtResource("9_gp50j")
+texture_over = ExtResource("9_gp50j")
+texture_progress = ExtResource("9_gp50j")
+tint_under = Color(0.15294118, 0.15294118, 0.15294118, 1)
+tint_over = Color(0.44297108, 0.44297108, 0.44297108, 0)
+tint_progress = Color(1, 0.64705884, 0, 1)
+
+[node name="Control" type="Control" parent="RootControl/Right_Bottom_Corner/CooldownBar/CooldownBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.375
+offset_top = -0.5
+offset_right = 0.375
+offset_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ChargedParticles" type="GPUParticles2D" parent="RootControl/Right_Bottom_Corner/CooldownBar/CooldownBar/Control"]
+z_index = -1
+amount = 300
+lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_oroqg")
+script = ExtResource("13_8prbk")
+
+[node name="HealthBar" parent="RootControl/Right_Bottom_Corner" instance=ExtResource("10_sjf6p")]
+layout_mode = 2
+theme = SubResource("Theme_gp50j")
+is_purple = false
+flipped = true
+
+[node name="DebugMenu" type="Control" parent="RootControl"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GridContainer" type="GridContainer" parent="RootControl/DebugMenu"]
+layout_mode = 0
+offset_left = 1629.0
+offset_top = 412.0
+offset_right = 1819.0
+offset_bottom = 597.0
+
+[node name="MenuIndicator" type="Label" parent="RootControl/DebugMenu/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
+
+[node name="Invulnerability" type="Label" parent="RootControl/DebugMenu/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
+
+[node name="Paths" type="Label" parent="RootControl/DebugMenu/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
+
+[node name="Clamping" type="Label" parent="RootControl/DebugMenu/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
+
+[node name="EnemyAngles" type="Label" parent="RootControl/DebugMenu/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
+
+[node name="Move" type="Label" parent="RootControl/DebugMenu/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
+
+[node name="Kill" type="Label" parent="RootControl/DebugMenu/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
+
+[node name="Remnant" type="Label" parent="RootControl/DebugMenu/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.8980392, 0.22745098, 1)
+
+[node name="Purple" type="ColorRect" parent="RootControl"]
+material = SubResource("ShaderMaterial_wtgju")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("16_wtgju")
+
+[node name="Orange" type="ColorRect" parent="RootControl"]
+material = SubResource("ShaderMaterial_wg6mc")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("16_wtgju")
+
+[node name="Label" type="Label" parent="RootControl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "10"
+label_settings = SubResource("LabelSettings_oroqg")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("18_mrems")
+
+[node name="AttackLabel2" type="RichTextLabel" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.627451)
+offset_left = 1021.0
+offset_top = 682.0
+offset_right = 1662.0
+offset_bottom = 981.0
+focus_mode = 0
+theme_override_font_sizes/normal_font_size = 64
+theme_override_font_sizes/bold_font_size = 48
+theme_override_font_sizes/italics_font_size = 48
+theme_override_font_sizes/mono_font_size = 48
+bbcode_enabled = true
+text = "[font=res://addons/input_prompt_icon_font/icon.ttf]mouse_right_outline[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_r1[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]xbox_rb[/font]
+[code]Special(Charged)[/code]
+[font_size=48]Hit enemies to build charge"
+scroll_active = false
+horizontal_alignment = 2
+
+[node name="AttackLabel" type="RichTextLabel" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.627451)
+offset_left = 1213.0
+offset_top = 520.0
+offset_right = 1655.0
+offset_bottom = 709.0
+focus_mode = 0
+theme_override_font_sizes/normal_font_size = 64
+theme_override_font_sizes/bold_font_size = 48
+theme_override_font_sizes/italics_font_size = 48
+theme_override_font_sizes/mono_font_size = 48
+bbcode_enabled = true
+text = "[font=res://addons/input_prompt_icon_font/icon.ttf]mouse_left_outline[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_r2[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]xbox_rt[/font]
+[code]Attack[/code]"
+scroll_active = false
+horizontal_alignment = 2
+
+[node name="SwapLabel" type="RichTextLabel" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.627451)
+offset_left = 256.0
+offset_top = 705.0
+offset_right = 781.0
+offset_bottom = 882.0
+focus_mode = 0
+theme_override_font_sizes/normal_font_size = 64
+theme_override_font_sizes/bold_font_size = 48
+theme_override_font_sizes/italics_font_size = 48
+theme_override_font_sizes/mono_font_size = 48
+bbcode_enabled = true
+text = "Short [font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_space[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_l1[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]xbox_lb[/font]
+[code]Quick Swap[/code]"
+scroll_active = false
+
+[node name="TetherLabel" type="RichTextLabel" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.627451)
+offset_left = 256.0
+offset_top = 493.0
+offset_right = 828.0
+offset_bottom = 682.0
+focus_mode = 0
+theme_override_font_sizes/normal_font_size = 64
+theme_override_font_sizes/bold_font_size = 48
+theme_override_font_sizes/mono_font_size = 48
+bbcode_enabled = true
+text = "Long [font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_space[/font] / [font=res://addons/input_prompt_icon_font/icon.ttf]playstation_trigger_l2[/font]/ [font=res://addons/input_prompt_icon_font/icon.ttf]xbox_lt[/font]
+[code]Tether[/code]"
+scroll_active = false

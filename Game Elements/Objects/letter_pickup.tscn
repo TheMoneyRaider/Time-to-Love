@@ -1,10 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://2s6gvc0g0dcl"]
+[gd_scene load_steps=7 format=3 uid="uid://2s6gvc0g0dcl"]
 
 [ext_resource type="Script" uid="uid://b622eduhigd65" path="res://Game Elements/Objects/letter_pickup.gd" id="1_1mpbn"]
+[ext_resource type="Texture2D" uid="uid://cxqlrcr4x3v2p" path="res://art/white_square.png" id="3_l3p0h"]
+[ext_resource type="Shader" uid="uid://bb0alemk22qt0" path="res://Game Elements/Objects/letter_pickup.gdshader" id="3_v85cq"]
 [ext_resource type="Texture2D" uid="uid://4kec172p2w3c" path="res://art/closed_room_reward.png" id="5_psqoo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_okald"]
 radius = 16.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1mpbn"]
+shader = ExtResource("3_v85cq")
+shader_parameter/pulse_speed = 1.72900007886762
+shader_parameter/pulse_size = 0.33500001265262
+shader_parameter/edge_softness = 0.15
+shader_parameter/fade_min = 0.1
+shader_parameter/glow_color = Color(1, 1, 1, 1)
 
 [node name="LetterPickup" type="Node2D" groups=["letter"]]
 z_index = 15
@@ -29,7 +39,7 @@ offset_bottom = 167.66667
 scale = Vector2(0.04, 0.04)
 theme_override_font_sizes/normal_font_size = 64
 bbcode_enabled = true
-text = ": Pickup"
+text = "Pickup Letter: "
 fit_content = true
 scroll_active = false
 horizontal_alignment = 1
@@ -37,3 +47,9 @@ horizontal_alignment = 1
 [node name="PathwayIcon1" type="Sprite2D" parent="."]
 z_index = -1
 texture = ExtResource("5_psqoo")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -6
+material = SubResource("ShaderMaterial_1mpbn")
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("3_l3p0h")

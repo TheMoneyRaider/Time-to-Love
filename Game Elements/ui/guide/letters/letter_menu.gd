@@ -2,6 +2,7 @@ extends CanvasLayer
 
 var mouse_mode = null
 var active = false
+var transition_state = 0
 @onready var container : Control = $Control/MarginContainer/Letters
 
 var letter_pool: Array[Letter] = []
@@ -65,6 +66,9 @@ func _input(event):
 	if not active:
 		return
 
+	if event.is_action_pressed("ui_cancel"):
+		_on_return_pressed()
+	
 	# Handle mouse motion (hover)
 	if event is InputEventMouseMotion:
 		for i in range(letter_buttons.size()):
@@ -72,6 +76,8 @@ func _input(event):
 				_on_fragment_hover(i)
 			else:
 				_on_fragment_unhover(i)
+				
+
 
 	# Handle mouse button click
 	if event is InputEventMouseButton and event.is_released() and event.button_index == MOUSE_BUTTON_LEFT:
@@ -173,6 +179,7 @@ func populate_letters():
 
 
 func transition_letter(texturerect : TextureRect,count : int):
+	transition_state += 1
 	var text2 = texturerect.duplicate(true)
 	text2.material = text2.material.duplicate()
 	text2.material.set_shader_parameter("full_white",true)
@@ -187,6 +194,7 @@ func transition_letter(texturerect : TextureRect,count : int):
 	texturerect.material.set_shader_parameter("grayscale", !Globals.save_state.viewed_letter_progress.has(letter_pool[count].letter_id))
 	tween = create_tween()
 	tween.tween_property(text2,"modulate",Color(1.0,1.0,1.0,0.0),1.0)
+	transition_state -= 1
 
 func assign_focus_neighbors():
 	if letter_buttons.size() == 0:
@@ -276,28 +284,34 @@ func view_letter(idx : int):
 	match letter_pool[idx].letter_format.name:
 		"Stone":
 			text.position = Vector2(550,100)
-			text.size.x = 800
-			text.text = "[color=#4a4a48][font_size=32]" + text.text
+			text.size.x = 800 / text.scale.x
+			text.size.y = 960 / text.scale.y
+			text.text = "[font=res://fonts/Piedra-Regular.ttf][color=#6a6a68][font_size=64]" + text.text
 		"Paper":
 			text.position = Vector2(660,78)
-			text.size.x = 640
-			text.text = "[color=#363535][font_size=26]" + text.text
+			text.size.x = 640 / text.scale.x
+			text.size.y = 960 / text.scale.y
+			text.text = "[color=#363535][font_size=52]" + text.text
 		"ModernNewspaper":
 			text.position = Vector2(550,350)
-			text.size.x = 780
-			text.text = "[color=#7e7e7e]" + text.text
+			text.size.x = 780 / text.scale.x
+			text.size.y = 960 / text.scale.y
+			text.text = "[color=#7e7e7e][font_size=48][font=res://fonts/Faustina/Faustina-Bold.ttf]" + text.text
 		"1980sNewspaper":
 			text.position = Vector2(550,350)
-			text.size.x = 780
-			text.text = "[color=#979081]" + text.text
+			text.size.x = 780 / text.scale.x
+			text.size.y = 960 / text.scale.y
+			text.text = "[color=#979081][font_size=64][font=res://fonts/BulletinGothic.otf]" + text.text
 		"OldNewspaper":
 			text.position = Vector2(550,350)
-			text.size.x = 780
-			text.text = "[color=#82796c]" + text.text
+			text.size.x = 780 / text.scale.x
+			text.size.y = 960 / text.scale.y
+			text.text = "[color=#82796c][font_size=48][font=res://fonts/Faustina/Faustina-Bold.ttf]" + text.text
 		"Holographic":
 			text.position = Vector2(750,40)
-			text.size.x = 340
-			text.text = "[font=res://fonts/Orbitron-Regular.ttf][color=#b9f9fa][font_size=20]" + text.text
+			text.size.x = 395 / text.scale.x
+			text.size.y = 960 / text.scale.y
+			text.text = "[font=res://fonts/Orbitron-Bold.ttf][color=#b9f9fa][font_size=45]" + text.text
 
 
 	# -----------------------
@@ -363,17 +377,17 @@ func _on_letter_pressed(index: int):
 		return
 	print("Letter pressed: %d" % index)
 	if letter_active:
-		sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
+		SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 		close_letter()
 		return
 	else:
-		sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
+		SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 		view_letter(index)
 			
 			
 
 func _on_texture_button_pressed() -> void:
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	close_letter()
 	
 
@@ -390,15 +404,16 @@ func activate():
 
 
 func _on_return_pressed():
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
-	polygons.clear()
-	letter_buttons.clear()
-	fragment_visuals.clear()
-	queue_free_children(container)
-	active = false
-	hide()
-	close_letter()
-	get_parent().get_node("PauseMenu").activate()
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
+	if(transition_state == 0):
+		polygons.clear()
+		letter_buttons.clear()
+		fragment_visuals.clear()
+		queue_free_children(container)
+		active = false
+		hide()
+		close_letter()
+		get_parent().get_node("PauseMenu").activate()
 	
 	
 

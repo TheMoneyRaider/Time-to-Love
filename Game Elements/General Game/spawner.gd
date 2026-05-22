@@ -39,9 +39,9 @@ static func spawn_enemies(
 	is_wave: bool,
 	override_enemy_count : int = -1,
 	override_enemy_type : String = "", is_natural_spawn : bool = false, edge_penalty : bool = true
-) -> void:
+) -> int:
 	if room_data.num_enemy_goal <= 0 and override_enemy_count == -1:
-		return
+		return 0
 
 	#Convert to hash set for O(1) lookup
 	var cell_set := {}
@@ -78,7 +78,7 @@ static func spawn_enemies(
 
 		if best == Vector2i(-999,-999):
 			push_warning("No valid cell left to place enemy")
-			return
+			return chosen_positions.size()
 
 		cell_set.erase(best)
 		chosen_positions.append(best)
@@ -89,6 +89,7 @@ static func spawn_enemies(
 			enemy_scene = _get_enemy_scene(enemy_path)
 			cells_needed = _cells_needed(_get_enemy_half_extents(enemy_path))
 		_apply_enemy_influence(best)
+	return chosen_positions.size()
 
 ###ENEMY SELECTION
 static func choose_enemy(room_data: Room) -> String:
@@ -319,7 +320,7 @@ static func _spawn_enemy(cell: Vector2i, scene: Node, enemy: PackedScene, layer_
 static func replace() -> int:
 	if RoomManager.current_progress < 3.0:
 		return -1
-	var progress = pow(RoomManager.current_progress - floor(RoomManager.current_progress),2)
+	var progress = RoomManager.layer_ai[14] / 5.0
 	var tentacles : Array[float] = [pow((1-progress),2)*progress,2*progress*(1-progress)*progress,pow(progress,2)*progress]
 	var value = randf()
 	if value <= tentacles[0]:
@@ -383,6 +384,7 @@ static func spawn_letters(
 	var letter_goal = clamp(int(room_data.letter_goal * randf())+1,1,room_data.letter_goal)
 	if letter_goal <= 0:
 		return
+	letter_goal = 1 #No more than 1 letter per room
 	chosen_letters = {}
 
 	#Convert to hash set for O(1) lookup

@@ -5,7 +5,7 @@ var is_multiplayer:bool = false
 var player1_input
 var player2_input
 var total_progress : float = 0.0
-
+var death_time = 7.0
 signal config_changed
 var save_state : SaveState
 var save_idx : int = 0
@@ -13,7 +13,11 @@ var config := ConfigFile.new()
 var config_path := "user://settings.cfg"
 var save_dir := "user://saves/"
 var cinematic_viewed : bool = false
-
+var weapon1 : String = "res://Game Elements/Weapons/Fist.tres"
+var weapon2 : String = "res://Game Elements/Weapons/Fist.tres"
+var has_gotten_tutorial : bool = false
+var has_died : bool = false
+var has_equiped_weapon : bool = false
 enum MenuState {Western, Space, Medieval}
 
 enum RoomVariant {MedOut, MedIn, WesternCanyon, WesternTown, SciFiCyberspace, SciFiFactory}
@@ -32,9 +36,12 @@ var letter_percentage : float = 0.0
 var num_letters : int = 0
 var num_letters_collected : int = 0
 
+var effect_dict : Dictionary[Node, Array] = {}
+
 func _ready():
 	Engine.max_fps = 60
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	DirAccess.make_dir_recursive_absolute(save_dir)
 	load_config()
 	apply_audio_settings()
 	player1_input = config.get_value("inputs","player1_input", "key")
@@ -64,8 +71,15 @@ func load_config():
 			save_state = SaveState.new()
 	else:
 		save_state = SaveState.new()
+		save_state.weapon1 = "res://Game Elements/Weapons/Fist.tres"
+		save_state.weapon2 = "res://Game Elements/Weapons/Fist.tres"
 
 	total_progress = save_state.total_progress
+	weapon1 = save_state.weapon1
+	weapon2 = save_state.weapon2
+	has_gotten_tutorial = save_state.has_gotten_tutorial
+	has_died = save_state.has_died
+	has_equiped_weapon = save_state.has_equiped_weapon
 
 func apply_audio_settings():
 	var bus_map = {
@@ -84,7 +98,12 @@ func apply_audio_settings():
 func save_config():
 	total_progress = max(total_progress, RoomManager.current_progress)
 	save_state.total_progress = total_progress
-	DirAccess.make_dir_recursive_absolute(save_dir)  # ensure it exists every time
+	save_state.weapon1 = weapon1
+	save_state.weapon2 = weapon2
+	save_state.has_gotten_tutorial = has_gotten_tutorial
+	save_state.has_died =has_died
+	save_state.has_equiped_weapon = has_equiped_weapon
+	#DirAccess.make_dir_recursive_absolute(save_dir)  # ensure it exists every time
 	var err = ResourceSaver.save(save_state, _save_path())
 	if err != OK:
 		push_error("Failed to save SaveState: ", err)

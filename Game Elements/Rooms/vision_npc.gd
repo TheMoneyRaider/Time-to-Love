@@ -27,27 +27,32 @@ func _process(delta: float) -> void:
 		velocity -= (global_position - original_global_position).normalized()*delta
 	global_position += velocity
 	velocity = velocity*.95
-
+var open : bool = false
 func activate() -> void:
+	SteamManager.unlock_achievement("SHOP")
 	get_parent().open_shop()
+	if prompt1: prompt1.visible = false
+	open=true
+	tracked_bodies = []
 
 func _on_body_entered(body):
+	if open: return
 	if body.is_in_group("player"):
 		tracked_bodies.append(body)
-		prompt1.visible = true
+		if prompt1: prompt1.visible = true
 		_set_display(tracked_bodies[0])
 func _on_body_exited(body):
+	if open: return
 	if body in tracked_bodies:
 		tracked_bodies.erase(body)
 	if len(tracked_bodies) == 0:
-		prompt1.visible = false
+		if prompt1: prompt1.visible = false
 	else:
 		_set_display(tracked_bodies[0])
 		
 		
 @export var prompt1 : Node2D
 func _set_display(body : Node):
-	if body.input_device == "key":
-			prompt1.get_child(0).bbcode_text = "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_e_outline[/font]: Inquire"
-	else:
-		prompt1.get_child(0).bbcode_text = "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_cross_outline[/font]: Inquire"
+	var glyph_key = "activate_"+body.input_device
+	var sym = GlyphManager.get_glyph(GlyphManager.get_device_type(body.input_device),glyph_key)
+	if prompt1: prompt1.get_child(0).bbcode_text = "Inquire: "+sym

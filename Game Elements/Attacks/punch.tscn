@@ -1,0 +1,97 @@
+[gd_scene load_steps=12 format=3 uid="uid://ct1olohw5rts7"]
+
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_rwjpg"]
+[ext_resource type="Texture2D" uid="uid://byatw8u72lnbd" path="res://art/punch.png" id="2_rwjpg"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rwjpg"]
+radius = 9.0
+height = 18.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gmthq"]
+atlas = ExtResource("2_rwjpg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1pyt3"]
+atlas = ExtResource("2_rwjpg")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xuekx"]
+atlas = ExtResource("2_rwjpg")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a8pp3"]
+atlas = ExtResource("2_rwjpg")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_315j1"]
+atlas = ExtResource("2_rwjpg")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0mvmm"]
+atlas = ExtResource("2_rwjpg")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_065s1"]
+atlas = ExtResource("2_rwjpg")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_idv62"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gmthq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1pyt3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xuekx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a8pp3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_315j1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0mvmm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_065s1")
+}],
+"loop": false,
+"name": &"default",
+"speed": 21.0
+}]
+
+[node name="Punch" type="Area2D" groups=["attack"]]
+z_index = 19
+y_sort_enabled = true
+collision_layer = 8
+collision_mask = 47
+script = ExtResource("1_rwjpg")
+speed = 5.0
+lifespan = 0.33
+hit_force = 100.0
+knockback_force = 200.0
+start_lag = 0.05
+cooldown = 0.2
+pierce = -2.0
+wall_collision = false
+attack_type = "punch"
+deflects = true
+i_frames = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("CapsuleShape2D_rwjpg")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 1)
+sprite_frames = SubResource("SpriteFrames_idv62")
+autoplay = "default"
+frame = 6
+frame_progress = 1.0
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

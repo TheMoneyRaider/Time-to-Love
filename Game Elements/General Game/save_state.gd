@@ -7,3 +7,8 @@ class_name SaveState
 @export var viewed_letter_progress : Dictionary = {}
 @export var letter_progress : Dictionary = {}
 @export var time_spent : float = 0.0
+@export var has_gotten_tutorial : bool = false
+var has_died : bool = false
+var has_equiped_weapon : bool = false
+@export var weapon1 : String = "res://Game Elements/Weapons/Fist.tres"
+@export var weapon2 : String = "res://Game Elements/Weapons/Fist.tres"

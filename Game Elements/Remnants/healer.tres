@@ -12,5 +12,5 @@ icon = ExtResource("2_6pry1")
 art = ExtResource("1_pwamh")
 progress_required = 1.0
 variable_names = Array[String](["$X"])
-variable_1_values = [5.0, 10.0, 15.0, 20.0, 25.0]
+variable_1_values = [2.0, 4.0, 6.0, 8.0, 10.0]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

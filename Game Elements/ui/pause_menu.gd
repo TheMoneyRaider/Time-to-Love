@@ -5,6 +5,7 @@ var frame_amount = 0
 var mouse_mode = null
 var pause_cooldown = 0
 var active = false
+var can_escape = false
 
 @onready var slot_nodes: Array = [
 	$Control/MarginContainer/slots_hbox/slot0,
@@ -21,11 +22,11 @@ func _ready():
 	hide()
 	
 	for button in $Control/VBoxContainer.get_children():
-		button.mouse_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
-		button.focus_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
+		button.mouse_entered.connect(func(): SFXManager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
+		button.focus_entered.connect(func(): SFXManager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
 	for button in $Control/Extras.get_children():
-		button.mouse_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
-		button.focus_entered.connect(func(): sfx_manager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
+		button.mouse_entered.connect(func(): SFXManager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
+		button.focus_entered.connect(func(): SFXManager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
 
 func setup(nodes : Array[Node]):
 	for node in nodes:
@@ -37,14 +38,16 @@ var LayerManager : Node
 
 func activate():
 	active = true
-	mouse_mode = Input.get_mouse_mode()
+	mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	show()
 	get_tree().paused = true
 	get_tree().get_root().get_node("LayerManager/DeathMenu").capturing = false
+	get_tree().get_root().get_node("LayerManager/DeathMenu").getting_time = false
 	if Globals.is_multiplayer or Globals.player1_input != "key":
 		$Control/VBoxContainer/Return.grab_focus()
 	pause_cooldown = 5
+	can_escape = true
 	for node in get_tree().get_nodes_in_group("attack"):
 		node.pause_shaders()
 	LayerManager.player1.reset_special()
@@ -53,6 +56,8 @@ func activate():
 		
 
 func _process(delta):
+	if can_escape and pause_cooldown < 1 and !get_parent().remnant_offer_popup and !get_parent().remnant_upgrade_popup and Input.is_action_just_pressed("ui_cancel"):
+		_on_return_pressed()
 	for child in $Control/Extras.get_children():
 		if child.is_hovered() or child.has_focus():
 			child.position.x = clamp(child.position.x-delta*150,168,198)
@@ -65,7 +70,7 @@ func _process(delta):
 
 
 func _on_icon_selected(remnant : Remnant, is_purple : bool) -> void:
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	var index = (!is_purple as int) *2
 	if remnant ==slot_nodes[index].remnant and !slot_nodes[index].btn_select.disabled:
 		slot_nodes[index].hide_visuals(true)
@@ -78,13 +83,13 @@ func _on_icon_selected(remnant : Remnant, is_purple : bool) -> void:
 
 
 func _on_slot_selected(idx: int) -> void:
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	slot_nodes[idx].hide_visuals(true)
 	slot_nodes[idx].set_enabled(false)
 
 
 func _on_settings_pressed():
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	for i in range(slot_nodes.size()):
 		slot_nodes[i].set_enabled(false)
 		slot_nodes[i].hide_visuals(true)
@@ -93,7 +98,7 @@ func _on_settings_pressed():
 	setting.get_child(0).is_pause_settings=true
 
 func _on_return_pressed():
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	active = false
 	pause_cooldown = 5
 	for i in range(slot_nodes.size()):
@@ -101,13 +106,15 @@ func _on_return_pressed():
 		slot_nodes[i].hide_visuals(true)
 	Input.set_mouse_mode(mouse_mode)
 	get_tree().get_root().get_node("LayerManager/DeathMenu").capturing = true
+	get_tree().get_root().get_node("LayerManager/DeathMenu").getting_time = true
 	get_tree().paused = false
 	hide()
 	for node in get_tree().get_nodes_in_group("attack"):
 		node.resume_shaders()
 
 func _on_menu_pressed():
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
+	RoomManager.reset()
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	get_tree().get_root().get_node("LayerManager/DeathMenu").state_change()
 	for i in range(slot_nodes.size()):
 		slot_nodes[i].set_enabled(false)
@@ -122,7 +129,7 @@ func _on_menu_pressed():
 
 
 func _on_letters_pressed() -> void:
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	active = false
 	pause_cooldown = 2000000000
 	for i in range(slot_nodes.size()):
@@ -133,7 +140,7 @@ func _on_letters_pressed() -> void:
 
 
 func _on_weapons_pressed() -> void:
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	active = false
 	pause_cooldown = 2000000000
 	for i in range(slot_nodes.size()):
@@ -144,7 +151,7 @@ func _on_weapons_pressed() -> void:
 
 
 func _on_remnants_pressed() -> void:
-	sfx_manager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
+	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"))
 	active = false
 	pause_cooldown = 2000000000
 	for i in range(slot_nodes.size()):

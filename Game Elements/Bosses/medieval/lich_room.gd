@@ -46,6 +46,8 @@ func _process(delta: float) -> void:
 	if !active:
 		return
 	lifetime+=delta
+	if !boss or !is_instance_valid(boss):
+		deactivate()
 	
 	if lifetime >= animation_time and lifetime < animation_time+fade_time:
 		finish_animation()
@@ -61,8 +63,10 @@ func _process(delta: float) -> void:
 		finish_intro()		
 	if animation!= "" and boss and is_instance_valid(boss):
 		boss_animation()
-	if !boss or !is_instance_valid(boss):
+	if boss.current_health <= 0.0:
 		deactivate()
+		boss.boss_die = true
+		boss.emit_signal("enemy_took_damage",100.0,boss.current_health,boss,Vector2(0,-1))
 
 func finish_intro():
 	player1.get_node("Crosshair").mouse_clamping_enabled = true
@@ -214,18 +218,20 @@ func deactivate():
 	for node in get_children():
 		if node.is_in_group("pathway"):
 			node.enable_pathway()
+			break
 	
-	if is_multiplayer:
-		var particle2 =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
-		player2.change_health(player2.max_health * .50)
-		particle2.global_position = player2.global_position
-		LayerManager.room_instance.add_child(particle2)
-	var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
-	player1.change_health(player1.max_health * .50)
-	particle.global_position = player1.global_position
-	LayerManager.room_instance.add_child(particle)
+	#if is_multiplayer:
+		#var particle2 =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+		#player2.change_health(player2.max_health * .50)
+		#particle2.global_position = player2.global_position
+		#LayerManager.room_instance.add_child(particle2)
+	#var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+	#player1.change_health(player1.max_health * .50)
+	#particle.global_position = player1.global_position
+	#LayerManager.room_instance.add_child(particle)
 	active=false
 	Hud.hide_boss_bar()
+	SteamManager.unlock_achievement("RAND")
 	
 	
 
@@ -257,7 +263,7 @@ func activate(camera_in : Node, player1_in : Node, player2_in : Node):
 	Hud =LayerManager.hud
 	LayerManager.BossIntro.get_node("BossName").text = boss_name
 	LayerManager.BossIntro.get_node("Boss").texture = boss_splash_art
-	LayerManager.BossIntro.get_node("BossName").add_theme_font_override("font", boss_font)
+	LayerManager.BossIntro.get_node("BossName").add_theme_font_override("normal_font", boss_font)
 	screen = LayerManager.get_node("game_container/game_viewport")
 	for node in get_children():
 		if node.is_in_group("pathway"):

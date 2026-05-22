@@ -7,6 +7,7 @@
 size = Vector2(9, 13)
 
 [node name="Cactus_spine" type="Area2D" groups=["attack"]]
+z_index = 20
 collision_layer = 8
 collision_mask = 39
 script = ExtResource("1_5rn17")
@@ -20,6 +21,7 @@ position = Vector2(0.5, -1.5)
 shape = SubResource("RectangleShape2D_e1io4")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.3923818, 0.62377954, 0.3192195, 1)
 position = Vector2(0, 4.7683716e-07)
 rotation = -1.5707964
 scale = Vector2(1, 1.25)

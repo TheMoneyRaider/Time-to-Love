@@ -50,7 +50,7 @@ func set_values(c_owner : Node = null, attack : Node = null, attack_owner : Node
 		if new_pos != Vector2.ZERO:
 			position= new_pos
 	
-	if c_owner and c_owner.is_in_group("enemy") and c_owner is DynamEnemy and c_owner.enemy_type=="tentacle":
+	if attack and c_owner and c_owner.is_in_group("enemy") and c_owner is DynamEnemy and c_owner.enemy_type=="tentacle":
 		position = attack.position
 			
 	if attack and "attack_type" in attack and attack.attack_type=="laser":
@@ -106,13 +106,13 @@ func set_values(c_owner : Node = null, attack : Node = null, attack_owner : Node
 			var hue_change = .2
 			color = Color(color.r+randf_range(-hue_change,hue_change),color.g+randf_range(-hue_change,hue_change),color.b+randf_range(-hue_change,hue_change),color.a)
 		
-			
-	text.add_theme_font_size_override("font_size", size)
-	text.add_theme_color_override("font_color", color)
-	text.text = str(int(value*10.0))
+	if(text):
+		text.add_theme_font_size_override("font_size", max(size,1))
+		text.add_theme_color_override("font_color", color)
+		text.text = str(int(value*10.0))
 	first_color = color
 	lifetime = 1.5
-	self.scale = Vector2(.125,.125)
+	self.scale = Vector2(0.15625,0.15625)
 
 
 

@@ -7,12 +7,12 @@
 [resource]
 script = ExtResource("1_xrkjq")
 remnant_name = "Remnant of The Cyborg"
-description = "For $X seconds after you change characters or activate the tether, you deal $Y points of contact damage to enemies."
+description = "While the tether is active, you deal $Y points of contact damage to enemies and take 50% less damage."
 icon = ExtResource("2_p6bor")
 art = ExtResource("1_8y2ue")
 progress_required = 2.0
 tags = Array[String](["sci-fi"])
 variable_names = Array[String](["$X", "$Y"])
-variable_1_values = [0.5, 1.0, 1.5, 2.0, 2.5]
-variable_2_values = [1, 2, 3, 4, 5]
+variable_1_values = [1, 2, 3, 4, 5]
+variable_2_values = [10, 20, 30, 40, 50]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

@@ -95,7 +95,7 @@ script = ExtResource("4_arvq5")
 [sub_resource type="BTAction" id="BTAction_v4ajl"]
 script = ExtResource("8_arvq5")
 min_time = 0.5
-max_time = 2.0
+max_time = 1.5
 
 [sub_resource type="BTAction" id="BTAction_yg7nc"]
 custom_name = "OuterRange"
@@ -109,6 +109,7 @@ script = ExtResource("6_arvq5")
 [sub_resource type="BTAction" id="BTAction_h7qfk"]
 custom_name = "InnerRange"
 script = ExtResource("5_y6dfc")
+hit_range = 48
 
 [sub_resource type="BBNode" id="BBNode_1kwu6"]
 saved_value = NodePath("AnimationPlayer")
@@ -130,7 +131,7 @@ animation_name = &"attack"
 script = ExtResource("5_yg7nc")
 
 [sub_resource type="BTDelay" id="BTDelay_1kwu6"]
-seconds = 0.2
+seconds = 0.1
 children = [SubResource("BTAction_4evon")]
 
 [sub_resource type="BTAction" id="BTAction_8u4ri"]

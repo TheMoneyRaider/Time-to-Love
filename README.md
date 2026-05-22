@@ -14,16 +14,16 @@ The game itself was developed using Godot's 2d game engine. We primarly utilized
 
 # Credits
 ![Distraction from me not wanting to write an intro to the credits section](art/readme_assets/O&P_transparent.png)
-## Design Team
+## Development Team
 Griffin Stober  
 Kabir Vidyarthi  
 Ryan Shepard  
 Zachary Etterson
 ## Art Team
 Gabrielle Sterbank  
-Emily Brown
-Lana ???
-Sophia Annikin
+Emily Brown  
+Lana ???  
+Sophia Annikin  
 ## Story Team
 Bella La Boy  
 Duncan Paris

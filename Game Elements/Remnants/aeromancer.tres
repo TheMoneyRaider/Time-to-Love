@@ -11,5 +11,5 @@ description = "Ranged attacks inherit $X% of your velocity. Melee attacks inheri
 icon = ExtResource("2_vt3b7")
 art = ExtResource("1_7axxn")
 variable_names = Array[String](["$X"])
-variable_1_values = [50.0, 100.0, 150.0, 200.0, 250.0]
+variable_1_values = [30.0, 60.0, 90.0, 120.0, 150.0]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

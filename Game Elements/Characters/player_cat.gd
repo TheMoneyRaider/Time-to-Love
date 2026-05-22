@@ -34,10 +34,13 @@ var move_speed: float
 @onready var orange_crosshair = preload("res://art/orange_crosshair_with_shadow.png")
 @onready var purple_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/purple_spritesheet.png")
 @onready var orange_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/orange_spritesheet.png")
+var damage_multiplier = 1.0
+var effect_stacks : Array[int] = []
+var effect_particles : Array
 var other_player
 var disabled = false
 var current_room : Globals.RoomType
-
+var lawman_aura : Node
 var in_combat = 0
 var time_since_last_hit = 0
 
@@ -56,6 +59,7 @@ var debug_menu : bool = false
 var effects : Array[Effect] = []
 var last_liquid : Globals.Liquid = Globals.Liquid.Buffer
 
+var assist_enabled : bool = true
 var forcefield_active : bool = false
 
 var footstep_timer: float = 0.0
@@ -71,7 +75,7 @@ var footstep_sounds = [
 
 #The scripts for loading default values into the attack
 #The list of attacks for playercharacter
-var weapons = [Weapon.create_weapon("res://Game Elements/Weapons/Crossbow.tres",self),Weapon.create_weapon("res://Game Elements/Weapons/LaserSword.tres",self)]
+var weapons = [Weapon.create_weapon("res://Game Elements/Weapons/Crossbow.tres",self),Weapon.create_weapon("res://Game Elements/Weapons/Laser Sword.tres",self)]
 var attacks = [preload("res://Game Elements/Attacks/bolt.tscn"),preload("res://Game Elements/Attacks/smash.tscn")]
 var revive = preload("res://Game Elements/Attacks/death_mark.tscn")
 var cooldowns = [0,0]
@@ -89,8 +93,12 @@ signal special_reset(is_purple : int)
 
 var LayerManager: Node
 var debug_mode : bool = false
-
+var deflect_cooldown : float = 0.0
 func _ready():
+	effect_stacks.resize(9)
+	effect_stacks.fill(0)
+	effect_particles.resize(9)
+	effect_particles.fill(null)
 	if Input.get_connected_joypads().size() == 0:
 		Globals.player1_input = "key"
 		Globals.player2_input = "0"
@@ -118,6 +126,8 @@ func _ready():
 		tether_width_curve = tether_line.width_curve
 		tether_line.gradient = null			
 	hide_forcefield(0.0)
+	
+	special_changed.connect(check_tortoise)
 
 
 func hide_forcefield(interp_time : float):
@@ -126,6 +136,7 @@ func hide_forcefield(interp_time : float):
 		$Forcefield/CollisionShape2D.disabled  =true
 		$Forcefield/Forcefield.modulate.a = 0.0
 		return
+	damage_resistance -=.5
 	$Forcefield/CollisionShape2D.disabled  =true
 	create_tween().tween_property($Forcefield/Forcefield,"modulate",Color(1.0,1.0,1.0,0.0),interp_time)
 
@@ -135,6 +146,7 @@ func show_forcefield(interp_time : float):
 		$Forcefield/CollisionShape2D.disabled  =false
 		$Forcefield/Forcefield.modulate.a = 1.0
 		return
+	damage_resistance +=.5
 	$Forcefield/CollisionShape2D.disabled  =false
 	$Forcefield/Forcefield.modulate.a = 0.0
 	create_tween().tween_property($Forcefield/Forcefield,"modulate",Color(1.0,1.0,1.0,1.0),interp_time)
@@ -143,6 +155,8 @@ func show_forcefield(interp_time : float):
 func update_input_device(in_dev : String):
 	input_device = in_dev
 	crosshair.player_input_device = input_device
+	if(input_device == "key"):
+		assist_enabled = false
 
 
 func _initialize_state_machine():
@@ -187,10 +201,10 @@ func smooth_aim_assist() -> Array[Vector2]:
 	var enemies: Array[Node] = get_tree().get_nodes_in_group("enemy")
 	var angles: Array[Vector2] = []
 	var is_boss_room := current_room == Globals.RoomType.Boss
-	for enemy in enemies:
-		var band = angular_band_circle(global_position, enemy.get_node("CollisionShape2D"))
-		var blocked = false
-		if !is_boss_room:
+	if !is_boss_room or assist_enabled:
+		for enemy in enemies:
+			var band = angular_band_circle(global_position, enemy.get_node("CollisionShape2D"))
+			var blocked = false
 			var to_enemy : Vector2= enemy.global_position - global_position
 			var ray_length : float= to_enemy.length()
 			var left_ray := Vector2(cos(band.x), sin(band.x))
@@ -212,8 +226,8 @@ func smooth_aim_assist() -> Array[Vector2]:
 					"blocked": blocked
 				})
 
-		if !blocked:
-			angles.append(band)
+			if !blocked:
+				angles.append(band)
 
 	return angles
 
@@ -268,6 +282,9 @@ func angular_band_circle(player_pos: Vector2, collision_shape: CollisionShape2D)
 	return Vector2(center_angle, center_angle)
 
 func compute_assist_angle(player_angle: float, enemy_angles: Array, band_size: float = deg_to_rad(45)) -> float:
+	var is_boss_room := current_room == Globals.RoomType.Boss
+	if is_boss_room or !assist_enabled:
+		return player_angle
 	var half_band := band_size * 0.5
 	var new_angle := player_angle
 
@@ -290,11 +307,13 @@ func _input(event):
 		_debug_wedges.clear()
 		queue_redraw()
 
-
+var last_footprint_location : Vector2 = Vector2(0,0)
+var footprint_left : bool = false
 func _physics_process(delta):
 	if disabled:
 		return
-		
+	deflect_cooldown-=delta
+	attraction_effect()
 	if debug_angles:
 		_debug_wedges.clear()
 	output_angles = smooth_aim_assist()
@@ -313,7 +332,7 @@ func _physics_process(delta):
 		if effect.cooldown == 0:
 			effects.remove_at(idx)
 		idx +=1
-	check_liquids(delta)
+	var in_liquid = check_liquids(delta)
 	
 	#Cat input detection
 	input_direction = Vector2(
@@ -334,6 +353,10 @@ func _physics_process(delta):
 	#move and slide function
 	if(self.process_mode != PROCESS_MODE_DISABLED and disabled_countdown <= 0):
 		move_and_slide()
+		if !is_tethered and last_footprint_location.distance_to(global_position) > 8 and !in_liquid:
+			footprint_left=!footprint_left
+			last_footprint_location=global_position
+			get_node("Footprints").spawn_footprint(global_position,input_direction,footprint_left)
 	
 	
 	if debug_menu and Input.is_action_just_pressed("toggle_invulnerability"):
@@ -344,6 +367,8 @@ func _physics_process(delta):
 			weapons[is_purple as int].use_normal_attack(Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
 		else:
 			handle_attack()
+	if has_bandit() and Input.is_action_pressed("attack_" + input_device):
+		handle_attack(true)
 	if Input.is_action_just_pressed("activate_" + input_device):
 		emit_signal("activate",self)
 	if Input.is_action_just_pressed("special_" + input_device):
@@ -362,12 +387,12 @@ func _physics_process(delta):
 	if disabled_countdown >= 1:
 		disabled_countdown-=1
 		
-	if velocity.length() > 5.0 and !disabled:
+	if velocity.length() > 5.0 and !disabled and !is_tethered:
 		footstep_timer -= delta
 		if footstep_timer <= 0.0:
 			var speed_ratio = clamp(velocity.length() / base_move_speed, 1.0, 2.5)
 			footstep_timer = footstep_interval / speed_ratio
-			sfx_manager.play(footstep_sounds[randi() % footstep_sounds.size()])
+			SFXManager.play(footstep_sounds[randi() % footstep_sounds.size()],0.0,"SFX",global_position)
 	else:
 		footstep_timer = 0.0
 
@@ -389,13 +414,11 @@ func _check_reduction_remnants(damage_amount : float, _dmg_owner : Node):
 		remnants = LayerManager.player_1_remnants
 	else:
 		remnants = LayerManager.player_2_remnants
-	var terramancer = preload("res://Game Elements/Remnants/terramancer.tres")
 	for rem in remnants:
 		if rem.active:
 			match rem.remnant_name:
-				terramancer.remnant_name:
-					if velocity.length() <= .1:
-						damage_amount = damage_amount * (1 - rem.rank * .1)
+					_:
+						pass
 	return damage_amount
 
 func _check_bulwark(damage_amount : float, _dmg_owner : Node, send_damage: bool):
@@ -403,13 +426,14 @@ func _check_bulwark(damage_amount : float, _dmg_owner : Node, send_damage: bool)
 	var remnants_orange : Array[Remnant]
 	remnants_purple = LayerManager.player_1_remnants
 	remnants_orange = LayerManager.player_2_remnants
+	var bulk = load("res://Game Elements/Remnants/bulwark.tres")
 	var purple_bulwark_rank = 0
 	var orange_bulwark_rank = 0
 	for rem in remnants_purple:
-		if rem.remnant_name == "Remnant of the Bulwark" and rem.active:
+		if rem.remnant_name == bulk.remnant_name and rem.active:
 			purple_bulwark_rank = rem.rank
 	for rem in remnants_orange:
-		if rem.remnant_name == "Remnant of the Bulwark" and rem.active:
+		if rem.remnant_name == bulk.remnant_name and rem.active:
 			orange_bulwark_rank = rem.rank
 	if(is_purple):
 		if(purple_bulwark_rank != 0):
@@ -461,6 +485,12 @@ func pre_damage_trigger(damage_amount: float, _dmg_owner : Node) -> float:
 
 
 func post_damage_trigger(damage_amount: float, _dmg_owner : Node):
+	if is_purple:
+		LayerManager.hud.get_node("RootControl/Purple").trigger_pulse()
+	else:
+		LayerManager.hud.get_node("RootControl/Orange").trigger_pulse()
+	
+	
 	randomize()
 	var remnants : Array[Remnant]
 	if is_purple:
@@ -474,11 +504,11 @@ func post_damage_trigger(damage_amount: float, _dmg_owner : Node):
 		if rem.active:
 			match rem.remnant_name:
 				cleric.remnant_name:
-					if rem.variable_1_values[rem.rank-1] > randf()*100:
+					if rem.variable_1_values[rem.rank-1] > randf()*100 and current_health >= 0.0:
 						var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
 						particle.position = self.position
 						get_parent().add_child(particle)
-						change_health(rem.variable_2_values[rem.rank-1])
+						change_health(damage_amount * .01 * rem.variable_2_values[rem.rank-1])
 				barbarian.remnant_name:
 					for weapon in weapons:
 						weapon.damage = weapon.damage * (1 + rem.variable_1_values[rem.rank-1] / 100.0)
@@ -509,9 +539,11 @@ func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0
 	if(bulwark == false || i_frames <= 0 && !invulnerable):
 		time_since_last_hit = 0
 		i_frames = attack_i_frames
-		damage_amount = damage_amount * (1 - damage_resistance)
-		damage_amount = _check_reduction_remnants(damage_amount,_dmg_owner)
-		sfx_manager.play(preload("res://Game Elements/sfx/player/take_damage.ogg"))
+		damage_amount *= (1.0 - damage_resistance)
+		damage_amount *= (1.0 - lich_effect(false))
+		
+		#damage_amount = _check_reduction_remnants(damage_amount,_dmg_owner)
+		SFXManager.play(preload("res://Game Elements/sfx/player/take_damage.ogg"),0.0,"SFX",global_position)
 		damage_amount = _check_bulwark(damage_amount, _dmg_owner, bulwark)
 		if check_drones():
 			LayerManager._damage_indicator(0, _dmg_owner,_direction, attack_body,self,Color(0.0, 0.666, 0.85, 1.0))
@@ -535,12 +567,16 @@ func set_weapon_dr(weapon : Weapon):
 	match weapon.type:
 		"Mace":
 			damage_resistance = .1
-		"Laser_Sword":
-			damage_resistance = .1
-		"Crowbar":
+		"Laser Sword":
 			damage_resistance = .1
 		"Shovel":
 			damage_resistance = .1
+		"Shovel":
+			damage_resistance = .1
+		"Fist":
+			damage_resistance = .1
+		_:
+			damage_resistance = 0.0
 	
 
 func set_weapon_sprite(weapon : Weapon, f_weapon_node : Node):
@@ -613,15 +649,9 @@ func _check_hare():
 		if rem.remnant_name == hare.remnant_name and rem.active:
 			orange_hare_rank = rem.rank
 	if(is_purple):
-		if(purple_hare_rank > orange_hare_rank):
-			move_speed *= ((1 + .05 * purple_hare_rank) / (1 + .05 * orange_hare_rank)) 
-		else:
-			move_speed *= ((1 + .05 * orange_hare_rank) / (1 + .05 * purple_hare_rank))
+		move_speed *= ((1 + .05 * purple_hare_rank) / (1 + .05 * orange_hare_rank)) 
 	else:
-		if(purple_hare_rank < orange_hare_rank):
-			move_speed *= ((1 + .05 * purple_hare_rank) / (1 + .05 * orange_hare_rank)) 
-		else:
-			move_speed *= ((1 + .05 * orange_hare_rank) / (1 + .05 * purple_hare_rank)) 
+		move_speed *= ((1 + .05 * orange_hare_rank) / (1 + .05 * purple_hare_rank)) 
 
 func _check_giant():
 	var remnants_purple : Array[Remnant]
@@ -669,10 +699,13 @@ func _check_giant():
 	
 
 func tether(delta : float):
+	if is_tethered:
+		TutorialManager.player_tethers(is_purple,delta)
 	if(input_device != "key"):
 		if Input.is_action_just_pressed("quick_swap_" + input_device):
 			if(!is_multiplayer):
 				swap_color()
+				TutorialManager.player_tethers_short(is_purple,1.0)
 	if Input.is_action_just_pressed("swap_" + input_device):
 		if is_multiplayer:
 			tether_momentum += (other_player.position - position)
@@ -701,6 +734,7 @@ func tether(delta : float):
 	if Input.is_action_just_released("swap_" + input_device):
 		if(!is_multiplayer and single_swap_duration <= .15 and single_swap_duration != 0):
 			swap_color()
+			TutorialManager.player_tethers_short(is_purple,1.0)
 			single_toggle = true
 			if !is_multiplayer:
 				other_player.collision_shape.scale = Vector2(1,1)
@@ -775,9 +809,6 @@ func die(death : bool , insta_die : bool = false) -> bool:
 			LayerManager.open_death_menu()
 			return false
 		if death:
-			max_health = min(max_health * .8, max_health - 2.0)
-			#max_health/2.0 if max_health > 40 else max_health-2.0
-			emit_signal("max_health_changed",max_health,current_health, self)
 			self.process_mode = PROCESS_MODE_DISABLED
 			visible = false
 			if(max_health <= 0.0):
@@ -785,8 +816,9 @@ func die(death : bool , insta_die : bool = false) -> bool:
 				LayerManager.open_death_menu()
 				return false
 		else:
-			current_health = max_health / 2.0
-			emit_signal("player_took_damage",-max_health / 2.0,current_health,self)
+			Globals.death_time-=1
+			i_frames = 60
+			change_health(max_health/2.0-current_health,-max_health*1.0/3.0)
 			self.process_mode = PROCESS_MODE_INHERIT
 			visible = true
 	return true
@@ -796,9 +828,41 @@ func adjust_cooldowns(time_elapsed : float):
 	if cooldowns[is_purple as int] > 0:
 		cooldowns[is_purple as int] = max(cooldowns[is_purple as int]-time_elapsed,0.0)
 
-func handle_attack():
-	if cooldowns[is_purple as int] <= 0:
+func handle_attack(is_autofire : bool = false):
+	if is_autofire:
+		if cooldowns[is_purple as int] <= bandit_cooldown() / 2.0:
+			TutorialManager.player_attacks(is_purple,1.0)
+			cooldowns[is_purple as int] = request_attack(weapons[is_purple as int])
+		return
+	if cooldowns[is_purple as int] <= bandit_cooldown():
+		TutorialManager.player_attacks(is_purple,1.0)
 		cooldowns[is_purple as int] = request_attack(weapons[is_purple as int])
+
+
+func has_bandit():
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var bandit = preload("res://Game Elements/Remnants/bandit.tres")
+	for rem in remnants:
+		if rem.remnant_name == bandit.remnant_name and rem.active:
+			return true
+	return false
+
+func bandit_cooldown():
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var bandit = preload("res://Game Elements/Remnants/bandit.tres")
+	for rem in remnants:
+		if rem.remnant_name == bandit.remnant_name and rem.active:
+			return weapons[is_purple as int].cooldown * rem.variable_1_values[rem.rank-1] / 100.0
+	return 0.0
+
 
 func check_traps(delta):
 	var tile_pos = Vector2i(int(floor(global_position.x / 16)),int(floor(global_position.y / 16)))
@@ -840,7 +904,10 @@ func _check_hydromancer(liquid : Globals.Liquid):
 		if rem.remnant_name == hydromancer.remnant_name and rem.active:
 			last_liquid = liquid
 
-func check_liquids(delta):
+func check_liquids(delta) -> bool:
+	if is_tethered:
+		return false
+	var in_liquid = false
 	var tile_pos = Vector2i(int(floor(global_position.x / 16)),int(floor(global_position.y / 16)))
 	if tile_pos in LayerManager.liquid_cells[0]:
 		var tile_data = LayerManager.return_liquid_layer(tile_pos).get_cell_tile_data(tile_pos)
@@ -854,10 +921,14 @@ func check_liquids(delta):
 					effect.gained(self)
 					effects.append(effect)
 					_check_hydromancer(Globals.Liquid.Water)
+					in_liquid =true
 				Globals.Liquid.Lava:
 					var idx = 0
 					for effect in effects:
 						if effect.type == "slow":
+							var particle =  preload("res://Game Elements/Particles/steam_particles.tscn").instantiate()
+							#particle.position = self.position
+							self.add_child(particle)
 							effect.tick(delta,self)
 							if effect.cooldown == 0:
 								effects.remove_at(idx)
@@ -868,47 +939,63 @@ func check_liquids(delta):
 						current_liquid_time -= .25
 						take_damage(2.0,null)
 					_check_hydromancer(Globals.Liquid.Lava)
+					in_liquid =true
 				Globals.Liquid.Conveyer:
 					position+=tile_data.get_custom_data("direction").normalized() *delta * 32
+					in_liquid =true
 				Globals.Liquid.Glitch:
 					_glitch_move()
 					_check_hydromancer(Globals.Liquid.Glitch)
+					in_liquid =true
+	return in_liquid
 					
-					
-func _glitch_move() -> void:
-	var ground_cells = LayerManager.room_instance.get_node("Ground").get_used_cells()
-	var move_dir_l = velocity.normalized() *16
-	var move_dir_r = velocity.normalized() *16
-	var check_pos_r = Vector2i(((position + move_dir_r)/16).floor())
-	var check_pos_l = Vector2i(((position + move_dir_l)/16).floor())
+
+
+
+
+func _glitch_move(input_move_dir : Vector2 = Vector2(-1234,-1234)) -> void:
+	var move_dir_l
+	var move_dir_r
+	if(input_move_dir == Vector2(-1234,-1234)):
+		move_dir_l = velocity.normalized() * 16
+		move_dir_r = velocity.normalized() * 16
+	else:
+		move_dir_l = input_move_dir
+		move_dir_r = input_move_dir
+
 	var attempts = 0
 	var max_attempts = 36 # prevent infinite loops
-	while check_pos_r not in ground_cells and check_pos_l not in ground_cells and attempts < max_attempts:
+	var condition1 = cast_ray(position, move_dir_r.normalized(), move_dir_r.length(), self)
+	var condition2 = cast_ray(position, move_dir_l.normalized(), move_dir_l.length(), self)
+	while condition1 and condition2 and attempts < max_attempts:
+		condition1 = cast_ray(position, move_dir_r.normalized(), move_dir_r.length(), self)
+		condition2 = cast_ray(position, move_dir_l.normalized(), move_dir_l.length(), self)
 		move_dir_r = move_dir_r.rotated(deg_to_rad(-5))
 		move_dir_l = move_dir_l.rotated(deg_to_rad(5))
-		check_pos_l = Vector2i(((position + move_dir_l)/16).floor())
-		check_pos_r = Vector2i(((position + move_dir_r)/16).floor())
 		attempts += 1
+
 	if velocity.length() < .1:
 		return
-	var move_dir =move_dir_r
-	if check_pos_l in ground_cells:
-		move_dir =move_dir_l
-	position+=move_dir/2.0
+
+	var move_dir = move_dir_r
+	if not cast_ray(position, move_dir_l.normalized(), move_dir_l.length(), self):
+		move_dir = move_dir_l
+
+	position += move_dir / 2.0
 	var saved_position = position
 	var saved_velocity = velocity
 	var position_variance = 16
 	var hue_variance = .08
-	var color1 = shift_hue(Color(0.0, 0.867, 0.318, 1.0),randf_range(-hue_variance,hue_variance))
-	var color2 = shift_hue(Color(0.0, 0.116, 0.014, 1.0),randf_range(-hue_variance,hue_variance))
-	position+= Vector2(randf_range(-position_variance,position_variance),randf_range(-position_variance,position_variance))
-	Spawner.spawn_after_image(self,LayerManager,color1,color1,0.5,1.0,1+randf_range(-.1,.1),.75)
+	var color1 = shift_hue(Color(0.0, 0.867, 0.318, 1.0), randf_range(-hue_variance, hue_variance))
+	var color2 = shift_hue(Color(0.0, 0.116, 0.014, 1.0), randf_range(-hue_variance, hue_variance))
+	position += Vector2(randf_range(-position_variance, position_variance), randf_range(-position_variance, position_variance))
+	Spawner.spawn_after_image(self, LayerManager, color1, color1, 0.5, 1.0, 1 + randf_range(-.1, .1), .75)
 	position = saved_position
-	velocity=move_dir/2.0
+	velocity = move_dir / 2.0
 	move_and_slide()
 	saved_position = position
-	position+= Vector2(randf_range(-position_variance,position_variance),randf_range(-position_variance,position_variance))
-	Spawner.spawn_after_image(self,LayerManager,color2,color2,0.5,1.0,1+randf_range(-.1,.1),.75)
+	position += Vector2(randf_range(-position_variance, position_variance), randf_range(-position_variance, position_variance))
+	Spawner.spawn_after_image(self, LayerManager, color2, color2, 0.5, 1.0, 1 + randf_range(-.1, .1), .75)
 	position = saved_position
 	move_and_slide()
 	velocity = saved_velocity
@@ -919,6 +1006,8 @@ func shift_hue(color: Color, amount: float) -> Color:
 	return Color.from_hsv(h, color.s, color.v, color.a)
 
 func _crafter_chance() -> bool:
+	if is_tethered:
+		return false
 	randomize()
 	var remnants : Array[Remnant]
 	if is_purple:
@@ -942,7 +1031,7 @@ func _reset_barb_damage(percent : float, time : float):
 		weapon.damage = weapon.damage / (1 + percent)
 
 func damage_boost() -> float:
-	var boost : float = 1.0
+	var boost : float = 0.0
 	randomize()
 	var remnants : Array[Remnant]
 	if is_purple:
@@ -960,22 +1049,22 @@ func damage_boost() -> float:
 					var temp_move = 0
 					if input_direction != Vector2.ZERO:
 						temp_move = move_speed
-					boost *= (1.0+rem.variable_1_values[rem.rank-1]/100.0*((temp_move/base_move_speed)-1))
+					boost += (rem.variable_1_values[rem.rank-1]/100.0*((temp_move/base_move_speed)-1))
 				ninja.remnant_name:
 					if is_purple:
-						boost *= LayerManager.hud.player1_combo
+						boost += LayerManager.hud.player1_combo-1.0
 					else:
-						boost *= LayerManager.hud.player2_combo
+						boost += LayerManager.hud.player2_combo-1.0
 				assassin.remnant_name:
-					boost *= (1 + min(time_since_last_hit * rem.variable_1_values[rem.rank-1],rem.variable_2_values[rem.rank-1]) / 100.0)
+					boost += (min(time_since_last_hit * rem.variable_1_values[rem.rank-1],rem.variable_2_values[rem.rank-1]) / 100.0)
 				hoard.remnant_name:
-					boost *= (1 + (rem.variable_1_values[rem.rank-1] * floor(LayerManager.timefabric_collected/50.0)  / 100.0))
-	return boost
+					boost += ((rem.variable_1_values[rem.rank-1] * floor(LayerManager.timefabric_collected/50.0)  / 100.0))
+	return boost+1.0
 
 func change_health(add_to_current : float, add_to_max : float = 0):
 	if add_to_current > 0.0:
 		if add_to_current >= 1.0:
-			sfx_manager.play(preload("res://Game Elements/sfx/player/gain_health.ogg"))
+			SFXManager.play(preload("res://Game Elements/sfx/player/gain_health.ogg"),0.0,"SFX",global_position)
 		var healer = preload("res://Game Elements/Remnants/healer.tres")
 		var hospital = preload("res://Game Elements/Remnants/hospital.tres")
 		var remnants = []
@@ -993,6 +1082,9 @@ func change_health(add_to_current : float, add_to_max : float = 0):
 					var amnt = rem.variable_1_values[rem.rank - 1] / 100.0
 					var health_restored = min(max_health - current_health, add_to_current)
 					add_to_max = health_restored * amnt
+	var lich_amount = 1.0- lich_effect(true)
+	if add_to_current >= 0.0:	add_to_current *= lich_amount
+	if add_to_max >= 0.0:	add_to_max *= lich_amount
 	current_health+=add_to_current
 	max_health+=add_to_max
 	current_health = clamp(current_health,0.0,max_health)
@@ -1013,8 +1105,16 @@ func set_weapon(purple : bool, resource_loc : String):
 func update_weapon(resource_name : String):
 	var resource_loc = "res://Game Elements/Weapons/" + resource_name + ".tres"
 	weapons[is_purple as int] = Weapon.create_weapon(resource_loc,self)
+	weapons[is_purple as int].current_special_hits = weapons[is_purple as int].special_hits
+	if is_purple:
+		Globals.weapon1 = resource_loc
+	else:
+		Globals.weapon2 = resource_loc
 	set_weapon_dr(weapons[is_purple as int])
 	set_weapon_sprite(weapons[is_purple as int],weapon_node)
+	if LayerManager:
+		LayerManager.hud.set_max_cooldowns()
+	LayerManager.hud._on_special_changed(is_purple,1.0)
 	
 
 func combo(input_purple : bool):
@@ -1129,6 +1229,44 @@ func check_forcefield(delta : float):
 			effect.gained(self)
 			effects.append(effect)
 	
+func check_tortoise(temp_is_purple : bool, new_progress : float, used_special : bool = false):
+	if !used_special:
+		return
+	var remnants : Array[Remnant]
+	if temp_is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var tort = preload("res://Game Elements/Remnants/tortoise.tres")
+	var litho = preload("res://Game Elements/Remnants/terramancer.tres")
+	for rem in remnants:
+		if rem.active:
+			match rem.remnant_name:
+				tort.remnant_name:
+					var shield = preload("res://Game Elements/Remnants/tortoise/shield.tscn").instantiate()
+					var shield2 = preload("res://Game Elements/Remnants/tortoise/shield_deflection.tscn").instantiate()
+					shield2.c_owner = self
+					shield2.direction = (crosshair.position).normalized()
+					LayerManager.room_instance.add_child(shield)
+					LayerManager.room_instance.add_child(shield2)
+					shield.rotation = (crosshair.position).normalized().angle() +PI/2
+					shield2.rotation = (crosshair.position).normalized().angle() +PI/2
+					shield.lifetime = tort.variable_2_values[rem.rank-1]
+					shield.scale = Vector2(tort.variable_3_values[rem.rank-1],tort.variable_3_values[rem.rank-1])
+					shield2.scale = Vector2(tort.variable_3_values[rem.rank-1],tort.variable_3_values[rem.rank-1])
+					shield.global_position = global_position
+					shield2.global_position = global_position
+					shield.deflection  =shield2
+				litho.remnant_name:
+					var lith_area = preload("res://Game Elements/Remnants/lithomancer/lithomancer.tscn").instantiate()
+					lith_area.scale *= 1 + (rem.rank -1) * .2
+					lith_area.lifetime = rem.rank * 3
+					lith_area.litho_value = rem.variable_2_values[rem.rank - 1]
+					LayerManager.room_instance.add_child(lith_area)
+					lith_area.global_position = global_position
+					
+			
+	
 
 
 func kill_enemy(enemy: Node):
@@ -1137,35 +1275,110 @@ func kill_enemy(enemy: Node):
 		remnants = LayerManager.player_1_remnants
 	else:
 		remnants = LayerManager.player_2_remnants
+	var killer = preload("res://Game Elements/Remnants/killer.tres")
+	var killer_chance = 0
+	for rem in remnants:
+		if rem.remnant_name == killer.remnant_name and rem.active:
+			killer_chance =  rem.variable_1_values[rem.rank -1 ] / 100.0
+	
 	var adrenal = preload("res://Game Elements/Remnants/adrenal_injector.tres")
 	var drone = preload("res://Game Elements/Remnants/drone.tres")
 	var blood_moon = preload("res://Game Elements/Remnants/blood_moon.tres")
 	for rem in remnants:
 		if rem.remnant_name == adrenal.remnant_name and rem.active:
-			if move_speed < 3*base_move_speed:
-				var effect = preload("res://Game Elements/Effects/speed.tres").duplicate(true)
-				effect.cooldown = adrenal.variable_2_values[rem.rank-1]
-				effect.value1 = adrenal.variable_1_values[rem.rank-1] / 100.0
-				if move_speed * (1+effect.value1) >3*base_move_speed:
-					effect.value1 = 4*base_move_speed/move_speed - 1
-				effect.gained(self)
-				effects.append(effect)
+			var num_times = 2 if randf() < killer_chance else 1
+			for i in range(0,num_times):
+				if move_speed < 3*base_move_speed:
+					var effect = preload("res://Game Elements/Effects/speed.tres").duplicate(true)
+					effect.cooldown = adrenal.variable_2_values[rem.rank-1]
+					effect.value1 = adrenal.variable_1_values[rem.rank-1] / 100.0
+					if move_speed * (1+effect.value1) >3*base_move_speed:
+						effect.value1 = 4*base_move_speed/move_speed - 1
+					effect.gained(self)
+					effects.append(effect)
 		if rem.remnant_name == drone.remnant_name and rem.active:
-			var drones = get_tree().get_nodes_in_group("drones")
-			var drone_num = 0
-			for drone_inst in drones:
-				if drone_inst.player == self:
-					drone_num+=1
-			if drone_num >= rem.variable_2_values[rem.rank-1]:
-				break
-			var dr_inst = preload("res://Game Elements/Remnants/drone/drone.tscn").instantiate()
-			LayerManager.room_instance.add_child(dr_inst)
-			dr_inst.global_position = enemy.global_position
-			dr_inst.prep(self, rem.variable_1_values[rem.rank-1])
+			var num_times = 2 if randf() < killer_chance else 1
+			for i in range(0,num_times):
+				var drones = get_tree().get_nodes_in_group("drones")
+				var drone_num = 0
+				for drone_inst in drones:
+					if drone_inst.player == self:
+						drone_num+=1
+				if drone_num >= rem.variable_2_values[rem.rank-1]:
+					break
+				var dr_inst = preload("res://Game Elements/Remnants/drone/drone.tscn").instantiate()
+				LayerManager.room_instance.add_child(dr_inst)
+				dr_inst.global_position = enemy.global_position
+				dr_inst.prep(self, rem.variable_1_values[rem.rank-1])
 		if rem.remnant_name == blood_moon.remnant_name:
-			var heal_chance = rem.variable_1_values[rem.rank-1]
-			if(randf() * 100 <= heal_chance):
-				var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
-				particle.position = self.position
-				get_parent().add_child(particle)
-				change_health(rem.variable_2_values[rem.rank-1] * .01 * max_health)
+			var num_times = 2 if randf() < killer_chance else 1
+			for i in range(0,num_times):
+				var heal_chance = rem.variable_1_values[rem.rank-1]
+				if(randf() * 100 <= heal_chance):
+					var particle =  preload("res://Game Elements/Particles/heal_particles.tscn").instantiate()
+					particle.position = self.position
+					get_parent().add_child(particle)
+					change_health(rem.variable_2_values[rem.rank-1] * .01 * max_health)
+
+func deflect_chance():
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var big = preload("res://Game Elements/Remnants/big_t.tres")
+	for rem in remnants:
+		if rem.active:
+			match rem.remnant_name:
+				big.remnant_name:
+					return rem.variable_1_values[rem.rank-1] / 100.0
+	return 0.0
+	
+func lich_effect(is_health : bool = false):
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var lich = preload("res://Game Elements/Remnants/archlich.tres")
+	for rem in remnants:
+		if rem.active:
+			match rem.remnant_name:
+				lich.remnant_name:
+					if is_health:
+						return rem.variable_2_values[rem.rank-1] / 100.0
+					else:
+						return rem.variable_1_values[rem.rank-1] / 100.0
+	return 0.0
+func attraction_effect(time_fabric : bool = false):
+	var effect_radius := 64.0
+	var remnants : Array[Remnant]
+	var attraction_strength = 0.0
+	if !time_fabric and !is_purple: return
+	if time_fabric and is_purple: return 60.0
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var sing = preload("res://Game Elements/Remnants/singularity.tres")
+	for rem in remnants:
+		if rem.active:
+			match rem.remnant_name:
+				sing.remnant_name:
+					effect_radius =rem.variable_3_values[rem.rank-1]
+					attraction_strength = rem.variable_4_values[rem.rank-1]
+					if time_fabric and !is_purple: return rem.variable_5_values[rem.rank-1]
+					
+	if attraction_strength == 0.0: return 60.0
+	var enemies = get_tree().get_nodes_in_group("enemy")
+	
+	for enemy in enemies:
+		if not enemy.is_inside_tree():
+			continue
+		var dir = enemy.global_position - global_position
+		var dist = dir.length()
+		if dist < effect_radius and dist > 0:
+			var force = dir.normalized() * attraction_strength * (1.0 - dist / effect_radius)
+			var temp_velocity = enemy.velocity
+			enemy.apply_velocity(force)
+			enemy.velocity = temp_velocity

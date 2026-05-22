@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://bgysbj2623d8d"]
+[gd_scene load_steps=31 format=3 uid="uid://bgysbj2623d8d"]
 
 [ext_resource type="Script" uid="uid://dpumkeekpn38k" path="res://Game Elements/Characters/player_cat.gd" id="1_u0lhy"]
 [ext_resource type="Texture2D" uid="uid://dj72ghb0k7x4n" path="res://art/Sprout Lands - Sprites - Basic pack/Characters/purple_spritesheet.png" id="2_nxfgs"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="9_0lmd5"]
 [ext_resource type="Texture2D" uid="uid://df0xx4vere0ln" path="res://art/attacks/forcefield/Shield Round Hex Distorted Loop 128x128 Blue.png" id="9_q6sfk"]
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="11_nxfgs"]
+[ext_resource type="Script" uid="uid://654filxv8pcx" path="res://Game Elements/Characters/FootprintSystem.gd" id="12_e5m2x"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k8dsg"]
 size = Vector2(9, 15)
@@ -328,6 +329,9 @@ script = ExtResource("11_nxfgs")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(-1, -6)
 shape = SubResource("CircleShape2D_e5m2x")
+
+[node name="Footprints" type="Node2D" parent="."]
+script = ExtResource("12_e5m2x")
 
 [connection signal="area_entered" from="Forcefield" to="Forcefield" method="_on_area_entered"]
 [connection signal="body_entered" from="Forcefield" to="Forcefield" method="_on_body_entered"]

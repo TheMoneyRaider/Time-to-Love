@@ -37,6 +37,12 @@ var next_frame := 1
 var anim_time := 0.0
 ######
 var tricky : int = -1
+var gray : bool = false
+
+func _make_gray():
+	gray = true
+	$ShaderSprite.material = $ShaderSprite.material.duplicate(true)
+	$ShaderSprite.material.set_shader_parameter("grayscale",true)
 
 func _ready():
 	prompt1.visible = false
@@ -50,7 +56,8 @@ func _ready():
 
 
 func _process(delta):
-	$ShaderSprite.material.set_shader_parameter("mask_texture", $MaskViewport.get_texture())
+	if $MaskViewport:
+		$ShaderSprite.material.set_shader_parameter("mask_texture", $MaskViewport.get_texture())
 	if frames.is_empty():
 		return
 
@@ -263,9 +270,8 @@ func _swapped_color(player : Node):
 			return
 			
 func _set_display(body : Node):
-	if body.input_device == "key":
-			prompt2.get_child(0).bbcode_text = "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_f_outline[/font]: Reroll for "+str(tricky)+"  "
-			prompt1.get_child(0).bbcode_text = "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_e_outline[/font]: Enter"
-	else:
-		prompt2.get_child(0).bbcode_text = "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_triangle_outline[/font]: Reroll for "+str(tricky)+"  "
-		prompt1.get_child(0).bbcode_text = "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_cross_outline[/font]: Enter"
+	var glyph_key = "special_"+body.input_device
+	var glyph_key2 = "activate_"+body.input_device
+	prompt2.get_child(0).bbcode_text = GlyphManager.get_glyph(GlyphManager.get_device_type(body.input_device),glyph_key)+": Reroll for "+str(tricky)+"  "
+	prompt1.get_child(0).bbcode_text = GlyphManager.get_glyph(GlyphManager.get_device_type(body.input_device),glyph_key2)+": Enter"
+	

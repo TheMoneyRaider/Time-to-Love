@@ -28,6 +28,7 @@ emitting = false
 amount = 60
 lifetime = 0.75
 one_shot = true
+preprocess = 0.1
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_bi1ny")
 script = ExtResource("1_4w8jb")

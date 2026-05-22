@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("3_0kudq")
 remnant_name = "Remnant of The Cultivator"
-description = "Each Remnant has a $X% chance to increase in rank upon changing timelines."
+description = "Each Remnant has a $X% chance to increase in rank upon time traveling."
 icon = ExtResource("2_c4gvm")
 art = ExtResource("1_o554u")
 progress_required = 2.0

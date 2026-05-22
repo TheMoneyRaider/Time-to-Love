@@ -21,8 +21,11 @@ config/icon="res://icon.svg"
 Globals="*res://Game Elements/General Game/globals.gd"
 RemnantManager="*res://Game Elements/General Game/remnant_manager.gd"
 RoomManager="*res://Game Elements/General Game/room_manager.gd"
-music_manager="*res://Game Elements/General Game/music_manager.gd"
-sfx_manager="*res://Game Elements/General Game/sfx_manager.gd"
+MusicManager="*res://Game Elements/General Game/music_manager.gd"
+SFXManager="*res://Game Elements/General Game/sfx_manager.gd"
+TutorialManager="*res://Game Elements/General Game/tutorial_manager.gd"
+GlyphManager="*res://Game Elements/General Game/glyph_manager.gd"
+SteamManager="*res://Game Elements/General Game/steam_manager.gd"
 
 [debug]
 
@@ -33,7 +36,6 @@ settings/profiler/max_timestamp_query_elements=1024
 window/size/viewport_width=1920
 window/size/viewport_height=1000
 window/stretch/mode="viewport"
-window/stretch/aspect="ignore"
 
 [editor]
 
@@ -256,21 +258,25 @@ down_1={
 menu_left_0={
 "deadzone": 0.8,
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":0,"axis_value":-1.0,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":13,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
 menu_left_1={
 "deadzone": 0.2,
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":1,"axis":0,"axis_value":-1.0,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":1,"button_index":13,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
 menu_right_0={
 "deadzone": 0.8,
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":0,"axis_value":1.0,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":14,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
 menu_right_1={
 "deadzone": 0.2,
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":1,"axis":0,"axis_value":1.0,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":1,"button_index":14,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
 special_key={
@@ -314,21 +320,25 @@ display_debug_settings={
 menu_up_0={
 "deadzone": 0.8,
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":1,"axis_value":-1.0,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":11,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
 menu_up_1={
 "deadzone": 0.8,
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":1,"axis":1,"axis_value":-1.0,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":1,"button_index":11,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
 menu_down_0={
 "deadzone": 0.8,
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":1,"axis_value":1.0,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":12,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
 menu_down_1={
 "deadzone": 0.8,
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":1,"axis":1,"axis_value":1.0,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":1,"button_index":12,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
 pause={
@@ -373,6 +383,10 @@ Feedback={
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":true,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194308,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
+escape={
+"deadzone": 0.2,
+"events": []
+}
 
 [layer_names]
 
@@ -383,6 +397,7 @@ Feedback={
 2d_physics/layer_5="Invisible Enemy Layer"
 2d_physics/layer_6="Invisible Enemy (Hitable)"
 2d_physics/layer_7="Special Enviornment"
+2d_physics/layer_8="Enemy Environment"
 
 [rendering]
 
@@ -432,3 +447,10 @@ light_direction={
 "type": "vec3",
 "value": Vector3(-0.07, 0.725, 0)
 }
+
+[steam]
+
+initialization/app_id=0
+initialization/initialize_on_startup=false
+initialization/embed_callbacks=false
+multiplayer_peer/max_channels=4

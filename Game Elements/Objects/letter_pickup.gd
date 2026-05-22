@@ -24,7 +24,7 @@ func disable(variant : Globals.RoomVariant):
 			choose_random("res://art/objects/letter_fragments/WesternCanyon")
 			$PathwayIcon1.scale *= .5
 		Globals.RoomVariant.WesternTown:
-			choose_random("res://art/objects/letter_fragments/WesternTown")
+			choose_random("res://art/objects/letter_fragments/WesternCanyon")
 			$PathwayIcon1.scale *= .5
 		Globals.RoomVariant.SciFiCyberspace:
 			choose_random("res://art/objects/letter_fragments/SciFiCyberspace")
@@ -48,6 +48,7 @@ func choose_random(path : String):
 
 
 func spawn_letter():
+	SteamManager.unlock_achievement("LETTER_1")
 	var LayerManager = get_tree().get_root().get_node("LayerManager")
 	var letter = preload("res://Game Elements/Objects/letter_animation/letter_animation.tscn").instantiate()
 	LayerManager.camera.add_child(letter)
@@ -58,6 +59,8 @@ func spawn_letter():
 	Globals.save_state.letter_progress[letter_id]=true
 	Globals.num_letters_collected= min(Globals.num_letters_collected+1,Globals.num_letters)
 	Globals.letter_percentage = Globals.num_letters_collected/float(Globals.num_letters)
+	if Globals.letter_percentage >= .99:
+		SteamManager.unlock_achievement("LETTER_ALL")
 	queue_free()
 
 
@@ -75,7 +78,6 @@ func _on_body_exited(body):
 		_set_display(tracked_bodies[0])
 
 func _set_display(body : Node):
-	if body.input_device == "key":
-			prompt1.get_child(0).bbcode_text = "[font=res://addons/input_prompt_icon_font/icon.ttf]keyboard_e_outline[/font]: Pickup"
-	else:
-		prompt1.get_child(0).bbcode_text = "[font=res://addons/input_prompt_icon_font/icon.ttf]playstation_button_cross_outline[/font]: Pickup"
+	var glyph_key = "activate_"+body.input_device
+	var sym = GlyphManager.get_glyph(GlyphManager.get_device_type(body.input_device),glyph_key)
+	prompt1.get_child(0).bbcode_text = "Pickup Letter: "+sym

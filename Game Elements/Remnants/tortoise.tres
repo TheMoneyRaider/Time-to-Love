@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://bgfehmpxkwoh7"]
+
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="1_i4pbe"]
+[ext_resource type="Texture2D" uid="uid://bs5w3j0icebyp" path="res://art/remnants/tortoise.png" id="1_vd3po"]
+[ext_resource type="Texture2D" uid="uid://bpphvf8bpygto" path="res://art/remnants/tortoise_icon.png" id="2_q6nt4"]
+
+[resource]
+script = ExtResource("1_i4pbe")
+remnant_name = "Remnant of The Tortoise"
+description = "Whenever you do a special attack, create a $X sized shield that blocks enemies and deflects projectiles towards it's front for $Y seconds."
+icon = ExtResource("2_q6nt4")
+art = ExtResource("1_vd3po")
+progress_required = 1.0
+tags = Array[String](["$X", "$Y"])
+variable_names = Array[String](["$X", "$Y", "$Z"])
+variable_1_values = ["Small", "Medium", "Large", "Giant", "Gargantuan"]
+variable_2_values = [1.0, 2.0, 3.0, 4.0, 5.0]
+variable_3_values = [0.4, 0.5, 0.6, 0.8, 1.0]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

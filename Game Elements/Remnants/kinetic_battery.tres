@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("1_4xxwy")
 remnant_name = "Remnant of The Battery"
-description = "Whenever you deal damage, it’s scaled to your speed. Speed scaling is $X%(i.e Damage is $X% higher if you’re moving at twice your normal speed and $X% lower when not moving at all)"
+description = "Whenever you deal damage, it’s scaled to your speed. Speed scaling is $X%"
 icon = ExtResource("2_xbeuk")
 art = ExtResource("1_m7a3j")
 progress_required = 2.0

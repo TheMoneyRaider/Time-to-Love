@@ -42,7 +42,6 @@ func _ready():
 	LeftCooldownBar.get_node("CooldownBar").material =LeftCooldownBar.get_node("CooldownBar").material.duplicate(true)
 	RightCooldownBar.get_node("CooldownBar").material =RightCooldownBar.get_node("CooldownBar").material.duplicate(true)
 	load_settings()
-	display_debug_setting_header()
 	
 	music_player_a = AudioStreamPlayer.new()
 	music_player_a.bus = "Music"
@@ -54,20 +53,9 @@ func _ready():
 
 	active_player = music_player_a
 	inactive_player = music_player_b
-	_on_special_changed(true,0.0)
-	_on_special_changed(false,0.0)
-	
-	if(Globals.save_state.time_spent <= 120):
-		$AttackLabel.visible = true
-		$AttackLabel2.visible = true
-		$SwapLabel.visible = true
-		$TetherLabel.visible = true
+	_on_special_changed(true,1.0)
+	_on_special_changed(false,1.0)
 		
-func disable_tutorial():
-	$AttackLabel.visible = false
-	$AttackLabel2.visible = false
-	$SwapLabel.visible = false
-	$TetherLabel.visible = false
 
 func set_timefabric_amount(timefabric_collected : int):
 	$RootControl/VBoxContainer/HorizontalSlice/TimeFabric/HBoxContainer/Label.text = str(timefabric_collected)
@@ -136,6 +124,8 @@ func _add_slot(grid: Node, remnant: Resource, has_ranked : bool = false, is_purp
 		label.text = _num_to_roman(remnant.rank-1)
 	else:
 		label.text = _num_to_roman(remnant.rank)
+	if remnant.remnant_name==preload("res://Game Elements/Remnants/singularity.tres").remnant_name:
+		label.add_theme_color_override("font_color", Color.BLACK)
 	grid.add_child(slot)
 	slot.setup(remnant,is_purple_icon)
 	slot.get_node("TextureRect").material.set_shader_parameter("active", remnant.active)
@@ -287,11 +277,11 @@ func set_max_cooldowns():
 
 func set_cooldowns():
 	if is_multiplayer:
-		LeftCooldownBar.set_current_cooldown(player1.cooldowns[1])
-		RightCooldownBar.set_current_cooldown(player2.cooldowns[0])
+		LeftCooldownBar.set_current_cooldown(player1.cooldowns[1] - player1.bandit_cooldown())
+		RightCooldownBar.set_current_cooldown(player2.cooldowns[0] - player2.bandit_cooldown())
 	else:
-		LeftCooldownBar.set_current_cooldown(player1.cooldowns[1])
-		RightCooldownBar.set_current_cooldown(player1.cooldowns[0])
+		LeftCooldownBar.set_current_cooldown(player1.cooldowns[1] - player1.bandit_cooldown())
+		RightCooldownBar.set_current_cooldown(player1.cooldowns[0] - player1.bandit_cooldown())
 
 func set_cooldown_icons():
 	if is_multiplayer:
@@ -377,7 +367,7 @@ func _on_player_swap(player_node : Node):
 			RightCooldownBar.cover_cooldown()
 
 func _on_player_take_damage(_damage_amount : float, current_health : float, player_node : Node, _direction = Vector2(0,-1)):
-	var temp_current_health : int = int(current_health*10)
+	var temp_current_health : int = int(ceil(current_health*10))
 	if temp_current_health < 0:
 		temp_current_health = 0
 	if(player_node == player1):
@@ -388,7 +378,7 @@ func _on_player_take_damage(_damage_amount : float, current_health : float, play
 		health_bar_2.set_current_health(temp_current_health)
 
 func _on_max_health_changed(max_health : float, current_health : float,player_node : Node):
-	var temp_current_health : int = int(current_health*10)
+	var temp_current_health : int = int(ceil(current_health*10))
 	var temp_max_health : int = int(max_health*10)
 	if(player_node == player1):
 		health_bar_1.set_max_health(temp_max_health)
@@ -405,14 +395,18 @@ func load_settings():
 		
 func display_debug_setting_header():
 	$RootControl/DebugMenu/GridContainer.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
-	if debug_mode == true: 
+	if menu_indicator: 
 		$RootControl/DebugMenu/GridContainer.visible = true
 		$RootControl/DebugMenu/GridContainer/MenuIndicator.text = "debug menu: H"
+	else:
+		$RootControl/DebugMenu/GridContainer.visible = false
+		$RootControl/DebugMenu/GridContainer/MenuIndicator.text = ""
 		
 func _input(event):
 	if debug_mode:
 		if event.is_action_pressed("display_debug_settings"):
 			menu_indicator = !menu_indicator
+			display_debug_setting_header()
 		
 		if event.is_action_pressed("display_paths"):
 			display_paths = !display_paths
@@ -539,7 +533,7 @@ func _on_special_reset(is_purple : bool):
 		return
 	update_shader(RightCooldownBar.get_node("CooldownBar").material,0.0, true)
 
-func _on_special_changed(is_purple : bool, new_progress):
+func _on_special_changed(is_purple : bool, new_progress : float, used_special : bool = false):
 	if is_purple:
 		update_shader(LeftCooldownBar.get_node("CooldownBar").material,new_progress)
 		if new_progress==1.0:

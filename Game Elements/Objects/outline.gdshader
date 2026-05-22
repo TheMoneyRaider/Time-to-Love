@@ -14,6 +14,7 @@ uniform float alpha_threshold : hint_range(0.0, 1.0, 0.01) = 0.5;
 uniform int outline_samples   : hint_range(4, 8) = 4;
 // Color to blend with solid pixels (alpha is blend strength)
 uniform vec4 shade_color      : source_color = vec4(1.0, 1.0, 1.0, 0.5);
+uniform float mask_size  = 128.0;
 
 uniform bool enabled_hole = true;
 
@@ -37,7 +38,7 @@ void vertex() {
 // === Main Fragment ===
 
 void fragment() {
-	vec2 uv = (world_pos - hole_center) / 128.0 + vec2(0.5);
+	vec2 uv = (world_pos - hole_center) / mask_size + vec2(0.5);
 	if (enabled_hole){
 		if (texture(hole_mask, uv).r < 0.5 && world_pos.y >= emerge_height){
 			discard;
