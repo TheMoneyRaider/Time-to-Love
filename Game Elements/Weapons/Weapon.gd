@@ -270,10 +270,10 @@ func apply_remnants(attack_instance):
 						if(attack_instance.speed > 150):
 							#Possibly add a min so it can't go lower than base damage? 
 							#Nah thats lame
-							attack_instance.damage = abs(attack_instance.damage * (((similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed) /  attack_instance.speed))
+							damage_multiplier +=-1.0+ abs((((similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed) /  attack_instance.speed))
 							attack_instance.speed = ((similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed)
 						else:
-							attack_instance.damage = abs(attack_instance.damage * ((similarity * (.005) * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + 1))
+							damage_multiplier +=-1.0+ abs(((similarity * (.005) * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + 1))
 							attack_instance.speed = (.5 * similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100)
 						
 						#if attack_instance.speed < 100:
