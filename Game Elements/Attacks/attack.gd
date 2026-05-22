@@ -99,6 +99,8 @@ func check_defender():
 			damage *= c_owner.damage_multiplier
 
 func _ready():
+	
+	#print("final =  "+str(damage))
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	ready_hacks()
 	start_scale = scale
@@ -284,6 +286,8 @@ func _process(delta):
 	queue_free()
 	
 func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction: Vector2) -> int:
+	if body == n_owner and !hits_owner:
+		return 0
 	if attack_type != "scifi_laser":
 		#Computer Hack Remnant
 		var hack_chance1 = 0.0 if !hack1 else hack1.variable_1_values[hack1.rank-1]/100.0
@@ -294,8 +298,6 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 			n_owner = LayerManager.player1
 			if Globals.is_multiplayer:
 				n_owner = LayerManager.player2
-	if body == n_owner and !hits_owner:
-		return 0
 	if n_owner.is_in_group("player") and body.is_in_group("player") and !hits_all:
 		return 0
 	if n_owner.is_in_group("enemy"):
@@ -303,16 +305,22 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 			return 0
 	elif !n_owner.is_in_group("player") and !body.is_in_group("player") and !hits_all:
 		return 0
-	if body.get("enemy_type") == "medieval_slime":
-		if(deflectable && attack_type != "slime_ball"):
-			if(randf() > .5):
-				deflect(-1 * direction, 100, null)
+
+	if(deflectable and attack_type != "slime_ball" and body.is_in_group("enemy")):
+		if(randf() < body.deflect_chance):
+			deflect(-1 * direction, 100, null)
+			if body.enemy_type=="medieval_slime":
 				var inst = preload("res://Game Elements/Particles/slime_particles.tscn").instantiate()
 				get_parent().add_child.call_deferred(inst)
 				inst.global_position = global_position
-				self.c_owner = body
-				hit_nodes.clear()
-				return 0
+			self.c_owner = body
+			hit_nodes.clear()
+			return 0
+	if(deflectable and body.is_in_group("player") and body.deflect_chance() > randf()):
+		deflect(-1 * direction, 100, null)
+		self.c_owner = body
+		hit_nodes.clear()
+		return 0
 	if body.has_method("take_damage"):
 		if attack_type=="scifi_wave":
 			var direct = (body.global_position-global_position)
@@ -356,7 +364,7 @@ func intersection(body):
 				if attack_type!= "laser" and attack_type!= "scifi_laser" and attack_type!= "binary_melee" and attack_type!= "tentacle":
 					hit_nodes[body] = null
 				if(attack_type == "giant_bolt"):
-					if(!body.is_boss and !body.enemy_type == "laser_e"):
+					if(body.is_in_group("enemy") and !body.is_boss and !body.enemy_type == "laser_e"):
 						drag_along.append(body)
 			0:
 				pass

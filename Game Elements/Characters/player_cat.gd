@@ -311,7 +311,7 @@ func _input(event):
 func _physics_process(delta):
 	if disabled:
 		return
-		
+	attraction_effect()
 	if debug_angles:
 		_debug_wedges.clear()
 	output_angles = smooth_aim_assist()
@@ -533,7 +533,9 @@ func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0
 	if(bulwark == false || i_frames <= 0 && !invulnerable):
 		time_since_last_hit = 0
 		i_frames = attack_i_frames
-		damage_amount = damage_amount * (1 - damage_resistance)
+		damage_amount *= (1.0 - damage_resistance)
+		damage_amount *= (1.0 - lich_effect(false))
+		
 		#damage_amount = _check_reduction_remnants(damage_amount,_dmg_owner)
 		SFXManager.play(preload("res://Game Elements/sfx/player/take_damage.ogg"),0.0,"SFX",global_position)
 		damage_amount = _check_bulwark(damage_amount, _dmg_owner, bulwark)
@@ -810,7 +812,7 @@ func die(death : bool , insta_die : bool = false) -> bool:
 		else:
 			Globals.death_time-=1
 			i_frames = 60
-			change_health(max_health/2.0-current_health)
+			change_health(max_health/2.0-current_health,-max_health*1.0/3.0)
 			self.process_mode = PROCESS_MODE_INHERIT
 			visible = true
 	return true
@@ -935,41 +937,53 @@ func check_liquids(delta):
 					_glitch_move()
 					_check_hydromancer(Globals.Liquid.Glitch)
 					
-					
-func _glitch_move() -> void:
-	var ground_cells = LayerManager.room_instance.get_node("Ground").get_used_cells()
-	var move_dir_l = velocity.normalized() *16
-	var move_dir_r = velocity.normalized() *16
-	var check_pos_r = Vector2i(((position + move_dir_r)/16).floor())
-	var check_pos_l = Vector2i(((position + move_dir_l)/16).floor())
+
+
+
+
+func _glitch_move(input_move_dir : Vector2 = Vector2(-1234,-1234)) -> void:
+	var move_dir_l
+	var move_dir_r
+	if(input_move_dir == Vector2(-1234,-1234)):
+		move_dir_l = velocity.normalized() * 16
+		move_dir_r = velocity.normalized() * 16
+	else:
+		move_dir_l = input_move_dir
+		move_dir_r = input_move_dir
+
 	var attempts = 0
 	var max_attempts = 36 # prevent infinite loops
-	while check_pos_r not in ground_cells and check_pos_l not in ground_cells and attempts < max_attempts:
+	var condition1 = cast_ray(position, move_dir_r.normalized(), move_dir_r.length(), self)
+	var condition2 = cast_ray(position, move_dir_l.normalized(), move_dir_l.length(), self)
+	while condition1 and condition2 and attempts < max_attempts:
+		condition1 = cast_ray(position, move_dir_r.normalized(), move_dir_r.length(), self)
+		condition2 = cast_ray(position, move_dir_l.normalized(), move_dir_l.length(), self)
 		move_dir_r = move_dir_r.rotated(deg_to_rad(-5))
 		move_dir_l = move_dir_l.rotated(deg_to_rad(5))
-		check_pos_l = Vector2i(((position + move_dir_l)/16).floor())
-		check_pos_r = Vector2i(((position + move_dir_r)/16).floor())
 		attempts += 1
+
 	if velocity.length() < .1:
 		return
-	var move_dir =move_dir_r
-	if check_pos_l in ground_cells:
-		move_dir =move_dir_l
-	position+=move_dir/2.0
+
+	var move_dir = move_dir_r
+	if not cast_ray(position, move_dir_l.normalized(), move_dir_l.length(), self):
+		move_dir = move_dir_l
+
+	position += move_dir / 2.0
 	var saved_position = position
 	var saved_velocity = velocity
 	var position_variance = 16
 	var hue_variance = .08
-	var color1 = shift_hue(Color(0.0, 0.867, 0.318, 1.0),randf_range(-hue_variance,hue_variance))
-	var color2 = shift_hue(Color(0.0, 0.116, 0.014, 1.0),randf_range(-hue_variance,hue_variance))
-	position+= Vector2(randf_range(-position_variance,position_variance),randf_range(-position_variance,position_variance))
-	Spawner.spawn_after_image(self,LayerManager,color1,color1,0.5,1.0,1+randf_range(-.1,.1),.75)
+	var color1 = shift_hue(Color(0.0, 0.867, 0.318, 1.0), randf_range(-hue_variance, hue_variance))
+	var color2 = shift_hue(Color(0.0, 0.116, 0.014, 1.0), randf_range(-hue_variance, hue_variance))
+	position += Vector2(randf_range(-position_variance, position_variance), randf_range(-position_variance, position_variance))
+	Spawner.spawn_after_image(self, LayerManager, color1, color1, 0.5, 1.0, 1 + randf_range(-.1, .1), .75)
 	position = saved_position
-	velocity=move_dir/2.0
+	velocity = move_dir / 2.0
 	move_and_slide()
 	saved_position = position
-	position+= Vector2(randf_range(-position_variance,position_variance),randf_range(-position_variance,position_variance))
-	Spawner.spawn_after_image(self,LayerManager,color2,color2,0.5,1.0,1+randf_range(-.1,.1),.75)
+	position += Vector2(randf_range(-position_variance, position_variance), randf_range(-position_variance, position_variance))
+	Spawner.spawn_after_image(self, LayerManager, color2, color2, 0.5, 1.0, 1 + randf_range(-.1, .1), .75)
 	position = saved_position
 	move_and_slide()
 	velocity = saved_velocity
@@ -1005,7 +1019,7 @@ func _reset_barb_damage(percent : float, time : float):
 		weapon.damage = weapon.damage / (1 + percent)
 
 func damage_boost() -> float:
-	var boost : float = 1.0
+	var boost : float = 0.0
 	randomize()
 	var remnants : Array[Remnant]
 	if is_purple:
@@ -1023,17 +1037,17 @@ func damage_boost() -> float:
 					var temp_move = 0
 					if input_direction != Vector2.ZERO:
 						temp_move = move_speed
-					boost *= (1.0+rem.variable_1_values[rem.rank-1]/100.0*((temp_move/base_move_speed)-1))
+					boost += (rem.variable_1_values[rem.rank-1]/100.0*((temp_move/base_move_speed)-1))
 				ninja.remnant_name:
 					if is_purple:
-						boost *= LayerManager.hud.player1_combo
+						boost += LayerManager.hud.player1_combo-1.0
 					else:
-						boost *= LayerManager.hud.player2_combo
+						boost += LayerManager.hud.player2_combo-1.0
 				assassin.remnant_name:
-					boost *= (1 + min(time_since_last_hit * rem.variable_1_values[rem.rank-1],rem.variable_2_values[rem.rank-1]) / 100.0)
+					boost += (min(time_since_last_hit * rem.variable_1_values[rem.rank-1],rem.variable_2_values[rem.rank-1]) / 100.0)
 				hoard.remnant_name:
-					boost *= (1 + (rem.variable_1_values[rem.rank-1] * floor(LayerManager.timefabric_collected/50.0)  / 100.0))
-	return boost
+					boost += ((rem.variable_1_values[rem.rank-1] * floor(LayerManager.timefabric_collected/50.0)  / 100.0))
+	return boost+1.0
 
 func change_health(add_to_current : float, add_to_max : float = 0):
 	if add_to_current > 0.0:
@@ -1056,6 +1070,9 @@ func change_health(add_to_current : float, add_to_max : float = 0):
 					var amnt = rem.variable_1_values[rem.rank - 1] / 100.0
 					var health_restored = min(max_health - current_health, add_to_current)
 					add_to_max = health_restored * amnt
+	var lich_amount = 1.0- lich_effect(true)
+	if add_to_current >= 0.0:	add_to_current *= lich_amount
+	if add_to_max >= 0.0:	add_to_max *= lich_amount
 	current_health+=add_to_current
 	max_health+=add_to_max
 	current_health = clamp(current_health,0.0,max_health)
@@ -1290,3 +1307,66 @@ func kill_enemy(enemy: Node):
 					particle.position = self.position
 					get_parent().add_child(particle)
 					change_health(rem.variable_2_values[rem.rank-1] * .01 * max_health)
+
+func deflect_chance():
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var big = preload("res://Game Elements/Remnants/big_t.tres")
+	for rem in remnants:
+		if rem.active:
+			match rem.remnant_name:
+				big.remnant_name:
+					return rem.variable_1_values[rem.rank-1] / 100.0
+	return 0.0
+	
+func lich_effect(is_health : bool = false):
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var lich = preload("res://Game Elements/Remnants/archlich.tres")
+	for rem in remnants:
+		if rem.active:
+			match rem.remnant_name:
+				lich.remnant_name:
+					if is_health:
+						return rem.variable_2_values[rem.rank-1] / 100.0
+					else:
+						return rem.variable_1_values[rem.rank-1] / 100.0
+	return 0.0
+func attraction_effect(time_fabric : bool = false):
+	var effect_radius := 64.0
+	var remnants : Array[Remnant]
+	var attraction_strength = 0.0
+	if !time_fabric and !is_purple: return
+	if time_fabric and is_purple: return 60.0
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var sing = preload("res://Game Elements/Remnants/singularity.tres")
+	for rem in remnants:
+		if rem.active:
+			match rem.remnant_name:
+				sing.remnant_name:
+					effect_radius =rem.variable_3_values[rem.rank-1]
+					attraction_strength = rem.variable_4_values[rem.rank-1]
+					if time_fabric and !is_purple: return rem.variable_5_values[rem.rank-1]
+					
+	if attraction_strength == 0.0: return
+	var enemies = get_tree().get_nodes_in_group("enemy")
+	
+	for enemy in enemies:
+		if not enemy.is_inside_tree():
+			continue
+		var dir = enemy.global_position - global_position
+		var dist = dir.length()
+		if dist < effect_radius and dist > 0:
+			var force = dir.normalized() * attraction_strength * (1.0 - dist / effect_radius)
+			var temp_velocity = enemy.velocity
+			enemy.apply_velocity(force)
+			enemy.velocity = temp_velocity

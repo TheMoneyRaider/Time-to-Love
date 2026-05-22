@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("3_3phi2")
 remnant_name = "Remnant of The Liquimancer"
-description = "Attacks gain a $X effect based on last liquid touched"
+description = "Attacks gain a $X effect based on last liquid you've touched"
 icon = ExtResource("2_538ff")
 art = ExtResource("1_7o63u")
 variable_names = Array[String](["$X"])

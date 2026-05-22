@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://bxx3lfr671h7r"]
 
-[ext_resource type="Texture2D" uid="uid://yl1i5de1nfrw" path="res://art/remnants/winters_embrace.png" id="1_okrky"]
+[ext_resource type="Texture2D" uid="uid://br5mj726dbk3b" path="res://art/remnants/winters_embrace.png" id="1_okrky"]
 [ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="2_24lu2"]
 [ext_resource type="Texture2D" uid="uid://cwt80ml3op7uw" path="res://art/remnants/winters_embrace_icon.png" id="2_ti0sv"]
 

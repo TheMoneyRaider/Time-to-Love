@@ -1,12 +1,16 @@
 [gd_scene load_steps=19 format=3 uid="uid://bkmhitsrs64l4"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_qhvxm"]
-[ext_resource type="Texture2D" uid="uid://smpojals3s7d" path="res://art/characters/big-t/big-t_likely_wonky.png" id="3_f2uui"]
 [ext_resource type="PackedScene" path="res://Game Elements/Attacks/t-roar_particle.tscn" id="2_rgvsh"]
+[ext_resource type="Texture2D" uid="uid://smpojals3s7d" path="res://art/characters/big-t/big-t_likely_wonky.png" id="3_f2uui"]
 [ext_resource type="PackedScene" uid="uid://c8x4fnr36es6o" path="res://Game Elements/Attacks/t-swing.tscn" id="3_rgvsh"]
 [ext_resource type="PackedScene" uid="uid://3g2wool8t66c" path="res://Game Elements/Attacks/t-spine.tscn" id="4_b1psi"]
 [ext_resource type="BehaviorTree" uid="uid://dkwlk3hb7u71t" path="res://ai/trees/big-t.tres" id="4_f2uui"]
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="5_e752t"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ehs1d"]
+radius = 5.833333
+height = 18.888887
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rgvsh"]
 radius = 8.055557
@@ -129,10 +133,6 @@ var/state/value = "agro"
 var/state/hint = 0
 var/state/hint_string = ""
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ehs1d"]
-radius = 5.833333
-height = 18.888887
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_w832q"]
 radius = 8.61559
 
@@ -140,7 +140,7 @@ radius = 8.61559
 z_index = 40
 scale = Vector2(3, 3)
 collision_layer = 4
-collision_mask = 9
+collision_mask = 137
 script = ExtResource("1_qhvxm")
 max_health = 300.0
 hit_range = 75
@@ -151,6 +151,7 @@ max_timefabric = 250
 max_sprint_cooldown = 4.0
 sprint_multiplier = 3.0
 move_speed = 150.0
+deflect_chance = 0.7
 is_boss = true
 boss_phases = 6
 boss_healthpools = Array[float]([300.0])
@@ -164,6 +165,10 @@ scale = Vector2(0.765625, 0.75)
 texture = ExtResource("3_f2uui")
 hframes = 6
 vframes = 4
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(0.2777778, -20.833334)
+shape = SubResource("CapsuleShape2D_ehs1d")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(2.9802322e-08, -9.444445)
@@ -184,10 +189,6 @@ collision_layer = 4
 collision_mask = 7
 linear_damp = 0.0
 script = ExtResource("5_e752t")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0.2777778, -20.833334)
-shape = SubResource("CapsuleShape2D_ehs1d")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, -8.611111)

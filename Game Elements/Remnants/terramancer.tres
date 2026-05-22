@@ -13,5 +13,5 @@ art = ExtResource("1_eyu3i")
 variable_names = Array[String](["$X", "$Y", "$Z"])
 variable_1_values = ["Small", "Medium", "Large", "Giant", "Gargantuan"]
 variable_2_values = [2, 4, 6, 8, 10]
-variable_3_values = ["Tinily", "Smally", "Moderately", "Largely", "Greatly"]
+variable_3_values = ["Tinily", "Slightly", "Moderately", "Largely", "Greatly"]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

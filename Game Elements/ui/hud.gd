@@ -124,6 +124,8 @@ func _add_slot(grid: Node, remnant: Resource, has_ranked : bool = false, is_purp
 		label.text = _num_to_roman(remnant.rank-1)
 	else:
 		label.text = _num_to_roman(remnant.rank)
+	if remnant.remnant_name==preload("res://Game Elements/Remnants/singularity.tres").remnant_name:
+		label.add_theme_color_override("font_color", Color.BLACK)
 	grid.add_child(slot)
 	slot.setup(remnant,is_purple_icon)
 	slot.get_node("TextureRect").material.set_shader_parameter("active", remnant.active)

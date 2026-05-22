@@ -81,10 +81,14 @@ var replacement_enemies : Array[PackedScene] = [
 var normal_rooms : Array = []
 var shop_rooms : Array = []
 var tempvar : bool = true
+
+func reset():
+	current_progress = 0.0
+	layer_ai = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 func get_room(room : Room):
 	#if tempvar:
-	#	tempvar = false
-	#	return bosses[1]
+		#tempvar = false
+		#return bosses[2]
 	var index = int(current_progress) if room.roomtype != Globals.RoomType.Boss else int(current_progress+1.0)
 	#shop_override
 	var T = 0.15

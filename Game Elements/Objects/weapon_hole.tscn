@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cggx60a5l71t7" path="res://art/white_square2.png" id="8_gc7vx"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8365d"]
-radius = 36.138622
+radius = 80.09994
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oeecv"]
 shader = ExtResource("5_yr38k")
@@ -27,6 +27,7 @@ shader_parameter/cutoff_max = 1.0
 
 [node name="NewWeapon" type="Area2D" groups=["weapon_select"]]
 z_index = 11
+scale = Vector2(0.25, 0.25)
 collision_mask = 3
 script = ExtResource("1_b5yj5")
 weapon_type = "Fist"
@@ -51,11 +52,11 @@ z_index = 1000
 scale = Vector2(1.5, 1.5)
 
 [node name="Text" type="RichTextLabel" parent="Prompt1"]
-offset_left = -26.0
-offset_top = -28.666666
-offset_right = 1274.0
-offset_bottom = 3582.3333
-scale = Vector2(0.04, 0.04)
+offset_left = -53.33333
+offset_top = -42.666664
+offset_right = 1246.6666
+offset_bottom = 3568.3333
+scale = Vector2(0.08, 0.08)
 theme_override_font_sizes/normal_font_size = 192
 bbcode_enabled = true
 text = "Get Weapon:
