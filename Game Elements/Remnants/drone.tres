@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Remnant" load_steps=7 format=3 uid="uid://b75dkb04247ed"]
+[gd_resource type="Resource" script_class="Remnant" load_steps=8 format=3 uid="uid://b75dkb04247ed"]
 
 [ext_resource type="Texture2D" uid="uid://tnl0n54kl5t3" path="res://art/remnants/drones.png" id="1_7c6hm"]
 [ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="1_lftu4"]
@@ -6,6 +6,7 @@
 [ext_resource type="Resource" uid="uid://clvgpm4sxj4nh" path="res://Game Elements/Remnants/forcefield.tres" id="4_ib873"]
 [ext_resource type="Resource" uid="uid://fi3a2tqayc4n" path="res://Game Elements/Remnants/emp.tres" id="5_tpuq4"]
 [ext_resource type="Resource" uid="uid://bgsxo65ycjkiq" path="res://Game Elements/Remnants/intelligence.tres" id="6_1bu1l"]
+[ext_resource type="Resource" uid="uid://csohwpebwejop" path="res://Game Elements/Remnants/kinetic_battery.tres" id="7_tpuq4"]
 
 [resource]
 script = ExtResource("1_lftu4")
@@ -15,9 +16,9 @@ icon = ExtResource("2_bmfae")
 art = ExtResource("1_7c6hm")
 progress_required = 2.0
 tags = Array[String](["sci-fi"])
-required_remnants = Array[ExtResource("1_lftu4")]([ExtResource("4_ib873"), ExtResource("5_tpuq4"), ExtResource("6_1bu1l")])
-num_rem_required = 1
+required_remnants = Array[ExtResource("1_lftu4")]([ExtResource("4_ib873"), ExtResource("5_tpuq4"), ExtResource("6_1bu1l"), ExtResource("7_tpuq4")])
+num_rem_required = 2
 variable_names = Array[String](["$X", "$Y"])
-variable_1_values = [3, 6, 10, 16, 24]
-variable_2_values = [1, 2, 3, 4, 5]
+variable_1_values = [3, 3, 6, 9, 12]
+variable_2_values = [1, 1, 2, 3, 4]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"
