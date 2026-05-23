@@ -16,7 +16,6 @@ attack_scene = "res://Game Elements/Attacks/ls_melee.tscn"
 special_attack_scene = "res://Game Elements/Attacks/ls_range.tscn"
 spawn_distance = 0.0
 special_hits = 12
-special_on_release = false
 name = "Laser Sword"
 name_font = ExtResource("2_s6uq0")
 description = "The pinnacle of melee technology, nothing can stand in your way. Slash through their flimsy attempts at defence and make piecemeal of their dreams. The Laser Sword is a weapon of the past brought to the ruthless future, killing brought to its ultimate form.[br][br]“The prototype has somehow left its holder and is spinning uncontrollably on the floor. Will now attempt to disable the device.” - Recovered notes from the now deceased inventor of the Laser Sword."

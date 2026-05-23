@@ -400,12 +400,6 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 		special_started = true
 	if(!is_released):
 		match type:
-			"Mace":
-				pass
-			"Crossbow":
-				pass
-			"Shotgun":
-				pass
 			"Railgun":
 				if(special_time_elapsed <= 1.0):
 					var effect = preload("res://Game Elements/Effects/rail_charge.tres").duplicate(true)
@@ -476,17 +470,6 @@ func special_cleanup():
 	special_nodes = []
 	special_time_elapsed = 0.0
 	special_time_period_elapsed = 0
-	
-
-func use_normal_attack(special_direction : Vector2, special_position : Vector2, node_attacking : Node):
-	match type:
-			"Laser Sword":
-				end_special(special_direction,special_position,node_attacking)
-			"Shovel":
-				pass
-					
-			_:
-				pass
 
 func end_special(special_direction : Vector2, special_position : Vector2, node_attacking : Node):
 	special_started = false
