@@ -2176,6 +2176,12 @@ func boss_rewards():
 		room_reward(Globals.Reward.HealthUpgrade)
 	if rooms_taken <= 4:
 		room_reward(Globals.Reward.TimeFabric)
+	await get_tree().process_frame
+	var rewards : Array[Node]= []
+	for child in room_instance.get_children():
+		if child.is_in_group("reward"):
+			rewards.append(child)
+	awareness_display.set_array(rewards.duplicate(),1)
 
 func _notification(what: int) -> void:
 	match what:

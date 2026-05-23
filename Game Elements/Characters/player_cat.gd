@@ -1373,7 +1373,7 @@ func attraction_effect():
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	
 	for enemy in enemies:
-		if not enemy.is_inside_tree():
+		if not enemy.is_inside_tree() or enemy.is_boss:
 			continue
 		# Ensure the physics body has a valid space
 		if not enemy.get_rid().is_valid():
