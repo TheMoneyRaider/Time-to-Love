@@ -79,7 +79,7 @@ func activate():
 	SFXManager.stop_all_continuous_sounds()
 	get_parent().hud.get_node("RootControl/Label").stop_countdown()
 	Globals.has_died = true
-	input_delay = .4
+	input_delay = .2
 	active = true
 	state_change()
 	if(getting_time):
