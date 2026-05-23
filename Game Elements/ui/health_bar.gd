@@ -77,13 +77,13 @@ func _ready() -> void:
 func set_max_health(health_value : int):
 	max_health = health_value
 	progress_bar.max_value = max_health
-	var width =  width_scale * pow(health_value/10, exponent)
+	var width =  width_scale * pow(health_value/10.0, exponent)
 	progress_bar.custom_minimum_size.x = width
 	update_text()
-	update_lines()
+	update_lines(width)
 
 
-func set_current_health(health_value : int):
+func set_current_health(health_value : int,ignore_max_health_change : bool):
 	if health_value == current_health:
 		return
 	
@@ -91,14 +91,15 @@ func set_current_health(health_value : int):
 	current_health = health_value
 	
 	update_text()
-	var chunk = _spawn_health_chunk(old_health, current_health)
-	if old_health < current_health:
-		while chunk!=null and is_instance_valid(chunk):
-			await get_tree().process_frame
+	if !ignore_max_health_change:
+		var chunk = _spawn_health_chunk(old_health, current_health)
+		if old_health < current_health:
+			while chunk!=null and is_instance_valid(chunk):
+				await get_tree().process_frame
 	update_lines()
 
 
-func update_lines():
+func update_lines(width : float= -99.0):
 	var total_width = width_scale * pow(max_health/10, exponent)
 	var filled_width = total_width * clamp(float(current_health)/max_health,0.0,1.0)
 
@@ -125,7 +126,7 @@ func update_lines():
 	fore.add_point(point1)
 	fore.add_point(point3)
 	frame.position = Vector2(start_pos.x,0)
-	frame.custom_minimum_size.x = total_width+margin_amount*2.0
+	frame.size.x = total_width+margin_amount*2.0 if width==-99.0 else width+margin_amount*2.0
 	
 	
 

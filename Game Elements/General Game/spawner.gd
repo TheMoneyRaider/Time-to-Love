@@ -5,7 +5,7 @@ static var cell_world_size := 16.0
 
 static var player_penalty_weight := 1.0
 static var player_threshold := 4.0 * 16.0
-static var enemy_penalty_weight := 0.75
+static var enemy_penalty_weight := 0.5
 static var enemy_threshold := 4.0 * 16.0
 static var edge_penalty_weight := 0.25
 static var edge_threshold := 2.0 * 16.0
@@ -190,33 +190,6 @@ static func _apply_enemy_influence(center: Vector2i):
 				1.0
 			)
 
-
-####SCORING
-static func _score_cell(
-	cell: Vector2i,
-	chosen_positions: Array[Vector2i],
-	players: Array[Node],
-	edges: Array[Vector2i]
-) -> float:
-	var world_pos := cell * cell_world_size
-	var score := 1.0
-
-	for p in players:
-		var d2 := world_pos.distance_squared_to(p.global_position)
-		if d2 < _player_threshold_sq:
-			score -= player_penalty_weight * (1.0 - d2 / _player_threshold_sq)
-
-	for c in chosen_positions:
-		var d2 := world_pos.distance_squared_to(c * cell_world_size)
-		if d2 < _enemy_threshold_sq:
-			score -= enemy_penalty_weight * (1.0 - d2 / _enemy_threshold_sq)
-
-	for e in edges:
-		var d2 := world_pos.distance_squared_to(e * cell_world_size)
-		if d2 < _edge_threshold_sq:
-			score -= edge_penalty_weight * (1.0 - d2 / _edge_threshold_sq)
-
-	return clamp(score, 0.0, 1.0)
 
 ####FIT / EDGE LOGIC
 static func _can_fit(cell: Vector2i, needed: Vector2i, cell_set: Dictionary) -> bool:
