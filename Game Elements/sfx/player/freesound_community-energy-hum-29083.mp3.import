@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b4f12pk7iw0el"
+path="res://.godot/imported/freesound_community-energy-hum-29083.mp3-a40baaa465f29bc6dfe5e2ffcb26dd4e.mp3str"
+
+[deps]
+
+source_file="res://Game Elements/sfx/player/freesound_community-energy-hum-29083.mp3"
+dest_files=["res://.godot/imported/freesound_community-energy-hum-29083.mp3-a40baaa465f29bc6dfe5e2ffcb26dd4e.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
