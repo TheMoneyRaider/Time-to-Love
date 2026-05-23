@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://vpccuh1c3e0b"
+path="res://.godot/imported/to4.ogg-65cc45d758188efac05a3580b32f8916.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/UI/deathclock/to4.ogg"
+dest_files=["res://.godot/imported/to4.ogg-65cc45d758188efac05a3580b32f8916.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
