@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dlq8kom7df0r7"]
+[gd_scene load_steps=7 format=3 uid="uid://dlq8kom7df0r7"]
 
 [ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_6rmqb"]
 [ext_resource type="Texture2D" uid="uid://b82s5w06vviyr" path="res://art/weapons/mace/shatter.png" id="2_6rmqb"]
@@ -6,15 +6,76 @@
 [sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_6rmqb"]
 points = PackedVector2Array(-42, -58, 42, -58, 10, 6, -14, 6)
 
+[sub_resource type="Animation" id="Animation_6rmqb"]
+resource_name = "main"
+length = 0.2813
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.037462503, 0.112500004, 0.1875, 0.2249625, 0.262425),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.125),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_1gdgb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k1x54"]
+_data = {
+&"RESET": SubResource("Animation_1gdgb"),
+&"main": SubResource("Animation_6rmqb")
+}
+
 [node name="Shatter" type="Area2D" groups=["attack"]]
-z_index = 19
-y_sort_enabled = true
+z_index = 9
+z_as_relative = false
 collision_layer = 8
 collision_mask = 47
 script = ExtResource("1_6rmqb")
 speed = 0.0
 damage = 6.0
-lifespan = 0.25
+lifespan = 0.5
 hit_force = 300.0
 knockback_force = 300.0
 start_lag = 0.05
@@ -24,13 +85,21 @@ attack_type = "shatter"
 deflects = true
 i_frames = 0
 repeat_hits = true
+animation = "main"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 26)
 shape = SubResource("ConvexPolygonShape2D_6rmqb")
+disabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_6rmqb")
+hframes = 6
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_k1x54")
+}
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
