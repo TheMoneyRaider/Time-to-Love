@@ -18,6 +18,7 @@ var loop_tracks = {
 	"medieval":	preload("res://Game Elements/Music/medieval.wav"),
 	"shop": 	preload("res://Game Elements/Music/shopkeeper.wav")
 }
+
 const NORMAL_VOLUME = 0.0
 const PAUSED_VOLUME = -16.0
 const FADE_DURATION = 0.5
