@@ -316,7 +316,7 @@ func start_special(special_direction : Vector2, node_attacking : Node):
 			var locations : Array[Vector2] = get_locations(node_attacking, special_direction)
 			mesh_inst.draw_path(PackedVector2Array(locations))
 		"Railgun":
-			special_nodes.append(SFXManager.play(preload("res://Game Elements/sfx/weapons/rail_gun/railgun_loading.ogg")))
+			special_nodes.append(SFXManager.play(preload("res://Game Elements/sfx/weapons/rail_gun/railgun_loading.ogg"),16.0))
 			var particles = preload("res://Game Elements/Particles/railgun_charge_particles.tscn").instantiate()
 			node_attacking.add_child(particles)
 			special_nodes.append(particles)
@@ -423,7 +423,7 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 						check_forward = cast_ray(node_attacking.global_position, special_direction, 1600,node_attacking)
 						node_attacking.LayerManager.room_instance.add_child(inst)
 						inst.fire_laser(node_attacking.global_position+special_direction*spawn_distance,check_forward.position,node_attacking)
-						SFXManager.play_continuous("railgun_beam", preload("res://Game Elements/sfx/weapons/rail_gun/railgun_special.ogg"), 6)
+						SFXManager.play_continuous("railgun_beam", preload("res://Game Elements/sfx/weapons/rail_gun/railgun_special.ogg"), 16)
 					
 					special_nodes[-1].global_position = node_attacking.global_position + special_nodes[-1].size/-2.0 + special_direction*spawn_distance
 					check_forward = cast_ray(node_attacking.global_position, special_direction, 1600,node_attacking)

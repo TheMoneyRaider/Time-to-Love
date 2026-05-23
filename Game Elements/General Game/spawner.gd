@@ -53,7 +53,7 @@ static func spawn_enemies(
 	if override_enemy_type != "":
 		rechoose_enemy = false
 	# === PRECOMPUTE STATIC FIELDS ===
-	player_penalty_field = _build_player_field(cell_set, players)
+	player_penalty_field = _build_player_field(cell_set, players, is_wave)
 	edge_penalty_field = _build_edge_field(cell_set, edges)
 
 	enemy_penalty_field.clear()
@@ -136,9 +136,10 @@ static func _choose_best_cell(
 
 	return chosen
 
-static func _build_player_field(cell_set: Dictionary, players: Array[Node]) -> Dictionary:
+static func _build_player_field(cell_set: Dictionary, players: Array[Node], is_wave : bool) -> Dictionary:
 	var field := {}
 	var thresh_sq := player_threshold * player_threshold
+	if is_wave: thresh_sq *=4.0
 
 	for cell in cell_set.keys():
 		var world_pos :Vector2 = cell * cell_world_size
@@ -394,7 +395,7 @@ static func spawn_letters(
 	var edges := _get_edges(cell_set)
 
 	# === PRECOMPUTE STATIC FIELDS ===
-	player_penalty_field = _build_player_field(cell_set, players)
+	player_penalty_field = _build_player_field(cell_set, players, false)
 	edge_penalty_field = _build_edge_field(cell_set, edges)
 
 	enemy_penalty_field.clear()

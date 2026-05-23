@@ -149,7 +149,7 @@ func set_color(default_color : bool = is_purple):
 		frame.modulate = Color(0.575, 0.004, 0.955)
 	else:
 		$HealthBar/Background.default_color = Color(0.58, 0.367, 0.0, 1.0)
-		$HealthBar/Foreground.default_color = Color(1.0, 0.722, 0.367, 1.0)
+		$HealthBar/Foreground.default_color = Color(0.893, 0.576, 0.0, 1.0)
 		label.label_settings.font = preload("res://fonts/Cinzel Family/Cinzel/Cinzel-Bold.ttf")
 		font_color = Color(1.0, 0.85, 0.677, 1.0)
 		frame.modulate = Color(0.701, 0.295, 0.0)
