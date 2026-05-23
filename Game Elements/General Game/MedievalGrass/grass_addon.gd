@@ -31,11 +31,12 @@ func _process(_delta: float) -> void:
 	pass
 
 func initalize(_conflict_cells_in : Array, tilemaplayer : TileMapLayer):
+	print("init")
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	game_camera = LayerManager.camera
-	offset_y = -(sqrt(pow(grass_camera.position.y/cos(PI/2+grass_camera.rotation.x),2)-pow(grass_camera.position.y,2)))
+	offset_y = -16.1867697662462 #-(sqrt(pow(grass_camera.position.y/cos(PI/2+grass_camera.rotation.x),2)-pow(grass_camera.position.y,2)))
 	print("Generate_grass")
-	$SubViewport/CharacterManager.offset_y = offset_y
+	#$SubViewport/CharacterManager.offset_y = offset_y
 	target_tilemap = tilemaplayer
 	generate()
 	var mask = build_mask(target_tilemap)

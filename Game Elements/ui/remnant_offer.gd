@@ -37,6 +37,8 @@ var anim_time := 0.0
 ###
 
 func _set_drifter_text(player1_remnants_in, player2_remnants_in):
+	tricky1 = 0 
+	tricky2 = 0
 	var drifter = preload("res://Game Elements/Remnants/trickster.tres")
 	for rem in player1_remnants_in:
 		if rem.active:
@@ -75,6 +77,13 @@ func _set_drifter_text(player1_remnants_in, player2_remnants_in):
 		$Control/DrifterText/Label.text = "Chose a Remnant for each Character"
 		$Control/DrifterText.visible = true
 		$Control/DrifterText/Label/TextureRect.visible = false
+	if !(Globals.is_multiplayer):
+		if is_purple and tricky1 == 0:
+			$Control/DrifterText.visible = false
+		if !is_purple and tricky2 == 0:
+			$Control/DrifterText.visible = false
+			
+		
 func _slice_frames() -> void:
 	frames.clear()
 
@@ -290,10 +299,12 @@ func inputs(input_device : String, is_player_1 : bool):
 		if(is_player_1 && tricky1 != 0):
 			if($"../../".timefabric_collected >= int(cost)):
 				$"../../".timefabric_collected-=int(cost)
+				get_tree().get_root().get_node("LayerManager").has_spent_timefabric = true
 				popup_offer(player1_remnants,player2_remnants,current_weights)
 		elif(!is_player_1 && tricky2 != 0):
 			if($"../../".timefabric_collected >= int(cost)):
 				$"../../".timefabric_collected-=int(cost)
+				get_tree().get_root().get_node("LayerManager").has_spent_timefabric = true
 				popup_offer(player1_remnants,player2_remnants,current_weights)
 			
 	if(input_device == "key"):

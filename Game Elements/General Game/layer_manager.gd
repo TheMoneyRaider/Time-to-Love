@@ -66,6 +66,7 @@ var trap_cells := []
 var blocked_cells := []
 var liquid_cells : Array[Array]= [[],[],[],[],[],[],[],[],[],[]]
 var is_multiplayer = Globals.is_multiplayer
+var has_spent_timefabric : bool = false
 #
 @onready var PathwayViewport =  $PathwayViewport
 @onready var PathwayTransition =  $game_container/game_viewport/game_root/Camera2D/PathwayTransition
@@ -1785,7 +1786,7 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 		if(remnant.remnant_name == giant.remnant_name) and remnant.active:
 			if(player.is_purple == is_purple):
 				player.scale = player.scale * 1.5
-				player.change_health(remnant.variable_1_values[remnant.rank - 1], remnant.variable_1_values[remnant.rank - 1])
+				player.change_health(remnant.variable_1_values[remnant.rank - 1], remnant.variable_1_values[remnant.rank - 1],true)
 			if is_purple:
 				player.weapons[1].damage = player.weapons[1].damage + remnant.variable_2_values[remnant.rank - 1]
 			else:
@@ -1814,7 +1815,7 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 		if(remnant.remnant_name == giant.remnant_name):
 			if(player.is_purple == is_purple):
 				player.scale = player.scale / 1.5
-				player.change_health(-remnant.variable_1_values[remnant.rank - 1], -remnant.variable_1_values[remnant.rank - 1])
+				player.change_health(-remnant.variable_1_values[remnant.rank - 1], -remnant.variable_1_values[remnant.rank - 1],true)
 			if is_purple:
 				player.weapons[1].damage = player.weapons[1].damage - remnant.variable_2_values[remnant.rank - 1]
 			else:
@@ -1921,6 +1922,7 @@ func _on_special(player_node : Node):
 			if timefabric_collected >= int(rem.variable_1_values[rem.rank-1]):
 				if check_pathways(room_instance, room_instance_data,player_node,true) == -1:
 					timefabric_collected-=int(rem.variable_1_values[rem.rank-1])
+					has_spent_timefabric = true
 	return -1
 
 func _debug_message(msg : String) -> void:
@@ -1989,14 +1991,11 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 
 func dev_remnants():
 	var rem
-	rem = load("res://Game Elements/Remnants/investment.tres")
-	rem.rank = 3
-	player_1_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,false)
-	#rem = load("res://Game Elements/Remnants/aeromancer.tres")
-	#rem.rank = 5
-	#player_1_remnants.append(rem.duplicate(true))
-	#remnant_update(rem,player1,true)
+	
+	rem = load("res://Game Elements/Remnants/forcefield.tres")
+	rem.rank = 5
+	player_2_remnants.append(rem.duplicate(true))
+	remnant_update(rem,player1,true)
 	#player_2_remnants.append(rem.duplicate(true))
 	#remnant_update(rem,player1,false)
 	#rem = load("res://Game Elements/Remnants/mancermancer.tres")
@@ -2093,7 +2092,7 @@ func dev_remnants():
 		player2.display_combo()
 	
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
-	timefabric_collected = 0
+	#timefabric_collected = 10000
 	
 var limboing : bool = false
 func move_to_limbo_phase_2():
@@ -2179,6 +2178,12 @@ func boss_rewards():
 		room_reward(Globals.Reward.HealthUpgrade)
 	if rooms_taken <= 4:
 		room_reward(Globals.Reward.TimeFabric)
+	await get_tree().process_frame
+	var rewards : Array[Node]= []
+	for child in room_instance.get_children():
+		if child.is_in_group("reward"):
+			rewards.append(child)
+	awareness_display.set_array(rewards.duplicate(),1)
 
 func _notification(what: int) -> void:
 	match what:

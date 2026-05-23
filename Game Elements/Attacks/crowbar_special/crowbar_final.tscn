@@ -69,12 +69,12 @@ _data = {
 
 [node name="Crowbar" type="Area2D"]
 z_index = 36
-y_sort_enabled = true
+z_as_relative = false
 collision_layer = 8
 collision_mask = 47
 script = ExtResource("1_chadp")
 speed = 0.0
-damage = 30.0
+damage = 12.0
 knockback_force = 400.0
 cooldown = 0.0
 pierce = -2.0

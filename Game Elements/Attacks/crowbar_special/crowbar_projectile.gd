@@ -108,11 +108,13 @@ func flatten_nodes_to_sprite(root: Node, z_limit: int) -> Texture:
 
 
 func attack():
+	SFXManager.play(preload("res://Game Elements/sfx/weapons/crowbar/crowbar_special_impact.ogg"), -4)
 	var attack_inst = load("res://Game Elements/Attacks/crowbar_special/crowbar_final.tscn").instantiate()
 	attack_inst.global_position = global_position
 	attack_inst.c_owner = player_owner
 	attack_inst.damage *= player_owner.damage_boost()
 	attack_inst.direction = Vector2.UP
+	my_weapon.apply_remnants(attack_inst)
 	get_parent().add_child(attack_inst)
 	disabled = true
 	player_owner.LayerManager.camera.shake(20)
@@ -123,8 +125,10 @@ func attack():
 	tween.tween_property(target, "modulate:a", 0.0, 4.0)
 	await tween.finished   # wait until tween actually finishes
 	queue_free()
-
-func activate(input: Node, player : Node):
+var my_weapon : Weapon = null
+func activate(input: Node, player : Node, weapon : Weapon):
+	my_weapon = weapon
+	SFXManager.play(preload("res://Game Elements/sfx/weapons/crowbar/falling_rock.ogg"), 0.0, "SFX", global_position)
 	player_owner = player
 	for sp in sprites:
 		sp.material.set_shader_parameter("masking_enabled", false)

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://scaulx17obf"
+path="res://.godot/imported/crowbar_dig.ogg-ddb364927ea27213b38fa2457839692e.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/weapons/crowbar/crowbar_dig.ogg"
+dest_files=["res://.godot/imported/crowbar_dig.ogg-ddb364927ea27213b38fa2457839692e.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

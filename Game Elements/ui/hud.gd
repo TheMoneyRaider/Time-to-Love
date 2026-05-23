@@ -380,18 +380,18 @@ func _on_player_take_damage(_damage_amount : float, current_health : float, play
 	else:
 		health_bar_2.set_current_health(temp_current_health)
 
-func _on_max_health_changed(max_health : float, current_health : float,player_node : Node):
+func _on_max_health_changed(max_health : float, current_health : float,player_node : Node, ignore_max_health_change : bool):
 	var temp_current_health : int = int(ceil(current_health*10))
 	var temp_max_health : int = int(max_health*10)
 	if(player_node == player1):
 		health_bar_1.set_max_health(temp_max_health)
-		health_bar_1.set_current_health(temp_current_health)
+		health_bar_1.set_current_health(temp_current_health,ignore_max_health_change)
 		if(!is_multiplayer):
 			health_bar_2.set_max_health(temp_max_health)
-			health_bar_2.set_current_health(temp_current_health)
+			health_bar_2.set_current_health(temp_current_health,ignore_max_health_change)
 	else:
 		health_bar_2.set_max_health(temp_max_health)
-		health_bar_2.set_current_health(temp_current_health)
+		health_bar_2.set_current_health(temp_current_health,ignore_max_health_change)
 		
 func load_settings():
 	debug_mode = Globals.config.get_value("debug", "enabled", false)

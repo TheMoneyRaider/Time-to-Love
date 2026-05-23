@@ -316,19 +316,10 @@ func start_special(special_direction : Vector2, node_attacking : Node):
 			var locations : Array[Vector2] = get_locations(node_attacking, special_direction)
 			mesh_inst.draw_path(PackedVector2Array(locations))
 		"Railgun":
-			#Spawn Line2D
-			pass
-			
-		"Shovel":
-			print("Start Shovel")
-			var setup = preload("res://Game Elements/Attacks/crowbar_special/setup.tscn").instantiate()
-			setup.tilemaplayer = node_attacking.LayerManager.room_instance.get_node("Ground")
-			setup.available_tiles = node_attacking.LayerManager.placable_cells
-			setup.global_position = node_attacking.global_position+special_direction*48
-			node_attacking.LayerManager.room_instance.add_child(setup)
-
-			special_nodes.append(setup)
-			use_normal_attack(special_direction, setup.global_position,node_attacking)
+			special_nodes.append(SFXManager.play(preload("res://Game Elements/sfx/weapons/rail_gun/railgun_loading.ogg"),16.0))
+			var particles = preload("res://Game Elements/Particles/railgun_charge_particles.tscn").instantiate()
+			node_attacking.add_child(particles)
+			special_nodes.append(particles)
 		_ :
 			pass
 
@@ -395,18 +386,7 @@ func special_tick(special_direction : Vector2, node_attacking : Node):
 				node_attacking.LayerManager.room_instance.add_child(fire)
 				pass
 			"Shovel":
-				if special_nodes.size()> 1:
-					var throw = preload("res://Game Elements/Particles/throw_particles.tscn").instantiate()
-					var ray = cast_ray(node_attacking.global_position, special_direction, 1600,node_attacking)
-					throw.global_position = node_attacking.global_position
-					if ray:
-						var position = (clamp((ray.position-node_attacking.global_position).length(),0,160)*special_direction)+node_attacking.global_position
-						throw.global_position = position -special_direction *32
-					node_attacking.LayerManager.room_instance.add_child(throw)
-					if !is_instance_valid(special_nodes[1]):
-						special_nodes.remove_at(1)
-				if special_nodes.size()<=1:
-					special_nodes[0].global_position = node_attacking.global_position+special_direction*48
+				pass
 			_:
 				pass
 	
@@ -428,7 +408,6 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 				pass
 			"Railgun":
 				if(special_time_elapsed <= 1.0):
-					SFXManager.play(preload("res://Game Elements/sfx/weapons/rail_gun/railgun_loading.ogg"), -18)
 					var effect = preload("res://Game Elements/Effects/rail_charge.tres").duplicate(true)
 					effect.cooldown = 20*time_elapsed
 					effect.value1 = 0.04
@@ -436,19 +415,19 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 					Effects.append(effect)
 				else:
 					var check_forward
-					if special_nodes.size() < 1:
+					if special_nodes[-1] is not SubViewportContainer:
 						node_attacking.create_tween().tween_property(node_attacking.weapon_node.get_node("Sprite2D"),"modulate",Color(1.0, 0.0, 0.0, 1.0),1.0)
 						var inst = preload("res://Game Elements/Attacks/railgun_laser.tscn").instantiate()
 						special_nodes.append(inst)
 						inst.global_position = node_attacking.global_position + inst.size/-2.0 + special_direction*spawn_distance
 						check_forward = cast_ray(node_attacking.global_position, special_direction, 1600,node_attacking)
 						node_attacking.LayerManager.room_instance.add_child(inst)
-						inst.fire_laser(node_attacking.global_position+special_direction*spawn_distance,check_forward.position,node_attacking)
-						SFXManager.play_continuous("railgun_beam", preload("res://Game Elements/sfx/weapons/rail_gun/railgun_special.ogg"), 6)
+						inst.fire_laser(node_attacking.global_position+special_direction*spawn_distance,check_forward.position,node_attacking,self)
+						SFXManager.play_continuous("railgun_beam", preload("res://Game Elements/sfx/weapons/rail_gun/railgun_special.ogg"), 16)
 					
-					special_nodes[0].global_position = node_attacking.global_position + special_nodes[0].size/-2.0 + special_direction*spawn_distance
+					special_nodes[-1].global_position = node_attacking.global_position + special_nodes[-1].size/-2.0 + special_direction*spawn_distance
 					check_forward = cast_ray(node_attacking.global_position, special_direction, 1600,node_attacking)
-					special_nodes[0].update_points(node_attacking.global_position+special_direction*spawn_distance,check_forward.position)
+					special_nodes[-1].update_points(node_attacking.global_position+special_direction*spawn_distance,check_forward.position)
 					
 					var effect = preload("res://Game Elements/Effects/tether.tres").duplicate(true)
 					effect.cooldown = 20*time_elapsed
@@ -482,10 +461,6 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 				if floor(special_time_elapsed*2) !=special_time_period_elapsed:
 					special_time_period_elapsed = floor(special_time_elapsed*2)
 					special_tick(special_direction, node_attacking)
-		"Shovel":
-			if floor(special_time_elapsed*60) !=special_time_period_elapsed:
-				special_time_period_elapsed = floor(special_time_elapsed*60)
-				special_tick(special_direction, node_attacking)
 		_:
 			pass
 	special_time_elapsed += time_elapsed
@@ -508,80 +483,63 @@ func use_normal_attack(special_direction : Vector2, special_position : Vector2, 
 			"Laser Sword":
 				end_special(special_direction,special_position,node_attacking)
 			"Shovel":
-				if special_nodes.size()>1:
-					special_nodes[0].passify(node_attacking)
-					#Launch
-					#Place Target
-					var target = preload("res://Game Elements/Attacks/crowbar_special/target.tscn").instantiate()
-					var ray = cast_ray(node_attacking.global_position, special_direction, 1600,node_attacking)
-					target.global_position = node_attacking.global_position
-					if ray:
-						var position = (clamp((ray.position-node_attacking.global_position).length(),0,160)*special_direction)+node_attacking.global_position
-						target.global_position = position -special_direction *32
-					node_attacking.LayerManager.room_instance.add_child(target)
-					special_nodes[1].activate(target,node_attacking)
-					node_attacking.create_tween().tween_property(target,"modulate",Color(1.0,1.0,1.0,1.0),.5)
-					special_nodes = []
-					end_special(special_direction,special_position,node_attacking)
-					
-				else:
-					print("Punt")
-					var attack = preload("res://Game Elements/Attacks/crowbar_special/crowbar_projectile.tscn").instantiate()
-					attack.room_root = node_attacking.LayerManager.room_instance
-					attack.mask = special_nodes[0]
-					attack.global_position = special_nodes[0].global_position
-					node_attacking.LayerManager.room_instance.add_child(attack)
-					special_nodes.append(attack)
+				pass
 					
 			_:
 				pass
 
 func end_special(special_direction : Vector2, special_position : Vector2, node_attacking : Node):
-		special_started = false
-		match type:
-			"Mace":
-				mace_special_attack(special_direction, special_position)
-				current_special_hits = 0
-				SFXManager.play(preload("res://Game Elements/sfx/weapons/mace/mace_special.ogg"))
-				if node_attacking.weapons[0] == self:
-					node_attacking.emit_signal("special_changed",false,0.0,true)
-				else:
-					node_attacking.emit_signal("special_changed",true,0.0,true)
-			"Fist":
-				fist_special_attack(special_direction, special_position, node_attacking)
-				current_special_hits = 0
-				if node_attacking.weapons[0] == self:
-					node_attacking.emit_signal("special_changed",false,0.0,true)
-				else:
-					node_attacking.emit_signal("special_changed",true,0.0,true)
-			"Shotgun":
-				shotgun_special_attack(special_direction,node_attacking)
-				current_special_hits = 0
-				if node_attacking.weapons[0] == self:
-					node_attacking.emit_signal("special_changed",false,0.0,true)
-				else:
-					node_attacking.emit_signal("special_changed",true,0.0,true)
-			"Laser Sword":
-				sword_special_attack(special_direction,node_attacking)
-			"Crossbow":
-				crossbow_special_attack(special_direction,node_attacking)
-			"Railgun":
-				node_attacking.create_tween().tween_property(node_attacking.weapon_node.get_node("Sprite2D"),"modulate",Color(1.0, 1.0, 1.0, 1.0),1.0)
-				if(special_time_elapsed > 1.0):
-					current_special_hits = 0
+	special_started = false
+	match type:
+		"Mace":
+			mace_special_attack(special_direction, special_position, node_attacking)
+			current_special_hits = 0
+			if node_attacking.weapons[0] == self:
+				node_attacking.emit_signal("special_changed",false,0.0,true)
+			else:
+				node_attacking.emit_signal("special_changed",true,0.0,true)
+		"Fist":
+			fist_special_attack(special_direction, special_position, node_attacking)
+			current_special_hits = 0
+			if node_attacking.weapons[0] == self:
+				node_attacking.emit_signal("special_changed",false,0.0,true)
+			else:
+				node_attacking.emit_signal("special_changed",true,0.0,true)
+		"Shotgun":
+			shotgun_special_attack(special_direction,node_attacking)
+			current_special_hits = 0
+			if node_attacking.weapons[0] == self:
+				node_attacking.emit_signal("special_changed",false,0.0,true)
+			else:
+				node_attacking.emit_signal("special_changed",true,0.0,true)
+		"Laser Sword":
+			sword_special_attack(special_direction,node_attacking)
+		"Crossbow":
+			crossbow_special_attack(special_direction,node_attacking)
+		"Railgun":
+			node_attacking.create_tween().tween_property(node_attacking.weapon_node.get_node("Sprite2D"),"modulate",Color(1.0, 1.0, 1.0, 1.0),1.0)
+			if(special_time_elapsed > 1.0):
 				SFXManager.stop_continuous("railgun_beam")
 				SFXManager.play(preload("res://Game Elements/sfx/weapons/rail_gun/railgun_special_ending.ogg"))
-			"Shovel":
+				
 				current_special_hits = 0
 				if node_attacking.weapons[0] == self:
 					node_attacking.emit_signal("special_changed",false,0.0,true)
 				else:
 					node_attacking.emit_signal("special_changed",true,0.0,true)
-			_:
-				pass
-		
-		TutorialManager.player_specials(node_attacking.is_purple,1.0)
-		special_cleanup()
+		"Shovel":
+			SFXManager.play(preload("res://Game Elements/sfx/weapons/crowbar/crowbar_dig.ogg"), 12.0)
+			shovel_special_attack(special_direction,node_attacking)
+			current_special_hits = 0
+			if node_attacking.weapons[0] == self:
+				node_attacking.emit_signal("special_changed",false,0.0,true)
+			else:
+				node_attacking.emit_signal("special_changed",true,0.0,true)
+		_:
+			pass
+	
+	TutorialManager.player_specials(node_attacking.is_purple,1.0)
+	special_cleanup()
 
 func cast_ray(origin: Vector2, direction: Vector2, distance: float, player_node : Node) -> Dictionary:
 	var space = player_node.get_world_2d().direct_space_state
@@ -591,9 +549,40 @@ func cast_ray(origin: Vector2, direction: Vector2, distance: float, player_node 
 	query.collision_mask = 1 << 0
 	return space.intersect_ray(query)
 
-func mace_special_attack(attack_direction : Vector2, attack_position : Vector2):
+
+func shovel_special_attack(attack_direction : Vector2, node_attacking : Node):
+	print("Start Shovel")
+	var setup = preload("res://Game Elements/Attacks/crowbar_special/setup.tscn").instantiate()
+	setup.tilemaplayer = node_attacking.LayerManager.room_instance.get_node("Ground")
+	setup.available_tiles = node_attacking.LayerManager.placable_cells
+	setup.global_position = node_attacking.global_position
+	node_attacking.LayerManager.room_instance.add_child(setup)
+	
+	setup.passify(node_attacking)
+	print("Punt")
+	var attack = preload("res://Game Elements/Attacks/crowbar_special/crowbar_projectile.tscn").instantiate()
+	attack.room_root = node_attacking.LayerManager.room_instance
+	attack.mask = setup
+	attack.global_position = setup.global_position
+	node_attacking.LayerManager.room_instance.add_child(attack)
+	await node_attacking.get_tree().create_timer(.5).timeout #WAIIT
+	attack_direction = (node_attacking.crosshair.position).normalized()
+	var target = preload("res://Game Elements/Attacks/crowbar_special/target.tscn").instantiate()
+	var ray = cast_ray(node_attacking.global_position, attack_direction, 160,node_attacking)
+	target.global_position = node_attacking.global_position
+	if ray:
+		var position = (clamp((ray.position-node_attacking.global_position).length(),0,160)*attack_direction)+node_attacking.global_position
+		target.global_position = position -attack_direction *16
+	else:
+		target.global_position += attack_direction *16*8.0
+	node_attacking.LayerManager.room_instance.add_child(target)
+	attack.activate(target,node_attacking,self)
+	node_attacking.create_tween().tween_property(target,"modulate",Color(1.0,1.0,1.0,1.0),.125)
+
+func mace_special_attack(attack_direction : Vector2, attack_position : Vector2,node_attacking : Node):
+	request_attacks(attack_direction,attack_position,node_attacking)
 	var instance = preload("res://Game Elements/Attacks/mace_special.tscn").instantiate()
-	attack_position = attack_position + (attack_direction * 30)
+	attack_position = attack_position + (attack_direction * 48)
 	instance.direction = attack_direction
 	instance.global_position = attack_position
 	instance.c_owner = c_owner
@@ -601,6 +590,8 @@ func mace_special_attack(attack_direction : Vector2, attack_position : Vector2):
 	apply_remnants(instance)
 	instance.is_purple = c_owner.is_purple if c_owner.is_in_group("player") else false
 	c_owner.get_tree().get_root().get_node("LayerManager").room_instance.add_child(instance)
+	await node_attacking.get_tree().create_timer(.125).timeout
+	SFXManager.play(preload("res://Game Elements/sfx/weapons/mace/mace_special.ogg"))
 
 func fist_special_attack(attack_direction : Vector2, attack_position : Vector2, node_attacking : Node):
 	for i in range(0,10):

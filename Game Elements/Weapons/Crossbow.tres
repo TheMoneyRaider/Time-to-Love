@@ -15,3 +15,4 @@ attack_type = "bolt"
 attack_scene = "res://Game Elements/Attacks/bolt.tscn"
 name = "Crossbow"
 name_font = ExtResource("2_mo65q")
+description = "Load, Crank, Aim, Fire and Kill. The model of medieval efficiency, a weapon designed for killing quickly and easily. One of the first mechanical innovations, the Crossbow marks the dawn of the age of technological weapons. [br][br]“These new crossbows are nothing to worry about. Any one of our archers is more than a match for any of their crossbowmen.” - Queen Isabella, last monarch of the Ranger Confederacy."

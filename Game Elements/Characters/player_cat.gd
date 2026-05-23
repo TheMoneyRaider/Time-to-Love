@@ -475,6 +475,7 @@ func pre_damage_trigger(damage_amount: float, _dmg_owner : Node) -> float:
 					damage_amount = max(0.0,damage_amount)
 				invest.remnant_name:
 					LayerManager.timefabric_collected-= LayerManager.timefabric_collected * (rem.variable_2_values[rem.rank-1])/100.0
+					LayerManager.has_spent_timefabric = true
 				emp.remnant_name:
 					if _dmg_owner and _dmg_owner.is_in_group("enemy"):
 						var instance = preload("res://Game Elements/Attacks/emp.tscn").instantiate()
@@ -671,7 +672,7 @@ func _check_giant():
 		#GIANT CHANGE TEST
 		var purple_max = max_health + (purple_giant_rank * 5) - (orange_giant_rank * 5)
 		var orange_max = max_health
-		change_health((-1 + purple_max / orange_max) * current_health, purple_max - orange_max)
+		change_health((-1 + purple_max / orange_max) * current_health, purple_max - orange_max,true)
 		#if(purple_giant_rank != 0 && orange_giant_rank != 0):
 		#	change_health(purple_max / orange_max * current_health, purple_max - orange_max)
 		if(orange_giant_rank != 0 and purple_giant_rank !=0):
@@ -685,7 +686,7 @@ func _check_giant():
 	else:
 		var purple_max = max_health 
 		var orange_max = max_health - (purple_giant_rank * 5) + (orange_giant_rank * 5)
-		change_health((-1 + orange_max / purple_max) * current_health, orange_max - purple_max)
+		change_health((-1 + orange_max / purple_max) * current_health, orange_max - purple_max,true)
 		#if(purple_giant_rank != 0 && orange_giant_rank != 0):
 		#	change_health(orange_giant_rank * 5 - purple_giant_rank * 5, orange_giant_rank * 5 - purple_giant_rank * 5)
 		if(orange_giant_rank != 0 and purple_giant_rank !=0):
@@ -1061,7 +1062,7 @@ func damage_boost() -> float:
 					boost += ((rem.variable_1_values[rem.rank-1] * floor(LayerManager.timefabric_collected/50.0)  / 100.0))
 	return boost+1.0
 
-func change_health(add_to_current : float, add_to_max : float = 0):
+func change_health(add_to_current : float, add_to_max : float = 0, ignore_health_change : bool = false):
 	if add_to_current > 0.0:
 		if add_to_current >= 1.0:
 			SFXManager.play(preload("res://Game Elements/sfx/player/gain_health.ogg"),0.0,"SFX",global_position)
@@ -1088,7 +1089,7 @@ func change_health(add_to_current : float, add_to_max : float = 0):
 	current_health+=add_to_current
 	max_health+=add_to_max
 	current_health = clamp(current_health,0.0,max_health)
-	emit_signal("max_health_changed",max_health,current_health,self)
+	emit_signal("max_health_changed",max_health,current_health,self,ignore_health_change)
 	
 
 func red_flash() -> void:
@@ -1350,30 +1351,33 @@ func lich_effect(is_health : bool = false):
 					else:
 						return rem.variable_1_values[rem.rank-1] / 100.0
 	return 0.0
-func attraction_effect(time_fabric : bool = false):
+func attraction_effect():
 	var effect_radius := 64.0
-	var remnants : Array[Remnant]
 	var attraction_strength = 0.0
-	if !time_fabric and !is_purple: return
-	if time_fabric and is_purple: return 60.0
-	if is_purple:
-		remnants = LayerManager.player_1_remnants
-	else:
-		remnants = LayerManager.player_2_remnants
+	var timefabric_strength = 60.0
 	var sing = preload("res://Game Elements/Remnants/singularity.tres")
-	for rem in remnants:
+	for rem in LayerManager.player_1_remnants:
 		if rem.active:
 			match rem.remnant_name:
 				sing.remnant_name:
 					effect_radius =rem.variable_3_values[rem.rank-1]
-					attraction_strength = rem.variable_4_values[rem.rank-1]
-					if time_fabric and !is_purple: return rem.variable_5_values[rem.rank-1]
-					
-	if attraction_strength == 0.0: return 60.0
+					if is_purple: attraction_strength = rem.variable_4_values[rem.rank-1]
+					if !is_purple: timefabric_strength = rem.variable_5_values[rem.rank-1]
+	for rem in LayerManager.player_2_remnants:
+		if rem.active:
+			match rem.remnant_name:
+				sing.remnant_name:
+					effect_radius =rem.variable_3_values[rem.rank-1]
+					if !is_purple: attraction_strength = rem.variable_4_values[rem.rank-1]
+					if is_purple: timefabric_strength = rem.variable_5_values[rem.rank-1]
+	if attraction_strength == 0.0: return timefabric_strength
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	
 	for enemy in enemies:
-		if not enemy.is_inside_tree():
+		if not enemy.is_inside_tree() or enemy.is_boss:
+			continue
+		# Ensure the physics body has a valid space
+		if not enemy.get_rid().is_valid():
 			continue
 		var dir = enemy.global_position - global_position
 		var dist = dir.length()
@@ -1382,3 +1386,4 @@ func attraction_effect(time_fabric : bool = false):
 			var temp_velocity = enemy.velocity
 			enemy.apply_velocity(force)
 			enemy.velocity = temp_velocity
+	return timefabric_strength

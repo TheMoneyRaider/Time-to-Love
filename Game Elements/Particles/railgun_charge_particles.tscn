@@ -37,8 +37,9 @@ color_ramp = SubResource("GradientTexture1D_2l04d")
 [node name="ChargedParticles" type="GPUParticles2D"]
 z_index = 19
 emitting = false
-amount = 10
+amount = 300
 lifetime = 0.5
-one_shot = true
 process_material = SubResource("ParticleProcessMaterial_3ie3n")
 script = ExtResource("1_kat0o")
+life = 1.0
+death = 0.5
