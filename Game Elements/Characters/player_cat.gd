@@ -794,7 +794,21 @@ func tether(delta : float):
 		else:
 			tether_momentum *= .92
 		single_swap_duration = 0.0
-
+		
+	if is_tethered and tether_line.visible: 
+		var dist = (other_player.position - position).length()
+		var max_dist = 200.0
+		var pitch = lerp(1.5, 0.5, clamp(dist / max_dist, 0.0, 1.0))
+		if !SFXManager.continuous_players.has("tether"):
+			SFXManager.play_continuous("tether", preload("res://Game Elements/sfx/player/tether.ogg"), 0.0)
+		else: 
+			var player = SFXManager.continuous_players["tether"]
+			if is_instance_valid(player):
+				player.pitch_scale = pitch
+				
+	else: 
+		SFXManager.stop_continuous("tether")
+			
 func die(death : bool , insta_die : bool = false) -> bool:
 	if !is_multiplayer:
 		#Change to signal something
