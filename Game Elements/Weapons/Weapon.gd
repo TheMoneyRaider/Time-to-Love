@@ -422,7 +422,7 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 						inst.global_position = node_attacking.global_position + inst.size/-2.0 + special_direction*spawn_distance
 						check_forward = cast_ray(node_attacking.global_position, special_direction, 1600,node_attacking)
 						node_attacking.LayerManager.room_instance.add_child(inst)
-						inst.fire_laser(node_attacking.global_position+special_direction*spawn_distance,check_forward.position,node_attacking)
+						inst.fire_laser(node_attacking.global_position+special_direction*spawn_distance,check_forward.position,node_attacking,self)
 						SFXManager.play_continuous("railgun_beam", preload("res://Game Elements/sfx/weapons/rail_gun/railgun_special.ogg"), 16)
 					
 					special_nodes[-1].global_position = node_attacking.global_position + special_nodes[-1].size/-2.0 + special_direction*spawn_distance

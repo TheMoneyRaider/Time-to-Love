@@ -83,7 +83,7 @@ func set_max_health(health_value : int):
 	update_lines(width)
 
 
-func set_current_health(health_value : int,ignore_max_health_change : bool):
+func set_current_health(health_value : int,ignore_max_health_change : bool = false):
 	if health_value == current_health:
 		return
 	
