@@ -69,6 +69,8 @@ func _process(delta: float) -> void:
 			SteamManager.unlock_achievement("FISTS")
 		if !Globals.has_died and !Globals.has_equiped_weapon:
 			SteamManager.unlock_achievement("FISTS_NO_DYING")
+		if !LayerManager.has_spent_timefabric:
+			SteamManager.unlock_achievement("GENERATIONAL_WEALTH")
 		get_tree().paused = true
 		LayerManager.credits.activate()
 		

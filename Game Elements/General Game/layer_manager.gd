@@ -66,6 +66,7 @@ var trap_cells := []
 var blocked_cells := []
 var liquid_cells : Array[Array]= [[],[],[],[],[],[],[],[],[],[]]
 var is_multiplayer = Globals.is_multiplayer
+var has_spent_timefabric : bool = false
 #
 @onready var PathwayViewport =  $PathwayViewport
 @onready var PathwayTransition =  $game_container/game_viewport/game_root/Camera2D/PathwayTransition
@@ -1921,6 +1922,7 @@ func _on_special(player_node : Node):
 			if timefabric_collected >= int(rem.variable_1_values[rem.rank-1]):
 				if check_pathways(room_instance, room_instance_data,player_node,true) == -1:
 					timefabric_collected-=int(rem.variable_1_values[rem.rank-1])
+					has_spent_timefabric = true
 	return -1
 
 func _debug_message(msg : String) -> void:

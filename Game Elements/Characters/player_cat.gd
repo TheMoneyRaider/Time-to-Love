@@ -475,6 +475,7 @@ func pre_damage_trigger(damage_amount: float, _dmg_owner : Node) -> float:
 					damage_amount = max(0.0,damage_amount)
 				invest.remnant_name:
 					LayerManager.timefabric_collected-= LayerManager.timefabric_collected * (rem.variable_2_values[rem.rank-1])/100.0
+					LayerManager.has_spent_timefabric = true
 				emp.remnant_name:
 					if _dmg_owner and _dmg_owner.is_in_group("enemy"):
 						var instance = preload("res://Game Elements/Attacks/emp.tscn").instantiate()

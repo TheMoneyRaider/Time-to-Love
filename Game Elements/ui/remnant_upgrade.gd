@@ -254,10 +254,12 @@ func inputs(input_device : String, is_player_1 : bool):
 		if(is_player_1 && tricky1 != 0):
 			if($"../../".timefabric_collected >= int(cost)):
 				$"../../".timefabric_collected-=int(cost)
+				get_tree().get_root().get_node("LayerManager").has_spent_timefabric = true
 				popup_upgrade(player1_remnants,player2_remnants)
 		elif(!is_player_1 && tricky2 != 0):
 			if($"../../".timefabric_collected >= int(cost)):
 				$"../../".timefabric_collected-=int(cost)
+				get_tree().get_root().get_node("LayerManager").has_spent_timefabric = true
 				popup_upgrade(player1_remnants,player2_remnants)
 			
 	if(input_device == "key"):

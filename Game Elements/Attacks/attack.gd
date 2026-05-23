@@ -37,7 +37,7 @@ var hit_nodes = {}
 var start_scale = scale
 var combod : bool = false
 var is_purple : bool = false
-
+var deflected_amount : int = 0
 var hack1 : Remnant = null
 var hack2 : Remnant = null
 
@@ -315,11 +315,17 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 				var inst = preload("res://Game Elements/Particles/slime_particles.tscn").instantiate()
 				get_parent().add_child.call_deferred(inst)
 				inst.global_position = global_position
+			if body != self.c_owner: 
+				deflected_amount +=1
+				if deflected_amount >= 2: SteamManager.unlock_achievement("BACK_AT_YA")
 			self.c_owner = body
 			hit_nodes.clear()
 			return 0
 	if(deflectable and body.is_in_group("player") and body.deflect_chance() > randf()):
 		deflect(-1 * direction, 100, null)
+		if body != self.c_owner: 
+			deflected_amount +=1
+			if deflected_amount >= 2: SteamManager.unlock_achievement("BACK_AT_YA")
 		self.c_owner = body
 		hit_nodes.clear()
 		return 0
@@ -474,6 +480,9 @@ func _on_area_entered(area: Area2D) -> void:
 		else:
 			area.deflect(direction, hit_force,self)
 		deflected_nodes[area] = null    # mark it
+		if c_owner != area.c_owner: 
+			area.deflected_amount +=1
+			if area.deflected_amount >= 2: SteamManager.unlock_achievement("BACK_AT_YA")
 		area.c_owner = c_owner
 		area.is_purple = is_purple
 		area.hit_nodes = {}
