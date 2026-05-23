@@ -798,19 +798,30 @@ func tether(delta : float):
 			tether_momentum *= .92
 		single_swap_duration = 0.0
 		
+	if Input.is_action_just_pressed("swap_" + input_device):
+		if is_multiplayer:
+			if !SFXManager.continuous_players.has("tether"):
+				SFXManager.play_continuous("tether", tether_sfx, 0.0)
+
+	if Input.is_action_just_released("swap_" + input_device):
+		var other_tethering = is_multiplayer and is_instance_valid(other_player) and other_player.get("single_swap_duration") != null and other_player.single_swap_duration > 0.25
+		if !other_tethering and !is_tethered:
+			SFXManager.stop_continuous("tether")
+
 	var other_tethering = is_multiplayer and is_instance_valid(other_player) and other_player.get("single_swap_duration") != null and other_player.single_swap_duration > 0.25
 	if single_swap_duration > 0.25 or other_tethering or is_tethered:
 		if is_purple or !is_multiplayer:
 			var dist = (other_player.position - position).length()
 			var max_dist = 200.0
 			var pitch = lerp(0.5, 1.5, clamp(dist / max_dist, 0.0, 1.0))
-			if !SFXManager.continuous_players.has("tether"):
-				SFXManager.play_continuous("tether", tether_sfx, 0.0)
 			var player = SFXManager.continuous_players.get("tether")
 			if player and is_instance_valid(player):
 				player.pitch_scale = pitch
+			if !is_multiplayer and !SFXManager.continuous_players.has("tether"):
+				SFXManager.play_continuous("tether", tether_sfx, 0.0)
 	else:
-		SFXManager.stop_continuous("tether")
+		if !is_multiplayer:
+			SFXManager.stop_continuous("tether")
 			
 func die(death : bool , insta_die : bool = false) -> bool:
 	if !is_multiplayer:
