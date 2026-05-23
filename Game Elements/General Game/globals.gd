@@ -119,7 +119,21 @@ func record_remnant(remnant_name: String, rank: int, save_instantly : bool = fal
 	if save_instantly:
 		save_config()
 
-#func check_achievements():
+func check_achievements():
+	var requirements_1 : bool = true
+	var requirements_2 : bool = true
+	
+	var rems = RemnantManager.remnant_pool.duplicate(true)
+	for rem in rems:
+		if !save_state.remnant_progress.has(rem.remnant_name):
+			requirements_2 = false
+			requirements_1 = false
+			break
+		elif(save_state.remnant_progress[rem.remnant_name] != 5):
+			requirements_2 = false
+	if requirements_1: SteamManager.unlock_achievement("COLLECTION1")
+	if requirements_2: SteamManager.unlock_achievement("COLLECTION2")
+	
 	
 
 
