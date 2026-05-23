@@ -108,6 +108,7 @@ func flatten_nodes_to_sprite(root: Node, z_limit: int) -> Texture:
 
 
 func attack():
+	SFXManager.play(preload("res://Game Elements/sfx/weapons/crowbar/crowbar_special_impact.ogg"), -4)
 	var attack_inst = load("res://Game Elements/Attacks/crowbar_special/crowbar_final.tscn").instantiate()
 	attack_inst.global_position = global_position
 	attack_inst.c_owner = player_owner
@@ -125,6 +126,7 @@ func attack():
 	queue_free()
 
 func activate(input: Node, player : Node):
+	SFXManager.play(preload("res://Game Elements/sfx/weapons/crowbar/falling_rock.ogg"), 0.0, "SFX", global_position)
 	player_owner = player
 	for sp in sprites:
 		sp.material.set_shader_parameter("masking_enabled", false)

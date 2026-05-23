@@ -321,6 +321,7 @@ func start_special(special_direction : Vector2, node_attacking : Node):
 			
 		"Shovel":
 			print("Start Shovel")
+			SFXManager.play(preload("res://Game Elements/sfx/weapons/crowbar/crowbar_dig.ogg"), 12.0)
 			var setup = preload("res://Game Elements/Attacks/crowbar_special/setup.tscn").instantiate()
 			setup.tilemaplayer = node_attacking.LayerManager.room_instance.get_node("Ground")
 			setup.available_tiles = node_attacking.LayerManager.placable_cells

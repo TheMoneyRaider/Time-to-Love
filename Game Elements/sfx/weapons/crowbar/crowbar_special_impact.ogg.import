@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dhnjnwvvbfvjm"
+path="res://.godot/imported/crowbar_special_impact.ogg-dbe5e88ead1c05d1bcd5a84ee0f02c3f.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/weapons/crowbar/crowbar_special_impact.ogg"
+dest_files=["res://.godot/imported/crowbar_special_impact.ogg-dbe5e88ead1c05d1bcd5a84ee0f02c3f.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
