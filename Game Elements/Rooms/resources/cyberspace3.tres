@@ -10,6 +10,7 @@ liquid_types = Array[int]([5, 5, 5, 5])
 liquid_chances = Array[float]([0.9, 0.8, 0.5, 0.5])
 noise_seed = null
 num_enemy_goal = 12
+enemy_density_goal = 0.015
 roomvariant = 4
 enemy_pool = Array[String](["res://Game Elements/Characters/robot.tscn", "res://Game Elements/Characters/binary_bot.tscn"])
 enemy_chances = Array[float]([0.7, 0.3])
