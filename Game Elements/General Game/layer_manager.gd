@@ -114,7 +114,7 @@ func _ready() -> void:
 	####
 	game_root.add_child(pathfinding)
 	randomize()
-	room_instance_data = RoomManager.starting_rooms[clamp(int(Globals.total_progress),0,2)]
+	room_instance_data = RoomManager.starting_rooms[clamp(int(max(Globals.save_state.total_progress,Globals.total_progress)),0,2)]
 	room_location = load(room_instance_data.scene_location)
 	room_instance = room_location.instantiate()
 	RoomManager.update_ai_array(room_instance, room_instance_data,self)
@@ -1392,22 +1392,24 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 			current_wave = 1
 			delay_wave_notification("Wave "+str(current_wave)+" / "+str(total_waves),4.0)
 	
-	
+	var shido = preload("res://Game Elements/Remnants/shido.tres")
+	var mancermancer = preload("res://Game Elements/Remnants/mancermancer.tres")
+	var giant = preload("res://Game Elements/Remnants/giant.tres")
 	for rem in player_1_remnants:
-		if rem.remnant_name == "Remnant of Shido" and rem.active:
+		if rem.remnant_name == shido.remnant_name and rem.active:
 			shido1 = rem.variable_1_values[rem.rank-1]/100.0
 			break
 	for rem in player_2_remnants:
-		if rem.remnant_name == "Remnant of Shido" and rem.active:
+		if rem.remnant_name == shido.remnant_name and rem.active:
 			shido2 = rem.variable_1_values[rem.rank-1]/100.0
 			break
 	if shido1!=0.0:
 		for rem in player_1_remnants:
 			if randf() < shido1 and rem.rank <= 4:
 				rem.rank +=1
-				if(rem.remnant_name == "Remnant of the Mancermancer") and rem.active:
+				if(rem.remnant_name == mancermancer.remnant_name) and rem.active:
 					player1.mancermancer_values[0] = rem.rank
-				if(rem.remnant_name == "Remnant of the Giant") and rem.active:
+				if(rem.remnant_name == giant.remnant_name) and rem.active:
 					if(!is_multiplayer):
 						if(player1.is_purple):
 							player1.change_health(5, 5)
@@ -1419,12 +1421,12 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 		for rem in player_2_remnants:
 			if randf() < shido2 and rem.rank <= 4:
 				rem.rank +=1
-				if(rem.remnant_name == "Remnant of the Mancermancer") and rem.active:
+				if(rem.remnant_name == mancermancer.remnant_name) and rem.active:
 					if(is_multiplayer):
 						player2.mancermancer_values[1] = rem.rank
 					else:
 						player1.mancermancer_values[1] = rem.rank
-				if(rem.remnant_name == "Remnant of the Giant") and rem.active:
+				if(rem.remnant_name == giant.remnant_name) and rem.active:
 					if(is_multiplayer):
 						player2.change_health(5, 5)
 						player2.weapons[0].damage = player2.weapons[0].damage + (rem.rank % 2)
