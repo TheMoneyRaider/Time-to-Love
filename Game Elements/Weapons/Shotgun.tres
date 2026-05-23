@@ -18,4 +18,5 @@ attack_scene = "res://Game Elements/Attacks/bullet.tscn"
 special_hits = 50
 name = "Shotgun"
 name_font = ExtResource("2_f3ipm")
+description = "Why use few bullets when many will do the trick? Shoot all your enemies at once, as well as anyone who happens to walk too close. The Shotgun is a weapon for those who don’t care who gets caught in the crossfire, as long as their target ends up dead.[br][br]“We have him cornered! Theres no way he can take all 20 of us!” - Last words of Vicky Iron, leader of the Six-Shooter gang."
 progress_required = 1.0

@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("3_xdx8b")
 remnant_name = "Remnant of The Singularity"
-description = "Purple $X repulses enemies. Orange $Y attracts timefabric."
+description = "This remnant's holder $X repulses enemies. The other character $Y attracts timefabric."
 icon = ExtResource("2_em1r6")
 art = ExtResource("1_iigft")
 progress_required = 3.0

@@ -83,7 +83,7 @@ func set_max_health(health_value : int):
 	update_lines(width)
 
 
-func set_current_health(health_value : int,ignore_max_health_change : bool):
+func set_current_health(health_value : int,ignore_max_health_change : bool = false):
 	if health_value == current_health:
 		return
 	
@@ -146,12 +146,12 @@ func set_color(default_color : bool = is_purple):
 	if is_purple:
 		$HealthBar/Background.default_color = Color(0.38, 0.031, 0.588, 1.0)
 		$HealthBar/Foreground.default_color =Color(0.686, 0.298, 0.98, 1.0)
-		label.label_settings.font = preload("res://fonts/Orbitron-Bold.ttf")
+		label.label_settings.font = preload("res://fonts/Cinzel Family/Cinzel/Cinzel-Bold.ttf")
 		frame.modulate = Color(0.575, 0.004, 0.955)
 	else:
 		$HealthBar/Background.default_color = Color(0.58, 0.367, 0.0, 1.0)
 		$HealthBar/Foreground.default_color = Color(0.893, 0.576, 0.0, 1.0)
-		label.label_settings.font = preload("res://fonts/Cinzel Family/Cinzel/Cinzel-Bold.ttf")
+		label.label_settings.font = preload("res://fonts/Orbitron-Bold.ttf")
 		font_color = Color(1.0, 0.85, 0.677, 1.0)
 		frame.modulate = Color(0.701, 0.295, 0.0)
 	label.label_settings.font_color = font_color

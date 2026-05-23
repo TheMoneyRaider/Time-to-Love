@@ -127,12 +127,15 @@ func _ready():
 			$Sprite2D.texture = load("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_purple.png")
 		else:
 			$Sprite2D.texture = load("res://art/Sprout Lands - Sprites - Basic pack/Characters/dead_orange.png")
-	if attack_type!="scifi_laser":
-		rotation = direction.angle() + PI/2
-	if attack_type=="magic_bolt":
-		rotation = direction.angle()
-	if attack_type == "explosion" or attack_type=="tentacle":
-		rotation = 0
+	match attack_type:
+		"scifi_laser":
+			pass
+		"magic_bolt", "light_beam":
+			rotation = direction.angle()
+		"explosion", "tentacle":
+			rotation = 0
+		_:
+			rotation = direction.angle() + PI/2
 	if attack_type == "slug":
 		special_nodes.append(load("res://Game Elements/Attacks/slug_seperate.tscn").instantiate())
 		special_nodes[-1].global_position = global_position
@@ -143,8 +146,6 @@ func _ready():
 		_wave_attack_setup()
 	if attack_type == "scifi_laser":
 		_laser_attack_setup()
-	if attack_type=="light_beam":
-		rotation = direction.angle()
 	call_deferred("check_defender")
 	
 	
@@ -279,6 +280,7 @@ func _process(delta):
 		c_owner.die(true,true)
 	if attack_type == "shatter":
 		var tween = create_tween()
+		get_node("CollisionShape2D").disabled=true
 		tween.tween_property(self, "modulate:a", 0.0, .25)
 		await tween.finished
 	for node in special_nodes:
@@ -396,7 +398,7 @@ func intersection(body):
 
 
 func _on_body_entered(body):
-	if body.is_in_group("player") and attack_type == "slug" and body == c_owner:
+	if body.is_in_group("player") and attack_type == "slug" and body == c_owner and life >= 1.0:
 		c_owner.cooldowns[is_purple as int]=max(c_owner.cooldowns[is_purple as int]-1.0,0.0)
 		special_nodes[-1].queue_free()
 		queue_free()

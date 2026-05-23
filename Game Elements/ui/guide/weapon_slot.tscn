@@ -112,9 +112,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 364.0
-offset_top = 367.0
-offset_right = 403.75244
-offset_bottom = -204.0
+offset_top = 357.90912
+offset_right = 475.65326
+offset_bottom = -213.09088
 grow_horizontal = 2
 grow_vertical = 2
 rotation = 1.5707964
@@ -142,7 +142,7 @@ autowrap_mode = 2
 uppercase = true
 
 [node name="Spacer" type="Control" parent="btn_select/container"]
-custom_minimum_size = Vector2(0, 260)
+custom_minimum_size = Vector2(0, 240)
 layout_mode = 2
 
 [node name="WeaponSprite" parent="btn_select/container" instance=ExtResource("8_j5rl7")]
@@ -154,8 +154,8 @@ layout_mode = 2
 size_flags_horizontal = 4
 focus_behavior_recursive = 1
 mouse_filter = 2
-theme_override_colors/default_color = Color(0.4351923, 0.43519226, 0.43519226, 1)
-theme_override_colors/font_outline_color = Color(0.23392546, 0.23392546, 0.23392543, 1)
+theme_override_colors/default_color = Color(0.6955031, 0.6955032, 0.6955029, 1)
+theme_override_colors/font_outline_color = Color(0.23753932, 0.23753905, 0.2375392, 1)
 theme_override_constants/outline_size = 7
 bbcode_enabled = true
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."

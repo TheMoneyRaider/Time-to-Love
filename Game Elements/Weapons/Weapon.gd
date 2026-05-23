@@ -422,7 +422,7 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 						inst.global_position = node_attacking.global_position + inst.size/-2.0 + special_direction*spawn_distance
 						check_forward = cast_ray(node_attacking.global_position, special_direction, 1600,node_attacking)
 						node_attacking.LayerManager.room_instance.add_child(inst)
-						inst.fire_laser(node_attacking.global_position+special_direction*spawn_distance,check_forward.position,node_attacking)
+						inst.fire_laser(node_attacking.global_position+special_direction*spawn_distance,check_forward.position,node_attacking,self)
 						SFXManager.play_continuous("railgun_beam", preload("res://Game Elements/sfx/weapons/rail_gun/railgun_special.ogg"), 16)
 					
 					special_nodes[-1].global_position = node_attacking.global_position + special_nodes[-1].size/-2.0 + special_direction*spawn_distance
@@ -492,9 +492,8 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 	special_started = false
 	match type:
 		"Mace":
-			mace_special_attack(special_direction, special_position)
+			mace_special_attack(special_direction, special_position, node_attacking)
 			current_special_hits = 0
-			SFXManager.play(preload("res://Game Elements/sfx/weapons/mace/mace_special.ogg"))
 			if node_attacking.weapons[0] == self:
 				node_attacking.emit_signal("special_changed",false,0.0,true)
 			else:
@@ -577,12 +576,13 @@ func shovel_special_attack(attack_direction : Vector2, node_attacking : Node):
 	else:
 		target.global_position += attack_direction *16*8.0
 	node_attacking.LayerManager.room_instance.add_child(target)
-	attack.activate(target,node_attacking)
+	attack.activate(target,node_attacking,self)
 	node_attacking.create_tween().tween_property(target,"modulate",Color(1.0,1.0,1.0,1.0),.125)
 
-func mace_special_attack(attack_direction : Vector2, attack_position : Vector2):
+func mace_special_attack(attack_direction : Vector2, attack_position : Vector2,node_attacking : Node):
+	request_attacks(attack_direction,attack_position,node_attacking)
 	var instance = preload("res://Game Elements/Attacks/mace_special.tscn").instantiate()
-	attack_position = attack_position + (attack_direction * 30)
+	attack_position = attack_position + (attack_direction * 48)
 	instance.direction = attack_direction
 	instance.global_position = attack_position
 	instance.c_owner = c_owner
@@ -590,6 +590,8 @@ func mace_special_attack(attack_direction : Vector2, attack_position : Vector2):
 	apply_remnants(instance)
 	instance.is_purple = c_owner.is_purple if c_owner.is_in_group("player") else false
 	c_owner.get_tree().get_root().get_node("LayerManager").room_instance.add_child(instance)
+	await node_attacking.get_tree().create_timer(.125).timeout
+	SFXManager.play(preload("res://Game Elements/sfx/weapons/mace/mace_special.ogg"))
 
 func fist_special_attack(attack_direction : Vector2, attack_position : Vector2, node_attacking : Node):
 	for i in range(0,10):

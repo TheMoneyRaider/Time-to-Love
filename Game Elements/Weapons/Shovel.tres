@@ -18,4 +18,5 @@ spawn_distance = 5.0
 special_hits = 15
 name = "Shovel"
 name_font = ExtResource("2_sn3e2")
+description = "A tool before a weapon, the Shovel will serve any purpose you need. Slash their throats and dig some holes, for underestimating the Shovel comes at a grave cost.[br][br]“No, you don’t have to guard me while I take a leak. The only other person around is the gravekeeper.” - Last words of Johnny “Killed the gravekeeper’s brother” Dixon."
 progress_required = 1.0

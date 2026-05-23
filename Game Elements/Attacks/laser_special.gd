@@ -35,7 +35,7 @@ func update_points(from_point : Vector2, to_point : Vector2):
 	if powering_down_distance >= 0:
 		powering_down_distance = powered_down_fraction * new_distance
 
-func fire_laser(from_point : Vector2, to_point : Vector2,node : Node):
+func fire_laser(from_point : Vector2, to_point : Vector2,node : Node, weapon : Weapon):
 	point1 = from_point
 	point2 = to_point
 	active = true
@@ -45,7 +45,9 @@ func fire_laser(from_point : Vector2, to_point : Vector2,node : Node):
 	light.scale.y = .25
 	
 	var instance = preload("res://Game Elements/Attacks/laser.tscn").instantiate()
+	instance.damage = .5 
 	instance.c_owner = node
+	weapon.apply_remnants(instance)
 	get_parent().add_child(instance)
 	laser_attack = instance
 	laser_attack.deflectable = false

@@ -1990,9 +1990,9 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 func dev_remnants():
 	var rem
 	
-	rem = load("res://Game Elements/Remnants/giant.tres")
+	rem = load("res://Game Elements/Remnants/singularity.tres")
 	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,true)
 	#player_2_remnants.append(rem.duplicate(true))
 	#remnant_update(rem,player1,false)
@@ -2090,7 +2090,7 @@ func dev_remnants():
 		player2.display_combo()
 	
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
-	timefabric_collected = 3155
+	timefabric_collected = 10000
 	
 var limboing : bool = false
 func move_to_limbo_phase_2():
@@ -2176,6 +2176,12 @@ func boss_rewards():
 		room_reward(Globals.Reward.HealthUpgrade)
 	if rooms_taken <= 4:
 		room_reward(Globals.Reward.TimeFabric)
+	await get_tree().process_frame
+	var rewards : Array[Node]= []
+	for child in room_instance.get_children():
+		if child.is_in_group("reward"):
+			rewards.append(child)
+	awareness_display.set_array(rewards.duplicate(),1)
 
 func _notification(what: int) -> void:
 	match what:

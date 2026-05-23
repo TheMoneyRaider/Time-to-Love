@@ -10,7 +10,7 @@
 [resource]
 script = ExtResource("1_lftu4")
 remnant_name = "Remnant of The Drone"
-description = "When you kill an enemy, you gain a drone that can block one enemy attack. Your drones will last $X seconds, and you can have up to $Y of them"
+description = "Whenever you kill an enemy, gain a drone that can block one attack. Your drones will last $X seconds, and you can have up to $Y of them"
 icon = ExtResource("2_bmfae")
 art = ExtResource("1_7c6hm")
 progress_required = 2.0
