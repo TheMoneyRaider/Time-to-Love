@@ -95,24 +95,6 @@ theme_override_constants/margin_bottom = 100
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer"]
 layout_mode = 2
 
-[node name="Feedback_box" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/separation = 20
-
-[node name="Feeback" type="Button" parent="Control/MarginContainer/VBoxContainer/Feedback_box"]
-custom_minimum_size = Vector2(150, 60)
-layout_mode = 2
-size_flags_horizontal = 0
-focus_neighbor_right = NodePath("../../Volume/Volume")
-theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = ExtResource("2_xrwt4")
-theme_override_styles/pressed = ExtResource("3_27vsl")
-theme_override_styles/hover = ExtResource("6_wbsn3")
-theme_override_styles/hover_pressed = ExtResource("3_27vsl")
-text = "Submit Feedback
-"
-
 [node name="Volume" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
@@ -126,7 +108,6 @@ text = "Master"
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 size_flags_horizontal = 8
-focus_neighbor_top = NodePath("../../Feedback_box/Feeback")
 focus_neighbor_bottom = NodePath("../../Music/Music")
 step = 0.5
 value = 100.0
@@ -307,28 +288,9 @@ text = "Menu Fragmentation"
 [node name="FragMode" type="CheckButton" parent="Control/MarginContainer/VBoxContainer/Fragmenting"]
 layout_mode = 2
 focus_neighbor_top = NodePath("../../Controller/Joystick Sensitivity")
-focus_neighbor_bottom = NodePath("../../Debug/DebugMode")
+focus_neighbor_bottom = NodePath("../../Controller_Mode/ControllerMode")
 
 [node name="FragLabel" type="Label" parent="Control/MarginContainer/VBoxContainer/Fragmenting"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-
-[node name="Debug" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/Debug"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Debug Mode"
-
-[node name="DebugMode" type="CheckButton" parent="Control/MarginContainer/VBoxContainer/Debug"]
-layout_mode = 2
-focus_neighbor_top = NodePath("../../Fragmenting/FragMode")
-focus_neighbor_bottom = NodePath("../../RewindMode/Choice")
-
-[node name="DebugLabel" type="Label" parent="Control/MarginContainer/VBoxContainer/Debug"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
@@ -363,7 +325,6 @@ text = "Rewind Mode"
 
 [node name="Choice" type="OptionButton" parent="Control/MarginContainer/VBoxContainer/RewindMode"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../../Debug/DebugMode")
 focus_neighbor_bottom = NodePath("../../Player1/Choice")
 selected = 0
 allow_reselect = true
@@ -435,7 +396,6 @@ theme_override_styles/hover = ExtResource("8_xt5ys")
 theme_override_styles/hover_pressed = ExtResource("5_r7s23")
 text = "Apply"
 
-[connection signal="pressed" from="Control/MarginContainer/VBoxContainer/Feedback_box/Feeback" to="Control" method="_on_feeback_pressed"]
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Volume/Volume" to="Control" method="_on_volume_value_changed"]
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Music/Music" to="Control" method="_on_music_value_changed"]
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/SFX/SFX" to="Control" method="_on_sfx_value_changed"]
@@ -445,7 +405,6 @@ text = "Apply"
 [connection signal="toggled" from="Control/MarginContainer/VBoxContainer/Controller_Mode/ControllerMode" to="Control" method="_on_controller_mode_toggled"]
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Controller/Joystick Sensitivity" to="Control" method="_on_joystick_sensitivity_value_changed"]
 [connection signal="toggled" from="Control/MarginContainer/VBoxContainer/Fragmenting/FragMode" to="Control" method="_on_frag_mode_toggled"]
-[connection signal="toggled" from="Control/MarginContainer/VBoxContainer/Debug/DebugMode" to="Control" method="_on_debug_mode_toggled"]
 [connection signal="toggled" from="Control/MarginContainer/VBoxContainer/Crosshair/Crosshair" to="Control" method="_on_crosshair_mode_toggled"]
 [connection signal="item_selected" from="Control/MarginContainer/VBoxContainer/RewindMode/Choice" to="Control" method="_on_rewind_mode_selected"]
 [connection signal="item_selected" from="Control/MarginContainer/VBoxContainer/Player1/Choice" to="Control" method="_on_p1_selected"]

@@ -102,15 +102,9 @@ func _ready() -> void:
 	update_controller_menu_label()
 	
 	# disconnect before setting to avoid triggering sounds
-	$MarginContainer/VBoxContainer/Debug/DebugMode.toggled.disconnect(_on_debug_mode_toggled)
-	$MarginContainer/VBoxContainer/Debug/DebugMode.button_pressed = debug_mode
-	$MarginContainer/VBoxContainer/Debug/DebugMode.toggled.connect(_on_debug_mode_toggled)
-	update_debug_menu_label()
-	# disconnect before setting to avoid triggering sounds
 	$MarginContainer/VBoxContainer/Crosshair/Crosshair.toggled.disconnect(_on_crosshair_mode_toggled)
 	$MarginContainer/VBoxContainer/Crosshair/Crosshair.button_pressed = crosshair_mode
 	$MarginContainer/VBoxContainer/Crosshair/Crosshair.toggled.connect(_on_crosshair_mode_toggled)
-	update_debug_menu_label()
 	
 	
 	$MarginContainer/VBoxContainer/Fragmenting/FragMode.toggled.disconnect(_on_frag_mode_toggled)
@@ -219,25 +213,12 @@ func _on_mouse_sensitivity_value_changed(value: float) -> void:
 	set_mouse_sensitivity(value)
 	pass # Replace with function body.
 
-func update_debug_menu_label() -> void:
-	if debug_mode == false: 
-		$MarginContainer/VBoxContainer/Debug/DebugLabel.text = "Off"
-	else:
-		$MarginContainer/VBoxContainer/Debug/DebugLabel.text = "On"
-		
 func update_crosshair_menu_label() -> void:
 	if crosshair_mode == false: 
 		$MarginContainer/VBoxContainer/Crosshair/CrosshairLabel.text = "Off"
 	else:
 		$MarginContainer/VBoxContainer/Crosshair/CrosshairLabel.text = "On"
-		
-func _on_debug_mode_toggled(toggled_on: bool) -> void:
-	if toggled_on:
-		SFXManager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"), 0.0, "UI")
-	else:
-		SFXManager.play(preload("res://Game Elements/ui/sfx/switch_off.ogg"), 0.0, "UI")
-	debug_mode = toggled_on
-	update_debug_menu_label()
+
 	
 
 func _on_crosshair_mode_toggled(toggled_on: bool) -> void:
@@ -347,25 +328,6 @@ func _load_save_time(idx: int) -> float:
 		if loaded is SaveState:
 			return loaded.time_spent
 	return 0
-
-func _on_feeback_pressed() -> void:
-	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
-	var total_save_time = 0
-	for i in range(3):
-		total_save_time += _load_save_time(i)
-	var progress : String =str(Globals.save_state.total_progress)
-	if get_tree().get_root().get_node_or_null("LayerManager"):
-		progress= str(Globals.save_state.total_progress+RoomManager.layer_ai[3] + get_tree().get_root().get_node_or_null("LayerManager").time_passed)
-	var gpu_name : String = RenderingServer.get_video_adapter_name()
-	var gpu_api : String = RenderingServer.get_video_adapter_api_version()
-	var gpu_adapter : String = str(RenderingServer.get_video_adapter_type())
-	var cpu_name : String = OS.get_processor_name()
-	var cpu_cores : String = str(OS.get_processor_count())
-	var ram : String = str(OS.get_memory_info()["physical"] / 1073741824.0)
-	var static_mem : String = str(Performance.get_monitor(Performance.MEMORY_STATIC) / 1048576.0)
-	DisplayServer.clipboard_set(str(total_save_time) + "," + progress + ","  + gpu_name + "," + gpu_api + "," + gpu_adapter + "," + cpu_name + "," + cpu_cores + "," + ram + "," + static_mem)
-	OS.shell_open("https://docs.google.com/forms/d/e/1FAIpQLSdi6Cud_Lk8Z1nC_vxo8Z86O0FkFxxIehl1sPip_KGtnudooA/viewform?usp=publish-editor")
-
 
 func _on_display_item_selected(index: int) -> void:
 	display_mode = index

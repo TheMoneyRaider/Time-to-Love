@@ -221,24 +221,6 @@ func _process(delta: float) -> void:
 	hud.set_timefabric_amount(timefabric_collected)
 	hud.set_cooldowns()
 	
-	if Input.is_action_just_pressed("Feedback"):
-		var total_save_time = 0
-		if(!get_node("DeathMenu").active):
-			total_save_time = get_node("DeathMenu").total_time
-		for i in range(3):
-			total_save_time += _load_save_time(i)
-		var progress : String = str(max(Globals.save_state.total_progress+RoomManager.current_progress))
-		var gpu_name : String = RenderingServer.get_video_adapter_name()
-		var gpu_api : String = RenderingServer.get_video_adapter_api_version()
-		var gpu_adapter : String = str(RenderingServer.get_video_adapter_type())
-		var cpu_name : String = OS.get_processor_name()
-		var cpu_cores : String = str(OS.get_processor_count())
-		var ram : String = str(OS.get_memory_info()["physical"] / 1073741824.0)
-		var static_mem : String = str(Performance.get_monitor(Performance.MEMORY_STATIC) / 1048576.0)
-		DisplayServer.clipboard_set(str(total_save_time) + "," + progress + ","  + gpu_name + "," + gpu_api + "," + gpu_adapter + "," + cpu_name + "," + cpu_cores + "," + ram + "," + static_mem)
-		OS.shell_open("https://docs.google.com/forms/d/e/1FAIpQLSdi6Cud_Lk8Z1nC_vxo8Z86O0FkFxxIehl1sPip_KGtnudooA/viewform?usp=publish-editor")
-		if(!pause.active):
-			pause.activate()
 	if Input.is_action_just_pressed("give_remnant") and Globals.config.get_value("debug", 'enabled', false):
 		_open_remnant_popup()
 	
