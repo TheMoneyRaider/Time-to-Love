@@ -362,6 +362,7 @@ func intersection(body):
 		if body != c_owner and body.is_in_group("player"):
 			c_owner.die(false)
 			LayerManager.hud.get_node("RootControl/Label").stop_countdown()
+			SteamManager.unlock_achievement("FOR_YOU")
 			queue_free()
 		return
 	

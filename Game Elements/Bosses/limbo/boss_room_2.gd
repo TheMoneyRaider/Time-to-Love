@@ -71,6 +71,8 @@ func _process(delta: float) -> void:
 			SteamManager.unlock_achievement("FISTS_NO_DYING")
 		if !LayerManager.has_spent_timefabric:
 			SteamManager.unlock_achievement("GENERATIONAL_WEALTH")
+		if RoomManager.layer_ai[3]<=1800.0:
+			SteamManager.unlock_achievement("SPEEDRUN")
 		get_tree().paused = true
 		LayerManager.credits.activate()
 		
