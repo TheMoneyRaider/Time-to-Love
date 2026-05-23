@@ -409,7 +409,7 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 				pass
 			"Railgun":
 				if(special_time_elapsed <= 1.0):
-					SFXManager.play(preload("res://Game Elements/sfx/weapons/rail_gun/railgun_loading.ogg"), -18)
+					if special_time_elapsed<=0.0001:SFXManager.play(preload("res://Game Elements/sfx/weapons/rail_gun/railgun_loading.ogg"))
 					var effect = preload("res://Game Elements/Effects/rail_charge.tres").duplicate(true)
 					effect.cooldown = 20*time_elapsed
 					effect.value1 = 0.04
@@ -522,7 +522,14 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 		"Railgun":
 			node_attacking.create_tween().tween_property(node_attacking.weapon_node.get_node("Sprite2D"),"modulate",Color(1.0, 1.0, 1.0, 1.0),1.0)
 			if(special_time_elapsed > 1.0):
+				SFXManager.stop_continuous("railgun_beam")
+				SFXManager.play(preload("res://Game Elements/sfx/weapons/rail_gun/railgun_special_ending.ogg"))
+				
 				current_special_hits = 0
+				if node_attacking.weapons[0] == self:
+					node_attacking.emit_signal("special_changed",false,0.0,true)
+				else:
+					node_attacking.emit_signal("special_changed",true,0.0,true)
 		"Shovel":
 			shovel_special_attack(special_direction,node_attacking)
 			current_special_hits = 0

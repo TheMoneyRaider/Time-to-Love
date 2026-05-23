@@ -12,7 +12,7 @@ var max_health = 100
 @onready var progress_bar = $HealthBar/ProgressBar
 @onready var back = $HealthBar/Background
 @onready var fore = $HealthBar/Foreground
-@onready var label = $HealthBar/Label
+@onready var label = $Label
 @onready var pieces = $Pieces
 @onready var frame = $Pieces/Frame
 @export var health_chunk_scene : PackedScene
@@ -131,20 +131,11 @@ func update_lines():
 
 
 func update_text():
-	label.text = "   "+str(clamp(current_health,0,11000000000)) + "/" + str(clamp(max_health,0,11000000000)) + " HP   "
+	label.text = str(clamp(current_health,0,11000000000)) + "/" + str(clamp(max_health,0,11000000000)) + " HP"
 	
 
 func flip():
 	progress_bar.fill_mode = ProgressBar.FILL_END_TO_BEGIN
-	# Get the current indices of the nodes
-	var index_a = progress_bar.get_index()
-	var index_b = label.get_index()
-
-	# Move each node to the other's index position
-	# The 'move_child' function handles the reordering automatically
-	$HealthBar.move_child(progress_bar, index_b)
-	$HealthBar.move_child(label, index_a)
-	await get_tree().process_frame
 	update_lines()
 
 #If you give it true it makes it purple, if you give false it makes it orange
@@ -155,9 +146,11 @@ func set_color(default_color : bool = is_purple):
 		$HealthBar/Background.default_color = Color(0.38, 0.031, 0.588, 1.0)
 		$HealthBar/Foreground.default_color =Color(0.686, 0.298, 0.98, 1.0)
 		label.label_settings.font = preload("res://fonts/Orbitron-Bold.ttf")
+		frame.modulate = Color(0.575, 0.004, 0.955)
 	else:
 		$HealthBar/Background.default_color = Color(0.58, 0.367, 0.0, 1.0)
 		$HealthBar/Foreground.default_color = Color(1.0, 0.722, 0.367, 1.0)
 		label.label_settings.font = preload("res://fonts/Cinzel Family/Cinzel/Cinzel-Bold.ttf")
 		font_color = Color(1.0, 0.647, 0.0, 1.0)
+		frame.modulate = Color(0.701, 0.295, 0.0)
 	label.label_settings.font_color = font_color

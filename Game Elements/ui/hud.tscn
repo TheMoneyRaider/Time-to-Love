@@ -122,7 +122,7 @@ bg_color = Color(0.38210395, 0.030576311, 0.5883771, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6fbih"]
 bg_color = Color(0.6858206, 0.29710156, 0.98195356, 1)
 
-[sub_resource type="Theme" id="Theme_8prbk"]
+[sub_resource type="Theme" id="Theme_oroqg"]
 resource_local_to_scene = true
 Label/colors/font_color = Color(0.69411767, 0.32156864, 0.9843137, 1)
 Label/font_sizes/font_size = 40
@@ -177,7 +177,7 @@ bg_color = Color(0.38210395, 0.030576311, 0.5883771, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wtgju"]
 bg_color = Color(0.6858206, 0.29710156, 0.98195356, 1)
 
-[sub_resource type="Theme" id="Theme_gp50j"]
+[sub_resource type="Theme" id="Theme_3ghwc"]
 resource_local_to_scene = true
 Label/colors/font_color = Color(0.69411767, 0.32156864, 0.9843137, 1)
 Label/font_sizes/font_size = 40
@@ -447,7 +447,8 @@ script = ExtResource("13_8prbk")
 
 [node name="HealthBar" parent="RootControl/Left_Bottom_Corner" instance=ExtResource("10_sjf6p")]
 layout_mode = 2
-theme = SubResource("Theme_8prbk")
+theme = SubResource("Theme_oroqg")
+is_purple = true
 
 [node name="Right_Bottom_Corner" type="VBoxContainer" parent="RootControl"]
 layout_mode = 1
@@ -541,8 +542,7 @@ script = ExtResource("13_8prbk")
 
 [node name="HealthBar" parent="RootControl/Right_Bottom_Corner" instance=ExtResource("10_sjf6p")]
 layout_mode = 2
-theme = SubResource("Theme_gp50j")
-is_purple = false
+theme = SubResource("Theme_3ghwc")
 flipped = true
 
 [node name="DebugMenu" type="Control" parent="RootControl"]
