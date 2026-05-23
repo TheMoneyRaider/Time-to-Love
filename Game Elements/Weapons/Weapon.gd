@@ -576,7 +576,7 @@ func shovel_special_attack(attack_direction : Vector2, node_attacking : Node):
 	else:
 		target.global_position += attack_direction *16*8.0
 	node_attacking.LayerManager.room_instance.add_child(target)
-	attack.activate(target,node_attacking)
+	attack.activate(target,node_attacking,self)
 	node_attacking.create_tween().tween_property(target,"modulate",Color(1.0,1.0,1.0,1.0),.125)
 
 func mace_special_attack(attack_direction : Vector2, attack_position : Vector2,node_attacking : Node):

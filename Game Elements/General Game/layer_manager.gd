@@ -1990,7 +1990,7 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 func dev_remnants():
 	var rem
 	
-	rem = load("res://Game Elements/Remnants/giant.tres")
+	rem = load("res://Game Elements/Remnants/hoard.tres")
 	rem.rank = 5
 	player_1_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,true)
@@ -2090,7 +2090,7 @@ func dev_remnants():
 		player2.display_combo()
 	
 	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
-	timefabric_collected = 3155
+	timefabric_collected = 10000
 	
 var limboing : bool = false
 func move_to_limbo_phase_2():
