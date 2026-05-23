@@ -47,15 +47,16 @@ func populate_weapons():
 	weapons.sort_custom(_sort_by_progress_required)
 	
 	for wep in weapons:
-		var entry = preload("res://Game Elements/ui/guide/weapon_slot.tscn").instantiate()
+		if wep.name !="Fist":
+			var entry = preload("res://Game Elements/ui/guide/weapon_slot.tscn").instantiate()
 
-		list_container.add_child(entry)
-		entry.set_weapon(wep.duplicate(true))
-		visualize(entry,prog)
-		entry.index = i
-		call_deferred("_setup_focus_neighbors", entry, last_entry)
-		last_entry = entry
-		i+=1
+			list_container.add_child(entry)
+			entry.set_weapon(wep.duplicate(true))
+			visualize(entry,prog)
+			entry.index = i
+			call_deferred("_setup_focus_neighbors", entry, last_entry)
+			last_entry = entry
+			i+=1
 	# Reset scroll
 	scroll_position = 0
 	list_container.position.x = scroll_position
