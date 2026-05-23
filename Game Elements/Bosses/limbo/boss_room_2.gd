@@ -33,7 +33,7 @@ var hiding_node_position : Vector2
 var hiding : bool = false
 
 var hide_time =10.0
-var reveal_time = 40.0
+var reveal_time = 20.0
 
 var island_attack_num = 5
 
