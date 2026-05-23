@@ -798,7 +798,7 @@ func tether(delta : float):
 			tether_momentum *= .92
 		single_swap_duration = 0.0
 		
-	var db = -12	
+	var db = -8	
 	if Input.is_action_just_pressed("swap_" + input_device):
 		if is_multiplayer:
 			if !SFXManager.continuous_players.has("tether"):
@@ -814,7 +814,7 @@ func tether(delta : float):
 		if is_purple or !is_multiplayer:
 			var dist = (other_player.position - position).length()
 			var max_dist = 200.0
-			var pitch = lerp(4.0, 6.0, clamp(dist / max_dist, 0.0, 1.0))
+			var pitch = lerp(.5, 1.5, clamp(dist / max_dist, 0.0, 1.0))
 			var player = SFXManager.continuous_players.get("tether")
 			if player and is_instance_valid(player):
 				player.pitch_scale = pitch
