@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://du803docclldj"
+path="res://.godot/imported/falling_rock.ogg-6b58242a7a9a4e617d7d9f406e097a61.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/weapons/crowbar/falling_rock.ogg"
+dest_files=["res://.godot/imported/falling_rock.ogg-6b58242a7a9a4e617d7d9f406e097a61.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

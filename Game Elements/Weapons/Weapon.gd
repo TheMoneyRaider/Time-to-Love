@@ -529,6 +529,7 @@ func end_special(special_direction : Vector2, special_position : Vector2, node_a
 				else:
 					node_attacking.emit_signal("special_changed",true,0.0,true)
 		"Shovel":
+			SFXManager.play(preload("res://Game Elements/sfx/weapons/crowbar/crowbar_dig.ogg"), 12.0)
 			shovel_special_attack(special_direction,node_attacking)
 			current_special_hits = 0
 			if node_attacking.weapons[0] == self:
