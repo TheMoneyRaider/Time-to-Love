@@ -68,6 +68,10 @@ func _save1_select_pressed() -> void:
 	Globals.has_gotten_tutorial = Globals.save_state.has_gotten_tutorial
 	Globals.has_died = Globals.save_state.has_died
 	Globals.has_equiped_weapon = Globals.save_state.has_equiped_weapon
+	
+	Globals.num_letters_collected = Globals.save_state.letter_progress.size()
+	Globals._count_all_letters()
+	Globals.letter_percentage = Globals.num_letters_collected/float(Globals.num_letters)
 	highlight_state()
 
 func _save2_select_pressed() -> void:
@@ -80,6 +84,10 @@ func _save2_select_pressed() -> void:
 	Globals.has_gotten_tutorial = Globals.save_state.has_gotten_tutorial
 	Globals.has_died = Globals.save_state.has_died
 	Globals.has_equiped_weapon = Globals.save_state.has_equiped_weapon
+	
+	Globals.num_letters_collected = Globals.save_state.letter_progress.size()
+	Globals._count_all_letters()
+	Globals.letter_percentage = Globals.num_letters_collected/float(Globals.num_letters)
 	highlight_state()
 
 func _save3_select_pressed() -> void:
@@ -92,6 +100,10 @@ func _save3_select_pressed() -> void:
 	Globals.has_gotten_tutorial = Globals.save_state.has_gotten_tutorial
 	Globals.has_died = Globals.save_state.has_died
 	Globals.has_equiped_weapon = Globals.save_state.has_equiped_weapon
+	
+	Globals.num_letters_collected = Globals.save_state.letter_progress.size()
+	Globals._count_all_letters()
+	Globals.letter_percentage = Globals.num_letters_collected/float(Globals.num_letters)
 	highlight_state()
 
 func _on_delete1_pressed() -> void:
