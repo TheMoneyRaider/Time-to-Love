@@ -106,7 +106,7 @@ func _ready() -> void:
 	hud.set_players(player1,player2)
 	hud.connect_signals(player1)
 	hud.set_cross_position()
-	#dev_remnants()
+	dev_remnants()
 	
 	
 	
@@ -1785,7 +1785,7 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 		if(remnant.remnant_name == giant.remnant_name) and remnant.active:
 			if(player.is_purple == is_purple):
 				player.scale = player.scale * 1.5
-				player.change_health(remnant.variable_1_values[remnant.rank - 1], remnant.variable_1_values[remnant.rank - 1])
+				player.change_health(remnant.variable_1_values[remnant.rank - 1], remnant.variable_1_values[remnant.rank - 1],true)
 			if is_purple:
 				player.weapons[1].damage = player.weapons[1].damage + remnant.variable_2_values[remnant.rank - 1]
 			else:
@@ -1814,7 +1814,7 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 		if(remnant.remnant_name == giant.remnant_name):
 			if(player.is_purple == is_purple):
 				player.scale = player.scale / 1.5
-				player.change_health(-remnant.variable_1_values[remnant.rank - 1], -remnant.variable_1_values[remnant.rank - 1])
+				player.change_health(-remnant.variable_1_values[remnant.rank - 1], -remnant.variable_1_values[remnant.rank - 1],true)
 			if is_purple:
 				player.weapons[1].damage = player.weapons[1].damage - remnant.variable_2_values[remnant.rank - 1]
 			else:
@@ -1990,18 +1990,18 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 func dev_remnants():
 	var rem
 	
-	rem = load("res://Game Elements/Remnants/aeromancer.tres")
+	rem = load("res://Game Elements/Remnants/giant.tres")
 	rem.rank = 5
 	player_1_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,true)
-	player_2_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,false)
-	rem = load("res://Game Elements/Remnants/mancermancer.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,true)
-	player_2_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,false)
+	#player_2_remnants.append(rem.duplicate(true))
+	#remnant_update(rem,player1,false)
+	#rem = load("res://Game Elements/Remnants/mancermancer.tres")
+	#rem.rank = 5
+	#player_1_remnants.append(rem.duplicate(true))
+	#remnant_update(rem,player1,true)
+	#player_2_remnants.append(rem.duplicate(true))
+	#remnant_update(rem,player1,false)
 	
 	#rem = load("res://Game Elements/Remnants/aeromancer.tres")
 	#rem.rank = 2

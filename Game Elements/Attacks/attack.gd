@@ -397,7 +397,7 @@ func intersection(body):
 
 func _on_body_entered(body):
 	if body.is_in_group("player") and attack_type == "slug" and body == c_owner:
-		c_owner.cooldowns[is_purple as int]=max(c_owner.cooldowns[is_purple as int]-3,0.0)
+		c_owner.cooldowns[is_purple as int]=max(c_owner.cooldowns[is_purple as int]-1.0,0.0)
 		special_nodes[-1].queue_free()
 		queue_free()
 		return

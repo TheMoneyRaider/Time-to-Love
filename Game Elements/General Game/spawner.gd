@@ -5,7 +5,7 @@ static var cell_world_size := 16.0
 
 static var player_penalty_weight := 1.0
 static var player_threshold := 4.0 * 16.0
-static var enemy_penalty_weight := 0.75
+static var enemy_penalty_weight := 0.5
 static var enemy_threshold := 4.0 * 16.0
 static var edge_penalty_weight := 0.25
 static var edge_threshold := 2.0 * 16.0
@@ -53,7 +53,7 @@ static func spawn_enemies(
 	if override_enemy_type != "":
 		rechoose_enemy = false
 	# === PRECOMPUTE STATIC FIELDS ===
-	player_penalty_field = _build_player_field(cell_set, players)
+	player_penalty_field = _build_player_field(cell_set, players, is_wave)
 	edge_penalty_field = _build_edge_field(cell_set, edges)
 
 	enemy_penalty_field.clear()
@@ -136,9 +136,10 @@ static func _choose_best_cell(
 
 	return chosen
 
-static func _build_player_field(cell_set: Dictionary, players: Array[Node]) -> Dictionary:
+static func _build_player_field(cell_set: Dictionary, players: Array[Node], is_wave : bool) -> Dictionary:
 	var field := {}
 	var thresh_sq := player_threshold * player_threshold
+	if is_wave: thresh_sq *=4.0
 
 	for cell in cell_set.keys():
 		var world_pos :Vector2 = cell * cell_world_size
@@ -189,33 +190,6 @@ static func _apply_enemy_influence(center: Vector2i):
 				1.0
 			)
 
-
-####SCORING
-static func _score_cell(
-	cell: Vector2i,
-	chosen_positions: Array[Vector2i],
-	players: Array[Node],
-	edges: Array[Vector2i]
-) -> float:
-	var world_pos := cell * cell_world_size
-	var score := 1.0
-
-	for p in players:
-		var d2 := world_pos.distance_squared_to(p.global_position)
-		if d2 < _player_threshold_sq:
-			score -= player_penalty_weight * (1.0 - d2 / _player_threshold_sq)
-
-	for c in chosen_positions:
-		var d2 := world_pos.distance_squared_to(c * cell_world_size)
-		if d2 < _enemy_threshold_sq:
-			score -= enemy_penalty_weight * (1.0 - d2 / _enemy_threshold_sq)
-
-	for e in edges:
-		var d2 := world_pos.distance_squared_to(e * cell_world_size)
-		if d2 < _edge_threshold_sq:
-			score -= edge_penalty_weight * (1.0 - d2 / _edge_threshold_sq)
-
-	return clamp(score, 0.0, 1.0)
 
 ####FIT / EDGE LOGIC
 static func _can_fit(cell: Vector2i, needed: Vector2i, cell_set: Dictionary) -> bool:
@@ -394,7 +368,7 @@ static func spawn_letters(
 	var edges := _get_edges(cell_set)
 
 	# === PRECOMPUTE STATIC FIELDS ===
-	player_penalty_field = _build_player_field(cell_set, players)
+	player_penalty_field = _build_player_field(cell_set, players, false)
 	edge_penalty_field = _build_edge_field(cell_set, edges)
 
 	enemy_penalty_field.clear()

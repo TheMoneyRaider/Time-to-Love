@@ -671,7 +671,7 @@ func _check_giant():
 		#GIANT CHANGE TEST
 		var purple_max = max_health + (purple_giant_rank * 5) - (orange_giant_rank * 5)
 		var orange_max = max_health
-		change_health((-1 + purple_max / orange_max) * current_health, purple_max - orange_max)
+		change_health((-1 + purple_max / orange_max) * current_health, purple_max - orange_max,true)
 		#if(purple_giant_rank != 0 && orange_giant_rank != 0):
 		#	change_health(purple_max / orange_max * current_health, purple_max - orange_max)
 		if(orange_giant_rank != 0 and purple_giant_rank !=0):
@@ -685,7 +685,7 @@ func _check_giant():
 	else:
 		var purple_max = max_health 
 		var orange_max = max_health - (purple_giant_rank * 5) + (orange_giant_rank * 5)
-		change_health((-1 + orange_max / purple_max) * current_health, orange_max - purple_max)
+		change_health((-1 + orange_max / purple_max) * current_health, orange_max - purple_max,true)
 		#if(purple_giant_rank != 0 && orange_giant_rank != 0):
 		#	change_health(orange_giant_rank * 5 - purple_giant_rank * 5, orange_giant_rank * 5 - purple_giant_rank * 5)
 		if(orange_giant_rank != 0 and purple_giant_rank !=0):
@@ -1061,7 +1061,7 @@ func damage_boost() -> float:
 					boost += ((rem.variable_1_values[rem.rank-1] * floor(LayerManager.timefabric_collected/50.0)  / 100.0))
 	return boost+1.0
 
-func change_health(add_to_current : float, add_to_max : float = 0):
+func change_health(add_to_current : float, add_to_max : float = 0, ignore_health_change : bool = false):
 	if add_to_current > 0.0:
 		if add_to_current >= 1.0:
 			SFXManager.play(preload("res://Game Elements/sfx/player/gain_health.ogg"),0.0,"SFX",global_position)
@@ -1088,7 +1088,7 @@ func change_health(add_to_current : float, add_to_max : float = 0):
 	current_health+=add_to_current
 	max_health+=add_to_max
 	current_health = clamp(current_health,0.0,max_health)
-	emit_signal("max_health_changed",max_health,current_health,self)
+	emit_signal("max_health_changed",max_health,current_health,self,ignore_health_change)
 	
 
 func red_flash() -> void:
