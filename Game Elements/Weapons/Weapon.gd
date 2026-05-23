@@ -271,7 +271,7 @@ func apply_remnants(attack_instance):
 				match rem.remnant_name:
 					aeromancer.remnant_name:
 						var similarity = attack_instance.direction.normalized().dot(c_owner.velocity.normalized())
-						if(attack_instance.speed > 150):
+						if(attack_instance.speed > 100):
 							#Possibly add a min so it can't go lower than base damage? 
 							#Nah thats lame
 							damage_multiplier +=-1.0+ abs((((similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed) /  attack_instance.speed))
@@ -593,11 +593,11 @@ func shotgun_special_attack(attack_direction : Vector2, node_attacking : Node):
 		if i % 3 == 0: 
 			await c_owner.get_tree().create_timer(.001).timeout
 			SFXManager.play(lame_shotgun_sounds[randi() % lame_shotgun_sounds.size()], -5.0)
-	if node_attacking.weapons[0] == self:
-		node_attacking.emit_signal("special_changed",false,0.0,true)
-	else:
-		node_attacking.emit_signal("special_changed",true,0.0,true)
-
+		current_special_hits = 0
+		if node_attacking.weapons[0] == self:
+			node_attacking.emit_signal("special_changed",false,0.0,true,false)
+		else:
+			node_attacking.emit_signal("special_changed",true,0.0,true,false)
 
 func crossbow_special_attack(attack_direction : Vector2, node_attacking : Node):
 	SFXManager.play(preload("res://Game Elements/sfx/weapons/crossbow/crossbow_special.ogg"), -4)

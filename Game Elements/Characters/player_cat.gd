@@ -1230,7 +1230,9 @@ func check_forcefield(delta : float):
 			effect.gained(self)
 			effects.append(effect)
 	
-func check_tortoise(temp_is_purple : bool, new_progress : float, used_special : bool = false):
+func check_tortoise(temp_is_purple : bool, new_progress : float, used_special : bool = false, trigger_remnants : bool =true):
+	if !trigger_remnants:
+		return
 	if !used_special:
 		return
 	var remnants : Array[Remnant]
