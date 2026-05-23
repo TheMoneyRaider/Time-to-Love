@@ -29,6 +29,8 @@ class_name Weapon
 @export var progress_required: float = 0.0
 var current_special_hits = 0
 
+var beam_audio_player: AudioStreamPlayer = null
+
 var speed = 60.0
 #How fast the attack is moving
 var damage = 1.0
@@ -138,6 +140,8 @@ func request_attacks(direction : Vector2, char_position : Vector2, node_attackin
 			SFXManager.play(lame_shotgun_sounds[randi() % lame_shotgun_sounds.size()], -5.0,"SFX",node_attacking.global_position)
 		#"RobotMelee":	
 			#SFXManager.play(robot_sounds[randi() % robot_sounds.size()])
+		"Fist":
+			SFXManager.play(preload("res://Game Elements/sfx/weapons/fist/fist.ogg"))
 			
 			
 	var temp_spread = attack_spread
@@ -405,6 +409,7 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 				pass
 			"Railgun":
 				if(special_time_elapsed <= 1.0):
+					SFXManager.play(preload("res://Game Elements/sfx/weapons/rail_gun/railgun_loading.ogg"), -18)
 					var effect = preload("res://Game Elements/Effects/rail_charge.tres").duplicate(true)
 					effect.cooldown = 20*time_elapsed
 					effect.value1 = 0.04
@@ -420,6 +425,7 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 						check_forward = cast_ray(node_attacking.global_position, special_direction, 1600,node_attacking)
 						node_attacking.LayerManager.room_instance.add_child(inst)
 						inst.fire_laser(node_attacking.global_position+special_direction*spawn_distance,check_forward.position,node_attacking)
+						SFXManager.play_continuous("railgun_beam", preload("res://Game Elements/sfx/weapons/rail_gun/railgun_special.ogg"), 6)
 					
 					special_nodes[0].global_position = node_attacking.global_position + special_nodes[0].size/-2.0 + special_direction*spawn_distance
 					check_forward = cast_ray(node_attacking.global_position, special_direction, 1600,node_attacking)

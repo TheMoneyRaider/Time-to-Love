@@ -367,10 +367,8 @@ func close_letter(instant : bool = false):
 	pass
 
 
-
-
 func _on_letter_pressed(index: int):
-	await get_tree().process_frame
+	#await get_tree().process_frame
 	if !active:
 		return
 	if button_cooldown!=0.0:

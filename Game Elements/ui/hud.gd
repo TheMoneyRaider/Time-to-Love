@@ -35,6 +35,8 @@ var active_player: AudioStreamPlayer
 var inactive_player: AudioStreamPlayer
 var current_song_idx: int = -1
 
+var hud_ready: bool = false
+
 func _ready():
 	$RootControl/VBoxContainer/Noti.modulate.a = 0.0
 	combo1.visible = false
@@ -55,7 +57,8 @@ func _ready():
 	inactive_player = music_player_b
 	_on_special_changed(true,1.0)
 	_on_special_changed(false,1.0)
-		
+	
+	hud_ready = true
 
 func set_timefabric_amount(timefabric_collected : int):
 	$RootControl/VBoxContainer/HorizontalSlice/TimeFabric/HBoxContainer/Label.text = str(timefabric_collected)
@@ -538,12 +541,16 @@ func _on_special_changed(is_purple : bool, new_progress : float, used_special : 
 		update_shader(LeftCooldownBar.get_node("CooldownBar").material,new_progress)
 		if new_progress==1.0:
 			LeftCooldownBar.get_node("CooldownBar/Control/ChargedParticles").emitting = true
+			if hud_ready:
+				SFXManager.play(preload("res://Game Elements/sfx/weapons/speical_ready.ogg"), 0.0, "UI")
 		else:
 			LeftCooldownBar.get_node("CooldownBar/Control/ChargedParticles").emitting = false
 		return
 	update_shader(RightCooldownBar.get_node("CooldownBar").material,new_progress)
 	if new_progress==1.0:
 		RightCooldownBar.get_node("CooldownBar/Control/ChargedParticles").emitting = true
+		if hud_ready:
+			SFXManager.play(preload("res://Game Elements/sfx/weapons/speical_ready.ogg"), 0.0, "UI", Vector2(-99999,-99999), 1.0, .9)
 	else:
 		RightCooldownBar.get_node("CooldownBar/Control/ChargedParticles").emitting = false
 
