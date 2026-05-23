@@ -238,7 +238,7 @@ func _connect_grids_horizontally(left_grid: GridContainer, right_grid: GridConta
 			if visual_col == columns - 1:
 				var right_index = row * columns + (columns - 1 - col)
 				
-				if right_index < right_children.size():
+				if right_index < right_children.size() and "button" in right_children[right_index]:
 					var right_btn = right_children[right_index].button
 					
 					left_btn.focus_neighbor_right = right_btn.get_path()

@@ -13,6 +13,7 @@ num_trap = 4
 trap_chances = Array[float]([0.75, 0.5, 1.0, 0.5])
 trap_types = Array[int]([2, 2, 2, 2])
 num_enemy_goal = 35
+enemy_density_goal = 0.015
 enemy_pool = Array[String](["res://Game Elements/Characters/robot.tscn", "res://Game Elements/Characters/laser_enemy.tscn"])
 enemy_chances = Array[float]([30.0, 5.0])
 wave_segment = 0.0
