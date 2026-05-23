@@ -333,7 +333,7 @@ func scifi_phase1_middles():
 	await get_tree().create_timer(8.0, false).timeout
 	if !boss or !is_instance_valid(boss):
 		return
-	if !$Forcefield/CollisionShape2D:
+	if !get_node_or_null("Forcefield/CollisionShape2D"):
 		return
 	if middle_active <= 1:
 		# Disable the boss collision

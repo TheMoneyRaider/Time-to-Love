@@ -308,7 +308,7 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 	elif !n_owner.is_in_group("player") and !body.is_in_group("player") and !hits_all:
 		return 0
 
-	if(deflectable and attack_type != "slime_ball" and body.is_in_group("enemy")):
+	if(deflectable and attack_type != "slime_ball" and body.is_in_group("enemy") and body is DynamEnemy):
 		if(randf() < body.deflect_chance):
 			deflect(-1 * direction, 100, null)
 			if body.enemy_type=="medieval_slime":
@@ -438,7 +438,10 @@ func deflect(hit_direction, hit_speed, deflection_area):
 	rotation = direction.angle() + PI/2
 	if attack_type == "light_beam":
 		rotation = direction.angle()
-	damage = round(damage * ((hit_speed + speed) / speed))
+	if(deflection_area and deflection_area.c_owner.is_in_group("player")):
+		damage = round(damage * ((hit_speed + speed) / speed))
+	else:
+		damage = round(damage / 2 * ((hit_speed + speed) / speed))
 	speed = speed + hit_speed
 	lifespan+=2.0
 	if pierce >=0:
