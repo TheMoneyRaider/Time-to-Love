@@ -118,7 +118,10 @@ func record_remnant(remnant_name: String, rank: int, save_instantly : bool = fal
 		save_state.remnant_progress[remnant_name] = rank
 	if save_instantly:
 		save_config()
-		
+
+#func check_achievements():
+	
+
 
 func _count_all_letters() -> void:
 	var dir = ResourceLoader.list_directory("res://Game Elements/ui/guide/letters/")
