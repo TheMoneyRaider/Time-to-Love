@@ -28,7 +28,8 @@ var layer_ai := [
 	]
 #the root node of each room MUST BE NAMED Root
 @onready var current_progress = 0.0 #TEST 3.0
-var medieval_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/cave1.tres"),
+var medieval_rooms : Array[Room] = [
+								preload("res://Game Elements/Rooms/resources/cave1.tres"),
 								preload("res://Game Elements/Rooms/resources/cave2.tres"),
 								preload("res://Game Elements/Rooms/resources/cave3.tres"),
 								preload("res://Game Elements/Rooms/resources/cave4.tres"),
@@ -37,6 +38,8 @@ var medieval_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources
 								preload("res://Game Elements/Rooms/resources/outside3.tres"),
 								preload("res://Game Elements/Rooms/resources/outside4.tres"),
 								preload("res://Game Elements/Rooms/resources/outside5.tres")]
+								
+								
 var medieval_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/shop_cave.tres"),
 								preload("res://Game Elements/Rooms/resources/shop_outside.tres")]
 
