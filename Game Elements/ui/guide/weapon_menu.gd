@@ -41,7 +41,7 @@ func _load_all_weapons() -> Array[Weapon]:
 	return weapon_pool
 func populate_weapons():
 	var i = 0
-	var prog = Globals.save_state.total_progress
+	var prog = max(Globals.save_state.total_progress,Globals.total_progress,RoomManager.current_progress)
 	var last_entry : Node = null
 	var weapons = _load_all_weapons()
 	weapons.sort_custom(_sort_by_progress_required)
