@@ -141,7 +141,7 @@ func flip():
 #If you give it true it makes it purple, if you give false it makes it orange
 func set_color(default_color : bool = is_purple):
 	is_purple = default_color
-	var font_color = Color(0.627, 0.125, 0.941, 1.0)
+	var font_color = Color(0.821, 0.65, 0.995, 1.0)
 	if is_purple:
 		$HealthBar/Background.default_color = Color(0.38, 0.031, 0.588, 1.0)
 		$HealthBar/Foreground.default_color =Color(0.686, 0.298, 0.98, 1.0)
@@ -151,6 +151,6 @@ func set_color(default_color : bool = is_purple):
 		$HealthBar/Background.default_color = Color(0.58, 0.367, 0.0, 1.0)
 		$HealthBar/Foreground.default_color = Color(1.0, 0.722, 0.367, 1.0)
 		label.label_settings.font = preload("res://fonts/Cinzel Family/Cinzel/Cinzel-Bold.ttf")
-		font_color = Color(1.0, 0.647, 0.0, 1.0)
+		font_color = Color(1.0, 0.85, 0.677, 1.0)
 		frame.modulate = Color(0.701, 0.295, 0.0)
 	label.label_settings.font_color = font_color

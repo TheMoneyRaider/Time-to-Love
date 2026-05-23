@@ -60,10 +60,7 @@ func gained(node_to_change: Node):
 			var p = _get_or_spawn_particle("res://Game Elements/Particles/charged_particles.tscn", node_to_change,2)
 			_update_particle_intensity(p, intensity)
 		"rail_charge":
-			intensity = 1.0 + (node_to_change.effect_stacks[3] - 1) * 0.4
 			node_to_change.move_speed = ((1 - value1) * node_to_change.move_speed)
-			var p = _get_or_spawn_particle("res://Game Elements/Particles/railgun_charge_particles.tscn", node_to_change,3)
-			_update_particle_intensity(p, intensity)
 		"tether":
 			node_to_change.move_speed = ((1 - value1) * node_to_change.move_speed)
 		"speed":
@@ -129,7 +126,6 @@ func lost(node_to_change: Node):
 					if has_more <= 1:
 						node_to_change.hide_forcefield(.25)
 		"rail_charge":
-			node_to_change.effect_stacks[3] -= 1
 			node_to_change.move_speed = node_to_change.move_speed * 1 / (1 - value1)
 		"damage":
 			node_to_change.damage_multiplier /= (100.0 +value1) / 100.0

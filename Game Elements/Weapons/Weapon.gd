@@ -316,11 +316,10 @@ func start_special(special_direction : Vector2, node_attacking : Node):
 			var locations : Array[Vector2] = get_locations(node_attacking, special_direction)
 			mesh_inst.draw_path(PackedVector2Array(locations))
 		"Railgun":
-			#Spawn Line2D
-			pass
-			
-		"Shovel":
-			pass
+			special_nodes.append(SFXManager.play(preload("res://Game Elements/sfx/weapons/rail_gun/railgun_loading.ogg")))
+			var particles = preload("res://Game Elements/Particles/railgun_charge_particles.tscn").instantiate()
+			node_attacking.add_child(particles)
+			special_nodes.append(particles)
 		_ :
 			pass
 
@@ -409,7 +408,6 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 				pass
 			"Railgun":
 				if(special_time_elapsed <= 1.0):
-					if special_time_elapsed<=0.0001:SFXManager.play(preload("res://Game Elements/sfx/weapons/rail_gun/railgun_loading.ogg"))
 					var effect = preload("res://Game Elements/Effects/rail_charge.tres").duplicate(true)
 					effect.cooldown = 20*time_elapsed
 					effect.value1 = 0.04
@@ -417,7 +415,7 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 					Effects.append(effect)
 				else:
 					var check_forward
-					if special_nodes.size() < 1:
+					if special_nodes[-1] is not SubViewportContainer:
 						node_attacking.create_tween().tween_property(node_attacking.weapon_node.get_node("Sprite2D"),"modulate",Color(1.0, 0.0, 0.0, 1.0),1.0)
 						var inst = preload("res://Game Elements/Attacks/railgun_laser.tscn").instantiate()
 						special_nodes.append(inst)
@@ -427,9 +425,9 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 						inst.fire_laser(node_attacking.global_position+special_direction*spawn_distance,check_forward.position,node_attacking)
 						SFXManager.play_continuous("railgun_beam", preload("res://Game Elements/sfx/weapons/rail_gun/railgun_special.ogg"), 6)
 					
-					special_nodes[0].global_position = node_attacking.global_position + special_nodes[0].size/-2.0 + special_direction*spawn_distance
+					special_nodes[-1].global_position = node_attacking.global_position + special_nodes[-1].size/-2.0 + special_direction*spawn_distance
 					check_forward = cast_ray(node_attacking.global_position, special_direction, 1600,node_attacking)
-					special_nodes[0].update_points(node_attacking.global_position+special_direction*spawn_distance,check_forward.position)
+					special_nodes[-1].update_points(node_attacking.global_position+special_direction*spawn_distance,check_forward.position)
 					
 					var effect = preload("res://Game Elements/Effects/tether.tres").duplicate(true)
 					effect.cooldown = 20*time_elapsed
