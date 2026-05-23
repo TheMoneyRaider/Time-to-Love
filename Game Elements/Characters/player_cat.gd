@@ -800,7 +800,7 @@ func tether(delta : float):
 		
 	var other_tethering = is_multiplayer and is_instance_valid(other_player) and other_player.get("single_swap_duration") != null and other_player.single_swap_duration > 0.25
 	if single_swap_duration > 0.25 or other_tethering or is_tethered:
-		if is_purple:
+		if is_purple or !is_multiplayer:
 			var dist = (other_player.position - position).length()
 			var max_dist = 200.0
 			var pitch = lerp(0.5, 1.5, clamp(dist / max_dist, 0.0, 1.0))
