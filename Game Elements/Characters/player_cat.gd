@@ -1376,7 +1376,7 @@ func attraction_effect():
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	
 	for enemy in enemies:
-		if not enemy.is_inside_tree() or enemy is not DynamEnemy or enemy.is_boss or enemy.enemy_type =="laser_e":
+		if not enemy.is_inside_tree() or enemy is not DynamEnemy or enemy.is_boss or enemy.enemy_type =="laser_e" or enemy.enemy_type =="tentacle":
 			continue
 		# Ensure the physics body has a valid space
 		if not enemy.get_rid().is_valid():
