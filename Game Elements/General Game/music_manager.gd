@@ -32,23 +32,6 @@ var paused_value: bool = false
 var random_themes = ["medieval", "western", "scifi"]
 var current_random_theme: String = ""
 
-func play_random_theme():
-	var available = random_themes.filter(func(t) : return t != current_random_theme)
-	current_random_theme = available[randi() % available.size()]
-	
-	var start = start_tracks[current_random_theme]
-	current_start = start
-	active_player.stop()
-	active_player.stream = start
-	active_player.play()
-	active_player.finished.connect(func():
-		active_player.stream = loop_tracks[current_random_theme]
-		active_player.play()
-		active_player.finished.connect(func(): 
-			play_random_theme()
-			, CONNECT_ONE_SHOT)
-		, CONNECT_ONE_SHOT)
-
 func quite_music(time: float):
 	fade_volume(PAUSED_VOLUME)
 	await get_tree().create_timer(time).timeout
@@ -85,6 +68,21 @@ func _ready():
 	active_player = music_player_a
 	inactive_player = music_player_b
 
+func play_random_theme():
+	var available = random_themes.filter(func(t): return t != current_random_theme)
+	current_random_theme = available[randi() % available.size()]
+	
+	active_player.stop()
+	current_start = start_tracks[current_random_theme]
+	active_player.stream = start_tracks[current_random_theme]
+	active_player.play()
+	active_player.finished.connect(func():
+		if RoomManager.current_progress == 0:
+			play_random_theme()
+		else:
+			current_random_theme = ""
+		, CONNECT_ONE_SHOT)
+
 func play_theme(theme: String):
 	var start = start_tracks[theme]
 	if current_start == start and active_player.playing:
@@ -101,3 +99,4 @@ func play_theme(theme: String):
 func stop():
 	active_player.stop()
 	current_start = null
+	current_random_theme = ""

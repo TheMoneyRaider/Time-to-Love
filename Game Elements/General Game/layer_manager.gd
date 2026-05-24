@@ -169,7 +169,9 @@ func _ready() -> void:
 	active_player = music_player_a
 	inactive_player = music_player_b
 	
-	play_timeline_music()
+	
+	MusicManager.play_random_theme()
+	
 	room_cleared = true
 	reward_claimed = true
 	if Globals.has_gotten_tutorial:
@@ -379,7 +381,7 @@ func play_timeline_music() -> void:
 			active_theme = themes[1]
 		else:
 			active_theme = themes[2]
-	
+
 	MusicManager.play_theme(active_theme)
 
 func create_new_rooms() -> void:
@@ -1529,7 +1531,9 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	
 	room_cleared= false
 	reward_claimed = false
-	play_timeline_music()
+	
+	if RoomManager.current_progress != 0:
+		play_timeline_music()
 	
 	var enemies : Array[Node]= []
 	
