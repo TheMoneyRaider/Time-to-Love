@@ -55,6 +55,10 @@ func activate():
 
 
 func _on_skip() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	RoomManager.reset()
+	get_tree().paused = false
+	Globals.save_config()
 	get_tree().call_deferred("change_scene_to_file", "res://Game Elements/ui/main_menu/main_menu.tscn")
 
 	
@@ -65,4 +69,4 @@ func start_credits():
 	$Credits/Skip.active = true
 	$Credits/Skip.skip_requested.connect(_on_skip)
 	await $Credits/AnimationPlayer.animation_finished
-	get_tree().call_deferred("change_scene_to_file", "res://Game Elements/ui/main_menu/main_menu.tscn")
+	_on_skip()

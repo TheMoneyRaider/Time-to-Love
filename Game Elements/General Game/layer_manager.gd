@@ -1378,6 +1378,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 		var particles = load("res://Game Elements/Particles/pathway_particles.tscn").instantiate()
 		PathwayTransition.global_position = pathway.global_position
 		PathwayViewport.add_child(particles)
+		print("##############################"+str(pathway.gray))
 		particles.get_child(0).material.set_shader_parameter("grayscale",pathway.gray)
 		particles.position = Vector2(1024,1024)
 		transitioning = true

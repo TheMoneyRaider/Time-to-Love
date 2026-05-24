@@ -457,10 +457,6 @@ func move_to_pathway():
 
 func kill_enemies():
 	var LayerManager =  get_parent()
-	if LayerManager.room_instance_data.roomtype==Globals.RoomType.Boss and RoomManager.current_progress >=3.0:
-		for tent in LayerManager.room_instance.get_node("Shop/Tentacles").get_children():
-			tent.queue_free()
-		return
 	if LayerManager.room_instance_data.roomtype==Globals.RoomType.Boss:
 		if LayerManager.room_instance.get_node_or_null("Shop/Tentacles"):
 			for node in LayerManager.room_instance.get_node("Shop/Tentacles").get_children():
