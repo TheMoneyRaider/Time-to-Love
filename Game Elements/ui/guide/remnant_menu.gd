@@ -110,6 +110,7 @@ func visualize(entry : Node, total_progress : float):
 
 
 func activate():
+	SFXManager.pause_all_continuous()
 	active = true
 	show()
 	populate_remnants()
@@ -257,6 +258,7 @@ func _on_slot_selected(idx: int) -> void:
 
 func _on_return_pressed():
 	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
+	SFXManager.resume_all_continuous()
 	queue_free_children(list_container)
 	active = false
 	hide()

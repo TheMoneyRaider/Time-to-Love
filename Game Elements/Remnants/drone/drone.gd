@@ -21,6 +21,7 @@ func _ready():
 		0.0,
 		3.0
 	)
+	SFXManager.play_continuous("drone_" + str(get_instance_id()), preload("res://Game Elements/sfx/remnants/drone.ogg"), -24)
 
 func prep(player_path : Node,in_life : float):
 	lifetime =in_life
@@ -29,6 +30,7 @@ func prep(player_path : Node,in_life : float):
 
 func kill():
 	killed = true
+	SFXManager.stop_continuous("drone_" + str(get_instance_id()))
 	var tween = create_tween()
 	tween.tween_property(
 		self.material,
