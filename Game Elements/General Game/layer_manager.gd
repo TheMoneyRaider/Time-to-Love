@@ -355,12 +355,22 @@ func play_timeline_music() -> void:
 		"medieval",
 		"western",
 		"scifi",
-		"shop",
+		"shop_m",
+		"shop_w",
+		"shop_s",
 	]
 	
 	var active_theme
 	if room_instance_data.roomtype == Globals.RoomType.Shop:
-		active_theme = themes[3]
+		match int(RoomManager.current_progress):
+			0:
+				active_theme = "shop_m"
+			1:
+				active_theme = "shop_w"
+			2: 
+				active_theme = "shop_s"
+			_:
+				active_theme = "shop_m"
 	else:
 		var progress = RoomManager.current_progress
 		if progress < 1.0:

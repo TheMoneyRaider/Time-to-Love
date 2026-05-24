@@ -9,14 +9,18 @@ var start_tracks = {
 	"western":	preload("res://Game Elements/Music/western_start.wav"),
 	"scifi": 	preload("res://Game Elements/Music/sci-fi_start.wav"),
 	"medieval":	preload("res://Game Elements/Music/medieval.wav"),
-	"shop": 	preload("res://Game Elements/Music/shopkeeper.wav")
+	"shop_m": 	preload("res://Game Elements/Music/medieval_shopkeeper.wav"),
+	"shop_w": 	preload("res://Game Elements/Music/western_shopkeeper.wav"),
+	"shop_s":	preload("res://Game Elements/Music/scifi_shopkeeper.wav"),
 }
 var loop_tracks = {
 	"main":		preload("res://Game Elements/Music/main_loop.wav"),
 	"western":	preload("res://Game Elements/Music/western_loop.wav"),
 	"scifi":	preload("res://Game Elements/Music/sci-fi_loop.wav"),
 	"medieval":	preload("res://Game Elements/Music/medieval.wav"),
-	"shop": 	preload("res://Game Elements/Music/shopkeeper.wav")
+	"shop_m": 	preload("res://Game Elements/Music/medieval_shopkeeper.wav"),
+	"shop_w": 	preload("res://Game Elements/Music/western_shopkeeper.wav"),
+	"shop_s":	preload("res://Game Elements/Music/scifi_shopkeeper.wav"),
 }
 
 const NORMAL_VOLUME = 0.0
