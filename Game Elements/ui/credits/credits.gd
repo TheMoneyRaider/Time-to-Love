@@ -66,6 +66,7 @@ func _on_skip() -> void:
 
 func start_credits():
 	$Credits/AnimationPlayer.play("main")
+	MusicManager.play_theme("main")
 	$Credits/Skip.active = true
 	$Credits/Skip.skip_requested.connect(_on_skip)
 	await $Credits/AnimationPlayer.animation_finished
