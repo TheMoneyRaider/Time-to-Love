@@ -16,7 +16,7 @@ var start_tracks = {
 var loop_tracks = {
 	"main":		preload("res://Game Elements/Music/main_loop.wav"),
 	"western":	preload("res://Game Elements/Music/western_loop.wav"),
-	"scifi":	preload("res://Game Elements/Music/sci-fi_loop.wav"),
+	"scifi":		preload("res://Game Elements/Music/sci-fi_loop.wav"),
 	"medieval":	preload("res://Game Elements/Music/medieval.wav"),
 	"shop_m": 	preload("res://Game Elements/Music/medieval_shopkeeper.wav"),
 	"shop_w": 	preload("res://Game Elements/Music/western_shopkeeper.wav"),
@@ -28,6 +28,26 @@ const PAUSED_VOLUME = -16.0
 const FADE_DURATION = 0.5
 var tween: Tween
 var paused_value: bool = false
+
+var random_themes = ["medieval", "western", "scifi"]
+var current_random_theme: String = ""
+
+func play_random_theme():
+	var available = random_themes.filter(func(t) : return t != current_random_theme)
+	current_random_theme = available[randi() % available.size()]
+	
+	var start = start_tracks[current_random_theme]
+	current_start = start
+	active_player.stop()
+	active_player.stream = start
+	active_player.play()
+	active_player.finished.connect(func():
+		active_player.stream = loop_tracks[current_random_theme]
+		active_player.play()
+		active_player.finished.connect(func(): 
+			play_random_theme()
+			, CONNECT_ONE_SHOT)
+		, CONNECT_ONE_SHOT)
 
 func quite_music(time: float):
 	fade_volume(PAUSED_VOLUME)
