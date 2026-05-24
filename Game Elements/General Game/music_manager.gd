@@ -66,6 +66,7 @@ func _ready():
 	inactive_player = music_player_b
 
 func play_theme(theme: String):
+	theme = swap_theme_limbo(theme)
 	var start = start_tracks[theme]
 	if current_start == start and active_player.playing:
 		return
@@ -77,6 +78,19 @@ func play_theme(theme: String):
 		active_player.stream = loop_tracks[theme]
 		active_player.play()
 	, CONNECT_ONE_SHOT)
+
+
+func swap_theme_limbo(theme : String) -> String:
+	if RoomManager.current_progress >= 3.0:
+		match theme:
+			"western":
+					return "shop_w"
+			"scifi":
+					return "shop_s"
+			"medieval":
+					return "shop_m"
+	return theme
+	
 
 func stop():
 	active_player.stop()
