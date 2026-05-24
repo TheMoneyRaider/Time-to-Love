@@ -23,7 +23,7 @@ Zachary Etterson
 Gabrielle Sterbank  
 Emily Brown  
 Lana Chong
-Sophia Annikin  
+Sophia Anikin  
 ## Story Team
 Bella La Boy  
 Duncan Paris
