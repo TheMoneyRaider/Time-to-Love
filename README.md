@@ -22,7 +22,7 @@ Zachary Etterson
 ## Art Team
 Gabrielle Sterbank  
 Emily Brown  
-Lana ???  
+Lana Chong
 Sophia Annikin  
 ## Story Team
 Bella La Boy  
