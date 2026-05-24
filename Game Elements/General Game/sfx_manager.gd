@@ -5,6 +5,16 @@ var continuous_players: Dictionary = {}
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
+func pause_all_continuous():
+	for player in continuous_players.values():
+		if is_instance_valid(player):
+			player.stream_paused = true
+
+func resume_all_continuous():
+	for player in continuous_players.values():
+		if is_instance_valid(player):
+			player.stream_paused = false
+
 func play(stream: AudioStream, volume_db: float = 0.0, bus: String = "SFX", location : Vector2 = Vector2(-99999,-99999),
 			attenuation : float = 1.0, pitch: float = 1.0):
 	var player

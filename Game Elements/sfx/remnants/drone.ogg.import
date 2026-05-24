@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dqftqpiikgwyl"
+path="res://.godot/imported/drone.ogg-32880292aba763c7c8c2453d0dada9a3.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/remnants/drone.ogg"
+dest_files=["res://.godot/imported/drone.ogg-32880292aba763c7c8c2453d0dada9a3.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
