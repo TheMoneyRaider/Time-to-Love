@@ -237,6 +237,9 @@ func meets_requirements(remnant : Remnant,names : Array[String]):
 	for rm in remnant.required_remnants:
 		if rm.remnant_name in names:
 			num_preqreqs_met += 1
+	for rm in remnant.disqualifying_remnants:
+		if rm.remnant_name in names:
+			return false
 	if(num_preqreqs_met < remnant.num_rem_required):
 		return false
 	return true

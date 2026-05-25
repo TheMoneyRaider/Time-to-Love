@@ -129,8 +129,7 @@ func _ready():
 		tether_width_curve = tether_line.width_curve
 		tether_line.gradient = null			
 	hide_forcefield(0.0)
-	
-	special_changed.connect(check_tortoise)
+	special_changed.connect(check_special_triggers)
 
 
 func hide_forcefield(interp_time : float):
@@ -1259,7 +1258,7 @@ func check_forcefield(delta : float):
 			effect.gained(self)
 			effects.append(effect)
 	
-func check_tortoise(temp_is_purple : bool, new_progress : float, used_special : bool = false, trigger_remnants : bool =true):
+func check_special_triggers(temp_is_purple : bool, new_progress : float, used_special : bool = false, trigger_remnants : bool =true):
 	if !trigger_remnants:
 		return
 	if !used_special:
@@ -1271,6 +1270,7 @@ func check_tortoise(temp_is_purple : bool, new_progress : float, used_special : 
 		remnants = LayerManager.player_2_remnants
 	var tort = preload("res://Game Elements/Remnants/tortoise.tres")
 	var litho = preload("res://Game Elements/Remnants/terramancer.tres")
+	var heaven = preload("res://Game Elements/Remnants/heaven.tres")
 	for rem in remnants:
 		if rem.active:
 			match rem.remnant_name:
@@ -1296,6 +1296,21 @@ func check_tortoise(temp_is_purple : bool, new_progress : float, used_special : 
 					lith_area.litho_value = rem.variable_2_values[rem.rank - 1]
 					LayerManager.room_instance.add_child(lith_area)
 					lith_area.global_position = global_position
+				heaven.remnant_name:
+					var shield = preload("res://Game Elements/Remnants/tortoise/shield.tscn").instantiate()
+					var shield2 = preload("res://Game Elements/Remnants/tortoise/shield_deflection.tscn").instantiate()
+					shield2.c_owner = self
+					shield2.direction = (crosshair.position).normalized()
+					LayerManager.room_instance.add_child(shield)
+					LayerManager.room_instance.add_child(shield2)
+					shield.rotation = (crosshair.position).normalized().angle() +PI/2
+					shield2.rotation = (crosshair.position).normalized().angle() +PI/2
+					shield.lifetime = tort.variable_2_values[rem.rank-1]
+					shield.scale = Vector2(tort.variable_3_values[rem.rank-1],tort.variable_3_values[rem.rank-1])
+					shield2.scale = Vector2(tort.variable_3_values[rem.rank-1],tort.variable_3_values[rem.rank-1])
+					shield.global_position = global_position
+					shield2.global_position = global_position
+					shield.deflection  =shield2
 					
 			
 	

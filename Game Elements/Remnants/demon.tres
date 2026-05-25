@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=5 format=3 uid="uid://c1k211c6ake12"]
+
+[ext_resource type="Texture2D" uid="uid://dj3qtdaeklu1a" path="res://art/remnants/assassin.png" id="1_r8myn"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="2_o6eie"]
+[ext_resource type="Resource" uid="uid://do3s5rya0o0jf" path="res://Game Elements/Remnants/angel.tres" id="3_o6eie"]
+[ext_resource type="Texture2D" uid="uid://dvkx2uwhvx2e0" path="res://art/remnants/assassin_orb.png" id="3_xt3yf"]
+
+[resource]
+script = ExtResource("2_o6eie")
+remnant_name = "Remnant of the Demon"
+description = "Your weapon attacks bleed enemies for $X damage over $Y seconds"
+icon = ExtResource("3_xt3yf")
+art = ExtResource("1_r8myn")
+variable_names = Array[String](["$X", "$Y"])
+variable_1_values = [10, 20, 30, 40, 50]
+variable_2_values = [5, 4, 3, 2, 1]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"
