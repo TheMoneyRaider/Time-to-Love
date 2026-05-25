@@ -70,8 +70,13 @@ func _ready():
 	active_player = music_player_a
 	inactive_player = music_player_b
 
-func play_random_theme():
-	var available = random_themes.filter(func(t): return t != current_random_theme)
+func play_random_theme(available_themes: Array = ["medieval"]):
+	var available: Array = []
+	if available_themes.size() == 1:
+		available = available_themes
+	else:
+		available = random_themes.filter(func(t): return t != current_random_theme)
+		
 	current_random_theme = available[randi() % available.size()]
 	
 	active_player.stop()

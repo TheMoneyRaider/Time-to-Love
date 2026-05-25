@@ -170,8 +170,14 @@ func _ready() -> void:
 	active_player = music_player_a
 	inactive_player = music_player_b
 	
+	var progress = clamp(int(Globals.total_progress), 0, 2)
+	var themes = ["medieval"]
+	if progress >= 1:
+		themes.append("western")
+		if progress >= 2:
+			themes.append("scifi")
 	
-	MusicManager.play_random_theme()
+	MusicManager.play_random_theme(themes)
 	
 	room_cleared = true
 	reward_claimed = true
