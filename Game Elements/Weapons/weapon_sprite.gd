@@ -22,7 +22,6 @@ func _process(_delta: float):
 				rotation = weapon_direction.angle() + flip * ( -crowbar_angle + (2*crowbar_angle) * _cubic_bezier(0,.42,.58,1.0,(clamp(player.cooldowns[player.is_purple as int] -.1,0,.2) / .2)))
 			"Railgun":
 				rotation = weapon_direction.angle() + PI / 2
-				$Sprite2D.flip_h = weapon_direction.x < 0
 			"Crossbow":
 				rotation = weapon_direction.angle() + PI/2
 			"Shotgun":

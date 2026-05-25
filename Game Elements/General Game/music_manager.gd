@@ -16,7 +16,7 @@ var start_tracks = {
 var loop_tracks = {
 	"main":		preload("res://Game Elements/Music/main_loop.wav"),
 	"western":	preload("res://Game Elements/Music/western_loop.wav"),
-	"scifi":	preload("res://Game Elements/Music/sci-fi_loop.wav"),
+	"scifi":		preload("res://Game Elements/Music/sci-fi_loop.wav"),
 	"medieval":	preload("res://Game Elements/Music/medieval.wav"),
 	"shop_m": 	preload("res://Game Elements/Music/medieval_shopkeeper.wav"),
 	"shop_w": 	preload("res://Game Elements/Music/western_shopkeeper.wav"),
@@ -30,6 +30,9 @@ var tween: Tween
 var paused_value: bool = false
 var current_starting_theme: String = ""
 var in_starting_mode: bool = false
+
+var random_themes = ["medieval", "western", "scifi"]
+var current_random_theme: String = ""
 
 func quite_music(time: float):
 	fade_volume(PAUSED_VOLUME)
@@ -66,6 +69,21 @@ func _ready():
 	add_child(music_player_b)
 	active_player = music_player_a
 	inactive_player = music_player_b
+
+func play_random_theme():
+	var available = random_themes.filter(func(t): return t != current_random_theme)
+	current_random_theme = available[randi() % available.size()]
+	
+	active_player.stop()
+	current_start = start_tracks[current_random_theme]
+	active_player.stream = start_tracks[current_random_theme]
+	active_player.play()
+	active_player.finished.connect(func():
+		if RoomManager.current_progress == 0:
+			play_random_theme()
+		else:
+			current_random_theme = ""
+		, CONNECT_ONE_SHOT)
 
 func play_theme(theme: String):
 	theme = swap_theme_limbo(theme)
@@ -137,3 +155,4 @@ func stop():
 	current_starting_theme = ""
 	active_player.stop()
 	current_start = null
+	current_random_theme = ""
