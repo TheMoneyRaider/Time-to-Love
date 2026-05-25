@@ -335,8 +335,6 @@ var thud_delay = 0.0
 func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0,creates_indicators : bool = true, unstoppable : bool = false):
 	if !hitable and !unstoppable:
 		return
-	if current_health< 0.0:
-		return
 	if(i_frames > 0):
 		return
 	i_frames = attack_i_frames
@@ -364,13 +362,13 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 		last_hitter = dmg_owner
 		if dmg_owner.is_in_group("player"):
 			dmg_owner.in_combat = 3
-	_check_on_hit_remnants(dmg_owner, attack_body)
-	
-	if dmg_owner != null and dmg_owner.is_in_group("player"):
-		if attack_body and !attack_body.combod:
-			attack_body.combod = true
-			dmg_owner.combo(attack_body.is_purple)
-		dmg_owner.hit_enemy(attack_body,self)
+	if current_health>= 0.0: 
+		_check_on_hit_remnants(dmg_owner, attack_body)
+		if dmg_owner != null and dmg_owner.is_in_group("player"):
+			if attack_body and !attack_body.combod:
+				attack_body.combod = true
+				dmg_owner.combo(attack_body.is_purple)
+			dmg_owner.hit_enemy(attack_body,self)
 	if attack_body:
 		match attack_body.attack_type:
 			"laser":
