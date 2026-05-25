@@ -825,6 +825,7 @@ func tether(delta : float):
 			SFXManager.stop_continuous("tether")
 			
 func die(death : bool , insta_die : bool = false) -> bool:
+	SFXManager.play(preload("res://Game Elements/sfx/player/death.ogg"))
 	if !is_multiplayer:
 		#Change to signal something
 		self.process_mode = PROCESS_MODE_DISABLED
