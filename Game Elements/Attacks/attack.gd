@@ -100,6 +100,13 @@ func check_defender():
 
 func _ready():
 	
+	if attack_type == "crowbar_melee" and is_instance_valid(c_owner) and c_owner.get("enemy_type") == "large_reptile":
+		SFXManager.play(preload("res://Game Elements/sfx/enemies/bigt/bigt_swipe.ogg"), 0.0, "SFX")
+	if attack_type == "bolt" and is_instance_valid(c_owner) and c_owner.get("enemy_type") == "large_reptile":
+		SFXManager.play(preload("res://Game Elements/sfx/enemies/bigt/bigt_tail.ogg"), 0.0, "SFX")
+	if attack_type == "roar_particle":
+		SFXManager.play(preload("res://Game Elements/sfx/enemies/bigt/bigt_roar.ogg"), 0.0, "SFX", global_position)
+	
 	#print("final =  "+str(damage))
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	ready_hacks()
