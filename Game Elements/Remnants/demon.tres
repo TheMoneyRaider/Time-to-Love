@@ -7,10 +7,10 @@
 [resource]
 script = ExtResource("2_o6eie")
 remnant_name = "Remnant of the Demon"
-description = "Your weapon attacks bleed enemies for $X damage over $Y seconds"
+description = "Your weapon attacks bleed enemies for $X% of your weapon damage over $Y seconds"
 icon = ExtResource("3_o6eie")
 art = ExtResource("1_r8myn")
 variable_names = Array[String](["$X", "$Y"])
-variable_1_values = [10, 20, 30, 40, 50]
+variable_1_values = [16, 32, 48, 64, 80]
 variable_2_values = [5, 4, 3, 2, 1]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

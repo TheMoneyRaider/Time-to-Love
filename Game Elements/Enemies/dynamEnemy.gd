@@ -441,7 +441,7 @@ func check_demon(damage : float, dmg_owner : Node, attack_body : Node = null):
 				demon.remnant_name:
 					var effect = preload("res://Game Elements/Effects/bleed.tres").duplicate(true)
 					effect.cooldown = rem.variable_2_values[rem.rank-1]
-					effect.value1 = rem.variable_1_values[rem.rank-1] / (2.0 * rem.variable_2_values[rem.rank-1]) / 10.0
+					effect.value1 = rem.variable_1_values[rem.rank-1] / 100.0 / (2.0 * rem.variable_2_values[rem.rank-1]) * dmg_owner.weapons[dmg_owner.is_purple as int].damage
 					effect.saved_reference = dmg_owner
 					effect.gained(self)
 					effects.append(effect)

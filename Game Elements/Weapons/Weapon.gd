@@ -609,7 +609,7 @@ func crossbow_special_attack(attack_direction : Vector2, node_attacking : Node):
 	attack_scene = "res://Game Elements/Attacks/giant_bolt.tscn"
 	attack_direction =attack_direction.rotated(-PI / 12)
 	for i in range(0,3):
-		spawn_attack(attack_direction,node_attacking.global_position + 20 * attack_direction, node_attacking,"burn_particles")
+		spawn_attack(attack_direction,node_attacking.global_position + 20 * attack_direction, node_attacking,"charged_particles")
 		attack_direction =attack_direction.rotated(PI / 12)
 	current_special_hits = 0
 	#scale = scale / 1.2
