@@ -1,23 +1,23 @@
-[gd_resource type="Resource" script_class="Remnant" load_steps=6 format=3 uid="uid://bdp2ffjckuxa6"]
+[gd_resource type="Resource" script_class="Remnant" load_steps=5 format=3 uid="uid://bdp2ffjckuxa6"]
 
 [ext_resource type="Texture2D" uid="uid://bs5w3j0icebyp" path="res://art/remnants/tortoise.png" id="1_lhntm"]
 [ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="2_f1d62"]
-[ext_resource type="Resource" uid="uid://c1k211c6ake12" path="res://Game Elements/Remnants/demon.tres" id="3_ntwwc"]
 [ext_resource type="Texture2D" uid="uid://bpphvf8bpygto" path="res://art/remnants/tortoise_icon.png" id="3_xxbg4"]
 [ext_resource type="Resource" uid="uid://do3s5rya0o0jf" path="res://Game Elements/Remnants/angel.tres" id="5_qwv2v"]
 
 [resource]
 script = ExtResource("2_f1d62")
 remnant_name = "Remnant of Heaven"
-description = "Whenever you do a special attack, create a $X sized domain that reduces all damage taken in it's range by $Y%."
+description = "Whenever you do a special attack, create a $X sized domain that lasts for $Y seconds and reduces all damage taken in it's range by $Z%."
 icon = ExtResource("3_xxbg4")
 art = ExtResource("1_lhntm")
 progress_required = 1.0
-tags = Array[String](["$X", "$Y"])
+tags = Array[String](["$X", "$Y", "$Z"])
 required_remnants = Array[ExtResource("2_f1d62")]([ExtResource("5_qwv2v")])
 num_rem_required = 1
 variable_names = Array[String](["$X", "$Y", "$Z"])
 variable_1_values = ["Small", "Medium", "Large", "Giant", "Gargantuan"]
-variable_2_values = [10, 20, 30, 40, 50]
-variable_3_values = [0.4, 0.5, 0.6, 0.8, 1.0]
+variable_2_values = [2, 4, 6, 8, 10]
+variable_3_values = [10, 20, 30, 40, 50]
+variable_4_values = [0.5, 0.8, 1.0, 1.5, 2.0]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"

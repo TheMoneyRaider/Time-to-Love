@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crd3ew6a7pb6k"
-path="res://.godot/imported/tortoise_shield.png-fc6535ec07c44d827309cf08fa306542.ctex"
+uid="uid://c7hpnjgjmdua4"
+path="res://.godot/imported/blue-sheet.png-34eef1c83065bbf65167ee9ba02ddb9c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Game Elements/Remnants/heaven/tortoise_shield.png"
-dest_files=["res://.godot/imported/tortoise_shield.png-fc6535ec07c44d827309cf08fa306542.ctex"]
+source_file="res://Game Elements/Remnants/domain_art/blue-sheet.png"
+dest_files=["res://.godot/imported/blue-sheet.png-34eef1c83065bbf65167ee9ba02ddb9c.ctex"]
 
 [params]
 

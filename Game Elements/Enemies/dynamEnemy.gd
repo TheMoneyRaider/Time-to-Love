@@ -337,6 +337,7 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 		return
 	if(i_frames > 0):
 		return
+	damage *= Globals.check_domains(global_position,self)
 	i_frames = attack_i_frames
 	if enemy_type=="hit_me":
 		_dummy_hit(damage)

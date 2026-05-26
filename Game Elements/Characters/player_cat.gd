@@ -539,6 +539,7 @@ func get_camera_rect() -> RectangleShape2D:
 
 func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 20,creates_indicators : bool = true, bulwark : bool = true):
 	in_combat = 3
+	damage_amount *= Globals.check_domains(global_position,self)
 	if(bulwark == false || i_frames <= 0 && !invulnerable):
 		time_since_last_hit = 0
 		i_frames = attack_i_frames
@@ -1271,6 +1272,7 @@ func check_special_triggers(temp_is_purple : bool, new_progress : float, used_sp
 	var tort = preload("res://Game Elements/Remnants/tortoise.tres")
 	var litho = preload("res://Game Elements/Remnants/terramancer.tres")
 	var heaven = preload("res://Game Elements/Remnants/heaven.tres")
+	var hell = preload("res://Game Elements/Remnants/hell.tres")
 	for rem in remnants:
 		if rem.active:
 			match rem.remnant_name:
@@ -1297,20 +1299,19 @@ func check_special_triggers(temp_is_purple : bool, new_progress : float, used_sp
 					LayerManager.room_instance.add_child(lith_area)
 					lith_area.global_position = global_position
 				heaven.remnant_name:
-					var shield = preload("res://Game Elements/Remnants/tortoise/shield.tscn").instantiate()
-					var shield2 = preload("res://Game Elements/Remnants/tortoise/shield_deflection.tscn").instantiate()
-					shield2.c_owner = self
-					shield2.direction = (crosshair.position).normalized()
-					LayerManager.room_instance.add_child(shield)
-					LayerManager.room_instance.add_child(shield2)
-					shield.rotation = (crosshair.position).normalized().angle() +PI/2
-					shield2.rotation = (crosshair.position).normalized().angle() +PI/2
-					shield.lifetime = tort.variable_2_values[rem.rank-1]
-					shield.scale = Vector2(tort.variable_3_values[rem.rank-1],tort.variable_3_values[rem.rank-1])
-					shield2.scale = Vector2(tort.variable_3_values[rem.rank-1],tort.variable_3_values[rem.rank-1])
-					shield.global_position = global_position
-					shield2.global_position = global_position
-					shield.deflection  =shield2
+					var domain = preload("res://Game Elements/Remnants/heaven/heaven.tscn").instantiate()
+					domain.scale = Vector2(heaven.variable_4_values[rem.rank-1],heaven.variable_4_values[rem.rank-1])
+					LayerManager.room_instance.add_child(domain)
+					domain.lifetime = heaven.variable_2_values[rem.rank-1]
+					domain.damage_change = heaven.variable_3_values[rem.rank-1]
+					domain.global_position = global_position
+				hell.remnant_name:
+					var domain = preload("res://Game Elements/Remnants/hell/hell.tscn").instantiate()
+					domain.scale = Vector2(hell.variable_4_values[rem.rank-1],hell.variable_4_values[rem.rank-1])
+					LayerManager.room_instance.add_child(domain)
+					domain.lifetime = hell.variable_2_values[rem.rank-1]
+					domain.damage_change = hell.variable_3_values[rem.rank-1]
+					domain.global_position = global_position
 					
 			
 	
