@@ -348,7 +348,7 @@ func _physics_process(delta):
 	tether(delta)
 	if is_tethered:
 		if is_multiplayer:
-			input_direction += (tether_momentum / move_speed) * 1.5
+			input_direction += (tether_momentum / move_speed) * 2.5
 		else:
 			input_direction += (tether_momentum / move_speed) * 5.0
 	weapon_node.weapon_direction = (crosshair.position).normalized()
@@ -735,7 +735,7 @@ func tether(delta : float):
 				TutorialManager.player_tethers_short(is_purple,1.0)
 	if Input.is_action_just_pressed("swap_" + input_device):
 		if is_multiplayer:
-			tether_momentum += (other_player.position - position)
+			tether_momentum += (other_player.position - position) / 3
 			is_tethered = true
 		else:
 			single_toggle = false
