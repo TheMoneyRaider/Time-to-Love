@@ -37,7 +37,37 @@ var current_song_idx: int = -1
 
 var hud_ready: bool = false
 
+
+func update_hud_corner(node : Node,hud_scale : float):
+	node.get_node("CooldownBar").custom_minimum_size.y = 120.0 *hud_scale
+	node.get_node("CooldownBar/CooldownBar").scale = Vector2(8.0*hud_scale,8.0*hud_scale)
+	if node == $RootControl/Right_Bottom_Corner:
+		node.get_node("CooldownBar/CooldownBar").scale = Vector2(-8.0*hud_scale,8.0*hud_scale)
+	node.get_node("HealthBar").custom_minimum_size.x = 414.0 *hud_scale
+	node.get_node("HealthBar").custom_minimum_size.y = 138.0 *hud_scale
+	node.get_node("HealthBar/ProgressBar").custom_minimum_size.x = 350.0 *hud_scale
+	node.get_node("HealthBar/ProgressBar").custom_minimum_size.y = 74.0 *hud_scale
+	node.get_node("HealthBar/Pieces").scale = Vector2(hud_scale,hud_scale)
+	node.get_node("HealthBar/Background").scale = Vector2(hud_scale,hud_scale)
+	node.get_node("HealthBar/Foreground").scale = Vector2(hud_scale,hud_scale)
+	node.get_node("HealthBar/Label").size =Vector2(350,65)* Vector2(hud_scale,hud_scale)
+	node.get_node("HealthBar/Label").label_settings.font_size =max(8, hud_scale * 48)
+	node.get_node("HealthBar/Label").position =Vector2(32,36)* Vector2(hud_scale,hud_scale)
+	await get_tree().process_frame
+	node.get_node("HealthBar").update_lines()
+func update_hud():
+	var hud_scale = Globals.config.get_value("hud", "size", 5.0) / 5.0
+	print(Globals.config.get_value("hud", "size", 5.0))
+	await get_tree().process_frame
+	await get_tree().process_frame
+	#Corner 1
+	update_hud_corner($RootControl/Left_Bottom_Corner,hud_scale)
+	#Corner 2
+	update_hud_corner($RootControl/Right_Bottom_Corner,hud_scale)
+
+
 func _ready():
+	update_hud()
 	$RootControl/VBoxContainer/Noti.modulate.a = 0.0
 	combo1.visible = false
 	combo2.visible = false

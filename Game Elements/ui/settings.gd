@@ -20,7 +20,7 @@ func load_settings():
 	mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
 	controller_mode = Globals.config.get_value("controls","controller_mode", true)
 	joystick_acceleration = Globals.config.get_value("controls","joystick_acceleration",7.0)
-	hud_size = Globals.config.get_value("hud","size",5)
+	hud_size = Globals.config.get_value("hud","size",5.0)
 	debug_mode = Globals.config.get_value("debug", "enabled", false)
 	crosshair_mode = Globals.config.get_value("settings", "crosshair", true) 
 	frag_mode = Globals.config.get_value("fragmentation", "enabled", true)
@@ -53,7 +53,7 @@ func load_settings():
 				node.focus_entered.connect(func(): SFXManager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
 	
 var frag_mode: bool = false
-var hud_size: int = 5
+var hud_size: float = 5.0
 var devices : Array[Array]=[[],[]]
 func _on_back_pressed() -> void:
 	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
@@ -89,6 +89,7 @@ func _on_apply_settings()-> void:
 	var LayerManager = get_tree().get_root().get_node_or_null("LayerManager")
 	if LayerManager:
 		LayerManager.update_players_input_devices()
+		LayerManager.hud.update_hud()
 	
 
 @onready var label := $MarginContainer/VBoxContainer/Volume/VolVal
@@ -221,7 +222,7 @@ func update_acceleration_label():
 	$MarginContainer/VBoxContainer/Controller/SensLabel.text = "%.2f" % joystick_acceleration	
 
 func set_hud_size(value: float):
-	hud_size = clamp(value, 3, 14)
+	hud_size = clamp(value, 3.0, 12.0)
 
 func _on_mouse_sensitivity_value_changed(value: float) -> void:
 	set_mouse_sensitivity(value)
