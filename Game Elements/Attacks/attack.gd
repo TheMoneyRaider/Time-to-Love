@@ -105,6 +105,8 @@ func _ready():
 	ready_hacks()
 	start_scale = scale
 	frozen = true
+	if attack_type == "magic_bolt":
+		SFXManager.play(preload("res://Game Elements/sfx/enemies/litch/litch_magic_bolt.ogg"))
 	if start_lag > 0.0:
 		await get_tree().create_timer(start_lag, false).timeout
 	frozen = false
@@ -117,6 +119,7 @@ func _ready():
 	if animation!= "" and $AnimationPlayer:
 		$AnimationPlayer.play(animation)
 	if attack_type == "summon circle":
+		SFXManager.play(preload("res://Game Elements/sfx/enemies/litch/litch_summon.ogg"), 10)
 		modulate.a = 0
 		var tween = self.create_tween()
 		tween.tween_property(self,"modulate:a",1,1)

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dhxjqqu4dpwhb"
+path="res://.godot/imported/litch_magic_bolt.ogg-170a5bc26eee6e32c7356dd322a062d6.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/enemies/litch/litch_magic_bolt.ogg"
+dest_files=["res://.godot/imported/litch_magic_bolt.ogg-170a5bc26eee6e32c7356dd322a062d6.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
