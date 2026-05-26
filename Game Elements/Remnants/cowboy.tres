@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://deucj3fq6yl0e"]
 
-[ext_resource type="Texture2D" uid="uid://djchd0c3djldg" path="res://art/remnants/bandit.png" id="1_eoqgx"]
-[ext_resource type="Texture2D" uid="uid://evgcdk6e7spt" path="res://art/remnants/bandit_icon.png" id="2_igu8x"]
+[ext_resource type="Texture2D" uid="uid://dpywn37y5b3a4" path="res://art/remnants/cowboy.png" id="1_eoqgx"]
+[ext_resource type="Texture2D" uid="uid://cvplayxn44odd" path="res://art/remnants/cowboy_icon.png" id="2_igu8x"]
 [ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_hwrhu"]
 
 [resource]
