@@ -2034,6 +2034,11 @@ func dev_remnants():
 	player_2_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,true)
 	
+	rem = load("res://Game Elements/Remnants/cowboy.tres")
+	rem.rank = 5
+	player_2_remnants.append(rem.duplicate(true))
+	remnant_update(rem,player1,true)
+	
 	player1.display_combo()
 	if is_multiplayer:
 		player2.display_combo()

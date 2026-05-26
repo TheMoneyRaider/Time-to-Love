@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://deucj3fq6yl0e"]
+
+[ext_resource type="Texture2D" uid="uid://djchd0c3djldg" path="res://art/remnants/bandit.png" id="1_eoqgx"]
+[ext_resource type="Texture2D" uid="uid://evgcdk6e7spt" path="res://art/remnants/bandit_icon.png" id="2_igu8x"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_hwrhu"]
+
+[resource]
+script = ExtResource("3_hwrhu")
+remnant_name = "Remnant of The Cowboy"
+description = "Weapon projectiles ricochet $X times."
+icon = ExtResource("2_igu8x")
+art = ExtResource("1_eoqgx")
+progress_required = 1.0
+variable_names = Array[String](["$X"])
+variable_1_values = [1, 2, 3, 4, 5]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

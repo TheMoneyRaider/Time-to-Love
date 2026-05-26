@@ -246,6 +246,7 @@ func apply_remnants(attack_instance):
 		var longshot = preload("res://Game Elements/Remnants/longshot.tres")
 		var hunter = preload("res://Game Elements/Remnants/hunter.tres")
 		var giant = preload("res://Game Elements/Remnants/giant.tres")
+		var cowboy = preload("res://Game Elements/Remnants/cowboy.tres")
 		if c_owner.is_purple:
 			remnants = c_owner.get_tree().get_root().get_node("LayerManager").player_1_remnants
 			mancer_value = c_owner.mancermancer_values[0]
@@ -297,9 +298,9 @@ func apply_remnants(attack_instance):
 							attack_instance.pierce += rem.rank
 					giant.remnant_name:
 						attack_instance.scale *= 1.5
-					_:
-						pass
-		attack_instance.damage *= damage_multiplier+1.0
+					cowboy.remnant_name:
+						if !(name in ["Mace","Laser Sword","Shovel","Fist"]):
+							attack_instance.bounces = rem.variable_1_values[rem.rank-1]
 
 
 var laser_camera_distancex = 240

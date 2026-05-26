@@ -380,6 +380,7 @@ func intersection(body):
 			-1:
 				if bounces > 0:
 					bounces -= 1
+					lifespan+=2.5
 					# Cast a short ray forward to get the wall's surface normal
 					var space = get_world_2d().direct_space_state
 					var query = PhysicsRayQueryParameters2D.create(

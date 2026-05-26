@@ -12,10 +12,11 @@ func _ready() -> void:
 	$AnimationPlayer.play("start")
 	$AnimationPlayer.queue("main")
 	if $GPUParticles2D:
-		$GPUParticles2D.process_material.gravity *= scale.x
-		$GPUParticles2D.process_material.radial_velocity *= scale.x
-		$GPUParticles2D.process_material.radial_accel *= scale.x
-		$GPUParticles2D.amount *= scale.x
+		var scale_amount = scale.x
+		$GPUParticles2D.process_material.gravity *= scale_amount
+		$GPUParticles2D.process_material.radial_velocity *= scale_amount
+		$GPUParticles2D.process_material.radial_accel *= scale_amount
+		$GPUParticles2D.amount *= scale_amount
 		
 
 
