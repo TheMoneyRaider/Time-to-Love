@@ -1804,8 +1804,9 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 			else:
 				player.weapons[0].damage = player.weapons[0].damage + remnant.variable_2_values[remnant.rank - 1]
 		if(remnant.remnant_name == hare.remnant_name) and remnant.active:
-			if(is_purple == player.is_purple):
-				player.move_speed = player.base_move_speed * (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
+			player.hare_values[is_purple as int] = 1 + remnant.variable_1_values[remnant.rank - 1] * .01
+			#if(is_purple == player.is_purple):
+			#	player.move_speed = player.base_move_speed * (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
 		if(remnant.remnant_name == bandit.remnant_name) and remnant.active:
 			if is_purple:
 				hud.LeftCooldownBar.set_max_cooldown(player.weapons[1].cooldown* (1.0-remnant.variable_1_values[remnant.rank-1] / 100.0))
@@ -1833,8 +1834,9 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 			else:
 				player.weapons[0].damage = player.weapons[0].damage - remnant.variable_2_values[remnant.rank - 1]
 		if(remnant.remnant_name == hare.remnant_name):
-			if(is_purple == player.is_purple):
-				player.move_speed = player.base_move_speed / (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
+			player.hare_values[is_purple as int] = 1
+			#if(is_purple == player.is_purple):
+			#	player.move_speed = player.base_move_speed / (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
 		if(remnant.remnant_name == bandit.remnant_name):
 			if is_purple:
 				hud.LeftCooldownBar.set_max_cooldown(player.weapons[1].cooldown)
@@ -1860,14 +1862,17 @@ func _on_remnant_upgraded(remnant1 : Resource, remnant2 : Resource):
 		else:
 			player1.mancermancer_values[1] = remnant2.rank
 	if(remnant1.remnant_name == hare.remnant_name and remnant1.active):
-		if(player1.is_purple):
-			player1.move_speed = player1.base_move_speed * (1 + remnant1.variable_1_values[remnant1.rank - 1] * .01)
+		player1.hare_values[1] = 1 + remnant1.variable_1_values[remnant1.rank - 1] * .01
+		#if(player1.is_purple):
+		#	player1.move_speed = player1.base_move_speed * (1 + remnant1.variable_1_values[remnant1.rank - 1] * .01)
 	elif(remnant2.remnant_name == hare.remnant_name and remnant2.active):
 		if(!is_multiplayer):
-			if(!player1.is_purple):
-				player1.move_speed = player1.base_move_speed * (1 + remnant1.variable_1_values[remnant1.rank - 1] * .01)
+			player1.hare_values[0] = 1 + remnant2.variable_1_values[remnant2.rank - 1] * .01
+			#if(!player1.is_purple):
+			#	player1.move_speed = player1.base_move_speed * (1 + remnant1.variable_1_values[remnant1.rank - 1] * .01)
 		else:
-			player2.move_speed = player2.base_move_speed * (1 + remnant2.variable_1_values[remnant2.rank - 1] * .01)
+			player2.hare_values[player2.is_purple as int] = 1 + remnant2.variable_1_values[remnant2.rank - 1] * .01
+			#player2.move_speed = player2.base_move_speed * (1 + remnant2.variable_1_values[remnant2.rank - 1] * .01)
 	if(remnant1.remnant_name == "Remnant of The Giant" and remnant1.active):
 		if(!is_multiplayer):
 			if(player1.is_purple):

@@ -84,6 +84,7 @@ var revive = preload("res://Game Elements/Attacks/death_mark.tscn")
 var cooldowns = [0,0]
 var is_purple = true
 var mancermancer_values = [0,0]
+var hare_values = [1,1]
 
 signal attack_requested(new_attack : PackedScene, t_position : Vector2, t_direction : Vector2, damage_boost : float)
 signal player_took_damage(damage : float, c_health : float, c_node : Node)
@@ -172,7 +173,7 @@ func _initialize_state_machine():
 	state_machine.set_active(true)
 
 func apply_movement(_delta):
-	velocity = input_direction * move_speed
+	velocity = input_direction * move_speed * hare_values[is_purple as int]
 
 var _debug_wedges : Array = []   # [{from, left, right, hit}]
 func _draw() -> void:
@@ -605,7 +606,7 @@ func swap_color():
 	emit_signal("swapped_color", self)
 	if(is_purple):
 		is_purple = false
-		_check_hare()
+		#_check_hare()
 		_check_giant()
 		sprite.texture = orange_texture
 		crosshair_sprite.texture = orange_crosshair
@@ -620,7 +621,7 @@ func swap_color():
 			LayerManager.room_instance.add_child(inst)
 	else:
 		is_purple = true
-		_check_hare()
+		#_check_hare()
 		_check_giant()
 		sprite.texture = purple_texture
 		crosshair_sprite.texture = purple_crosshair
