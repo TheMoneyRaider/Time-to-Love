@@ -2010,14 +2010,19 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 func dev_remnants():
 	var rem
 	
-	rem = load("res://Game Elements/Remnants/singularity.tres")
+	rem = load("res://Game Elements/Remnants/giant.tres")
 	rem.rank = 5
 	player_2_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,true)
+	remnant_update(rem, player1, true)
 	
-	rem = load("res://Game Elements/Remnants/drone.tres")
+	rem = load("res://Game Elements/Remnants/assassin.tres")
 	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
+	player_2_remnants.append(rem.duplicate(true))
+	remnant_update(rem, player1, true)
+	
+	rem = load("res://Game Elements/Remnants/gambler.tres")
+	rem.rank = 5
+	player_2_remnants.append(rem.duplicate(true))
 	remnant_update(rem, player1, true)
 	
 	player1.display_combo()

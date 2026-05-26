@@ -91,7 +91,7 @@ func reset():
 func get_room(room : Room):
 	if tempvar:
 		tempvar = false
-		return bosses[1]
+		return bosses[2]
 	var index = int(current_progress) if room.roomtype != Globals.RoomType.Boss else int(current_progress+1.0)
 	#shop_override
 	var T = 0.15

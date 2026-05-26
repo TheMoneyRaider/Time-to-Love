@@ -58,6 +58,12 @@ var deflect_sounds = [
 	preload("res://Game Elements/sfx/player/deflect/deflect2.ogg"),
 ]
 
+var singul_green_balls = [
+	preload("res://Game Elements/sfx/enemies/robot/robot1.ogg"),
+	preload("res://Game Elements/sfx/enemies/robot/robot2.ogg"),
+	preload("res://Game Elements/sfx/enemies/robot/robot3.ogg"),
+]
+
 #Multiplies the Speed, Damage, Lifespan adn Hit_Force of attack by given values
 func mult(speed_mult, damage_mult = 1, lifespan_mult = 1, hit_force_mult = 1):
 	self.speed = self.speed * speed_mult
@@ -106,6 +112,8 @@ func _ready():
 		SFXManager.play(preload("res://Game Elements/sfx/enemies/bigt/bigt_tail.ogg"), 0.0, "SFX")
 	if attack_type == "roar_particle":
 		SFXManager.play(preload("res://Game Elements/sfx/enemies/bigt/bigt_roar.ogg"), 0.0, "SFX", global_position)
+	if attack_type == "robot mele" and is_instance_valid(c_owner) and c_owner.get("enemy_type") == "signul":
+		SFXManager.play(singul_green_balls[randi() % singul_green_balls.size()], 0.0, "SFX", Vector2(-99999,-99999), 1.0, 0.7)
 	
 	#print("final =  "+str(damage))
 	LayerManager = get_tree().get_root().get_node("LayerManager")
@@ -318,7 +326,7 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 	elif !n_owner.is_in_group("player") and !body.is_in_group("player") and !hits_all:
 		return 0
 
-	if(deflectable and attack_type != "slime_ball" and body.is_in_group("enemy")):
+	if(deflectable and attack_type != "slime_ball" and body.is_in_group("enemy") and body is DynamEnemy):
 		if(randf() < body.deflect_chance):
 			deflect(-1 * direction, 100, null)
 			if body.enemy_type=="medieval_slime":
