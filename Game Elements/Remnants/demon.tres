@@ -1,17 +1,16 @@
-[gd_resource type="Resource" script_class="Remnant" load_steps=5 format=3 uid="uid://c1k211c6ake12"]
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://c1k211c6ake12"]
 
 [ext_resource type="Texture2D" uid="uid://dy0pm0jre5rn" path="res://art/remnants/demon.png" id="1_r8myn"]
 [ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="2_o6eie"]
 [ext_resource type="Texture2D" uid="uid://cykrsjrci2sjq" path="res://art/remnants/demon_icon.png" id="3_o6eie"]
-[ext_resource type="Resource" uid="uid://do3s5rya0o0jf" path="res://Game Elements/Remnants/angel.tres" id="3_xt3yf"]
 
 [resource]
 script = ExtResource("2_o6eie")
-remnant_name = "Remnant of the Demon"
+remnant_name = "Remnant of The Demon"
 description = "Your weapon attacks bleed enemies for $X% of your weapon damage over $Y seconds"
 icon = ExtResource("3_o6eie")
 art = ExtResource("1_r8myn")
-disqualifying_remnants = Array[ExtResource("2_o6eie")]([ExtResource("3_xt3yf")])
+disqualifying_remnants = Array[String](["Remnant of The Angel"])
 variable_names = Array[String](["$X", "$Y"])
 variable_1_values = [16, 32, 48, 64, 80]
 variable_2_values = [5, 4, 3, 2, 1]
