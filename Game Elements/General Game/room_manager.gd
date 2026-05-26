@@ -176,7 +176,9 @@ func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerM
 		current_progress = floor(current_progress)+1.0
 		layer_ai[14] =0
 		layer_ai[15] =0
-	#current_progress = max(3.0,current_progress)#TEST
+		LayerManager.player1.has_revived = false
+		if LayerManager.is_multiplayer:
+			LayerManager.player2.has_revived = false
 
 func get_boss_chance() -> float:
 	if layer_ai[14] + int(current_progress) >= 8:

@@ -1,9 +1,9 @@
 [gd_scene load_steps=11 format=3 uid="uid://whwenrbf4lw8"]
 
-[ext_resource type="Texture2D" uid="uid://21s1bbewu58o" path="res://art/remnants/hunter_icon.png" id="1_2lyub"]
 [ext_resource type="Script" uid="uid://bdarb5v6mg88f" path="res://Game Elements/ui/remnant_icon.gd" id="1_nncub"]
 [ext_resource type="Shader" uid="uid://na5vrkd3gf2n" path="res://Game Elements/ui/highlight.gdshader" id="2_ayhuk"]
 [ext_resource type="Texture2D" uid="uid://dnysvj1fsgjrx" path="res://art/remnants/icon_template_white.png" id="2_qatju"]
+[ext_resource type="Texture2D" uid="uid://bdf0l0a0f2g86" path="res://art/remnants/heaven_icon.png" id="3_ayhuk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dp3pg"]
 resource_local_to_scene = true
@@ -57,7 +57,7 @@ layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
 mouse_filter = 2
-texture = ExtResource("1_2lyub")
+texture = ExtResource("3_ayhuk")
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="."]

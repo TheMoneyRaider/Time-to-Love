@@ -22,9 +22,15 @@ var scale_y = 1/ 18.5
 
 func _ready() -> void:
 	$SubViewport/Floor.visible = false
+var override : bool = false
+
+func start_override(passed_position : Vector2):
+	override= true
+	grass_camera.position.x = passed_position.x * scale_x
+	grass_camera.position.z = passed_position.y * scale_y
 
 func _process(_delta: float) -> void:
-	if not game_camera:
+	if not game_camera or override:
 		return
 	grass_camera.position.x = game_camera.position.x * scale_x
 	grass_camera.position.z = game_camera.position.y * scale_y

@@ -1,15 +1,14 @@
-[gd_resource type="Resource" script_class="Remnant" load_steps=5 format=3 uid="uid://do3s5rya0o0jf"]
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://do3s5rya0o0jf"]
 
-[ext_resource type="Texture2D" uid="uid://dj3qtdaeklu1a" path="res://art/remnants/assassin.png" id="1_hnrl4"]
+[ext_resource type="Texture2D" uid="uid://3rugi3hcnqxx" path="res://art/remnants/angel.png" id="1_hnrl4"]
 [ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="2_w1mj4"]
-[ext_resource type="Texture2D" uid="uid://dvkx2uwhvx2e0" path="res://art/remnants/assassin_orb.png" id="3_fonk6"]
-[ext_resource type="Resource" uid="uid://c1k211c6ake12" path="res://Game Elements/Remnants/demon.tres" id="3_w1mj4"]
+[ext_resource type="Texture2D" uid="uid://cd4vnr711qt3y" path="res://art/remnants/angel_icon.png" id="3_w1mj4"]
 
 [resource]
 script = ExtResource("2_w1mj4")
 remnant_name = "Remnant of the Angel"
 description = "Revive once per timeline. On revive, keep $X% of your max health."
-icon = ExtResource("3_fonk6")
+icon = ExtResource("3_w1mj4")
 art = ExtResource("1_hnrl4")
 variable_names = Array[String](["$X"])
 variable_1_values = [20, 40, 60, 80, 100]

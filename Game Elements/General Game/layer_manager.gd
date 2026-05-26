@@ -250,7 +250,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("give_remnant") and Globals.config.get_value("debug", 'enabled', false):
 		_open_remnant_popup()
 	
-	if Input.is_action_just_pressed("pause") and !camera_override and !transitioning and !remnant_offer_popup and !remnant_upgrade_popup and hud.get_node("../PauseMenu").pause_cooldown == 0:
+	if Input.is_action_just_pressed("pause") and !camera_override and !transitioning and !remnant_offer_popup and !remnant_upgrade_popup and hud.get_node("../PauseMenu").pause_cooldown == 0 and !get_tree().paused:
 		if pause.active:
 			pause._on_return_pressed()
 		else:
@@ -2018,6 +2018,21 @@ func dev_remnants():
 	rem = load("res://Game Elements/Remnants/hell.tres")
 	rem.rank = 5
 	player_1_remnants.append(rem.duplicate(true))
+	remnant_update(rem,player1,true)
+	
+	rem = load("res://Game Elements/Remnants/heaven.tres")
+	rem.rank = 5
+	player_2_remnants.append(rem.duplicate(true))
+	remnant_update(rem,player1,true)
+	
+	rem = load("res://Game Elements/Remnants/demon.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	remnant_update(rem,player1,true)
+	
+	rem = load("res://Game Elements/Remnants/angel.tres")
+	rem.rank = 5
+	player_2_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,true)
 	
 	player1.display_combo()

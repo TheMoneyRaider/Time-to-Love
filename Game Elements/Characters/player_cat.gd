@@ -36,7 +36,7 @@ var move_speed: float
 @onready var orange_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/orange_spritesheet.png")
 
 var tether_sfx = preload("res://Game Elements/sfx/player/tether.ogg")
-
+var has_revived : bool = false
 var damage_multiplier = 1.0
 var effect_stacks : Array[int] = []
 var effect_particles : Array
@@ -558,13 +558,36 @@ func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0
 		if current_health >= 0.0 and creates_indicators:
 			LayerManager._damage_indicator(damage_amount, _dmg_owner,_direction, attack_body,self)
 		if(current_health <= 0.0):
-			if(die(true)):
-				var instance = revive.instantiate()
-				instance.global_position = position
-				instance.c_owner = self
-				LayerManager.room_instance.call_deferred("add_child",instance)
-				emit_signal("attack_requested",revive, position, Vector2.ZERO, 0)
+			if !angel():
+				if(die(true)):
+					var instance = revive.instantiate()
+					instance.global_position = position
+					instance.c_owner = self
+					LayerManager.room_instance.call_deferred("add_child",instance)
+					emit_signal("attack_requested",revive, position, Vector2.ZERO, 0)
 		post_damage_trigger(damage_amount,_dmg_owner)
+
+
+func angel():
+	if has_revived: return false
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var angel_rem = preload("res://Game Elements/Remnants/angel.tres")
+	for rem in remnants:
+		if rem.active:
+			match rem.remnant_name:
+				angel_rem.remnant_name:
+					
+					var revive_inst = preload("res://Game Elements/Remnants/revive/revive.tscn").instantiate()
+					revive_inst.player = self
+					revive_inst.health_percent = rem.variable_1_values[rem.rank-1]/100.0
+					LayerManager.room_instance.add_child(revive_inst)
+					revive_inst.global_position = global_position
+					#has_revived = true
+					return true
 
 func set_weapon_dr(weapon : Weapon):
 	damage_resistance = 0.0
@@ -805,12 +828,13 @@ func tether(delta : float):
 			if !SFXManager.continuous_players.has("tether"):
 				SFXManager.play_continuous("tether", tether_sfx, db)
 
+	var other_tethering
 	if Input.is_action_just_released("swap_" + input_device):
-		var other_tethering = is_multiplayer and is_instance_valid(other_player) and other_player.get("single_swap_duration") != null and other_player.single_swap_duration > 0.25
+		other_tethering = is_multiplayer and is_instance_valid(other_player) and other_player.get("single_swap_duration") != null and other_player.single_swap_duration > 0.25
 		if !other_tethering and !is_tethered:
 			SFXManager.stop_continuous("tether")
 
-	var other_tethering = is_multiplayer and is_instance_valid(other_player) and other_player.get("single_swap_duration") != null and other_player.single_swap_duration > 0.25
+	other_tethering = is_multiplayer and is_instance_valid(other_player) and other_player.get("single_swap_duration") != null and other_player.single_swap_duration > 0.25
 	if single_swap_duration > 0.25 or other_tethering or is_tethered:
 		if is_purple or !is_multiplayer:
 			var dist = (other_player.position - position).length()
@@ -1259,7 +1283,7 @@ func check_forcefield(delta : float):
 			effect.gained(self)
 			effects.append(effect)
 	
-func check_special_triggers(temp_is_purple : bool, new_progress : float, used_special : bool = false, trigger_remnants : bool =true):
+func check_special_triggers(temp_is_purple : bool, _new_progress : float, used_special : bool = false, trigger_remnants : bool =true):
 	if !trigger_remnants:
 		return
 	if !used_special:
