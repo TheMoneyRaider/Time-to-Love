@@ -210,7 +210,6 @@ func _process(delta: float) -> void:
 					camera.position = (current_crosshair_offset + player1.global_position * 8.0) / 8.0 + camera.get_cam_offset(delta)
 			else:
 				camera.position = player1.global_position+camera.get_cam_offset(delta)
-				
 	# Thread check
 	if thread_running and not room_gen_thread.is_alive():
 		thread_result = room_gen_thread.wait_to_finish()

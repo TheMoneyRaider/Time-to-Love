@@ -5,15 +5,25 @@ class_name Effect
 @export var type: String = "Error"
 var life : float = 0.0
 var value1: float = 0.0
+var original_cooldown : float
 var failed = false
 var saved_nodes: Array[Node] = []
-
+var saved_reference : Node
 func tick(delta: float, node_to_change: Node):
+	match type:
+		"bleed":
+			#print(str(floor((cooldown-delta)*2.0)) +"    "+str(floor(cooldown*2.0)))
+			if floor((cooldown-delta)*2.0)!= floor(cooldown*2.0) and floor(original_cooldown*2.0) != floor(cooldown*2.0):
+				node_to_change.take_damage(value1,saved_reference)
+				var particle = load("res://Game Elements/Particles/bleed_particles.tscn").instantiate()
+				particle.position = node_to_change.position
+				node_to_change.get_parent().add_child(particle)
 	if cooldown > 0:
 		cooldown -= delta
 	if cooldown <= 0 and !failed:
 		cooldown = 0
 		lost(node_to_change)
+					
 
 func _get_or_spawn_particle(scene_path: String, node_to_change: Node, particle_index : int = -1) -> Node:
 	# Return existing particle if already spawned
@@ -42,6 +52,7 @@ func _update_particle_intensity(particle: Node, intensity: float) -> void:
 
 func gained(node_to_change: Node):
 	var intensity
+	original_cooldown = cooldown
 	
 	match type:
 		"winter":

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://byeca5chnfews"
+path="res://.godot/imported/revive.ogg-de2527c21ad375202af6ce8e813e4969.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/remnants/revive.ogg"
+dest_files=["res://.godot/imported/revive.ogg-de2527c21ad375202af6ce8e813e4969.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -9,6 +9,7 @@ var health_percent : float
 var time := 0.0
 var camera
 func _ready() -> void:
+	SFXManager.play(preload("res://Game Elements/sfx/remnants/revive.ogg"),0.0,"SFX")
 	player.get_tree().paused = true
 	camera = player.LayerManager.camera
 	player.visible = false

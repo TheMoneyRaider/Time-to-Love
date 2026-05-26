@@ -586,7 +586,7 @@ func angel():
 					revive_inst.health_percent = rem.variable_1_values[rem.rank-1]/100.0
 					LayerManager.room_instance.add_child(revive_inst)
 					revive_inst.global_position = global_position
-					#has_revived = true
+					has_revived = true
 					return true
 
 func set_weapon_dr(weapon : Weapon):
