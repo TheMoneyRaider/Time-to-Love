@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bn32iidbhks8u"
+path="res://.godot/imported/bigt_walk2.ogg-ea8520eb0a249a596b110c5a31ce5e2c.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/enemies/bigt/bigt_steps/bigt_walk2.ogg"
+dest_files=["res://.godot/imported/bigt_walk2.ogg-ea8520eb0a249a596b110c5a31ce5e2c.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -172,6 +172,7 @@ func update_art(p_in : int):
 	pass
 
 func deactivate():
+	SFXManager.play(preload("res://Game Elements/sfx/enemies/bigt/bigt_dead.ogg"))
 	for node in get_children():
 		if node.is_in_group("pathway"):
 			node.enable_pathway()

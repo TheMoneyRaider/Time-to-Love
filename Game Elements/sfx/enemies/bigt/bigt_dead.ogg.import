@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://gv2hceas82ot"
+path="res://.godot/imported/bigt_dead.ogg-84ae898428e2796edba884547d1f96aa.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/enemies/bigt/bigt_dead.ogg"
+dest_files=["res://.godot/imported/bigt_dead.ogg-84ae898428e2796edba884547d1f96aa.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

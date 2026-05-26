@@ -13,6 +13,17 @@ var recalc_distance_threshold: float = 48.0
 @export var target_to_player: float = 90.0
 @export var ignore_players: bool = false
 
+var step_interval: float = 0.4
+var bigt_step = [
+	preload("res://Game Elements/sfx/enemies/bigt/bigt_steps/bigt_walk1.ogg"),
+	preload("res://Game Elements/sfx/enemies/bigt/bigt_steps/bigt_walk2.ogg"),
+	preload("res://Game Elements/sfx/enemies/bigt/bigt_steps/bigt_walk3.ogg"),
+	preload("res://Game Elements/sfx/enemies/bigt/bigt_steps/bigt_walk4.ogg"),
+	preload("res://Game Elements/sfx/enemies/bigt/bigt_steps/bigt_walk5.ogg"),
+	preload("res://Game Elements/sfx/enemies/bigt/bigt_steps/bigt_walk6.ogg"),
+	preload("res://Game Elements/sfx/enemies/bigt/bigt_steps/bigt_walk7.ogg"),
+]
+
 func _tick(_delta: float) -> Status: 
 	# takes the random pos determined b4 in "chooseRadnomPos, and moves to it, simple as 
 	var positions = blackboard.get_var(player_positions)
@@ -64,7 +75,14 @@ func _tick(_delta: float) -> Status:
 			return SUCCESS
 		return RUNNING
 	
-	if(agent.move(target_pos, _delta)):
+	if agent.move(target_pos, _delta):
+		if agent.enemy_type == "large_reptile":
+			var timer = blackboard.get_var("bigt_step_timer") if blackboard.has_var("bigt_step_timer") else 0.0
+			timer -= _delta
+			if timer <= 0.0:
+				SFXManager.play(bigt_step[randi() % bigt_step.size()], 20, "SFX", agent.global_position)
+				timer = step_interval
+			blackboard.set_var("bigt_step_timer", timer)
 		return RUNNING
 	else:
 		return FAILURE
