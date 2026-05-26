@@ -772,8 +772,8 @@ func tether(delta : float):
 				tether_line.visible = false
 		else:
 			tether_line.gradient = null
-		tether_line.points[0] = position + (other_player.position - position).normalized() * 8
-		tether_line.points[2] = other_player.position + (position - other_player.position).normalized() * 8
+		tether_line.points[0] = position + (other_player.position - position).normalized() * Vector2(4,8)
+		tether_line.points[2] = other_player.position + (position - other_player.position).normalized() * Vector2(4,8)
 		tether_line.points[1] = (tether_line.points[0] + tether_line.points[2]) / 2
 		var tether_scale = 1.0
 		if ((other_player.position - position) / 25).length() > 8:
