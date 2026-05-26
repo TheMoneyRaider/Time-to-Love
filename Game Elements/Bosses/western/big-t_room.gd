@@ -226,4 +226,6 @@ func activate(camera_in : Node, player1_in : Node, player2_in : Node):
 	transition1.modulate.a = 0.0
 	LayerManager.BossIntro.get_node("AnimationPlayer").play("main")
 	camera.global_position = ((player1.global_position + player2.global_position) / 2)
+	await get_tree().create_timer(animation_time + fade_time + camera_move_time * 0.5, false).timeout
+	SFXManager.play(preload("res://Game Elements/sfx/enemies/bigt/bigt_intro.ogg"), 0.0, "SFX")
 	Hud.show_boss_bar(healthbar_underlays[phase],healthbar_overlays[phase],boss_names[phase],boss_name_settings[phase],phase_overlay_index[phase])
