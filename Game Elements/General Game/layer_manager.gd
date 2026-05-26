@@ -632,7 +632,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 			"RemnantOrb":
 				if player_reference in node.tracked_bodies:
 					if RemnantManager.will_softlock(player_1_remnants,player_2_remnants,false):
-						timefabric_rewarded = 200 #TODO change this to by dynamic(ish)
+						if timefabric_rewarded <= 0: timefabric_rewarded = 200
 						node.name = "TimeFabricOrb"
 						return true
 					node.queue_free()
@@ -642,14 +642,14 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					return true
 			"TimeFabricOrb":
 				if player_reference in node.tracked_bodies:
-					timefabric_rewarded = 200 #TODO change this to by dynamic(ish)
+					if timefabric_rewarded <= 0: timefabric_rewarded = 200
 					_populate_health_rewards(generated_room, _generated_room_data)
 					#base_reward_probabilities[0] *= .8
 					return true
 			"UpgradeOrb":
 				if player_reference in node.tracked_bodies:
 					if RemnantManager.will_softlock(player_1_remnants,player_2_remnants,true):
-						timefabric_rewarded = 200 #TODO change this to by dynamic(ish)
+						if timefabric_rewarded <= 0: timefabric_rewarded = 200
 						node.name = "TimeFabricOrb"
 						return true
 					node.queue_free()
