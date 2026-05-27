@@ -108,7 +108,7 @@ func _ready() -> void:
 	hud.set_players(player1,player2)
 	hud.connect_signals(player1)
 	hud.set_cross_position()
-	dev_remnants()
+	#dev_remnants()
 	
 	
 	

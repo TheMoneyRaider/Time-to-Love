@@ -301,6 +301,7 @@ func apply_remnants(attack_instance):
 					cowboy.remnant_name:
 						if !(name in ["Mace","Laser Sword","Shovel","Fist"]):
 							attack_instance.bounces = rem.variable_1_values[rem.rank-1]
+		attack_instance.damage *= (1 + damage_multiplier) 
 
 
 var laser_camera_distancex = 240
