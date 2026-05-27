@@ -1073,6 +1073,8 @@ func damage_boost() -> float:
 	var ninja = preload("res://Game Elements/Remnants/ninja.tres")
 	var assassin = preload("res://Game Elements/Remnants/assassin.tres")
 	var hoard = preload("res://Game Elements/Remnants/hoard.tres")
+	var flagellant = preload("res://Game Elements/Remnants/flagellant.tres")
+	var coward = preload("res://Game Elements/Remnants/coward.tres")
 	for rem in remnants:
 		if rem.active:
 			match rem.remnant_name:
@@ -1090,6 +1092,10 @@ func damage_boost() -> float:
 					boost += (min(time_since_last_hit * rem.variable_1_values[rem.rank-1],rem.variable_2_values[rem.rank-1]) / 100.0)
 				hoard.remnant_name:
 					boost += ((rem.variable_1_values[rem.rank-1] * floor(LayerManager.timefabric_collected/50.0)  / 100.0))
+				flagellant.remnant_name:
+					boost += ((rem.variable_1_values[rem.rank-1] * .01 * (1 - (current_health / max_health))))
+				coward.remnant_name:
+					boost += ((rem.variable_1_values[rem.rank-1] * .01 * current_health / max_health))
 	return boost+1.0
 
 func change_health(add_to_current : float, add_to_max : float = 0, ignore_health_change : bool = false):
