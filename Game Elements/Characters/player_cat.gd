@@ -1227,12 +1227,13 @@ func hit_enemy(attack_body : Node, enemy : Node):
 		
 		return
 	var cur_weapon = weapons[temp_purple as int]
-	cur_weapon.current_special_hits +=1
-	if cur_weapon.current_special_hits > cur_weapon.special_hits:
-		cur_weapon.current_special_hits = cur_weapon.special_hits
-	else:
-		emit_signal("special_changed",temp_purple,cur_weapon.current_special_hits/float(cur_weapon.special_hits))
-		
+	if attack_body:
+		cur_weapon.current_special_hits +=1
+		if cur_weapon.current_special_hits > cur_weapon.special_hits:
+			cur_weapon.current_special_hits = cur_weapon.special_hits
+		else:
+			emit_signal("special_changed",temp_purple,cur_weapon.current_special_hits/float(cur_weapon.special_hits))
+			
 	
 	if temp_purple:
 		remnants = get_tree().get_root().get_node("LayerManager").player_1_remnants
