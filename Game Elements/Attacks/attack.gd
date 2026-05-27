@@ -423,7 +423,7 @@ func deflect(hit_direction, hit_speed, deflection_area):
 	else:
 		SFXManager.play(deflect_sounds[randi() % deflect_sounds.size()], 2.0,"SFX",global_position)
 	print("DEFLECT")
-	if attack_type=="laser":
+	if attack_type=="laser" and deflection_area:
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment1"))
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment2"))
 		var bt_player = c_owner.get_node_or_null("BTPlayer")

@@ -1395,7 +1395,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 		var particles = load("res://Game Elements/Particles/pathway_particles.tscn").instantiate()
 		PathwayTransition.global_position = pathway.global_position
 		PathwayViewport.add_child(particles)
-		var gray_value = true if RoomManager.current_progress >=2.1 and room_instance_data.roomtype == Globals.RoomType.Boss else false
+		var gray_value = true if RoomManager.current_progress >=2.1 and room_instance_data.roomtype == Globals.RoomType.Boss or (RoomManager.current_progress >=3.0) else false
 		particles.get_child(0).material.set_shader_parameter("grayscale",gray_value)
 		particles.position = Vector2(1024,1024)
 		transitioning = true
