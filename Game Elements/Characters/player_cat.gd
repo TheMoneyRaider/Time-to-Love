@@ -36,7 +36,7 @@ var move_speed: float
 @onready var orange_texture = preload("res://art/Sprout Lands - Sprites - Basic pack/Characters/orange_spritesheet.png")
 
 var tether_sfx = preload("res://Game Elements/sfx/player/tether.ogg")
-
+var has_revived : bool = false
 var damage_multiplier = 1.0
 var effect_stacks : Array[int] = []
 var effect_particles : Array
@@ -130,8 +130,7 @@ func _ready():
 		tether_width_curve = tether_line.width_curve
 		tether_line.gradient = null			
 	hide_forcefield(0.0)
-	
-	special_changed.connect(check_tortoise)
+	special_changed.connect(check_special_triggers)
 
 
 func hide_forcefield(interp_time : float):
@@ -350,7 +349,7 @@ func _physics_process(delta):
 	tether(delta)
 	if is_tethered:
 		if is_multiplayer:
-			input_direction += (tether_momentum / move_speed) * 1.5
+			input_direction += (tether_momentum / move_speed) * 2.5
 		else:
 			input_direction += (tether_momentum / move_speed) * 5.0
 	weapon_node.weapon_direction = (crosshair.position).normalized()
@@ -541,6 +540,7 @@ func get_camera_rect() -> RectangleShape2D:
 
 func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 20,creates_indicators : bool = true, bulwark : bool = true):
 	in_combat = 3
+	damage_amount *= Globals.check_domains(global_position,self)
 	if(bulwark == false || i_frames <= 0 && !invulnerable):
 		time_since_last_hit = 0
 		i_frames = attack_i_frames
@@ -559,13 +559,36 @@ func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0
 		if current_health >= 0.0 and creates_indicators:
 			LayerManager._damage_indicator(damage_amount, _dmg_owner,_direction, attack_body,self)
 		if(current_health <= 0.0):
-			if(die(true)):
-				var instance = revive.instantiate()
-				instance.global_position = position
-				instance.c_owner = self
-				LayerManager.room_instance.call_deferred("add_child",instance)
-				emit_signal("attack_requested",revive, position, Vector2.ZERO, 0)
+			if !angel():
+				if(die(true)):
+					var instance = revive.instantiate()
+					instance.global_position = position
+					instance.c_owner = self
+					LayerManager.room_instance.call_deferred("add_child",instance)
+					emit_signal("attack_requested",revive, position, Vector2.ZERO, 0)
 		post_damage_trigger(damage_amount,_dmg_owner)
+
+
+func angel():
+	if has_revived: return false
+	var remnants : Array[Remnant]
+	if is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var angel_rem = preload("res://Game Elements/Remnants/angel.tres")
+	for rem in remnants:
+		if rem.active:
+			match rem.remnant_name:
+				angel_rem.remnant_name:
+					
+					var revive_inst = preload("res://Game Elements/Remnants/revive/revive.tscn").instantiate()
+					revive_inst.player = self
+					revive_inst.health_percent = rem.variable_1_values[rem.rank-1]/100.0
+					LayerManager.room_instance.add_child(revive_inst)
+					revive_inst.global_position = global_position
+					has_revived = true
+					return true
 
 func set_weapon_dr(weapon : Weapon):
 	damage_resistance = 0.0
@@ -713,7 +736,7 @@ func tether(delta : float):
 				TutorialManager.player_tethers_short(is_purple,1.0)
 	if Input.is_action_just_pressed("swap_" + input_device):
 		if is_multiplayer:
-			tether_momentum += (other_player.position - position)
+			tether_momentum += (other_player.position - position) / 3
 			is_tethered = true
 		else:
 			single_toggle = false
@@ -806,12 +829,13 @@ func tether(delta : float):
 			if !SFXManager.continuous_players.has("tether"):
 				SFXManager.play_continuous("tether", tether_sfx, db)
 
+	var other_tethering
 	if Input.is_action_just_released("swap_" + input_device):
-		var other_tethering = is_multiplayer and is_instance_valid(other_player) and other_player.get("single_swap_duration") != null and other_player.single_swap_duration > 0.25
+		other_tethering = is_multiplayer and is_instance_valid(other_player) and other_player.get("single_swap_duration") != null and other_player.single_swap_duration > 0.25
 		if !other_tethering and !is_tethered:
 			SFXManager.stop_continuous("tether")
 
-	var other_tethering = is_multiplayer and is_instance_valid(other_player) and other_player.get("single_swap_duration") != null and other_player.single_swap_duration > 0.25
+	other_tethering = is_multiplayer and is_instance_valid(other_player) and other_player.get("single_swap_duration") != null and other_player.single_swap_duration > 0.25
 	if single_swap_duration > 0.25 or other_tethering or is_tethered:
 		if is_purple or !is_multiplayer:
 			var dist = (other_player.position - position).length()
@@ -1210,12 +1234,13 @@ func hit_enemy(attack_body : Node, enemy : Node):
 		
 		return
 	var cur_weapon = weapons[temp_purple as int]
-	cur_weapon.current_special_hits +=1
-	if cur_weapon.current_special_hits > cur_weapon.special_hits:
-		cur_weapon.current_special_hits = cur_weapon.special_hits
-	else:
-		emit_signal("special_changed",temp_purple,cur_weapon.current_special_hits/float(cur_weapon.special_hits))
-		
+	if attack_body:
+		cur_weapon.current_special_hits +=1
+		if cur_weapon.current_special_hits > cur_weapon.special_hits:
+			cur_weapon.current_special_hits = cur_weapon.special_hits
+		else:
+			emit_signal("special_changed",temp_purple,cur_weapon.current_special_hits/float(cur_weapon.special_hits))
+			
 	
 	if temp_purple:
 		remnants = get_tree().get_root().get_node("LayerManager").player_1_remnants
@@ -1266,7 +1291,7 @@ func check_forcefield(delta : float):
 			effect.gained(self)
 			effects.append(effect)
 	
-func check_tortoise(temp_is_purple : bool, new_progress : float, used_special : bool = false, trigger_remnants : bool =true):
+func check_special_triggers(temp_is_purple : bool, _new_progress : float, used_special : bool = false, trigger_remnants : bool =true):
 	if !trigger_remnants:
 		return
 	if !used_special:
@@ -1278,6 +1303,8 @@ func check_tortoise(temp_is_purple : bool, new_progress : float, used_special : 
 		remnants = LayerManager.player_2_remnants
 	var tort = preload("res://Game Elements/Remnants/tortoise.tres")
 	var litho = preload("res://Game Elements/Remnants/terramancer.tres")
+	var heaven = preload("res://Game Elements/Remnants/heaven.tres")
+	var hell = preload("res://Game Elements/Remnants/hell.tres")
 	for rem in remnants:
 		if rem.active:
 			match rem.remnant_name:
@@ -1303,6 +1330,20 @@ func check_tortoise(temp_is_purple : bool, new_progress : float, used_special : 
 					lith_area.litho_value = rem.variable_2_values[rem.rank - 1]
 					LayerManager.room_instance.add_child(lith_area)
 					lith_area.global_position = global_position
+				heaven.remnant_name:
+					var domain = preload("res://Game Elements/Remnants/heaven/heaven.tscn").instantiate()
+					domain.scale = Vector2(heaven.variable_4_values[rem.rank-1],heaven.variable_4_values[rem.rank-1])
+					LayerManager.room_instance.add_child(domain)
+					domain.lifetime = heaven.variable_2_values[rem.rank-1]
+					domain.damage_change = heaven.variable_3_values[rem.rank-1]
+					domain.global_position = global_position
+				hell.remnant_name:
+					var domain = preload("res://Game Elements/Remnants/hell/hell.tscn").instantiate()
+					domain.scale = Vector2(hell.variable_4_values[rem.rank-1],hell.variable_4_values[rem.rank-1])
+					LayerManager.room_instance.add_child(domain)
+					domain.lifetime = hell.variable_2_values[rem.rank-1]
+					domain.damage_change = hell.variable_3_values[rem.rank-1]
+					domain.global_position = global_position
 					
 			
 	
@@ -1412,7 +1453,7 @@ func attraction_effect():
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	
 	for enemy in enemies:
-		if not enemy.is_inside_tree() or enemy.is_boss:
+		if not enemy.is_inside_tree() or enemy is not DynamEnemy or enemy.is_boss or enemy.enemy_type =="laser_e" or enemy.enemy_type =="tentacle":
 			continue
 		# Ensure the physics body has a valid space
 		if not enemy.get_rid().is_valid():

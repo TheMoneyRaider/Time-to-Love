@@ -351,7 +351,10 @@ func island_attack():
 
 	# Activate it toward a random player
 	if is_multiplayer:
-		rock.activate(player1) if randf() > .5 else rock.activate(player2)
+		if randf() > .5:
+			rock.activate(player1)  
+		else:
+			rock.activate(player2)
 	else:
 		rock.activate(player1)
 	return

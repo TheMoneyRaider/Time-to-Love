@@ -45,7 +45,7 @@ func _process(_d):
 		glow_pool.append(glow)
 
 	for i in range(enemies.size()):
-		if !enemies[i] or (get_parent().get_parent().room_instance_data.roomtype == Globals.RoomType.Boss):
+		if !enemies[i] or (get_parent().get_parent().room_instance_data.roomtype == Globals.RoomType.Boss and version!=1):
 			glow_pool[i].visible = false
 			continue
 			

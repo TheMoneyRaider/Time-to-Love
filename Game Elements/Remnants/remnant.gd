@@ -9,6 +9,7 @@ class_name Remnant
 @export var progress_required: float = 0.0
 @export var tags: Array[String]
 @export var required_remnants: Array[Remnant]
+@export var disqualifying_remnants: Array[String]
 @export var num_rem_required: int = 0
 @export var variable_names: Array[String]
 @export var variable_1_values: Array

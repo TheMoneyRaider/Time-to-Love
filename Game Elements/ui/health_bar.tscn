@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bsol6opkpit8y"]
+[gd_scene load_steps=5 format=3 uid="uid://bsol6opkpit8y"]
 
 [ext_resource type="Script" uid="uid://cdv7ke8wr65tg" path="res://Game Elements/ui/health_bar.gd" id="1_y6ef7"]
 [ext_resource type="PackedScene" uid="uid://bsewyao7ciray" path="res://Game Elements/ui/healthbar_piece.tscn" id="2_123nf"]
@@ -8,26 +8,10 @@
 resource_local_to_scene = true
 font_size = 48
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bjfho"]
-bg_color = Color(0.38210395, 0.030576311, 0.5883771, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6fbih"]
-bg_color = Color(0.6858206, 0.29710156, 0.98195356, 1)
-
-[sub_resource type="Theme" id="Theme_6fbih"]
-resource_local_to_scene = true
-Label/colors/font_color = Color(0.69411767, 0.32156864, 0.9843137, 1)
-Label/font_sizes/font_size = 40
-ProgressBar/styles/background = SubResource("StyleBoxFlat_bjfho")
-ProgressBar/styles/fill = SubResource("StyleBoxFlat_6fbih")
-
 [node name="MarginContainer" type="MarginContainer"]
+custom_minimum_size = Vector2(414, 138)
 offset_right = 350.0
 offset_bottom = 74.0
-theme_override_constants/margin_left = 32
-theme_override_constants/margin_top = 32
-theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 32
 script = ExtResource("1_y6ef7")
 health_chunk_scene = ExtResource("2_123nf")
 
@@ -35,28 +19,27 @@ health_chunk_scene = ExtResource("2_123nf")
 z_index = 4
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
-text = "   5/10 HP   "
+text = "5/10 HP"
 label_settings = SubResource("LabelSettings_123nf")
 horizontal_alignment = 1
 vertical_alignment = 1
+clip_text = true
 
-[node name="HealthBar" type="HBoxContainer" parent="."]
-layout_mode = 2
-theme = SubResource("Theme_6fbih")
-
-[node name="ProgressBar" type="ProgressBar" parent="HealthBar"]
-modulate = Color(1, 1, 1, 0)
+[node name="ProgressBar" type="ProgressBar" parent="."]
+visible = false
 custom_minimum_size = Vector2(350, 74)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 max_value = 10.0
 value = 10.0
 show_percentage = false
 
-[node name="Background" type="Line2D" parent="HealthBar"]
+[node name="Background" type="Line2D" parent="."]
 points = PackedVector2Array(0, 38, 350, 38)
 width = 76.0
 
-[node name="Foreground" type="Line2D" parent="HealthBar"]
+[node name="Foreground" type="Line2D" parent="."]
 points = PackedVector2Array(0, 38, 350, 38)
 width = 76.0
 

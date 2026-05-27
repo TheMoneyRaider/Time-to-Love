@@ -159,3 +159,13 @@ func invert_direction(direct : Direction) -> Direction:
 			return Direction.Up
 	return Direction.Error
 	
+func check_domains(global_position : Vector2,node : Node):
+	var damage_scale = 1.0
+	for domain in node.get_tree().get_nodes_in_group("domain"):
+		if domain.global_position.distance_to(global_position) < domain.domain_range * domain.scale.x:
+			match domain.domain_type:
+				"heaven":
+					damage_scale-=domain.damage_change / 100.0
+				"hell":
+					damage_scale+=domain.damage_change / 100.0
+	return damage_scale

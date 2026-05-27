@@ -29,7 +29,7 @@ func queue_free_children(n :Node):
 
 func populate_remnants():
 	var i = 0
-	var prog = max(Globals.total_progress,RoomManager.current_progress)
+	var prog = max(Globals.save_state.total_progress,Globals.total_progress,RoomManager.current_progress)
 	var last_entry : Node = null
 	var rems = RemnantManager.remnant_pool.duplicate(true)
 	rems.sort_custom(_sort_by_progress_required)
@@ -248,7 +248,7 @@ func _calculate_snap_target():
 
 func _on_slot_selected(idx: int) -> void:
 	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
-	var prog = max(Globals.total_progress,RoomManager.current_progress)
+	var prog = max(Globals.save_state.total_progress,Globals.total_progress,RoomManager.current_progress)
 	var entry = list_container.get_child(idx)
 	var rem = list_container.get_child(idx).remnant
 	rem.rank=(rem.rank %5)+1

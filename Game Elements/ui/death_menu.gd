@@ -168,7 +168,7 @@ func _on_menu_pressed():
 	get_tree().call_deferred("change_scene_to_file", "res://Game Elements/ui/main_menu/main_menu.tscn")
 
 func _on_replay_pressed():
-	Globals.total_progress = max(Globals.total_progress, RoomManager.current_progress)
+	Globals.total_progress = max(Globals.save_state.total_progress,Globals.total_progress,RoomManager.current_progress)
 	if input_delay > 0:
 		return
 	if rewinding:

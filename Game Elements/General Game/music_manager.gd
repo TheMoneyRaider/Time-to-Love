@@ -16,7 +16,7 @@ var start_tracks = {
 var loop_tracks = {
 	"main":		preload("res://Game Elements/Music/main_loop.wav"),
 	"western":	preload("res://Game Elements/Music/western_loop.wav"),
-	"scifi":	preload("res://Game Elements/Music/sci-fi_loop.wav"),
+	"scifi":		preload("res://Game Elements/Music/sci-fi_loop.wav"),
 	"medieval":	preload("res://Game Elements/Music/medieval.wav"),
 	"shop_m": 	preload("res://Game Elements/Music/medieval_shopkeeper.wav"),
 	"shop_w": 	preload("res://Game Elements/Music/western_shopkeeper.wav"),
@@ -28,6 +28,11 @@ const PAUSED_VOLUME = -16.0
 const FADE_DURATION = 0.5
 var tween: Tween
 var paused_value: bool = false
+var current_starting_theme: String = ""
+var in_starting_mode: bool = false
+
+var random_themes = ["medieval", "western", "scifi"]
+var current_random_theme: String = ""
 
 func quite_music(time: float):
 	fade_volume(PAUSED_VOLUME)
@@ -65,19 +70,94 @@ func _ready():
 	active_player = music_player_a
 	inactive_player = music_player_b
 
-func play_theme(theme: String):
-	var start = start_tracks[theme]
-	if current_start == start and active_player.playing:
-		return
-	current_start = start
+func play_random_theme(available_themes: Array = ["medieval"]):
+	var available: Array = []
+	if available_themes.size() == 1:
+		available = available_themes
+	else:
+		available = random_themes.filter(func(t): return t != current_random_theme)
+		
+	current_random_theme = available[randi() % available.size()]
+	
 	active_player.stop()
-	active_player.stream = start
+	current_start = start_tracks[current_random_theme]
+	active_player.stream = start_tracks[current_random_theme]
 	active_player.play()
 	active_player.finished.connect(func():
+		if RoomManager.current_progress == 0:
+			play_random_theme()
+		else:
+			current_random_theme = ""
+		, CONNECT_ONE_SHOT)
+
+func play_theme(theme: String):
+	theme = swap_theme_limbo(theme)
+
+	if _is_starting_eligible(theme):
+		if in_starting_mode: return
+		# Pick a random starting theme for limbo
+		var starting_theme = _pick_random_starting_theme()
+		var start = start_tracks[starting_theme]
+		in_starting_mode = true
+		current_start = start
+		current_starting_theme=starting_theme
+		active_player.stop()
+		active_player.stream = start
+		active_player.play()
+		active_player.finished.connect(normal_loop.bind(starting_theme), CONNECT_ONE_SHOT)
+	else:
+		in_starting_mode = false
+		current_starting_theme = ""
+		var start = start_tracks[theme]
+		if current_start == start and active_player.playing:
+			return
+		current_start = start
+		active_player.stop()
+		active_player.stream = start
+		active_player.play()
+		active_player.finished.connect(normal_loop.bind(theme), CONNECT_ONE_SHOT)
+
+
+func normal_loop(theme):
+	if in_starting_mode:
+		current_starting_theme = _pick_random_starting_theme(current_starting_theme)
+		active_player.stream = loop_tracks[current_starting_theme]
+		active_player.play()
+	else:
 		active_player.stream = loop_tracks[theme]
 		active_player.play()
-	, CONNECT_ONE_SHOT)
+
+
+
+var starting_themes = ["western","scifi","medieval"]
+func _is_starting_eligible(theme: String) -> bool:
+	return RoomManager.current_progress <= 0.0001 and theme in starting_themes
+	
+func _pick_random_starting_theme(exclude: String = "") -> String:
+	var choices = starting_themes.filter(func(t): return t != exclude)
+	if starting_themes.size()==0:
+		return exclude
+	var temp_theme= choices[randi() % choices.size()]
+	if temp_theme == "western" and max(Globals.save_state.total_progress,Globals.total_progress,RoomManager.current_progress) < 1.0 or \
+		temp_theme == "scifi" and max(Globals.save_state.total_progress,Globals.total_progress,RoomManager.current_progress) < 2.0:
+		return _pick_random_starting_theme(exclude)
+	return temp_theme
+
+func swap_theme_limbo(theme : String) -> String:
+	if RoomManager.current_progress >= 3.0:
+		match theme:
+			"western":
+					return "shop_w"
+			"scifi":
+					return "shop_s"
+			"medieval":
+					return "shop_m"
+	return theme
+	
 
 func stop():
+	in_starting_mode = false
+	current_starting_theme = ""
 	active_player.stop()
 	current_start = null
+	current_random_theme = ""

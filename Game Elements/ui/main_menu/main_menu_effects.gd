@@ -20,7 +20,6 @@ class UIState:
 @onready var prepared = false
 var capture_all_states: bool = false
 @export var saved_fragments_paths: Array[String] = ["res://Game Elements/ui/main_menu/BreakFXSavedWestern.tres","res://Game Elements/ui/main_menu/BreakFXSavedSpace.tres","res://Game Elements/ui/main_menu/BreakFXSavedMedieval.tres"]
-var intro_started: bool = false
 
 
 var last_mouse_pos : Vector2
@@ -51,7 +50,6 @@ func _begin_cinematic() -> void:
 	$Intro/AnimationPlayer.play("main")
 	$Intro/Skip.skip_requested.connect(_on_skip)
 	$Intro/Skip.active = true
-	intro_started = true
 
 	get_tree().create_timer(65.0).timeout.connect(func():
 		if paused:
@@ -61,6 +59,7 @@ func _begin_cinematic() -> void:
 			Globals.cinematic_viewed = true
 			paused = false
 			start_menu_music()
+			$Intro/Skip.active = false
 	)
 
 func _ready():
@@ -149,17 +148,7 @@ func _process(delta):
 	nav_cooldown -= delta
 	hover_cooldown-=delta
 	if paused:
-		if !intro_started or $Intro/AnimationPlayer.is_playing():
-			return
-		else:
-			print("_process: animation finished naturally")
-			$Intro.visible = false
-			$Intro/AnimationPlayer.stop()
-			$Intro/AudioStreamPlayer.stop()
-			Globals.cinematic_viewed = true
-			paused=false
-			skip_next_release = true
-			start_menu_music()
+		return
 	if Globals.player1_input:
 		if !prepared:
 			update_prompt()
@@ -659,6 +648,7 @@ func inputs(input_device):
 			UI.player2.pressing = true
 
 	if Input.is_action_just_released("activate_" + input_device):
+		print("hey")
 		if skip_next_release:
 			skip_next_release = false
 		else:

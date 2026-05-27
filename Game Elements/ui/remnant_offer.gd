@@ -73,17 +73,18 @@ func _set_drifter_text(player1_remnants_in, player2_remnants_in):
 		elif(!is_purple && tricky2 != 0):
 			var glyph_key = "special_"+Globals.player1_input
 			$Control/DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+": Reroll for "+str(tricky2)+"  "
-	if Globals.total_progress < 1.0 and !RemnantManager.has_gotten_remnant:
-		$Control/DrifterText/Label.text = "Chose a Remnant for each Character"
-		$Control/DrifterText.visible = true
-		$Control/DrifterText/Label/TextureRect.visible = false
 	if !(Globals.is_multiplayer):
 		if is_purple and tricky1 == 0:
 			$Control/DrifterText.visible = false
 		if !is_purple and tricky2 == 0:
 			$Control/DrifterText.visible = false
-			
-		
+	if Globals.total_progress < 1.0 and !RemnantManager.has_gotten_remnant:
+		$Control/DrifterText/Label.text = "Chose a Remnant for each Character"
+		$Control/DrifterText.visible = true
+		$Control/DrifterText/Label/TextureRect.visible = false
+		if !Globals.is_multiplayer:
+			var glyph_key = "swap_"+Globals.player1_input
+			$Control/DrifterText/Label.text+= " (" +GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+")"
 func _slice_frames() -> void:
 	frames.clear()
 
@@ -236,6 +237,10 @@ func meets_requirements(remnant : Remnant,names : Array[String]):
 	for rm in remnant.required_remnants:
 		if rm.remnant_name in names:
 			num_preqreqs_met += 1
+	
+	for rm_name in remnant.disqualifying_remnants:
+		if rm_name in names:
+			return false
 	if(num_preqreqs_met < remnant.num_rem_required):
 		return false
 	return true

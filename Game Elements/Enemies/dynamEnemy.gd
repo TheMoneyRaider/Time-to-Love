@@ -335,10 +335,9 @@ var thud_delay = 0.0
 func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 0,creates_indicators : bool = true, unstoppable : bool = false):
 	if !hitable and !unstoppable:
 		return
-	if current_health< 0.0:
-		return
 	if(i_frames > 0):
 		return
+	damage *= Globals.check_domains(global_position,self)
 	i_frames = attack_i_frames
 	if enemy_type=="hit_me":
 		_dummy_hit(damage)
@@ -364,13 +363,13 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 		last_hitter = dmg_owner
 		if dmg_owner.is_in_group("player"):
 			dmg_owner.in_combat = 3
-	_check_on_hit_remnants(dmg_owner, attack_body)
-	
-	if dmg_owner != null and dmg_owner.is_in_group("player"):
-		if attack_body and !attack_body.combod:
-			attack_body.combod = true
-			dmg_owner.combo(attack_body.is_purple)
-		dmg_owner.hit_enemy(attack_body,self)
+	if current_health>= 0.0: 
+		_check_on_hit_remnants(dmg_owner, attack_body)
+		if dmg_owner != null and dmg_owner.is_in_group("player"):
+			if attack_body and !attack_body.combod:
+				attack_body.combod = true
+				dmg_owner.combo(attack_body.is_purple)
+			dmg_owner.hit_enemy(attack_body,self)
 	if attack_body:
 		match attack_body.attack_type:
 			"laser":
@@ -384,6 +383,7 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 			_:
 				knockback_velocity = attack_body.direction * attack_body.knockback_force
 	current_health -= damage
+	check_demon(damage,dmg_owner,attack_body)
 	if is_boss:
 		var health_percentile = clamp(current_health/max_health,0.0,1.0)
 		LayerManager.hud.update_bossbar(health_percentile)
@@ -424,6 +424,28 @@ func take_damage(damage : float, dmg_owner : Node, direction = Vector2(0,-1), at
 		if dmg_owner != null && dmg_owner.is_in_group("player"):
 			dmg_owner.kill_enemy(self)
 	emit_signal("enemy_took_damage",damage,current_health,self,direction)
+
+func check_demon(damage : float, dmg_owner : Node, attack_body : Node = null):
+	if !attack_body: return
+	if !dmg_owner: return
+	if !dmg_owner.is_in_group("player"): return
+	var remnants : Array[Remnant]
+	if dmg_owner.is_purple:
+		remnants = LayerManager.player_1_remnants
+	else:
+		remnants = LayerManager.player_2_remnants
+	var demon = preload("res://Game Elements/Remnants/demon.tres")
+	for rem in remnants:
+		if rem.active:
+			match rem.remnant_name:
+				demon.remnant_name:
+					var effect = preload("res://Game Elements/Effects/bleed.tres").duplicate(true)
+					effect.cooldown = rem.variable_2_values[rem.rank-1]
+					effect.value1 = rem.variable_1_values[rem.rank-1] / 100.0 / (2.0 * rem.variable_2_values[rem.rank-1]) * dmg_owner.weapons[dmg_owner.is_purple as int].damage
+					effect.saved_reference = dmg_owner
+					effect.gained(self)
+					effects.append(effect)
+
 
 func check_agro(dmg_owner : Node):
 	if dmg_owner != null && dmg_owner.is_in_group("player"):

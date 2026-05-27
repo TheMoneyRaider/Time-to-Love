@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=5 format=3 uid="uid://bdp2ffjckuxa6"]
+
+[ext_resource type="Texture2D" uid="uid://dce5fuxj2ec1q" path="res://art/remnants/heaven.png" id="1_f1d62"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="2_f1d62"]
+[ext_resource type="Texture2D" uid="uid://bdf0l0a0f2g86" path="res://art/remnants/heaven_icon.png" id="3_xxbg4"]
+[ext_resource type="Resource" uid="uid://do3s5rya0o0jf" path="res://Game Elements/Remnants/angel.tres" id="5_qwv2v"]
+
+[resource]
+script = ExtResource("2_f1d62")
+remnant_name = "Remnant of The Heavens"
+description = "Whenever you do a special attack, create a $X sized domain that lasts for $Y seconds and reduces all damage taken in it's range by $Z%."
+icon = ExtResource("3_xxbg4")
+art = ExtResource("1_f1d62")
+progress_required = 1.0
+tags = Array[String](["$X", "$Y", "$Z"])
+required_remnants = Array[ExtResource("2_f1d62")]([ExtResource("5_qwv2v")])
+num_rem_required = 1
+variable_names = Array[String](["$X", "$Y", "$Z"])
+variable_1_values = ["Small", "Medium", "Large", "Giant", "Gargantuan"]
+variable_2_values = [2, 4, 6, 8, 10]
+variable_3_values = [10, 20, 30, 40, 50]
+variable_4_values = [0.75, 1.2, 1.5, 2.25, 3.0]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

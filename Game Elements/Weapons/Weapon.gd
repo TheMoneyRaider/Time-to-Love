@@ -246,6 +246,7 @@ func apply_remnants(attack_instance):
 		var longshot = preload("res://Game Elements/Remnants/longshot.tres")
 		var hunter = preload("res://Game Elements/Remnants/hunter.tres")
 		var giant = preload("res://Game Elements/Remnants/giant.tres")
+		var cowboy = preload("res://Game Elements/Remnants/cowboy.tres")
 		if c_owner.is_purple:
 			remnants = c_owner.get_tree().get_root().get_node("LayerManager").player_1_remnants
 			mancer_value = c_owner.mancermancer_values[0]
@@ -297,9 +298,9 @@ func apply_remnants(attack_instance):
 							attack_instance.pierce += rem.rank
 					giant.remnant_name:
 						attack_instance.scale *= 1.5
-					_:
-						pass
-		attack_instance.damage *= damage_multiplier+1.0
+					cowboy.remnant_name:
+						if !(name in ["Mace","Laser Sword","Shovel","Fist"]):
+							attack_instance.bounces = rem.variable_1_values[rem.rank-1]
 
 
 var laser_camera_distancex = 240
@@ -609,7 +610,7 @@ func crossbow_special_attack(attack_direction : Vector2, node_attacking : Node):
 	attack_scene = "res://Game Elements/Attacks/giant_bolt.tscn"
 	attack_direction =attack_direction.rotated(-PI / 12)
 	for i in range(0,3):
-		spawn_attack(attack_direction,node_attacking.global_position + 20 * attack_direction, node_attacking,"burn_particles")
+		spawn_attack(attack_direction,node_attacking.global_position + 20 * attack_direction, node_attacking,"charged_particles")
 		attack_direction =attack_direction.rotated(PI / 12)
 	current_special_hits = 0
 	#scale = scale / 1.2

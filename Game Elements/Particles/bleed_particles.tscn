@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://cbpxtoxuxpgd3"]
+
+[ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/Particles/effect_particles.gd" id="1_n7dfy"]
+
+[sub_resource type="Gradient" id="Gradient_n7dfy"]
+offsets = PackedFloat32Array(0, 0.41047296, 0.785473, 1)
+colors = PackedColorArray(0.3871292, 5.2943824e-07, 0.076602586, 1, 0.6669316, 0.022599626, 0.18760294, 1, 0.68220127, 0.06740883, 0.22484753, 0.9591887, 1, 1, 1, 0.10980392)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_an0lo"]
+gradient = SubResource("Gradient_n7dfy")
+
+[sub_resource type="Curve" id="Curve_4w8jb"]
+_data = [Vector2(0, 0), 0.0, 6.7659764, 0, 0, Vector2(0.2385321, 1), 0.0, 0.0, 0, 0, Vector2(0.5168196, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_k7ydx"]
+curve = SubResource("Curve_4w8jb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_n7dfy"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 16.0
+direction = Vector3(0, -1, 0)
+spread = 90.0
+initial_velocity_min = 75.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 196, 0)
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_k7ydx")
+color = Color(0.9315891, 0, 0.23942548, 0.76862746)
+color_ramp = SubResource("GradientTexture1D_an0lo")
+hue_variation_min = -0.100000024
+hue_variation_max = 0.09999997
+
+[node name="BleedParticles" type="GPUParticles2D"]
+z_index = 21
+y_sort_enabled = true
+emitting = false
+amount = 70
+amount_ratio = 0.5
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_n7dfy")
+script = ExtResource("1_n7dfy")

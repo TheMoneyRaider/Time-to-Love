@@ -20,6 +20,7 @@ func load_settings():
 	mouse_sensitivity = Globals.config.get_value("controls", "mouse_sensitivity", 1.0)
 	controller_mode = Globals.config.get_value("controls","controller_mode", true)
 	joystick_acceleration = Globals.config.get_value("controls","joystick_acceleration",7.0)
+	hud_size = Globals.config.get_value("hud","size",5.0)
 	debug_mode = Globals.config.get_value("debug", "enabled", false)
 	crosshair_mode = Globals.config.get_value("settings", "crosshair", true) 
 	frag_mode = Globals.config.get_value("fragmentation", "enabled", true)
@@ -52,6 +53,7 @@ func load_settings():
 				node.focus_entered.connect(func(): SFXManager.play(preload("res://Game Elements/sfx/world/remnant_hover.ogg"), 0.0, "UI"))
 	
 var frag_mode: bool = false
+var hud_size: float = 5.0
 var devices : Array[Array]=[[],[]]
 func _on_back_pressed() -> void:
 	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
@@ -73,6 +75,7 @@ func _on_apply_settings()-> void:
 	Globals.config.set_value("debug", "enabled", debug_mode)
 	Globals.config.set_value("settings", "crosshair", crosshair_mode)
 	Globals.config.set_value("fragmentation", "enabled", frag_mode)
+	Globals.config.set_value("hud", "size", hud_size)
 	Globals.config.set_value("inputs","player1_input", Globals.player1_input)
 	Globals.config.set_value("inputs","player2_input", Globals.player2_input)
 	Globals.config.set_value("rewind","rewind_mode",rewind_mode)
@@ -86,6 +89,7 @@ func _on_apply_settings()-> void:
 	var LayerManager = get_tree().get_root().get_node_or_null("LayerManager")
 	if LayerManager:
 		LayerManager.update_players_input_devices()
+		LayerManager.hud.update_hud()
 	
 
 @onready var label := $MarginContainer/VBoxContainer/Volume/VolVal
@@ -101,6 +105,8 @@ func _ready() -> void:
 	$MarginContainer/VBoxContainer/Controller_Mode/ControllerMode.button_pressed = controller_mode
 	update_controller_menu_label()
 	
+	$MarginContainer/VBoxContainer/HUD_Size/HUD_Size.value = hud_size
+	
 	# disconnect before setting to avoid triggering sounds
 	$MarginContainer/VBoxContainer/Debug/DebugMode.toggled.disconnect(_on_debug_mode_toggled)
 	$MarginContainer/VBoxContainer/Debug/DebugMode.button_pressed = debug_mode
@@ -110,7 +116,7 @@ func _ready() -> void:
 	$MarginContainer/VBoxContainer/Crosshair/Crosshair.toggled.disconnect(_on_crosshair_mode_toggled)
 	$MarginContainer/VBoxContainer/Crosshair/Crosshair.button_pressed = crosshair_mode
 	$MarginContainer/VBoxContainer/Crosshair/Crosshair.toggled.connect(_on_crosshair_mode_toggled)
-	update_debug_menu_label()
+	update_crosshair_menu_label()
 	
 	
 	$MarginContainer/VBoxContainer/Fragmenting/FragMode.toggled.disconnect(_on_frag_mode_toggled)
@@ -214,6 +220,9 @@ func set_joystick_acceleration(value: float):
 
 func update_acceleration_label():
 	$MarginContainer/VBoxContainer/Controller/SensLabel.text = "%.2f" % joystick_acceleration	
+
+func set_hud_size(value: float):
+	hud_size = clamp(value, 3.0, 12.0)
 
 func _on_mouse_sensitivity_value_changed(value: float) -> void:
 	set_mouse_sensitivity(value)
@@ -320,6 +329,8 @@ func _on_joystick_sensitivity_value_changed(value: float) -> void:
 	set_joystick_acceleration(value)
 
 
+func _on_hud_size_changed(value: float) -> void:
+	set_hud_size(value)
 func _on_controller_mode_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		SFXManager.play(preload("res://Game Elements/ui/sfx/switch_on.ogg"), 0.0, "UI")

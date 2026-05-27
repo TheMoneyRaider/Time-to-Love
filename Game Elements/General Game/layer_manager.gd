@@ -7,6 +7,7 @@ extends Node2D
 var player1 = null
 var player2 = null
 var undiscovered_weapons = []
+var has_rewarded_for_boss : bool = false
 var possible_weapon = ""#undiscovered_weapons.pick_random()
 ###
 @onready var room_cleared: bool = false
@@ -107,7 +108,7 @@ func _ready() -> void:
 	hud.set_players(player1,player2)
 	hud.connect_signals(player1)
 	hud.set_cross_position()
-	#dev_remnants()
+	dev_remnants()
 	
 	
 	
@@ -153,7 +154,7 @@ func _ready() -> void:
 	var ground = room_instance.get_node("Ground")
 	if ground.get_node_or_null("GrassAddon"):
 		camera.get_node("GrassTexture").visible = true
-		ground.get_node("GrassAddon").initalize(conflict_cells.duplicate(),ground)
+		ground.get_node("GrassAddon").initalize(conflict_cells.duplicate())
 	else:
 		camera.get_node("GrassTexture").visible = false
 	create_new_rooms()
@@ -170,7 +171,15 @@ func _ready() -> void:
 	active_player = music_player_a
 	inactive_player = music_player_b
 	
-	play_timeline_music()
+	var progress = clamp(int(Globals.total_progress), 0, 2)
+	var themes = ["medieval"]
+	if progress >= 1:
+		themes.append("western")
+		if progress >= 2:
+			themes.append("scifi")
+	
+	MusicManager.play_random_theme(themes)
+	
 	room_cleared = true
 	reward_claimed = true
 	if Globals.has_gotten_tutorial:
@@ -202,7 +211,6 @@ func _process(delta: float) -> void:
 					camera.position = (current_crosshair_offset + player1.global_position * 8.0) / 8.0 + camera.get_cam_offset(delta)
 			else:
 				camera.position = player1.global_position+camera.get_cam_offset(delta)
-				
 	# Thread check
 	if thread_running and not room_gen_thread.is_alive():
 		thread_result = room_gen_thread.wait_to_finish()
@@ -242,7 +250,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("give_remnant") and Globals.config.get_value("debug", 'enabled', false):
 		_open_remnant_popup()
 	
-	if Input.is_action_just_pressed("pause") and !camera_override and !transitioning and !remnant_offer_popup and !remnant_upgrade_popup and hud.get_node("../PauseMenu").pause_cooldown == 0:
+	if Input.is_action_just_pressed("pause") and !camera_override and !transitioning and !remnant_offer_popup and !remnant_upgrade_popup and hud.get_node("../PauseMenu").pause_cooldown == 0 and !get_tree().paused:
 		if pause.active:
 			pause._on_return_pressed()
 		else:
@@ -380,7 +388,7 @@ func play_timeline_music() -> void:
 			active_theme = themes[1]
 		else:
 			active_theme = themes[2]
-	
+
 	MusicManager.play_theme(active_theme)
 
 func create_new_rooms() -> void:
@@ -625,7 +633,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 			"RemnantOrb":
 				if player_reference in node.tracked_bodies:
 					if RemnantManager.will_softlock(player_1_remnants,player_2_remnants,false):
-						timefabric_rewarded = 200 #TODO change this to by dynamic(ish)
+						if timefabric_rewarded <= 0: timefabric_rewarded = 200
 						node.name = "TimeFabricOrb"
 						return true
 					node.queue_free()
@@ -635,14 +643,14 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					return true
 			"TimeFabricOrb":
 				if player_reference in node.tracked_bodies:
-					timefabric_rewarded = 200 #TODO change this to by dynamic(ish)
+					if timefabric_rewarded <= 0: timefabric_rewarded = 200
 					_populate_health_rewards(generated_room, _generated_room_data)
 					#base_reward_probabilities[0] *= .8
 					return true
 			"UpgradeOrb":
 				if player_reference in node.tracked_bodies:
 					if RemnantManager.will_softlock(player_1_remnants,player_2_remnants,true):
-						timefabric_rewarded = 200 #TODO change this to by dynamic(ish)
+						if timefabric_rewarded <= 0: timefabric_rewarded = 200
 						node.name = "TimeFabricOrb"
 						return true
 					node.queue_free()
@@ -1388,7 +1396,8 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 		var particles = load("res://Game Elements/Particles/pathway_particles.tscn").instantiate()
 		PathwayTransition.global_position = pathway.global_position
 		PathwayViewport.add_child(particles)
-		particles.get_child(0).material.set_shader_parameter("grayscale",pathway.gray)
+		var gray_value = true if RoomManager.current_progress >=2.1 and room_instance_data.roomtype == Globals.RoomType.Boss or (RoomManager.current_progress >=3.0) else false
+		particles.get_child(0).material.set_shader_parameter("grayscale",gray_value)
 		particles.position = Vector2(1024,1024)
 		transitioning = true
 		await get_tree().create_timer(2,false).timeout
@@ -1532,7 +1541,9 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	
 	room_cleared= false
 	reward_claimed = false
-	play_timeline_music()
+	
+	if RoomManager.current_progress != 0:
+		play_timeline_music()
 	
 	var enemies : Array[Node]= []
 	
@@ -1549,7 +1560,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	if ground.get_node_or_null("GrassAddon"):
 		camera.get_node("GrassTexture").texture = null
 		camera.get_node("GrassTexture").visible = true
-		ground.get_node("GrassAddon").initalize(global_conflict_cells.duplicate(),ground)
+		ground.get_node("GrassAddon").initalize(global_conflict_cells.duplicate())
 	else:
 		camera.get_node("GrassTexture").visible = false
 		camera.get_node("GrassTexture").texture = null
@@ -1668,6 +1679,7 @@ func _on_player_take_damage(damage_amount : float,_current_health : float,_playe
 func _on_enemy_take_damage(damage : float,current_health : float,enemy : Node, direction = Vector2(0,-1)) -> void:
 	RoomManager.layer_ai[5]+=damage
 	if current_health <= 0.0 and (!enemy.is_boss or enemy.boss_die):
+		enemy.hitable = false
 		if enemy.is_boss:
 			boss_rewards()
 		var has_death_attack = false
@@ -2009,7 +2021,27 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 func dev_remnants():
 	var rem
 	
-	rem = load("res://Game Elements/Remnants/forcefield.tres")
+	rem = load("res://Game Elements/Remnants/hell.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	remnant_update(rem,player1,true)
+	
+	rem = load("res://Game Elements/Remnants/heaven.tres")
+	rem.rank = 5
+	player_2_remnants.append(rem.duplicate(true))
+	remnant_update(rem,player1,true)
+	
+	rem = load("res://Game Elements/Remnants/demon.tres")
+	rem.rank = 5
+	player_1_remnants.append(rem.duplicate(true))
+	remnant_update(rem,player1,true)
+	
+	rem = load("res://Game Elements/Remnants/angel.tres")
+	rem.rank = 5
+	player_2_remnants.append(rem.duplicate(true))
+	remnant_update(rem,player1,true)
+	
+	rem = load("res://Game Elements/Remnants/cowboy.tres")
 	rem.rank = 5
 	player_2_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,true)

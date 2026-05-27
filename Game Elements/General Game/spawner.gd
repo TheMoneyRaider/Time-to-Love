@@ -254,12 +254,7 @@ static func _cells_needed(half_extents: Vector2) -> Vector2i:
 
 ###SPAWNING
 static func _spawn_enemy(cell: Vector2i, scene: Node, enemy: PackedScene, layer_manager: Node,is_natural_spawn : bool) -> void:
-	var inst
-	var replacevar : int = replace()
-	if is_natural_spawn and replacevar > -1:
-		inst = RoomManager.replacement_enemies[replacevar].instantiate()
-	else:
-		inst = enemy.instantiate()
+	var inst = enemy.instantiate()
 	inst.global_position = cell * cell_world_size
 	scene.add_child(inst)
 	inst.enemy_took_damage.connect(layer_manager._on_enemy_take_damage)
@@ -291,21 +286,21 @@ static func _spawn_enemy(cell: Vector2i, scene: Node, enemy: PackedScene, layer_
 		board.set_var("player_idx", i)
 		board.set_var("state", "agro")
 		
-static func replace() -> int:
-	if RoomManager.current_progress < 3.0:
-		return -1
-	var progress = RoomManager.layer_ai[14] / 5.0
-	var tentacles : Array[float] = [pow((1-progress),2)*progress,2*progress*(1-progress)*progress,pow(progress,2)*progress]
-	var value = randf()
-	if value <= tentacles[0]:
-		return 0
-	value -= tentacles[0]
-	if value <= tentacles[1]:
-		return 1
-	value -= tentacles[1]
-	if value <= tentacles[2]:
-		return 2
-	return -1
+#static func replace() -> int:
+	#if RoomManager.current_progress < 3.0:
+		#return -1
+	#var progress = RoomManager.layer_ai[14] / 5.0
+	#var tentacles : Array[float] = [pow((1-progress),2)*progress,2*progress*(1-progress)*progress,pow(progress,2)*progress]
+	#var value = randf()
+	#if value <= tentacles[0]:
+		#return 0
+	#value -= tentacles[0]
+	#if value <= tentacles[1]:
+		#return 1
+	#value -= tentacles[1]
+	#if value <= tentacles[2]:
+		#return 2
+	#return -1
 
 static func spawn_after_image(entity : Node, layer_manager : Node, start_color : Color = Color(1,1,1,1), end_color : Color = Color(1,1,1,1),start_color_strength : float = 1.0, end_color_strength : float = 1.0, lifetime : float = 2.0, start_alpha : float  = 1, mono : bool = false, position_override : Vector2 = Vector2(-999,-999)):
 	
