@@ -161,7 +161,7 @@ tile_map_data = PackedByteArray("AAD//xwAAwAAAA4AAAD//x0AAwAAAA4AAAD//xMAAwAAAA4
 tile_set = ExtResource("3_0bdp8")
 
 [node name="Cracks" type="TileMapLayer" parent="."]
-z_index = 1
+z_index = 11
 position = Vector2(-8, 112)
 tile_map_data = PackedByteArray("AAAAAAIAAAAPAA4AAAA=")
 tile_set = ExtResource("7_d4j0y")
