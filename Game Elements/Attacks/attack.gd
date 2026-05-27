@@ -112,7 +112,8 @@ func _ready():
 		SFXManager.play(preload("res://Game Elements/sfx/enemies/bigt/bigt_tail.ogg"), 0.0, "SFX")
 	if attack_type == "roar_particle":
 		SFXManager.play(preload("res://Game Elements/sfx/enemies/bigt/bigt_roar.ogg"), 0.0, "SFX", global_position)
-	if attack_type == "robot mele" and is_instance_valid(c_owner) and c_owner.get("enemy_type") == "signul":
+	if attack_type == "robot melee" and is_instance_valid(c_owner) and c_owner.get("enemy_type") == "signul":
+		print("signal green ball audio playing")
 		SFXManager.play(singul_green_balls[randi() % singul_green_balls.size()], 0.0, "SFX", Vector2(-99999,-99999), 1.0, 0.7)
 	
 	#print("final =  "+str(damage))
