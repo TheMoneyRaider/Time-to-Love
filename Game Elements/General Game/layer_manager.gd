@@ -153,7 +153,7 @@ func _ready() -> void:
 	var ground = room_instance.get_node("Ground")
 	if ground.get_node_or_null("GrassAddon"):
 		camera.get_node("GrassTexture").visible = true
-		ground.get_node("GrassAddon").initalize(conflict_cells.duplicate(),ground)
+		ground.get_node("GrassAddon").initalize(conflict_cells.duplicate())
 	else:
 		camera.get_node("GrassTexture").visible = false
 	create_new_rooms()
@@ -1559,7 +1559,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	if ground.get_node_or_null("GrassAddon"):
 		camera.get_node("GrassTexture").texture = null
 		camera.get_node("GrassTexture").visible = true
-		ground.get_node("GrassAddon").initalize(global_conflict_cells.duplicate(),ground)
+		ground.get_node("GrassAddon").initalize(global_conflict_cells.duplicate())
 	else:
 		camera.get_node("GrassTexture").visible = false
 		camera.get_node("GrassTexture").texture = null

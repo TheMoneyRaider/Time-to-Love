@@ -3,7 +3,6 @@ extends Node3D
 @export var terrain_set_id: int = 0
 @export var terrain_id: int = 0
 @export var instances_per_tile : int = 25
-var target_tilemap : TileMapLayer
 # Cells to avoid placing meshes on
 var LayerManager : Node
 var game_camera : Node
@@ -16,6 +15,8 @@ var floor_offset_x = -.889
 var floor_offset_y = -3.05
 var grass_offset_x = 0
 var grass_offset_y = 0
+
+@export var target_tilemap : TileMapLayer
 
 var scale_y = 1/ 18.5
 @onready var grass_camera = $SubViewport/Camera3D
@@ -36,14 +37,13 @@ func _process(_delta: float) -> void:
 	grass_camera.position.z = game_camera.position.y * scale_y
 	pass
 
-func initalize(_conflict_cells_in : Array, tilemaplayer : TileMapLayer):
+func initalize(_conflict_cells_in : Array):
 	print("init")
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	game_camera = LayerManager.camera
 	offset_y = -16.1867697662462 #-(sqrt(pow(grass_camera.position.y/cos(PI/2+grass_camera.rotation.x),2)-pow(grass_camera.position.y,2)))
 	print("Generate_grass")
 	#$SubViewport/CharacterManager.offset_y = offset_y
-	target_tilemap = tilemaplayer
 	generate()
 	var mask = build_mask(target_tilemap)
 	$SubViewport/Floor.visible = true
