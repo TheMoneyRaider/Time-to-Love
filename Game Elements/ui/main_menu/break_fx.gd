@@ -92,7 +92,7 @@ func _physics_process(delta):
 	if linear_velocity.length() > 20:
 		get_parent().get_parent()._begin_explosion_cooldown()
 			
-func add_interactive_area(frag_poly: Array, assigned_b : Array):
+func add_interactive_area(frag_poly: Array, assigned_b : Array[Button]):
 	var poly_node = get_node("Polygon2D")
 	var collision = get_node("CollisionPolygon2D")
 	var img = poly_node.texture.get_image()

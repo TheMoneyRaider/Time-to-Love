@@ -1,1958 +1,1368 @@
-[gd_resource type="Resource" script_class="FragmentsContainer" load_steps=393 format=3]
+[gd_resource type="Resource" script_class="FragmentsContainer" load_steps=275 format=3]
 
 [ext_resource type="Script" path="res://Game Elements/ui/main_menu/FragmentData.gd" id="1_g03xu"]
 [ext_resource type="Script" path="res://Game Elements/ui/main_menu/FragmentsContainer.gd" id="2_anpro"]
 
 [sub_resource type="Resource" id="Resource_lm51c"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(870.82983, 0), Vector2(916.0559, 0), Vector2(914.0956, 15.1480055), Vector2(867.0312, 28.86558)]
-position = Vector2(867.0312, 0)
+polygon = [Vector2(858.2143, 0), Vector2(919.4575, 0), Vector2(921.4844, 28.367592), Vector2(860.0619, 26.668957)]
+position = Vector2(858.2143, 0)
 
 [sub_resource type="Resource" id="Resource_teljh"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(916.0559, 0), Vector2(963.9536, 0), Vector2(953.159, 29.086205), Vector2(914.0956, 15.1480055)]
-position = Vector2(914.0956, 0)
+polygon = [Vector2(919.4575, 0), Vector2(964.9907, 0), Vector2(950.73804, 28.015951), Vector2(921.4844, 28.367592)]
+position = Vector2(919.4575, 0)
 
 [sub_resource type="Resource" id="Resource_485nx"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(963.9536, 0), Vector2(1009.4911, 0), Vector2(1017.80756, 19.016504), Vector2(953.159, 29.086205)]
-position = Vector2(953.159, 0)
+polygon = [Vector2(964.9907, 0), Vector2(1005.5596, 0), Vector2(1010.66, 17.678831), Vector2(950.73804, 28.015951)]
+position = Vector2(950.73804, 0)
 
 [sub_resource type="Resource" id="Resource_la750"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(813.7004, 20.292566), Vector2(867.0312, 28.86558), Vector2(873.13654, 56.549686), Vector2(813.17847, 43.269703)]
-position = Vector2(813.17847, 20.292566)
+polygon = [Vector2(824.4752, 29.845915), Vector2(860.0619, 26.668957), Vector2(866.50543, 57.440598), Vector2(814.20776, 55.96594)]
+position = Vector2(814.20776, 26.668957)
 
 [sub_resource type="Resource" id="Resource_3sqfc"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(867.0312, 28.86558), Vector2(914.0956, 15.1480055), Vector2(911.8661, 48.088997), Vector2(873.13654, 56.549686)]
-position = Vector2(867.0312, 15.1480055)
+polygon = [Vector2(860.0619, 26.668957), Vector2(921.4844, 28.367592), Vector2(908.5489, 41.857162), Vector2(866.50543, 57.440598)]
+position = Vector2(860.0619, 26.668957)
 
 [sub_resource type="Resource" id="Resource_q7nl1"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(914.0956, 15.1480055), Vector2(953.159, 29.086205), Vector2(952.868, 56.23722), Vector2(911.8661, 48.088997)]
-position = Vector2(911.8661, 15.1480055)
+polygon = [Vector2(921.4844, 28.367592), Vector2(950.73804, 28.015951), Vector2(954.561, 42.086384), Vector2(908.5489, 41.857162)]
+position = Vector2(908.5489, 28.015951)
 
 [sub_resource type="Resource" id="Resource_m67sp"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(953.159, 29.086205), Vector2(1017.80756, 19.016504), Vector2(1006.3547, 52.591694), Vector2(952.868, 56.23722)]
-position = Vector2(952.868, 19.016504)
+polygon = [Vector2(950.73804, 28.015951), Vector2(1010.66, 17.678831), Vector2(1003.5123, 52.088295), Vector2(954.561, 42.086384)]
+position = Vector2(950.73804, 17.678831)
 
 [sub_resource type="Resource" id="Resource_3hcyp"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(813.17847, 43.269703), Vector2(873.13654, 56.549686), Vector2(862.2697, 68.863045), Vector2(806.6072, 66.24252)]
-position = Vector2(806.6072, 43.269703)
+polygon = [Vector2(814.20776, 55.96594), Vector2(866.50543, 57.440598), Vector2(863.39264, 82.09754), Vector2(822.3823, 77.974236)]
+position = Vector2(814.20776, 55.96594)
 
 [sub_resource type="Resource" id="Resource_jtq5h"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(873.13654, 56.549686), Vector2(911.8661, 48.088997), Vector2(902.6605, 71.13987), Vector2(862.2697, 68.863045)]
-position = Vector2(862.2697, 48.088997)
+polygon = [Vector2(866.50543, 57.440598), Vector2(908.5489, 41.857162), Vector2(906.2104, 77.6232), Vector2(863.39264, 82.09754)]
+position = Vector2(863.39264, 41.857162)
 
 [sub_resource type="Resource" id="Resource_c8fp2"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(911.8661, 48.088997), Vector2(952.868, 56.23722), Vector2(956.91003, 84.32189), Vector2(902.6605, 71.13987)]
-position = Vector2(902.6605, 48.088997)
+polygon = [Vector2(908.5489, 41.857162), Vector2(954.561, 42.086384), Vector2(953.33093, 72.104225), Vector2(906.2104, 77.6232)]
+position = Vector2(906.2104, 41.857162)
 
 [sub_resource type="Resource" id="Resource_s8l5w"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(952.868, 56.23722), Vector2(1006.3547, 52.591694), Vector2(1015.60736, 83.76884), Vector2(956.91003, 84.32189)]
-position = Vector2(952.868, 52.591694)
+polygon = [Vector2(954.561, 42.086384), Vector2(1003.5123, 52.088295), Vector2(1013.0373, 84.73796), Vector2(953.33093, 72.104225)]
+position = Vector2(953.33093, 42.086384)
 
 [sub_resource type="Resource" id="Resource_1p075"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(806.6072, 66.24252), Vector2(862.2697, 68.863045), Vector2(856.65845, 92.38719), Vector2(819.5389, 99.04989)]
-position = Vector2(806.6072, 66.24252)
+polygon = [Vector2(1003.5123, 52.088295), Vector2(1051.0923, 42.44927), Vector2(1050.9658, 66.84008), Vector2(1013.0373, 84.73796)]
+position = Vector2(1003.5123, 42.44927)
 
 [sub_resource type="Resource" id="Resource_lfeyj"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(862.2697, 68.863045), Vector2(902.6605, 71.13987), Vector2(905.1486, 99.63744), Vector2(856.65845, 92.38719)]
-position = Vector2(856.65845, 68.863045)
+polygon = [Vector2(822.3823, 77.974236), Vector2(863.39264, 82.09754), Vector2(873.0571, 109.58314), Vector2(825.2235, 101.87217)]
+position = Vector2(822.3823, 77.974236)
 
 [sub_resource type="Resource" id="Resource_ygfd7"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(902.6605, 71.13987), Vector2(956.91003, 84.32189), Vector2(959.93524, 109.06346), Vector2(905.1486, 99.63744)]
-position = Vector2(902.6605, 71.13987)
+polygon = [Vector2(863.39264, 82.09754), Vector2(906.2104, 77.6232), Vector2(909.3826, 95.1113), Vector2(873.0571, 109.58314)]
+position = Vector2(863.39264, 77.6232)
 
 [sub_resource type="Resource" id="Resource_f7laa"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(956.91003, 84.32189), Vector2(1015.60736, 83.76884), Vector2(1014.18225, 100.59231), Vector2(959.93524, 109.06346)]
-position = Vector2(956.91003, 83.76884)
+polygon = [Vector2(906.2104, 77.6232), Vector2(953.33093, 72.104225), Vector2(966.73334, 95.76636), Vector2(909.3826, 95.1113)]
+position = Vector2(906.2104, 72.104225)
 
 [sub_resource type="Resource" id="Resource_mcpv7"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(819.5389, 99.04989), Vector2(856.65845, 92.38719), Vector2(861.5443, 118.88659), Vector2(808.53455, 119.769424)]
-position = Vector2(808.53455, 92.38719)
+polygon = [Vector2(953.33093, 72.104225), Vector2(1013.0373, 84.73796), Vector2(1001.5073, 90.88788), Vector2(966.73334, 95.76636)]
+position = Vector2(953.33093, 72.104225)
 
 [sub_resource type="Resource" id="Resource_5n3t4"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(856.65845, 92.38719), Vector2(905.1486, 99.63744), Vector2(914.87787, 115.04387), Vector2(861.5443, 118.88659)]
-position = Vector2(856.65845, 92.38719)
+polygon = [Vector2(1013.0373, 84.73796), Vector2(1050.9658, 66.84008), Vector2(1054.741, 92.29623), Vector2(1001.5073, 90.88788)]
+position = Vector2(1001.5073, 66.84008)
 
 [sub_resource type="Resource" id="Resource_lbb41"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(905.1486, 99.63744), Vector2(959.93524, 109.06346), Vector2(951.0831, 127.215164), Vector2(914.87787, 115.04387)]
-position = Vector2(905.1486, 99.63744)
+polygon = [Vector2(758.8544, 97.148544), Vector2(825.2235, 101.87217), Vector2(823.5962, 129.38344), Vector2(773.9959, 129.77394)]
+position = Vector2(758.8544, 97.148544)
 
 [sub_resource type="Resource" id="Resource_kpvt7"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(959.93524, 109.06346), Vector2(1014.18225, 100.59231), Vector2(1010.04175, 134.22255), Vector2(951.0831, 127.215164)]
-position = Vector2(951.0831, 100.59231)
+polygon = [Vector2(825.2235, 101.87217), Vector2(873.0571, 109.58314), Vector2(856.1484, 134.40254), Vector2(823.5962, 129.38344)]
+position = Vector2(823.5962, 101.87217)
 
 [sub_resource type="Resource" id="Resource_yck5x"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1014.18225, 100.59231), Vector2(1054.869, 108.771706), Vector2(1056.6274, 132.897), Vector2(1010.04175, 134.22255)]
-position = Vector2(1010.04175, 100.59231)
+polygon = [Vector2(873.0571, 109.58314), Vector2(909.3826, 95.1113), Vector2(916.4676, 117.26472), Vector2(856.1484, 134.40254)]
+position = Vector2(856.1484, 95.1113)
 
 [sub_resource type="Resource" id="Resource_eohew"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(808.53455, 119.769424), Vector2(861.5443, 118.88659), Vector2(873.7142, 151.59164), Vector2(808.99585, 151.22876)]
-position = Vector2(808.53455, 118.88659)
+polygon = [Vector2(909.3826, 95.1113), Vector2(966.73334, 95.76636), Vector2(959.74066, 116.72585), Vector2(916.4676, 117.26472)]
+position = Vector2(909.3826, 95.1113)
 
 [sub_resource type="Resource" id="Resource_3md7b"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(861.5443, 118.88659), Vector2(914.87787, 115.04387), Vector2(903.58325, 159.13728), Vector2(873.7142, 151.59164)]
-position = Vector2(861.5443, 115.04387)
+polygon = [Vector2(966.73334, 95.76636), Vector2(1001.5073, 90.88788), Vector2(1005.605, 134.91339), Vector2(959.74066, 116.72585)]
+position = Vector2(959.74066, 90.88788)
 
 [sub_resource type="Resource" id="Resource_u4yru"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(914.87787, 115.04387), Vector2(951.0831, 127.215164), Vector2(961.82184, 142.40128), Vector2(903.58325, 159.13728)]
-position = Vector2(903.58325, 115.04387)
+polygon = [Vector2(1001.5073, 90.88788), Vector2(1054.741, 92.29623), Vector2(1049.3684, 116.33738), Vector2(1005.605, 134.91339)]
+position = Vector2(1001.5073, 90.88788)
 
 [sub_resource type="Resource" id="Resource_01vtk"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(951.0831, 127.215164), Vector2(1010.04175, 134.22255), Vector2(1014.674, 153.32683), Vector2(961.82184, 142.40128)]
-position = Vector2(951.0831, 127.215164)
+polygon = [Vector2(773.9959, 129.77394), Vector2(823.5962, 129.38344), Vector2(807.99133, 154.06325), Vector2(775.312, 151.22037)]
+position = Vector2(773.9959, 129.38344)
 
 [sub_resource type="Resource" id="Resource_q37di"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1010.04175, 134.22255), Vector2(1056.6274, 132.897), Vector2(1057.6283, 159.08179), Vector2(1014.674, 153.32683)]
-position = Vector2(1010.04175, 132.897)
+polygon = [Vector2(823.5962, 129.38344), Vector2(856.1484, 134.40254), Vector2(872.7034, 145.76497), Vector2(807.99133, 154.06325)]
+position = Vector2(807.99133, 129.38344)
 
 [sub_resource type="Resource" id="Resource_wl23v"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(432.8599, 152.21367), Vector2(474.80618, 152.8195), Vector2(482.28302, 176.0915), Vector2(439.21542, 184.2416)]
-position = Vector2(432.8599, 152.21367)
+polygon = [Vector2(856.1484, 134.40254), Vector2(916.4676, 117.26472), Vector2(921.083, 144.78368), Vector2(872.7034, 145.76497)]
+position = Vector2(856.1484, 117.26472)
 
 [sub_resource type="Resource" id="Resource_3p24a"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(773.8292, 152.21754), Vector2(808.99585, 151.22876), Vector2(823.6048, 178.66162), Vector2(776.3082, 174.01353)]
-position = Vector2(773.8292, 151.22876)
+polygon = [Vector2(916.4676, 117.26472), Vector2(959.74066, 116.72585), Vector2(963.05255, 154.16605), Vector2(921.083, 144.78368)]
+position = Vector2(916.4676, 116.72585)
 
 [sub_resource type="Resource" id="Resource_m4g38"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(808.99585, 151.22876), Vector2(873.7142, 151.59164), Vector2(861.67004, 179.08131), Vector2(823.6048, 178.66162)]
-position = Vector2(808.99585, 151.22876)
+polygon = [Vector2(959.74066, 116.72585), Vector2(1005.605, 134.91339), Vector2(1012.1393, 152.2568), Vector2(963.05255, 154.16605)]
+position = Vector2(959.74066, 116.72585)
 
 [sub_resource type="Resource" id="Resource_jo25r"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(873.7142, 151.59164), Vector2(903.58325, 159.13728), Vector2(921.5164, 169.26233), Vector2(861.67004, 179.08131)]
-position = Vector2(861.67004, 151.59164)
+polygon = [Vector2(1005.605, 134.91339), Vector2(1049.3684, 116.33738), Vector2(1054.4657, 150.67386), Vector2(1012.1393, 152.2568)]
+position = Vector2(1005.605, 116.33738)
 
 [sub_resource type="Resource" id="Resource_i2qv2"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(903.58325, 159.13728), Vector2(961.82184, 142.40128), Vector2(959.17615, 182.17793), Vector2(921.5164, 169.26233)]
-position = Vector2(903.58325, 142.40128)
+polygon = [Vector2(807.99133, 154.06325), Vector2(872.7034, 145.76497), Vector2(870.60693, 175.31537), Vector2(818.1254, 174.34991)]
+position = Vector2(807.99133, 145.76497)
 
 [sub_resource type="Resource" id="Resource_ulmdu"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(961.82184, 142.40128), Vector2(1014.674, 153.32683), Vector2(998.2446, 167.50325), Vector2(959.17615, 182.17793)]
-position = Vector2(959.17615, 142.40128)
+polygon = [Vector2(872.7034, 145.76497), Vector2(921.083, 144.78368), Vector2(905.4023, 168.38875), Vector2(870.60693, 175.31537)]
+position = Vector2(870.60693, 144.78368)
 
 [sub_resource type="Resource" id="Resource_r75kt"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1014.674, 153.32683), Vector2(1057.6283, 159.08179), Vector2(1051.6162, 167.89731), Vector2(998.2446, 167.50325)]
-position = Vector2(998.2446, 153.32683)
+polygon = [Vector2(921.083, 144.78368), Vector2(963.05255, 154.16605), Vector2(967.4234, 182.50882), Vector2(905.4023, 168.38875)]
+position = Vector2(905.4023, 144.78368)
 
 [sub_resource type="Resource" id="Resource_4ub6e"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(296.10718, 178.78893), Vector2(326.9611, 176.12839), Vector2(341.153, 190.75284), Vector2(292.3843, 192.43736)]
-position = Vector2(292.3843, 176.12839)
+polygon = [Vector2(963.05255, 154.16605), Vector2(1012.1393, 152.2568), Vector2(1013.7376, 184.18736), Vector2(967.4234, 182.50882)]
+position = Vector2(963.05255, 152.2568)
 
 [sub_resource type="Resource" id="Resource_sq7wu"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(326.9611, 176.12839), Vector2(393.66852, 180.67473), Vector2(376.56848, 208.40425), Vector2(341.153, 190.75284)]
-position = Vector2(326.9611, 176.12839)
+polygon = [Vector2(1012.1393, 152.2568), Vector2(1054.4657, 150.67386), Vector2(1062.1069, 178.93967), Vector2(1013.7376, 184.18736)]
+position = Vector2(1012.1393, 150.67386)
 
 [sub_resource type="Resource" id="Resource_885la"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(393.66852, 180.67473), Vector2(439.21542, 184.2416), Vector2(427.1722, 201.39215), Vector2(376.56848, 208.40425)]
-position = Vector2(376.56848, 180.67473)
+polygon = [Vector2(1144.078, 159.36728), Vector2(1202.2594, 151.76932), Vector2(1199.879, 179.73148), Vector2(1155.1606, 182.30362)]
+position = Vector2(1144.078, 151.76932)
 
 [sub_resource type="Resource" id="Resource_kkj5q"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(439.21542, 184.2416), Vector2(482.28302, 176.0915), Vector2(483.43567, 198.2131), Vector2(427.1722, 201.39215)]
-position = Vector2(427.1722, 176.0915)
+polygon = [Vector2(1202.2594, 151.76932), Vector2(1241.6206, 140.22145), Vector2(1243.01, 182.85591), Vector2(1199.879, 179.73148)]
+position = Vector2(1199.879, 140.22145)
 
 [sub_resource type="Resource" id="Resource_1k4xi"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(482.28302, 176.0915), Vector2(531.50195, 169.14427), Vector2(533.1114, 190.74622), Vector2(483.43567, 198.2131)]
-position = Vector2(482.28302, 169.14427)
+polygon = [Vector2(1241.6206, 140.22145), Vector2(1300.1833, 140.11919), Vector2(1288.0435, 181.68398), Vector2(1243.01, 182.85591)]
+position = Vector2(1241.6206, 140.11919)
 
 [sub_resource type="Resource" id="Resource_kyma4"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(776.3082, 174.01353), Vector2(823.6048, 178.66162), Vector2(812.1237, 199.24571), Vector2(760.18494, 204.83917)]
-position = Vector2(760.18494, 174.01353)
+polygon = [Vector2(289.05844, 166.38077), Vector2(330.69345, 169.21848), Vector2(335.7775, 195.0366), Vector2(289.92575, 200.46866)]
+position = Vector2(289.05844, 166.38077)
 
 [sub_resource type="Resource" id="Resource_qda4c"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(823.6048, 178.66162), Vector2(861.67004, 179.08131), Vector2(858.62244, 192.11307), Vector2(812.1237, 199.24571)]
-position = Vector2(812.1237, 178.66162)
+polygon = [Vector2(330.69345, 169.21848), Vector2(389.00037, 178.13744), Vector2(389.01614, 199.41039), Vector2(335.7775, 195.0366)]
+position = Vector2(330.69345, 169.21848)
 
 [sub_resource type="Resource" id="Resource_rphmr"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(861.67004, 179.08131), Vector2(921.5164, 169.26233), Vector2(921.334, 203.99994), Vector2(858.62244, 192.11307)]
-position = Vector2(858.62244, 169.26233)
+polygon = [Vector2(389.00037, 178.13744), Vector2(426.54538, 168.48448), Vector2(438.64316, 206.3773), Vector2(389.01614, 199.41039)]
+position = Vector2(389.00037, 168.48448)
 
 [sub_resource type="Resource" id="Resource_vk4cx"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(921.5164, 169.26233), Vector2(959.17615, 182.17793), Vector2(953.0113, 200.64407), Vector2(921.334, 203.99994)]
-position = Vector2(921.334, 169.26233)
+polygon = [Vector2(426.54538, 168.48448), Vector2(482.15503, 165.07205), Vector2(481.496, 195.57368), Vector2(438.64316, 206.3773)]
+position = Vector2(426.54538, 165.07205)
 
 [sub_resource type="Resource" id="Resource_a3kon"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(959.17615, 182.17793), Vector2(998.2446, 167.50325), Vector2(1002.7745, 204.09857), Vector2(953.0113, 200.64407)]
-position = Vector2(953.0113, 167.50325)
+polygon = [Vector2(482.15503, 165.07205), Vector2(529.6434, 174.93738), Vector2(522.0296, 209.61775), Vector2(481.496, 195.57368)]
+position = Vector2(481.496, 165.07205)
 
 [sub_resource type="Resource" id="Resource_qb13h"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(998.2446, 167.50325), Vector2(1051.6162, 167.89731), Vector2(1052.5023, 201.67747), Vector2(1002.7745, 204.09857)]
-position = Vector2(998.2446, 167.50325)
+polygon = [Vector2(770.8921, 178.27815), Vector2(818.1254, 174.34991), Vector2(824.84827, 200.95676), Vector2(777.0673, 206.36098)]
+position = Vector2(770.8921, 174.34991)
 
 [sub_resource type="Resource" id="Resource_aco7f"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1154.4418, 167.78467), Vector2(1198.8966, 177.6619), Vector2(1209.2692, 190.3762), Vector2(1151.3135, 199.69588)]
-position = Vector2(1151.3135, 167.78467)
+polygon = [Vector2(818.1254, 174.34991), Vector2(870.60693, 175.31537), Vector2(859.1686, 206.00706), Vector2(824.84827, 200.95676)]
+position = Vector2(818.1254, 174.34991)
 
 [sub_resource type="Resource" id="Resource_3ickl"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1198.8966, 177.6619), Vector2(1256.4558, 166.34387), Vector2(1250.5945, 196.08922), Vector2(1209.2692, 190.3762)]
-position = Vector2(1198.8966, 166.34387)
+polygon = [Vector2(870.60693, 175.31537), Vector2(905.4023, 168.38875), Vector2(920.84546, 191.9352), Vector2(859.1686, 206.00706)]
+position = Vector2(859.1686, 168.38875)
 
 [sub_resource type="Resource" id="Resource_3yibs"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1256.4558, 166.34387), Vector2(1290.9297, 177.3913), Vector2(1299.2053, 209.13812), Vector2(1250.5945, 196.08922)]
-position = Vector2(1250.5945, 166.34387)
+polygon = [Vector2(905.4023, 168.38875), Vector2(967.4234, 182.50882), Vector2(954.48425, 205.30284), Vector2(920.84546, 191.9352)]
+position = Vector2(905.4023, 168.38875)
 
 [sub_resource type="Resource" id="Resource_g30yg"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(236.44295, 193.68556), Vector2(292.3843, 192.43736), Vector2(287.35178, 217.57953), Vector2(244.2166, 233.09853)]
-position = Vector2(236.44295, 192.43736)
+polygon = [Vector2(967.4234, 182.50882), Vector2(1013.7376, 184.18736), Vector2(1000.52985, 206.8925), Vector2(954.48425, 205.30284)]
+position = Vector2(954.48425, 182.50882)
 
 [sub_resource type="Resource" id="Resource_dcugm"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(292.3843, 192.43736), Vector2(341.153, 190.75284), Vector2(327.21436, 225.54994), Vector2(287.35178, 217.57953)]
-position = Vector2(287.35178, 190.75284)
+polygon = [Vector2(1013.7376, 184.18736), Vector2(1062.1069, 178.93967), Vector2(1063.8331, 193.85701), Vector2(1000.52985, 206.8925)]
+position = Vector2(1000.52985, 178.93967)
 
 [sub_resource type="Resource" id="Resource_dnp7g"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(341.153, 190.75284), Vector2(376.56848, 208.40425), Vector2(389.56186, 226.18225), Vector2(327.21436, 225.54994)]
-position = Vector2(327.21436, 190.75284)
+polygon = [Vector2(1155.1606, 182.30362), Vector2(1199.879, 179.73148), Vector2(1200.6262, 190.92366), Vector2(1161.0664, 195.85745)]
+position = Vector2(1155.1606, 179.73148)
 
 [sub_resource type="Resource" id="Resource_rhsjn"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(376.56848, 208.40425), Vector2(427.1722, 201.39215), Vector2(436.08585, 228.73965), Vector2(389.56186, 226.18225)]
-position = Vector2(376.56848, 201.39215)
+polygon = [Vector2(1199.879, 179.73148), Vector2(1243.01, 182.85591), Vector2(1238.7601, 198.45305), Vector2(1200.6262, 190.92366)]
+position = Vector2(1199.879, 179.73148)
 
 [sub_resource type="Resource" id="Resource_u44oe"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(427.1722, 201.39215), Vector2(483.43567, 198.2131), Vector2(489.17352, 223.5091), Vector2(436.08585, 228.73965)]
-position = Vector2(427.1722, 198.2131)
+polygon = [Vector2(1243.01, 182.85591), Vector2(1288.0435, 181.68398), Vector2(1295.6501, 204.07274), Vector2(1238.7601, 198.45305)]
+position = Vector2(1238.7601, 181.68398)
 
 [sub_resource type="Resource" id="Resource_rwvro"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(483.43567, 198.2131), Vector2(533.1114, 190.74622), Vector2(518.7747, 224.44426), Vector2(489.17352, 223.5091)]
-position = Vector2(483.43567, 190.74622)
+polygon = [Vector2(236.74776, 191.8442), Vector2(289.92575, 200.46866), Vector2(295.18805, 221.1671), Vector2(234.62337, 218.48119)]
+position = Vector2(234.62337, 191.8442)
 
 [sub_resource type="Resource" id="Resource_xg8c6"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(533.1114, 190.74622), Vector2(578.0393, 204.05074), Vector2(571.0326, 218.81096), Vector2(518.7747, 224.44426)]
-position = Vector2(518.7747, 190.74622)
+polygon = [Vector2(289.92575, 200.46866), Vector2(335.7775, 195.0366), Vector2(336.0484, 229.2337), Vector2(295.18805, 221.1671)]
+position = Vector2(289.92575, 195.0366)
 
 [sub_resource type="Resource" id="Resource_g2dvp"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(578.0393, 204.05074), Vector2(614.86646, 200.6611), Vector2(630.81354, 222.91112), Vector2(571.0326, 218.81096)]
-position = Vector2(571.0326, 200.6611)
+polygon = [Vector2(335.7775, 195.0366), Vector2(389.01614, 199.41039), Vector2(387.8345, 229.65692), Vector2(336.0484, 229.2337)]
+position = Vector2(335.7775, 195.0366)
 
 [sub_resource type="Resource" id="Resource_dewj3"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(614.86646, 200.6611), Vector2(676.6654, 201.3804), Vector2(676.6901, 227.63799), Vector2(630.81354, 222.91112)]
-position = Vector2(614.86646, 200.6611)
+polygon = [Vector2(389.01614, 199.41039), Vector2(438.64316, 206.3773), Vector2(438.95587, 218.42809), Vector2(387.8345, 229.65692)]
+position = Vector2(387.8345, 199.41039)
 
 [sub_resource type="Resource" id="Resource_t1b5a"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(676.6654, 201.3804), Vector2(714.89557, 206.1217), Vector2(728.9694, 228.45364), Vector2(676.6901, 227.63799)]
-position = Vector2(676.6654, 201.3804)
+polygon = [Vector2(438.64316, 206.3773), Vector2(481.496, 195.57368), Vector2(475.90234, 224.1894), Vector2(438.95587, 218.42809)]
+position = Vector2(438.64316, 195.57368)
 
 [sub_resource type="Resource" id="Resource_q2r15"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(760.18494, 204.83917), Vector2(812.1237, 199.24571), Vector2(809.37256, 232.0972), Vector2(775.504, 230.4262)]
-position = Vector2(760.18494, 199.24571)
+polygon = [Vector2(481.496, 195.57368), Vector2(522.0296, 209.61775), Vector2(522.2368, 228.94553), Vector2(475.90234, 224.1894)]
+position = Vector2(475.90234, 195.57368)
 
 [sub_resource type="Resource" id="Resource_nojvi"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(812.1237, 199.24571), Vector2(858.62244, 192.11307), Vector2(854.2844, 231.2849), Vector2(809.37256, 232.0972)]
-position = Vector2(809.37256, 192.11307)
+polygon = [Vector2(522.0296, 209.61775), Vector2(577.75525, 197.62274), Vector2(583.10785, 228.76843), Vector2(522.2368, 228.94553)]
+position = Vector2(522.0296, 197.62274)
 
 [sub_resource type="Resource" id="Resource_y8s4p"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(858.62244, 192.11307), Vector2(921.334, 203.99994), Vector2(904.8385, 229.15312), Vector2(854.2844, 231.2849)]
-position = Vector2(854.2844, 192.11307)
+polygon = [Vector2(577.75525, 197.62274), Vector2(625.98773, 205.33528), Vector2(631.7291, 228.62318), Vector2(583.10785, 228.76843)]
+position = Vector2(577.75525, 197.62274)
 
 [sub_resource type="Resource" id="Resource_07sm6"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(921.334, 203.99994), Vector2(953.0113, 200.64407), Vector2(964.8274, 225.44551), Vector2(904.8385, 229.15312)]
-position = Vector2(904.8385, 200.64407)
+polygon = [Vector2(625.98773, 205.33528), Vector2(668.0111, 205.66351), Vector2(677.1827, 230.26309), Vector2(631.7291, 228.62318)]
+position = Vector2(625.98773, 205.33528)
 
 [sub_resource type="Resource" id="Resource_e7jul"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(953.0113, 200.64407), Vector2(1002.7745, 204.09857), Vector2(999.7014, 231.93852), Vector2(964.8274, 225.44551)]
-position = Vector2(953.0113, 200.64407)
+polygon = [Vector2(668.0111, 205.66351), Vector2(724.41504, 201.57524), Vector2(727.13885, 227.064), Vector2(677.1827, 230.26309)]
+position = Vector2(668.0111, 201.57524)
 
 [sub_resource type="Resource" id="Resource_x6o3c"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1002.7745, 204.09857), Vector2(1052.5023, 201.67747), Vector2(1062.32, 225.4338), Vector2(999.7014, 231.93852)]
-position = Vector2(999.7014, 201.67747)
+polygon = [Vector2(777.0673, 206.36098), Vector2(824.84827, 200.95676), Vector2(808.9603, 219.80418), Vector2(772.0162, 226.7732)]
+position = Vector2(772.0162, 200.95676)
 
 [sub_resource type="Resource" id="Resource_bjh5l"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1052.5023, 201.67747), Vector2(1100.8553, 196.64856), Vector2(1095.1276, 234.89984), Vector2(1062.32, 225.4338)]
-position = Vector2(1052.5023, 196.64856)
+polygon = [Vector2(824.84827, 200.95676), Vector2(859.1686, 206.00706), Vector2(862.68713, 223.78331), Vector2(808.9603, 219.80418)]
+position = Vector2(808.9603, 200.95676)
 
 [sub_resource type="Resource" id="Resource_pbsk1"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1151.3135, 199.69588), Vector2(1209.2692, 190.3762), Vector2(1207.6769, 228.18729), Vector2(1152.9083, 226.48833)]
-position = Vector2(1151.3135, 190.3762)
+polygon = [Vector2(859.1686, 206.00706), Vector2(920.84546, 191.9352), Vector2(909.362, 215.33653), Vector2(862.68713, 223.78331)]
+position = Vector2(859.1686, 191.9352)
 
 [sub_resource type="Resource" id="Resource_tslgy"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1209.2692, 190.3762), Vector2(1250.5945, 196.08922), Vector2(1240.0685, 224.00873), Vector2(1207.6769, 228.18729)]
-position = Vector2(1207.6769, 190.3762)
+polygon = [Vector2(920.84546, 191.9352), Vector2(954.48425, 205.30284), Vector2(957.93427, 233.16737), Vector2(909.362, 215.33653)]
+position = Vector2(909.362, 191.9352)
 
 [sub_resource type="Resource" id="Resource_3q2b6"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1250.5945, 196.08922), Vector2(1299.2053, 209.13812), Vector2(1301.9004, 224.33888), Vector2(1240.0685, 224.00873)]
-position = Vector2(1240.0685, 196.08922)
+polygon = [Vector2(954.48425, 205.30284), Vector2(1000.52985, 206.8925), Vector2(1007.9234, 222.63533), Vector2(957.93427, 233.16737)]
+position = Vector2(954.48425, 205.30284)
 
 [sub_resource type="Resource" id="Resource_pnnon"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1341.7716, 204.0729), Vector2(1390.1359, 196.66574), Vector2(1384.7946, 230.2298), Vector2(1339.5269, 230.07661)]
-position = Vector2(1339.5269, 196.66574)
+polygon = [Vector2(1000.52985, 206.8925), Vector2(1063.8331, 193.85701), Vector2(1056.457, 228.44759), Vector2(1007.9234, 222.63533)]
+position = Vector2(1000.52985, 193.85701)
 
 [sub_resource type="Resource" id="Resource_nx6sl"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1390.1359, 196.66574), Vector2(1448.4229, 198.47961), Vector2(1440.7014, 219.51764), Vector2(1384.7946, 230.2298)]
-position = Vector2(1384.7946, 196.66574)
+polygon = [Vector2(1063.8331, 193.85701), Vector2(1105.79, 195.97864), Vector2(1098.2314, 223.46025), Vector2(1056.457, 228.44759)]
+position = Vector2(1056.457, 193.85701)
 
 [sub_resource type="Resource" id="Resource_rynoe"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1448.4229, 198.47961), Vector2(1484.3859, 206.11252), Vector2(1480.3259, 232.41772), Vector2(1440.7014, 219.51764)]
-position = Vector2(1440.7014, 198.47961)
+polygon = [Vector2(1105.79, 195.97864), Vector2(1161.0664, 195.85745), Vector2(1157.9579, 231.93486), Vector2(1098.2314, 223.46025)]
+position = Vector2(1098.2314, 195.85745)
 
 [sub_resource type="Resource" id="Resource_yt863"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1484.3859, 206.11252), Vector2(1534.5221, 203.90488), Vector2(1532.4983, 223.11128), Vector2(1480.3259, 232.41772)]
-position = Vector2(1480.3259, 203.90488)
+polygon = [Vector2(1161.0664, 195.85745), Vector2(1200.6262, 190.92366), Vector2(1201.8469, 228.3577), Vector2(1157.9579, 231.93486)]
+position = Vector2(1157.9579, 190.92366)
 
 [sub_resource type="Resource" id="Resource_nfyh7"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1534.5221, 203.90488), Vector2(1588.5665, 201.95294), Vector2(1588.0323, 229.46022), Vector2(1532.4983, 223.11128)]
-position = Vector2(1532.4983, 201.95294)
+polygon = [Vector2(1200.6262, 190.92366), Vector2(1238.7601, 198.45305), Vector2(1250.2335, 233.98518), Vector2(1201.8469, 228.3577)]
+position = Vector2(1200.6262, 190.92366)
 
 [sub_resource type="Resource" id="Resource_4bj3o"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(244.2166, 233.09853), Vector2(287.35178, 217.57953), Vector2(285.46283, 253.42714), Vector2(234.88666, 259.3261)]
-position = Vector2(234.88666, 217.57953)
+polygon = [Vector2(1238.7601, 198.45305), Vector2(1295.6501, 204.07274), Vector2(1288.7827, 225.8119), Vector2(1250.2335, 233.98518)]
+position = Vector2(1238.7601, 198.45305)
 
 [sub_resource type="Resource" id="Resource_1b0ni"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(287.35178, 217.57953), Vector2(327.21436, 225.54994), Vector2(342.61224, 254.79338), Vector2(285.46283, 253.42714)]
-position = Vector2(285.46283, 217.57953)
+polygon = [Vector2(1341.0302, 199.41037), Vector2(1400.3324, 190.20038), Vector2(1401.0735, 232.99924), Vector2(1334.5594, 233.73773)]
+position = Vector2(1334.5594, 190.20038)
 
 [sub_resource type="Resource" id="Resource_oewi4"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(327.21436, 225.54994), Vector2(389.56186, 226.18225), Vector2(391.22842, 247.07788), Vector2(342.61224, 254.79338)]
-position = Vector2(327.21436, 225.54994)
+polygon = [Vector2(1486.042, 196.50711), Vector2(1544.2391, 201.47258), Vector2(1531.1193, 234.40149), Vector2(1489.874, 215.50705)]
+position = Vector2(1486.042, 196.50711)
 
 [sub_resource type="Resource" id="Resource_vl043"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(389.56186, 226.18225), Vector2(436.08585, 228.73965), Vector2(437.48712, 243.54108), Vector2(391.22842, 247.07788)]
-position = Vector2(389.56186, 226.18225)
+polygon = [Vector2(1544.2391, 201.47258), Vector2(1590.1184, 195.0089), Vector2(1575.7351, 217.45416), Vector2(1531.1193, 234.40149)]
+position = Vector2(1531.1193, 195.0089)
 
 [sub_resource type="Resource" id="Resource_557bn"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(436.08585, 228.73965), Vector2(489.17352, 223.5091), Vector2(481.24936, 256.29654), Vector2(437.48712, 243.54108)]
-position = Vector2(436.08585, 223.5091)
+polygon = [Vector2(1590.1184, 195.0089), Vector2(1639.1631, 193.25967), Vector2(1630.9542, 230.56079), Vector2(1575.7351, 217.45416)]
+position = Vector2(1575.7351, 193.25967)
 
 [sub_resource type="Resource" id="Resource_4yp7i"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(489.17352, 223.5091), Vector2(518.7747, 224.44426), Vector2(536.84875, 258.9902), Vector2(481.24936, 256.29654)]
-position = Vector2(481.24936, 223.5091)
+polygon = [Vector2(1639.1631, 193.25967), Vector2(1688.4951, 199.053), Vector2(1685.6613, 233.41782), Vector2(1630.9542, 230.56079)]
+position = Vector2(1630.9542, 193.25967)
 
 [sub_resource type="Resource" id="Resource_8s45j"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(518.7747, 224.44426), Vector2(571.0326, 218.81096), Vector2(585.06165, 252.69815), Vector2(536.84875, 258.9902)]
-position = Vector2(518.7747, 218.81096)
+polygon = [Vector2(234.62337, 218.48119), Vector2(295.18805, 221.1671), Vector2(294.98648, 242.25221), Vector2(235.14178, 257.22983)]
+position = Vector2(234.62337, 218.48119)
 
 [sub_resource type="Resource" id="Resource_myspv"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(571.0326, 218.81096), Vector2(630.81354, 222.91112), Vector2(632.07983, 243.64833), Vector2(585.06165, 252.69815)]
-position = Vector2(571.0326, 218.81096)
+polygon = [Vector2(295.18805, 221.1671), Vector2(336.0484, 229.2337), Vector2(343.451, 243.93814), Vector2(294.98648, 242.25221)]
+position = Vector2(294.98648, 221.1671)
 
 [sub_resource type="Resource" id="Resource_e3qm1"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(630.81354, 222.91112), Vector2(676.6901, 227.63799), Vector2(664.86017, 244.89333), Vector2(632.07983, 243.64833)]
-position = Vector2(630.81354, 222.91112)
+polygon = [Vector2(336.0484, 229.2337), Vector2(387.8345, 229.65692), Vector2(384.71805, 252.76299), Vector2(343.451, 243.93814)]
+position = Vector2(336.0484, 229.2337)
 
 [sub_resource type="Resource" id="Resource_t3wd1"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(676.6901, 227.63799), Vector2(728.9694, 228.45364), Vector2(725.74585, 242.87505), Vector2(664.86017, 244.89333)]
-position = Vector2(664.86017, 227.63799)
+polygon = [Vector2(387.8345, 229.65692), Vector2(438.95587, 218.42809), Vector2(434.63037, 251.32048), Vector2(384.71805, 252.76299)]
+position = Vector2(384.71805, 218.42809)
 
 [sub_resource type="Resource" id="Resource_wku3j"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(775.504, 230.4262), Vector2(809.37256, 232.0972), Vector2(810.68835, 250.1091), Vector2(765.5125, 241.81628)]
-position = Vector2(765.5125, 230.4262)
+polygon = [Vector2(438.95587, 218.42809), Vector2(475.90234, 224.1894), Vector2(475.77023, 250.97629), Vector2(434.63037, 251.32048)]
+position = Vector2(434.63037, 218.42809)
 
 [sub_resource type="Resource" id="Resource_qfval"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(809.37256, 232.0972), Vector2(854.2844, 231.2849), Vector2(865.93634, 241.8814), Vector2(810.68835, 250.1091)]
-position = Vector2(809.37256, 231.2849)
+polygon = [Vector2(475.90234, 224.1894), Vector2(522.2368, 228.94553), Vector2(522.2062, 249.99182), Vector2(475.77023, 250.97629)]
+position = Vector2(475.77023, 224.1894)
 
 [sub_resource type="Resource" id="Resource_2dsqx"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(854.2844, 231.2849), Vector2(904.8385, 229.15312), Vector2(909.48926, 244.7947), Vector2(865.93634, 241.8814)]
-position = Vector2(854.2844, 229.15312)
+polygon = [Vector2(522.2368, 228.94553), Vector2(583.10785, 228.76843), Vector2(580.8453, 254.64171), Vector2(522.2062, 249.99182)]
+position = Vector2(522.2062, 228.76843)
 
 [sub_resource type="Resource" id="Resource_15s1l"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(904.8385, 229.15312), Vector2(964.8274, 225.44551), Vector2(963.50464, 245.68153), Vector2(909.48926, 244.7947)]
-position = Vector2(904.8385, 225.44551)
+polygon = [Vector2(583.10785, 228.76843), Vector2(631.7291, 228.62318), Vector2(631.93384, 254.78325), Vector2(580.8453, 254.64171)]
+position = Vector2(580.8453, 228.62318)
 
 [sub_resource type="Resource" id="Resource_170l1"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(964.8274, 225.44551), Vector2(999.7014, 231.93852), Vector2(1003.6442, 243.773), Vector2(963.50464, 245.68153)]
-position = Vector2(963.50464, 225.44551)
+polygon = [Vector2(631.7291, 228.62318), Vector2(677.1827, 230.26309), Vector2(681.7755, 257.58478), Vector2(631.93384, 254.78325)]
+position = Vector2(631.7291, 228.62318)
 
 [sub_resource type="Resource" id="Resource_u6itp"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(999.7014, 231.93852), Vector2(1062.32, 225.4338), Vector2(1064.1797, 254.07433), Vector2(1003.6442, 243.773)]
-position = Vector2(999.7014, 225.4338)
+polygon = [Vector2(677.1827, 230.26309), Vector2(727.13885, 227.064), Vector2(725.7507, 258.307), Vector2(681.7755, 257.58478)]
+position = Vector2(677.1827, 227.064)
 
 [sub_resource type="Resource" id="Resource_up1a5"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1062.32, 225.4338), Vector2(1095.1276, 234.89984), Vector2(1095.215, 240.79082), Vector2(1064.1797, 254.07433)]
-position = Vector2(1062.32, 225.4338)
+polygon = [Vector2(727.13885, 227.064), Vector2(772.0162, 226.7732), Vector2(767.51135, 243.67084), Vector2(725.7507, 258.307)]
+position = Vector2(725.7507, 226.7732)
 
 [sub_resource type="Resource" id="Resource_ukicr"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1152.9083, 226.48833), Vector2(1207.6769, 228.18729), Vector2(1193.0457, 244.22621), Vector2(1154.4836, 243.1056)]
-position = Vector2(1152.9083, 226.48833)
+polygon = [Vector2(772.0162, 226.7732), Vector2(808.9603, 219.80418), Vector2(817.67163, 244.12167), Vector2(767.51135, 243.67084)]
+position = Vector2(767.51135, 219.80418)
 
 [sub_resource type="Resource" id="Resource_0slo7"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1207.6769, 228.18729), Vector2(1240.0685, 224.00873), Vector2(1245.6201, 247.82077), Vector2(1193.0457, 244.22621)]
-position = Vector2(1193.0457, 224.00873)
+polygon = [Vector2(808.9603, 219.80418), Vector2(862.68713, 223.78331), Vector2(865.0572, 241.33696), Vector2(817.67163, 244.12167)]
+position = Vector2(808.9603, 219.80418)
 
 [sub_resource type="Resource" id="Resource_ielqn"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1240.0685, 224.00873), Vector2(1301.9004, 224.33888), Vector2(1286.5952, 245.58229), Vector2(1245.6201, 247.82077)]
-position = Vector2(1240.0685, 224.00873)
+polygon = [Vector2(862.68713, 223.78331), Vector2(909.362, 215.33653), Vector2(903.5731, 242.03319), Vector2(865.0572, 241.33696)]
+position = Vector2(862.68713, 215.33653)
 
 [sub_resource type="Resource" id="Resource_j4mfw"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1339.5269, 230.07661), Vector2(1384.7946, 230.2298), Vector2(1389.0494, 241.804), Vector2(1346.265, 247.77612)]
-position = Vector2(1339.5269, 230.07661)
+polygon = [Vector2(909.362, 215.33653), Vector2(957.93427, 233.16737), Vector2(956.73956, 255.71321), Vector2(903.5731, 242.03319)]
+position = Vector2(903.5731, 215.33653)
 
 [sub_resource type="Resource" id="Resource_g3d34"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1384.7946, 230.2298), Vector2(1440.7014, 219.51764), Vector2(1433.8624, 259.66434), Vector2(1389.0494, 241.804)]
-position = Vector2(1384.7946, 219.51764)
+polygon = [Vector2(957.93427, 233.16737), Vector2(1007.9234, 222.63533), Vector2(1007.40155, 242.04044), Vector2(956.73956, 255.71321)]
+position = Vector2(956.73956, 222.63533)
 
 [sub_resource type="Resource" id="Resource_frb04"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1440.7014, 219.51764), Vector2(1480.3259, 232.41772), Vector2(1487.7826, 243.79509), Vector2(1433.8624, 259.66434)]
-position = Vector2(1433.8624, 219.51764)
+polygon = [Vector2(1007.9234, 222.63533), Vector2(1056.457, 228.44759), Vector2(1046.7955, 252.62538), Vector2(1007.40155, 242.04044)]
+position = Vector2(1007.40155, 222.63533)
 
 [sub_resource type="Resource" id="Resource_76khp"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1480.3259, 232.41772), Vector2(1532.4983, 223.11128), Vector2(1528.9508, 245.5796), Vector2(1487.7826, 243.79509)]
-position = Vector2(1480.3259, 223.11128)
+polygon = [Vector2(1056.457, 228.44759), Vector2(1098.2314, 223.46025), Vector2(1105.2059, 242.02696), Vector2(1046.7955, 252.62538)]
+position = Vector2(1046.7955, 223.46025)
 
 [sub_resource type="Resource" id="Resource_qrux1"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1532.4983, 223.11128), Vector2(1588.0323, 229.46022), Vector2(1590.2672, 245.14288), Vector2(1528.9508, 245.5796)]
-position = Vector2(1528.9508, 223.11128)
+polygon = [Vector2(1157.9579, 231.93486), Vector2(1201.8469, 228.3577), Vector2(1208.8046, 246.56519), Vector2(1142.3225, 256.18753)]
+position = Vector2(1142.3225, 228.3577)
 
 [sub_resource type="Resource" id="Resource_2rj6m"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1588.0323, 229.46022), Vector2(1631.6365, 218.54501), Vector2(1638.8651, 253.1805), Vector2(1590.2672, 245.14288)]
-position = Vector2(1588.0323, 218.54501)
+polygon = [Vector2(1201.8469, 228.3577), Vector2(1250.2335, 233.98518), Vector2(1249.2765, 251.20212), Vector2(1208.8046, 246.56519)]
+position = Vector2(1201.8469, 228.3577)
 
 [sub_resource type="Resource" id="Resource_nmgd7"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1631.6365, 218.54501), Vector2(1683.4543, 228.557), Vector2(1671.8611, 255.10376), Vector2(1638.8651, 253.1805)]
-position = Vector2(1631.6365, 218.54501)
+polygon = [Vector2(1250.2335, 233.98518), Vector2(1288.7827, 225.8119), Vector2(1294.9402, 241.10686), Vector2(1249.2765, 251.20212)]
+position = Vector2(1249.2765, 225.8119)
 
 [sub_resource type="Resource" id="Resource_f5ot1"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1683.4543, 228.557), Vector2(1737.0773, 233.7673), Vector2(1721.8585, 257.1828), Vector2(1671.8611, 255.10376)]
-position = Vector2(1671.8611, 228.557)
+polygon = [Vector2(1334.5594, 233.73773), Vector2(1401.0735, 232.99924), Vector2(1400.107, 244.5042), Vector2(1342.2705, 241.4853)]
+position = Vector2(1334.5594, 232.99924)
 
 [sub_resource type="Resource" id="Resource_80xai"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(234.88666, 259.3261), Vector2(285.46283, 253.42714), Vector2(288.53168, 283.56213), Vector2(234.90208, 279.92325)]
-position = Vector2(234.88666, 253.42714)
+polygon = [Vector2(1401.0735, 232.99924), Vector2(1435.5583, 215.35039), Vector2(1430.662, 245.46254), Vector2(1400.107, 244.5042)]
+position = Vector2(1400.107, 215.35039)
 
 [sub_resource type="Resource" id="Resource_vq6jr"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(285.46283, 253.42714), Vector2(342.61224, 254.79338), Vector2(328.7583, 278.52307), Vector2(288.53168, 283.56213)]
-position = Vector2(285.46283, 253.42714)
+polygon = [Vector2(1435.5583, 215.35039), Vector2(1489.874, 215.50705), Vector2(1487.0273, 247.08508), Vector2(1430.662, 245.46254)]
+position = Vector2(1430.662, 215.35039)
 
 [sub_resource type="Resource" id="Resource_xg370"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(342.61224, 254.79338), Vector2(391.22842, 247.07788), Vector2(384.6389, 269.83484), Vector2(328.7583, 278.52307)]
-position = Vector2(328.7583, 247.07788)
+polygon = [Vector2(1489.874, 215.50705), Vector2(1531.1193, 234.40149), Vector2(1538.8849, 246.07002), Vector2(1487.0273, 247.08508)]
+position = Vector2(1487.0273, 215.50705)
 
 [sub_resource type="Resource" id="Resource_ngjyu"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(437.48712, 243.54108), Vector2(481.24936, 256.29654), Vector2(474.09473, 280.72095), Vector2(429.06683, 276.57608)]
-position = Vector2(429.06683, 243.54108)
+polygon = [Vector2(1531.1193, 234.40149), Vector2(1575.7351, 217.45416), Vector2(1588.1222, 250.6704), Vector2(1538.8849, 246.07002)]
+position = Vector2(1531.1193, 217.45416)
 
 [sub_resource type="Resource" id="Resource_ckpgs"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(481.24936, 256.29654), Vector2(536.84875, 258.9902), Vector2(520.1876, 284.83862), Vector2(474.09473, 280.72095)]
-position = Vector2(474.09473, 256.29654)
+polygon = [Vector2(1575.7351, 217.45416), Vector2(1630.9542, 230.56079), Vector2(1633.704, 251.65056), Vector2(1588.1222, 250.6704)]
+position = Vector2(1575.7351, 217.45416)
 
 [sub_resource type="Resource" id="Resource_ukxbx"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(536.84875, 258.9902), Vector2(585.06165, 252.69815), Vector2(571.97205, 270.58884), Vector2(520.1876, 284.83862)]
-position = Vector2(520.1876, 252.69815)
+polygon = [Vector2(1630.9542, 230.56079), Vector2(1685.6613, 233.41782), Vector2(1682.117, 249.05574), Vector2(1633.704, 251.65056)]
+position = Vector2(1630.9542, 230.56079)
 
 [sub_resource type="Resource" id="Resource_i8iqx"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(585.06165, 252.69815), Vector2(632.07983, 243.64833), Vector2(616.5389, 265.42), Vector2(571.97205, 270.58884)]
-position = Vector2(571.97205, 243.64833)
+polygon = [Vector2(235.14178, 257.22983), Vector2(294.98648, 242.25221), Vector2(293.13037, 284.9167), Vector2(242.17882, 271.7678)]
+position = Vector2(235.14178, 242.25221)
 
 [sub_resource type="Resource" id="Resource_2n0tn"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(632.07983, 243.64833), Vector2(664.86017, 244.89333), Vector2(679.8286, 283.9977), Vector2(616.5389, 265.42)]
-position = Vector2(616.5389, 243.64833)
+polygon = [Vector2(294.98648, 242.25221), Vector2(343.451, 243.93814), Vector2(328.90808, 272.04675), Vector2(293.13037, 284.9167)]
+position = Vector2(293.13037, 242.25221)
 
 [sub_resource type="Resource" id="Resource_435q3"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(664.86017, 244.89333), Vector2(725.74585, 242.87505), Vector2(720.75977, 278.44717), Vector2(679.8286, 283.9977)]
-position = Vector2(664.86017, 242.87505)
+polygon = [Vector2(343.451, 243.93814), Vector2(384.71805, 252.76299), Vector2(374.58557, 265.74255), Vector2(328.90808, 272.04675)]
+position = Vector2(328.90808, 243.93814)
 
 [sub_resource type="Resource" id="Resource_0rj8v"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(725.74585, 242.87505), Vector2(765.5125, 241.81628), Vector2(758.6892, 280.43283), Vector2(720.75977, 278.44717)]
-position = Vector2(720.75977, 241.81628)
+polygon = [Vector2(384.71805, 252.76299), Vector2(434.63037, 251.32048), Vector2(428.3832, 281.35397), Vector2(374.58557, 265.74255)]
+position = Vector2(374.58557, 251.32048)
 
 [sub_resource type="Resource" id="Resource_l3umv"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(765.5125, 241.81628), Vector2(810.68835, 250.1091), Vector2(807.1859, 283.18823), Vector2(758.6892, 280.43283)]
-position = Vector2(758.6892, 241.81628)
+polygon = [Vector2(434.63037, 251.32048), Vector2(475.77023, 250.97629), Vector2(474.289, 279.961), Vector2(428.3832, 281.35397)]
+position = Vector2(428.3832, 250.97629)
 
 [sub_resource type="Resource" id="Resource_te38h"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(810.68835, 250.1091), Vector2(865.93634, 241.8814), Vector2(854.01245, 272.27188), Vector2(807.1859, 283.18823)]
-position = Vector2(807.1859, 241.8814)
+polygon = [Vector2(475.77023, 250.97629), Vector2(522.2062, 249.99182), Vector2(529.5701, 272.04233), Vector2(474.289, 279.961)]
+position = Vector2(474.289, 249.99182)
 
 [sub_resource type="Resource" id="Resource_qm3kp"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(865.93634, 241.8814), Vector2(909.48926, 244.7947), Vector2(911.8628, 281.79092), Vector2(854.01245, 272.27188)]
-position = Vector2(854.01245, 241.8814)
+polygon = [Vector2(522.2062, 249.99182), Vector2(580.8453, 254.64171), Vector2(579.52423, 274.41116), Vector2(529.5701, 272.04233)]
+position = Vector2(522.2062, 249.99182)
 
 [sub_resource type="Resource" id="Resource_87xcs"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(909.48926, 244.7947), Vector2(963.50464, 245.68153), Vector2(961.5855, 272.97983), Vector2(911.8628, 281.79092)]
-position = Vector2(909.48926, 244.7947)
+polygon = [Vector2(580.8453, 254.64171), Vector2(631.93384, 254.78325), Vector2(624.5032, 272.51688), Vector2(579.52423, 274.41116)]
+position = Vector2(579.52423, 254.64171)
 
 [sub_resource type="Resource" id="Resource_jjx8f"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(963.50464, 245.68153), Vector2(1003.6442, 243.773), Vector2(998.016, 278.48978), Vector2(961.5855, 272.97983)]
-position = Vector2(961.5855, 243.773)
+polygon = [Vector2(631.93384, 254.78325), Vector2(681.7755, 257.58478), Vector2(664.82635, 280.40878), Vector2(624.5032, 272.51688)]
+position = Vector2(624.5032, 254.78325)
 
 [sub_resource type="Resource" id="Resource_21j8i"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1003.6442, 243.773), Vector2(1064.1797, 254.07433), Vector2(1047.9349, 279.0644), Vector2(998.016, 278.48978)]
-position = Vector2(998.016, 243.773)
+polygon = [Vector2(681.7755, 257.58478), Vector2(725.7507, 258.307), Vector2(724.3152, 272.6534), Vector2(664.82635, 280.40878)]
+position = Vector2(664.82635, 257.58478)
 
 [sub_resource type="Resource" id="Resource_15s61"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1064.1797, 254.07433), Vector2(1095.215, 240.79082), Vector2(1101.5856, 282.185), Vector2(1047.9349, 279.0644)]
-position = Vector2(1047.9349, 240.79082)
+polygon = [Vector2(725.7507, 258.307), Vector2(767.51135, 243.67084), Vector2(770.54, 271.95593), Vector2(724.3152, 272.6534)]
+position = Vector2(724.3152, 243.67084)
 
 [sub_resource type="Resource" id="Resource_ekx1f"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1095.215, 240.79082), Vector2(1154.4836, 243.1056), Vector2(1158.3579, 278.44653), Vector2(1101.5856, 282.185)]
-position = Vector2(1095.215, 240.79082)
+polygon = [Vector2(767.51135, 243.67084), Vector2(817.67163, 244.12167), Vector2(814.3248, 280.8755), Vector2(770.54, 271.95593)]
+position = Vector2(767.51135, 243.67084)
 
 [sub_resource type="Resource" id="Resource_xyqv0"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1154.4836, 243.1056), Vector2(1193.0457, 244.22621), Vector2(1202.1913, 266.50818), Vector2(1158.3579, 278.44653)]
-position = Vector2(1154.4836, 243.1056)
+polygon = [Vector2(817.67163, 244.12167), Vector2(865.0572, 241.33696), Vector2(859.6387, 273.37234), Vector2(814.3248, 280.8755)]
+position = Vector2(814.3248, 241.33696)
 
 [sub_resource type="Resource" id="Resource_bc7qg"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1193.0457, 244.22621), Vector2(1245.6201, 247.82077), Vector2(1253.1603, 284.79263), Vector2(1202.1913, 266.50818)]
-position = Vector2(1193.0457, 244.22621)
+polygon = [Vector2(865.0572, 241.33696), Vector2(903.5731, 242.03319), Vector2(918.0103, 280.7032), Vector2(859.6387, 273.37234)]
+position = Vector2(859.6387, 241.33696)
 
 [sub_resource type="Resource" id="Resource_mvst7"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1245.6201, 247.82077), Vector2(1286.5952, 245.58229), Vector2(1299.376, 280.43484), Vector2(1253.1603, 284.79263)]
-position = Vector2(1245.6201, 245.58229)
+polygon = [Vector2(903.5731, 242.03319), Vector2(956.73956, 255.71321), Vector2(966.2985, 270.57535), Vector2(918.0103, 280.7032)]
+position = Vector2(903.5731, 242.03319)
 
 [sub_resource type="Resource" id="Resource_uayul"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1286.5952, 245.58229), Vector2(1346.265, 247.77612), Vector2(1351.2496, 270.5333), Vector2(1299.376, 280.43484)]
-position = Vector2(1286.5952, 245.58229)
+polygon = [Vector2(956.73956, 255.71321), Vector2(1007.40155, 242.04044), Vector2(1015.09033, 275.94385), Vector2(966.2985, 270.57535)]
+position = Vector2(956.73956, 242.04044)
 
 [sub_resource type="Resource" id="Resource_oju0a"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1346.265, 247.77612), Vector2(1389.0494, 241.804), Vector2(1400.5615, 275.98026), Vector2(1351.2496, 270.5333)]
-position = Vector2(1346.265, 241.804)
+polygon = [Vector2(1007.40155, 242.04044), Vector2(1046.7955, 252.62538), Vector2(1052.0469, 268.89832), Vector2(1015.09033, 275.94385)]
+position = Vector2(1007.40155, 242.04044)
 
 [sub_resource type="Resource" id="Resource_xyo12"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1389.0494, 241.804), Vector2(1433.8624, 259.66434), Vector2(1442.4595, 272.5245), Vector2(1400.5615, 275.98026)]
-position = Vector2(1389.0494, 241.804)
+polygon = [Vector2(1046.7955, 252.62538), Vector2(1105.2059, 242.02696), Vector2(1112.3184, 278.22507), Vector2(1052.0469, 268.89832)]
+position = Vector2(1046.7955, 242.02696)
 
 [sub_resource type="Resource" id="Resource_ra0te"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1433.8624, 259.66434), Vector2(1487.7826, 243.79509), Vector2(1480.0441, 268.15802), Vector2(1442.4595, 272.5245)]
-position = Vector2(1433.8624, 243.79509)
+polygon = [Vector2(1142.3225, 256.18753), Vector2(1208.8046, 246.56519), Vector2(1204.5421, 266.5535), Vector2(1161.9695, 269.5602)]
+position = Vector2(1142.3225, 246.56519)
 
 [sub_resource type="Resource" id="Resource_037pn"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1487.7826, 243.79509), Vector2(1528.9508, 245.5796), Vector2(1536.3566, 280.6958), Vector2(1480.0441, 268.15802)]
-position = Vector2(1480.0441, 243.79509)
+polygon = [Vector2(1208.8046, 246.56519), Vector2(1249.2765, 251.20212), Vector2(1246.6681, 284.69763), Vector2(1204.5421, 266.5535)]
+position = Vector2(1204.5421, 246.56519)
 
 [sub_resource type="Resource" id="Resource_ruuei"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1528.9508, 245.5796), Vector2(1590.2672, 245.14288), Vector2(1580.6475, 276.02167), Vector2(1536.3566, 280.6958)]
-position = Vector2(1528.9508, 245.14288)
+polygon = [Vector2(1249.2765, 251.20212), Vector2(1294.9402, 241.10686), Vector2(1288.6232, 282.239), Vector2(1246.6681, 284.69763)]
+position = Vector2(1246.6681, 241.10686)
 
 [sub_resource type="Resource" id="Resource_r5y7q"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1590.2672, 245.14288), Vector2(1638.8651, 253.1805), Vector2(1631.5913, 281.13382), Vector2(1580.6475, 276.02167)]
-position = Vector2(1580.6475, 245.14288)
+polygon = [Vector2(1294.9402, 241.10686), Vector2(1342.2705, 241.4853), Vector2(1336.5033, 273.7599), Vector2(1288.6232, 282.239)]
+position = Vector2(1288.6232, 241.10686)
 
 [sub_resource type="Resource" id="Resource_br07d"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1638.8651, 253.1805), Vector2(1671.8611, 255.10376), Vector2(1678.9598, 276.44437), Vector2(1631.5913, 281.13382)]
-position = Vector2(1631.5913, 253.1805)
+polygon = [Vector2(1342.2705, 241.4853), Vector2(1400.107, 244.5042), Vector2(1394.1445, 271.18826), Vector2(1336.5033, 273.7599)]
+position = Vector2(1336.5033, 241.4853)
 
 [sub_resource type="Resource" id="Resource_0lgie"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1671.8611, 255.10376), Vector2(1721.8585, 257.1828), Vector2(1726.6067, 282.79315), Vector2(1678.9598, 276.44437)]
-position = Vector2(1671.8611, 255.10376)
+polygon = [Vector2(1400.107, 244.5042), Vector2(1430.662, 245.46254), Vector2(1437.437, 279.91812), Vector2(1394.1445, 271.18826)]
+position = Vector2(1394.1445, 244.5042)
 
 [sub_resource type="Resource" id="Resource_es30s"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(234.90208, 279.92325), Vector2(288.53168, 283.56213), Vector2(289.12854, 299.56055), Vector2(238.15088, 306.77545)]
-position = Vector2(234.90208, 279.92325)
+polygon = [Vector2(1430.662, 245.46254), Vector2(1487.0273, 247.08508), Vector2(1495.1097, 267.47223), Vector2(1437.437, 279.91812)]
+position = Vector2(1430.662, 245.46254)
 
 [sub_resource type="Resource" id="Resource_od0bq"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(288.53168, 283.56213), Vector2(328.7583, 278.52307), Vector2(334.4022, 308.72696), Vector2(289.12854, 299.56055)]
-position = Vector2(288.53168, 278.52307)
+polygon = [Vector2(1487.0273, 247.08508), Vector2(1538.8849, 246.07002), Vector2(1527.3138, 278.71027), Vector2(1495.1097, 267.47223)]
+position = Vector2(1487.0273, 246.07002)
 
 [sub_resource type="Resource" id="Resource_ux04m"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(328.7583, 278.52307), Vector2(384.6389, 269.83484), Vector2(389.01892, 303.8545), Vector2(334.4022, 308.72696)]
-position = Vector2(328.7583, 269.83484)
+polygon = [Vector2(1538.8849, 246.07002), Vector2(1588.1222, 250.6704), Vector2(1576.3141, 270.15198), Vector2(1527.3138, 278.71027)]
+position = Vector2(1527.3138, 246.07002)
 
 [sub_resource type="Resource" id="Resource_pn3h2"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(429.06683, 276.57608), Vector2(474.09473, 280.72095), Vector2(473.86777, 304.6546), Vector2(422.87048, 297.2574)]
-position = Vector2(422.87048, 276.57608)
+polygon = [Vector2(1588.1222, 250.6704), Vector2(1633.704, 251.65056), Vector2(1626.1381, 279.93097), Vector2(1576.3141, 270.15198)]
+position = Vector2(1576.3141, 250.6704)
 
 [sub_resource type="Resource" id="Resource_2y8hn"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(474.09473, 280.72095), Vector2(520.1876, 284.83862), Vector2(519.0859, 298.05817), Vector2(473.86777, 304.6546)]
-position = Vector2(473.86777, 280.72095)
+polygon = [Vector2(1633.704, 251.65056), Vector2(1682.117, 249.05574), Vector2(1684.9199, 284.88913), Vector2(1626.1381, 279.93097)]
+position = Vector2(1626.1381, 249.05574)
 
 [sub_resource type="Resource" id="Resource_1xdev"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(520.1876, 284.83862), Vector2(571.97205, 270.58884), Vector2(573.7676, 300.54163), Vector2(519.0859, 298.05817)]
-position = Vector2(519.0859, 270.58884)
+polygon = [Vector2(242.17882, 271.7678), Vector2(293.13037, 284.9167), Vector2(297.23984, 290.93988), Vector2(247.44818, 308.19095)]
+position = Vector2(242.17882, 271.7678)
 
 [sub_resource type="Resource" id="Resource_4ndj3"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(571.97205, 270.58884), Vector2(616.5389, 265.42), Vector2(626.26575, 299.35117), Vector2(573.7676, 300.54163)]
-position = Vector2(571.97205, 265.42)
+polygon = [Vector2(293.13037, 284.9167), Vector2(328.90808, 272.04675), Vector2(338.1501, 293.0907), Vector2(297.23984, 290.93988)]
+position = Vector2(293.13037, 272.04675)
 
 [sub_resource type="Resource" id="Resource_ac6oo"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(616.5389, 265.42), Vector2(679.8286, 283.9977), Vector2(681.2964, 294.4094), Vector2(626.26575, 299.35117)]
-position = Vector2(616.5389, 265.42)
+polygon = [Vector2(328.90808, 272.04675), Vector2(374.58557, 265.74255), Vector2(379.66098, 308.04834), Vector2(338.1501, 293.0907)]
+position = Vector2(328.90808, 265.74255)
 
 [sub_resource type="Resource" id="Resource_3lae5"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(679.8286, 283.9977), Vector2(720.75977, 278.44717), Vector2(712.3323, 299.1396), Vector2(681.2964, 294.4094)]
-position = Vector2(679.8286, 278.44717)
+polygon = [Vector2(374.58557, 265.74255), Vector2(428.3832, 281.35397), Vector2(426.72458, 292.6498), Vector2(379.66098, 308.04834)]
+position = Vector2(374.58557, 265.74255)
 
 [sub_resource type="Resource" id="Resource_whb84"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(720.75977, 278.44717), Vector2(758.6892, 280.43283), Vector2(762.6236, 301.96643), Vector2(712.3323, 299.1396)]
-position = Vector2(712.3323, 278.44717)
+polygon = [Vector2(428.3832, 281.35397), Vector2(474.289, 279.961), Vector2(487.4754, 301.43652), Vector2(426.72458, 292.6498)]
+position = Vector2(426.72458, 279.961)
 
 [sub_resource type="Resource" id="Resource_cy5v8"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(758.6892, 280.43283), Vector2(807.1859, 283.18823), Vector2(819.1927, 306.3541), Vector2(762.6236, 301.96643)]
-position = Vector2(758.6892, 280.43283)
+polygon = [Vector2(474.289, 279.961), Vector2(529.5701, 272.04233), Vector2(528.7519, 297.67642), Vector2(487.4754, 301.43652)]
+position = Vector2(474.289, 272.04233)
 
 [sub_resource type="Resource" id="Resource_60wtd"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(807.1859, 283.18823), Vector2(854.01245, 272.27188), Vector2(863.88116, 305.5475), Vector2(819.1927, 306.3541)]
-position = Vector2(807.1859, 272.27188)
+polygon = [Vector2(529.5701, 272.04233), Vector2(579.52423, 274.41116), Vector2(572.38367, 292.2619), Vector2(528.7519, 297.67642)]
+position = Vector2(528.7519, 272.04233)
 
 [sub_resource type="Resource" id="Resource_lnmcn"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(854.01245, 272.27188), Vector2(911.8628, 281.79092), Vector2(907.56445, 303.48694), Vector2(863.88116, 305.5475)]
-position = Vector2(854.01245, 272.27188)
+polygon = [Vector2(579.52423, 274.41116), Vector2(624.5032, 272.51688), Vector2(626.16656, 307.31766), Vector2(572.38367, 292.2619)]
+position = Vector2(572.38367, 272.51688)
 
 [sub_resource type="Resource" id="Resource_pwmq1"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(911.8628, 281.79092), Vector2(961.5855, 272.97983), Vector2(950.2935, 294.15323), Vector2(907.56445, 303.48694)]
-position = Vector2(907.56445, 272.97983)
+polygon = [Vector2(624.5032, 272.51688), Vector2(664.82635, 280.40878), Vector2(666.03766, 297.10052), Vector2(626.16656, 307.31766)]
+position = Vector2(624.5032, 272.51688)
 
 [sub_resource type="Resource" id="Resource_3tq3m"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(961.5855, 272.97983), Vector2(998.016, 278.48978), Vector2(1006.4446, 293.3854), Vector2(950.2935, 294.15323)]
-position = Vector2(950.2935, 272.97983)
+polygon = [Vector2(664.82635, 280.40878), Vector2(724.3152, 272.6534), Vector2(728.6336, 308.45264), Vector2(666.03766, 297.10052)]
+position = Vector2(664.82635, 272.6534)
 
 [sub_resource type="Resource" id="Resource_1577m"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(998.016, 278.48978), Vector2(1047.9349, 279.0644), Vector2(1058.359, 290.41034), Vector2(1006.4446, 293.3854)]
-position = Vector2(998.016, 278.48978)
+polygon = [Vector2(724.3152, 272.6534), Vector2(770.54, 271.95593), Vector2(761.89105, 290.86267), Vector2(728.6336, 308.45264)]
+position = Vector2(724.3152, 271.95593)
 
 [sub_resource type="Resource" id="Resource_lahi0"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1047.9349, 279.0644), Vector2(1101.5856, 282.185), Vector2(1111.0718, 292.01556), Vector2(1058.359, 290.41034)]
-position = Vector2(1047.9349, 279.0644)
+polygon = [Vector2(770.54, 271.95593), Vector2(814.3248, 280.8755), Vector2(819.8014, 300.10934), Vector2(761.89105, 290.86267)]
+position = Vector2(761.89105, 271.95593)
 
 [sub_resource type="Resource" id="Resource_g416w"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1158.3579, 278.44653), Vector2(1202.1913, 266.50818), Vector2(1194.8757, 306.8735), Vector2(1160.2363, 295.844)]
-position = Vector2(1158.3579, 266.50818)
+polygon = [Vector2(814.3248, 280.8755), Vector2(859.6387, 273.37234), Vector2(865.07733, 290.96725), Vector2(819.8014, 300.10934)]
+position = Vector2(814.3248, 273.37234)
 
 [sub_resource type="Resource" id="Resource_xwxbx"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1202.1913, 266.50818), Vector2(1253.1603, 284.79263), Vector2(1239.0452, 299.58118), Vector2(1194.8757, 306.8735)]
-position = Vector2(1194.8757, 266.50818)
+polygon = [Vector2(859.6387, 273.37234), Vector2(918.0103, 280.7032), Vector2(921.98505, 294.0384), Vector2(865.07733, 290.96725)]
+position = Vector2(859.6387, 273.37234)
 
 [sub_resource type="Resource" id="Resource_rtg81"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1253.1603, 284.79263), Vector2(1299.376, 280.43484), Vector2(1300.5621, 295.0427), Vector2(1239.0452, 299.58118)]
-position = Vector2(1239.0452, 280.43484)
+polygon = [Vector2(918.0103, 280.7032), Vector2(966.2985, 270.57535), Vector2(964.2282, 303.21063), Vector2(921.98505, 294.0384)]
+position = Vector2(918.0103, 270.57535)
 
 [sub_resource type="Resource" id="Resource_ecj4f"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1299.376, 280.43484), Vector2(1351.2496, 270.5333), Vector2(1337.4916, 296.19247), Vector2(1300.5621, 295.0427)]
-position = Vector2(1299.376, 270.5333)
+polygon = [Vector2(966.2985, 270.57535), Vector2(1015.09033, 275.94385), Vector2(998.25665, 299.43466), Vector2(964.2282, 303.21063)]
+position = Vector2(964.2282, 270.57535)
 
 [sub_resource type="Resource" id="Resource_b2tn8"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1351.2496, 270.5333), Vector2(1400.5615, 275.98026), Vector2(1386.2704, 305.88467), Vector2(1337.4916, 296.19247)]
-position = Vector2(1337.4916, 270.5333)
+polygon = [Vector2(1015.09033, 275.94385), Vector2(1052.0469, 268.89832), Vector2(1052.4475, 297.27225), Vector2(998.25665, 299.43466)]
+position = Vector2(998.25665, 268.89832)
 
 [sub_resource type="Resource" id="Resource_jqcc1"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1400.5615, 275.98026), Vector2(1442.4595, 272.5245), Vector2(1436.8442, 309.60593), Vector2(1386.2704, 305.88467)]
-position = Vector2(1386.2704, 272.5245)
+polygon = [Vector2(1052.0469, 268.89832), Vector2(1112.3184, 278.22507), Vector2(1094.5057, 298.06763), Vector2(1052.4475, 297.27225)]
+position = Vector2(1052.0469, 268.89832)
 
 [sub_resource type="Resource" id="Resource_fiu3a"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1442.4595, 272.5245), Vector2(1480.0441, 268.15802), Vector2(1492.9578, 296.36176), Vector2(1436.8442, 309.60593)]
-position = Vector2(1436.8442, 268.15802)
+polygon = [Vector2(1112.3184, 278.22507), Vector2(1161.9695, 269.5602), Vector2(1158.5864, 298.37527), Vector2(1094.5057, 298.06763)]
+position = Vector2(1094.5057, 269.5602)
 
 [sub_resource type="Resource" id="Resource_lr4sm"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1480.0441, 268.15802), Vector2(1536.3566, 280.6958), Vector2(1543.3105, 292.04456), Vector2(1492.9578, 296.36176)]
-position = Vector2(1480.0441, 268.15802)
+polygon = [Vector2(1161.9695, 269.5602), Vector2(1204.5421, 266.5535), Vector2(1191.4235, 303.1895), Vector2(1158.5864, 298.37527)]
+position = Vector2(1158.5864, 266.5535)
 
 [sub_resource type="Resource" id="Resource_d65hs"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1536.3566, 280.6958), Vector2(1580.6475, 276.02167), Vector2(1584.7471, 306.57693), Vector2(1543.3105, 292.04456)]
-position = Vector2(1536.3566, 276.02167)
+polygon = [Vector2(1204.5421, 266.5535), Vector2(1246.6681, 284.69763), Vector2(1243.3431, 306.89542), Vector2(1191.4235, 303.1895)]
+position = Vector2(1191.4235, 266.5535)
 
 [sub_resource type="Resource" id="Resource_aymf8"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1580.6475, 276.02167), Vector2(1631.5913, 281.13382), Vector2(1634.8572, 303.86435), Vector2(1584.7471, 306.57693)]
-position = Vector2(1580.6475, 276.02167)
+polygon = [Vector2(1246.6681, 284.69763), Vector2(1288.6232, 282.239), Vector2(1299.9467, 305.2041), Vector2(1243.3431, 306.89542)]
+position = Vector2(1243.3431, 282.239)
 
 [sub_resource type="Resource" id="Resource_2gktb"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1631.5913, 281.13382), Vector2(1678.9598, 276.44437), Vector2(1680.4849, 309.25888), Vector2(1634.8572, 303.86435)]
-position = Vector2(1631.5913, 276.44437)
+polygon = [Vector2(1288.6232, 282.239), Vector2(1336.5033, 273.7599), Vector2(1337.9342, 294.7482), Vector2(1299.9467, 305.2041)]
+position = Vector2(1288.6232, 273.7599)
 
 [sub_resource type="Resource" id="Resource_pj320"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(238.15088, 306.77545), Vector2(289.12854, 299.56055), Vector2(296.087, 329.48102), Vector2(247.70499, 325.79562)]
-position = Vector2(238.15088, 299.56055)
+polygon = [Vector2(1336.5033, 273.7599), Vector2(1394.1445, 271.18826), Vector2(1396.0957, 308.98502), Vector2(1337.9342, 294.7482)]
+position = Vector2(1336.5033, 271.18826)
 
 [sub_resource type="Resource" id="Resource_6ue32"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(289.12854, 299.56055), Vector2(334.4022, 308.72696), Vector2(327.19434, 316.36316), Vector2(296.087, 329.48102)]
-position = Vector2(289.12854, 299.56055)
+polygon = [Vector2(1394.1445, 271.18826), Vector2(1437.437, 279.91812), Vector2(1431.929, 297.2361), Vector2(1396.0957, 308.98502)]
+position = Vector2(1394.1445, 271.18826)
 
 [sub_resource type="Resource" id="Resource_wdctm"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(334.4022, 308.72696), Vector2(389.01892, 303.8545), Vector2(374.7021, 315.11252), Vector2(327.19434, 316.36316)]
-position = Vector2(327.19434, 303.8545)
+polygon = [Vector2(1437.437, 279.91812), Vector2(1495.1097, 267.47223), Vector2(1484.179, 292.25797), Vector2(1431.929, 297.2361)]
+position = Vector2(1431.929, 267.47223)
 
 [sub_resource type="Resource" id="Resource_arbom"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(389.01892, 303.8545), Vector2(422.87048, 297.2574), Vector2(427.30408, 327.20532), Vector2(374.7021, 315.11252)]
-position = Vector2(374.7021, 297.2574)
+polygon = [Vector2(1495.1097, 267.47223), Vector2(1527.3138, 278.71027), Vector2(1529.1537, 291.1342), Vector2(1484.179, 292.25797)]
+position = Vector2(1484.179, 267.47223)
 
 [sub_resource type="Resource" id="Resource_a31tm"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(422.87048, 297.2574), Vector2(473.86777, 304.6546), Vector2(470.59454, 324.63602), Vector2(427.30408, 327.20532)]
-position = Vector2(422.87048, 297.2574)
+polygon = [Vector2(1527.3138, 278.71027), Vector2(1576.3141, 270.15198), Vector2(1593.238, 296.5295), Vector2(1529.1537, 291.1342)]
+position = Vector2(1527.3138, 270.15198)
 
 [sub_resource type="Resource" id="Resource_f6blt"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(473.86777, 304.6546), Vector2(519.0859, 298.05817), Vector2(519.1674, 327.8), Vector2(470.59454, 324.63602)]
-position = Vector2(470.59454, 298.05817)
+polygon = [Vector2(1576.3141, 270.15198), Vector2(1626.1381, 279.93097), Vector2(1625.4227, 290.57547), Vector2(1593.238, 296.5295)]
+position = Vector2(1576.3141, 270.15198)
 
 [sub_resource type="Resource" id="Resource_rfvpt"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(519.0859, 298.05817), Vector2(573.7676, 300.54163), Vector2(569.2602, 318.7971), Vector2(519.1674, 327.8)]
-position = Vector2(519.0859, 298.05817)
+polygon = [Vector2(1626.1381, 279.93097), Vector2(1684.9199, 284.88913), Vector2(1687.1064, 303.39566), Vector2(1625.4227, 290.57547)]
+position = Vector2(1625.4227, 279.93097)
 
 [sub_resource type="Resource" id="Resource_hda23"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(573.7676, 300.54163), Vector2(626.26575, 299.35117), Vector2(629.7806, 331.69516), Vector2(569.2602, 318.7971)]
-position = Vector2(569.2602, 299.35117)
+polygon = [Vector2(247.44818, 308.19095), Vector2(297.23984, 290.93988), Vector2(290.91895, 321.6618), Vector2(244.54582, 323.27127)]
+position = Vector2(244.54582, 290.93988)
 
 [sub_resource type="Resource" id="Resource_yokkr"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(626.26575, 299.35117), Vector2(681.2964, 294.4094), Vector2(673.4128, 321.07962), Vector2(629.7806, 331.69516)]
-position = Vector2(626.26575, 294.4094)
+polygon = [Vector2(297.23984, 290.93988), Vector2(338.1501, 293.0907), Vector2(345.33786, 325.3256), Vector2(290.91895, 321.6618)]
+position = Vector2(290.91895, 290.93988)
 
 [sub_resource type="Resource" id="Resource_yxnc3"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(681.2964, 294.4094), Vector2(712.3323, 299.1396), Vector2(726.0263, 333.93527), Vector2(673.4128, 321.07962)]
-position = Vector2(673.4128, 294.4094)
+polygon = [Vector2(338.1501, 293.0907), Vector2(379.66098, 308.04834), Vector2(377.561, 330.5322), Vector2(345.33786, 325.3256)]
+position = Vector2(338.1501, 293.0907)
 
 [sub_resource type="Resource" id="Resource_c518w"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(712.3323, 299.1396), Vector2(762.6236, 301.96643), Vector2(759.8254, 330.64966), Vector2(726.0263, 333.93527)]
-position = Vector2(712.3323, 299.1396)
+polygon = [Vector2(379.66098, 308.04834), Vector2(426.72458, 292.6498), Vector2(432.16345, 324.90887), Vector2(377.561, 330.5322)]
+position = Vector2(377.561, 292.6498)
 
 [sub_resource type="Resource" id="Resource_hwybm"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(762.6236, 301.96643), Vector2(819.1927, 306.3541), Vector2(811.62933, 330.75485), Vector2(759.8254, 330.64966)]
-position = Vector2(759.8254, 301.96643)
+polygon = [Vector2(426.72458, 292.6498), Vector2(487.4754, 301.43652), Vector2(470.69482, 319.2937), Vector2(432.16345, 324.90887)]
+position = Vector2(426.72458, 292.6498)
 
 [sub_resource type="Resource" id="Resource_ruwko"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(819.1927, 306.3541), Vector2(863.88116, 305.5475), Vector2(868.77527, 324.68222), Vector2(811.62933, 330.75485)]
-position = Vector2(811.62933, 305.5475)
+polygon = [Vector2(487.4754, 301.43652), Vector2(528.7519, 297.67642), Vector2(537.1692, 333.6475), Vector2(470.69482, 319.2937)]
+position = Vector2(470.69482, 297.67642)
 
 [sub_resource type="Resource" id="Resource_3iiky"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(863.88116, 305.5475), Vector2(907.56445, 303.48694), Vector2(902.41406, 317.87592), Vector2(868.77527, 324.68222)]
-position = Vector2(863.88116, 303.48694)
+polygon = [Vector2(528.7519, 297.67642), Vector2(572.38367, 292.2619), Vector2(572.95135, 318.7154), Vector2(537.1692, 333.6475)]
+position = Vector2(528.7519, 292.2619)
 
 [sub_resource type="Resource" id="Resource_mulsm"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(907.56445, 303.48694), Vector2(950.2935, 294.15323), Vector2(958.7703, 326.87723), Vector2(902.41406, 317.87592)]
-position = Vector2(902.41406, 294.15323)
+polygon = [Vector2(572.38367, 292.2619), Vector2(626.16656, 307.31766), Vector2(626.77356, 326.54547), Vector2(572.95135, 318.7154)]
+position = Vector2(572.38367, 292.2619)
 
 [sub_resource type="Resource" id="Resource_uehqm"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(950.2935, 294.15323), Vector2(1006.4446, 293.3854), Vector2(1003.0314, 329.8624), Vector2(958.7703, 326.87723)]
-position = Vector2(950.2935, 293.3854)
+polygon = [Vector2(626.16656, 307.31766), Vector2(666.03766, 297.10052), Vector2(679.48175, 320.45074), Vector2(626.77356, 326.54547)]
+position = Vector2(626.16656, 297.10052)
 
 [sub_resource type="Resource" id="Resource_gce4b"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1006.4446, 293.3854), Vector2(1058.359, 290.41034), Vector2(1057.0817, 315.17804), Vector2(1003.0314, 329.8624)]
-position = Vector2(1003.0314, 290.41034)
+polygon = [Vector2(666.03766, 297.10052), Vector2(728.6336, 308.45264), Vector2(718.2377, 319.8901), Vector2(679.48175, 320.45074)]
+position = Vector2(666.03766, 297.10052)
 
 [sub_resource type="Resource" id="Resource_nhuop"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1058.359, 290.41034), Vector2(1111.0718, 292.01556), Vector2(1096.6089, 317.75748), Vector2(1057.0817, 315.17804)]
-position = Vector2(1057.0817, 290.41034)
+polygon = [Vector2(728.6336, 308.45264), Vector2(761.89105, 290.86267), Vector2(775.4365, 315.71274), Vector2(718.2377, 319.8901)]
+position = Vector2(718.2377, 290.86267)
 
 [sub_resource type="Resource" id="Resource_pp0pc"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1111.0718, 292.01556), Vector2(1160.2363, 295.844), Vector2(1145.1904, 317.28314), Vector2(1096.6089, 317.75748)]
-position = Vector2(1096.6089, 292.01556)
+polygon = [Vector2(761.89105, 290.86267), Vector2(819.8014, 300.10934), Vector2(824.5481, 323.89297), Vector2(775.4365, 315.71274)]
+position = Vector2(761.89105, 290.86267)
 
 [sub_resource type="Resource" id="Resource_3lwpb"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1160.2363, 295.844), Vector2(1194.8757, 306.8735), Vector2(1195.5024, 329.1942), Vector2(1145.1904, 317.28314)]
-position = Vector2(1145.1904, 295.844)
+polygon = [Vector2(819.8014, 300.10934), Vector2(865.07733, 290.96725), Vector2(862.0733, 317.65433), Vector2(824.5481, 323.89297)]
+position = Vector2(819.8014, 290.96725)
 
 [sub_resource type="Resource" id="Resource_rqis1"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1194.8757, 306.8735), Vector2(1239.0452, 299.58118), Vector2(1251.6447, 317.20758), Vector2(1195.5024, 329.1942)]
-position = Vector2(1194.8757, 299.58118)
+polygon = [Vector2(865.07733, 290.96725), Vector2(921.98505, 294.0384), Vector2(914.29315, 325.18347), Vector2(862.0733, 317.65433)]
+position = Vector2(862.0733, 290.96725)
 
 [sub_resource type="Resource" id="Resource_cd3n2"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1239.0452, 299.58118), Vector2(1300.5621, 295.0427), Vector2(1299.3219, 331.89233), Vector2(1251.6447, 317.20758)]
-position = Vector2(1239.0452, 295.0427)
+polygon = [Vector2(921.98505, 294.0384), Vector2(964.2282, 303.21063), Vector2(959.1114, 330.0233), Vector2(914.29315, 325.18347)]
+position = Vector2(914.29315, 294.0384)
 
 [sub_resource type="Resource" id="Resource_poj0e"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1300.5621, 295.0427), Vector2(1337.4916, 296.19247), Vector2(1340.6838, 326.70697), Vector2(1299.3219, 331.89233)]
-position = Vector2(1299.3219, 295.0427)
+polygon = [Vector2(964.2282, 303.21063), Vector2(998.25665, 299.43466), Vector2(1010.2157, 320.18417), Vector2(959.1114, 330.0233)]
+position = Vector2(959.1114, 299.43466)
 
 [sub_resource type="Resource" id="Resource_gotb8"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1337.4916, 296.19247), Vector2(1386.2704, 305.88467), Vector2(1387.0281, 318.08945), Vector2(1340.6838, 326.70697)]
-position = Vector2(1337.4916, 296.19247)
+polygon = [Vector2(998.25665, 299.43466), Vector2(1052.4475, 297.27225), Vector2(1061.4559, 320.6385), Vector2(1010.2157, 320.18417)]
+position = Vector2(998.25665, 297.27225)
 
 [sub_resource type="Resource" id="Resource_qspxu"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1386.2704, 305.88467), Vector2(1436.8442, 309.60593), Vector2(1434.4242, 321.64648), Vector2(1387.0281, 318.08945)]
-position = Vector2(1386.2704, 305.88467)
+polygon = [Vector2(1052.4475, 297.27225), Vector2(1094.5057, 298.06763), Vector2(1106.4832, 332.0006), Vector2(1061.4559, 320.6385)]
+position = Vector2(1052.4475, 297.27225)
 
 [sub_resource type="Resource" id="Resource_reeuj"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1436.8442, 309.60593), Vector2(1492.9578, 296.36176), Vector2(1488.9155, 317.10443), Vector2(1434.4242, 321.64648)]
-position = Vector2(1434.4242, 296.36176)
+polygon = [Vector2(1094.5057, 298.06763), Vector2(1158.5864, 298.37527), Vector2(1154.5624, 323.53732), Vector2(1106.4832, 332.0006)]
+position = Vector2(1094.5057, 298.06763)
 
 [sub_resource type="Resource" id="Resource_qll63"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1492.9578, 296.36176), Vector2(1543.3105, 292.04456), Vector2(1543.4213, 333.63022), Vector2(1488.9155, 317.10443)]
-position = Vector2(1488.9155, 292.04456)
+polygon = [Vector2(1158.5864, 298.37527), Vector2(1191.4235, 303.1895), Vector2(1201.8394, 322.16718), Vector2(1154.5624, 323.53732)]
+position = Vector2(1154.5624, 298.37527)
 
 [sub_resource type="Resource" id="Resource_av31s"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1543.3105, 292.04456), Vector2(1584.7471, 306.57693), Vector2(1579.2333, 329.23547), Vector2(1543.4213, 333.63022)]
-position = Vector2(1543.3105, 292.04456)
+polygon = [Vector2(1191.4235, 303.1895), Vector2(1243.3431, 306.89542), Vector2(1244.154, 318.84186), Vector2(1201.8394, 322.16718)]
+position = Vector2(1191.4235, 303.1895)
 
 [sub_resource type="Resource" id="Resource_vcf47"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1584.7471, 306.57693), Vector2(1634.8572, 303.86435), Vector2(1625.7728, 315.24353), Vector2(1579.2333, 329.23547)]
-position = Vector2(1579.2333, 303.86435)
+polygon = [Vector2(1243.3431, 306.89542), Vector2(1299.9467, 305.2041), Vector2(1291.4774, 333.0723), Vector2(1244.154, 318.84186)]
+position = Vector2(1243.3431, 305.2041)
 
 [sub_resource type="Resource" id="Resource_80w1w"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1634.8572, 303.86435), Vector2(1680.4849, 309.25888), Vector2(1674.1824, 331.8986), Vector2(1625.7728, 315.24353)]
-position = Vector2(1625.7728, 303.86435)
+polygon = [Vector2(1299.9467, 305.2041), Vector2(1337.9342, 294.7482), Vector2(1341.6428, 317.64523), Vector2(1291.4774, 333.0723)]
+position = Vector2(1291.4774, 294.7482)
 
 [sub_resource type="Resource" id="Resource_ydpa2"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(247.70499, 325.79562), Vector2(296.087, 329.48102), Vector2(286.35034, 358.12088), Vector2(241.33536, 344.6182)]
-position = Vector2(241.33536, 325.79562)
+polygon = [Vector2(1337.9342, 294.7482), Vector2(1396.0957, 308.98502), Vector2(1384.6606, 323.1994), Vector2(1341.6428, 317.64523)]
+position = Vector2(1337.9342, 294.7482)
 
 [sub_resource type="Resource" id="Resource_s3ek5"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(296.087, 329.48102), Vector2(327.19434, 316.36316), Vector2(342.53485, 351.16406), Vector2(286.35034, 358.12088)]
-position = Vector2(286.35034, 316.36316)
+polygon = [Vector2(1396.0957, 308.98502), Vector2(1431.929, 297.2361), Vector2(1447.0977, 331.17575), Vector2(1384.6606, 323.1994)]
+position = Vector2(1384.6606, 297.2361)
 
 [sub_resource type="Resource" id="Resource_vji20"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(327.19434, 316.36316), Vector2(374.7021, 315.11252), Vector2(384.61063, 349.4527), Vector2(342.53485, 351.16406)]
-position = Vector2(327.19434, 315.11252)
+polygon = [Vector2(1431.929, 297.2361), Vector2(1484.179, 292.25797), Vector2(1490.1918, 328.73697), Vector2(1447.0977, 331.17575)]
+position = Vector2(1431.929, 292.25797)
 
 [sub_resource type="Resource" id="Resource_kj7t8"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(374.7021, 315.11252), Vector2(427.30408, 327.20532), Vector2(422.32834, 351.81708), Vector2(384.61063, 349.4527)]
-position = Vector2(374.7021, 315.11252)
+polygon = [Vector2(1484.179, 292.25797), Vector2(1529.1537, 291.1342), Vector2(1532.3315, 323.52768), Vector2(1490.1918, 328.73697)]
+position = Vector2(1484.179, 291.1342)
 
 [sub_resource type="Resource" id="Resource_gg6dp"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(427.30408, 327.20532), Vector2(470.59454, 324.63602), Vector2(476.3745, 344.3239), Vector2(422.32834, 351.81708)]
-position = Vector2(422.32834, 324.63602)
+polygon = [Vector2(1529.1537, 291.1342), Vector2(1593.238, 296.5295), Vector2(1587.3486, 318.73453), Vector2(1532.3315, 323.52768)]
+position = Vector2(1529.1537, 291.1342)
 
 [sub_resource type="Resource" id="Resource_28x3u"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(470.59454, 324.63602), Vector2(519.1674, 327.8), Vector2(524.2589, 348.4646), Vector2(476.3745, 344.3239)]
-position = Vector2(470.59454, 324.63602)
+polygon = [Vector2(1593.238, 296.5295), Vector2(1625.4227, 290.57547), Vector2(1624.7423, 326.89798), Vector2(1587.3486, 318.73453)]
+position = Vector2(1587.3486, 290.57547)
 
 [sub_resource type="Resource" id="Resource_vqhcq"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(519.1674, 327.8), Vector2(569.2602, 318.7971), Vector2(581.257, 356.72736), Vector2(524.2589, 348.4646)]
-position = Vector2(519.1674, 318.7971)
+polygon = [Vector2(1625.4227, 290.57547), Vector2(1687.1064, 303.39566), Vector2(1684.3418, 333.05493), Vector2(1624.7423, 326.89798)]
+position = Vector2(1624.7423, 290.57547)
 
 [sub_resource type="Resource" id="Resource_v2vmr"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(569.2602, 318.7971), Vector2(629.7806, 331.69516), Vector2(628.8318, 346.08383), Vector2(581.257, 356.72736)]
-position = Vector2(569.2602, 318.7971)
+polygon = [Vector2(244.54582, 323.27127), Vector2(290.91895, 321.6618), Vector2(294.46576, 353.10178), Vector2(247.92058, 358.39697)]
+position = Vector2(244.54582, 321.6618)
 
 [sub_resource type="Resource" id="Resource_cy46j"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(629.7806, 331.69516), Vector2(673.4128, 321.07962), Vector2(670.80493, 353.96243), Vector2(628.8318, 346.08383)]
-position = Vector2(628.8318, 321.07962)
+polygon = [Vector2(290.91895, 321.6618), Vector2(345.33786, 325.3256), Vector2(329.125, 341.15967), Vector2(294.46576, 353.10178)]
+position = Vector2(290.91895, 321.6618)
 
 [sub_resource type="Resource" id="Resource_8us6n"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(673.4128, 321.07962), Vector2(726.0263, 333.93527), Vector2(727.4999, 345.85104), Vector2(670.80493, 353.96243)]
-position = Vector2(670.80493, 321.07962)
+polygon = [Vector2(345.33786, 325.3256), Vector2(377.561, 330.5322), Vector2(393.66214, 350.16003), Vector2(329.125, 341.15967)]
+position = Vector2(329.125, 325.3256)
 
 [sub_resource type="Resource" id="Resource_d4vqy"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(726.0263, 333.93527), Vector2(759.8254, 330.64966), Vector2(765.71814, 350.17926), Vector2(727.4999, 345.85104)]
-position = Vector2(726.0263, 330.64966)
+polygon = [Vector2(377.561, 330.5322), Vector2(432.16345, 324.90887), Vector2(430.15073, 342.9439), Vector2(393.66214, 350.16003)]
+position = Vector2(377.561, 324.90887)
 
 [sub_resource type="Resource" id="Resource_v421m"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(759.8254, 330.64966), Vector2(811.62933, 330.75485), Vector2(815.3782, 351.80417), Vector2(765.71814, 350.17926)]
-position = Vector2(759.8254, 330.64966)
+polygon = [Vector2(432.16345, 324.90887), Vector2(470.69482, 319.2937), Vector2(477.40295, 346.96506), Vector2(430.15073, 342.9439)]
+position = Vector2(430.15073, 319.2937)
 
 [sub_resource type="Resource" id="Resource_3taxo"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(811.62933, 330.75485), Vector2(868.77527, 324.68222), Vector2(856.79376, 349.7408), Vector2(815.3782, 351.80417)]
-position = Vector2(811.62933, 324.68222)
+polygon = [Vector2(470.69482, 319.2937), Vector2(537.1692, 333.6475), Vector2(530.36224, 343.07117), Vector2(477.40295, 346.96506)]
+position = Vector2(470.69482, 319.2937)
 
 [sub_resource type="Resource" id="Resource_swxde"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(868.77527, 324.68222), Vector2(902.41406, 317.87592), Vector2(916.0299, 357.55502), Vector2(856.79376, 349.7408)]
-position = Vector2(856.79376, 317.87592)
+polygon = [Vector2(537.1692, 333.6475), Vector2(572.95135, 318.7154), Vector2(577.74164, 354.85577), Vector2(530.36224, 343.07117)]
+position = Vector2(530.36224, 318.7154)
 
 [sub_resource type="Resource" id="Resource_tx837"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(902.41406, 317.87592), Vector2(958.7703, 326.87723), Vector2(965.00525, 352.02628), Vector2(916.0299, 357.55502)]
-position = Vector2(902.41406, 317.87592)
+polygon = [Vector2(572.95135, 318.7154), Vector2(626.77356, 326.54547), Vector2(631.2177, 356.33673), Vector2(577.74164, 354.85577)]
+position = Vector2(572.95135, 318.7154)
 
 [sub_resource type="Resource" id="Resource_jrhn2"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(958.7703, 326.87723), Vector2(1003.0314, 329.8624), Vector2(999.645, 345.10336), Vector2(965.00525, 352.02628)]
-position = Vector2(958.7703, 326.87723)
+polygon = [Vector2(626.77356, 326.54547), Vector2(679.48175, 320.45074), Vector2(668.03436, 345.8892), Vector2(631.2177, 356.33673)]
+position = Vector2(626.77356, 320.45074)
 
 [sub_resource type="Resource" id="Resource_gmmax"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1003.0314, 329.8624), Vector2(1057.0817, 315.17804), Vector2(1063.0259, 341.80466), Vector2(999.645, 345.10336)]
-position = Vector2(999.645, 315.17804)
+polygon = [Vector2(679.48175, 320.45074), Vector2(718.2377, 319.8901), Vector2(717.04584, 344.33972), Vector2(668.03436, 345.8892)]
+position = Vector2(668.03436, 319.8901)
 
 [sub_resource type="Resource" id="Resource_cx1tt"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1057.0817, 315.17804), Vector2(1096.6089, 317.75748), Vector2(1105.4333, 346.32877), Vector2(1063.0259, 341.80466)]
-position = Vector2(1057.0817, 315.17804)
+polygon = [Vector2(718.2377, 319.8901), Vector2(775.4365, 315.71274), Vector2(775.84644, 355.04172), Vector2(717.04584, 344.33972)]
+position = Vector2(717.04584, 315.71274)
 
 [sub_resource type="Resource" id="Resource_jmljt"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1096.6089, 317.75748), Vector2(1145.1904, 317.28314), Vector2(1153.3789, 351.11908), Vector2(1105.4333, 346.32877)]
-position = Vector2(1096.6089, 317.28314)
+polygon = [Vector2(775.4365, 315.71274), Vector2(824.5481, 323.89297), Vector2(825.6605, 345.21124), Vector2(775.84644, 355.04172)]
+position = Vector2(775.4365, 315.71274)
 
 [sub_resource type="Resource" id="Resource_vbpiv"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1145.1904, 317.28314), Vector2(1195.5024, 329.1942), Vector2(1208.3917, 352.6718), Vector2(1153.3789, 351.11908)]
-position = Vector2(1145.1904, 317.28314)
+polygon = [Vector2(824.5481, 323.89297), Vector2(862.0733, 317.65433), Vector2(867.7749, 350.5182), Vector2(825.6605, 345.21124)]
+position = Vector2(824.5481, 317.65433)
 
 [sub_resource type="Resource" id="Resource_ny643"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1195.5024, 329.1942), Vector2(1251.6447, 317.20758), Vector2(1243.0194, 345.3048), Vector2(1208.3917, 352.6718)]
-position = Vector2(1195.5024, 317.20758)
+polygon = [Vector2(862.0733, 317.65433), Vector2(914.29315, 325.18347), Vector2(902.5188, 356.39426), Vector2(867.7749, 350.5182)]
+position = Vector2(862.0733, 317.65433)
 
 [sub_resource type="Resource" id="Resource_mkse7"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1251.6447, 317.20758), Vector2(1299.3219, 331.89233), Vector2(1293.5569, 354.2861), Vector2(1243.0194, 345.3048)]
-position = Vector2(1243.0194, 317.20758)
+polygon = [Vector2(914.29315, 325.18347), Vector2(959.1114, 330.0233), Vector2(951.28754, 350.94305), Vector2(902.5188, 356.39426)]
+position = Vector2(902.5188, 325.18347)
 
 [sub_resource type="Resource" id="Resource_wpvio"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1299.3219, 331.89233), Vector2(1340.6838, 326.70697), Vector2(1342.0173, 345.97992), Vector2(1293.5569, 354.2861)]
-position = Vector2(1293.5569, 326.70697)
+polygon = [Vector2(959.1114, 330.0233), Vector2(1010.2157, 320.18417), Vector2(1005.9345, 340.2059), Vector2(951.28754, 350.94305)]
+position = Vector2(951.28754, 320.18417)
 
 [sub_resource type="Resource" id="Resource_iajpw"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1340.6838, 326.70697), Vector2(1387.0281, 318.08945), Vector2(1385.0892, 358.1559), Vector2(1342.0173, 345.97992)]
-position = Vector2(1340.6838, 318.08945)
+polygon = [Vector2(1010.2157, 320.18417), Vector2(1061.4559, 320.6385), Vector2(1046.3047, 349.6797), Vector2(1005.9345, 340.2059)]
+position = Vector2(1005.9345, 320.18417)
 
 [sub_resource type="Resource" id="Resource_lywr6"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1387.0281, 318.08945), Vector2(1434.4242, 321.64648), Vector2(1436.6794, 359.60788), Vector2(1385.0892, 358.1559)]
-position = Vector2(1385.0892, 318.08945)
+polygon = [Vector2(1061.4559, 320.6385), Vector2(1106.4832, 332.0006), Vector2(1100.8861, 354.05563), Vector2(1046.3047, 349.6797)]
+position = Vector2(1046.3047, 320.6385)
 
 [sub_resource type="Resource" id="Resource_v5b7o"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1434.4242, 321.64648), Vector2(1488.9155, 317.10443), Vector2(1496.6941, 357.8428), Vector2(1436.6794, 359.60788)]
-position = Vector2(1434.4242, 317.10443)
+polygon = [Vector2(1154.5624, 323.53732), Vector2(1201.8394, 322.16718), Vector2(1202.8767, 355.7242), Vector2(1152.0714, 350.12442)]
+position = Vector2(1152.0714, 322.16718)
 
 [sub_resource type="Resource" id="Resource_fuwjc"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1488.9155, 317.10443), Vector2(1543.4213, 333.63022), Vector2(1531.6503, 343.94986), Vector2(1496.6941, 357.8428)]
-position = Vector2(1488.9155, 317.10443)
+polygon = [Vector2(1201.8394, 322.16718), Vector2(1244.154, 318.84186), Vector2(1250.3356, 345.433), Vector2(1202.8767, 355.7242)]
+position = Vector2(1201.8394, 318.84186)
 
 [sub_resource type="Resource" id="Resource_3f0wx"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1543.4213, 333.63022), Vector2(1579.2333, 329.23547), Vector2(1583.7117, 356.3593), Vector2(1531.6503, 343.94986)]
-position = Vector2(1531.6503, 329.23547)
+polygon = [Vector2(1244.154, 318.84186), Vector2(1291.4774, 333.0723), Vector2(1297.1458, 353.64682), Vector2(1250.3356, 345.433)]
+position = Vector2(1244.154, 318.84186)
 
 [sub_resource type="Resource" id="Resource_gakli"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1579.2333, 329.23547), Vector2(1625.7728, 315.24353), Vector2(1628.2849, 347.56378), Vector2(1583.7117, 356.3593)]
-position = Vector2(1579.2333, 315.24353)
+polygon = [Vector2(1291.4774, 333.0723), Vector2(1341.6428, 317.64523), Vector2(1341.7665, 356.38284), Vector2(1297.1458, 353.64682)]
+position = Vector2(1291.4774, 317.64523)
 
 [sub_resource type="Resource" id="Resource_epcrk"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1625.7728, 315.24353), Vector2(1674.1824, 331.8986), Vector2(1677.7034, 356.52933), Vector2(1628.2849, 347.56378)]
-position = Vector2(1625.7728, 315.24353)
+polygon = [Vector2(1341.6428, 317.64523), Vector2(1384.6606, 323.1994), Vector2(1383.571, 352.09717), Vector2(1341.7665, 356.38284)]
+position = Vector2(1341.6428, 317.64523)
 
 [sub_resource type="Resource" id="Resource_88ple"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(241.33536, 344.6182), Vector2(286.35034, 358.12088), Vector2(279.0418, 375.862), Vector2(237.59648, 382.92587)]
-position = Vector2(237.59648, 344.6182)
+polygon = [Vector2(1384.6606, 323.1994), Vector2(1447.0977, 331.17575), Vector2(1434.6338, 346.68732), Vector2(1383.571, 352.09717)]
+position = Vector2(1383.571, 323.1994)
 
 [sub_resource type="Resource" id="Resource_jlmft"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(286.35034, 358.12088), Vector2(342.53485, 351.16406), Vector2(343.92264, 366.44998), Vector2(279.0418, 375.862)]
-position = Vector2(279.0418, 351.16406)
+polygon = [Vector2(1447.0977, 331.17575), Vector2(1490.1918, 328.73697), Vector2(1490.3544, 355.53616), Vector2(1434.6338, 346.68732)]
+position = Vector2(1434.6338, 328.73697)
 
 [sub_resource type="Resource" id="Resource_plavk"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(342.53485, 351.16406), Vector2(384.61063, 349.4527), Vector2(388.59042, 377.85385), Vector2(343.92264, 366.44998)]
-position = Vector2(342.53485, 349.4527)
+polygon = [Vector2(1490.1918, 328.73697), Vector2(1532.3315, 323.52768), Vector2(1535.1248, 355.33948), Vector2(1490.3544, 355.53616)]
+position = Vector2(1490.1918, 323.52768)
 
 [sub_resource type="Resource" id="Resource_q1eew"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(384.61063, 349.4527), Vector2(422.32834, 351.81708), Vector2(422.00723, 375.31766), Vector2(388.59042, 377.85385)]
-position = Vector2(384.61063, 349.4527)
+polygon = [Vector2(1532.3315, 323.52768), Vector2(1587.3486, 318.73453), Vector2(1591.59, 347.80075), Vector2(1535.1248, 355.33948)]
+position = Vector2(1532.3315, 318.73453)
 
 [sub_resource type="Resource" id="Resource_8v5wa"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(422.32834, 351.81708), Vector2(476.3745, 344.3239), Vector2(482.62845, 379.00632), Vector2(422.00723, 375.31766)]
-position = Vector2(422.00723, 344.3239)
+polygon = [Vector2(1587.3486, 318.73453), Vector2(1624.7423, 326.89798), Vector2(1635.2881, 340.29196), Vector2(1591.59, 347.80075)]
+position = Vector2(1587.3486, 318.73453)
 
 [sub_resource type="Resource" id="Resource_8ik8y"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(476.3745, 344.3239), Vector2(524.2589, 348.4646), Vector2(535.2924, 384.92676), Vector2(482.62845, 379.00632)]
-position = Vector2(476.3745, 344.3239)
+polygon = [Vector2(1624.7423, 326.89798), Vector2(1684.3418, 333.05493), Vector2(1671.2288, 345.81546), Vector2(1635.2881, 340.29196)]
+position = Vector2(1624.7423, 326.89798)
 
 [sub_resource type="Resource" id="Resource_pfkph"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(524.2589, 348.4646), Vector2(581.257, 356.72736), Vector2(584.37006, 377.70786), Vector2(535.2924, 384.92676)]
-position = Vector2(524.2589, 348.4646)
+polygon = [Vector2(247.92058, 358.39697), Vector2(294.46576, 353.10178), Vector2(296.68372, 376.3142), Vector2(244.90683, 371.4447)]
+position = Vector2(244.90683, 353.10178)
 
 [sub_resource type="Resource" id="Resource_nqkr5"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(581.257, 356.72736), Vector2(628.8318, 346.08383), Vector2(621.9565, 382.39438), Vector2(584.37006, 377.70786)]
-position = Vector2(581.257, 346.08383)
+polygon = [Vector2(294.46576, 353.10178), Vector2(329.125, 341.15967), Vector2(344.2336, 377.38266), Vector2(296.68372, 376.3142)]
+position = Vector2(294.46576, 341.15967)
 
 [sub_resource type="Resource" id="Resource_vtel6"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(628.8318, 346.08383), Vector2(670.80493, 353.96243), Vector2(673.41925, 376.40048), Vector2(621.9565, 382.39438)]
-position = Vector2(621.9565, 346.08383)
+polygon = [Vector2(329.125, 341.15967), Vector2(393.66214, 350.16003), Vector2(385.86218, 377.2149), Vector2(344.2336, 377.38266)]
+position = Vector2(329.125, 341.15967)
 
 [sub_resource type="Resource" id="Resource_txuoc"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(670.80493, 353.96243), Vector2(727.4999, 345.85104), Vector2(719.736, 365.5936), Vector2(673.41925, 376.40048)]
-position = Vector2(670.80493, 345.85104)
+polygon = [Vector2(393.66214, 350.16003), Vector2(430.15073, 342.9439), Vector2(423.5242, 377.25687), Vector2(385.86218, 377.2149)]
+position = Vector2(385.86218, 342.9439)
 
 [sub_resource type="Resource" id="Resource_ee57y"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(727.4999, 345.85104), Vector2(765.71814, 350.17926), Vector2(764.3174, 373.03973), Vector2(719.736, 365.5936)]
-position = Vector2(719.736, 345.85104)
+polygon = [Vector2(430.15073, 342.9439), Vector2(477.40295, 346.96506), Vector2(478.73032, 374.80313), Vector2(423.5242, 377.25687)]
+position = Vector2(423.5242, 342.9439)
 
 [sub_resource type="Resource" id="Resource_yvqaa"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(765.71814, 350.17926), Vector2(815.3782, 351.80417), Vector2(807.6793, 368.08875), Vector2(764.3174, 373.03973)]
-position = Vector2(764.3174, 350.17926)
+polygon = [Vector2(477.40295, 346.96506), Vector2(530.36224, 343.07117), Vector2(530.0114, 383.71155), Vector2(478.73032, 374.80313)]
+position = Vector2(477.40295, 343.07117)
 
 [sub_resource type="Resource" id="Resource_3sgbk"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(815.3782, 351.80417), Vector2(856.79376, 349.7408), Vector2(865.17285, 371.86508), Vector2(807.6793, 368.08875)]
-position = Vector2(807.6793, 349.7408)
+polygon = [Vector2(530.36224, 343.07117), Vector2(577.74164, 354.85577), Vector2(566.5208, 381.94427), Vector2(530.0114, 383.71155)]
+position = Vector2(530.0114, 343.07117)
 
 [sub_resource type="Resource" id="Resource_qq7m3"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(856.79376, 349.7408), Vector2(916.0299, 357.55502), Vector2(909.153, 380.23587), Vector2(865.17285, 371.86508)]
-position = Vector2(856.79376, 349.7408)
+polygon = [Vector2(577.74164, 354.85577), Vector2(631.2177, 356.33673), Vector2(619.79736, 377.93588), Vector2(566.5208, 381.94427)]
+position = Vector2(566.5208, 354.85577)
 
 [sub_resource type="Resource" id="Resource_a3f3t"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(916.0299, 357.55502), Vector2(965.00525, 352.02628), Vector2(952.6732, 369.39456), Vector2(909.153, 380.23587)]
-position = Vector2(909.153, 352.02628)
+polygon = [Vector2(631.2177, 356.33673), Vector2(668.03436, 345.8892), Vector2(674.932, 375.91956), Vector2(619.79736, 377.93588)]
+position = Vector2(619.79736, 345.8892)
 
 [sub_resource type="Resource" id="Resource_u21tm"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(965.00525, 352.02628), Vector2(999.645, 345.10336), Vector2(1013.3761, 368.04697), Vector2(952.6732, 369.39456)]
-position = Vector2(952.6732, 345.10336)
+polygon = [Vector2(668.03436, 345.8892), Vector2(717.04584, 344.33972), Vector2(718.0684, 365.69238), Vector2(674.932, 375.91956)]
+position = Vector2(668.03436, 344.33972)
 
 [sub_resource type="Resource" id="Resource_dyjku"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(999.645, 345.10336), Vector2(1063.0259, 341.80466), Vector2(1065.0486, 373.82077), Vector2(1013.3761, 368.04697)]
-position = Vector2(999.645, 341.80466)
+polygon = [Vector2(717.04584, 344.33972), Vector2(775.84644, 355.04172), Vector2(777.16376, 371.12085), Vector2(718.0684, 365.69238)]
+position = Vector2(717.04584, 344.33972)
 
 [sub_resource type="Resource" id="Resource_0xqj3"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1063.0259, 341.80466), Vector2(1105.4333, 346.32877), Vector2(1112.3694, 367.2087), Vector2(1065.0486, 373.82077)]
-position = Vector2(1063.0259, 341.80466)
+polygon = [Vector2(775.84644, 355.04172), Vector2(825.6605, 345.21124), Vector2(814.33575, 377.20334), Vector2(777.16376, 371.12085)]
+position = Vector2(775.84644, 345.21124)
 
 [sub_resource type="Resource" id="Resource_orr11"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1153.3789, 351.11908), Vector2(1208.3917, 352.6718), Vector2(1203.9884, 368.80975), Vector2(1151.7653, 377.93198)]
-position = Vector2(1151.7653, 351.11908)
+polygon = [Vector2(825.6605, 345.21124), Vector2(867.7749, 350.5182), Vector2(867.4404, 380.0013), Vector2(814.33575, 377.20334)]
+position = Vector2(814.33575, 345.21124)
 
 [sub_resource type="Resource" id="Resource_2ywus"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1208.3917, 352.6718), Vector2(1243.0194, 345.3048), Vector2(1241.4861, 375.60596), Vector2(1203.9884, 368.80975)]
-position = Vector2(1203.9884, 345.3048)
+polygon = [Vector2(867.7749, 350.5182), Vector2(902.5188, 356.39426), Vector2(915.4245, 370.821), Vector2(867.4404, 380.0013)]
+position = Vector2(867.4404, 350.5182)
 
 [sub_resource type="Resource" id="Resource_dgjen"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1243.0194, 345.3048), Vector2(1293.5569, 354.2861), Vector2(1300.2422, 372.90656), Vector2(1241.4861, 375.60596)]
-position = Vector2(1241.4861, 345.3048)
+polygon = [Vector2(902.5188, 356.39426), Vector2(951.28754, 350.94305), Vector2(960.62823, 381.34042), Vector2(915.4245, 370.821)]
+position = Vector2(902.5188, 350.94305)
 
 [sub_resource type="Resource" id="Resource_uvr6s"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1293.5569, 354.2861), Vector2(1342.0173, 345.97992), Vector2(1344.2727, 375.78326), Vector2(1300.2422, 372.90656)]
-position = Vector2(1293.5569, 345.97992)
+polygon = [Vector2(951.28754, 350.94305), Vector2(1005.9345, 340.2059), Vector2(1002.206, 372.82742), Vector2(960.62823, 381.34042)]
+position = Vector2(951.28754, 340.2059)
 
 [sub_resource type="Resource" id="Resource_6dfvj"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1342.0173, 345.97992), Vector2(1385.0892, 358.1559), Vector2(1382.6016, 380.36017), Vector2(1344.2727, 375.78326)]
-position = Vector2(1342.0173, 345.97992)
+polygon = [Vector2(1005.9345, 340.2059), Vector2(1046.3047, 349.6797), Vector2(1061.7697, 374.07855), Vector2(1002.206, 372.82742)]
+position = Vector2(1002.206, 340.2059)
 
 [sub_resource type="Resource" id="Resource_88y87"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1385.0892, 358.1559), Vector2(1436.6794, 359.60788), Vector2(1435.2208, 383.56625), Vector2(1382.6016, 380.36017)]
-position = Vector2(1382.6016, 358.1559)
+polygon = [Vector2(1046.3047, 349.6797), Vector2(1100.8861, 354.05563), Vector2(1097.3381, 368.30402), Vector2(1061.7697, 374.07855)]
+position = Vector2(1046.3047, 349.6797)
 
 [sub_resource type="Resource" id="Resource_3vvqa"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1436.6794, 359.60788), Vector2(1496.6941, 357.8428), Vector2(1481.6656, 384.79926), Vector2(1435.2208, 383.56625)]
-position = Vector2(1435.2208, 357.8428)
+polygon = [Vector2(1152.0714, 350.12442), Vector2(1202.8767, 355.7242), Vector2(1198.7373, 366.07864), Vector2(1157.137, 371.9824)]
+position = Vector2(1152.0714, 350.12442)
 
 [sub_resource type="Resource" id="Resource_xo3o2"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1496.6941, 357.8428), Vector2(1531.6503, 343.94986), Vector2(1528.944, 371.05698), Vector2(1481.6656, 384.79926)]
-position = Vector2(1481.6656, 343.94986)
+polygon = [Vector2(1202.8767, 355.7242), Vector2(1250.3356, 345.433), Vector2(1240.9916, 368.07175), Vector2(1198.7373, 366.07864)]
+position = Vector2(1198.7373, 345.433)
 
 [sub_resource type="Resource" id="Resource_0uph3"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1531.6503, 343.94986), Vector2(1583.7117, 356.3593), Vector2(1575.1406, 384.09576), Vector2(1528.944, 371.05698)]
-position = Vector2(1528.944, 343.94986)
+polygon = [Vector2(1250.3356, 345.433), Vector2(1297.1458, 353.64682), Vector2(1288.536, 369.83322), Vector2(1240.9916, 368.07175)]
+position = Vector2(1240.9916, 345.433)
 
 [sub_resource type="Resource" id="Resource_pmdwt"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1583.7117, 356.3593), Vector2(1628.2849, 347.56378), Vector2(1638.3373, 378.35226), Vector2(1575.1406, 384.09576)]
-position = Vector2(1575.1406, 347.56378)
+polygon = [Vector2(1297.1458, 353.64682), Vector2(1341.7665, 356.38284), Vector2(1351.2759, 383.88095), Vector2(1288.536, 369.83322)]
+position = Vector2(1288.536, 353.64682)
 
 [sub_resource type="Resource" id="Resource_umwhg"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1628.2849, 347.56378), Vector2(1677.7034, 356.52933), Vector2(1676.7295, 373.19928), Vector2(1638.3373, 378.35226)]
-position = Vector2(1628.2849, 347.56378)
+polygon = [Vector2(1341.7665, 356.38284), Vector2(1383.571, 352.09717), Vector2(1382.95, 367.6901), Vector2(1351.2759, 383.88095)]
+position = Vector2(1341.7665, 352.09717)
 
 [sub_resource type="Resource" id="Resource_spmrb"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(279.0418, 375.862), Vector2(343.92264, 366.44998), Vector2(345.7688, 405.81955), Vector2(291.83994, 403.48608)]
-position = Vector2(279.0418, 366.44998)
+polygon = [Vector2(1383.571, 352.09717), Vector2(1434.6338, 346.68732), Vector2(1433.3359, 375.12326), Vector2(1382.95, 367.6901)]
+position = Vector2(1382.95, 346.68732)
 
 [sub_resource type="Resource" id="Resource_snw8x"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(343.92264, 366.44998), Vector2(388.59042, 377.85385), Vector2(392.50018, 399.82925), Vector2(345.7688, 405.81955)]
-position = Vector2(343.92264, 366.44998)
+polygon = [Vector2(1434.6338, 346.68732), Vector2(1490.3544, 355.53616), Vector2(1492.9425, 378.77283), Vector2(1433.3359, 375.12326)]
+position = Vector2(1433.3359, 346.68732)
 
 [sub_resource type="Resource" id="Resource_15dos"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(388.59042, 377.85385), Vector2(422.00723, 375.31766), Vector2(429.29138, 395.66266), Vector2(392.50018, 399.82925)]
-position = Vector2(388.59042, 375.31766)
+polygon = [Vector2(1490.3544, 355.53616), Vector2(1535.1248, 355.33948), Vector2(1535.2402, 367.43588), Vector2(1492.9425, 378.77283)]
+position = Vector2(1490.3544, 355.33948)
 
 [sub_resource type="Resource" id="Resource_4oavj"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(673.41925, 376.40048), Vector2(719.736, 365.5936), Vector2(720.20856, 409.502), Vector2(681.12463, 406.1707)]
-position = Vector2(673.41925, 365.5936)
+polygon = [Vector2(1535.1248, 355.33948), Vector2(1591.59, 347.80075), Vector2(1577.8153, 380.73526), Vector2(1535.2402, 367.43588)]
+position = Vector2(1535.1248, 347.80075)
 
 [sub_resource type="Resource" id="Resource_boutd"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(719.736, 365.5936), Vector2(764.3174, 373.03973), Vector2(766.2774, 394.1663), Vector2(720.20856, 409.502)]
-position = Vector2(719.736, 365.5936)
+polygon = [Vector2(1591.59, 347.80075), Vector2(1635.2881, 340.29196), Vector2(1625.472, 383.26346), Vector2(1577.8153, 380.73526)]
+position = Vector2(1577.8153, 340.29196)
 
 [sub_resource type="Resource" id="Resource_cj6vr"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(764.3174, 373.03973), Vector2(807.6793, 368.08875), Vector2(817.76135, 391.61523), Vector2(766.2774, 394.1663)]
-position = Vector2(764.3174, 368.08875)
+polygon = [Vector2(1635.2881, 340.29196), Vector2(1671.2288, 345.81546), Vector2(1677.7378, 381.741), Vector2(1625.472, 383.26346)]
+position = Vector2(1625.472, 340.29196)
 
 [sub_resource type="Resource" id="Resource_jkfi4"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(909.153, 380.23587), Vector2(952.6732, 369.39456), Vector2(954.2275, 401.13837), Vector2(905.6924, 397.02832)]
-position = Vector2(905.6924, 369.39456)
+polygon = [Vector2(244.90683, 371.4447), Vector2(296.68372, 376.3142), Vector2(285.39587, 390.37335), Vector2(246.5026, 391.55402)]
+position = Vector2(244.90683, 371.4447)
 
 [sub_resource type="Resource" id="Resource_kgllo"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(952.6732, 369.39456), Vector2(1013.3761, 368.04697), Vector2(1007.2388, 396.20825), Vector2(954.2275, 401.13837)]
-position = Vector2(952.6732, 368.04697)
+polygon = [Vector2(296.68372, 376.3142), Vector2(344.2336, 377.38266), Vector2(333.844, 391.14322), Vector2(285.39587, 390.37335)]
+position = Vector2(285.39587, 376.3142)
 
 [sub_resource type="Resource" id="Resource_hcsow"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1013.3761, 368.04697), Vector2(1065.0486, 373.82077), Vector2(1053.0038, 398.97202), Vector2(1007.2388, 396.20825)]
-position = Vector2(1007.2388, 368.04697)
+polygon = [Vector2(344.2336, 377.38266), Vector2(385.86218, 377.2149), Vector2(374.376, 395.87894), Vector2(333.844, 391.14322)]
+position = Vector2(333.844, 377.2149)
 
 [sub_resource type="Resource" id="Resource_cwn4g"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1065.0486, 373.82077), Vector2(1112.3694, 367.2087), Vector2(1102.9197, 405.05038), Vector2(1053.0038, 398.97202)]
-position = Vector2(1053.0038, 367.2087)
+polygon = [Vector2(385.86218, 377.2149), Vector2(423.5242, 377.25687), Vector2(433.94562, 402.89417), Vector2(374.376, 395.87894)]
+position = Vector2(374.376, 377.2149)
 
 [sub_resource type="Resource" id="Resource_hi1m2"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1151.7653, 377.93198), Vector2(1203.9884, 368.80975), Vector2(1190.8119, 407.9964), Vector2(1146.1724, 395.8534)]
-position = Vector2(1146.1724, 368.80975)
+polygon = [Vector2(674.932, 375.91956), Vector2(718.0684, 365.69238), Vector2(723.7969, 392.87363), Vector2(673.8137, 404.8398)]
+position = Vector2(673.8137, 365.69238)
 
 [sub_resource type="Resource" id="Resource_reiqc"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1203.9884, 368.80975), Vector2(1241.4861, 375.60596), Vector2(1249.0237, 396.79865), Vector2(1190.8119, 407.9964)]
-position = Vector2(1190.8119, 368.80975)
+polygon = [Vector2(718.0684, 365.69238), Vector2(777.16376, 371.12085), Vector2(759.6426, 396.68515), Vector2(723.7969, 392.87363)]
+position = Vector2(718.0684, 365.69238)
 
 [sub_resource type="Resource" id="Resource_ual50"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1241.4861, 375.60596), Vector2(1300.2422, 372.90656), Vector2(1304.2778, 409.83246), Vector2(1249.0237, 396.79865)]
-position = Vector2(1241.4861, 372.90656)
+polygon = [Vector2(777.16376, 371.12085), Vector2(814.33575, 377.20334), Vector2(811.43066, 398.35666), Vector2(759.6426, 396.68515)]
+position = Vector2(759.6426, 371.12085)
 
 [sub_resource type="Resource" id="Resource_f8epn"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1300.2422, 372.90656), Vector2(1344.2727, 375.78326), Vector2(1351.0175, 409.8839), Vector2(1304.2778, 409.83246)]
-position = Vector2(1300.2422, 372.90656)
+polygon = [Vector2(915.4245, 370.821), Vector2(960.62823, 381.34042), Vector2(954.80493, 401.38644), Vector2(909.27545, 403.3662)]
+position = Vector2(909.27545, 370.821)
 
 [sub_resource type="Resource" id="Resource_ovhdl"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1249.0237, 396.79865), Vector2(1304.2778, 409.83246), Vector2(1294.4243, 423.63052), Vector2(1257.6653, 424.6946)]
-position = Vector2(1249.0237, 396.79865)
+polygon = [Vector2(1002.206, 372.82742), Vector2(1061.7697, 374.07855), Vector2(1046.2524, 405.5249), Vector2(1004.67957, 406.49213)]
+position = Vector2(1002.206, 372.82742)
 
 [sub_resource type="Resource" id="Resource_vpy7p"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(866.0247, 470.28397), Vector2(909.64343, 476.62372), Vector2(904.7777, 505.77625), Vector2(869.4525, 491.69138)]
-position = Vector2(866.0247, 470.28397)
+polygon = [Vector2(1061.7697, 374.07855), Vector2(1097.3381, 368.30402), Vector2(1104.4159, 399.37546), Vector2(1046.2524, 405.5249)]
+position = Vector2(1046.2524, 368.30402)
 
 [sub_resource type="Resource" id="Resource_uk01s"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(909.64343, 476.62372), Vector2(961.03125, 477.16895), Vector2(954.4476, 506.39587), Vector2(904.7777, 505.77625)]
-position = Vector2(904.7777, 476.62372)
+polygon = [Vector2(1157.137, 371.9824), Vector2(1198.7373, 366.07864), Vector2(1190.3816, 404.23102), Vector2(1160.1241, 403.91235)]
+position = Vector2(1157.137, 366.07864)
 
 [sub_resource type="Resource" id="Resource_f6ktw"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(961.03125, 477.16895), Vector2(1000.8374, 476.8102), Vector2(998.35114, 496.5432), Vector2(954.4476, 506.39587)]
-position = Vector2(954.4476, 476.8102)
+polygon = [Vector2(1198.7373, 366.07864), Vector2(1240.9916, 368.07175), Vector2(1243.018, 402.4876), Vector2(1190.3816, 404.23102)]
+position = Vector2(1190.3816, 366.07864)
 
 [sub_resource type="Resource" id="Resource_roqym"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(758.2954, 493.10364), Vector2(818.086, 492.98053), Vector2(824.489, 516.70325), Vector2(762.9218, 521.23755)]
-position = Vector2(758.2954, 492.98053)
+polygon = [Vector2(1240.9916, 368.07175), Vector2(1288.536, 369.83322), Vector2(1301.0211, 402.30966), Vector2(1243.018, 402.4876)]
+position = Vector2(1240.9916, 368.07175)
 
 [sub_resource type="Resource" id="Resource_05bm1"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(818.086, 492.98053), Vector2(869.4525, 491.69138), Vector2(867.87494, 530.77765), Vector2(824.489, 516.70325)]
-position = Vector2(818.086, 491.69138)
+polygon = [Vector2(1288.536, 369.83322), Vector2(1351.2759, 383.88095), Vector2(1339.1663, 400.89484), Vector2(1301.0211, 402.30966)]
+position = Vector2(1288.536, 369.83322)
 
 [sub_resource type="Resource" id="Resource_mdyjf"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(869.4525, 491.69138), Vector2(904.7777, 505.77625), Vector2(913.2532, 522.7681), Vector2(867.87494, 530.77765)]
-position = Vector2(867.87494, 491.69138)
+polygon = [Vector2(1351.2759, 383.88095), Vector2(1382.95, 367.6901), Vector2(1388.1682, 406.56445), Vector2(1339.1663, 400.89484)]
+position = Vector2(1339.1663, 367.6901)
 
 [sub_resource type="Resource" id="Resource_cvsht"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(904.7777, 505.77625), Vector2(954.4476, 506.39587), Vector2(958.441, 517.6733), Vector2(913.2532, 522.7681)]
-position = Vector2(904.7777, 505.77625)
+polygon = [Vector2(1382.95, 367.6901), Vector2(1433.3359, 375.12326), Vector2(1444.4147, 401.5518), Vector2(1388.1682, 406.56445)]
+position = Vector2(1382.95, 367.6901)
 
 [sub_resource type="Resource" id="Resource_r464g"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(954.4476, 506.39587), Vector2(998.35114, 496.5432), Vector2(1007.7274, 520.98456), Vector2(958.441, 517.6733)]
-position = Vector2(954.4476, 496.5432)
+polygon = [Vector2(1492.9425, 378.77283), Vector2(1535.2402, 367.43588), Vector2(1542.5596, 393.29388), Vector2(1485.9502, 406.61)]
+position = Vector2(1485.9502, 367.43588)
 
 [sub_resource type="Resource" id="Resource_qtya7"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(998.35114, 496.5432), Vector2(1054.8994, 490.00424), Vector2(1064.5626, 524.6767), Vector2(1007.7274, 520.98456)]
-position = Vector2(998.35114, 490.00424)
+polygon = [Vector2(285.39587, 390.37335), Vector2(333.844, 391.14322), Vector2(330.34818, 425.01624), Vector2(281.35715, 431.30017)]
+position = Vector2(281.35715, 390.37335)
 
 [sub_resource type="Resource" id="Resource_teplo"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1054.8994, 490.00424), Vector2(1098.9735, 495.4846), Vector2(1094.0575, 531.1934), Vector2(1064.5626, 524.6767)]
-position = Vector2(1054.8994, 490.00424)
+polygon = [Vector2(333.844, 391.14322), Vector2(374.376, 395.87894), Vector2(384.5454, 427.6115), Vector2(330.34818, 425.01624)]
+position = Vector2(330.34818, 391.14322)
 
 [sub_resource type="Resource" id="Resource_dxac7"]
 script = ExtResource("1_g03xu")
-polygon = [Vector2(1098.9735, 495.4846), Vector2(1142.5215, 493.4119), Vector2(1159.379, 524.7401), Vector2(1094.0575, 531.1934)]
-position = Vector2(1094.0575, 493.4119)
-
-[sub_resource type="Resource" id="Resource_nxg4e"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(762.9218, 521.23755), Vector2(824.489, 516.70325), Vector2(807.29333, 559.279), Vector2(773.9589, 553.9593)]
-position = Vector2(762.9218, 516.70325)
-
-[sub_resource type="Resource" id="Resource_ytoju"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(824.489, 516.70325), Vector2(867.87494, 530.77765), Vector2(862.81665, 549.4719), Vector2(807.29333, 559.279)]
-position = Vector2(807.29333, 516.70325)
-
-[sub_resource type="Resource" id="Resource_ir76y"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(867.87494, 530.77765), Vector2(913.2532, 522.7681), Vector2(912.70514, 549.1354), Vector2(862.81665, 549.4719)]
-position = Vector2(862.81665, 522.7681)
-
-[sub_resource type="Resource" id="Resource_r5w5r"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(913.2532, 522.7681), Vector2(958.441, 517.6733), Vector2(958.6809, 546.59314), Vector2(912.70514, 549.1354)]
-position = Vector2(912.70514, 517.6733)
-
-[sub_resource type="Resource" id="Resource_evdfa"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(958.441, 517.6733), Vector2(1007.7274, 520.98456), Vector2(1013.0306, 547.52234), Vector2(958.6809, 546.59314)]
-position = Vector2(958.441, 517.6733)
-
-[sub_resource type="Resource" id="Resource_n6gwf"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1007.7274, 520.98456), Vector2(1064.5626, 524.6767), Vector2(1055.778, 540.83075), Vector2(1013.0306, 547.52234)]
-position = Vector2(1007.7274, 520.98456)
-
-[sub_resource type="Resource" id="Resource_13u45"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1064.5626, 524.6767), Vector2(1094.0575, 531.1934), Vector2(1109.59, 547.7908), Vector2(1055.778, 540.83075)]
-position = Vector2(1055.778, 524.6767)
-
-[sub_resource type="Resource" id="Resource_osrge"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1094.0575, 531.1934), Vector2(1159.379, 524.7401), Vector2(1150.4583, 553.9318), Vector2(1109.59, 547.7908)]
-position = Vector2(1094.0575, 524.7401)
-
-[sub_resource type="Resource" id="Resource_4peip"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(773.9589, 553.9593), Vector2(807.29333, 559.279), Vector2(824.81555, 572.67596), Vector2(763.25555, 571.6162)]
-position = Vector2(763.25555, 553.9593)
-
-[sub_resource type="Resource" id="Resource_e4l4l"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(807.29333, 559.279), Vector2(862.81665, 549.4719), Vector2(868.9289, 584.377), Vector2(824.81555, 572.67596)]
-position = Vector2(807.29333, 549.4719)
-
-[sub_resource type="Resource" id="Resource_ggprf"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(862.81665, 549.4719), Vector2(912.70514, 549.1354), Vector2(908.42456, 584.8957), Vector2(868.9289, 584.377)]
-position = Vector2(862.81665, 549.1354)
-
-[sub_resource type="Resource" id="Resource_jft4e"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(912.70514, 549.1354), Vector2(958.6809, 546.59314), Vector2(956.85205, 568.32465), Vector2(908.42456, 584.8957)]
-position = Vector2(908.42456, 546.59314)
-
-[sub_resource type="Resource" id="Resource_ixloe"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(958.6809, 546.59314), Vector2(1013.0306, 547.52234), Vector2(1012.63184, 577.50464), Vector2(956.85205, 568.32465)]
-position = Vector2(956.85205, 546.59314)
-
-[sub_resource type="Resource" id="Resource_aci0x"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1013.0306, 547.52234), Vector2(1055.778, 540.83075), Vector2(1049.9673, 571.51263), Vector2(1012.63184, 577.50464)]
-position = Vector2(1012.63184, 540.83075)
-
-[sub_resource type="Resource" id="Resource_ip3w7"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1055.778, 540.83075), Vector2(1109.59, 547.7908), Vector2(1103.369, 580.08997), Vector2(1049.9673, 571.51263)]
-position = Vector2(1049.9673, 540.83075)
-
-[sub_resource type="Resource" id="Resource_fmy3w"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1109.59, 547.7908), Vector2(1150.4583, 553.9318), Vector2(1155.136, 584.0233), Vector2(1103.369, 580.08997)]
-position = Vector2(1103.369, 547.7908)
-
-[sub_resource type="Resource" id="Resource_nhqym"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(763.25555, 571.6162), Vector2(824.81555, 572.67596), Vector2(806.8007, 609.0776), Vector2(759.72253, 590.44354)]
-position = Vector2(759.72253, 571.6162)
-
-[sub_resource type="Resource" id="Resource_aiq3d"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(824.81555, 572.67596), Vector2(868.9289, 584.377), Vector2(867.3058, 609.9412), Vector2(806.8007, 609.0776)]
-position = Vector2(806.8007, 572.67596)
-
-[sub_resource type="Resource" id="Resource_cudwo"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(868.9289, 584.377), Vector2(908.42456, 584.8957), Vector2(918.72845, 599.0834), Vector2(867.3058, 609.9412)]
-position = Vector2(867.3058, 584.377)
-
-[sub_resource type="Resource" id="Resource_rnljp"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(908.42456, 584.8957), Vector2(956.85205, 568.32465), Vector2(968.6196, 596.45184), Vector2(918.72845, 599.0834)]
-position = Vector2(908.42456, 568.32465)
-
-[sub_resource type="Resource" id="Resource_201ie"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(956.85205, 568.32465), Vector2(1012.63184, 577.50464), Vector2(1013.0854, 595.6723), Vector2(968.6196, 596.45184)]
-position = Vector2(956.85205, 568.32465)
-
-[sub_resource type="Resource" id="Resource_jau2r"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1012.63184, 577.50464), Vector2(1049.9673, 571.51263), Vector2(1059.4725, 597.1674), Vector2(1013.0854, 595.6723)]
-position = Vector2(1012.63184, 571.51263)
-
-[sub_resource type="Resource" id="Resource_3ekgq"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1049.9673, 571.51263), Vector2(1103.369, 580.08997), Vector2(1110.6237, 592.61725), Vector2(1059.4725, 597.1674)]
-position = Vector2(1049.9673, 571.51263)
-
-[sub_resource type="Resource" id="Resource_t8dgx"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(759.72253, 590.44354), Vector2(806.8007, 609.0776), Vector2(813.34406, 629.5037), Vector2(760.78613, 632.8738)]
-position = Vector2(759.72253, 590.44354)
-
-[sub_resource type="Resource" id="Resource_bfahg"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(806.8007, 609.0776), Vector2(867.3058, 609.9412), Vector2(864.72504, 628.8464), Vector2(813.34406, 629.5037)]
-position = Vector2(806.8007, 609.0776)
-
-[sub_resource type="Resource" id="Resource_i0ncw"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(867.3058, 609.9412), Vector2(918.72845, 599.0834), Vector2(909.2307, 623.19305), Vector2(864.72504, 628.8464)]
-position = Vector2(864.72504, 599.0834)
-
-[sub_resource type="Resource" id="Resource_hsu3d"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(918.72845, 599.0834), Vector2(968.6196, 596.45184), Vector2(956.4521, 623.11554), Vector2(909.2307, 623.19305)]
-position = Vector2(909.2307, 596.45184)
-
-[sub_resource type="Resource" id="Resource_lpgas"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(968.6196, 596.45184), Vector2(1013.0854, 595.6723), Vector2(1008.2471, 623.62177), Vector2(956.4521, 623.11554)]
-position = Vector2(956.4521, 595.6723)
-
-[sub_resource type="Resource" id="Resource_5crjq"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1013.0854, 595.6723), Vector2(1059.4725, 597.1674), Vector2(1054.417, 629.692), Vector2(1008.2471, 623.62177)]
-position = Vector2(1008.2471, 595.6723)
-
-[sub_resource type="Resource" id="Resource_cxqdv"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1059.4725, 597.1674), Vector2(1110.6237, 592.61725), Vector2(1104.2343, 627.7245), Vector2(1054.417, 629.692)]
-position = Vector2(1054.417, 592.61725)
-
-[sub_resource type="Resource" id="Resource_n4tho"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1110.6237, 592.61725), Vector2(1157.3914, 598.4255), Vector2(1145.7742, 620.25964), Vector2(1104.2343, 627.7245)]
-position = Vector2(1104.2343, 592.61725)
-
-[sub_resource type="Resource" id="Resource_vd7y7"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(760.78613, 632.8738), Vector2(813.34406, 629.5037), Vector2(807.7425, 654.5758), Vector2(766.3626, 643.37195)]
-position = Vector2(760.78613, 629.5037)
-
-[sub_resource type="Resource" id="Resource_pr1xj"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(813.34406, 629.5037), Vector2(864.72504, 628.8464), Vector2(869.8059, 649.44073), Vector2(807.7425, 654.5758)]
-position = Vector2(807.7425, 628.8464)
-
-[sub_resource type="Resource" id="Resource_yfic1"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(864.72504, 628.8464), Vector2(909.2307, 623.19305), Vector2(916.9136, 642.72296), Vector2(869.8059, 649.44073)]
-position = Vector2(864.72504, 623.19305)
-
-[sub_resource type="Resource" id="Resource_k4p23"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(909.2307, 623.19305), Vector2(956.4521, 623.11554), Vector2(951.69006, 651.8056), Vector2(916.9136, 642.72296)]
-position = Vector2(909.2307, 623.11554)
-
-[sub_resource type="Resource" id="Resource_3ytqa"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(956.4521, 623.11554), Vector2(1008.2471, 623.62177), Vector2(1000.2286, 643.21375), Vector2(951.69006, 651.8056)]
-position = Vector2(951.69006, 623.11554)
-
-[sub_resource type="Resource" id="Resource_tpacp"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1008.2471, 623.62177), Vector2(1054.417, 629.692), Vector2(1048.176, 644.5165), Vector2(1000.2286, 643.21375)]
-position = Vector2(1000.2286, 623.62177)
-
-[sub_resource type="Resource" id="Resource_oda7n"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1054.417, 629.692), Vector2(1104.2343, 627.7245), Vector2(1103.5903, 649.7497), Vector2(1048.176, 644.5165)]
-position = Vector2(1048.176, 627.7245)
-
-[sub_resource type="Resource" id="Resource_ikiv4"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1104.2343, 627.7245), Vector2(1145.7742, 620.25964), Vector2(1149.1576, 659.8752), Vector2(1103.5903, 649.7497)]
-position = Vector2(1103.5903, 620.25964)
-
-[sub_resource type="Resource" id="Resource_pfb2i"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(766.3626, 643.37195), Vector2(807.7425, 654.5758), Vector2(808.8862, 678.3402), Vector2(775.4184, 681.11017)]
-position = Vector2(766.3626, 643.37195)
-
-[sub_resource type="Resource" id="Resource_w0k1k"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(807.7425, 654.5758), Vector2(869.8059, 649.44073), Vector2(873.94977, 667.3354), Vector2(808.8862, 678.3402)]
-position = Vector2(807.7425, 649.44073)
-
-[sub_resource type="Resource" id="Resource_px3eb"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(869.8059, 649.44073), Vector2(916.9136, 642.72296), Vector2(912.5891, 673.44574), Vector2(873.94977, 667.3354)]
-position = Vector2(869.8059, 642.72296)
-
-[sub_resource type="Resource" id="Resource_wj27k"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(916.9136, 642.72296), Vector2(951.69006, 651.8056), Vector2(958.7229, 665.4389), Vector2(912.5891, 673.44574)]
-position = Vector2(912.5891, 642.72296)
-
-[sub_resource type="Resource" id="Resource_boqyd"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(951.69006, 651.8056), Vector2(1000.2286, 643.21375), Vector2(1015.0095, 681.8393), Vector2(958.7229, 665.4389)]
-position = Vector2(951.69006, 643.21375)
-
-[sub_resource type="Resource" id="Resource_nf2bj"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1000.2286, 643.21375), Vector2(1048.176, 644.5165), Vector2(1054.4183, 671.40356), Vector2(1015.0095, 681.8393)]
-position = Vector2(1000.2286, 643.21375)
-
-[sub_resource type="Resource" id="Resource_6lqj0"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1048.176, 644.5165), Vector2(1103.5903, 649.7497), Vector2(1094.993, 668.98663), Vector2(1054.4183, 671.40356)]
-position = Vector2(1048.176, 644.5165)
-
-[sub_resource type="Resource" id="Resource_04ed2"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1103.5903, 649.7497), Vector2(1149.1576, 659.8752), Vector2(1143.931, 682.5377), Vector2(1094.993, 668.98663)]
-position = Vector2(1094.993, 649.7497)
-
-[sub_resource type="Resource" id="Resource_set5c"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(808.8862, 678.3402), Vector2(873.94977, 667.3354), Vector2(857.0984, 700.06354), Vector2(808.5424, 703.91895)]
-position = Vector2(808.5424, 667.3354)
-
-[sub_resource type="Resource" id="Resource_ki1ob"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(873.94977, 667.3354), Vector2(912.5891, 673.44574), Vector2(912.39014, 700.66077), Vector2(857.0984, 700.06354)]
-position = Vector2(857.0984, 667.3354)
-
-[sub_resource type="Resource" id="Resource_70hkg"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(912.5891, 673.44574), Vector2(958.7229, 665.4389), Vector2(966.7753, 705.8103), Vector2(912.39014, 700.66077)]
-position = Vector2(912.39014, 665.4389)
-
-[sub_resource type="Resource" id="Resource_ihleb"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(958.7229, 665.4389), Vector2(1015.0095, 681.8393), Vector2(1007.71747, 701.28503), Vector2(966.7753, 705.8103)]
-position = Vector2(958.7229, 665.4389)
-
-[sub_resource type="Resource" id="Resource_ca6rh"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1015.0095, 681.8393), Vector2(1054.4183, 671.40356), Vector2(1049.5747, 696.1734), Vector2(1007.71747, 701.28503)]
-position = Vector2(1007.71747, 671.40356)
-
-[sub_resource type="Resource" id="Resource_fu2sd"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1054.4183, 671.40356), Vector2(1094.993, 668.98663), Vector2(1100.2117, 696.57336), Vector2(1049.5747, 696.1734)]
-position = Vector2(1049.5747, 668.98663)
-
-[sub_resource type="Resource" id="Resource_p47to"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1094.993, 668.98663), Vector2(1143.931, 682.5377), Vector2(1157.5546, 697.83356), Vector2(1100.2117, 696.57336)]
-position = Vector2(1094.993, 668.98663)
-
-[sub_resource type="Resource" id="Resource_vtrxa"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(808.5424, 703.91895), Vector2(857.0984, 700.06354), Vector2(866.9072, 733.1679), Vector2(818.4493, 728.6475)]
-position = Vector2(808.5424, 700.06354)
-
-[sub_resource type="Resource" id="Resource_4hsyo"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(857.0984, 700.06354), Vector2(912.39014, 700.66077), Vector2(910.33167, 733.84283), Vector2(866.9072, 733.1679)]
-position = Vector2(857.0984, 700.06354)
-
-[sub_resource type="Resource" id="Resource_f0ay0"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(912.39014, 700.66077), Vector2(966.7753, 705.8103), Vector2(950.41455, 725.8967), Vector2(910.33167, 733.84283)]
-position = Vector2(910.33167, 700.66077)
-
-[sub_resource type="Resource" id="Resource_00s0f"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(966.7753, 705.8103), Vector2(1007.71747, 701.28503), Vector2(1007.7557, 729.3138), Vector2(950.41455, 725.8967)]
-position = Vector2(950.41455, 701.28503)
-
-[sub_resource type="Resource" id="Resource_jfa7w"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1007.71747, 701.28503), Vector2(1049.5747, 696.1734), Vector2(1065.307, 726.7198), Vector2(1007.7557, 729.3138)]
-position = Vector2(1007.71747, 696.1734)
-
-[sub_resource type="Resource" id="Resource_22wf6"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1049.5747, 696.1734), Vector2(1100.2117, 696.57336), Vector2(1106.2908, 724.2135), Vector2(1065.307, 726.7198)]
-position = Vector2(1049.5747, 696.1734)
-
-[sub_resource type="Resource" id="Resource_1gxkj"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(818.4493, 728.6475), Vector2(866.9072, 733.1679), Vector2(859.44946, 743.14703), Vector2(821.60706, 749.7551)]
-position = Vector2(818.4493, 728.6475)
-
-[sub_resource type="Resource" id="Resource_u7ca1"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(866.9072, 733.1679), Vector2(910.33167, 733.84283), Vector2(916.04126, 753.9336), Vector2(859.44946, 743.14703)]
-position = Vector2(859.44946, 733.1679)
-
-[sub_resource type="Resource" id="Resource_nkel1"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(910.33167, 733.84283), Vector2(950.41455, 725.8967), Vector2(950.0749, 749.23413), Vector2(916.04126, 753.9336)]
-position = Vector2(910.33167, 725.8967)
-
-[sub_resource type="Resource" id="Resource_5hss2"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(950.41455, 725.8967), Vector2(1007.7557, 729.3138), Vector2(1001.7327, 744.4866), Vector2(950.0749, 749.23413)]
-position = Vector2(950.0749, 725.8967)
-
-[sub_resource type="Resource" id="Resource_tlrrd"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1007.7557, 729.3138), Vector2(1065.307, 726.7198), Vector2(1065.3042, 741.5753), Vector2(1001.7327, 744.4866)]
-position = Vector2(1001.7327, 726.7198)
-
-[sub_resource type="Resource" id="Resource_iofj4"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1065.307, 726.7198), Vector2(1106.2908, 724.2135), Vector2(1106.3291, 742.70905), Vector2(1065.3042, 741.5753)]
-position = Vector2(1065.3042, 724.2135)
-
-[sub_resource type="Resource" id="Resource_2nwgx"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(821.60706, 749.7551), Vector2(859.44946, 743.14703), Vector2(858.0478, 765.82837), Vector2(824.97864, 777.82117)]
-position = Vector2(821.60706, 743.14703)
-
-[sub_resource type="Resource" id="Resource_p0xu8"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(859.44946, 743.14703), Vector2(916.04126, 753.9336), Vector2(912.5441, 778.3646), Vector2(858.0478, 765.82837)]
-position = Vector2(858.0478, 743.14703)
-
-[sub_resource type="Resource" id="Resource_34chl"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(916.04126, 753.9336), Vector2(950.0749, 749.23413), Vector2(956.5241, 769.22253), Vector2(912.5441, 778.3646)]
-position = Vector2(912.5441, 749.23413)
-
-[sub_resource type="Resource" id="Resource_ntk5v"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(950.0749, 749.23413), Vector2(1001.7327, 744.4866), Vector2(1006.68695, 779.1218), Vector2(956.5241, 769.22253)]
-position = Vector2(950.0749, 744.4866)
-
-[sub_resource type="Resource" id="Resource_rmdwy"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1001.7327, 744.4866), Vector2(1065.3042, 741.5753), Vector2(1054.4471, 782.7517), Vector2(1006.68695, 779.1218)]
-position = Vector2(1001.7327, 741.5753)
-
-[sub_resource type="Resource" id="Resource_x5gx1"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1065.3042, 741.5753), Vector2(1106.3291, 742.70905), Vector2(1100.5094, 773.844), Vector2(1054.4471, 782.7517)]
-position = Vector2(1054.4471, 741.5753)
-
-[sub_resource type="Resource" id="Resource_dxt8q"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(858.0478, 765.82837), Vector2(912.5441, 778.3646), Vector2(906.02405, 802.7523), Vector2(857.0151, 809.6449)]
-position = Vector2(857.0151, 765.82837)
-
-[sub_resource type="Resource" id="Resource_pr8ts"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(912.5441, 778.3646), Vector2(956.5241, 769.22253), Vector2(952.7312, 809.3788), Vector2(906.02405, 802.7523)]
-position = Vector2(906.02405, 769.22253)
-
-[sub_resource type="Resource" id="Resource_tn4fj"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(956.5241, 769.22253), Vector2(1006.68695, 779.1218), Vector2(1003.1562, 804.73553), Vector2(952.7312, 809.3788)]
-position = Vector2(952.7312, 769.22253)
-
-[sub_resource type="Resource" id="Resource_58tc2"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1006.68695, 779.1218), Vector2(1054.4471, 782.7517), Vector2(1051.0941, 797.67), Vector2(1003.1562, 804.73553)]
-position = Vector2(1003.1562, 779.1218)
-
-[sub_resource type="Resource" id="Resource_3xduk"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1054.4471, 782.7517), Vector2(1100.5094, 773.844), Vector2(1107.8441, 806.72186), Vector2(1051.0941, 797.67)]
-position = Vector2(1051.0941, 773.844)
-
-[sub_resource type="Resource" id="Resource_ocp6j"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(812.5881, 795.2074), Vector2(857.0151, 809.6449), Vector2(862.05927, 824.5772), Vector2(814.29504, 825.8005)]
-position = Vector2(812.5881, 795.2074)
-
-[sub_resource type="Resource" id="Resource_5w5v8"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(857.0151, 809.6449), Vector2(906.02405, 802.7523), Vector2(911.2345, 823.56757), Vector2(862.05927, 824.5772)]
-position = Vector2(857.0151, 802.7523)
-
-[sub_resource type="Resource" id="Resource_np2od"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(906.02405, 802.7523), Vector2(952.7312, 809.3788), Vector2(950.8615, 820.8441), Vector2(911.2345, 823.56757)]
-position = Vector2(906.02405, 802.7523)
-
-[sub_resource type="Resource" id="Resource_m5cwo"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(952.7312, 809.3788), Vector2(1003.1562, 804.73553), Vector2(1001.9092, 822.8325), Vector2(950.8615, 820.8441)]
-position = Vector2(950.8615, 804.73553)
-
-[sub_resource type="Resource" id="Resource_p4ngp"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1003.1562, 804.73553), Vector2(1051.0941, 797.67), Vector2(1065.9565, 829.2435), Vector2(1001.9092, 822.8325)]
-position = Vector2(1001.9092, 797.67)
-
-[sub_resource type="Resource" id="Resource_5pcos"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1051.0941, 797.67), Vector2(1107.8441, 806.72186), Vector2(1107.025, 821.2609), Vector2(1065.9565, 829.2435)]
-position = Vector2(1051.0941, 797.67)
-
-[sub_resource type="Resource" id="Resource_hfjj0"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(814.29504, 825.8005), Vector2(862.05927, 824.5772), Vector2(865.9531, 842.719), Vector2(822.05566, 849.97833)]
-position = Vector2(814.29504, 824.5772)
-
-[sub_resource type="Resource" id="Resource_bp6ii"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(862.05927, 824.5772), Vector2(911.2345, 823.56757), Vector2(902.388, 857.4403), Vector2(865.9531, 842.719)]
-position = Vector2(862.05927, 823.56757)
-
-[sub_resource type="Resource" id="Resource_ptcdx"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(911.2345, 823.56757), Vector2(950.8615, 820.8441), Vector2(961.5787, 858.17236), Vector2(902.388, 857.4403)]
-position = Vector2(902.388, 820.8441)
-
-[sub_resource type="Resource" id="Resource_7mnna"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(950.8615, 820.8441), Vector2(1001.9092, 822.8325), Vector2(1009.73016, 847.4682), Vector2(961.5787, 858.17236)]
-position = Vector2(950.8615, 820.8441)
-
-[sub_resource type="Resource" id="Resource_bwwv1"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1001.9092, 822.8325), Vector2(1065.9565, 829.2435), Vector2(1061.5723, 844.7311), Vector2(1009.73016, 847.4682)]
-position = Vector2(1001.9092, 822.8325)
-
-[sub_resource type="Resource" id="Resource_veldk"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(822.05566, 849.97833), Vector2(865.9531, 842.719), Vector2(864.5966, 870.7917), Vector2(815.79565, 868.74426)]
-position = Vector2(815.79565, 842.719)
-
-[sub_resource type="Resource" id="Resource_xfm7m"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(865.9531, 842.719), Vector2(902.388, 857.4403), Vector2(903.76105, 874.4838), Vector2(864.5966, 870.7917)]
-position = Vector2(864.5966, 842.719)
-
-[sub_resource type="Resource" id="Resource_kaf31"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(902.388, 857.4403), Vector2(961.5787, 858.17236), Vector2(952.26373, 873.8229), Vector2(903.76105, 874.4838)]
-position = Vector2(902.388, 857.4403)
-
-[sub_resource type="Resource" id="Resource_fdamo"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(961.5787, 858.17236), Vector2(1009.73016, 847.4682), Vector2(1002.45764, 882.21735), Vector2(952.26373, 873.8229)]
-position = Vector2(952.26373, 847.4682)
-
-[sub_resource type="Resource" id="Resource_bporh"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1009.73016, 847.4682), Vector2(1061.5723, 844.7311), Vector2(1057.6627, 880.20087), Vector2(1002.45764, 882.21735)]
-position = Vector2(1002.45764, 844.7311)
-
-[sub_resource type="Resource" id="Resource_si840"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1061.5723, 844.7311), Vector2(1099.4576, 848.07996), Vector2(1095.5057, 870.81757), Vector2(1057.6627, 880.20087)]
-position = Vector2(1057.6627, 844.7311)
-
-[sub_resource type="Resource" id="Resource_l4ovd"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(815.79565, 868.74426), Vector2(864.5966, 870.7917), Vector2(868.63354, 898.2164), Vector2(825.57623, 897.62335)]
-position = Vector2(815.79565, 868.74426)
-
-[sub_resource type="Resource" id="Resource_kniy0"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(864.5966, 870.7917), Vector2(903.76105, 874.4838), Vector2(911.1862, 900.7092), Vector2(868.63354, 898.2164)]
-position = Vector2(864.5966, 870.7917)
-
-[sub_resource type="Resource" id="Resource_p5sr5"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(903.76105, 874.4838), Vector2(952.26373, 873.8229), Vector2(967.6973, 891.807), Vector2(911.1862, 900.7092)]
-position = Vector2(903.76105, 873.8229)
-
-[sub_resource type="Resource" id="Resource_okl40"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(952.26373, 873.8229), Vector2(1002.45764, 882.21735), Vector2(1014.30774, 890.601), Vector2(967.6973, 891.807)]
-position = Vector2(952.26373, 873.8229)
-
-[sub_resource type="Resource" id="Resource_g63tc"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1002.45764, 882.21735), Vector2(1057.6627, 880.20087), Vector2(1051.2422, 904.47815), Vector2(1014.30774, 890.601)]
-position = Vector2(1002.45764, 880.20087)
-
-[sub_resource type="Resource" id="Resource_0poa3"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1057.6627, 880.20087), Vector2(1095.5057, 870.81757), Vector2(1107.3483, 898.83344), Vector2(1051.2422, 904.47815)]
-position = Vector2(1051.2422, 870.81757)
-
-[sub_resource type="Resource" id="Resource_py3d4"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(825.57623, 897.62335), Vector2(868.63354, 898.2164), Vector2(858.31946, 929.7855), Vector2(817.50653, 924.97565)]
-position = Vector2(817.50653, 897.62335)
-
-[sub_resource type="Resource" id="Resource_bgrmo"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(868.63354, 898.2164), Vector2(911.1862, 900.7092), Vector2(917.9148, 924.5469), Vector2(858.31946, 929.7855)]
-position = Vector2(858.31946, 898.2164)
-
-[sub_resource type="Resource" id="Resource_u1gi3"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(911.1862, 900.7092), Vector2(967.6973, 891.807), Vector2(965.8944, 924.8637), Vector2(917.9148, 924.5469)]
-position = Vector2(911.1862, 891.807)
-
-[sub_resource type="Resource" id="Resource_rc6gu"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(967.6973, 891.807), Vector2(1014.30774, 890.601), Vector2(1016.64825, 926.5358), Vector2(965.8944, 924.8637)]
-position = Vector2(965.8944, 890.601)
-
-[sub_resource type="Resource" id="Resource_ky53d"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1014.30774, 890.601), Vector2(1051.2422, 904.47815), Vector2(1058.2394, 918.89087), Vector2(1016.64825, 926.5358)]
-position = Vector2(1014.30774, 890.601)
-
-[sub_resource type="Resource" id="Resource_t7f7y"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1051.2422, 904.47815), Vector2(1107.3483, 898.83344), Vector2(1098.7867, 924.3807), Vector2(1058.2394, 918.89087)]
-position = Vector2(1051.2422, 898.83344)
-
-[sub_resource type="Resource" id="Resource_3b885"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(817.50653, 924.97565), Vector2(858.31946, 929.7855), Vector2(871.342, 951.5571), Vector2(814.06854, 940.3659)]
-position = Vector2(814.06854, 924.97565)
-
-[sub_resource type="Resource" id="Resource_gy5vo"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(858.31946, 929.7855), Vector2(917.9148, 924.5469), Vector2(902.60693, 955.0149), Vector2(871.342, 951.5571)]
-position = Vector2(858.31946, 924.5469)
-
-[sub_resource type="Resource" id="Resource_vuioe"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(917.9148, 924.5469), Vector2(965.8944, 924.8637), Vector2(954.57104, 959.36304), Vector2(902.60693, 955.0149)]
-position = Vector2(902.60693, 924.5469)
-
-[sub_resource type="Resource" id="Resource_tcpae"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(965.8944, 924.8637), Vector2(1016.64825, 926.5358), Vector2(1014.8171, 956.1797), Vector2(954.57104, 959.36304)]
-position = Vector2(954.57104, 924.8637)
-
-[sub_resource type="Resource" id="Resource_1oy2l"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1016.64825, 926.5358), Vector2(1058.2394, 918.89087), Vector2(1055.0908, 951.40393), Vector2(1014.8171, 956.1797)]
-position = Vector2(1014.8171, 918.89087)
-
-[sub_resource type="Resource" id="Resource_an8om"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1058.2394, 918.89087), Vector2(1098.7867, 924.3807), Vector2(1109.8842, 946.1317), Vector2(1055.0908, 951.40393)]
-position = Vector2(1055.0908, 918.89087)
-
-[sub_resource type="Resource" id="Resource_b6jd0"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(814.06854, 940.3659), Vector2(871.342, 951.5571), Vector2(873.44995, 967.3212), Vector2(822.7094, 982.6236)]
-position = Vector2(814.06854, 940.3659)
-
-[sub_resource type="Resource" id="Resource_16hxk"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(871.342, 951.5571), Vector2(902.60693, 955.0149), Vector2(906.81744, 967.58264), Vector2(873.44995, 967.3212)]
-position = Vector2(871.342, 951.5571)
-
-[sub_resource type="Resource" id="Resource_p4adc"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(902.60693, 955.0149), Vector2(954.57104, 959.36304), Vector2(950.39514, 973.9461), Vector2(906.81744, 967.58264)]
-position = Vector2(902.60693, 955.0149)
-
-[sub_resource type="Resource" id="Resource_en5fg"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(954.57104, 959.36304), Vector2(1014.8171, 956.1797), Vector2(1013.92194, 979.15234), Vector2(950.39514, 973.9461)]
-position = Vector2(950.39514, 956.1797)
-
-[sub_resource type="Resource" id="Resource_eq1dk"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1014.8171, 956.1797), Vector2(1055.0908, 951.40393), Vector2(1051.4575, 969.1108), Vector2(1013.92194, 979.15234)]
-position = Vector2(1013.92194, 951.40393)
-
-[sub_resource type="Resource" id="Resource_llsxg"]
-script = ExtResource("1_g03xu")
-polygon = [Vector2(1055.0908, 951.40393), Vector2(1109.8842, 946.1317), Vector2(1106.8386, 970.9541), Vector2(1051.4575, 969.1108)]
-position = Vector2(1051.4575, 946.1317)
+polygon = [Vector2(374.376, 395.87894), Vector2(433.94562, 402.89417), Vector2(433.40356, 420.72498), Vector2(384.5454, 427.6115)]
+position = Vector2(374.376, 395.87894)
 
 [resource]
 script = ExtResource("2_anpro")
-fragments = [SubResource("Resource_lm51c"), SubResource("Resource_teljh"), SubResource("Resource_485nx"), SubResource("Resource_la750"), SubResource("Resource_3sqfc"), SubResource("Resource_q7nl1"), SubResource("Resource_m67sp"), SubResource("Resource_3hcyp"), SubResource("Resource_jtq5h"), SubResource("Resource_c8fp2"), SubResource("Resource_s8l5w"), SubResource("Resource_1p075"), SubResource("Resource_lfeyj"), SubResource("Resource_ygfd7"), SubResource("Resource_f7laa"), SubResource("Resource_mcpv7"), SubResource("Resource_5n3t4"), SubResource("Resource_lbb41"), SubResource("Resource_kpvt7"), SubResource("Resource_yck5x"), SubResource("Resource_eohew"), SubResource("Resource_3md7b"), SubResource("Resource_u4yru"), SubResource("Resource_01vtk"), SubResource("Resource_q37di"), SubResource("Resource_wl23v"), SubResource("Resource_3p24a"), SubResource("Resource_m4g38"), SubResource("Resource_jo25r"), SubResource("Resource_i2qv2"), SubResource("Resource_ulmdu"), SubResource("Resource_r75kt"), SubResource("Resource_4ub6e"), SubResource("Resource_sq7wu"), SubResource("Resource_885la"), SubResource("Resource_kkj5q"), SubResource("Resource_1k4xi"), SubResource("Resource_kyma4"), SubResource("Resource_qda4c"), SubResource("Resource_rphmr"), SubResource("Resource_vk4cx"), SubResource("Resource_a3kon"), SubResource("Resource_qb13h"), SubResource("Resource_aco7f"), SubResource("Resource_3ickl"), SubResource("Resource_3yibs"), SubResource("Resource_g30yg"), SubResource("Resource_dcugm"), SubResource("Resource_dnp7g"), SubResource("Resource_rhsjn"), SubResource("Resource_u44oe"), SubResource("Resource_rwvro"), SubResource("Resource_xg8c6"), SubResource("Resource_g2dvp"), SubResource("Resource_dewj3"), SubResource("Resource_t1b5a"), SubResource("Resource_q2r15"), SubResource("Resource_nojvi"), SubResource("Resource_y8s4p"), SubResource("Resource_07sm6"), SubResource("Resource_e7jul"), SubResource("Resource_x6o3c"), SubResource("Resource_bjh5l"), SubResource("Resource_pbsk1"), SubResource("Resource_tslgy"), SubResource("Resource_3q2b6"), SubResource("Resource_pnnon"), SubResource("Resource_nx6sl"), SubResource("Resource_rynoe"), SubResource("Resource_yt863"), SubResource("Resource_nfyh7"), SubResource("Resource_4bj3o"), SubResource("Resource_1b0ni"), SubResource("Resource_oewi4"), SubResource("Resource_vl043"), SubResource("Resource_557bn"), SubResource("Resource_4yp7i"), SubResource("Resource_8s45j"), SubResource("Resource_myspv"), SubResource("Resource_e3qm1"), SubResource("Resource_t3wd1"), SubResource("Resource_wku3j"), SubResource("Resource_qfval"), SubResource("Resource_2dsqx"), SubResource("Resource_15s1l"), SubResource("Resource_170l1"), SubResource("Resource_u6itp"), SubResource("Resource_up1a5"), SubResource("Resource_ukicr"), SubResource("Resource_0slo7"), SubResource("Resource_ielqn"), SubResource("Resource_j4mfw"), SubResource("Resource_g3d34"), SubResource("Resource_frb04"), SubResource("Resource_76khp"), SubResource("Resource_qrux1"), SubResource("Resource_2rj6m"), SubResource("Resource_nmgd7"), SubResource("Resource_f5ot1"), SubResource("Resource_80xai"), SubResource("Resource_vq6jr"), SubResource("Resource_xg370"), SubResource("Resource_ngjyu"), SubResource("Resource_ckpgs"), SubResource("Resource_ukxbx"), SubResource("Resource_i8iqx"), SubResource("Resource_2n0tn"), SubResource("Resource_435q3"), SubResource("Resource_0rj8v"), SubResource("Resource_l3umv"), SubResource("Resource_te38h"), SubResource("Resource_qm3kp"), SubResource("Resource_87xcs"), SubResource("Resource_jjx8f"), SubResource("Resource_21j8i"), SubResource("Resource_15s61"), SubResource("Resource_ekx1f"), SubResource("Resource_xyqv0"), SubResource("Resource_bc7qg"), SubResource("Resource_mvst7"), SubResource("Resource_uayul"), SubResource("Resource_oju0a"), SubResource("Resource_xyo12"), SubResource("Resource_ra0te"), SubResource("Resource_037pn"), SubResource("Resource_ruuei"), SubResource("Resource_r5y7q"), SubResource("Resource_br07d"), SubResource("Resource_0lgie"), SubResource("Resource_es30s"), SubResource("Resource_od0bq"), SubResource("Resource_ux04m"), SubResource("Resource_pn3h2"), SubResource("Resource_2y8hn"), SubResource("Resource_1xdev"), SubResource("Resource_4ndj3"), SubResource("Resource_ac6oo"), SubResource("Resource_3lae5"), SubResource("Resource_whb84"), SubResource("Resource_cy5v8"), SubResource("Resource_60wtd"), SubResource("Resource_lnmcn"), SubResource("Resource_pwmq1"), SubResource("Resource_3tq3m"), SubResource("Resource_1577m"), SubResource("Resource_lahi0"), SubResource("Resource_g416w"), SubResource("Resource_xwxbx"), SubResource("Resource_rtg81"), SubResource("Resource_ecj4f"), SubResource("Resource_b2tn8"), SubResource("Resource_jqcc1"), SubResource("Resource_fiu3a"), SubResource("Resource_lr4sm"), SubResource("Resource_d65hs"), SubResource("Resource_aymf8"), SubResource("Resource_2gktb"), SubResource("Resource_pj320"), SubResource("Resource_6ue32"), SubResource("Resource_wdctm"), SubResource("Resource_arbom"), SubResource("Resource_a31tm"), SubResource("Resource_f6blt"), SubResource("Resource_rfvpt"), SubResource("Resource_hda23"), SubResource("Resource_yokkr"), SubResource("Resource_yxnc3"), SubResource("Resource_c518w"), SubResource("Resource_hwybm"), SubResource("Resource_ruwko"), SubResource("Resource_3iiky"), SubResource("Resource_mulsm"), SubResource("Resource_uehqm"), SubResource("Resource_gce4b"), SubResource("Resource_nhuop"), SubResource("Resource_pp0pc"), SubResource("Resource_3lwpb"), SubResource("Resource_rqis1"), SubResource("Resource_cd3n2"), SubResource("Resource_poj0e"), SubResource("Resource_gotb8"), SubResource("Resource_qspxu"), SubResource("Resource_reeuj"), SubResource("Resource_qll63"), SubResource("Resource_av31s"), SubResource("Resource_vcf47"), SubResource("Resource_80w1w"), SubResource("Resource_ydpa2"), SubResource("Resource_s3ek5"), SubResource("Resource_vji20"), SubResource("Resource_kj7t8"), SubResource("Resource_gg6dp"), SubResource("Resource_28x3u"), SubResource("Resource_vqhcq"), SubResource("Resource_v2vmr"), SubResource("Resource_cy46j"), SubResource("Resource_8us6n"), SubResource("Resource_d4vqy"), SubResource("Resource_v421m"), SubResource("Resource_3taxo"), SubResource("Resource_swxde"), SubResource("Resource_tx837"), SubResource("Resource_jrhn2"), SubResource("Resource_gmmax"), SubResource("Resource_cx1tt"), SubResource("Resource_jmljt"), SubResource("Resource_vbpiv"), SubResource("Resource_ny643"), SubResource("Resource_mkse7"), SubResource("Resource_wpvio"), SubResource("Resource_iajpw"), SubResource("Resource_lywr6"), SubResource("Resource_v5b7o"), SubResource("Resource_fuwjc"), SubResource("Resource_3f0wx"), SubResource("Resource_gakli"), SubResource("Resource_epcrk"), SubResource("Resource_88ple"), SubResource("Resource_jlmft"), SubResource("Resource_plavk"), SubResource("Resource_q1eew"), SubResource("Resource_8v5wa"), SubResource("Resource_8ik8y"), SubResource("Resource_pfkph"), SubResource("Resource_nqkr5"), SubResource("Resource_vtel6"), SubResource("Resource_txuoc"), SubResource("Resource_ee57y"), SubResource("Resource_yvqaa"), SubResource("Resource_3sgbk"), SubResource("Resource_qq7m3"), SubResource("Resource_a3f3t"), SubResource("Resource_u21tm"), SubResource("Resource_dyjku"), SubResource("Resource_0xqj3"), SubResource("Resource_orr11"), SubResource("Resource_2ywus"), SubResource("Resource_dgjen"), SubResource("Resource_uvr6s"), SubResource("Resource_6dfvj"), SubResource("Resource_88y87"), SubResource("Resource_3vvqa"), SubResource("Resource_xo3o2"), SubResource("Resource_0uph3"), SubResource("Resource_pmdwt"), SubResource("Resource_umwhg"), SubResource("Resource_spmrb"), SubResource("Resource_snw8x"), SubResource("Resource_15dos"), SubResource("Resource_4oavj"), SubResource("Resource_boutd"), SubResource("Resource_cj6vr"), SubResource("Resource_jkfi4"), SubResource("Resource_kgllo"), SubResource("Resource_hcsow"), SubResource("Resource_cwn4g"), SubResource("Resource_hi1m2"), SubResource("Resource_reiqc"), SubResource("Resource_ual50"), SubResource("Resource_f8epn"), SubResource("Resource_ovhdl"), SubResource("Resource_vpy7p"), SubResource("Resource_uk01s"), SubResource("Resource_f6ktw"), SubResource("Resource_roqym"), SubResource("Resource_05bm1"), SubResource("Resource_mdyjf"), SubResource("Resource_cvsht"), SubResource("Resource_r464g"), SubResource("Resource_qtya7"), SubResource("Resource_teplo"), SubResource("Resource_dxac7"), SubResource("Resource_nxg4e"), SubResource("Resource_ytoju"), SubResource("Resource_ir76y"), SubResource("Resource_r5w5r"), SubResource("Resource_evdfa"), SubResource("Resource_n6gwf"), SubResource("Resource_13u45"), SubResource("Resource_osrge"), SubResource("Resource_4peip"), SubResource("Resource_e4l4l"), SubResource("Resource_ggprf"), SubResource("Resource_jft4e"), SubResource("Resource_ixloe"), SubResource("Resource_aci0x"), SubResource("Resource_ip3w7"), SubResource("Resource_fmy3w"), SubResource("Resource_nhqym"), SubResource("Resource_aiq3d"), SubResource("Resource_cudwo"), SubResource("Resource_rnljp"), SubResource("Resource_201ie"), SubResource("Resource_jau2r"), SubResource("Resource_3ekgq"), SubResource("Resource_t8dgx"), SubResource("Resource_bfahg"), SubResource("Resource_i0ncw"), SubResource("Resource_hsu3d"), SubResource("Resource_lpgas"), SubResource("Resource_5crjq"), SubResource("Resource_cxqdv"), SubResource("Resource_n4tho"), SubResource("Resource_vd7y7"), SubResource("Resource_pr1xj"), SubResource("Resource_yfic1"), SubResource("Resource_k4p23"), SubResource("Resource_3ytqa"), SubResource("Resource_tpacp"), SubResource("Resource_oda7n"), SubResource("Resource_ikiv4"), SubResource("Resource_pfb2i"), SubResource("Resource_w0k1k"), SubResource("Resource_px3eb"), SubResource("Resource_wj27k"), SubResource("Resource_boqyd"), SubResource("Resource_nf2bj"), SubResource("Resource_6lqj0"), SubResource("Resource_04ed2"), SubResource("Resource_set5c"), SubResource("Resource_ki1ob"), SubResource("Resource_70hkg"), SubResource("Resource_ihleb"), SubResource("Resource_ca6rh"), SubResource("Resource_fu2sd"), SubResource("Resource_p47to"), SubResource("Resource_vtrxa"), SubResource("Resource_4hsyo"), SubResource("Resource_f0ay0"), SubResource("Resource_00s0f"), SubResource("Resource_jfa7w"), SubResource("Resource_22wf6"), SubResource("Resource_1gxkj"), SubResource("Resource_u7ca1"), SubResource("Resource_nkel1"), SubResource("Resource_5hss2"), SubResource("Resource_tlrrd"), SubResource("Resource_iofj4"), SubResource("Resource_2nwgx"), SubResource("Resource_p0xu8"), SubResource("Resource_34chl"), SubResource("Resource_ntk5v"), SubResource("Resource_rmdwy"), SubResource("Resource_x5gx1"), SubResource("Resource_dxt8q"), SubResource("Resource_pr8ts"), SubResource("Resource_tn4fj"), SubResource("Resource_58tc2"), SubResource("Resource_3xduk"), SubResource("Resource_ocp6j"), SubResource("Resource_5w5v8"), SubResource("Resource_np2od"), SubResource("Resource_m5cwo"), SubResource("Resource_p4ngp"), SubResource("Resource_5pcos"), SubResource("Resource_hfjj0"), SubResource("Resource_bp6ii"), SubResource("Resource_ptcdx"), SubResource("Resource_7mnna"), SubResource("Resource_bwwv1"), SubResource("Resource_veldk"), SubResource("Resource_xfm7m"), SubResource("Resource_kaf31"), SubResource("Resource_fdamo"), SubResource("Resource_bporh"), SubResource("Resource_si840"), SubResource("Resource_l4ovd"), SubResource("Resource_kniy0"), SubResource("Resource_p5sr5"), SubResource("Resource_okl40"), SubResource("Resource_g63tc"), SubResource("Resource_0poa3"), SubResource("Resource_py3d4"), SubResource("Resource_bgrmo"), SubResource("Resource_u1gi3"), SubResource("Resource_rc6gu"), SubResource("Resource_ky53d"), SubResource("Resource_t7f7y"), SubResource("Resource_3b885"), SubResource("Resource_gy5vo"), SubResource("Resource_vuioe"), SubResource("Resource_tcpae"), SubResource("Resource_1oy2l"), SubResource("Resource_an8om"), SubResource("Resource_b6jd0"), SubResource("Resource_16hxk"), SubResource("Resource_p4adc"), SubResource("Resource_en5fg"), SubResource("Resource_eq1dk"), SubResource("Resource_llsxg")]
+fragments = [SubResource("Resource_lm51c"), SubResource("Resource_teljh"), SubResource("Resource_485nx"), SubResource("Resource_la750"), SubResource("Resource_3sqfc"), SubResource("Resource_q7nl1"), SubResource("Resource_m67sp"), SubResource("Resource_3hcyp"), SubResource("Resource_jtq5h"), SubResource("Resource_c8fp2"), SubResource("Resource_s8l5w"), SubResource("Resource_1p075"), SubResource("Resource_lfeyj"), SubResource("Resource_ygfd7"), SubResource("Resource_f7laa"), SubResource("Resource_mcpv7"), SubResource("Resource_5n3t4"), SubResource("Resource_lbb41"), SubResource("Resource_kpvt7"), SubResource("Resource_yck5x"), SubResource("Resource_eohew"), SubResource("Resource_3md7b"), SubResource("Resource_u4yru"), SubResource("Resource_01vtk"), SubResource("Resource_q37di"), SubResource("Resource_wl23v"), SubResource("Resource_3p24a"), SubResource("Resource_m4g38"), SubResource("Resource_jo25r"), SubResource("Resource_i2qv2"), SubResource("Resource_ulmdu"), SubResource("Resource_r75kt"), SubResource("Resource_4ub6e"), SubResource("Resource_sq7wu"), SubResource("Resource_885la"), SubResource("Resource_kkj5q"), SubResource("Resource_1k4xi"), SubResource("Resource_kyma4"), SubResource("Resource_qda4c"), SubResource("Resource_rphmr"), SubResource("Resource_vk4cx"), SubResource("Resource_a3kon"), SubResource("Resource_qb13h"), SubResource("Resource_aco7f"), SubResource("Resource_3ickl"), SubResource("Resource_3yibs"), SubResource("Resource_g30yg"), SubResource("Resource_dcugm"), SubResource("Resource_dnp7g"), SubResource("Resource_rhsjn"), SubResource("Resource_u44oe"), SubResource("Resource_rwvro"), SubResource("Resource_xg8c6"), SubResource("Resource_g2dvp"), SubResource("Resource_dewj3"), SubResource("Resource_t1b5a"), SubResource("Resource_q2r15"), SubResource("Resource_nojvi"), SubResource("Resource_y8s4p"), SubResource("Resource_07sm6"), SubResource("Resource_e7jul"), SubResource("Resource_x6o3c"), SubResource("Resource_bjh5l"), SubResource("Resource_pbsk1"), SubResource("Resource_tslgy"), SubResource("Resource_3q2b6"), SubResource("Resource_pnnon"), SubResource("Resource_nx6sl"), SubResource("Resource_rynoe"), SubResource("Resource_yt863"), SubResource("Resource_nfyh7"), SubResource("Resource_4bj3o"), SubResource("Resource_1b0ni"), SubResource("Resource_oewi4"), SubResource("Resource_vl043"), SubResource("Resource_557bn"), SubResource("Resource_4yp7i"), SubResource("Resource_8s45j"), SubResource("Resource_myspv"), SubResource("Resource_e3qm1"), SubResource("Resource_t3wd1"), SubResource("Resource_wku3j"), SubResource("Resource_qfval"), SubResource("Resource_2dsqx"), SubResource("Resource_15s1l"), SubResource("Resource_170l1"), SubResource("Resource_u6itp"), SubResource("Resource_up1a5"), SubResource("Resource_ukicr"), SubResource("Resource_0slo7"), SubResource("Resource_ielqn"), SubResource("Resource_j4mfw"), SubResource("Resource_g3d34"), SubResource("Resource_frb04"), SubResource("Resource_76khp"), SubResource("Resource_qrux1"), SubResource("Resource_2rj6m"), SubResource("Resource_nmgd7"), SubResource("Resource_f5ot1"), SubResource("Resource_80xai"), SubResource("Resource_vq6jr"), SubResource("Resource_xg370"), SubResource("Resource_ngjyu"), SubResource("Resource_ckpgs"), SubResource("Resource_ukxbx"), SubResource("Resource_i8iqx"), SubResource("Resource_2n0tn"), SubResource("Resource_435q3"), SubResource("Resource_0rj8v"), SubResource("Resource_l3umv"), SubResource("Resource_te38h"), SubResource("Resource_qm3kp"), SubResource("Resource_87xcs"), SubResource("Resource_jjx8f"), SubResource("Resource_21j8i"), SubResource("Resource_15s61"), SubResource("Resource_ekx1f"), SubResource("Resource_xyqv0"), SubResource("Resource_bc7qg"), SubResource("Resource_mvst7"), SubResource("Resource_uayul"), SubResource("Resource_oju0a"), SubResource("Resource_xyo12"), SubResource("Resource_ra0te"), SubResource("Resource_037pn"), SubResource("Resource_ruuei"), SubResource("Resource_r5y7q"), SubResource("Resource_br07d"), SubResource("Resource_0lgie"), SubResource("Resource_es30s"), SubResource("Resource_od0bq"), SubResource("Resource_ux04m"), SubResource("Resource_pn3h2"), SubResource("Resource_2y8hn"), SubResource("Resource_1xdev"), SubResource("Resource_4ndj3"), SubResource("Resource_ac6oo"), SubResource("Resource_3lae5"), SubResource("Resource_whb84"), SubResource("Resource_cy5v8"), SubResource("Resource_60wtd"), SubResource("Resource_lnmcn"), SubResource("Resource_pwmq1"), SubResource("Resource_3tq3m"), SubResource("Resource_1577m"), SubResource("Resource_lahi0"), SubResource("Resource_g416w"), SubResource("Resource_xwxbx"), SubResource("Resource_rtg81"), SubResource("Resource_ecj4f"), SubResource("Resource_b2tn8"), SubResource("Resource_jqcc1"), SubResource("Resource_fiu3a"), SubResource("Resource_lr4sm"), SubResource("Resource_d65hs"), SubResource("Resource_aymf8"), SubResource("Resource_2gktb"), SubResource("Resource_pj320"), SubResource("Resource_6ue32"), SubResource("Resource_wdctm"), SubResource("Resource_arbom"), SubResource("Resource_a31tm"), SubResource("Resource_f6blt"), SubResource("Resource_rfvpt"), SubResource("Resource_hda23"), SubResource("Resource_yokkr"), SubResource("Resource_yxnc3"), SubResource("Resource_c518w"), SubResource("Resource_hwybm"), SubResource("Resource_ruwko"), SubResource("Resource_3iiky"), SubResource("Resource_mulsm"), SubResource("Resource_uehqm"), SubResource("Resource_gce4b"), SubResource("Resource_nhuop"), SubResource("Resource_pp0pc"), SubResource("Resource_3lwpb"), SubResource("Resource_rqis1"), SubResource("Resource_cd3n2"), SubResource("Resource_poj0e"), SubResource("Resource_gotb8"), SubResource("Resource_qspxu"), SubResource("Resource_reeuj"), SubResource("Resource_qll63"), SubResource("Resource_av31s"), SubResource("Resource_vcf47"), SubResource("Resource_80w1w"), SubResource("Resource_ydpa2"), SubResource("Resource_s3ek5"), SubResource("Resource_vji20"), SubResource("Resource_kj7t8"), SubResource("Resource_gg6dp"), SubResource("Resource_28x3u"), SubResource("Resource_vqhcq"), SubResource("Resource_v2vmr"), SubResource("Resource_cy46j"), SubResource("Resource_8us6n"), SubResource("Resource_d4vqy"), SubResource("Resource_v421m"), SubResource("Resource_3taxo"), SubResource("Resource_swxde"), SubResource("Resource_tx837"), SubResource("Resource_jrhn2"), SubResource("Resource_gmmax"), SubResource("Resource_cx1tt"), SubResource("Resource_jmljt"), SubResource("Resource_vbpiv"), SubResource("Resource_ny643"), SubResource("Resource_mkse7"), SubResource("Resource_wpvio"), SubResource("Resource_iajpw"), SubResource("Resource_lywr6"), SubResource("Resource_v5b7o"), SubResource("Resource_fuwjc"), SubResource("Resource_3f0wx"), SubResource("Resource_gakli"), SubResource("Resource_epcrk"), SubResource("Resource_88ple"), SubResource("Resource_jlmft"), SubResource("Resource_plavk"), SubResource("Resource_q1eew"), SubResource("Resource_8v5wa"), SubResource("Resource_8ik8y"), SubResource("Resource_pfkph"), SubResource("Resource_nqkr5"), SubResource("Resource_vtel6"), SubResource("Resource_txuoc"), SubResource("Resource_ee57y"), SubResource("Resource_yvqaa"), SubResource("Resource_3sgbk"), SubResource("Resource_qq7m3"), SubResource("Resource_a3f3t"), SubResource("Resource_u21tm"), SubResource("Resource_dyjku"), SubResource("Resource_0xqj3"), SubResource("Resource_orr11"), SubResource("Resource_2ywus"), SubResource("Resource_dgjen"), SubResource("Resource_uvr6s"), SubResource("Resource_6dfvj"), SubResource("Resource_88y87"), SubResource("Resource_3vvqa"), SubResource("Resource_xo3o2"), SubResource("Resource_0uph3"), SubResource("Resource_pmdwt"), SubResource("Resource_umwhg"), SubResource("Resource_spmrb"), SubResource("Resource_snw8x"), SubResource("Resource_15dos"), SubResource("Resource_4oavj"), SubResource("Resource_boutd"), SubResource("Resource_cj6vr"), SubResource("Resource_jkfi4"), SubResource("Resource_kgllo"), SubResource("Resource_hcsow"), SubResource("Resource_cwn4g"), SubResource("Resource_hi1m2"), SubResource("Resource_reiqc"), SubResource("Resource_ual50"), SubResource("Resource_f8epn"), SubResource("Resource_ovhdl"), SubResource("Resource_vpy7p"), SubResource("Resource_uk01s"), SubResource("Resource_f6ktw"), SubResource("Resource_roqym"), SubResource("Resource_05bm1"), SubResource("Resource_mdyjf"), SubResource("Resource_cvsht"), SubResource("Resource_r464g"), SubResource("Resource_qtya7"), SubResource("Resource_teplo"), SubResource("Resource_dxac7")]
