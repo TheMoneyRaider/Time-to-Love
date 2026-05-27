@@ -69,6 +69,7 @@ func _spawn_health_chunk(old_health: int, new_health: int):
 
 func _ready() -> void:
 	update_text()
+	_center_label()
 	set_color()
 	if flipped:
 		flip()
@@ -77,8 +78,10 @@ func _ready() -> void:
 func set_max_health(health_value : int):
 	max_health = health_value
 	progress_bar.max_value = max_health
-	var width =  width_scale * pow(health_value/10.0, exponent)
-	progress_bar.custom_minimum_size.x = width *Globals.config.get_value("hud", "size", 5.0) / 5.0
+	var hud_scale = Globals.config.get_value("hud", "size", 5.0) / 5.0
+	var width = width_scale * pow(health_value / 10.0, exponent)
+	var scaled_width = width * hud_scale
+	progress_bar.custom_minimum_size.x = scaled_width
 	update_text()
 	update_lines(width)
 
@@ -90,21 +93,21 @@ func set_current_health(health_value : int,ignore_max_health_change : bool = fal
 	var old_health = current_health
 	current_health = health_value
 	
-	update_text()
 	if !ignore_max_health_change:
 		var chunk = _spawn_health_chunk(old_health, current_health)
 		if old_health < current_health:
 			while chunk!=null and is_instance_valid(chunk):
 				await get_tree().process_frame
+	update_text()
 	update_lines()
 
 
 func update_lines(width : float= -99.0):
-	var total_width = width_scale * pow(max_health/10, exponent)
-	var filled_width = total_width * clamp(float(current_health)/max_health,0.0,1.0)
-	var hud_scale = (Globals.config.get_value("hud", "size", 5.0) / 5.0)
-	var start_pos = Vector2(16.0,16.0) *2.0
-	var height_half = progress_bar.size.y / 2 / hud_scale
+	var total_width = width_scale * pow(max_health / 10.0, exponent)
+	var filled_width = total_width * clamp(float(current_health) / max_health, 0.0, 1.0)
+	var hud_scale = Globals.config.get_value("hud", "size", 5.0) / 5.0
+	var start_pos = Vector2(16.0, 16.0) * 2.0
+	var height_half = progress_bar.size.y / 2.0 / hud_scale
 	var point1: Vector2
 	var point2: Vector2
 	var point3: Vector2
@@ -125,15 +128,19 @@ func update_lines(width : float= -99.0):
 	fore.clear_points()
 	fore.add_point(point1)
 	fore.add_point(point3)
-	#frame.position = Vector2(start_pos.x,0)
-	frame.size.x = total_width+margin_amount*2.0 if width==-99.0 else width+margin_amount*2.0
-	
-	
 
+	var effective_width = total_width if width == -99.0 else width
+	frame.size.x = effective_width + margin_amount * 2.0
+	_center_label()
+	
+	
+func _center_label():
+	label.custom_minimum_size.x = frame.size.x * pieces.scale.x
+	label.size.x = frame.size.x * pieces.scale.x
+	label.position.x = progress_bar.position.x
 
 func update_text():
 	label.text = str(clamp(current_health,0,11000000000)) + "/" + str(clamp(max_health,0,11000000000)) + " HP"
-	
 
 func flip():
 	progress_bar.fill_mode = ProgressBar.FILL_END_TO_BEGIN
