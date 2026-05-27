@@ -84,6 +84,7 @@ var revive = preload("res://Game Elements/Attacks/death_mark.tscn")
 var cooldowns = [0,0]
 var is_purple = true
 var mancermancer_values = [0,0]
+var hare_values = [1,1]
 
 signal attack_requested(new_attack : PackedScene, t_position : Vector2, t_direction : Vector2, damage_boost : float)
 signal player_took_damage(damage : float, c_health : float, c_node : Node)
@@ -171,7 +172,7 @@ func _initialize_state_machine():
 	state_machine.set_active(true)
 
 func apply_movement(_delta):
-	velocity = input_direction * move_speed
+	velocity = input_direction * move_speed * hare_values[is_purple as int]
 
 var _debug_wedges : Array = []   # [{from, left, right, hit}]
 func _draw() -> void:
@@ -628,7 +629,7 @@ func swap_color():
 	emit_signal("swapped_color", self)
 	if(is_purple):
 		is_purple = false
-		_check_hare()
+		#_check_hare()
 		_check_giant()
 		sprite.texture = orange_texture
 		crosshair_sprite.texture = orange_crosshair
@@ -643,7 +644,7 @@ func swap_color():
 			LayerManager.room_instance.add_child(inst)
 	else:
 		is_purple = true
-		_check_hare()
+		#_check_hare()
 		_check_giant()
 		sprite.texture = purple_texture
 		crosshair_sprite.texture = purple_crosshair
@@ -795,8 +796,8 @@ func tether(delta : float):
 				tether_line.visible = false
 		else:
 			tether_line.gradient = null
-		tether_line.points[0] = position + (other_player.position - position).normalized() * 8
-		tether_line.points[2] = other_player.position + (position - other_player.position).normalized() * 8
+		tether_line.points[0] = position + (other_player.position - position).normalized() * Vector2(4,8)
+		tether_line.points[2] = other_player.position + (position - other_player.position).normalized() * Vector2(4,8)
 		tether_line.points[1] = (tether_line.points[0] + tether_line.points[2]) / 2
 		var tether_scale = 1.0
 		if ((other_player.position - position) / 25).length() > 8:
@@ -1096,6 +1097,8 @@ func damage_boost() -> float:
 	var ninja = preload("res://Game Elements/Remnants/ninja.tres")
 	var assassin = preload("res://Game Elements/Remnants/assassin.tres")
 	var hoard = preload("res://Game Elements/Remnants/hoard.tres")
+	var flagellant = preload("res://Game Elements/Remnants/flagellant.tres")
+	var coward = preload("res://Game Elements/Remnants/coward.tres")
 	for rem in remnants:
 		if rem.active:
 			match rem.remnant_name:
@@ -1113,6 +1116,10 @@ func damage_boost() -> float:
 					boost += (min(time_since_last_hit * rem.variable_1_values[rem.rank-1],rem.variable_2_values[rem.rank-1]) / 100.0)
 				hoard.remnant_name:
 					boost += ((rem.variable_1_values[rem.rank-1] * floor(LayerManager.timefabric_collected/50.0)  / 100.0))
+				flagellant.remnant_name:
+					boost += ((rem.variable_1_values[rem.rank-1] * .01 * (1 - (current_health / max_health))))
+				coward.remnant_name:
+					boost += ((rem.variable_1_values[rem.rank-1] * .01 * current_health / max_health))
 	return boost+1.0
 
 func change_health(add_to_current : float, add_to_max : float = 0, ignore_health_change : bool = false):

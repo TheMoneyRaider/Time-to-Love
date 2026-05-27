@@ -12,5 +12,5 @@ icon = ExtResource("2_xan8v")
 art = ExtResource("1_gfuki")
 variable_names = Array[String](["$X", "$Y"])
 variable_1_values = [10, 15, 20, 25, 30]
-variable_2_values = [0.5, 1.0, 1.5, 2.0, 2.5]
+variable_2_values = [1.0, 1.5, 2.0, 2.5, 3.0]
 metadata/_custom_type_script = "uid://45mgcogqdr4c"
