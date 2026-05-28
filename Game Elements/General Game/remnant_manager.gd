@@ -158,14 +158,34 @@ func _pick_random_upgradable(from_pool: Array, amount: int, into: Array):
 	var temp = from_pool.duplicate()
 	temp.shuffle()
 	var am = 0
-	for i in range(temp.size()):
-		if temp[i] not in into and temp[i].rank <= 4:
-			into.append(temp[i])
-			am+=1
-		if am >= amount:
-			#for rem in temp:
-				#print("Name: "+str(rem.remnant_name)+" Rank: "+str(rem.rank))
-			break
+	var weights = []
+	var sum_weights = 0
+	for rem in temp:
+		weights.append((5 - rem.rank))
+		sum_weights += (5 - rem.rank)
+	
+	while am < amount:
+		var idx = 0
+		var float_point = randf() * sum_weights
+		var running_weight = 0.0
+		while idx < weights.size():
+			running_weight+=weights[idx]
+			if running_weight >= float_point:
+				if(temp[idx] not in into):
+					into.append(temp[idx])
+					am += 1
+				break
+			idx+=1
+	
+	
+	#for i in range(temp.size()):
+		#if temp[i] not in into and temp[i].rank <= 4:
+			#into.append(temp[i])
+			#am+=1
+		#if am >= amount:
+			##for rem in temp:
+				##print("Name: "+str(rem.remnant_name)+" Rank: "+str(rem.rank))
+			#break
 
 func _pick_random_unique(from_pool: Array, amount: int, into: Array):
 	var temp = from_pool.duplicate()
