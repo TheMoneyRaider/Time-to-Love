@@ -184,7 +184,7 @@ func _ready() -> void:
 	reward_claimed = true
 	if Globals.has_gotten_tutorial:
 		_enable_pathways()
-	move_to_limbo_phase_2()
+	#move_to_limbo_phase_2()
 
 func _load_save_time(idx: int) -> float:
 	var path = Globals.save_dir + "save_%d.res" % idx
