@@ -108,7 +108,7 @@ func _ready() -> void:
 	hud.set_players(player1,player2)
 	hud.connect_signals(player1)
 	hud.set_cross_position()
-	dev_remnants()
+	#dev_remnants()
 	
 	
 	
@@ -184,7 +184,6 @@ func _ready() -> void:
 	reward_claimed = true
 	if Globals.has_gotten_tutorial:
 		_enable_pathways()
-	#move_to_limbo_phase_2()
 
 func _load_save_time(idx: int) -> float:
 	var path = Globals.save_dir + "save_%d.res" % idx

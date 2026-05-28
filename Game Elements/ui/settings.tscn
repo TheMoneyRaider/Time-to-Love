@@ -310,28 +310,9 @@ text = "Menu Fragmentation"
 [node name="FragMode" type="CheckButton" parent="Control/MarginContainer/VBoxContainer/Fragmenting"]
 layout_mode = 2
 focus_neighbor_top = NodePath("../../HUD_Size/HUD_Size")
-focus_neighbor_bottom = NodePath("../../Debug/DebugMode")
-
-[node name="FragLabel" type="Label" parent="Control/MarginContainer/VBoxContainer/Fragmenting"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-
-[node name="Debug" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/Debug"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Debug Mode"
-
-[node name="DebugMode" type="CheckButton" parent="Control/MarginContainer/VBoxContainer/Debug"]
-layout_mode = 2
-focus_neighbor_top = NodePath("../../Fragmenting/FragMode")
 focus_neighbor_bottom = NodePath("../../Crosshair/Crosshair")
 
-[node name="DebugLabel" type="Label" parent="Control/MarginContainer/VBoxContainer/Debug"]
+[node name="FragLabel" type="Label" parent="Control/MarginContainer/VBoxContainer/Fragmenting"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
