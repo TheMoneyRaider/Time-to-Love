@@ -310,7 +310,7 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 	elif !n_owner.is_in_group("player") and !body.is_in_group("player") and !hits_all:
 		return 0
 
-	if(deflectable and attack_type != "slime_ball" and body.is_in_group("enemy") and body is DynamEnemy):
+	if(deflectable and attack_type != "slime_ball" and attack_type != "spine" and attack_type != "roar_particle" and body.is_in_group("enemy") and body is DynamEnemy):
 		if(randf() < body.deflect_chance):
 			deflect(-1 * direction, 100, null)
 			if body.enemy_type=="medieval_slime":

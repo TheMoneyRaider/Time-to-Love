@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://dnq6k6c24f746" path="res://art/weapons/crowbar/swing.png" id="2_e8d3r"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_184y7"]
-radius = 21.0
-height = 56.0
+radius = 4.0
+height = 10.0
 
 [sub_resource type="Animation" id="Animation_2bkad"]
 length = 0.001
@@ -31,7 +31,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [21.0]
+"values": [4.0]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -43,7 +43,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [56.0]
+"values": [10.0]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -55,7 +55,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, -19)]
+"values": [Vector2(-17, -19)]
 }
 
 [sub_resource type="Animation" id="Animation_rj53r"]
@@ -135,7 +135,7 @@ deflects = true
 animation = "swing"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -19)
+position = Vector2(-17, -19)
 rotation = 1.5707964
 scale = Vector2(1.25, 1.25)
 shape = SubResource("CapsuleShape2D_184y7")
