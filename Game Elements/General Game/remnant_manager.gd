@@ -164,16 +164,18 @@ func _pick_random_upgradable(from_pool: Array, amount: int, into: Array):
 		weights.append((5 - rem.rank))
 		sum_weights += (5 - rem.rank)
 	
-	while am < amount:
+	while am < amount and temp.size() > 0:
 		var idx = 0
 		var float_point = randf() * sum_weights
 		var running_weight = 0.0
 		while idx < weights.size():
 			running_weight+=weights[idx]
 			if running_weight >= float_point:
-				if(temp[idx] not in into):
-					into.append(temp[idx])
-					am += 1
+				into.append(temp[idx])
+				sum_weights -= weights[idx]
+				weights.remove_at(idx)
+				temp.remove_at(idx)
+				am += 1
 				break
 			idx+=1
 	

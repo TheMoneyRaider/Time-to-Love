@@ -7,6 +7,7 @@
 size = Vector2(15, 8)
 
 [node name="Bolt" type="Area2D" groups=["attack"]]
+visible = false
 z_index = 20
 y_sort_enabled = true
 collision_layer = 8
