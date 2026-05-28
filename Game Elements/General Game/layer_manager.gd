@@ -184,6 +184,7 @@ func _ready() -> void:
 	reward_claimed = true
 	if Globals.has_gotten_tutorial:
 		_enable_pathways()
+	move_to_limbo_phase_2()
 
 func _load_save_time(idx: int) -> float:
 	var path = Globals.save_dir + "save_%d.res" % idx
@@ -250,7 +251,12 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("give_remnant") and Globals.config.get_value("debug", 'enabled', false):
 		_open_remnant_popup()
 	
-	if Input.is_action_just_pressed("pause") and !camera_override and !transitioning and !remnant_offer_popup and !remnant_upgrade_popup and hud.get_node("../PauseMenu").pause_cooldown == 0 and !get_tree().paused:
+	if Input.is_action_just_pressed("pause") and !get_node("DeathMenu").active and \
+			!pause.active and !camera_override and \
+			!transitioning and !remnant_offer_popup and \
+			!remnant_upgrade_popup and hud.get_node("../PauseMenu").pause_cooldown == 0 and \
+			(room_instance_data.roomtype!= Globals.RoomType.Boss or RoomManager.current_progress <= 3.0) \
+			and !get_tree().paused:
 		if pause.active:
 			pause._on_return_pressed()
 		else:
