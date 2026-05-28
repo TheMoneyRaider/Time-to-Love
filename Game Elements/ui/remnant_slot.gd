@@ -28,7 +28,7 @@ func _on_btn_gui_input(event):
 		if event.keycode == Key.KEY_SPACE or event.keycode == Key.KEY_ENTER:
 			event.accept()  # Prevents space/enter from clicking the button
 
-func set_remnant(remnant_in: Resource, is_upgrade : bool) -> void:
+func set_remnant(remnant_in: Resource, is_upgrade : bool, upgrade_amount : int = 1) -> void:
 	remnant = remnant_in
 	if remnant == null:
 		art.texture = null
@@ -41,7 +41,7 @@ func set_remnant(remnant_in: Resource, is_upgrade : bool) -> void:
 		art.texture = remnant_in.art
 	else:
 		art.texture = null
-	rank_label.text = "Rank " + _num_to_roman(remnant_in.rank) if !is_upgrade else "Rank " + _num_to_roman(remnant_in.rank) +"->" + _num_to_roman(remnant_in.rank+1)
+	rank_label.text = "Rank " + _num_to_roman(remnant_in.rank) if !is_upgrade else "Rank " + _num_to_roman(remnant_in.rank) +"->" + _num_to_roman(remnant_in.rank+upgrade_amount)
 	art.material.set_shader_parameter("grayscale",!remnant_in.active)
 	desc_label.add_theme_color_override("default_color", Color(0.0, 0.851, 0.808))
 	name_label.label_settings.font_color =Color(0.0, 0.612, 0.58)
