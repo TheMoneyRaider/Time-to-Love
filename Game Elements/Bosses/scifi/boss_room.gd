@@ -636,6 +636,7 @@ func update_art(p_in : int):
 	
 
 func deactivate():
+	print("BYE BYE SIGNUL")
 	reset_laser_shader()
 	var chosen_pathway : bool = false
 	for node in get_children():

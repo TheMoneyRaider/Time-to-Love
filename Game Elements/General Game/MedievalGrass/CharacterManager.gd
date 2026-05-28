@@ -45,7 +45,7 @@ func _process(delta):
 		# Store their positions (up to MAX_CHARACTERS)
 		for i in range(min(characters.size(), MAX_CHARACTERS)):
 			var character = characters[i]
-			var size: float = character.grass_displacement_size
+			var size: float = character.grass_displacement_size if "grass_displacement_size" in character else 0.0
 			var position: Vector3 = Vector3(character.position.x* scale_x,0.0,character.position.y * scale_y-16.1867697662462)
 			character_positions[i] = Vector4(position.x, position.y, position.z, size)
 			

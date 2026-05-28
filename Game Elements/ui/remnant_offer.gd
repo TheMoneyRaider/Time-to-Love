@@ -73,17 +73,18 @@ func _set_drifter_text(player1_remnants_in, player2_remnants_in):
 		elif(!is_purple && tricky2 != 0):
 			var glyph_key = "special_"+Globals.player1_input
 			$Control/DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+": Reroll for "+str(tricky2)+"  "
-	if Globals.total_progress < 1.0 and !RemnantManager.has_gotten_remnant:
-		$Control/DrifterText/Label.text = "Chose a Remnant for each Character"
-		$Control/DrifterText.visible = true
-		$Control/DrifterText/Label/TextureRect.visible = false
 	if !(Globals.is_multiplayer):
 		if is_purple and tricky1 == 0:
 			$Control/DrifterText.visible = false
 		if !is_purple and tricky2 == 0:
 			$Control/DrifterText.visible = false
-			
-		
+	if Globals.total_progress < 1.0 and !RemnantManager.has_gotten_remnant:
+		$Control/DrifterText/Label.text = "Chose a Remnant for each Character"
+		$Control/DrifterText.visible = true
+		$Control/DrifterText/Label/TextureRect.visible = false
+		if !Globals.is_multiplayer:
+			var glyph_key = "swap_"+Globals.player1_input
+			$Control/DrifterText/Label.text+= " (" +GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+")"
 func _slice_frames() -> void:
 	frames.clear()
 
@@ -111,6 +112,7 @@ func _blend_textures(a: Texture2D, b: Texture2D, t: float) -> Texture2D:
 	return ImageTexture.create_from_image(out)
 
 func _ready():
+	SFXManager.pause_all_continuous()
 	for i in range(slot_nodes.size()):
 		slot_nodes[i].index = i
 		slot_nodes[i].slot_selected.connect(_on_slot_selected)
@@ -235,6 +237,10 @@ func meets_requirements(remnant : Remnant,names : Array[String]):
 	for rm in remnant.required_remnants:
 		if rm.remnant_name in names:
 			num_preqreqs_met += 1
+	
+	for rm_name in remnant.disqualifying_remnants:
+		if rm_name in names:
+			return false
 	if(num_preqreqs_met < remnant.num_rem_required):
 		return false
 	return true
@@ -353,6 +359,7 @@ func _on_slot_selected(idx: int) -> void:
 			_close_after_two_chosen()
 var closing : bool = false
 func _close_after_two_chosen():
+	SFXManager.resume_all_continuous()
 	if closing: return
 	closing = true
 	RemnantManager.has_gotten_remnant = true

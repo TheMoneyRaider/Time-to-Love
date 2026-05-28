@@ -264,7 +264,7 @@ text = "Joystick Acceleration"
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 focus_neighbor_top = NodePath("../../Controller_Mode/ControllerMode")
-focus_neighbor_bottom = NodePath("../../Fragmenting/FragMode")
+focus_neighbor_bottom = NodePath("../../HUD_Size/HUD_Size")
 min_value = 3.0
 max_value = 14.0
 step = 0.1
@@ -275,6 +275,28 @@ script = ExtResource("2_r7s23")
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
+
+[node name="HUD_Size" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/HUD_Size"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Hud Size "
+
+[node name="HUD_Size" type="HSlider" parent="Control/MarginContainer/VBoxContainer/HUD_Size"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+focus_neighbor_top = NodePath("../../Controller/Joystick Sensitivity")
+focus_neighbor_bottom = NodePath("../../Fragmenting/FragMode")
+min_value = 3.0
+max_value = 12.0
+step = 0.25
+value = 6.5
+tick_count = 36
+ticks_on_borders = true
+script = ExtResource("2_r7s23")
 
 [node name="Fragmenting" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -287,10 +309,29 @@ text = "Menu Fragmentation"
 
 [node name="FragMode" type="CheckButton" parent="Control/MarginContainer/VBoxContainer/Fragmenting"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../../Controller/Joystick Sensitivity")
-focus_neighbor_bottom = NodePath("../../Controller_Mode/ControllerMode")
+focus_neighbor_top = NodePath("../../HUD_Size/HUD_Size")
+focus_neighbor_bottom = NodePath("../../Debug/DebugMode")
 
 [node name="FragLabel" type="Label" parent="Control/MarginContainer/VBoxContainer/Fragmenting"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="Debug" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/Debug"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Debug Mode"
+
+[node name="DebugMode" type="CheckButton" parent="Control/MarginContainer/VBoxContainer/Debug"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../../Fragmenting/FragMode")
+focus_neighbor_bottom = NodePath("../../Crosshair/Crosshair")
+
+[node name="DebugLabel" type="Label" parent="Control/MarginContainer/VBoxContainer/Debug"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
@@ -404,6 +445,7 @@ text = "Apply"
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Mouse/MouseSensitivity" to="Control" method="_on_mouse_sensitivity_value_changed"]
 [connection signal="toggled" from="Control/MarginContainer/VBoxContainer/Controller_Mode/ControllerMode" to="Control" method="_on_controller_mode_toggled"]
 [connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/Controller/Joystick Sensitivity" to="Control" method="_on_joystick_sensitivity_value_changed"]
+[connection signal="value_changed" from="Control/MarginContainer/VBoxContainer/HUD_Size/HUD_Size" to="Control" method="_on_hud_size_changed"]
 [connection signal="toggled" from="Control/MarginContainer/VBoxContainer/Fragmenting/FragMode" to="Control" method="_on_frag_mode_toggled"]
 [connection signal="toggled" from="Control/MarginContainer/VBoxContainer/Crosshair/Crosshair" to="Control" method="_on_crosshair_mode_toggled"]
 [connection signal="item_selected" from="Control/MarginContainer/VBoxContainer/RewindMode/Choice" to="Control" method="_on_rewind_mode_selected"]

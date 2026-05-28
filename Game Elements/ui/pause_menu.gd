@@ -37,6 +37,7 @@ func setup(nodes : Array[Node]):
 var LayerManager : Node
 
 func activate():
+	SFXManager.pause_all_continuous()
 	active = true
 	mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -99,6 +100,7 @@ func _on_settings_pressed():
 
 func _on_return_pressed():
 	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
+	SFXManager.resume_all_continuous()
 	active = false
 	pause_cooldown = 5
 	for i in range(slot_nodes.size()):
@@ -113,6 +115,7 @@ func _on_return_pressed():
 		node.resume_shaders()
 
 func _on_menu_pressed():
+	SFXManager.stop_all_continuous_sounds()
 	RoomManager.reset()
 	SFXManager.play(preload("res://Game Elements/ui/sfx/select_002.ogg"), 0.0, "UI")
 	get_tree().get_root().get_node("LayerManager/DeathMenu").state_change()

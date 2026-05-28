@@ -266,6 +266,8 @@ func _process(delta):
 	life+=delta
 	if attack_type == "punch":
 		get_node("CollisionShape2D").shape.height = lerp(9,18, life/lifespan)
+		if life < .05:
+			get_node("CollisionShape2D").disabled = true
 	if attack_type == "smash":
 		get_node("CollisionShape2D").shape.radius = lerp(8,16,life/lifespan)
 		if life < .15:
@@ -380,6 +382,7 @@ func intersection(body):
 			-1:
 				if bounces > 0:
 					bounces -= 1
+					lifespan+=2.5
 					# Cast a short ray forward to get the wall's surface normal
 					var space = get_world_2d().direct_space_state
 					var query = PhysicsRayQueryParameters2D.create(
@@ -422,7 +425,7 @@ func deflect(hit_direction, hit_speed, deflection_area):
 	else:
 		SFXManager.play(deflect_sounds[randi() % deflect_sounds.size()], 2.0,"SFX",global_position)
 	print("DEFLECT")
-	if attack_type=="laser":
+	if attack_type=="laser" and deflection_area:
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment1"))
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment2"))
 		var bt_player = c_owner.get_node_or_null("BTPlayer")

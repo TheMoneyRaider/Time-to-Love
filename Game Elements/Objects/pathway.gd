@@ -106,6 +106,7 @@ func disable_pathway(fully : bool):
 	$ShaderSprite.visible = false
 	active = false
 func enable_pathway():
+	if RoomManager.current_progress >= 3.0: _make_gray()
 	print("Enable: "+name)
 	visible = true
 	$Icons/PathwayIcon1.z_index=0

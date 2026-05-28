@@ -55,6 +55,7 @@ drones=""
 pathway=""
 letter=""
 weapon_select=""
+domain=""
 
 [input]
 

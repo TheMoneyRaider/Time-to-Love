@@ -61,7 +61,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"default",
-"speed": 21.0
+"speed": 27.0
 }]
 
 [node name="Punch" type="Area2D" groups=["attack"]]
@@ -71,11 +71,11 @@ collision_layer = 8
 collision_mask = 47
 script = ExtResource("1_rwjpg")
 speed = 5.0
-lifespan = 0.33
-hit_force = 100.0
+lifespan = 0.22
+hit_force = 75.0
 knockback_force = 200.0
 start_lag = 0.05
-cooldown = 0.2
+cooldown = 0.3
 pierce = -2.0
 wall_collision = false
 attack_type = "punch"

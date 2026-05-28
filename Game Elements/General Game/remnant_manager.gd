@@ -64,11 +64,14 @@ func get_random_remnants(num: int = 4, player1_remnants: Array = [], player2_rem
 	return result
 	
 func meets_requirements(remnant : Remnant,names : Array[String]):
-	var prog = max(Globals.total_progress,RoomManager.current_progress)
+	var prog = max(Globals.save_state.total_progress,Globals.total_progress,RoomManager.current_progress)
 	var num_preqreqs_met = 0
 	for rm in remnant.required_remnants:
 		if rm.remnant_name in names:
 			num_preqreqs_met += 1
+	for rm_name in remnant.disqualifying_remnants:
+		if rm_name in names:
+			return false
 	if(num_preqreqs_met < remnant.num_rem_required):
 		return false
 	if remnant.progress_required > prog:

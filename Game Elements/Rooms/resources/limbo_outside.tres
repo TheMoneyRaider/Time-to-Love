@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Room" load_steps=2 format=3 uid="uid://cgmof4sc4tclo"]
+
+[ext_resource type="Script" uid="uid://boljl4yehg187" path="res://Game Elements/Rooms/room.gd" id="1_jo3mg"]
+
+[resource]
+script = ExtResource("1_jo3mg")
+scene_location = "res://Game Elements/Rooms/limbo/limbo_outside.tscn"
+noise_seed = null
+num_enemy_goal = 35
+roomvariant = 0
+enemy_pool = Array[String](["res://Game Elements/Characters/archer.tscn", "res://Game Elements/Characters/skeleton.tscn", "res://Game Elements/Characters/medieval_slime.tscn"])
+enemy_chances = Array[float]([0.44, 0.44, 0.11])
+wave_segment = 0.0
+metadata/_custom_type_script = "uid://boljl4yehg187"

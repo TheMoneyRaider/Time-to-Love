@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Room" load_steps=2 format=3 uid="uid://ghuds7gukaew"]
+
+[ext_resource type="Script" uid="uid://boljl4yehg187" path="res://Game Elements/Rooms/room.gd" id="1_7f0gl"]
+
+[resource]
+script = ExtResource("1_7f0gl")
+scene_location = "res://Game Elements/Rooms/limbo/limbo_town.tscn"
+noise_seed = null
+trap_types = Array[int]([0])
+num_enemy_goal = 25
+enemy_density_goal = 0.01
+roomvariant = 2
+enemy_pool = Array[String](["res://Game Elements/Characters/gunslinger.tscn", "res://Game Elements/Characters/cactus.tscn", "res://Game Elements/Characters/scorpion.tscn"])
+enemy_chances = Array[float]([1.0, 0.5, 0.5])
+wave_segment = 0.0
+metadata/_custom_type_script = "uid://boljl4yehg187"

@@ -3,6 +3,7 @@ extends Node
 
 var astar = AStar2D.new()
 var grid_bounds: Rect2i
+var walkable_set: Dictionary = {}
 var walkable_cells: Array[Vector2i] = []
 var cell_size: int = 16
 
@@ -17,6 +18,7 @@ var cell_size: int = 16
 func clear():
 	astar.clear() # remove all points and connections from Astar
 	walkable_cells.clear() # empty the walkable tiles list 
+	walkable_set.clear()
 	
 # Astar uses ID numbers rather than vectors to track points
 func pos_to_id(pos: Vector2i) -> int: 
@@ -34,7 +36,6 @@ func id_to_pos(id: int) -> Vector2i:
 func setup_from_room(ground_layer: TileMapLayer, blocked_cells: Array, trap_cells: Array, liquid_cells: Array):
 	clear()
 	
-	# no used cells, return, nothing to do
 	var used_cells = ground_layer.get_used_cells()
 	if used_cells.is_empty():
 		return
@@ -64,6 +65,7 @@ func setup_from_room(ground_layer: TileMapLayer, blocked_cells: Array, trap_cell
 	for cell in used_cells:
 		if not blocked_dict.has(cell):
 			walkable_cells.append(cell)
+			walkable_set[cell] = true
 			var id = pos_to_id(cell)
 			var weight = 1
 			if trap_dict.has(cell):
@@ -81,7 +83,7 @@ func setup_from_room(ground_layer: TileMapLayer, blocked_cells: Array, trap_cell
 		var id = pos_to_id(cell)
 		for dir in directions: 
 			var neighbor = cell + dir
-			if neighbor in walkable_cells: 
+			if walkable_set.has(neighbor):
 				var neighbor_id = pos_to_id(neighbor)
 				if not astar.are_points_connected(id, neighbor_id): 
 					astar.connect_points(id,neighbor_id)
@@ -102,115 +104,77 @@ func is_near_wall(cell: Vector2i,blocked_dict : Dictionary) -> bool:
 func world_to_cell_clamped(world_pos: Vector2) -> Vector2i:
 	var cell = Vector2i(floor(world_pos.x / cell_size), floor(world_pos.y / cell_size))
 	# If the exact cell isn't walkable, search nearby walkable cells
-	if cell in walkable_cells:
+	if walkable_set.has(cell):
 		return cell
 	var search_dirs = [
 		Vector2i(0, 1), Vector2i(0, -1), Vector2i(1, 0), Vector2i(-1, 0)
 	]
 	for dir in search_dirs:
 		var neighbor = cell + dir
-		if neighbor in walkable_cells:
+		if walkable_set.has(neighbor):
 			return neighbor
 	return cell  # fallback
 
 func find_path(from_world: Vector2, to_world: Vector2) -> Array:
 	var from_cell = world_to_cell_clamped(from_world)
 	var to_cell = world_to_cell_clamped(to_world)
-
-	if not from_cell in walkable_cells or not to_cell in walkable_cells:
+	if not walkable_set.has(from_cell) or not walkable_set.has(to_cell):
 		return []
-
-	var from_id = pos_to_id(from_cell)
-	var to_id = pos_to_id(to_cell)
-	return astar.get_point_path(from_id, to_id)
+	return astar.get_point_path(pos_to_id(from_cell), pos_to_id(to_cell))
 	
 	
 func smooth_path(path: Array, ) -> Array: 
-	var smooth = [path[0]]
-	var i = 0 
-	
-	# try skipping intermediate points
-	while i < path.size() - 1: 
-		var current = path[i]
-		var next_node = i + 1
-		
-		while next_node < path.size(): 
-			var target = path[next_node]
-			
-			if can_walk_straight(current, target): 
-				next_node += 1
-			else: 
-				break
-				
-		var next_point = path[next_node - 1]
-		if next_point != current:
-			smooth.append(next_point)
-			
-		i = next_node - 1
-			
-	if smooth[smooth.size() - 1] != path[path.size() - 1]: 
-		smooth.append(path[path.size() - 1])
-	
+	if path.size() <= 1:
+		return path
+
+	var smooth: Array = [path[0]]
+	var i := 0
+
+	while i < path.size() - 1:
+		# Walk forward from i as far as we can still see in a straight line
+		var farthest := i + 1
+		while farthest + 1 < path.size() and can_walk_straight(path[i], path[farthest + 1]):
+			farthest += 1
+		smooth.append(path[farthest])
+		i = farthest
+
 	return smooth
-	
-	
-	# Bresenham's algorithm
-func get_line_cells(from: Vector2i, to: Vector2i) -> Array[Vector2i]:
-	var cells: Array[Vector2i] = []
-	
-	var dx = abs(to.x - from.x)
-	var dy = abs(to.y - from.y)
-	var sx = 1 if from.x < to.x else -1
-	var sy = 1 if from.y < to.y else -1
-	var err = dx - dy
-	
-	var current = from
-	
-	while true:
-		cells.append(current)
-		
-		if current == to:
-			break
-		
-		var e2 = 2 * err
-		if e2 > -dy:
-			err -= dy
-			current.x += sx
-		if e2 < dx:
-			err += dx
-			current.y += sy
-	
-	return cells
-	
+
 func can_walk_straight(from: Vector2, to: Vector2) -> bool:
 	var from_cell = Vector2i(floor(from.x / cell_size), floor(from.y / cell_size))
 	var to_cell = Vector2i(floor(to.x / cell_size), floor(to.y / cell_size))
 	
-	# Use Bresenham's line algorithm to check all cells along the line
-	var cells_on_line = get_line_cells(from_cell, to_cell)
-	
-	# Check if all cells on the line are walkable
-	for cell in cells_on_line:
-		if not cell in walkable_cells:
+	# Bresenham walk — no intermediate Array allocation
+	var x  : int = from_cell.x;  var y  : int = from_cell.y
+	var tx : int = to_cell.x;    var ty : int = to_cell.y
+	var dx := absi(tx - x); var dy := absi(ty - y)
+	var sx := 1 if x < tx else -1
+	var sy := 1 if y < ty else -1
+	var err := dx - dy
+
+	var prev_x := x
+	var prev_y := y
+
+	while true:
+		if not walkable_set.has(Vector2i(x, y)):   # O(1)
 			return false
-	
-	# ADDITIONAL CHECK: Make sure we're not cutting corners diagonally through walls
-	# Check the cells adjacent to the line
-	for i in range(len(cells_on_line) - 1):
-		var current = cells_on_line[i]
-		var next = cells_on_line[i + 1]
-		
-		# If moving diagonally, check both adjacent cells
-		var dx = next.x - current.x
-		var dy = next.y - current.y
-		
-		if dx != 0 and dy != 0:  # Diagonal move
-			# Check the two cells that form the corner
-			var corner1 = Vector2i(current.x + dx, current.y)
-			var corner2 = Vector2i(current.x, current.y + dy)
-			
-			# Both corners must be walkable to allow diagonal movement
-			if not (corner1 in walkable_cells and corner2 in walkable_cells):
+
+		# Diagonal corner-cutting check (no extra array)
+		var step_x := x - prev_x
+		var step_y := y - prev_y
+		if step_x != 0 and step_y != 0:
+			if not walkable_set.has(Vector2i(prev_x + step_x, prev_y)) \
+			or not walkable_set.has(Vector2i(prev_x, prev_y + step_y)):
 				return false
-	
+
+		if x == tx and y == ty:
+			break
+
+		prev_x = x;  prev_y = y
+		var e2 := 2 * err
+		if e2 > -dy:
+			err -= dy;  x += sx
+		if e2 < dx:
+			err += dx;  y += sy
+
 	return true

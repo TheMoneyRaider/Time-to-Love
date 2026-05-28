@@ -27,8 +27,9 @@ var layer_ai := [
 	0	#This timeline Combat rooms cleared 15
 	]
 #the root node of each room MUST BE NAMED Root
-@onready var current_progress = 0.0 #TEST 3.0
-var medieval_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/cave1.tres"),
+@onready var current_progress = 3.0 #TEST 3.0
+var medieval_rooms : Array[Room] = [
+								preload("res://Game Elements/Rooms/resources/cave1.tres"),
 								preload("res://Game Elements/Rooms/resources/cave2.tres"),
 								preload("res://Game Elements/Rooms/resources/cave3.tres"),
 								preload("res://Game Elements/Rooms/resources/cave4.tres"),
@@ -37,6 +38,8 @@ var medieval_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources
 								preload("res://Game Elements/Rooms/resources/outside3.tres"),
 								preload("res://Game Elements/Rooms/resources/outside4.tres"),
 								preload("res://Game Elements/Rooms/resources/outside5.tres")]
+								
+								
 var medieval_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/shop_cave.tres"),
 								preload("res://Game Elements/Rooms/resources/shop_outside.tres")]
 
@@ -58,7 +61,13 @@ var sci_fi_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/f
 								preload("res://Game Elements/Rooms/resources/cyberspace6.tres")]
 var sci_fi_shops : Array[Room] = [preload("res://Game Elements/Rooms/resources/shop_cyberspace.tres"),
 								preload("res://Game Elements/Rooms/resources/shop_factory.tres")]
-								
+
+var limbo_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/limbo_cave.tres"),
+								preload("res://Game Elements/Rooms/resources/limbo_outside.tres"),
+								preload("res://Game Elements/Rooms/resources/limbo_town.tres"),
+								preload("res://Game Elements/Rooms/resources/limbo_factory.tres")]
+
+
 var starting_rooms : Array[Room] = [preload("res://Game Elements/Rooms/resources/1.tres"),
 									preload("res://Game Elements/Rooms/resources/2.tres"),
 									preload("res://Game Elements/Rooms/resources/3.tres")]
@@ -86,10 +95,11 @@ func reset():
 	current_progress = 0.0
 	layer_ai = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 func get_room(room : Room):
+	var index = int(current_progress) if room.roomtype != Globals.RoomType.Boss else int(current_progress+1.0)
 	#if tempvar:
 		#tempvar = false
 		#return bosses[2]
-	var index = int(current_progress) if room.roomtype != Globals.RoomType.Boss else int(current_progress+1.0)
+	
 	#shop_override
 	var T = 0.15
 	var P = 0.05
@@ -105,6 +115,11 @@ func get_room(room : Room):
 	if get_boss_chance() > randf() and room.roomtype != Globals.RoomType.Boss:
 		return bosses[index]
 	if index >= 3:
+		if room.roomtype == Globals.RoomType.Boss: return normal_rooms[index][0]
+		else: 
+			if layer_ai[14]+1 > 3: return bosses[index]
+			return normal_rooms[index][clamp(layer_ai[14]+1,1,3)]
+	if index >= 3:
 		index = randi() % 3
 
 	var normal_index = clamp(int(randf()*normal_rooms[index].size()),0,normal_rooms[index].size()-1)
@@ -114,7 +129,7 @@ func get_room(room : Room):
 	
 
 func _ready() -> void:
-	normal_rooms = [medieval_rooms,western_rooms,sci_fi_rooms]
+	normal_rooms = [medieval_rooms,western_rooms,sci_fi_rooms,limbo_rooms]
 	shop_rooms = [medieval_shops,western_shops,sci_fi_shops]
 	for array in normal_rooms:
 		for room_data_item in array:
@@ -173,7 +188,9 @@ func update_ai_array(generated_room : Node2D, generated_room_data : Room, LayerM
 		current_progress = floor(current_progress)+1.0
 		layer_ai[14] =0
 		layer_ai[15] =0
-	#current_progress = max(3.0,current_progress)#TEST
+		LayerManager.player1.has_revived = false
+		if LayerManager.is_multiplayer:
+			LayerManager.player2.has_revived = false
 
 func get_boss_chance() -> float:
 	if layer_ai[14] + int(current_progress) >= 8:
