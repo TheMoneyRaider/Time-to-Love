@@ -2027,35 +2027,35 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 func dev_remnants():
 	var rem
 	
-	rem = load("res://Game Elements/Remnants/hell.tres")
+	rem = load("res://Game Elements/Remnants/tortoise.tres")
 	rem.rank = 5
 	player_1_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,true)
 	
-	rem = load("res://Game Elements/Remnants/heaven.tres")
-	rem.rank = 5
-	player_2_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,true)
-	
-	rem = load("res://Game Elements/Remnants/demon.tres")
+	rem = load("res://Game Elements/Remnants/terramancer.tres")
 	rem.rank = 5
 	player_1_remnants.append(rem.duplicate(true))
 	remnant_update(rem,player1,true)
-	
-	rem = load("res://Game Elements/Remnants/angel.tres")
-	rem.rank = 5
-	player_2_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,true)
-	
-	rem = load("res://Game Elements/Remnants/cowboy.tres")
-	rem.rank = 5
-	player_2_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,true)
-	
-	rem = load("res://Game Elements/Remnants/drone.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	remnant_update(rem, player1, true)
+	#
+	#rem = load("res://Game Elements/Remnants/demon.tres")
+	#rem.rank = 5
+	#player_1_remnants.append(rem.duplicate(true))
+	#remnant_update(rem,player1,true)
+	#
+	#rem = load("res://Game Elements/Remnants/angel.tres")
+	#rem.rank = 5
+	#player_2_remnants.append(rem.duplicate(true))
+	#remnant_update(rem,player1,true)
+	#
+	#rem = load("res://Game Elements/Remnants/cowboy.tres")
+	#rem.rank = 5
+	#player_2_remnants.append(rem.duplicate(true))
+	#remnant_update(rem,player1,true)
+	#
+	#rem = load("res://Game Elements/Remnants/drone.tres")
+	#rem.rank = 5
+	#player_1_remnants.append(rem.duplicate(true))
+	#remnant_update(rem, player1, true)
 	
 	player1.display_combo()
 	if is_multiplayer:
