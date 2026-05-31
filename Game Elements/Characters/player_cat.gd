@@ -540,6 +540,7 @@ func get_camera_rect() -> RectangleShape2D:
 	return newRectangle
 
 func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 20,creates_indicators : bool = true, bulwark : bool = true):
+	if disabled: return
 	in_combat = 3
 	damage_amount *= Globals.check_domains(global_position,self)
 	if(bulwark == false || i_frames <= 0 && !invulnerable):
@@ -797,9 +798,7 @@ func tether(delta : float):
 				tether_line.visible = false
 		else:
 			tether_line.gradient = null
-		tether_line.points[0] = position + (other_player.position - position).normalized() * Vector2(4,8)
-		tether_line.points[2] = other_player.position + (position - other_player.position).normalized() * Vector2(4,8)
-		tether_line.points[1] = (tether_line.points[0] + tether_line.points[2]) / 2
+		call_deferred("tether_update")
 		var tether_scale = 1.0
 		if ((other_player.position - position) / 25).length() > 8:
 			tether_momentum += ((other_player.position - position).normalized() * 8 + (((other_player.position - position) - ((other_player.position - position).normalized() * 8)) / 100)) * tether_scale
@@ -1467,3 +1466,8 @@ func attraction_effect():
 			enemy.apply_velocity(force)
 			enemy.velocity = temp_velocity
 	return timefabric_strength
+
+func tether_update():
+	tether_line.points[0] = position + (other_player.position - position).normalized() * Vector2(2,3)
+	tether_line.points[2] = other_player.position + (position - other_player.position).normalized() * Vector2(2,3)
+	tether_line.points[1] = (tether_line.points[0] + tether_line.points[2]) / 2

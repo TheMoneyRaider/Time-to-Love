@@ -116,7 +116,9 @@ func get_room(room : Room):
 		return bosses[index]
 	if index >= 3:
 		if room.roomtype == Globals.RoomType.Boss: return normal_rooms[index][0]
-		else: return normal_rooms[index][clamp(layer_ai[14]+1,1,3)]
+		else: 
+			if layer_ai[14]+1 > 3: return bosses[index]
+			return normal_rooms[index][clamp(layer_ai[14]+1,1,3)]
 	if index >= 3:
 		index = randi() % 3
 
