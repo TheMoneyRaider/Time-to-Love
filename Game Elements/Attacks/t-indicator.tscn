@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://ca4cm7j2ecx8t"]
+
+[ext_resource type="Script" uid="uid://flwjynrfwnr8" path="res://Game Elements/Attacks/attack.gd" id="1_1difc"]
+[ext_resource type="Texture2D" uid="uid://cxqlrcr4x3v2p" path="res://art/white_square.png" id="2_1difc"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_184y7"]
+radius = 4.000001
+height = 10.0
+
+[node name="IndicatorSwipe" type="Area2D"]
+z_index = 20
+y_sort_enabled = true
+scale = Vector2(4, 4)
+collision_layer = 8
+collision_mask = 47
+script = ExtResource("1_1difc")
+speed = 0.0
+damage = 0.0
+lifespan = 0.2
+knockback_force = 0.0
+start_lag = 0.1
+cooldown = 0.3
+pierce = -2.0
+wall_collision = false
+attack_type = "crowbar_melee"
+i_frames = 0
+creates_indicators = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-17, -19)
+rotation = 1.5707964
+scale = Vector2(1.25, 1.25)
+shape = SubResource("CapsuleShape2D_184y7")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+modulate = Color(1, 0.44313726, 0.3764706, 0.43529412)
+position = Vector2(0.25, -17)
+scale = Vector2(0.10644531, 0.06542969)
+texture = ExtResource("2_1difc")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1868,10 +1868,10 @@ func _on_remnant_upgraded(remnant1 : Resource, remnant2 : Resource):
 	var hare = preload("res://Game Elements/Remnants/hare.tres")
 	for i in range(player_1_remnants.size()):
 		if player_1_remnants[i] == remnant1:
-			player_1_remnants[i].rank +=1
+			player_1_remnants[i].rank += max(1, int(RoomManager.current_progress) + 2 -player_1_remnants[i].rank)
 	for i in range(player_2_remnants.size()):
 		if player_2_remnants[i] == remnant2:
-			player_2_remnants[i].rank +=1
+			player_2_remnants[i].rank += max(1, int(RoomManager.current_progress) + 2 -player_2_remnants[i].rank)
 	if(remnant1.remnant_name == mancermancer.remnant_name and remnant1.active):
 		player1.mancermancer_values[0] = remnant1.rank
 	elif(remnant2.remnant_name == mancermancer.remnant_name and remnant2.active):

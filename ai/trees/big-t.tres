@@ -232,7 +232,7 @@ children = [SubResource("BTPlayAnimation_rwb3y")]
 children = [SubResource("BTAction_khl4x"), SubResource("BTDelay_1j2ei")]
 
 [sub_resource type="BTDelay" id="BTDelay_khl4x"]
-seconds = 0.3
+seconds = 0.5
 children = [SubResource("BTSequence_ogqqy")]
 
 [sub_resource type="BTSequence" id="BTSequence_0chas"]
