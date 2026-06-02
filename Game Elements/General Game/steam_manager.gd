@@ -7,9 +7,6 @@ func _ready():
 		print("Steam failed to initialize: ", init["verbal"])
 		return
 	print("Steam initialized. App ID: ", Steam.getAppID())
-	
-	#REMOVE TEST DEBUG TEMPORARY
-	clear_all_achievements()
 
 func unlock_achievement(achievement_name: String):
 	if Steam.isSteamRunning():
