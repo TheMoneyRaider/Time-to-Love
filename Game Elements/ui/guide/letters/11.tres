@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("2_k8806")
-letter_id = 8
+letter_id = 10
 description = "[color=purple]From wax and wane, from sprout and decay [/color][color=dark_red]←component must be dried in both forms!
 [/color][color=red]Must time it at the apogee otherwise the third sigil burns out
 [/color][color=purple][u]When full moon shines bright,[/u] shall the phases obey.

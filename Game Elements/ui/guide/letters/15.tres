@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://cnfqtlp6dafbw"]
+
+[ext_resource type="Resource" uid="uid://wwlwjr1rab8q" path="res://Game Elements/ui/guide/letter_formats/holographic2.tres" id="1_e648r"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_j456y"]
+
+[resource]
+script = ExtResource("2_j456y")
+letter_id = 14
+description = "[9:45 Retrieval Requested]
+[9:46 Processing Request]
+[9:46 Footage Corrupted] — [Stand By For Reconstruction]
+[9:47 Reconstructing Footage]
+[12:56 Reconstruction Complete] — [Stand By For Transcript]
+[13:03 Transcript Construction Complete] — [Begin Playback]
+[13:04] \"[i]Now what manner of beast might you be? I did not know marginalia constructs were in style among the artificers of your age.[/i]\"
+[13:04 Haptic Feedback Indicates Increased Proximity to Target]
+[13:04] \"You're not just any artificer though, are you? I can't tell if I should find it insulting or not that you refuse to face me yourself at our first proper contact. You send your little… pet instead. Well.\"
+[13:05 Optic Feedback Indicates Human Physiology]
+[13:05] \"[i]Next time, come visit me yourself instead of sending a pet. I have questions for you, and I would appreciate the lack of an intermediary when discussing matters as grave as those we find ourselves in.[/i]\"
+[13:06 Haptic Feedback Indicates Surge of Electromagnetic Energy]
+[13:06] ERROR ERROR ERROR ERROR
+"
+letter_format = ExtResource("1_e648r")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

@@ -292,6 +292,11 @@ func view_letter(idx : int):
 			text.size.x = 640 / text.scale.x
 			text.size.y = 960 / text.scale.y
 			text.text = "[color=#363535][font_size=52]" + text.text
+		"Paper2":
+			text.position = Vector2(460,78)
+			text.size.x = 1050 / text.scale.x
+			text.size.y = 960 / text.scale.y
+			text.text = "[color=#363535][font_size=52]" + text.text
 		"ModernNewspaper":
 			text.position = Vector2(550,350)
 			text.size.x = 780 / text.scale.x
@@ -312,6 +317,12 @@ func view_letter(idx : int):
 			text.size.x = 395 / text.scale.x
 			text.size.y = 960 / text.scale.y
 			text.text = "[font=res://fonts/Orbitron-Bold.ttf][color=#b9f9fa][font_size=45]" + text.text
+		"Holographic2":
+			text.position = Vector2(650,40)
+			text.size.x = 650 / text.scale.x
+			text.size.y = 1200 / text.scale.y
+			text.text = "[font=res://fonts/Orbitron-Bold.ttf][color=#b9f9fa][font_size=45]" + text.text
+
 
 
 	# -----------------------

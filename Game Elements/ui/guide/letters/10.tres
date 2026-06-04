@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("2_64n2f")
-letter_id = 8
+letter_id = 9
 description = "[center]What a wondrous world this vision of mine is. Will you not share in it my magnificent instruments?"
 letter_format = ExtResource("1_ihpvu")
 metadata/_custom_type_script = "uid://gbihjja6jybk"
