@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://dmkfpuauvy4h0"]
+
+[ext_resource type="Resource" uid="uid://dn5rvtqod321e" path="res://Game Elements/ui/guide/letter_formats/stone_tablet.tres" id="1_40wv8"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_rncfr"]
+
+[resource]
+script = ExtResource("2_rncfr")
+letter_id = 440
+description = "[center][color=blue][font_size=128]These voices I have cast have reached their crescendo, their songs in marvelous disharmony. They shall hear them once more on this, their last voyage. True Majesty awaits. "
+letter_format = ExtResource("1_40wv8")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://cauhrtwvl0rmk"]
+
+[ext_resource type="Resource" uid="uid://dl6g2kifupq3h" path="res://Game Elements/ui/guide/letter_formats/holographic.tres" id="1_m1t56"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_81mx6"]
+
+[resource]
+script = ExtResource("2_81mx6")
+letter_id = 335
+description = "“Hello Humans! After much review, approximately 126 milliseconds, we have seen fit to establish an executive position for humans in government in order to facilitate the cooperation between man and machine. We have selected Georg Wells as the best candidate for the first Prime Minister of Olurna. We look forward to progressing both mankind and machines in harmony!” 
+[right] -Excerpt from the Establishment of the Mankind-Machine alliance by Singul-Prime, Intelligence of Olurna"
+letter_format = ExtResource("1_m1t56")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

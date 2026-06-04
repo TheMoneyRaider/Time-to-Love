@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("2_mi83f")
-letter_id = 11
+letter_id = 50
 description = "13 cogs with 11 teeth each
 
 Arrange groupings in fibonacci series as drawn in sketch

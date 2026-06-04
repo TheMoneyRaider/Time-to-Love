@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://bonkeiax7igdm"]
+
+[ext_resource type="Resource" uid="uid://04ef0si7kl5q" path="res://Game Elements/ui/guide/letter_formats/newspaper1.tres" id="1_cw8hf"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_4vbgk"]
+
+[resource]
+script = ExtResource("2_4vbgk")
+letter_id = 140
+description = "My dear Firestarter,
+
+I so love how you regale me with tales of your travels when we meet. You hold such talent for oral storytelling, I know the Priestesses Who Sing of the Moon back home would hold your spirit dear. You should write me more often with your stories! Perhaps you could pen a compendium someday, I believe the masses would enjoy it just as much as I. Do not belittle yourself to me, I will not stand for such slanderous lies. Your ideas deserve to be heard, and I am in awe of your technical brilliance day after day. I implore you to write me with that same mirth and vibrance your mouth commands. I wish to hear of it all, hear all of your ideas.
+
+[right]-She who misses your voice
+"
+letter_format = ExtResource("1_cw8hf")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

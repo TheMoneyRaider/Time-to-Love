@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://c8tdsnkmpwewm"]
+
+[ext_resource type="Resource" uid="uid://wwlwjr1rab8q" path="res://Game Elements/ui/guide/letter_formats/holographic2.tres" id="1_jxijw"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_1ognd"]
+
+[resource]
+script = ExtResource("2_1ognd")
+letter_id = 410
+description = "						[font_size=36]Dear Purple
+
+It’s been a long time. I’ve had a while to think. I talked to Slim in the Old Hare. Well there wasn’t much of a town or a saloon there, mostly just that white void that’s been appearing all over the place. Sometimes I come across that stuff, and I just find someone there, sitting or standing, or doing whatever it is they do, alone. But it’s like, they’re more real. I don’t know. I guess I’m just trying to distract myself from getting to the point. I figured I’d give him the old cheat, I’d been back through there enough times that I knew how the cards would be dealt. But when I went to raise, I didn’t. I don’t know what happened. It just didn't feel right. When I looked at Slim though, he had the perfect hand. He would’ve beaten me anyway. He just said “I figured you’d come around eventually.” 
+
+When I asked how he didn’t say anything. He just told me about this old drifter he knew. He’d come in and out of town but never settled. He thought somehow that he never quite belonged. He was afraid of belonging. But the first time someone in town said his name he was shook like no one had ever seen. And that drifter realized that all that time he’d spent trying to distance himself from the townsfolk was a waste, they still knew who he was despite his best efforts; and the scariest part to him was that he began to know them.
+
+“That’s you,” he said. You walk around somehow thinking that you aren’t a part of time. Like you’re somehow beyond it. Hell you never even thought that I’d notice the same trick all these times. But Orange, you’re a part of time, you’re a part of all this. And you can do it differently.”
+
+I know you probably want nothing to do with me ever again. And If you don’t I’ll go do it all myself. But I think I need you Purple. I think you made me realize that I was still a part of something. That I could still affect the world in a way that matters, that I could still change myself in a way that matters. I don’t even know if this will find you with all the chaos going on, but I hope you’re out there.[right]
+-Orange							
+"
+letter_format = ExtResource("1_jxijw")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

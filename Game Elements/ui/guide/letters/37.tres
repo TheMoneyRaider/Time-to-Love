@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://dmhf84c7tvwcl"]
+
+[ext_resource type="Resource" uid="uid://dl6g2kifupq3h" path="res://Game Elements/ui/guide/letter_formats/holographic.tres" id="1_p3llr"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_83b1m"]
+
+[resource]
+script = ExtResource("2_83b1m")
+letter_id = 360
+description = "Dear Purple
+
+			Please xoxo?
+[right]
+Love,
+
+Orange
+"
+letter_format = ExtResource("1_p3llr")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

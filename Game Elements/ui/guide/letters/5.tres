@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("1_6j0n8")
-letter_id = 4
+letter_id = 210
 description = "I have often wondered, my love, what to call these realms we travel through. They sit woven through different possibilities, different outcomes from some set point so far back nothing and no one could ever truly hope to know the exact origin. With that point so far out of sight, how can we be sure these timelines don't sit apart from each other after all? Are these different times? Different worlds? Truly, I struggle to quailfy it all."
 letter_format = ExtResource("1_ucuqc")
 metadata/_custom_type_script = "uid://gbihjja6jybk"

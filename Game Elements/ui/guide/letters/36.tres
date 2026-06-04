@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://b6hwc7mrn5iwm"]
+
+[ext_resource type="Resource" uid="uid://dn5rvtqod321e" path="res://Game Elements/ui/guide/letter_formats/stone_tablet.tres" id="1_eoxsc"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_615xh"]
+
+[resource]
+script = ExtResource("2_615xh")
+letter_id = 350
+description = "My Brilliant Orange,
+
+Your fiery conviction is what drew me to you but do not presume to overstep. I’ve loved you through all our adventures but even I can grow tired of surprises. Do not think I have not done my own research on this entity. Leave it be.
+"
+letter_format = ExtResource("1_eoxsc")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

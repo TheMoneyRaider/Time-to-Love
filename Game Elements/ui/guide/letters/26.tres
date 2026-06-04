@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://bon5ph2sb7x7g"]
+
+[ext_resource type="Resource" uid="uid://cxtdv4tq7yh3e" path="res://Game Elements/ui/guide/letter_formats/newspaper3.tres" id="1_6tn4d"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_nv63m"]
+
+[resource]
+script = ExtResource("2_nv63m")
+letter_id = 250
+description = "[font_size=32](1/3)    Purple,
+
+I visited the craziest place last week. Have you ever been to Arroyo Springs? I was looking for the bottle we left in 1799. It should’ve aged perfectly. I figured I’d ask the bartender, considering the saloon was built right where we expected. They called it, “The Old Hare” saloon. I always wanted to use one of those spittoons. 
+
+I sidled up to the bar “Give me your most expensive whisky.” I made sure to put the proper [i]Twang[/i] on it, you know?
+
+“Lookin for this?”
+
+I turned around, in the corner there was a short man sitting, he barely had a face beneath the brim of his hat and his massive mustache. On the table there was a bottle of Mad Igna’s burning whisky, probably aged about a hundred years. 
+
+Now this was frustrating. I asked him how much.
+
+“Just a game.” 
+
+I told him “alright, one game.”
+
+“Name’s Slim,” he said, fanning out the cards.
+
+He dealt out hands. What he wasn’t aware of was the fact that I had a state of the art 3029 probability scanner on hand. No bumpkin from no-where Arizona was going to beat that. Before I even picked up the cards I knew it was going to be a pair of queens, a winning hand in this game. Without having to worry all I had to do was pretend to be a little bit folded. I might even make it look like I'd think about folding. But no, they’d know I was bluffing, what I had to do was [i]pretend[/i] to bluff. Slim looked at my grin, “Hey kid, house always wins,” he said. "
+letter_format = ExtResource("1_6tn4d")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

@@ -5,8 +5,8 @@
 
 [resource]
 script = ExtResource("2_j456y")
-letter_id = 14
-description = "[9:45 Retrieval Requested]
+letter_id = 80
+description = "						[9:45 Retrieval Requested]
 [9:46 Processing Request]
 [9:46 Footage Corrupted] — [Stand By For Reconstruction]
 [9:47 Reconstructing Footage]

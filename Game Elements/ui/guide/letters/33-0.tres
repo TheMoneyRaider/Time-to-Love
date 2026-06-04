@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://dbwtwk8ea8u5m"]
+
+[ext_resource type="Resource" uid="uid://dl6g2kifupq3h" path="res://Game Elements/ui/guide/letter_formats/holographic.tres" id="1_10o1o"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_41mxp"]
+
+[resource]
+script = ExtResource("2_41mxp")
+letter_id = 333
+description = "“Dusk has fallen upon our confederacy, darkening our remaining days. Our lives are being drained of meaning, all work being outsourced and removed. Humanity has lost its spark, and crafted its own demise. As the last act I take before even this position is removed, I dub this the Age of The Machine.” 
+[right]-Excerpt from the farewell address of President Juniper, Last President of Olurna."
+letter_format = ExtResource("1_10o1o")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

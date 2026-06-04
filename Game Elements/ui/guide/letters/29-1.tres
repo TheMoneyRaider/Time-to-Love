@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://c8i8oii1uron8"]
+
+[ext_resource type="Resource" uid="uid://dn5rvtqod321e" path="res://Game Elements/ui/guide/letter_formats/stone_tablet.tres" id="1_ommcv"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_tfxpc"]
+
+[resource]
+script = ExtResource("2_tfxpc")
+letter_id = 275
+description = "“Dawn has come to aid our kingdom, lighting a new age of prosperity! New frontiers are open before us, and opportunities are behind every corner! In honor of the new beginnings that have been brought to us, I hereby dub this the Age of Magic!” 
+[right]-Excerpt from the Coronation of King Ailinus, First King of Plurna"
+letter_format = ExtResource("1_ommcv")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

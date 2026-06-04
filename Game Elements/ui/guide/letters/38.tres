@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://de4vipwklqcb"]
+
+[ext_resource type="Resource" uid="uid://dn5rvtqod321e" path="res://Game Elements/ui/guide/letter_formats/stone_tablet.tres" id="1_ymjiw"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_v3sgp"]
+
+[resource]
+script = ExtResource("2_v3sgp")
+letter_id = 370
+description = "[font_size=196][color=#5a0096][center]WHATEVER YOU DO, DO NOT BRING THAT THING INTO THE GROVE!"
+letter_format = ExtResource("1_ymjiw")
+metadata/_custom_type_script = "uid://gbihjja6jybk"
