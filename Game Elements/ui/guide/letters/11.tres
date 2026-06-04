@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://cnfcirufi1nve"]
+
+[ext_resource type="Resource" uid="uid://dn5rvtqod321e" path="res://Game Elements/ui/guide/letter_formats/stone_tablet.tres" id="1_5bfs2"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_k8806"]
+
+[resource]
+script = ExtResource("2_k8806")
+letter_id = 8
+description = "[color=purple]From wax and wane, from sprout and decay [/color][color=dark_red]←component must be dried in both forms!
+[/color][color=red]Must time it at the apogee otherwise the third sigil burns out
+[/color][color=purple][u]When full moon shines bright,[/u] shall the phases obey.
+In new moon's shadow let the darkness bring forth
+The compass whose heart reads time, not north. [/color][color=dark_red][b][u]!!!BY THE GODS MAKE SURE
+YOUR COMPONENTS ARE FACING THE 6 DIRECTIONS!!!![/u][/b]
+[color=purple]By brambles well woven, shall these threads be my thrall,
+[color=red]^every third bramble of the chain must be taken from the weave and looped around the outside to strengthen the arch or the fibers burn out one by one
+[color=purple]By will of the Starlit Voice, shall I master them all.
+"
+letter_format = ExtResource("1_5bfs2")
+metadata/_custom_type_script = "uid://gbihjja6jybk"
