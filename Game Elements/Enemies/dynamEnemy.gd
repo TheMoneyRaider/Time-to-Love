@@ -238,7 +238,12 @@ func _physics_process(_delta: float) -> void:
 		# Gradually reduce knockback over time
 		knockback_velocity = knockback_velocity * knockback_decay
 var last_phase
+@onready var time = randf()*3.0
+var tentacle_sounds = [preload("res://Game Elements/sfx/enemies/tentacle/tentacle1.ogg"),preload("res://Game Elements/sfx/enemies/tentacle/tentacle2.ogg"),preload("res://Game Elements/sfx/enemies/tentacle/tentacle3.ogg")]
 func _process(delta):
+	if enemy_type == "tentacle" and move_speed > 1.0 and int((time+delta)/3.0) != int(time/3.0):
+		SFXManager.play(tentacle_sounds[randi()%3],0.0,"SFX",global_position,2.0)
+	time+=delta
 	cactus_delay-=delta
 	thud_delay-=delta
 	#Boss stuff
