@@ -171,7 +171,7 @@ func popup_upgrade(player1_remnants_in : Array, player2_remnants_in : Array):
 	#populate UI
 	for i in range(slot_nodes.size()):
 		if i < upgrade_remnants.size():
-			slot_nodes[i].set_remnant(upgrade_remnants[i],true, int(RoomManager.current_progress) + 2 - upgrade_remnants[i].rank )
+			slot_nodes[i].set_remnant(upgrade_remnants[i],true, max(int(RoomManager.current_progress) + 2 - upgrade_remnants[i].rank, 1))
 		else:
 			slot_nodes[i].queue_free()
 	# Wait a frame for layout to update
