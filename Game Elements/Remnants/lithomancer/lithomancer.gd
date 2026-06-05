@@ -11,6 +11,7 @@ var fading : bool = false
 func _process(delta) -> void:
 	duration += delta
 	for area in areas_in_range:
+		if "attack_type" in area and area.attack_type=="shield": continue
 		if("c_owner" in area and is_instance_valid(area.c_owner) and !area.c_owner.is_in_group("player")):
 			area.scale *= 1 - (litho_value  * .2 * delta)
 			area.damage *= 1 - (litho_value  * .2 * delta)

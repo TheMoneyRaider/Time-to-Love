@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://bonxjvhmx8sfg"]
+
+[ext_resource type="Resource" uid="uid://wwlwjr1rab8q" path="res://Game Elements/ui/guide/letter_formats/holographic2.tres" id="1_gxuwj"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_ctnog"]
+
+[resource]
+script = ExtResource("2_ctnog")
+letter_id = 230
+description = "						[font_size=90][b]RESIDENTS FALL INTO GIANT SINKHOLE![/b]
+[font_size=60][b]Citizens Terrified by Pit of Light[/b]
+[font_size=45]
+The massive crack in the ground appeared overnight, swallowing six blocks of the upper east side of the city. Those not caught in the blast shared how they witnessed a \"blinding\" light form cracks in the road that consumed the buildings nearby. City planners seem unaware of any known cause for a sinkhole like this one. The mayor has yet to respond to any of our inquiries. Any attempts to investigate have only led to more disappearances. It seems the Lawmen of this city are doing their best to slow each question we fire at them, even as they come up for reelection.
+"
+letter_format = ExtResource("1_gxuwj")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

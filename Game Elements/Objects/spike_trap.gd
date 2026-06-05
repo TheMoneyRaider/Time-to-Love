@@ -8,6 +8,14 @@ var running: bool = false
 var tracked_bodies: Array = []
 var attack_type = "spikes"
 
+var spike_sounds = [
+	preload("res://Game Elements/sfx/weapons/selection/selection1.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection2.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection3.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection4.wav"),
+	preload("res://Game Elements/sfx/weapons/selection/selection5.wav"),
+]
+
 func _ready():
 	connect("body_entered", Callable(self, "_on_body_entered"))
 	connect("body_exited", Callable(self, "_on_body_exited"))
@@ -15,6 +23,7 @@ func _ready():
 func activate():
 	anim.play("activate")
 	await anim.animation_finished
+	SFXManager.play(spike_sounds[randi() % spike_sounds.size()], 0.0, "SFX", global_position)
 	active = true
 	for body in tracked_bodies:
 		if _crafter_chance(body):

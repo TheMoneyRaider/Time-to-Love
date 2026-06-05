@@ -16,7 +16,7 @@ speed = 150.0
 damage = 1.5
 lifespan = 10.0
 hit_force = 10.0
-attack_type = "bolt"
+attack_type = "spine"
 deflectable = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

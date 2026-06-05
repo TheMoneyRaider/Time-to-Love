@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://qilmyrsg5f3b"]
+
+[ext_resource type="Resource" uid="uid://dn5rvtqod321e" path="res://Game Elements/ui/guide/letter_formats/stone_tablet.tres" id="1_6j2ot"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_agye6"]
+
+[resource]
+script = ExtResource("2_agye6")
+letter_id = 430
+description = "[font_size=48]Orange,
+
+I found myself once more among the trees of a grove near identical to my own. In which timeline, I am unsure. The world there and then seemed to be at a standstill, no civilization having arose quite yet. Birdsong ruled the trees and the wild beasts called no man nor woman their master. I believe even the ocean sang of a spirit free from being bested by boats. The grove was full of sunlight, and warmth, and everything one might find perfect.
+
+I have never felt so alone.
+
+I sat and watched a sapling grow from my knees to my neck, studied the way its branches curled and spread. Its form mimicked none of what I thought it might turn into. Its shape was not bound by its youth nor the grove it called home.
+
+The ash that cradled me as a child would be disappointed by my commitment to form. It seems, as always, my stubborn nature bettered me.
+
+I admit I have longed for your embrace each day I watched that tree rise from the soil, and it brings me a joy to rival the warmth of that sun to see your writing once more.
+"
+letter_format = ExtResource("1_6j2ot")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

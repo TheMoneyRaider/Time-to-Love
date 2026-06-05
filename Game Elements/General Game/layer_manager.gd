@@ -1849,10 +1849,10 @@ func _on_remnant_upgraded(remnant1 : Resource, remnant2 : Resource):
 	var hare = preload("res://Game Elements/Remnants/hare.tres")
 	for i in range(player_1_remnants.size()):
 		if player_1_remnants[i] == remnant1:
-			player_1_remnants[i].rank +=1
+			player_1_remnants[i].rank += max(1, int(RoomManager.current_progress) + 2 -player_1_remnants[i].rank)
 	for i in range(player_2_remnants.size()):
 		if player_2_remnants[i] == remnant2:
-			player_2_remnants[i].rank +=1
+			player_2_remnants[i].rank += max(1, int(RoomManager.current_progress) + 2 -player_2_remnants[i].rank)
 	if(remnant1.remnant_name == mancermancer.remnant_name and remnant1.active):
 		player1.mancermancer_values[0] = remnant1.rank
 	elif(remnant2.remnant_name == mancermancer.remnant_name and remnant2.active):
@@ -2008,42 +2008,27 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 func dev_remnants():
 	var rem
 	
-	rem = load("res://Game Elements/Remnants/hell.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,true)
-	
-	rem = load("res://Game Elements/Remnants/heaven.tres")
-	rem.rank = 5
-	player_2_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,true)
-	
-	rem = load("res://Game Elements/Remnants/demon.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,true)
-	
-	rem = load("res://Game Elements/Remnants/angel.tres")
-	rem.rank = 5
-	player_2_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,true)
-	
-	rem = load("res://Game Elements/Remnants/cowboy.tres")
-	rem.rank = 5
-	player_2_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,true)
-	
-	rem = load("res://Game Elements/Remnants/drone.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	remnant_update(rem, player1, true)
-	
-	player1.display_combo()
-	if is_multiplayer:
-		player2.display_combo()
-	
-	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
-	#timefabric_collected = 10000
+	#rem = load("res://Game Elements/Remnants/tortoise.tres")
+	#rem.rank = 1  
+	#player_2_remnants.append(rem.duplicate(true))
+	#remnant_update(rem, player1, true)
+	#
+	#rem = load("res://Game Elements/Remnants/terramancer.tres")
+	#rem.rank = 1
+	#player_2_remnants.append(rem.duplicate(true))
+	#remnant_update(rem, player1, true)
+	#
+	##rem = load("res://Game Elements/Remnants/intelligence.tres")
+	##rem.rank = 5
+	##player_2_remnants.append(rem.duplicate(true))
+	##remnant_update(rem, player1, true)
+	##
+	#player1.display_combo()
+	#if is_multiplayer:
+		#player2.display_combo()
+#
+	#hud.set_remnant_icons(player_1_remnants,player_2_remnants)
+	##timefabric_collected = 10000
 	
 var limboing : bool = false
 func move_to_limbo_phase_2():

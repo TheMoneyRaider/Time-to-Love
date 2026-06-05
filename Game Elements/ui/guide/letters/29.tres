@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://cs42vmk0x2ivi"]
+
+[ext_resource type="Resource" uid="uid://dn5rvtqod321e" path="res://Game Elements/ui/guide/letter_formats/stone_tablet.tres" id="1_i5f5u"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_kippd"]
+
+[resource]
+script = ExtResource("2_kippd")
+letter_id = 280
+description = "[color=#7a7a7a][font_size=40](1/4)
+My liege, our quest continues. Our party has reached five. Myself, Asara the archer, Bjorn the Berseker, Mad Igna the pyromancer, and Esmere, the assassin. The beast of the Farlands grows hungrier by the day and in the wilds even the rumbling of its stomach can be heard across the land. Today we sought the help of the archmage but he gave us a troubling portent. After climbing his tower, we expected a series of traps or riddles as mages often traffic in. We did not find any, using her arcana learned from the Mancer guild, Igna told us the tower was drained of magic except for the top of its highest spire. Atop the stairs in the ultimate chamber stood the archmage, his grey beard and blue robes flowing behind him as he gazed out at the land surrounding us. We could see in the distance a dim violet light. 
+
+“You think your quest is consequential. You are wrong,” he said. The more brash members of our party instantly went for their weapons and spells. I sensed it was not hostility in his voice but weariness. 
+
+“Perhaps that is true, oh great mage, but what are we do when the beast of the farlands threatens to devour the ethereal lands whole?”
+
+“Kill it, Do not kill it, I have no care. A greater threat rises in the distance. I cannot join you. It is all I can do to keep the Lich at bay.”
+
+“The Lich?”
+
+“A foe beyond any of you. But for the favor I owe the King I will tell you this. Seek the aid of the tinkerer of the waste. She will aid you, she can slay this beast. Now go before I slip from your distractions and let darkness overtake this land.” 
+
+We have set out to find this tinkerer. We hope she can prove more useful to our quest."
+letter_format = ExtResource("1_i5f5u")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

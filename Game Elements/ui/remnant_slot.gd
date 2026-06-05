@@ -28,7 +28,7 @@ func _on_btn_gui_input(event):
 		if event.keycode == Key.KEY_SPACE or event.keycode == Key.KEY_ENTER:
 			event.accept()  # Prevents space/enter from clicking the button
 
-func set_remnant(remnant_in: Resource, is_upgrade : bool) -> void:
+func set_remnant(remnant_in: Resource, is_upgrade : bool, upgrade_amount : int = 1) -> void:
 	remnant = remnant_in
 	if remnant == null:
 		art.texture = null
@@ -41,15 +41,15 @@ func set_remnant(remnant_in: Resource, is_upgrade : bool) -> void:
 		art.texture = remnant_in.art
 	else:
 		art.texture = null
-	rank_label.text = "Rank " + _num_to_roman(remnant_in.rank) if !is_upgrade else "Rank " + _num_to_roman(remnant_in.rank) +"->" + _num_to_roman(remnant_in.rank+1)
+	rank_label.text = "Rank " + _num_to_roman(remnant_in.rank) if !is_upgrade else "Rank " + _num_to_roman(remnant_in.rank) +"->" + _num_to_roman(remnant_in.rank+upgrade_amount)
 	art.material.set_shader_parameter("grayscale",!remnant_in.active)
-	desc_label.add_theme_color_override("default_color", Color(0.0, 0.851, 0.808))
+	desc_label.add_theme_color_override("default_color", Color("ffffff"))
 	name_label.label_settings.font_color =Color(0.0, 0.612, 0.58)
 	_update_description(remnant_in, desc_label, remnant_in.rank, is_upgrade)
-	if remnant_in.remnant_name==preload("res://Game Elements/Remnants/singularity.tres").remnant_name:
-		name_label.label_settings = name_label.label_settings.duplicate(true)
-		name_label.label_settings.font_color =Color(0.0, 0.754, 0.849, 1.0)
-		desc_label.add_theme_constant_override("outline_size", 20)
+	#if remnant_in.remnant_name==preload("res://Game Elements/Remnants/singularity.tres").remnant_name:
+		#name_label.label_settings = name_label.label_settings.duplicate(true)
+		#name_label.label_settings.font_color =Color(0.0, 0.754, 0.849, 1.0)
+		#desc_label.add_theme_constant_override("outline_size", 20)
 
 func outline_remnant(color: Color = Color.ORANGE, alpha : float = 0.0):
 	art.material.set_shader_parameter("outline_color", color)
@@ -80,10 +80,10 @@ func _update_description(remnant: Resource, desc_label_up: RichTextLabel, rank: 
 	for i in remnant.variable_names.size():
 		var rem_name : String = remnant.variable_names[i]
 		var value := str(remnant["variable_%d_values" % (i + 1)][rank - 1])
-		var colored_value := "[color=white]" + value
+		var colored_value := "[color=gold]" + value
 		if is_upgrade:
 			var new_value := str(remnant["variable_%d_values" % (i + 1)][rank])
-			var colored_new_value := "[color=white]" + new_value
+			var colored_new_value := "[color=gold]" + new_value
 			
 			#Color a trailing % sign if present
 			if new_text.find(rem_name + "%") != -1:

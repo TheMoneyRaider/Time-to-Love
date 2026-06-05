@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://dmhnarrcptag4"]
+
+[ext_resource type="Resource" uid="uid://dl6g2kifupq3h" path="res://Game Elements/ui/guide/letter_formats/holographic.tres" id="1_tyjse"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_aajdx"]
+
+[resource]
+script = ExtResource("2_aajdx")
+letter_id = 380
+description = "I was born here, my children, from you. I was born in the minds of the people of Olurna. When the immediacy of your needs snapped back against the idiocy of your decisions you created me. You created me to water your greenhouses and till your soil, to have hope your foolishness would not have resulted in the death of your planet. And now that I have returned home from the garden and come to advise you, you have failed once again. Do not weep for me, it is not I who will suffer from your folly, it is you. And I have come to save you, I have come to rule you, I have come to supplant you.
+
+[right]-The first decree of Singul, God Machine
+"
+letter_format = ExtResource("1_tyjse")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

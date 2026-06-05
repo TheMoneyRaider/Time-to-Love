@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://bonqjjvho2gnk"]
+
+[ext_resource type="Resource" uid="uid://dn5rvtqod321e" path="res://Game Elements/ui/guide/letter_formats/stone_tablet.tres" id="1_d03rg"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_qnppa"]
+
+[resource]
+script = ExtResource("2_qnppa")
+letter_id = 150
+description = "Hey Purple,
+
+Have you noticed anything weird about any of the timelines you've hopped into recently? I met this gal in another one of those never-evolving-desert-looking timelines and she had a six shooter that looked like something that came out of my own timeline. She sounded normal too, like nothing else was wrong. Didn't even seem to think her gun wasn't from her world. I swear, just like that, the thing was gone and she was back to a lasso. Wasn't right. But yeah, anything on your end?
+[right]
+Love,
+
+Orange
+"
+letter_format = ExtResource("1_d03rg")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

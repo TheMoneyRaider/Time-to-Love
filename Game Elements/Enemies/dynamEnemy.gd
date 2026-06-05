@@ -101,6 +101,10 @@ func handle_attack(target_position: Vector2,attack_index: int = 0):
 			return
 			
 	# big t attack handling
+	if enemy_type == "large_reptile" && attack_index == 1:
+		request_attack(attacks[3],attack_position,attack_direction)
+		await get_tree().create_timer(.75).timeout
+	
 	if enemy_type == "large_reptile" && attack_index != 1:
 		var num_projectiles = 12 if attack_index == 0 else 5 
 		var spread = (2.0 * PI / 3.0) if attack_index == 0 else (PI / 3.0)
@@ -157,6 +161,19 @@ func update_flip():
 	var sprite2d=get_node_or_null("Sprite2D")
 	if sprite2d: 
 		sprite2d.flip_h = look_direction.x < 0
+		if enemy_type == "large_reptile":
+			if(sprite2d.flip_h):
+				var head_collision = $CollisionShape2D2
+				var tail_collision = $CollisionShape2D
+				head_collision.position = Vector2(-9.333,-19.667)
+				head_collision.rotation = -31.5
+				tail_collision.position = Vector2(4.333, -7.667)
+			else:
+				var head_collision = $CollisionShape2D2
+				var tail_collision = $CollisionShape2D
+				head_collision.position = Vector2(9.333,-19.667)
+				head_collision.rotation = 31.5
+				tail_collision.position = Vector2(-4.333, -7.667)
 		if enemy_type == "vision" and sprite2d.flip_h:
 			sprite2d.position = Vector2(-6,-44)
 		if enemy_type =="v_clone":

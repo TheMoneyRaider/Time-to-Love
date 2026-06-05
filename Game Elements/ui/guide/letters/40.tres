@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://dmj1kdvd15dvh"]
+
+[ext_resource type="Resource" uid="uid://04ef0si7kl5q" path="res://Game Elements/ui/guide/letter_formats/newspaper1.tres" id="1_mxstq"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_1qap6"]
+
+[resource]
+script = ExtResource("2_1qap6")
+letter_id = 390
+description = "[font_size=40]My dear Falling Leaves,
+
+“Chaos may be the order of the universe, but love is the path through it, and we don’t have to walk that path alone.” I confess I told my troubles to an alchemist in a timeline so like my own, yet so different. Their magic was based in pure chemistry. How quaint. The thing with old scientists is that they are rather fond of chaos as a concept. She and I had quite the conversation about it, and I confess that in a moment of weakness, I confided in her my fears for navigating that chaos to you. These are the words she told me and the words I send to you now.
+
+There is an interesting restorative technique present in many of the timelines where society has not discovered what they refer to as \"magic\". Many historians I have met have some knowledge in the art of stripping a poorly-restored painting back down to the original work. It is a delicate process, and one that is prone to failure in inexperienced hands. All that work to strip away others' attempts to fix something so monumental, so unique, and even success leaves nothing but crumbling remains. Is there beauty in those remains, or does the beauty lie in the idea that others cling to? At what point do we give up and let the wrong thing stand alone to fill our vision? At what point do we fight to restore the sight we believe is rightfully ours to know?
+
+I ask you this in earnest.
+[right]
+-She who wishes for what once was
+"
+letter_format = ExtResource("1_mxstq")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

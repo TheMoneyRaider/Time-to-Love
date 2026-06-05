@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://ppl08jlh5blj"]
+
+[ext_resource type="Resource" uid="uid://dl6g2kifupq3h" path="res://Game Elements/ui/guide/letter_formats/holographic.tres" id="1_r30pa"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_fv6oo"]
+
+[resource]
+script = ExtResource("2_fv6oo")
+letter_id = 60
+description = "4:36pm ← lights flickering again. Two short- one out- one flicker
+
+4:47pm ← surge blew spark plugs 1 and 2 in succession
+
+5:13pm ← too many too close together, one full outage and one blip
+
+11:28pm ← another sudden power surge, one full outage breakdown and two spark plugs blown
+
+12:02am ← machine did two long whirring noises, seemed abnormal
+
+1:34am ← blew another spark plug, going to bed, will fix in morning
+"
+letter_format = ExtResource("1_r30pa")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

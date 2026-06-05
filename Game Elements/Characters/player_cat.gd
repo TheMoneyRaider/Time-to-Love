@@ -367,7 +367,8 @@ func _physics_process(delta):
 	
 	if Input.is_action_just_pressed("attack_" + input_device):
 		if Input.is_action_pressed("special_" + input_device) and weapons[is_purple as int].current_special_hits >= weapons[is_purple as int].special_hits:
-			weapons[is_purple as int].use_normal_attack(Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
+			pass
+			#weapons[is_purple as int].use_normal_attack(Vector2.RIGHT.rotated(compute_assist_angle((crosshair.position).angle(),output_angles)), global_position,self)
 		else:
 			handle_attack()
 	if has_bandit() and Input.is_action_pressed("attack_" + input_device):
@@ -539,6 +540,7 @@ func get_camera_rect() -> RectangleShape2D:
 	return newRectangle
 
 func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 20,creates_indicators : bool = true, bulwark : bool = true):
+	if disabled: return
 	in_combat = 3
 	damage_amount *= Globals.check_domains(global_position,self)
 	if(bulwark == false || i_frames <= 0 && !invulnerable):
@@ -849,6 +851,7 @@ func tether(delta : float):
 			SFXManager.stop_continuous("tether")
 			
 func die(death : bool , insta_die : bool = false) -> bool:
+	SFXManager.play(preload("res://Game Elements/sfx/player/death.ogg"))
 	if !is_multiplayer:
 		#Change to signal something
 		self.process_mode = PROCESS_MODE_DISABLED

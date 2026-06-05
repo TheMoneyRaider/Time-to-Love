@@ -425,7 +425,7 @@ static func _apply_letter_influence(center: Vector2i):
 				1.0
 			)
 static func _spawn_letter(cell: Vector2i, scene: Node, letter: PackedScene, room_data : Room) -> void:
-	var letter_pool : Array= scene.get_tree().get_root().get_node("LayerManager/LetterMenu").letter_pool
+	var letter_pool : Array= scene.get_tree().get_root().get_node("LayerManager/LetterMenu").letter_pool.duplicate()
 	letter_pool.shuffle()
 	for let in letter_pool:
 		if !Globals.save_state.letter_progress.has(let.letter_id) and !chosen_letters.has(let.letter_id):

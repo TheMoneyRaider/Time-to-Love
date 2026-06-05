@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://hssbv2bm5342"]
+
+[ext_resource type="Resource" uid="uid://baurnbqf2ohuq" path="res://Game Elements/ui/guide/letter_formats/normal_paper2.tres" id="1_5ci42"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_2b026"]
+
+[resource]
+script = ExtResource("2_2b026")
+letter_id = 90
+description = "Completed Statement Date: [ 10/09/3045 ]
+Precinct #: [ 009 ]
+Name: [REDACTED]
+[b]Where and when did this incident happen:[/b][u] I think it was around 2:30am because we just got out of the midnight showing for Rise of the Undead Lord and were walking back to the train.
+[/u][b]Who was involved:[/b][u] It was some lady in a tattered dark purple robe. She seemed really angry, I don't know. There was also that poor guy. I don't know who he was.
+[/u][b]What happened:[/b][u] We walked out of the theater through the side door and she was there down that alley we were gonna use as a shortcut. She was holding some guy up against the wall but it looked like she wasn't even touching him. I think it was anti-grav tech? I don't know. She asked him about \"The Fire Lady\" and he seemed to not know anything. He begged for his life though. She whispered something in a language I've never heard before I swear she glowed. My friend ran before me and it got her attention. She threw that guy into the wall. He's definitely dead. I ran before she could get me too but she started levitating. I don't know where she got that tech. I ran here afterward. I don't know where my friend went."
+letter_format = ExtResource("1_5ci42")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

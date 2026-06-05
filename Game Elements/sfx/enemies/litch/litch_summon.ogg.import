@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://clrq5p8hv5cnv"
+path="res://.godot/imported/litch_summon.ogg-4504e8e3fd7f2b93ff0b2e937ac611ee.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/enemies/litch/litch_summon.ogg"
+dest_files=["res://.godot/imported/litch_summon.ogg-4504e8e3fd7f2b93ff0b2e937ac611ee.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

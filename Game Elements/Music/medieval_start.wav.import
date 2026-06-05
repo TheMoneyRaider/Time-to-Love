@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dpv4b8mrhlhnh"
+path="res://.godot/imported/medieval_start.wav-8bcb29b705de58a2d204654286b1ee05.sample"
+
+[deps]
+
+source_file="res://Game Elements/Music/medieval_start.wav"
+dest_files=["res://.godot/imported/medieval_start.wav-8bcb29b705de58a2d204654286b1ee05.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

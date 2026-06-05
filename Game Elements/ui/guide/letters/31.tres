@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://c3gx6tisdf6cu"]
+
+[ext_resource type="Resource" uid="uid://dn5rvtqod321e" path="res://Game Elements/ui/guide/letter_formats/stone_tablet.tres" id="1_sntt5"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_mcp1a"]
+
+[resource]
+script = ExtResource("2_mcp1a")
+letter_id = 300
+description = "[color=#7a7a7a][font_size=40](3/4)
+She shared our camp that night and turned out to be rather jovial, though quite eccentric. It seemed she did not know many of our cultural idioms. At one point we squeezed out a bit of information from her past. She was from a kingdom none of us had ever heard of and apparently had a woman waiting on her return after a successful quest with us. In my own opinion I think she pursued the undertaking of this world saving quest simply because she was bored. 
+
+That night I was awoken from my sleep. Bleary eyed, I looked panicked around, thinking perhaps some monster was attacking. Asara, who was supposed to be on watch was asleep, some dart sticking out of her neck. Standing above me was the tinkerer. A haggard look in her eyes that wasn’t there during the campfire, her hair was even more tousled and her clothes were more ragged.
+
+“The Lich Rethan, what do you know of the lich?” she whisper-yelled. When I asked what she meant she only repeated the sentiment louder. I remembered the archmage months ago. Her frenzied eyes seemed unaware of our surroundings as she internalized the information. Her demeanor settled for a second. 
+
+“Thanks man.” She began to walk out of the camp. Turning back she said, “OH, remember to ask me for the energy sword in the morning. Say I was talking about it in my sleep.” with that she faded out of existence."
+letter_format = ExtResource("1_sntt5")
+metadata/_custom_type_script = "uid://gbihjja6jybk"
