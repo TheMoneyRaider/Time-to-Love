@@ -83,7 +83,7 @@ func _update_description(remnant: Resource, desc_label_up: RichTextLabel, rank: 
 		var colored_value := "[color=gold]" + value
 		if is_upgrade:
 			var new_value := str(remnant["variable_%d_values" % (i + 1)][rank])
-			var colored_new_value := "[color=gold]" + new_value
+			var colored_new_value := new_value
 			
 			#Color a trailing % sign if present
 			if new_text.find(rem_name + "%") != -1:
