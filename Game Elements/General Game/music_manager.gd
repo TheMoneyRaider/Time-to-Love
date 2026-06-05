@@ -90,7 +90,13 @@ func play_random_theme(available_themes: Array = ["medieval"]):
 			current_random_theme = ""
 		, CONNECT_ONE_SHOT)
 
-func play_theme(theme: String):
+func play_theme(theme: String, override : bool = false):
+	if override:
+		active_player.stop()
+		active_player.stream = loop_tracks[theme]
+		active_player.play()
+		return
+		
 	theme = swap_theme_limbo(theme)
 
 	if _is_starting_eligible(theme):

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://hjniiswdpkxg"
+path="res://.godot/imported/tentacle3.ogg-dd9ef90529f05a15462e899033e0d602.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game Elements/sfx/enemies/tentacle/tentacle3.ogg"
+dest_files=["res://.godot/imported/tentacle3.ogg-dd9ef90529f05a15462e899033e0d602.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

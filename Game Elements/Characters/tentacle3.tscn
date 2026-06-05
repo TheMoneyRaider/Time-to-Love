@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://uumo824u6034"]
+[gd_scene load_steps=12 format=3 uid="uid://uumo824u6034"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_ntwqq"]
 [ext_resource type="PackedScene" uid="uid://cryh3p532bi7" path="res://Game Elements/Objects/tentacle.tscn" id="2_6j0uc"]
@@ -22,13 +22,6 @@ var/attack_mode/value = "NONE"
 var/attack_mode/hint = 2
 var/attack_mode/hint_string = "NONE,MELEE,SPAWNING"
 
-[sub_resource type="Gradient" id="Gradient_ntwqq"]
-offsets = PackedFloat32Array(0, 0.48851773, 1)
-colors = PackedColorArray(0.8952937, 0.74434304, 1, 1, 0.80784315, 0.49411765, 1, 1, 0.4550711, 0.0012679565, 0.63680595, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_6j0uc"]
-gradient = SubResource("Gradient_ntwqq")
-
 [sub_resource type="Curve" id="Curve_hgo0a"]
 _data = [Vector2(0, 0), 0.0, 17.49846, 0, 0, Vector2(0.04752475, 0.9279911), 1.6529316, 1.6529316, 0, 0, Vector2(0.27326733, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.7516327, 0.0, 0, 0]
 point_count = 4
@@ -51,8 +44,7 @@ gravity = Vector3(0, 0, 0)
 scale_min = 0.25
 scale_max = 0.5
 scale_curve = SubResource("CurveTexture_phejd")
-color = Color(0.80784315, 0.49411765, 1, 1)
-color_ramp = SubResource("GradientTexture1D_6j0uc")
+color = Color(0, 0, 0, 1)
 hue_variation_min = -0.020000022
 hue_variation_max = 0.019999977
 
