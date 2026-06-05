@@ -118,7 +118,24 @@ func record_remnant(remnant_name: String, rank: int, save_instantly : bool = fal
 		save_state.remnant_progress[remnant_name] = rank
 	if save_instantly:
 		save_config()
-		
+
+func check_achievements():
+	var requirements_1 : bool = true
+	var requirements_2 : bool = true
+	
+	var rems = RemnantManager.remnant_pool.duplicate(true)
+	for rem in rems:
+		if !save_state.remnant_progress.has(rem.remnant_name):
+			requirements_2 = false
+			requirements_1 = false
+			break
+		elif(save_state.remnant_progress[rem.remnant_name] != 5):
+			requirements_2 = false
+	if requirements_1: SteamManager.unlock_achievement("COLLECTION1")
+	if requirements_2: SteamManager.unlock_achievement("COLLECTION2")
+	
+	
+
 
 func _count_all_letters() -> void:
 	var dir = ResourceLoader.list_directory("res://Game Elements/ui/guide/letters/")
@@ -142,3 +159,13 @@ func invert_direction(direct : Direction) -> Direction:
 			return Direction.Up
 	return Direction.Error
 	
+func check_domains(global_position : Vector2,node : Node):
+	var damage_scale = 1.0
+	for domain in node.get_tree().get_nodes_in_group("domain"):
+		if domain.global_position.distance_to(global_position) < domain.domain_range * domain.scale.x:
+			match domain.domain_type:
+				"heaven":
+					damage_scale-=domain.damage_change / 100.0
+				"hell":
+					damage_scale+=domain.damage_change / 100.0
+	return damage_scale

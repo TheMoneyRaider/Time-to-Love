@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://li132iy06qen"]
+
+[ext_resource type="Resource" uid="uid://dn5rvtqod321e" path="res://Game Elements/ui/guide/letter_formats/stone_tablet.tres" id="1_vtug2"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_368cg"]
+
+[resource]
+script = ExtResource("2_368cg")
+letter_id = 120
+description = "[font_size=46]To you with the heart colored of the desert sand,
+
+Forgive the late response to your last communication, but I fear I found myself more lost than usual. I spent the last four days caravaning with a wonderful band of individuals as they headed north near the exit point I sought. We sang, we ate delicious food, trekked through a hidden path to climb a long-dry waterfall, explored a busy market, and finally settled in an old weapons storehouse that had been converted to a kitchen full of food. It was there that I parted with them, happy to move on, hopefully closer to our arranged meeting point.
+
+I so loved the hot springs that formed in this timeline. They reminded me of the healing pools I frequented back home before all of this even began (sometimes spells explode if left unattended, please do not worry about it). I remember so vividly where once I traversed the rocks down to the pools and some poor traveler couldn't hold his wine. Thankfully none of the vomit ended up in the pools, but I think about how miserable that man must have been. Even when sick, he seemed caught in the merriment.
+
+I hope to be caught in the merriment with you soon, though in the proper timeline, of course. I do apologize for my being late, I could have sworn I stepped into the year you described. I suppose the experience has been good for my patience, though I long to take part in the atmosphere you described.
+[right]
+May these glad tidings be reflected in your own journey
+
+P.S. There are hot springs near you, right?
+"
+letter_format = ExtResource("1_vtug2")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

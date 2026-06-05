@@ -37,6 +37,7 @@ func check_rewards(player_node : Node) -> bool:
 		if player_node in item.tracked_bodies:
 			if item.cost <= layer_manager.timefabric_collected:
 				layer_manager.timefabric_collected-=item.cost
+				layer_manager.has_spent_timefabric = true
 				#for node in moving_tentacles:
 					#if node.reward and node.reward == item:
 						#node.shrink(.8,false)

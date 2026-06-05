@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://dmj7pi0m0xyr6"]
+
+[ext_resource type="Resource" uid="uid://cxtdv4tq7yh3e" path="res://Game Elements/ui/guide/letter_formats/newspaper3.tres" id="1_mdn6t"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_t7mx4"]
+
+[resource]
+script = ExtResource("2_t7mx4")
+letter_id = 410
+description = "[font_size=46]My Cinder
+
+			This must be my final sentiment I share with you. I am not who you thought I am. Despite your rejections of my requests I thought perhaps together we were greater than any failing. I realize now the depth of my own perception of my superiority. I sought after you Orange. I had not heard from you and thought something might have happened. I searched from dusk to dawn across the realms and followed your course to the Lich’s realm. I watched as its bolt of darkness struck you down and I heard its foul voice as it spewed its hatred forth at you, claiming the need for some kind of revenge for a slight. But when I heard that voice I discovered something terrible; It was my own. There is no sin that could’ve been committed to cause me to become that thing. Or so that is what I would have thought. I traveled back to save you though the monster still remains. It is likely you hold no memory of this affair. I love you deeply but if I could have become this thing, then I can become this thing, and I cannot let myself bring that harm onto you. I am not deserving of your love.
+[right]
+-She who dances on the wind
+"
+letter_format = ExtResource("1_mdn6t")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

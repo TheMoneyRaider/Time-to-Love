@@ -37,7 +37,37 @@ var current_song_idx: int = -1
 
 var hud_ready: bool = false
 
+
+func update_hud_corner(node : Node,hud_scale : float):
+	node.get_node("CooldownBar").custom_minimum_size.y = 120.0 *hud_scale
+	node.get_node("CooldownBar/CooldownBar").scale = Vector2(8.0*hud_scale,8.0*hud_scale)
+	if node == $RootControl/Right_Bottom_Corner:
+		node.get_node("CooldownBar/CooldownBar").scale = Vector2(-8.0*hud_scale,8.0*hud_scale)
+	node.get_node("HealthBar").custom_minimum_size.x = 414.0 *hud_scale
+	node.get_node("HealthBar").custom_minimum_size.y = 138.0 *hud_scale
+	node.get_node("HealthBar/ProgressBar").custom_minimum_size.x = 350.0 *hud_scale
+	node.get_node("HealthBar/ProgressBar").custom_minimum_size.y = 74.0 *hud_scale
+	node.get_node("HealthBar/Pieces").scale = Vector2(hud_scale,hud_scale)
+	node.get_node("HealthBar/Background").scale = Vector2(hud_scale,hud_scale)
+	node.get_node("HealthBar/Foreground").scale = Vector2(hud_scale,hud_scale)
+	node.get_node("HealthBar/Label").size =Vector2(350,65)* Vector2(hud_scale,hud_scale)
+	node.get_node("HealthBar/Label").label_settings.font_size =max(8, hud_scale * 48)
+	node.get_node("HealthBar/Label").position =Vector2(32,36)* Vector2(hud_scale,hud_scale)
+	await get_tree().process_frame
+	node.get_node("HealthBar").update_lines()
+func update_hud():
+	var hud_scale = Globals.config.get_value("hud", "size", 5.0) / 5.0
+	print(Globals.config.get_value("hud", "size", 5.0))
+	await get_tree().process_frame
+	await get_tree().process_frame
+	#Corner 1
+	update_hud_corner($RootControl/Left_Bottom_Corner,hud_scale)
+	#Corner 2
+	update_hud_corner($RootControl/Right_Bottom_Corner,hud_scale)
+
+
 func _ready():
+	update_hud()
 	$RootControl/VBoxContainer/Noti.modulate.a = 0.0
 	combo1.visible = false
 	combo2.visible = false
@@ -238,7 +268,7 @@ func _connect_grids_horizontally(left_grid: GridContainer, right_grid: GridConta
 			if visual_col == columns - 1:
 				var right_index = row * columns + (columns - 1 - col)
 				
-				if right_index < right_children.size():
+				if right_index < right_children.size() and "button" in right_children[right_index]:
 					var right_btn = right_children[right_index].button
 					
 					left_btn.focus_neighbor_right = right_btn.get_path()
@@ -382,7 +412,7 @@ func _on_player_take_damage(_damage_amount : float, current_health : float, play
 
 func _on_max_health_changed(max_health : float, current_health : float,player_node : Node, ignore_max_health_change : bool):
 	var temp_current_health : int = int(ceil(current_health*10))
-	var temp_max_health : int = int(max_health*10)
+	var temp_max_health : int = int(ceil(max_health*10))
 	if(player_node == player1):
 		health_bar_1.set_max_health(temp_max_health)
 		health_bar_1.set_current_health(temp_current_health,ignore_max_health_change)
@@ -457,10 +487,6 @@ func move_to_pathway():
 
 func kill_enemies():
 	var LayerManager =  get_parent()
-	if LayerManager.room_instance_data.roomtype==Globals.RoomType.Boss and RoomManager.current_progress >=3.0:
-		for tent in LayerManager.room_instance.get_node("Shop/Tentacles").get_children():
-			tent.queue_free()
-		return
 	if LayerManager.room_instance_data.roomtype==Globals.RoomType.Boss:
 		if LayerManager.room_instance.get_node_or_null("Shop/Tentacles"):
 			for node in LayerManager.room_instance.get_node("Shop/Tentacles").get_children():
@@ -536,7 +562,7 @@ func _on_special_reset(is_purple : bool):
 		return
 	update_shader(RightCooldownBar.get_node("CooldownBar").material,0.0, true)
 
-func _on_special_changed(is_purple : bool, new_progress : float, used_special : bool = false):
+func _on_special_changed(is_purple : bool, new_progress : float, used_special : bool = false, _trigger_remnants : bool = true):
 	if is_purple:
 		update_shader(LeftCooldownBar.get_node("CooldownBar").material,new_progress)
 		if new_progress==1.0:

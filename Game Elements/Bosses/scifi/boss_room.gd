@@ -348,7 +348,7 @@ func scifi_phase1_middles():
 	SFXManager.stop_continuous("singul_wave")
 	if !boss or !is_instance_valid(boss):
 		return
-	if !$Forcefield/CollisionShape2D:
+	if !get_node_or_null("Forcefield/CollisionShape2D"):
 		return
 	if middle_active <= 1:
 		boss.get_node("CollisionShape2D").set_deferred("disabled", true)
@@ -648,6 +648,7 @@ func update_art(p_in : int):
 	
 
 func deactivate():
+	print("BYE BYE SIGNUL")
 	reset_laser_shader()
 	var chosen_pathway : bool = false
 	for node in get_children():

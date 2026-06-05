@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://dd8m3ckibq0fo"]
+
+[ext_resource type="Resource" uid="uid://wwlwjr1rab8q" path="res://Game Elements/ui/guide/letter_formats/holographic2.tres" id="1_6nccj"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_vqavc"]
+
+[resource]
+script = ExtResource("2_vqavc")
+letter_id = 130
+description = "						[i][Begin playback][/i]
+
+Purple. Sorry in advance 'bout the weird recording transcript box thingy. I'm trying out this stupid new voice to text thing to hopefully make this easier. I got no clue how to start this but I uhhh… had a great time the other night… with you… I'd do it again sometime. If you'd want to. And if you're serious about what you said, well I'm serious too. Wanna meet me in that cavern from 404 you told me about in your one letter? Considering the situation I think we should prolly talk. From Orange. Sand.
+
+Damnit, that sounded way too rude didn't it? Or was it too nonchalant. She's never going to want to meet up again what was I thinking why did I send a note like this I should have just sent another robot dog. I could have met her for a drink at those docks she mentioned. I want to see a creepy old mansion. I bet I lost my chances. Why am I talking to you, you're a wrench. I should have just tried to find her and talk to her. What did I even say, I think I blacked out. Oh wait shit oh no, no is it still recording? Shit I thought I said
+
+[i][End playback]
+"
+letter_format = ExtResource("1_6nccj")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

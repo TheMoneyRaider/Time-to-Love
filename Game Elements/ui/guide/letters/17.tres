@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://ppy6np8yev2l"]
+
+[ext_resource type="Resource" uid="uid://baurnbqf2ohuq" path="res://Game Elements/ui/guide/letter_formats/normal_paper2.tres" id="1_qt0ye"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_dht12"]
+
+[resource]
+script = ExtResource("2_dht12")
+letter_id = 100
+description = "To you with the soul of fire,
+It was delightful to finally make your acquaintance proper. That tea house you selected was superb in its selection of various herbs and dried fruits. Such customization! And so near to your dwellings in that realm. I always find it quite entertaining to glimpse the outlook that worlds and timelines such as those have on my arts and the icons that populate my home timeline. I cannot deny how I find myself drawn to the… shall we say silliness? of it all.
+
+In terms of your request for anonymity, I admit I feel much the same. My name was lost to the forest so long ago, I cannot help but respect the nameless nature of another. From me to you, I would hope you take great care that people don't assign you some undeserving title. You shine too brightly for anything lesser.
+
+I know I expressed it then, but please accept my apologies for the fate of your construct creature. I have taken the liberty of providing you with what I hope is an apt replacement, the bearer of this letter. I do, however, caution: please do not stare it in the hind eyes. I never quite perfected homonculi and most of mine end up with an unwanted fear response. If it attacks, electrocution should do the trick in euthanizing the thing. Good luck and I hope you like it!
+[right]
+With high regards,
+
+She with the Voice of the Forest
+"
+letter_format = ExtResource("1_qt0ye")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

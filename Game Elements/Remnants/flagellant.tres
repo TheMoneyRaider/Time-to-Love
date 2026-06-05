@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://bcisb61k25m7h"]
+
+[ext_resource type="Texture2D" uid="uid://dsccnuybb24am" path="res://art/remnants/flagellant.png" id="1_a16qo"]
+[ext_resource type="Texture2D" uid="uid://d1slai05p7xo4" path="res://art/remnants/flagellant_icon.png" id="2_kxdgo"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_12smk"]
+
+[resource]
+script = ExtResource("3_12smk")
+remnant_name = "Remnant of The Daredevil"
+description = "The less health you have, the more damage you deal, up to $X%"
+icon = ExtResource("2_kxdgo")
+art = ExtResource("1_a16qo")
+progress_required = 1.0
+variable_names = Array[String](["$X"])
+variable_1_values = [25, 50, 75, 100, 125]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

@@ -246,6 +246,7 @@ func apply_remnants(attack_instance):
 		var longshot = preload("res://Game Elements/Remnants/longshot.tres")
 		var hunter = preload("res://Game Elements/Remnants/hunter.tres")
 		var giant = preload("res://Game Elements/Remnants/giant.tres")
+		var cowboy = preload("res://Game Elements/Remnants/cowboy.tres")
 		if c_owner.is_purple:
 			remnants = c_owner.get_tree().get_root().get_node("LayerManager").player_1_remnants
 			mancer_value = c_owner.mancermancer_values[0]
@@ -271,7 +272,7 @@ func apply_remnants(attack_instance):
 				match rem.remnant_name:
 					aeromancer.remnant_name:
 						var similarity = attack_instance.direction.normalized().dot(c_owner.velocity.normalized())
-						if(attack_instance.speed > 150):
+						if(attack_instance.speed > 100):
 							#Possibly add a min so it can't go lower than base damage? 
 							#Nah thats lame
 							damage_multiplier +=-1.0+ abs((((similarity * c_owner.velocity.length() * ((mancer_value * 30) + rem.variable_1_values[rem.rank-1]) / 100) + attack_instance.speed) /  attack_instance.speed))
@@ -297,9 +298,10 @@ func apply_remnants(attack_instance):
 							attack_instance.pierce += rem.rank
 					giant.remnant_name:
 						attack_instance.scale *= 1.5
-					_:
-						pass
-		attack_instance.damage *= damage_multiplier+1.0
+					cowboy.remnant_name:
+						if !(name in ["Mace","Laser Sword","Shovel","Fist"]):
+							attack_instance.bounces = rem.variable_1_values[rem.rank-1]
+		attack_instance.damage *= (1.0+damage_multiplier)
 
 
 var laser_camera_distancex = 240
@@ -400,12 +402,6 @@ func use_special(time_elapsed : float, is_released : bool, special_direction : V
 		special_started = true
 	if(!is_released):
 		match type:
-			"Mace":
-				pass
-			"Crossbow":
-				pass
-			"Shotgun":
-				pass
 			"Railgun":
 				if(special_time_elapsed <= 1.0):
 					var effect = preload("res://Game Elements/Effects/rail_charge.tres").duplicate(true)
@@ -476,17 +472,6 @@ func special_cleanup():
 	special_nodes = []
 	special_time_elapsed = 0.0
 	special_time_period_elapsed = 0
-	
-
-func use_normal_attack(special_direction : Vector2, special_position : Vector2, node_attacking : Node):
-	match type:
-			"Laser Sword":
-				end_special(special_direction,special_position,node_attacking)
-			"Shovel":
-				pass
-					
-			_:
-				pass
 
 func end_special(special_direction : Vector2, special_position : Vector2, node_attacking : Node):
 	special_started = false
@@ -610,11 +595,11 @@ func shotgun_special_attack(attack_direction : Vector2, node_attacking : Node):
 		if i % 3 == 0: 
 			await c_owner.get_tree().create_timer(.001).timeout
 			SFXManager.play(lame_shotgun_sounds[randi() % lame_shotgun_sounds.size()], -5.0)
-	if node_attacking.weapons[0] == self:
-		node_attacking.emit_signal("special_changed",false,0.0,true)
-	else:
-		node_attacking.emit_signal("special_changed",true,0.0,true)
-
+		current_special_hits = 0
+		if node_attacking.weapons[0] == self:
+			node_attacking.emit_signal("special_changed",false,0.0,true,false)
+		else:
+			node_attacking.emit_signal("special_changed",true,0.0,true,false)
 
 func crossbow_special_attack(attack_direction : Vector2, node_attacking : Node):
 	SFXManager.play(preload("res://Game Elements/sfx/weapons/crossbow/crossbow_special.ogg"), -4)
@@ -626,7 +611,7 @@ func crossbow_special_attack(attack_direction : Vector2, node_attacking : Node):
 	attack_scene = "res://Game Elements/Attacks/giant_bolt.tscn"
 	attack_direction =attack_direction.rotated(-PI / 12)
 	for i in range(0,3):
-		spawn_attack(attack_direction,node_attacking.global_position + 20 * attack_direction, node_attacking,"burn_particles")
+		spawn_attack(attack_direction,node_attacking.global_position + 20 * attack_direction, node_attacking,"charged_particles")
 		attack_direction =attack_direction.rotated(PI / 12)
 	current_special_hits = 0
 	#scale = scale / 1.2

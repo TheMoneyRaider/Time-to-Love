@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://b8g0rehjpgibk"]
+
+[ext_resource type="Resource" uid="uid://cxtdv4tq7yh3e" path="res://Game Elements/ui/guide/letter_formats/newspaper3.tres" id="1_qwdoj"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_3xg6h"]
+
+[resource]
+script = ExtResource("2_3xg6h")
+letter_id = 260
+description = "[font_size=32](2/3)
+
+“First time for everything.”
+
+I barely paid attention, knowing the game was mine, feigning feigning confidence. Right before Slim flipped the last card I heard a clang even louder than my own go at the spitoon. Three figures stood in the swinging saloon door, all in black masks and hats. “Alright everyone, empty your pockets, Boss T’s hungry.” Judging by the reactions of the people around us, clearly Boss T was a known figure in the community, and not a well-regarded one. I reached for my hammer. 
+
+“Don’t worry kid, they won't give us any trouble.”
+
+“Slim, [i]who are these guys?[/i]” 
+
+He just gave me a grin.
+
+“How’s this for trouble?” Yelled the bandit in front, walking into the center of the saloon. I didn’t have time to set my prediction circuits away from cards. Faster than I could react she pulled out a revolver and aimed right at Slim. I don’t even think a probability scanner would’ve predicted what happened next. A pair of antlers bolted to the wall suddenly fell, bumping the table flinging the bottle into the air. As the bullet hit the bottle one of the shards flew in the air, sliding the rope holding one of the sides of the chandelier sending it swinging into the bandit, knocking her to the ground. Instinctively she pulled the trigger as she fell sending a bullet straight into the spittoon, bouncing off the metal, ricocheting off a shovel in the corner, finally hitting the hand of the second bandit, knocking the gun out of his hand into the cactus growing next to the spittoon. The exploding spikes in the back sent the last two bandits running out of the room. "
+letter_format = ExtResource("1_qwdoj")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

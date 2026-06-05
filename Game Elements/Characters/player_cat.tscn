@@ -181,8 +181,8 @@ _data = {
 }
 
 [sub_resource type="Curve" id="Curve_etjf5"]
-_data = [Vector2(0, 1), 0.0, -2.0, 0, 1, Vector2(0.5, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 3
+_data = [Vector2(0, 1), 0.0, -3.0, 0, 1, Vector2(0.25, 0.25), -0.75, -0.75, 0, 0, Vector2(0.75, 0.25), 1.0, 1.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 4
 
 [sub_resource type="Gradient" id="Gradient_ylelj"]
 resource_name = "TetherGradient"
@@ -280,7 +280,8 @@ script = ExtResource("8_5huac")
 [node name="Line2D" type="Line2D" parent="."]
 visible = false
 top_level = true
-z_index = 29
+z_index = 20
+z_as_relative = false
 y_sort_enabled = true
 points = PackedVector2Array(0, 0, 0, 0, 0, 0)
 width = 5.0

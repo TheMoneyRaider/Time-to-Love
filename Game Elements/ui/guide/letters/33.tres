@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://8ytfheysendq"]
+
+[ext_resource type="Resource" uid="uid://dl6g2kifupq3h" path="res://Game Elements/ui/guide/letter_formats/holographic.tres" id="1_l7hmk"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_b6xye"]
+
+[resource]
+script = ExtResource("2_b6xye")
+letter_id = 320
+description = "Dear Purple
+
+			While I was in Olurna, 202026 I found something very very fun. They’ve started working on this device to improve their infrastructure. It's an artificial intelligence that keeps track of every growing thing in its vicinity and increases their yield. Supposedly it's going to perfectly manage their greenhouse city. I’m thinking that L3ANNA and I could go nab it and bring it to the grove. You were worried about its health this year with some of that “temporal substance” seeping in. I think maybe this could fix all your problems. Think about it.
+[right]
+Love,
+
+Orange
+"
+letter_format = ExtResource("1_l7hmk")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

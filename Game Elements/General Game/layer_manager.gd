@@ -7,6 +7,7 @@ extends Node2D
 var player1 = null
 var player2 = null
 var undiscovered_weapons = []
+var has_rewarded_for_boss : bool = false
 var possible_weapon = ""#undiscovered_weapons.pick_random()
 ###
 @onready var room_cleared: bool = false
@@ -66,6 +67,7 @@ var trap_cells := []
 var blocked_cells := []
 var liquid_cells : Array[Array]= [[],[],[],[],[],[],[],[],[],[]]
 var is_multiplayer = Globals.is_multiplayer
+var has_spent_timefabric : bool = false
 #
 @onready var PathwayViewport =  $PathwayViewport
 @onready var PathwayTransition =  $game_container/game_viewport/game_root/Camera2D/PathwayTransition
@@ -106,14 +108,14 @@ func _ready() -> void:
 	hud.set_players(player1,player2)
 	hud.connect_signals(player1)
 	hud.set_cross_position()
-	dev_remnants()
+	#dev_remnants()
 	
 	
 	
 	####
 	game_root.add_child(pathfinding)
 	randomize()
-	room_instance_data = RoomManager.starting_rooms[clamp(int(Globals.total_progress),0,2)]
+	room_instance_data = RoomManager.starting_rooms[clamp(int(max(Globals.save_state.total_progress,Globals.total_progress)),0,2)]
 	room_location = load(room_instance_data.scene_location)
 	room_instance = room_location.instantiate()
 	RoomManager.update_ai_array(room_instance, room_instance_data,self)
@@ -152,7 +154,7 @@ func _ready() -> void:
 	var ground = room_instance.get_node("Ground")
 	if ground.get_node_or_null("GrassAddon"):
 		camera.get_node("GrassTexture").visible = true
-		ground.get_node("GrassAddon").initalize(conflict_cells.duplicate(),ground)
+		ground.get_node("GrassAddon").initalize(conflict_cells.duplicate())
 	else:
 		camera.get_node("GrassTexture").visible = false
 	create_new_rooms()
@@ -182,6 +184,7 @@ func _ready() -> void:
 	reward_claimed = true
 	if Globals.has_gotten_tutorial:
 		_enable_pathways()
+	#move_to_limbo_phase_2()
 
 func _load_save_time(idx: int) -> float:
 	var path = Globals.save_dir + "save_%d.res" % idx
@@ -209,7 +212,6 @@ func _process(delta: float) -> void:
 					camera.position = (current_crosshair_offset + player1.global_position * 8.0) / 8.0 + camera.get_cam_offset(delta)
 			else:
 				camera.position = player1.global_position+camera.get_cam_offset(delta)
-				
 	# Thread check
 	if thread_running and not room_gen_thread.is_alive():
 		thread_result = room_gen_thread.wait_to_finish()
@@ -249,7 +251,12 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("give_remnant") and Globals.config.get_value("debug", 'enabled', false):
 		_open_remnant_popup()
 	
-	if Input.is_action_just_pressed("pause") and !camera_override and !transitioning and !remnant_offer_popup and !remnant_upgrade_popup and hud.get_node("../PauseMenu").pause_cooldown == 0:
+	if Input.is_action_just_pressed("pause") and !get_node("DeathMenu").active and \
+			!pause.active and !camera_override and \
+			!transitioning and !remnant_offer_popup and \
+			!remnant_upgrade_popup and hud.get_node("../PauseMenu").pause_cooldown == 0 and \
+			(room_instance_data.roomtype!= Globals.RoomType.Boss or RoomManager.current_progress <= 3.0) \
+			and !get_tree().paused:
 		if pause.active:
 			pause._on_return_pressed()
 		else:
@@ -632,7 +639,7 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 			"RemnantOrb":
 				if player_reference in node.tracked_bodies:
 					if RemnantManager.will_softlock(player_1_remnants,player_2_remnants,false):
-						timefabric_rewarded = 200 #TODO change this to by dynamic(ish)
+						if timefabric_rewarded <= 0: timefabric_rewarded = 200
 						node.name = "TimeFabricOrb"
 						return true
 					node.queue_free()
@@ -642,14 +649,14 @@ func check_reward(generated_room : Node2D, _generated_room_data : Room, player_r
 					return true
 			"TimeFabricOrb":
 				if player_reference in node.tracked_bodies:
-					timefabric_rewarded = 200 #TODO change this to by dynamic(ish)
+					if timefabric_rewarded <= 0: timefabric_rewarded = 200
 					_populate_health_rewards(generated_room, _generated_room_data)
 					#base_reward_probabilities[0] *= .8
 					return true
 			"UpgradeOrb":
 				if player_reference in node.tracked_bodies:
 					if RemnantManager.will_softlock(player_1_remnants,player_2_remnants,true):
-						timefabric_rewarded = 200 #TODO change this to by dynamic(ish)
+						if timefabric_rewarded <= 0: timefabric_rewarded = 200
 						node.name = "TimeFabricOrb"
 						return true
 					node.queue_free()
@@ -1395,7 +1402,8 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 		var particles = load("res://Game Elements/Particles/pathway_particles.tscn").instantiate()
 		PathwayTransition.global_position = pathway.global_position
 		PathwayViewport.add_child(particles)
-		particles.get_child(0).material.set_shader_parameter("grayscale",pathway.gray)
+		var gray_value = true if RoomManager.current_progress >=2.1 and room_instance_data.roomtype == Globals.RoomType.Boss or (RoomManager.current_progress >=3.0) else false
+		particles.get_child(0).material.set_shader_parameter("grayscale",gray_value)
 		particles.position = Vector2(1024,1024)
 		transitioning = true
 		await get_tree().create_timer(2,false).timeout
@@ -1409,22 +1417,24 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 			current_wave = 1
 			delay_wave_notification("Wave "+str(current_wave)+" / "+str(total_waves),4.0)
 	
-	
+	var shido = preload("res://Game Elements/Remnants/shido.tres")
+	var mancermancer = preload("res://Game Elements/Remnants/mancermancer.tres")
+	var giant = preload("res://Game Elements/Remnants/giant.tres")
 	for rem in player_1_remnants:
-		if rem.remnant_name == "Remnant of Shido" and rem.active:
+		if rem.remnant_name == shido.remnant_name and rem.active:
 			shido1 = rem.variable_1_values[rem.rank-1]/100.0
 			break
 	for rem in player_2_remnants:
-		if rem.remnant_name == "Remnant of Shido" and rem.active:
+		if rem.remnant_name == shido.remnant_name and rem.active:
 			shido2 = rem.variable_1_values[rem.rank-1]/100.0
 			break
 	if shido1!=0.0:
 		for rem in player_1_remnants:
 			if randf() < shido1 and rem.rank <= 4:
 				rem.rank +=1
-				if(rem.remnant_name == "Remnant of the Mancermancer") and rem.active:
+				if(rem.remnant_name == mancermancer.remnant_name) and rem.active:
 					player1.mancermancer_values[0] = rem.rank
-				if(rem.remnant_name == "Remnant of the Giant") and rem.active:
+				if(rem.remnant_name == giant.remnant_name) and rem.active:
 					if(!is_multiplayer):
 						if(player1.is_purple):
 							player1.change_health(5, 5)
@@ -1436,12 +1446,12 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 		for rem in player_2_remnants:
 			if randf() < shido2 and rem.rank <= 4:
 				rem.rank +=1
-				if(rem.remnant_name == "Remnant of the Mancermancer") and rem.active:
+				if(rem.remnant_name == mancermancer.remnant_name) and rem.active:
 					if(is_multiplayer):
 						player2.mancermancer_values[1] = rem.rank
 					else:
 						player1.mancermancer_values[1] = rem.rank
-				if(rem.remnant_name == "Remnant of the Giant") and rem.active:
+				if(rem.remnant_name == giant.remnant_name) and rem.active:
 					if(is_multiplayer):
 						player2.change_health(5, 5)
 						player2.weapons[0].damage = player2.weapons[0].damage + (rem.rank % 2)
@@ -1556,7 +1566,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	if ground.get_node_or_null("GrassAddon"):
 		camera.get_node("GrassTexture").texture = null
 		camera.get_node("GrassTexture").visible = true
-		ground.get_node("GrassAddon").initalize(global_conflict_cells.duplicate(),ground)
+		ground.get_node("GrassAddon").initalize(global_conflict_cells.duplicate())
 	else:
 		camera.get_node("GrassTexture").visible = false
 		camera.get_node("GrassTexture").texture = null
@@ -1675,6 +1685,7 @@ func _on_player_take_damage(damage_amount : float,_current_health : float,_playe
 func _on_enemy_take_damage(damage : float,current_health : float,enemy : Node, direction = Vector2(0,-1)) -> void:
 	RoomManager.layer_ai[5]+=damage
 	if current_health <= 0.0 and (!enemy.is_boss or enemy.boss_die):
+		enemy.hitable = false
 		if enemy.is_boss:
 			boss_rewards()
 		var has_death_attack = false
@@ -1811,8 +1822,9 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 			else:
 				player.weapons[0].damage = player.weapons[0].damage + remnant.variable_2_values[remnant.rank - 1]
 		if(remnant.remnant_name == hare.remnant_name) and remnant.active:
-			if(is_purple == player.is_purple):
-				player.move_speed = player.base_move_speed * (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
+			player.hare_values[is_purple as int] = 1 + remnant.variable_1_values[remnant.rank - 1] * .01
+			#if(is_purple == player.is_purple):
+			#	player.move_speed = player.base_move_speed * (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
 		if(remnant.remnant_name == bandit.remnant_name) and remnant.active:
 			if is_purple:
 				hud.LeftCooldownBar.set_max_cooldown(player.weapons[1].cooldown* (1.0-remnant.variable_1_values[remnant.rank-1] / 100.0))
@@ -1840,8 +1852,9 @@ func remnant_update(remnant : Remnant, player : Node, is_purple :bool,gained : b
 			else:
 				player.weapons[0].damage = player.weapons[0].damage - remnant.variable_2_values[remnant.rank - 1]
 		if(remnant.remnant_name == hare.remnant_name):
-			if(is_purple == player.is_purple):
-				player.move_speed = player.base_move_speed / (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
+			player.hare_values[is_purple as int] = 1
+			#if(is_purple == player.is_purple):
+			#	player.move_speed = player.base_move_speed / (1 + remnant.variable_1_values[remnant.rank - 1] * .01)
 		if(remnant.remnant_name == bandit.remnant_name):
 			if is_purple:
 				hud.LeftCooldownBar.set_max_cooldown(player.weapons[1].cooldown)
@@ -1855,10 +1868,10 @@ func _on_remnant_upgraded(remnant1 : Resource, remnant2 : Resource):
 	var hare = preload("res://Game Elements/Remnants/hare.tres")
 	for i in range(player_1_remnants.size()):
 		if player_1_remnants[i] == remnant1:
-			player_1_remnants[i].rank +=1
+			player_1_remnants[i].rank += max(1, int(RoomManager.current_progress) + 2 -player_1_remnants[i].rank)
 	for i in range(player_2_remnants.size()):
 		if player_2_remnants[i] == remnant2:
-			player_2_remnants[i].rank +=1
+			player_2_remnants[i].rank += max(1, int(RoomManager.current_progress) + 2 -player_2_remnants[i].rank)
 	if(remnant1.remnant_name == mancermancer.remnant_name and remnant1.active):
 		player1.mancermancer_values[0] = remnant1.rank
 	elif(remnant2.remnant_name == mancermancer.remnant_name and remnant2.active):
@@ -1867,14 +1880,17 @@ func _on_remnant_upgraded(remnant1 : Resource, remnant2 : Resource):
 		else:
 			player1.mancermancer_values[1] = remnant2.rank
 	if(remnant1.remnant_name == hare.remnant_name and remnant1.active):
-		if(player1.is_purple):
-			player1.move_speed = player1.base_move_speed * (1 + remnant1.variable_1_values[remnant1.rank - 1] * .01)
+		player1.hare_values[1] = 1 + remnant1.variable_1_values[remnant1.rank - 1] * .01
+		#if(player1.is_purple):
+		#	player1.move_speed = player1.base_move_speed * (1 + remnant1.variable_1_values[remnant1.rank - 1] * .01)
 	elif(remnant2.remnant_name == hare.remnant_name and remnant2.active):
 		if(!is_multiplayer):
-			if(!player1.is_purple):
-				player1.move_speed = player1.base_move_speed * (1 + remnant1.variable_1_values[remnant1.rank - 1] * .01)
+			player1.hare_values[0] = 1 + remnant2.variable_1_values[remnant2.rank - 1] * .01
+			#if(!player1.is_purple):
+			#	player1.move_speed = player1.base_move_speed * (1 + remnant1.variable_1_values[remnant1.rank - 1] * .01)
 		else:
-			player2.move_speed = player2.base_move_speed * (1 + remnant2.variable_1_values[remnant2.rank - 1] * .01)
+			player2.hare_values[player2.is_purple as int] = 1 + remnant2.variable_1_values[remnant2.rank - 1] * .01
+			#player2.move_speed = player2.base_move_speed * (1 + remnant2.variable_1_values[remnant2.rank - 1] * .01)
 	if(remnant1.remnant_name == "Remnant of The Giant" and remnant1.active):
 		if(!is_multiplayer):
 			if(player1.is_purple):
@@ -1941,6 +1957,7 @@ func _on_special(player_node : Node):
 			if timefabric_collected >= int(rem.variable_1_values[rem.rank-1]):
 				if check_pathways(room_instance, room_instance_data,player_node,true) == -1:
 					timefabric_collected-=int(rem.variable_1_values[rem.rank-1])
+					has_spent_timefabric = true
 	return -1
 
 func _debug_message(msg : String) -> void:

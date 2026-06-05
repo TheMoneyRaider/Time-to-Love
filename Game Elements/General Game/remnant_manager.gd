@@ -64,11 +64,14 @@ func get_random_remnants(num: int = 4, player1_remnants: Array = [], player2_rem
 	return result
 	
 func meets_requirements(remnant : Remnant,names : Array[String]):
-	var prog = max(Globals.total_progress,RoomManager.current_progress)
+	var prog = max(Globals.save_state.total_progress,Globals.total_progress,RoomManager.current_progress)
 	var num_preqreqs_met = 0
 	for rm in remnant.required_remnants:
 		if rm.remnant_name in names:
 			num_preqreqs_met += 1
+	for rm_name in remnant.disqualifying_remnants:
+		if rm_name in names:
+			return false
 	if(num_preqreqs_met < remnant.num_rem_required):
 		return false
 	if remnant.progress_required > prog:
@@ -155,14 +158,36 @@ func _pick_random_upgradable(from_pool: Array, amount: int, into: Array):
 	var temp = from_pool.duplicate()
 	temp.shuffle()
 	var am = 0
-	for i in range(temp.size()):
-		if temp[i] not in into and temp[i].rank <= 4:
-			into.append(temp[i])
-			am+=1
-		if am >= amount:
-			#for rem in temp:
-				#print("Name: "+str(rem.remnant_name)+" Rank: "+str(rem.rank))
-			break
+	var weights = []
+	var sum_weights = 0
+	for rem in temp:
+		weights.append((5 - rem.rank))
+		sum_weights += (5 - rem.rank)
+	
+	while am < amount and temp.size() > 0:
+		var idx = 0
+		var float_point = randf() * sum_weights
+		var running_weight = 0.0
+		while idx < weights.size():
+			running_weight+=weights[idx]
+			if running_weight >= float_point:
+				into.append(temp[idx])
+				sum_weights -= weights[idx]
+				weights.remove_at(idx)
+				temp.remove_at(idx)
+				am += 1
+				break
+			idx+=1
+	
+	
+	#for i in range(temp.size()):
+		#if temp[i] not in into and temp[i].rank <= 4:
+			#into.append(temp[i])
+			#am+=1
+		#if am >= amount:
+			##for rem in temp:
+				##print("Name: "+str(rem.remnant_name)+" Rank: "+str(rem.rank))
+			#break
 
 func _pick_random_unique(from_pool: Array, amount: int, into: Array):
 	var temp = from_pool.duplicate()

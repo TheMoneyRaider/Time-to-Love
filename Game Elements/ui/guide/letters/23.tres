@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://dhdng2t7ymjne"]
+
+[ext_resource type="Resource" uid="uid://cr3frg5xo54e2" path="res://Game Elements/ui/guide/letter_formats/normal_paper.tres" id="1_7ggjw"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_ei6d5"]
+
+[resource]
+script = ExtResource("2_ei6d5")
+letter_id = 160
+description = "My beloved bright mechanic,
+
+I was just passing through a timeline so like your own when I heard a man speaking the language of the depths. Forgive me if my assumption is one of ignorance, but I did not believe such linguistics could evolve in a world such as that. I shall keep an eye and ear for more of these… [i]inconsistencies[/i] shall we say.
+
+I do not know how you walk between times. For me, it is an innate pull, a connection to the powers that weave our worlds together. Power calls to powers so similar, but when met, there is either a beautiful harmony or a disastrous cacophony. I wonder about the fate of our intermingling powers and the timelines we weave between. Until we meet once more, please do keep an eye for anything suspicious.
+[right]
+-She who shall keep watch
+"
+letter_format = ExtResource("1_7ggjw")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

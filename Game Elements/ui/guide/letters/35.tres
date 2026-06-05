@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://dmg84bndep48s"]
+
+[ext_resource type="Resource" uid="uid://dl6g2kifupq3h" path="res://Game Elements/ui/guide/letter_formats/holographic.tres" id="1_fdj8g"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_tdnjx"]
+
+[resource]
+script = ExtResource("2_tdnjx")
+letter_id = 340
+description = "Dear Purple
+
+I know you’re worried and stuff but I think I’ve cracked it this time. L3ANNA can hack better than you think and we’re poised to get this thing scott free. You think a few laser grids are going to stop me? It’s the most amazing thing I’ve ever seen. I really don’t think any other world or time came up with an AI this advanced. Besides with the timeline integration mechanics I’ve been figuring out (Tell your lithomancer friend thank you) it should slot into the grove without a hitch, I think I can hook up the circuits to the arcane conduits. I’m bringing it by yestermorrow.
+[right]
+Love,
+
+Orange
+"
+letter_format = ExtResource("1_fdj8g")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

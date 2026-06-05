@@ -37,6 +37,8 @@ var anim_time := 0.0
 ###
 
 func _set_drifter_text(player1_remnants_in, player2_remnants_in):
+	tricky1 = 0 
+	tricky2 = 0
 	var drifter = preload("res://Game Elements/Remnants/trickster.tres")
 	for rem in player1_remnants_in:
 		if rem.active:
@@ -71,10 +73,18 @@ func _set_drifter_text(player1_remnants_in, player2_remnants_in):
 		elif(!is_purple && tricky2 != 0):
 			var glyph_key = "special_"+Globals.player1_input
 			$Control/DrifterText/Label.text = GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+": Reroll for "+str(tricky2)+"  "
+	if !(Globals.is_multiplayer):
+		if is_purple and tricky1 == 0:
+			$Control/DrifterText.visible = false
+		if !is_purple and tricky2 == 0:
+			$Control/DrifterText.visible = false
 	if Globals.total_progress < 1.0 and !RemnantManager.has_gotten_remnant:
 		$Control/DrifterText/Label.text = "Chose a Remnant for each Character"
 		$Control/DrifterText.visible = true
 		$Control/DrifterText/Label/TextureRect.visible = false
+		if !Globals.is_multiplayer:
+			var glyph_key = "swap_"+Globals.player1_input
+			$Control/DrifterText/Label.text+= " (" +GlyphManager.get_glyph(GlyphManager.get_device_type(Globals.player1_input),glyph_key)+")"
 func _slice_frames() -> void:
 	frames.clear()
 
@@ -227,6 +237,10 @@ func meets_requirements(remnant : Remnant,names : Array[String]):
 	for rm in remnant.required_remnants:
 		if rm.remnant_name in names:
 			num_preqreqs_met += 1
+	
+	for rm_name in remnant.disqualifying_remnants:
+		if rm_name in names:
+			return false
 	if(num_preqreqs_met < remnant.num_rem_required):
 		return false
 	return true
@@ -291,10 +305,12 @@ func inputs(input_device : String, is_player_1 : bool):
 		if(is_player_1 && tricky1 != 0):
 			if($"../../".timefabric_collected >= int(cost)):
 				$"../../".timefabric_collected-=int(cost)
+				get_tree().get_root().get_node("LayerManager").has_spent_timefabric = true
 				popup_offer(player1_remnants,player2_remnants,current_weights)
 		elif(!is_player_1 && tricky2 != 0):
 			if($"../../".timefabric_collected >= int(cost)):
 				$"../../".timefabric_collected-=int(cost)
+				get_tree().get_root().get_node("LayerManager").has_spent_timefabric = true
 				popup_offer(player1_remnants,player2_remnants,current_weights)
 			
 	if(input_device == "key"):

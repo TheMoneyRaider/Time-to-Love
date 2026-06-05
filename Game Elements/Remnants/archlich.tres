@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("3_sljhc")
 remnant_name = "Remnant of the Archlich"
-description = "Heal effects are $Y% less effective. Take $X% less damage"
+description = "Health effects are $Y% less effective. Take $X% less damage"
 icon = ExtResource("2_gfku8")
 art = ExtResource("1_e3w42")
 progress_required = 1.0

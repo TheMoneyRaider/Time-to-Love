@@ -1,0 +1,118 @@
+[gd_scene load_steps=12 format=3 uid="uid://cryfx6xtmiapt"]
+
+[ext_resource type="Script" uid="uid://bd4t4ge5thltd" path="res://Game Elements/Remnants/heaven/domain.gd" id="1_m47w8"]
+[ext_resource type="Texture2D" uid="uid://bt0ei7wgt12qs" path="res://Game Elements/Remnants/domain_art/blue-sheet-sheet.png" id="2_7qa80"]
+
+[sub_resource type="Animation" id="Animation_m47w8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Art:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [36]
+}
+
+[sub_resource type="Animation" id="Animation_x360n"]
+resource_name = "main"
+length = 3.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Art:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.26666668, 0.40000004, 0.53333336, 0.6666667, 0.8000001, 0.9333334, 1.0666667, 1.2, 1.3333334, 1.4666667, 1.6000001, 1.7333335, 1.8666668, 2, 2.1333334, 2.266667, 2.4, 2.5333335, 2.6666667, 2.8000002, 2.9333334, 3.0666668, 3.2000003, 3.3333335, 3.466667, 3.6000001),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]
+}
+
+[sub_resource type="Animation" id="Animation_7qa80"]
+resource_name = "start"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Art:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.06666667, 0.10000001, 0.13333334, 0.16666667, 0.20000002, 0.23333335, 0.26666668, 0.3, 0.33333334, 0.36666667, 0.40000004, 0.43333337, 0.4666667, 0.5, 0.53333336, 0.5666667, 0.6, 0.6333334, 0.6666667, 0.70000005, 0.73333335, 0.7666667, 0.8000001, 0.8333334, 0.86666673, 0.90000004, 0.9333334, 0.9666667, 1, 1.0333334, 1.0666667, 1.1, 1.1333334, 1.1666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f4xqj"]
+_data = {
+&"RESET": SubResource("Animation_m47w8"),
+&"main": SubResource("Animation_x360n"),
+&"start": SubResource("Animation_7qa80")
+}
+
+[sub_resource type="Gradient" id="Gradient_7qa80"]
+offsets = PackedFloat32Array(0.25506756, 1)
+colors = PackedColorArray(0, 0.9529412, 0.94509804, 0.7019608, 1, 1, 1, 0.27450982)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_m47w8"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_7qa80")
+
+[sub_resource type="Curve" id="Curve_x360n"]
+_data = [Vector2(0, 0), 0.0, 3.9650085, 0, 0, Vector2(0.09708738, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.93505, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_f4xqj"]
+curve = SubResource("Curve_x360n")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jaj3i"]
+resource_local_to_scene = true
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 32.0
+emission_ring_inner_radius = 24.0
+emission_ring_cone_angle = 90.0
+angle_min = -652.0
+angle_max = 535.60004
+angular_velocity_min = -482.93
+angular_velocity_max = 568.54
+radial_velocity_min = -16.000023
+radial_velocity_max = -16.000023
+gravity = Vector3(0, -64, 0)
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_f4xqj")
+color_ramp = SubResource("GradientTexture1D_m47w8")
+
+[node name="Node2D" type="Node2D" groups=["domain"]]
+z_index = 10
+script = ExtResource("1_m47w8")
+domain_type = "heaven"
+domain_range = 32.0
+
+[node name="Art" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.6627451)
+texture = ExtResource("2_7qa80")
+hframes = 8
+vframes = 8
+frame = 36
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_f4xqj")
+}
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+z_index = 14
+amount = 32
+lifetime = 1.5
+process_material = SubResource("ParticleProcessMaterial_jaj3i")

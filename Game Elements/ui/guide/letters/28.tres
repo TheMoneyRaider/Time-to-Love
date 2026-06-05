@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://booct8grocqpg"]
+
+[ext_resource type="Resource" uid="uid://cxtdv4tq7yh3e" path="res://Game Elements/ui/guide/letter_formats/newspaper3.tres" id="1_74gym"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_7aqtd"]
+
+[resource]
+script = ExtResource("2_7aqtd")
+letter_id = 270
+description = "[font_size=32](3/3)
+
+“SLIM!” I yelled, after a second with my jaw on the floor, realizing if the first shot hit the bottle it would’ve hit him too. He was still sitting there confidently. That’s when I saw him pulling a flask out of his breast pocket, a bullet lodged in the metal. 
+
+“What’s I tell you kid? The house always wins.” I looked at the cards on the table. “Read ‘em and weep,” he said. A royal flush. “Shame about your drink though kid.” He reached into a cabinet behind him before setting a bottle of “Old Hare Original” on the table. “Unlike that, this one hasn’t been aged seventy years past its prime. Come back any time you feel like a drink and good talk.”"
+letter_format = ExtResource("1_74gym")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

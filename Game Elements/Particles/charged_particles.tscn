@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b234kafgtm21j" path="res://Game Elements/Particles/effect_particles.gd" id="1_gfsg8"]
 
 [sub_resource type="Gradient" id="Gradient_0u0kg"]
-colors = PackedColorArray(0.8869545, 0.36672762, 0.82245046, 1, 0.91907126, 0.533606, 0.28104436, 1)
+colors = PackedColorArray(0.19743308, 0.011333348, 0.17909741, 1, 0.40485603, 0.19978249, 0.050421603, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_2l04d"]
 gradient = SubResource("Gradient_0u0kg")
@@ -32,8 +32,7 @@ color_ramp = SubResource("GradientTexture1D_2l04d")
 
 [node name="ChargedParticles" type="GPUParticles2D"]
 z_index = 19
-amount = 10
-lifetime = 3.0
-explosiveness = 0.5
+amount = 200
+lifetime = 2.0
 process_material = SubResource("ParticleProcessMaterial_fkrmo")
 script = ExtResource("1_gfsg8")

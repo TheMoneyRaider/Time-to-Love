@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://dmg13o5f4b7hm"]
+
+[ext_resource type="Resource" uid="uid://dn5rvtqod321e" path="res://Game Elements/ui/guide/letter_formats/stone_tablet.tres" id="1_mfgqj"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_d3f77"]
+
+[resource]
+script = ExtResource("2_d3f77")
+letter_id = 310
+description = "[color=#7a7a7a][font_size=56](4/4)
+My liege, The dreaded beast of the farlands is no more. Our mission was successful. Upon heeding the Tinkerer’s cryptic advice, I spoke to her in the morning and she seemed to have received a flash of inspiration. At her request we ventured to the mountain of avarice. Within the caldera lay the demesne of the Lithomancer. Her bindings, a series of great stone spears and roots, had restrained within a great red dragon. Its golden eyes seemed to see into our souls, igniting the flame of our deepest greed. The Tinkerer presented something to the Lithomancer, it appeared the two had once known each other. Above her head the Tinkerer held a blade of a make seeming to far surpass even those of the most skilled eleven smiths. The dragon's flame, pure flame, seeped across the blade and suddenly, it crackled to life. Lines of lighting burst upon the steel and a dull hum resounded through the volcano. I thought for a moment it might cause the volcano to erupt. When the flame subsided and the weapon calmed down, the Tinkerer set a strange rectangle on the ground; a few metal lines ran through its frame. “This should cover it.” she spoke, “There’s more gold in here than your whole hoard.” The Dragon’s eyes flashed with greed, somehow it knew this was true."
+letter_format = ExtResource("1_mfgqj")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

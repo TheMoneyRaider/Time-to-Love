@@ -37,7 +37,7 @@ var hit_nodes = {}
 var start_scale = scale
 var combod : bool = false
 var is_purple : bool = false
-
+var deflected_amount : int = 0
 var hack1 : Remnant = null
 var hack2 : Remnant = null
 
@@ -285,6 +285,8 @@ func _process(delta):
 	life+=delta
 	if attack_type == "punch":
 		get_node("CollisionShape2D").shape.height = lerp(9,18, life/lifespan)
+		if life < .05:
+			get_node("CollisionShape2D").disabled = true
 	if attack_type == "smash":
 		get_node("CollisionShape2D").shape.radius = lerp(8,16,life/lifespan)
 		if life < .15:
@@ -327,18 +329,24 @@ func apply_damage(body : Node, n_owner : Node, damage_dealt : float, a_direction
 	elif !n_owner.is_in_group("player") and !body.is_in_group("player") and !hits_all:
 		return 0
 
-	if(deflectable and attack_type != "slime_ball" and body.is_in_group("enemy") and body is DynamEnemy):
+	if(deflectable and attack_type != "slime_ball" and attack_type != "spine" and attack_type != "roar_particle" and body.is_in_group("enemy") and body is DynamEnemy):
 		if(randf() < body.deflect_chance):
 			deflect(-1 * direction, 100, null)
 			if body.enemy_type=="medieval_slime":
 				var inst = preload("res://Game Elements/Particles/slime_particles.tscn").instantiate()
 				get_parent().add_child.call_deferred(inst)
 				inst.global_position = global_position
+			if body != self.c_owner: 
+				deflected_amount +=1
+				if deflected_amount >= 2: SteamManager.unlock_achievement("BACK_AT_YA")
 			self.c_owner = body
 			hit_nodes.clear()
 			return 0
 	if(deflectable and body.is_in_group("player") and body.deflect_chance() > randf()):
 		deflect(-1 * direction, 100, null)
+		if body != self.c_owner: 
+			deflected_amount +=1
+			if deflected_amount >= 2: SteamManager.unlock_achievement("BACK_AT_YA")
 		self.c_owner = body
 		hit_nodes.clear()
 		return 0
@@ -375,6 +383,7 @@ func intersection(body):
 		if body != c_owner and body.is_in_group("player"):
 			c_owner.die(false)
 			LayerManager.hud.get_node("RootControl/Label").stop_countdown()
+			SteamManager.unlock_achievement("FOR_YOU")
 			queue_free()
 		return
 	
@@ -392,6 +401,7 @@ func intersection(body):
 			-1:
 				if bounces > 0:
 					bounces -= 1
+					lifespan+=2.5
 					# Cast a short ray forward to get the wall's surface normal
 					var space = get_world_2d().direct_space_state
 					var query = PhysicsRayQueryParameters2D.create(
@@ -434,7 +444,7 @@ func deflect(hit_direction, hit_speed, deflection_area):
 	else:
 		SFXManager.play(deflect_sounds[randi() % deflect_sounds.size()], 2.0,"SFX",global_position)
 	print("DEFLECT")
-	if attack_type=="laser":
+	if attack_type=="laser" and deflection_area:
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment1"))
 		get_tree().get_root().get_node("LayerManager")._damage_indicator(c_owner.max_health, deflection_area.c_owner,hit_direction, deflection_area,c_owner.get_node("Segment2"))
 		var bt_player = c_owner.get_node_or_null("BTPlayer")
@@ -450,7 +460,10 @@ func deflect(hit_direction, hit_speed, deflection_area):
 	rotation = direction.angle() + PI/2
 	if attack_type == "light_beam":
 		rotation = direction.angle()
-	damage = round(damage * ((hit_speed + speed) / speed))
+	if(deflection_area and deflection_area.c_owner.is_in_group("player")):
+		damage = round(damage * ((hit_speed + speed) / speed))
+	else:
+		damage = round(damage / 2 * ((hit_speed + speed) / speed))
 	speed = speed + hit_speed
 	lifespan+=2.0
 	if pierce >=0:
@@ -493,6 +506,9 @@ func _on_area_entered(area: Area2D) -> void:
 		else:
 			area.deflect(direction, hit_force,self)
 		deflected_nodes[area] = null    # mark it
+		if c_owner != area.c_owner: 
+			area.deflected_amount +=1
+			if area.deflected_amount >= 2: SteamManager.unlock_achievement("BACK_AT_YA")
 		area.c_owner = c_owner
 		area.is_purple = is_purple
 		area.hit_nodes = {}

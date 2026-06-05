@@ -13,7 +13,9 @@ var LayerManager : Node
 func _ready():
 	_load_all_letters()
 	$Control/MarginContainer/Viewer.visible = false
-	find_best_pair(letter_pool.size(),1880/960.0)
+	#find_best_pair(letter_pool.size(),1880/960.0)
+	grid_x = 9
+	grid_y = 5
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	hide()
 	await view_letter(0)
@@ -61,6 +63,8 @@ func _load_all_letters() -> void:
 			var res = ResourceLoader.load("res://Game Elements/ui/guide/letters/" + file)
 			if res:
 				letter_pool.append(res)
+	letter_pool.sort_custom(func(a, b): return a.letter_id < b.letter_id)
+	print(letter_pool[0])
 
 func _input(event):
 	if not active:
@@ -292,6 +296,11 @@ func view_letter(idx : int):
 			text.size.x = 640 / text.scale.x
 			text.size.y = 960 / text.scale.y
 			text.text = "[color=#363535][font_size=52]" + text.text
+		"Paper2":
+			text.position = Vector2(460,78)
+			text.size.x = 1000 / text.scale.x
+			text.size.y = 960 / text.scale.y
+			text.text = "[color=#363535][font_size=52]" + text.text
 		"ModernNewspaper":
 			text.position = Vector2(550,350)
 			text.size.x = 780 / text.scale.x
@@ -309,9 +318,15 @@ func view_letter(idx : int):
 			text.text = "[color=#82796c][font_size=48][font=res://fonts/Faustina/Faustina-Bold.ttf]" + text.text
 		"Holographic":
 			text.position = Vector2(750,40)
-			text.size.x = 395 / text.scale.x
+			text.size.x = 385 / text.scale.x
 			text.size.y = 960 / text.scale.y
 			text.text = "[font=res://fonts/Orbitron-Bold.ttf][color=#b9f9fa][font_size=45]" + text.text
+		"Holographic2":
+			text.position = Vector2(588,40)
+			text.size.x = 700 / text.scale.x
+			text.size.y = 1200 / text.scale.y
+			text.text = "[font=res://fonts/Orbitron-Bold.ttf][color=#b9f9fa][font_size=45]" + text.text
+
 
 
 	# -----------------------
@@ -352,7 +367,7 @@ func view_letter(idx : int):
 	await tween.finished
 	
 func close_letter(instant : bool = false):
-	button_cooldown=.25
+	button_cooldown=.5
 	letter_active = false
 	var viewer = $Control/MarginContainer/Viewer
 	if !instant:

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Remnant" load_steps=4 format=3 uid="uid://sfeig563mjcd"]
+
+[ext_resource type="Texture2D" uid="uid://c8g4otld64n5k" path="res://art/remnants/coward.png" id="1_msulu"]
+[ext_resource type="Texture2D" uid="uid://brhoov6y0yibh" path="res://art/remnants/coward_icon.png" id="2_1kw33"]
+[ext_resource type="Script" uid="uid://45mgcogqdr4c" path="res://Game Elements/Remnants/remnant.gd" id="3_bwgf4"]
+
+[resource]
+script = ExtResource("3_bwgf4")
+remnant_name = "Remnant of the Coward"
+description = "The more health you have, the more damage you deal, up to $X%"
+icon = ExtResource("2_1kw33")
+art = ExtResource("1_msulu")
+progress_required = 1.0
+variable_names = Array[String](["$X"])
+variable_1_values = [10, 20, 30, 40, 50]
+metadata/_custom_type_script = "uid://45mgcogqdr4c"

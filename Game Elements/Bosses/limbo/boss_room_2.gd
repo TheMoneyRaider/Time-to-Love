@@ -33,7 +33,7 @@ var hiding_node_position : Vector2
 var hiding : bool = false
 
 var hide_time =10.0
-var reveal_time = 40.0
+var reveal_time = 20.0
 
 var island_attack_num = 5
 
@@ -69,6 +69,10 @@ func _process(delta: float) -> void:
 			SteamManager.unlock_achievement("FISTS")
 		if !Globals.has_died and !Globals.has_equiped_weapon:
 			SteamManager.unlock_achievement("FISTS_NO_DYING")
+		if !LayerManager.has_spent_timefabric:
+			SteamManager.unlock_achievement("GENERATIONAL_WEALTH")
+		if RoomManager.layer_ai[3]<=1800.0:
+			SteamManager.unlock_achievement("SPEEDRUN")
 		get_tree().paused = true
 		LayerManager.credits.activate()
 		
@@ -347,7 +351,10 @@ func island_attack():
 
 	# Activate it toward a random player
 	if is_multiplayer:
-		rock.activate(player1) if randf() > .5 else rock.activate(player2)
+		if randf() > .5:
+			rock.activate(player1)  
+		else:
+			rock.activate(player2)
 	else:
 		rock.activate(player1)
 	return

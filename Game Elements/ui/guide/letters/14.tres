@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://btesn726of3fc"]
+
+[ext_resource type="Resource" uid="uid://04ef0si7kl5q" path="res://Game Elements/ui/guide/letter_formats/newspaper1.tres" id="1_x2xgm"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_ps4g8"]
+
+[resource]
+script = ExtResource("2_ps4g8")
+letter_id = 70
+description = "[font_size=36]There within that familiar darkness of a dream shone the moon in its unnatural brilliance. I swear by the gods I saw her grin down at me in a crooked manner before she illuminated the woman of fire. As the fire receded to cover the woman's hair, I heard her whisper \"[i]Follow the vision, find me.[/i]\"
+I confess I know not of this woman with hair of fire, nor her quite bizarre apparel, and yet I could tell immediately how her spirit shone with strength. \"[i]By force of will, shall it be so.[/i]\" It was as if her very existence could hammer through the ever-thinning walls of my mind. \"[i]Those not consumed by the sun shall be by its shadow.[/i]\" She continued to whisper, though I could only catch bits of the words I felt were meant for my ears alone. \"[i]The moon shines a light forward.[/i]\"
+
+Each night within that dreamscape, the phases pass, plunging me into that unbearable light and that all-too-familiar darkness. \"[i]You must be the one.[/i]\" I feel trapped in a distortion of that which I hold sacred. \"[i]Perhaps by favor alone.[/i]\" The voice of the night whispers to me, and I cannot rest. \"[i]You know how, and you know how you must.[/i]\" How I wish I could simply rest. \"[i]You must.[/i]\"
+
+I hear an echo hammering throughout my skull upon waking after each night, but whatever words were spoken to me simply dissolve in the dawn. And yet… there are impressions, same as those one may find behind their eyes after staring at a candle in a dim tavern. I know not yet what they mean, but I can feel my magic pulling me toward something both before and behind me. I wonder…
+"
+letter_format = ExtResource("1_x2xgm")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

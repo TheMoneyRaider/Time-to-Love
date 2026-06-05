@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://7kahhg2qh8l2"]
+
+[ext_resource type="Resource" uid="uid://dlp3h4joc83ma" path="res://Game Elements/ui/guide/letter_formats/newspaper2.tres" id="1_4lqfm"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_ids8f"]
+
+[resource]
+script = ExtResource("2_ids8f")
+letter_id = 400
+description = "To you, because to whom else might I confess this to?
+
+I have been called Dusk by the people of my home timeline. They fear the looming shadows of woods I made my home. They think my spellwork keeps the forest in an eternal night, mutating the creatures into monsters. They fear that which they do not understand. They fear the coming darkness, not realizing they were born from a darkness just like it.
+
+You, my love, must then surely be Dawn. Your light must surely bring relief to those who witness your approach. The sun and moon are locked in an eternal dance through the cosmos—a romantic eternity—but I pity them for being doomed to never touch. The best chance they even have is a mere glimpse of one another in the twilight hours. If you are the Dawn, then I shall do my best to shorten this long night we search blindly through. May we find a day where we can be wrapped in an eternal twilight and finally reach out to one another without fear of loss.
+[right]
+-She who would end this blight
+"
+letter_format = ExtResource("1_4lqfm")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

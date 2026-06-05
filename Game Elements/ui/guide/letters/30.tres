@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://cnlv12jo8q64j"]
+
+[ext_resource type="Resource" uid="uid://dn5rvtqod321e" path="res://Game Elements/ui/guide/letter_formats/stone_tablet.tres" id="1_tpp0l"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_bmgco"]
+
+[resource]
+script = ExtResource("2_bmgco")
+letter_id = 290
+description = "[color=#7a7a7a][font_size=40](2/4)
+My liege, we have reached the wastes and found the tinkerer. She was a most eccentric figure. Asara first sighted her with her elven eyes, standing upon the ruins of a centuries old battlefield. She was picking through the bones, chuckling to herself when we approached. She whipped around to Igna with an inhuman speed. “Interesting, I’m reading three KilaSandersons of arcane energy off of you.” Her mysterious musings made no sense to us. Her flaming hair and strange orange clothes made her look like a fire god of old. 
+
+“Tinkerer, we beseech your aid for our quest.”
+
+“A quest, I’ve never done a quest before.” she paused, “Wait, I’m sorry. Yon quest. I know thee not this task beforeth. Thine idea is quieteth intriguing.”
+
+Our party looked at each other in bewilderment at the faint mockery of our language.
+
+“Um… uh… well you see, there's a beast. An its really big… and we kinda need your help.” Bjorn said in his characteristic manner.
+
+“What we mean to say Is-” I attempted to add
+
+“A beast you say?” said the tinkerer with intrigue. \"Count me in.\""
+letter_format = ExtResource("1_tpp0l")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

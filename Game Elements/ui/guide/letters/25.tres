@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Letter" load_steps=3 format=3 uid="uid://d2jq2ojbyxa1u"]
+
+[ext_resource type="Resource" uid="uid://dlp3h4joc83ma" path="res://Game Elements/ui/guide/letter_formats/newspaper2.tres" id="1_24x7f"]
+[ext_resource type="Script" uid="uid://gbihjja6jybk" path="res://Game Elements/ui/guide/letters/letter.gd" id="2_rblq3"]
+
+[resource]
+script = ExtResource("2_rblq3")
+letter_id = 240
+description = "By decree of the Mancer of Mancers, for the crimes of theft and impersonation of another mancer, the false mancer known only as “Purple” is hitherto banished from the mancer’s guild and her status as mancer is revoked. May our mancations continue unabated for the eons to come. 
+[right]
+-Veera, the Loquimancer, Proclamation of the Mancer’s Guild
+"
+letter_format = ExtResource("1_24x7f")
+metadata/_custom_type_script = "uid://gbihjja6jybk"

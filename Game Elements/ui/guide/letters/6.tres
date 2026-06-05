@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("1_i84qi")
-letter_id = 5
+letter_id = 220
 description = "Sometimes I wonder how old you are. It seems like you’ve seen so much from the various communications we have left and the stories you’ve told. You could be millenia older than me for all I know. It has to be impossible to do so much, even in a lifetime. Then again my mom lived her whole life and never met the president. I suppose there’s so much to do for those who want to find it."
 letter_format = ExtResource("1_idboi")
 metadata/_custom_type_script = "uid://gbihjja6jybk"

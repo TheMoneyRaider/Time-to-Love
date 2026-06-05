@@ -79,7 +79,7 @@ func activate():
 	SFXManager.stop_all_continuous_sounds()
 	get_parent().hud.get_node("RootControl/Label").stop_countdown()
 	Globals.has_died = true
-	input_delay = .4
+	input_delay = .2
 	active = true
 	state_change()
 	if(getting_time):
@@ -168,7 +168,7 @@ func _on_menu_pressed():
 	get_tree().call_deferred("change_scene_to_file", "res://Game Elements/ui/main_menu/main_menu.tscn")
 
 func _on_replay_pressed():
-	Globals.total_progress = max(Globals.total_progress, RoomManager.current_progress)
+	Globals.total_progress = max(Globals.save_state.total_progress,Globals.total_progress,RoomManager.current_progress)
 	if input_delay > 0:
 		return
 	if rewinding:

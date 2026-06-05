@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bkmhitsrs64l4"]
+[gd_scene load_steps=20 format=3 uid="uid://bkmhitsrs64l4"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_qhvxm"]
 [ext_resource type="PackedScene" uid="uid://dbhrxmwmosape" path="res://Game Elements/Attacks/t-roar_particle.tscn" id="2_rgvsh"]
@@ -6,15 +6,16 @@
 [ext_resource type="PackedScene" uid="uid://c8x4fnr36es6o" path="res://Game Elements/Attacks/t-swing.tscn" id="3_rgvsh"]
 [ext_resource type="PackedScene" uid="uid://3g2wool8t66c" path="res://Game Elements/Attacks/t-spine.tscn" id="4_b1psi"]
 [ext_resource type="BehaviorTree" uid="uid://dkwlk3hb7u71t" path="res://ai/trees/big-t.tres" id="4_f2uui"]
+[ext_resource type="PackedScene" uid="uid://ca4cm7j2ecx8t" path="res://Game Elements/Attacks/t-indicator.tscn" id="5_b1psi"]
 [ext_resource type="Script" uid="uid://dqw21ytbndfxo" path="res://Game Elements/Characters/push_out.gd" id="5_e752t"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ehs1d"]
-radius = 5.833333
-height = 18.888887
+radius = 8.168522
+height = 22.882599
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rgvsh"]
 radius = 8.055557
-height = 21.666666
+height = 39.333332
 
 [sub_resource type="Animation" id="Animation_8s1eb"]
 length = 0.001
@@ -156,7 +157,7 @@ is_boss = true
 boss_phases = 6
 boss_healthpools = Array[float]([500.0])
 knockback_decay = 0.4
-attacks = [ExtResource("2_rgvsh"), ExtResource("3_rgvsh"), ExtResource("4_b1psi")]
+attacks = [ExtResource("2_rgvsh"), ExtResource("3_rgvsh"), ExtResource("4_b1psi"), ExtResource("5_b1psi")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 y_sort_enabled = true
@@ -167,11 +168,12 @@ hframes = 6
 vframes = 4
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
-position = Vector2(0.2777778, -20.833334)
+position = Vector2(9.333334, -19.666668)
+rotation = 0.5497787
 shape = SubResource("CapsuleShape2D_ehs1d")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(2.9802322e-08, -9.444445)
+position = Vector2(-4.333333, -7.6666665)
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_rgvsh")
 
