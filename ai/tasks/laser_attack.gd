@@ -124,7 +124,7 @@ func _tick(delta: float) -> Status:
 	if !laser_out and time >= opening_time-agent.get_node("LaserBeam").power_time and time <= opening_time:
 		agent.get_node("LaserBeam").fire_laser(seg1.position,seg2.position,y_axis)
 		laser_out =true
-		SFXManager.play(preload("res://Game Elements/sfx/enemies/laser/laser_beam.mp3"),0.0,"SFX",agent.global_position)
+		SFXManager.play(preload("res://Game Elements/sfx/enemies/laser/laser_beam.mp3"), -6 ,"SFX",agent.global_position)
 	if laser_out and time >= total_time-closing_time-agent.get_node("LaserBeam").decay_time:
 		agent.get_node("LaserBeam").stop_laser()
 		laser_out = false

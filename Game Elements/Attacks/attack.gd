@@ -58,6 +58,12 @@ var deflect_sounds = [
 	preload("res://Game Elements/sfx/player/deflect/deflect2.ogg"),
 ]
 
+var singul_green_balls = [
+	preload("res://Game Elements/sfx/enemies/robot/robot1.ogg"),
+	preload("res://Game Elements/sfx/enemies/robot/robot2.ogg"),
+	preload("res://Game Elements/sfx/enemies/robot/robot3.ogg"),
+]
+
 #Multiplies the Speed, Damage, Lifespan adn Hit_Force of attack by given values
 func mult(speed_mult, damage_mult = 1, lifespan_mult = 1, hit_force_mult = 1):
 	self.speed = self.speed * speed_mult
@@ -100,11 +106,23 @@ func check_defender():
 
 func _ready():
 	
+	if attack_type == "crowbar_melee" and is_instance_valid(c_owner) and c_owner.get("enemy_type") == "large_reptile":
+		SFXManager.play(preload("res://Game Elements/sfx/enemies/bigt/bigt_swipe.ogg"), 0.0, "SFX")
+	if attack_type == "bolt" and is_instance_valid(c_owner) and c_owner.get("enemy_type") == "large_reptile":
+		SFXManager.play(preload("res://Game Elements/sfx/enemies/bigt/bigt_tail.ogg"), 0.0, "SFX")
+	if attack_type == "roar_particle":
+		SFXManager.play(preload("res://Game Elements/sfx/enemies/bigt/bigt_roar.ogg"), 0.0, "SFX", global_position)
+	if attack_type == "robot melee" and is_instance_valid(c_owner) and c_owner.get("enemy_type") == "signul":
+		print("signal green ball audio playing")
+		SFXManager.play(singul_green_balls[randi() % singul_green_balls.size()], 0.0, "SFX", Vector2(-99999,-99999), 1.0, 0.7)
+	
 	#print("final =  "+str(damage))
 	LayerManager = get_tree().get_root().get_node("LayerManager")
 	ready_hacks()
 	start_scale = scale
 	frozen = true
+	if attack_type == "magic_bolt":
+		SFXManager.play(preload("res://Game Elements/sfx/enemies/litch/litch_magic_bolt.ogg"))
 	if start_lag > 0.0:
 		await get_tree().create_timer(start_lag, false).timeout
 	frozen = false
@@ -117,6 +135,7 @@ func _ready():
 	if animation!= "" and $AnimationPlayer:
 		$AnimationPlayer.play(animation)
 	if attack_type == "summon circle":
+		SFXManager.play(preload("res://Game Elements/sfx/enemies/litch/litch_summon.ogg"), 10)
 		modulate.a = 0
 		var tween = self.create_tween()
 		tween.tween_property(self,"modulate:a",1,1)

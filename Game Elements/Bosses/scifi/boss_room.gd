@@ -28,6 +28,13 @@ var phase = 0
 var phase_changing : bool = false
 var animation : String = ""
 
+var lunge_sounds = [
+	preload("res://Game Elements/sfx/enemies/binary_bot/bb1.ogg"),
+	preload("res://Game Elements/sfx/enemies/binary_bot/bb2.ogg"),
+	preload("res://Game Elements/sfx/enemies/binary_bot/bb3.ogg"),
+	preload("res://Game Elements/sfx/enemies/binary_bot/bb4.ogg"),
+	preload("res://Game Elements/sfx/enemies/binary_bot/bb5.ogg"),
+]
 
 func _ready() -> void:
 	LayerManager = get_tree().get_root().get_node("LayerManager")
@@ -314,6 +321,10 @@ func _on_enemy_take_damage(_damage : float,current_health : int,_enemy : Node, d
 		
 var middle_active : int = 0
 func scifi_phase1_middles():
+	SFXManager.play_continuous("singul_wave", preload("res://Game Elements/sfx/weapons/rail_gun/railgun_special.ogg"), 4.0)
+	var wave_player = SFXManager.continuous_players.get("singul_wave")
+	if wave_player and is_instance_valid(wave_player):
+		wave_player.pitch_scale = 0.7
 	var attack_inst = preload("res://Game Elements/Bosses/scifi/wave_attack.tscn").instantiate()
 	attack_inst.global_position = boss.global_position
 	attack_inst.c_owner = boss
@@ -324,21 +335,23 @@ func scifi_phase1_middles():
 	if board:
 		board.set_var("attack_mode", "DISABLED")
 	middle_active +=1
-	# Disable the forcefield collision
 	$Forcefield/CollisionShape2D.set_deferred("disabled", true)
-	# Enable the boss collision
 	boss.get_node("CollisionShape2D").set_deferred("disabled", false)
 	var tween = create_tween()
 	tween.tween_property($Forcefield,"modulate",Color(1.0,1.0,1.0,0.0),1.0)
-	await get_tree().create_timer(8.0, false).timeout
+	await get_tree().create_timer(6.0, false).timeout
+	var fade_player = SFXManager.continuous_players.get("singul_wave")
+	if fade_player and is_instance_valid(fade_player):
+		var fade_tween = create_tween()
+		fade_tween.tween_property(fade_player, "volume_db", -80.0, 2.0)
+	await get_tree().create_timer(2.0, false).timeout
+	SFXManager.stop_continuous("singul_wave")
 	if !boss or !is_instance_valid(boss):
 		return
 	if !get_node_or_null("Forcefield/CollisionShape2D"):
 		return
 	if middle_active <= 1:
-		# Disable the boss collision
 		boss.get_node("CollisionShape2D").set_deferred("disabled", true)
-		# Enable the forcefield collision
 		$Forcefield/CollisionShape2D.set_deferred("disabled", false)
 	var tween2 = create_tween()
 	tween2.tween_property($Forcefield,"modulate",Color(1.0,1.0,1.0,1.0),1.0)
@@ -571,17 +584,16 @@ func scifi_binary_process(delta : float):
 				boss.set_collision_mask_value(2, false)
 
 		MeleePhase.LUNGE:
-			# Compute target on first frame
 			if melee_timer == 0.0:
 				var movement_vector = tracked_player_pos - boss.global_position
 				if movement_vector.length() < 32:
 					movement_vector = movement_vector.normalized() * 32
 				target_vector = movement_vector.normalized() * movement_vector.length() * 1.5
 				attack = preload("res://Game Elements/Bosses/scifi/singul_binary_lunge.tscn").instantiate()
-	
 				attack.direction = target_vector.normalized()
-				attack.c_owner= boss
+				attack.c_owner = boss
 				boss.call_deferred("add_child",attack)
+				SFXManager.play(lunge_sounds[randi() % lunge_sounds.size()], 0.0, "SFX", boss.global_position, 1.0, 0.7)
 
 			melee_timer += delta
 			var t = delta / melee_duration

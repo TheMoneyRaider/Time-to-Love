@@ -2027,42 +2027,27 @@ func _damage_indicator(damage : float, dmg_owner : Node,direction : Vector2 , at
 func dev_remnants():
 	var rem
 	
-	rem = load("res://Game Elements/Remnants/tortoise.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,true)
-	
-	rem = load("res://Game Elements/Remnants/terramancer.tres")
-	rem.rank = 5
-	player_1_remnants.append(rem.duplicate(true))
-	remnant_update(rem,player1,true)
-	#
-	#rem = load("res://Game Elements/Remnants/demon.tres")
-	#rem.rank = 5
-	#player_1_remnants.append(rem.duplicate(true))
-	#remnant_update(rem,player1,true)
-	#
-	#rem = load("res://Game Elements/Remnants/angel.tres")
-	#rem.rank = 5
+	#rem = load("res://Game Elements/Remnants/tortoise.tres")
+	#rem.rank = 1  
 	#player_2_remnants.append(rem.duplicate(true))
-	#remnant_update(rem,player1,true)
-	#
-	#rem = load("res://Game Elements/Remnants/cowboy.tres")
-	#rem.rank = 5
-	#player_2_remnants.append(rem.duplicate(true))
-	#remnant_update(rem,player1,true)
-	#
-	#rem = load("res://Game Elements/Remnants/drone.tres")
-	#rem.rank = 5
-	#player_1_remnants.append(rem.duplicate(true))
 	#remnant_update(rem, player1, true)
-	
-	player1.display_combo()
-	if is_multiplayer:
-		player2.display_combo()
-	
-	hud.set_remnant_icons(player_1_remnants,player_2_remnants)
-	#timefabric_collected = 10000
+	#
+	#rem = load("res://Game Elements/Remnants/terramancer.tres")
+	#rem.rank = 1
+	#player_2_remnants.append(rem.duplicate(true))
+	#remnant_update(rem, player1, true)
+	#
+	##rem = load("res://Game Elements/Remnants/intelligence.tres")
+	##rem.rank = 5
+	##player_2_remnants.append(rem.duplicate(true))
+	##remnant_update(rem, player1, true)
+	##
+	#player1.display_combo()
+	#if is_multiplayer:
+		#player2.display_combo()
+#
+	#hud.set_remnant_icons(player_1_remnants,player_2_remnants)
+	##timefabric_collected = 10000
 	
 var limboing : bool = false
 func move_to_limbo_phase_2():

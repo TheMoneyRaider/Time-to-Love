@@ -215,6 +215,7 @@ func update_art(p_in : int):
 	pass
 
 func deactivate():
+	SFXManager.play(preload("res://Game Elements/sfx/enemies/litch/litch_death.ogg"), 8)
 	for node in get_children():
 		if node.is_in_group("pathway"):
 			node.enable_pathway()
