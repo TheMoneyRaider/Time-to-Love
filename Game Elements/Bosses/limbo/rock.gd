@@ -92,6 +92,7 @@ func _process_throw(delta):
 
 		
 func activate(input: Node):
+	SFXManager.play(preload("res://Game Elements/sfx/weapons/crowbar/falling_rock.ogg"), 10.0, "SFX", global_position)
 	target_position = input.global_position
 	active = true
 	start_position = global_position
@@ -120,6 +121,7 @@ func activate(input: Node):
 
 func _on_land():
 	disabled = true
+	SFXManager.play(preload("res://Game Elements/sfx/weapons/crowbar/crowbar_special_impact.ogg"), 5.0)
 	var attack_inst = load("res://Game Elements/Attacks/rock_final.tscn").instantiate()
 	attack_inst.global_position = global_position
 	attack_inst.c_owner = get_parent().boss

@@ -89,6 +89,11 @@ func handle_attack(target_position: Vector2,attack_index: int = 0):
 				attack_direction = (target_position - attack_position).normalized()
 		if attack_index == 1:
 			attack_position = global_position+attack_direction*48.0
+		match attack_index:
+			0:
+				SFXManager.play(preload("res://Game Elements/sfx/enemies/binary_bot/bb4.ogg"),4.0,"SFX",attack_position)
+			_:
+				SFXManager.play(preload("res://Game Elements/sfx/weapons/mace/mace_special.ogg"),4.0,"SFX",attack_position)
 		request_attack(attacks[attack_index], attack_position, attack_direction)
 		return
 	if enemy_type=="medieval_slime":
