@@ -89,6 +89,11 @@ func handle_attack(target_position: Vector2,attack_index: int = 0):
 				attack_direction = (target_position - attack_position).normalized()
 		if attack_index == 1:
 			attack_position = global_position+attack_direction*48.0
+		match attack_index:
+			0:
+				SFXManager.play(preload("res://Game Elements/sfx/enemies/binary_bot/bb4.ogg"),4.0,"SFX",attack_position)
+			_:
+				SFXManager.play(preload("res://Game Elements/sfx/weapons/mace/mace_special.ogg"),4.0,"SFX",attack_position)
 		request_attack(attacks[attack_index], attack_position, attack_direction)
 		return
 	if enemy_type=="medieval_slime":
@@ -238,7 +243,12 @@ func _physics_process(_delta: float) -> void:
 		# Gradually reduce knockback over time
 		knockback_velocity = knockback_velocity * knockback_decay
 var last_phase
+@onready var time = randf()*3.0
+var tentacle_sounds = [preload("res://Game Elements/sfx/enemies/tentacle/tentacle1.ogg"),preload("res://Game Elements/sfx/enemies/tentacle/tentacle2.ogg"),preload("res://Game Elements/sfx/enemies/tentacle/tentacle3.ogg")]
 func _process(delta):
+	if enemy_type == "tentacle" and move_speed > 1.0 and int((time+delta)/3.0) != int(time/3.0):
+		SFXManager.play(tentacle_sounds[randi()%3],0.0,"SFX",global_position,2.0)
+	time+=delta
 	cactus_delay-=delta
 	thud_delay-=delta
 	#Boss stuff

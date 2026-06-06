@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://crlrj2kwclvap"]
+[gd_scene load_steps=13 format=3 uid="uid://crlrj2kwclvap"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_gfybd"]
 [ext_resource type="PackedScene" uid="uid://cryh3p532bi7" path="res://Game Elements/Objects/tentacle.tscn" id="2_6q507"]
@@ -22,6 +22,32 @@ var/attack_mode/type = 4
 var/attack_mode/value = "NONE"
 var/attack_mode/hint = 2
 var/attack_mode/hint_string = "NONE,MELEE,SPAWNING"
+
+[sub_resource type="Curve" id="Curve_isrlk"]
+_data = [Vector2(0, 0), 0.0, 10.396509, 0, 0, Vector2(0.27326733, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.7516327, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_iikbj"]
+curve = SubResource("Curve_isrlk")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jb5et"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 20.0
+angle_min = -720.0
+angle_max = 720.0
+spread = 180.0
+initial_velocity_min = -20.0
+initial_velocity_max = 20.0
+angular_velocity_min = -60.000015
+angular_velocity_max = 59.99998
+gravity = Vector3(0, 0, 0)
+scale_min = 0.25
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_iikbj")
+color = Color(0, 0, 0, 1)
+hue_variation_min = -0.020000022
+hue_variation_max = 0.019999977
 
 [node name="Tentacle" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 4
@@ -78,6 +104,7 @@ blackboard_plan = SubResource("BlackboardPlan_j34xe")
 [node name="TentParticles" parent="." instance=ExtResource("7_j34xe")]
 scale = Vector2(0.125, 0.125)
 amount = 60
+process_material = SubResource("ParticleProcessMaterial_jb5et")
 
 [node name="MovingTarget" parent="." instance=ExtResource("7_k12bn")]
 range = 32.0

@@ -17,6 +17,7 @@ func _ready() -> void:
 	color_rect.visible = true
 
 func activate():
+	MusicManager.play_theme("main")
 	# Start state
 
 	var tween = create_tween()
@@ -55,6 +56,7 @@ func activate():
 
 
 func _on_skip() -> void:
+	MusicManager.stop()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	RoomManager.reset()
 	get_tree().paused = false
@@ -66,7 +68,6 @@ func _on_skip() -> void:
 
 func start_credits():
 	$Credits/AnimationPlayer.play("main")
-	MusicManager.play_theme("main")
 	$Credits/Skip.active = true
 	$Credits/Skip.skip_requested.connect(_on_skip)
 	await $Credits/AnimationPlayer.animation_finished

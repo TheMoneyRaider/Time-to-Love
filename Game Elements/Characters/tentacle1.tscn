@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cskdfrq6kdly6"]
+[gd_scene load_steps=11 format=3 uid="uid://cskdfrq6kdly6"]
 
 [ext_resource type="Script" uid="uid://ca8f4ewe6614y" path="res://Game Elements/Enemies/dynamEnemy.gd" id="1_uepfv"]
 [ext_resource type="PackedScene" uid="uid://cryh3p532bi7" path="res://Game Elements/Objects/tentacle.tscn" id="3_ciyr3"]
@@ -9,13 +9,6 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hq7sw"]
 radius = 5.0
-
-[sub_resource type="Gradient" id="Gradient_ojypi"]
-offsets = PackedFloat32Array(0, 0.5156576, 1)
-colors = PackedColorArray(1, 0.78849345, 0.7735705, 1, 1, 0.36862746, 0.3764706, 1, 0.61500514, 0, 0.113684185, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_0tyxp"]
-gradient = SubResource("Gradient_ojypi")
 
 [sub_resource type="Curve" id="Curve_d5smn"]
 _data = [Vector2(0, 0), 0.0, 10.396509, 0, 0, Vector2(0.27326733, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.7516327, 0.0, 0, 0]
@@ -39,8 +32,7 @@ gravity = Vector3(0, 0, 0)
 scale_min = 0.25
 scale_max = 0.5
 scale_curve = SubResource("CurveTexture_4b3g1")
-color = Color(1, 0.36862746, 0.3764706, 1)
-color_ramp = SubResource("GradientTexture1D_0tyxp")
+color = Color(0, 0, 0, 1)
 hue_variation_min = -0.020000022
 hue_variation_max = 0.019999977
 
