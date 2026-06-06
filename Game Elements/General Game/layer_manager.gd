@@ -109,9 +109,6 @@ func _ready() -> void:
 	hud.connect_signals(player1)
 	hud.set_cross_position()
 	#dev_remnants()
-	player1.change_health(10,10)
-	if(is_multiplayer):
-		player2.change_health(10,10)
 	
 	
 	####
