@@ -109,7 +109,9 @@ func _ready() -> void:
 	hud.connect_signals(player1)
 	hud.set_cross_position()
 	#dev_remnants()
-	
+	player1.change_health(10,10)
+	if(is_multiplayer):
+		player2.change_health(10,10)
 	
 	
 	####
@@ -162,23 +164,7 @@ func _ready() -> void:
 	_prepare_timefabric()
 	PathwayTransition.material.set_shader_parameter("mask_texture", PathwayTransition.get_texture())
 	
-	music_player_a = AudioStreamPlayer.new()
-	music_player_a.bus = "Music"
-	add_child(music_player_a)
-	music_player_b = AudioStreamPlayer.new()
-	music_player_b.bus = "Music"
-	add_child(music_player_b)
-	active_player = music_player_a
-	inactive_player = music_player_b
-	
-	var progress = clamp(int(Globals.total_progress), 0, 2)
-	var themes = ["medieval"]
-	if progress >= 1:
-		themes.append("western")
-		if progress >= 2:
-			themes.append("scifi")
-	
-	MusicManager.play_random_theme(themes)
+	play_timeline_music()
 	
 	room_cleared = true
 	reward_claimed = true
@@ -354,47 +340,29 @@ func agro_enemies():
 						board.set_var("state", "agro")
 
 
-
-
-
-var music_player_a: AudioStreamPlayer
-var music_player_b: AudioStreamPlayer
-var active_player: AudioStreamPlayer
-var inactive_player: AudioStreamPlayer
-
 # In _ready(), replace the music player creation with:
 
 func play_timeline_music() -> void:
-	
-	var themes = [
-		"medieval",
-		"western",
-		"scifi",
-		"shop_m",
-		"shop_w",
-		"shop_s",
-	]
+	if room_instance_data in RoomManager.starting_rooms:
+		MusicManager.play_starting_room()
+		return
 	
 	var active_theme
 	if room_instance_data.roomtype == Globals.RoomType.Shop:
 		match int(RoomManager.current_progress):
-			0:
-				active_theme = "shop_m"
-			1:
-				active_theme = "shop_w"
-			2: 
-				active_theme = "shop_s"
-			_:
-				active_theme = "shop_m"
+			0: active_theme = "shop_m"
+			1: active_theme = "shop_w"
+			2: active_theme = "shop_s"
+			_: active_theme = "shop_m"
 	else:
 		var progress = RoomManager.current_progress
 		if progress < 1.0:
-			active_theme = themes[0]
+			active_theme = "medieval"
 		elif progress < 2.0:
-			active_theme = themes[1]
+			active_theme = "western"
 		else:
-			active_theme = themes[2]
-
+			active_theme = "scifi"
+	
 	MusicManager.play_theme(active_theme)
 
 func create_new_rooms() -> void:
@@ -1548,8 +1516,7 @@ func _move_to_pathway_room(pathway_id: String, is_wave_room_p : bool) -> void:
 	room_cleared= false
 	reward_claimed = false
 	
-	if RoomManager.current_progress != 0:
-		play_timeline_music()
+	play_timeline_music()
 	
 	var enemies : Array[Node]= []
 	

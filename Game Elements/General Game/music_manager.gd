@@ -1,9 +1,11 @@
 extends Node
+
 var music_player_a: AudioStreamPlayer
 var music_player_b: AudioStreamPlayer
 var active_player: AudioStreamPlayer
 var inactive_player: AudioStreamPlayer
 var current_start: AudioStream = null
+
 var start_tracks = {
 	"main":		preload("res://Game Elements/Music/main_start.wav"),
 	"western":	preload("res://Game Elements/Music/western_start.wav"),
@@ -28,34 +30,12 @@ const PAUSED_VOLUME = -16.0
 const FADE_DURATION = 0.5
 var tween: Tween
 var paused_value: bool = false
-var current_starting_theme: String = ""
+
+# Starting room random state
 var in_starting_mode: bool = false
-
-var random_themes = ["medieval", "western", "scifi"]
 var current_random_theme: String = ""
-
-func quite_music(time: float):
-	fade_volume(PAUSED_VOLUME)
-	await get_tree().create_timer(time).timeout
-	fade_volume(NORMAL_VOLUME)
-
-func fade_volume(target_db: float):
-	if tween:
-		tween.kill()
-	tween = create_tween()
-	tween.tween_property(active_player, "volume_db", target_db, FADE_DURATION)
-	tween.parallel().tween_property(inactive_player, "volume_db", target_db, FADE_DURATION)
-
-func _on_pause_changed():
-	if get_tree().paused:
-		fade_volume(PAUSED_VOLUME)
-	else:
-		fade_volume(NORMAL_VOLUME)
-	paused_value = get_tree().paused
-
-func _process(_delta: float):
-	if paused_value != get_tree().paused:
-		_on_pause_changed()
+var starting_themes = ["western", "scifi", "medieval"]
+var transitioning_track: bool = false
 
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -64,106 +44,120 @@ func _ready():
 	music_player_a.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(music_player_a)
 	music_player_b = AudioStreamPlayer.new()
-	music_player_b.bus = "Music"
+	music_player_b.bus = "Music" 
 	music_player_b.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(music_player_b)
 	active_player = music_player_a
 	inactive_player = music_player_b
 
-func play_random_theme(available_themes: Array = ["medieval"]):
-	var available: Array = []
-	if available_themes.size() == 1:
-		available = available_themes
-	else:
-		available = random_themes.filter(func(t): return t != current_random_theme)
+func _process(_delta: float):
+	if paused_value != get_tree().paused:
+		_on_pause_changed()
+	if in_starting_mode and !active_player.playing and !transitioning_track:
+		transitioning_track = true
+		_play_random_next(current_random_theme)
+		transitioning_track = false
 		
-	current_random_theme = available[randi() % available.size()]
-	
+		
+func _on_pause_changed():
+	if get_tree().paused:
+		fade_volume(PAUSED_VOLUME)
+	else:
+		fade_volume(NORMAL_VOLUME)
+	paused_value = get_tree().paused
+
+func fade_volume(target_db: float):
+	if tween:
+		tween.kill()
+	tween = create_tween()
+	tween.tween_property(active_player, "volume_db", target_db, FADE_DURATION)
+	tween.parallel().tween_property(inactive_player, "volume_db", target_db, FADE_DURATION)
+
+func quite_music(time: float):
+	fade_volume(PAUSED_VOLUME)
+	await get_tree().create_timer(time).timeout
+	fade_volume(NORMAL_VOLUME)
+
+func _clear_signals():
+	for connection in active_player.finished.get_connections():
+		active_player.finished.disconnect(connection["callable"])
+
+func _play_theme_internal(theme: String):
+	_clear_signals()
+	current_start = start_tracks[theme]
 	active_player.stop()
-	current_start = start_tracks[current_random_theme]
-	active_player.stream = start_tracks[current_random_theme]
+	active_player.volume_db = NORMAL_VOLUME
+	active_player.stream = start_tracks[theme]
 	active_player.play()
 	active_player.finished.connect(func():
-		if RoomManager.current_progress == 0:
-			play_random_theme()
-		else:
-			current_random_theme = ""
-		, CONNECT_ONE_SHOT)
-
-func play_theme(theme: String, override : bool = false):
-	if override:
-		active_player.stop()
 		active_player.stream = loop_tracks[theme]
 		active_player.play()
+		# reconnect loop so it keeps looping
+		var loop_func = func(): 
+			if active_player.stream == loop_tracks[theme]:
+				active_player.play()
+		active_player.finished.connect(loop_func)
+	, CONNECT_ONE_SHOT)
+
+func play_starting_room():
+	in_starting_mode = true
+	transitioning_track = false
+	_play_random_next("")
+
+func _play_random_next(exclude: String):
+	if !in_starting_mode:
 		return
-		
-	theme = swap_theme_limbo(theme)
-
-	if _is_starting_eligible(theme):
-		if in_starting_mode: return
-		# Pick a random starting theme for limbo
-		var starting_theme = _pick_random_starting_theme()
-		var start = start_tracks[starting_theme]
-		in_starting_mode = true
-		current_start = start
-		current_starting_theme=starting_theme
-		active_player.stop()
-		active_player.stream = start
-		active_player.play()
-		active_player.finished.connect(normal_loop.bind(starting_theme), CONNECT_ONE_SHOT)
+	var available = _get_available_starting_themes(exclude)
+	print("available: ", available, " exclude: ", exclude)
+	if available.is_empty():
+		current_random_theme = exclude
 	else:
-		in_starting_mode = false
-		current_starting_theme = ""
-		var start = start_tracks[theme]
-		if current_start == start and active_player.playing:
-			return
-		current_start = start
-		active_player.stop()
-		active_player.stream = start
-		active_player.play()
-		active_player.finished.connect(normal_loop.bind(theme), CONNECT_ONE_SHOT)
+		current_random_theme = available[randi() % available.size()]
+	_clear_signals()
+	current_start = start_tracks[current_random_theme]
+	active_player.stop()
+	active_player.volume_db = NORMAL_VOLUME
+	active_player.stream = start_tracks[current_random_theme]
+	active_player.play()
+	transitioning_track = false
 
+func _get_available_starting_themes(exclude: String) -> Array:
+	var progress = max(Globals.save_state.total_progress, Globals.total_progress, RoomManager.current_progress)
+	return starting_themes.filter(func(t):
+		if t == exclude:
+			return false
+		if t == "western" and progress < 1.0:
+			return false
+		if t == "scifi" and progress < 2.0:
+			return false
+		return true
+	)
 
-func normal_loop(theme):
-	if in_starting_mode:
-		current_starting_theme = _pick_random_starting_theme(current_starting_theme)
-		active_player.stream = loop_tracks[current_starting_theme]
-		active_player.play()
-	else:
-		active_player.stream = loop_tracks[theme]
-		active_player.play()
-
-
-
-var starting_themes = ["western","scifi","medieval"]
-func _is_starting_eligible(theme: String) -> bool:
-	return RoomManager.current_progress <= 0.0001 and theme in starting_themes
-	
-func _pick_random_starting_theme(exclude: String = "") -> String:
-	var choices = starting_themes.filter(func(t): return t != exclude)
-	if starting_themes.size()==0:
-		return exclude
-	var temp_theme= choices[randi() % choices.size()]
-	if temp_theme == "western" and max(Globals.save_state.total_progress,Globals.total_progress,RoomManager.current_progress) < 1.0 or \
-		temp_theme == "scifi" and max(Globals.save_state.total_progress,Globals.total_progress,RoomManager.current_progress) < 2.0:
-		return _pick_random_starting_theme(exclude)
-	return temp_theme
-
-func swap_theme_limbo(theme : String) -> String:
-	if RoomManager.current_progress >= 3.0:
-		match theme:
-			"western":
-					return "shop_w"
-			"scifi":
-					return "shop_s"
-			"medieval":
-					return "shop_m"
-	return theme
-	
+func play_theme(theme: String):
+	in_starting_mode = false
+	# don't restart if already playing this theme
+	if current_start == start_tracks[theme] and active_player.playing:
+		return
+	_play_theme_internal(theme)
 
 func stop():
 	in_starting_mode = false
-	current_starting_theme = ""
-	active_player.stop()
-	current_start = null
 	current_random_theme = ""
+	current_start = null
+	transitioning_track = false
+	_clear_signals()
+	active_player.stop()
+	active_player.volume_db = NORMAL_VOLUME
+
+func swap_theme_limbo(theme: String) -> String:
+	if RoomManager.current_progress >= 3.0:
+		match theme:
+			"western": return "shop_w"
+			"scifi": return "shop_s"
+			"medieval": return "shop_m"
+	return theme
+
+func _input(event):
+	if event is InputEventKey and event.pressed and event.is_action("ui_end"):
+		_clear_signals()
+		active_player.seek(active_player.stream.get_length() - 0.1)

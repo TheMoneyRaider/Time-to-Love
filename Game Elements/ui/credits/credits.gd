@@ -17,7 +17,7 @@ func _ready() -> void:
 	color_rect.visible = true
 
 func activate():
-	MusicManager.play_theme("main", true)
+	MusicManager.play_theme("main")
 	# Start state
 
 	var tween = create_tween()
@@ -56,6 +56,7 @@ func activate():
 
 
 func _on_skip() -> void:
+	MusicManager.stop()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	RoomManager.reset()
 	get_tree().paused = false
