@@ -167,3 +167,6 @@ func stop():
 	active_player.stop()
 	current_start = null
 	current_random_theme = ""
+	active_player.volume_db = NORMAL_VOLUME
+
+func swap_theme_limbo(theme: String) -> String:
