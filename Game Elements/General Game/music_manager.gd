@@ -169,4 +169,9 @@ func stop():
 	current_random_theme = ""
 	active_player.volume_db = NORMAL_VOLUME
 
-func swap_theme_limbo(theme: String) -> String:
+
+# for testing music, only works in game rooms will play the next track
+#func _input(event):
+	#if event is InputEventKey and event.pressed and event.is_action("ui_end"):
+		#_clear_signals()
+		#active_player.seek(active_player.stream.get_length() - 0.1)

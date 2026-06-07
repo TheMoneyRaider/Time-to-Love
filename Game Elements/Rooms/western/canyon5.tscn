@@ -142,7 +142,6 @@ tile_map_data = PackedByteArray("AAA4ABAABAAFAAkAAAA8ABoABAAFAAkAAAAwABwABAAFAAk
 tile_set = ExtResource("3_w8ody")
 
 [node name="PathwayD1" type="TileMapLayer" parent="."]
-visible = false
 z_index = 30
 y_sort_enabled = true
 material = SubResource("ShaderMaterial_r0gqk")
