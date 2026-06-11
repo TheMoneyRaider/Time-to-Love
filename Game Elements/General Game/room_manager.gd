@@ -112,13 +112,13 @@ func get_room(room : Room):
 	if get_boss_chance() > randf() and room.roomtype != Globals.RoomType.Boss:
 		return bosses[index]
 	if index >= 3:
-		if room.roomtype == Globals.RoomType.Boss: return normal_rooms[index][0]
+		if room.roomtype == Globals.RoomType.Boss: 
+			index = randi() % 3
+			return normal_rooms[index][0]
 		else: 
-			if layer_ai[14]+1 > 3: return bosses[index]
+			if layer_ai[14]+1 > 3: 
+				return bosses[index]
 			return normal_rooms[index][clamp(layer_ai[14]+1,1,3)]
-	if index >= 3:
-		index = randi() % 3
-
 	var normal_index = clamp(int(randf()*normal_rooms[index].size()),0,normal_rooms[index].size()-1)
 	if normal_rooms[index][normal_index]==room:
 		return get_room(room)
