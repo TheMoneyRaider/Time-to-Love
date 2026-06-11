@@ -542,8 +542,6 @@ func get_camera_rect() -> RectangleShape2D:
 func take_damage(damage_amount : float, _dmg_owner : Node,_direction = Vector2(0,-1), attack_body : Node = null, attack_i_frames : int = 20,creates_indicators : bool = true, bulwark : bool = true):
 	if disabled: return
 	
-	return 
-	
 	in_combat = 3
 	damage_amount *= Globals.check_domains(global_position,self)
 	if(bulwark == false || i_frames <= 0 && !invulnerable):
