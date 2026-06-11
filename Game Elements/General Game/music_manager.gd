@@ -35,6 +35,7 @@ var paused_value: bool = false
 var in_starting_mode: bool = false
 var current_random_theme: String = ""
 var starting_themes = ["western", "scifi", "medieval"]
+var playing_start: bool = true
 var transitioning_track: bool = false
 
 func _ready():
@@ -57,8 +58,6 @@ func _process(_delta: float):
 		transitioning_track = true
 		_play_random_next(current_random_theme)
 		transitioning_track = false
-		
-		
 func _on_pause_changed():
 	if get_tree().paused:
 		fade_volume(PAUSED_VOLUME)
@@ -92,15 +91,11 @@ func _play_theme_internal(theme: String):
 	active_player.finished.connect(func():
 		active_player.stream = loop_tracks[theme]
 		active_player.play()
-		# reconnect loop so it keeps looping
-		var loop_func = func(): 
-			if active_player.stream == loop_tracks[theme]:
-				active_player.play()
-		active_player.finished.connect(loop_func)
 	, CONNECT_ONE_SHOT)
 
 func play_starting_room():
 	in_starting_mode = true
+	playing_start = true
 	transitioning_track = false
 	_play_random_next("")
 
@@ -108,7 +103,6 @@ func _play_random_next(exclude: String):
 	if !in_starting_mode:
 		return
 	var available = _get_available_starting_themes(exclude)
-	print("available: ", available, " exclude: ", exclude)
 	if available.is_empty():
 		current_random_theme = exclude
 	else:
@@ -119,6 +113,7 @@ func _play_random_next(exclude: String):
 	active_player.volume_db = NORMAL_VOLUME
 	active_player.stream = start_tracks[current_random_theme]
 	active_player.play()
+	playing_start = true
 	transitioning_track = false
 
 func _get_available_starting_themes(exclude: String) -> Array:
@@ -135,7 +130,7 @@ func _get_available_starting_themes(exclude: String) -> Array:
 
 func play_theme(theme: String):
 	in_starting_mode = false
-	# don't restart if already playing this theme
+	transitioning_track = false
 	if current_start == start_tracks[theme] and active_player.playing:
 		return
 	_play_theme_internal(theme)
@@ -144,6 +139,7 @@ func stop():
 	in_starting_mode = false
 	current_random_theme = ""
 	current_start = null
+	playing_start = true
 	transitioning_track = false
 	_clear_signals()
 	active_player.stop()
@@ -157,7 +153,7 @@ func swap_theme_limbo(theme: String) -> String:
 			"medieval": return "shop_m"
 	return theme
 
-func _input(event):
-	if event is InputEventKey and event.pressed and event.is_action("ui_end"):
-		_clear_signals()
-		active_player.seek(active_player.stream.get_length() - 0.1)
+#func _input(event):
+	#if event is InputEventKey and event.pressed and event.is_action("ui_end"):
+		#_clear_signals()
+		#active_player.seek(active_player.stream.get_length() - 0.1)
