@@ -7,7 +7,7 @@ As such, we've decided to create a roguelite where the multiplayer feel is forem
 
 ### How to run and play
 ![Distraction from lack of text](art/readme_assets/O&P_Falling.jpg)
-Currently the source code is available on our here github page and the game can be launched and played via godot.
+Currently the source code is available on our here github page and the game can be played on steam at (https://store.steampowered.com/app/4738540/Time_to_Love/)
 
 ## Tech Stack
 The game itself was developed using Godot's 2d game engine. We primarly utilized aesprite for editing and creating art assets within the game. Enemy AI was made using LimboAI.
